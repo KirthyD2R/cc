@@ -200,14 +200,6 @@
     "currency_code": "INR"
   },
   {
-    "contact_id": "2050328000002999099",
-    "contact_name": "GitHub",
-    "company_name": "GitHub, Inc.",
-    "gst_no": "",
-    "gst_treatment": "overseas",
-    "currency_code": "USD"
-  },
-  {
     "contact_id": "2050328000002195001",
     "contact_name": "GitHub, Inc.",
     "company_name": "GitHub, Inc.",
@@ -363,8 +355,8 @@
     "contact_id": "2050328000003012043",
     "contact_name": "R K WorldInfocom Pvt Ltd",
     "company_name": "",
-    "gst_no": "",
-    "gst_treatment": "business_none",
+    "gst_no": "06AAECR0564M1Z7",
+    "gst_treatment": "business_gst",
     "currency_code": "INR"
   },
   {

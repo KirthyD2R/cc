@@ -1,83 +1,20 @@
 [
   {
+    "bill_id": "2050328000002997137",
+    "bill_number": "IN-005-309-664",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "date": "2026-01-11",
+    "total": 64.07,
+    "status": "paid"
+  },
+  {
     "bill_id": "2050328000002988046",
     "bill_number": "DEL5-10059983",
     "vendor_name": "R K WorldInfocom Pvt Ltd",
     "vendor_id": "2050328000003012043",
     "date": "2026-01-19",
     "total": 236.0,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002998021",
-    "bill_number": "INV117822242",
-    "vendor_name": "GitHub",
-    "vendor_id": "2050328000002999099",
-    "date": "2026-01-28",
-    "total": 0.64,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002997111",
-    "bill_number": "INV115000183",
-    "vendor_name": "GitHub",
-    "vendor_id": "2050328000002999099",
-    "date": "2026-01-07",
-    "total": 3.35,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002982032",
-    "bill_number": "INV114237710",
-    "vendor_name": "GitHub",
-    "vendor_id": "2050328000002999099",
-    "date": "2026-01-02",
-    "total": 103.12,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002996028",
-    "bill_number": "INV110087524",
-    "vendor_name": "GitHub",
-    "vendor_id": "2050328000002999099",
-    "date": "2025-12-02",
-    "total": 86.6,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002982006",
-    "bill_number": "INV86710303",
-    "vendor_name": "GitHub",
-    "vendor_id": "2050328000002999099",
-    "date": "2025-06-03",
-    "total": 23.2,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002986030",
-    "bill_number": "INV86595678",
-    "vendor_name": "GitHub",
-    "vendor_id": "2050328000002999099",
-    "date": "2025-06-02",
-    "total": 4.0,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002990033",
-    "bill_number": "INV86578999",
-    "vendor_name": "GitHub",
-    "vendor_id": "2050328000002999099",
-    "date": "2025-06-02",
-    "total": 8.0,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002986004",
-    "bill_number": "INV86710352",
-    "vendor_name": "GitHub",
-    "vendor_id": "2050328000002999099",
-    "date": "2025-06-03",
-    "total": 3.86,
     "status": "overdue"
   },
   {

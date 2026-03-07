@@ -35,16 +35,6 @@
   },
   {
     "date": "2026-01-12",
-    "description": "ATLASSIANAMSTERDAM USD 64.07 [USD 64.07]",
-    "amount": 5787.51,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002997023",
-    "forex_amount": 64.07,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2026-01-12",
     "description": "CONSOLIDATED FCY MARKUP FEE",
     "amount": 827.71,
     "card_name": "HDFC-8948",

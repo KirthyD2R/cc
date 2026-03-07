@@ -76,7 +76,7 @@
         "ZOHO": "Zoho",
         "ZOHOCORP": "Zoho",
         "VERCEL": "Vercel",
-        "GITHUB": "GitHub",
+        "GITHUB": "GitHub, Inc.",
         "FLY.IO": "Fly.io",
         "OPENAI": "OpenAI",
         "OPENAI, SAN FRANCISCO": "OpenAI",
@@ -84,7 +84,7 @@
         "MEDIUM": "Medium",
         "RESUMEBUILDER": "ResumeBuilder",
         "CODEIUM.COM": "Windsurf",
-        "GITHUB, INC.": "GitHub",
+        "GITHUB, INC.": "GitHub, Inc.",
         "MEDIUMMONTHLY": "Medium",
         "OPENAI *CHATGPT": "OpenAI",
         "OPENAI*CHATGPT": "OpenAI",
@@ -166,7 +166,7 @@
             },
             "website": "https://www.anthropic.com"
         },
-        "GitHub": {
+        "GitHub, Inc.": {
             "company_name": "GitHub, Inc.",
             "gst_treatment": "overseas",
             "currency_code": "USD",
@@ -397,7 +397,7 @@
             "account_name": "Software License",
             "account_id": "2050328000000027421"
         },
-        "GitHub": {
+        "GitHub, Inc.": {
             "account_name": "Software License",
             "account_id": "2050328000000027421"
         },

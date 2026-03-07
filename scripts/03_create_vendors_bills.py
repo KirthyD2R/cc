@@ -576,19 +576,21 @@ def run(selected_files=None):
             vendor_name = gstin_vname
 
         # Priority 2: Match by name in Zoho vendor cache
+        # Apply vendor name mapping first to avoid duplicates (e.g. "GitHub, Inc." -> "GitHub")
         if not cached_vid and vendor_name:
-            vn_lower = vendor_name.strip().lower()
-            cached_vid = cached_vendor_map.get(vn_lower)
+            mapped_name, _ = fuzzy_match_vendor(vendor_name, vendor_mappings)
+            if mapped_name:
+                vn_lower = mapped_name.strip().lower()
+                cached_vid = cached_vendor_map.get(vn_lower)
             if not cached_vid:
-                mapped_name, _ = fuzzy_match_vendor(vendor_name, vendor_mappings)
-                if mapped_name:
-                    cached_vid = cached_vendor_map.get(mapped_name.strip().lower())
+                vn_lower = vendor_name.strip().lower()
+                cached_vid = cached_vendor_map.get(vn_lower)
 
         if cached_vid:
             if not inv_gstin or inv_gstin not in cached_gstin_map:
                 log_action(f"  Vendor from cache: {vendor_name} ({cached_vid})")
             vendor_id = cached_vid
-            if mapped_name and not inv_gstin:
+            if mapped_name:
                 vendor_name = mapped_name
             # Enrich invoice with vendor's real GSTIN from cache (for correct IGST/intrastate)
             if not inv_gstin:
