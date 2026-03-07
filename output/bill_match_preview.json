@@ -316,8 +316,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "FMAB-324269_p1_FMAB-324269_p1_FMAB-324269.pdf",
@@ -330,8 +329,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "Fly.io-Aug 26.pdf",
@@ -563,8 +561,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "DEL4-4002106_p1_DEL4-4002106_p1_DEL4-4002106.pdf",
@@ -692,9 +689,9 @@
     "date": "2025-12-02",
     "organized_month": "Dec 2025",
     "action": "skip",
-    "matched_bill_id": "2050328000002996028",
+    "matched_bill_id": "2050328000002996054",
     "match_type": "created_bills",
-    "matched_bill": "Created: GitHub"
+    "matched_bill": "Created: GitHub, Inc."
   },
   {
     "file": "INV111271149.pdf",
@@ -704,10 +701,10 @@
     "currency": "USD",
     "date": "2025-12-11",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002999099",
-    "matched_vendor_name": "GitHub",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003011024",
+    "match_type": "created_bills",
+    "matched_bill": "Created: GitHub, Inc."
   },
   {
     "file": "Invoice-1C11B54F-0007.pdf",
@@ -847,8 +844,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "MAA4-6184576_p1_MAA4-6184576_p1_MAA4-6184576.pdf",
@@ -861,8 +857,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "MAA4-6415046_p1_MAA4-6415046_p1_MAA4-6415046.pdf",
@@ -875,8 +870,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "Oder 21- Dec.pdf",
@@ -1178,9 +1172,9 @@
     "date": "2026-02-01",
     "organized_month": "Feb 2026",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000002999099",
-    "matched_vendor_name": "GitHub",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV118474160.pdf",
@@ -1191,9 +1185,9 @@
     "date": "2026-02-02",
     "organized_month": "Feb 2026",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000002999099",
-    "matched_vendor_name": "GitHub",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV118672157.pdf",
@@ -1204,9 +1198,9 @@
     "date": "2026-02-03",
     "organized_month": "Feb 2026",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000002999099",
-    "matched_vendor_name": "GitHub",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV118823992.pdf",
@@ -1217,9 +1211,9 @@
     "date": "2026-02-05",
     "organized_month": "Feb 2026",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000002999099",
-    "matched_vendor_name": "GitHub",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV119811653.pdf",
@@ -1230,9 +1224,9 @@
     "date": "2026-02-11",
     "organized_month": "Feb 2026",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000002999099",
-    "matched_vendor_name": "GitHub",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV120386739.pdf",
@@ -1243,9 +1237,9 @@
     "date": "2026-02-16",
     "organized_month": "Feb 2026",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000002999099",
-    "matched_vendor_name": "GitHub",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV121408495.pdf",
@@ -1256,9 +1250,9 @@
     "date": "2026-02-22",
     "organized_month": "Feb 2026",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000002999099",
-    "matched_vendor_name": "GitHub",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "Invoice-1C11B54F-0009.pdf",
@@ -1527,10 +1521,10 @@
     "currency": "USD",
     "date": "2026-01-11",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000001809186",
-    "matched_vendor_name": "Atlassian Pty Ltd",
-    "vendor_match_method": "gstin"
+    "action": "skip",
+    "matched_bill_id": "2050328000002997137",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Atlassian Pty Ltd"
   },
   {
     "file": "BLR8-3508287_p1_BLR8-3508287_p1_BLR8-3508287.pdf",
@@ -1660,8 +1654,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "GROQ-TAAS-202601-199788.pdf",
@@ -1715,9 +1708,9 @@
     "date": "2026-01-02",
     "organized_month": "Jan 2026",
     "action": "skip",
-    "matched_bill_id": "2050328000002982032",
+    "matched_bill_id": "2050328000003005114",
     "match_type": "created_bills",
-    "matched_bill": "Created: GitHub"
+    "matched_bill": "Created: GitHub, Inc."
   },
   {
     "file": "INV115000183.pdf",
@@ -1727,10 +1720,10 @@
     "currency": "USD",
     "date": "2026-01-07",
     "organized_month": "Jan 2026",
-    "action": "skip",
-    "matched_bill_id": "2050328000002997111",
-    "match_type": "created_bills",
-    "matched_bill": "Created: GitHub"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV117822242.pdf",
@@ -1740,10 +1733,10 @@
     "currency": "USD",
     "date": "2026-01-28",
     "organized_month": "Jan 2026",
-    "action": "skip",
-    "matched_bill_id": "2050328000002998021",
-    "match_type": "created_bills",
-    "matched_bill": "Created: GitHub"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "Invoice-7CC5E2D2-0003.pdf",
@@ -1936,8 +1929,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "fuzzy",
-    "gstin_missing": true
+    "vendor_match_method": "gstin"
   },
   {
     "file": "E0100WTVPL_Invoice.pdf",
@@ -2295,8 +2287,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "IN-1362.pdf",
@@ -2329,10 +2320,10 @@
     "currency": "USD",
     "date": "2025-06-02",
     "organized_month": "Jun 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000002990033",
-    "match_type": "created_bills",
-    "matched_bill": "Created: GitHub"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV86595678.pdf",
@@ -2342,10 +2333,10 @@
     "currency": "USD",
     "date": "2025-06-02",
     "organized_month": "Jun 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000002986030",
-    "match_type": "created_bills",
-    "matched_bill": "Created: GitHub"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV86710303.pdf",
@@ -2355,10 +2346,10 @@
     "currency": "USD",
     "date": "2025-06-03",
     "organized_month": "Jun 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000002982006",
-    "match_type": "created_bills",
-    "matched_bill": "Created: GitHub"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV86710352.pdf",
@@ -2368,10 +2359,10 @@
     "currency": "USD",
     "date": "2025-06-03",
     "organized_month": "Jun 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000002986004",
-    "match_type": "created_bills",
-    "matched_bill": "Created: GitHub"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV87220423.pdf",
@@ -2511,8 +2502,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "MAA4-2216157_p1_MAA4-2216157_p1_MAA4-2216157.pdf",
@@ -2525,8 +2515,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "VLMN-7560_p1_VLMN-7560_p1_VLMN-7560.pdf",
@@ -2593,9 +2582,9 @@
     "date": "2026-03-02",
     "organized_month": "Mar 2026",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000002999099",
-    "matched_vendor_name": "GitHub",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002195001",
+    "matched_vendor_name": "GitHub, Inc.",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "Invoice-866677-vakil search.pdf",
@@ -2739,8 +2728,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "IN-3035.pdf",
@@ -2786,8 +2774,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "SIDA-1153_p1_SIDA-1153_p1_SIDA-1153.pdf",
@@ -2937,8 +2924,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "GROQ-TAAS-202511-165203.pdf",
@@ -2964,8 +2950,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "HYD8-1815245.pdf",
@@ -3492,8 +3477,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "MAA4-5043359.pdf",
@@ -3506,8 +3490,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "MAA4-5043360_p1_MAA4-5043360_p1_MAA4-5043360.pdf",
@@ -3520,8 +3503,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "MAA4-50642_p1_MAA4-50642_p1_MAA4-50642.pdf",
@@ -3827,8 +3809,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000003012043",
     "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "vendor_match_method": "name"
   },
   {
     "file": "IN-2825.pdf",
