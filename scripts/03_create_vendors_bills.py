@@ -328,11 +328,13 @@ def attach_pdf(api, bill_id, pdf_path):
 
 # --- Run (importable by run_loop.py) ---
 
-def run(selected_files=None):
+def run(selected_files=None, vendor_overrides=None):
     """Create vendors and bills in Zoho for unprocessed invoices.
 
     Args:
         selected_files: Optional list of filenames to process. If None, processes all.
+        vendor_overrides: Optional dict {filename: {"contact_id": str, "contact_name": str}}.
+            If provided, these vendor assignments take priority over auto-resolution.
 
     Returns:
         dict: {
@@ -549,67 +551,73 @@ def run(selected_files=None):
 
         log_action(f"Processing: {fname}")
 
-        # Step 1: Ensure vendor exists — try cache (GSTIN first, then name), then API
-        inv_gstin = (invoice.get("vendor_gstin") or "").strip()
-        # Ignore company's own GSTIN if mistakenly extracted as vendor's
-        # Re-extract the real vendor GSTIN from invoice text
-        if inv_gstin == _COMPANY_GSTIN:
-            inv_gstin = ""
-            raw_text = invoice.get("raw_text_preview", "")
-            if raw_text:
-                _gstin_re = re.compile(r'\d{2}[A-Z]{5}\d{4}[A-Z]\d[A-Z\d][A-Z\d]')
-                all_gstins = _gstin_re.findall(raw_text)
-                real_vendor_gstins = [g for g in all_gstins if g != _COMPANY_GSTIN]
-                if real_vendor_gstins:
-                    inv_gstin = real_vendor_gstins[0]
-                    log_action(f"  Re-extracted vendor GSTIN from invoice text: {inv_gstin}")
-            invoice["vendor_gstin"] = inv_gstin
-        cached_vid = None
-        mapped_name = None
-
-        # Priority 1: Match by GSTIN in Zoho vendor cache (most reliable)
-        if inv_gstin and inv_gstin in cached_gstin_map:
-            cached_vid, gstin_vname = cached_gstin_map[inv_gstin]
-            log_action(f"  Vendor from cache (GSTIN {inv_gstin}): {gstin_vname} ({cached_vid})")
-            vendor_name = gstin_vname
-
-        # Priority 2: Match by name in Zoho vendor cache
-        # Apply vendor name mapping first to avoid duplicates (e.g. "GitHub, Inc." -> "GitHub")
-        if not cached_vid and vendor_name:
-            mapped_name, _ = fuzzy_match_vendor(vendor_name, vendor_mappings)
-            if mapped_name:
-                vn_lower = mapped_name.strip().lower()
-                cached_vid = cached_vendor_map.get(vn_lower)
-            if not cached_vid:
-                vn_lower = vendor_name.strip().lower()
-                cached_vid = cached_vendor_map.get(vn_lower)
-
-        if cached_vid:
-            if not inv_gstin or inv_gstin not in cached_gstin_map:
-                log_action(f"  Vendor from cache: {vendor_name} ({cached_vid})")
-            vendor_id = cached_vid
-            if mapped_name:
-                vendor_name = mapped_name
-            # Enrich invoice with vendor's real GSTIN from cache (for correct IGST/intrastate)
-            if not inv_gstin:
-                for gstin, (vid, _) in cached_gstin_map.items():
-                    if vid == cached_vid:
-                        invoice["vendor_gstin"] = gstin
-                        log_action(f"  Enriched vendor GSTIN from cache: {gstin}")
-                        break
-            # Update vendor in Zoho if invoice has GSTIN but vendor is missing it
-            if inv_gstin and inv_gstin not in cached_gstin_map:
-                gst_treatment = "overseas" if inv_gstin[:2] == "99" else "business_gst"
-                try:
-                    api.update_vendor(cached_vid, {"gst_treatment": gst_treatment, "gst_no": inv_gstin})
-                    log_action(f"  Updated vendor {vendor_name} with GSTIN {inv_gstin} ({gst_treatment})")
-                    cached_gstin_map[inv_gstin] = (cached_vid, vendor_name)
-                except Exception as e:
-                    log_action(f"  Could not update vendor GST info: {e}", "WARNING")
-        elif vendor_name:
-            vendor_id, vendor_name = ensure_vendor(api, vendor_name, invoice, vendor_mappings, currency_map)
+        # Priority 0: Explicit vendor override from UI
+        if vendor_overrides and fname in vendor_overrides:
+            vendor_id = vendor_overrides[fname]["contact_id"]
+            vendor_name = vendor_overrides[fname]["contact_name"]
+            log_action(f"  Using manual vendor override: {vendor_name} ({vendor_id})")
         else:
-            vendor_id = None
+            # Step 1: Ensure vendor exists — try cache (GSTIN first, then name), then API
+            inv_gstin = (invoice.get("vendor_gstin") or "").strip()
+            # Ignore company's own GSTIN if mistakenly extracted as vendor's
+            # Re-extract the real vendor GSTIN from invoice text
+            if inv_gstin == _COMPANY_GSTIN:
+                inv_gstin = ""
+                raw_text = invoice.get("raw_text_preview", "")
+                if raw_text:
+                    _gstin_re = re.compile(r'\d{2}[A-Z]{5}\d{4}[A-Z]\d[A-Z\d][A-Z\d]')
+                    all_gstins = _gstin_re.findall(raw_text)
+                    real_vendor_gstins = [g for g in all_gstins if g != _COMPANY_GSTIN]
+                    if real_vendor_gstins:
+                        inv_gstin = real_vendor_gstins[0]
+                        log_action(f"  Re-extracted vendor GSTIN from invoice text: {inv_gstin}")
+                invoice["vendor_gstin"] = inv_gstin
+            cached_vid = None
+            mapped_name = None
+
+            # Priority 1: Match by GSTIN in Zoho vendor cache (most reliable)
+            if inv_gstin and inv_gstin in cached_gstin_map:
+                cached_vid, gstin_vname = cached_gstin_map[inv_gstin]
+                log_action(f"  Vendor from cache (GSTIN {inv_gstin}): {gstin_vname} ({cached_vid})")
+                vendor_name = gstin_vname
+
+            # Priority 2: Match by name in Zoho vendor cache
+            # Apply vendor name mapping first to avoid duplicates (e.g. "GitHub, Inc." -> "GitHub")
+            if not cached_vid and vendor_name:
+                mapped_name, _ = fuzzy_match_vendor(vendor_name, vendor_mappings)
+                if mapped_name:
+                    vn_lower = mapped_name.strip().lower()
+                    cached_vid = cached_vendor_map.get(vn_lower)
+                if not cached_vid:
+                    vn_lower = vendor_name.strip().lower()
+                    cached_vid = cached_vendor_map.get(vn_lower)
+
+            if cached_vid:
+                if not inv_gstin or inv_gstin not in cached_gstin_map:
+                    log_action(f"  Vendor from cache: {vendor_name} ({cached_vid})")
+                vendor_id = cached_vid
+                if mapped_name:
+                    vendor_name = mapped_name
+                # Enrich invoice with vendor's real GSTIN from cache (for correct IGST/intrastate)
+                if not inv_gstin:
+                    for gstin, (vid, _) in cached_gstin_map.items():
+                        if vid == cached_vid:
+                            invoice["vendor_gstin"] = gstin
+                            log_action(f"  Enriched vendor GSTIN from cache: {gstin}")
+                            break
+                # Update vendor in Zoho if invoice has GSTIN but vendor is missing it
+                if inv_gstin and inv_gstin not in cached_gstin_map:
+                    gst_treatment = "overseas" if inv_gstin[:2] == "99" else "business_gst"
+                    try:
+                        api.update_vendor(cached_vid, {"gst_treatment": gst_treatment, "gst_no": inv_gstin})
+                        log_action(f"  Updated vendor {vendor_name} with GSTIN {inv_gstin} ({gst_treatment})")
+                        cached_gstin_map[inv_gstin] = (cached_vid, vendor_name)
+                    except Exception as e:
+                        log_action(f"  Could not update vendor GST info: {e}", "WARNING")
+            elif vendor_name:
+                vendor_id, vendor_name = ensure_vendor(api, vendor_name, invoice, vendor_mappings, currency_map)
+            else:
+                vendor_id = None
 
         if not vendor_id:
             log_action(f"  No vendor found — skipping bill creation for: {fname}", "WARNING")
