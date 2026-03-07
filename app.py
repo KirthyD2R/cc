@@ -2275,9 +2275,22 @@ def api_compare_monthly():
                 return vendor_map_norm[key]
         return None
 
+    # --- Load Zoho uncategorized CC transactions (use as CC source if available) ---
+    zoho_cc_path = os.path.join(output_dir, "zoho_cc_transactions_cache.json")
+    zoho_cc_txns = []
+    if os.path.exists(zoho_cc_path):
+        try:
+            with open(zoho_cc_path, "r", encoding="utf-8") as f:
+                zoho_cc_txns = json.load(f)
+        except Exception:
+            pass
+
+    # Use Zoho uncategorized CC transactions if available, otherwise fall back to parsed
+    cc_source = zoho_cc_txns if zoho_cc_txns else cc_transactions
+
     # --- Group by month (debits only) ---
     cc_by_month = defaultdict(list)
-    for t in cc_transactions:
+    for t in cc_source:
         if float(t.get("amount", 0)) <= 0:
             continue  # Skip credits (refunds, payments, waivers)
         cc_by_month[get_cc_month(t)].append({
@@ -2388,6 +2401,20 @@ def api_compare_monthly():
             "inv_total": round(inv_total, 2),
         })
 
+    # Load Zoho vendor names for filter dropdown
+    zoho_vendor_names = []
+    vendors_cache_path = os.path.join(output_dir, "zoho_vendors_cache.json")
+    if os.path.exists(vendors_cache_path):
+        try:
+            with open(vendors_cache_path, "r", encoding="utf-8") as f:
+                zoho_vendor_names = sorted(set(
+                    (v.get("contact_name") or "").strip()
+                    for v in json.load(f)
+                    if (v.get("contact_name") or "").strip()
+                ), key=str.casefold)
+        except Exception:
+            pass
+
     return jsonify({
         "months": months,
         "summary": {
@@ -2395,6 +2422,7 @@ def api_compare_monthly():
             "total_cc": sum(m["cc_count"] for m in months),
             "total_invoices": sum(m["inv_count"] for m in months),
         },
+        "zoho_vendors": zoho_vendor_names,
     })
 
 
@@ -6586,13 +6614,11 @@ function renderCompareMonth(idx) {
   catResults.id = 'categorizeResults';
   content.appendChild(catResults);
 
-  // Populate vendor filter dropdown
-  var vendors = {};
-  m.cc_transactions.forEach(function(t) { var v = t.vendor_name || t.description || ''; if (v) vendors[v] = true; });
-  m.invoices.forEach(function(inv) { var v = inv.vendor_name || ''; if (v) vendors[v] = true; });
+  // Populate vendor filter dropdown from Zoho vendors
+  var zohoVendors = (_compareData && _compareData.zoho_vendors) || [];
   var vSelect = document.getElementById('compareVendorFilter');
   vSelect.innerHTML = '<option value="">All Vendors</option>';
-  Object.keys(vendors).sort().forEach(function(v) {
+  zohoVendors.forEach(function(v) {
     var opt = document.createElement('option');
     opt.value = v.toLowerCase();
     opt.textContent = v.length > 30 ? v.substring(0, 28) + '...' : v;
@@ -6610,61 +6636,61 @@ function renderCompareMonth(idx) {
   document.getElementById('compareFilterBar').style.display = 'flex';
 }
 
+function _vendorMatch(rowVendor, filterVal) {
+  // Bidirectional: "github" matches "github, inc." and vice versa
+  return rowVendor.indexOf(filterVal) !== -1 || filterVal.indexOf(rowVendor) !== -1;
+}
+
 function applyCompareFilters() {
   var vendorVal = (document.getElementById('compareVendorFilter').value || '').toLowerCase();
   var dateFrom = document.getElementById('compareDateFrom').value || '';
   var dateTo = document.getElementById('compareDateTo').value || '';
 
-  // Filter CC rows
-  var ccRows = document.querySelectorAll('#compareContent table:first-of-type tbody tr');
-  // Tables are inside the grid columns; get both tbodies
-  var tables = document.querySelectorAll('#compareContent table.match-table');
-  if (tables.length >= 1) {
-    var ccTbody = tables[0].querySelector('tbody');
-    if (ccTbody) {
-      Array.prototype.forEach.call(ccTbody.rows, function(tr) {
-        var rv = tr.getAttribute('data-vendor') || '';
-        var rd = tr.getAttribute('data-date') || '';
-        var show = true;
-        if (vendorVal && rv.indexOf(vendorVal) === -1) show = false;
-        if (dateFrom && rd && rd < dateFrom) show = false;
-        if (dateTo && rd && rd > dateTo) show = false;
-        tr.style.display = show ? '' : 'none';
-      });
-    }
-  }
-  if (tables.length >= 2) {
-    var invTbody = tables[1].querySelector('tbody');
-    if (invTbody) {
-      Array.prototype.forEach.call(invTbody.rows, function(tr) {
-        var rv = tr.getAttribute('data-vendor') || '';
-        var rd = tr.getAttribute('data-date') || '';
-        var show = true;
-        if (vendorVal && rv.indexOf(vendorVal) === -1) show = false;
-        if (dateFrom && rd && rd < dateFrom) show = false;
-        if (dateTo && rd && rd > dateTo) show = false;
-        tr.style.display = show ? '' : 'none';
-      });
-    }
+  function _filterRows(tbody) {
+    if (!tbody) return;
+    Array.prototype.forEach.call(tbody.rows, function(tr) {
+      var rv = tr.getAttribute('data-vendor') || '';
+      var rd = tr.getAttribute('data-date') || '';
+      var show = true;
+      if (vendorVal && rv && !_vendorMatch(rv, vendorVal)) show = false;
+      if (dateFrom && rd && rd < dateFrom) show = false;
+      if (dateTo && rd && rd > dateTo) show = false;
+      tr.style.display = show ? '' : 'none';
+    });
   }
 
-  // Also filter Categorize Check rows
+  var tables = document.querySelectorAll('#compareContent table.match-table');
+  if (tables.length >= 1) _filterRows(tables[0].querySelector('tbody'));
+  if (tables.length >= 2) _filterRows(tables[1].querySelector('tbody'));
+
+  // Also filter Categorize Check rows (vendor + date + status)
+  var catStatusVal = '';
+  var catStatusEl = document.getElementById('catStatusFilter');
+  if (catStatusEl) catStatusVal = catStatusEl.value || '';
   var catRows = document.querySelectorAll('#categorizeResults .cat-row');
   Array.prototype.forEach.call(catRows, function(tr) {
     var rv = tr.getAttribute('data-vendor') || '';
     var rd = tr.getAttribute('data-date') || '';
+    var rs = tr.getAttribute('data-status') || '';
     var show = true;
-    if (vendorVal && rv.indexOf(vendorVal) === -1) show = false;
+    if (vendorVal && rv && !_vendorMatch(rv, vendorVal)) show = false;
     if (dateFrom && rd && rd < dateFrom) show = false;
     if (dateTo && rd && rd > dateTo) show = false;
+    if (catStatusVal && rs !== catStatusVal) show = false;
     tr.style.display = show ? '' : 'none';
   });
+}
+
+function applyCatStatusFilter() {
+  applyCompareFilters();
 }
 
 function clearCompareFilters() {
   document.getElementById('compareVendorFilter').value = '';
   document.getElementById('compareDateFrom').value = '';
   document.getElementById('compareDateTo').value = '';
+  var catStatusEl = document.getElementById('catStatusFilter');
+  if (catStatusEl) catStatusEl.value = '';
   applyCompareFilters();
 }
 
@@ -6756,12 +6782,12 @@ function runCategorizeCheck(idx, mode) {
       var bestDiff = Infinity;
       var bestDateDiff = Infinity;
       var _ccDate = cc.date ? new Date(cc.date) : null;
+      var ccForex = cc.forex_amount ? parseFloat(cc.forex_amount) : null;
+      var ccCur = cc.forex_currency || null;
+      var ccInr = parseFloat(cc.amount) || 0;
 
       invs.forEach(function(inv) {
         if (inv._matched) return;
-        var ccForex = cc.forex_amount ? parseFloat(cc.forex_amount) : null;
-        var ccCur = cc.forex_currency || null;
-        var ccInr = parseFloat(cc.amount) || 0;
         var invAmt = parseFloat(inv.amount) || 0;
         var invCur = (inv.currency || 'INR').toUpperCase();
 
@@ -6809,8 +6835,9 @@ function runCategorizeCheck(idx, mode) {
         }
       });
 
-      // Tolerance: exact or within 1% or Rs 1, AND date within ±10 days
-      var threshold = Math.max(1, (parseFloat(cc.amount) || 0) * 0.01);
+      // Tolerance: exact or within 1% of compared amount, AND date within ±10 days
+      var _compAmt = (ccForex && ccCur) ? ccForex : ccInr;
+      var threshold = Math.max(_compAmt < 100 ? 0.5 : 1, _compAmt * 0.01);
       if (bestMatch && bestDiff <= threshold && bestDateDiff <= 10) {
         bestMatch._matched = true;
         cc._matched = true;
@@ -6860,10 +6887,148 @@ function runCategorizeCheck(idx, mode) {
     });
   });
 
-  // --- Amount+date matching for unmatched items (vendor-agnostic) ---
-  // If vendor names differ but amount/forex match and dates are close, treat as match
+  // --- Multi-invoice sum matching (GSTIN-grouped) --- runs BEFORE vendor-agnostic 1:1
+  // Logic: 1) Date: find invoices within ±5 days of CC
+  //        2) GSTIN: group by same GSTIN (same supplier — vendor name may differ)
+  //        3) Sum: try full GSTIN group first, then combinations within group
+  //        No mixed-GSTIN fallback — GSTIN is the identity
   var _pd = function(s) { if (!s) return null; var d = new Date(s); return isNaN(d.getTime()) ? null : d; };
   var _daysDiff = function(a, b) { if (!a || !b) return 9999; return Math.abs((a - b) / 86400000); };
+
+  (function() {
+    var sumUnmatchedCC = [];
+    var sumUnmatchedInv = [];
+    rows.forEach(function(r, ri) {
+      if ((r.status === 'no_invoice' || r.status === 'unmapped') && r.cc) sumUnmatchedCC.push(ri);
+      if (r.status === 'no_cc' && r.inv) sumUnmatchedInv.push(ri);
+    });
+
+    var sumInvUsed = {};
+
+    function sumCombinations(arr, minSize, maxSize) {
+      var results = [];
+      function sc(start, cur) {
+        if (cur.length >= minSize) results.push(cur.slice());
+        if (cur.length >= maxSize) return;
+        for (var i = start; i < arr.length; i++) {
+          cur.push(arr[i]);
+          sc(i + 1, cur);
+          cur.pop();
+        }
+      }
+      sc(0, []);
+      return results;
+    }
+
+    sumUnmatchedCC.forEach(function(ccIdx) {
+      var r = rows[ccIdx];
+      if (!r || (r.status !== 'no_invoice' && r.status !== 'unmapped')) return;
+      var cc5 = r.cc;
+      var ccInr5 = parseFloat(cc5.amount) || 0;
+      var ccForex5 = cc5.forex_amount ? parseFloat(cc5.forex_amount) : null;
+      var ccCur5 = cc5.forex_currency || null;
+      var ccDate5 = _pd(cc5.date);
+
+      // Step 1: Find nearby unmatched invoices (±5 days), must have GSTIN
+      var nearby5 = [];
+      sumUnmatchedInv.forEach(function(invIdx) {
+        if (sumInvUsed[invIdx]) return;
+        var inv5 = rows[invIdx].inv;
+        if (!inv5) return;
+        var invDate5 = _pd(inv5.date);
+        if (_daysDiff(ccDate5, invDate5) > 5) return;
+        if (!inv5.vendor_gstin) return;
+
+        var invCur5 = (inv5.currency || 'INR').toUpperCase();
+        var compatible = false;
+        if (ccCur5 && ccForex5 && invCur5 === ccCur5) compatible = true;
+        else if (!ccCur5 && invCur5 === 'INR') compatible = true;
+        else if (ccCur5 && invCur5 === 'INR') compatible = true;
+        if (!compatible) return;
+
+        nearby5.push({invIdx: invIdx, inv: inv5});
+      });
+
+      if (nearby5.length < 2) return;
+
+      // Step 2: Group by GSTIN
+      var byGstin = {};
+      nearby5.forEach(function(item) {
+        var gstin = item.inv.vendor_gstin;
+        if (!byGstin[gstin]) byGstin[gstin] = [];
+        byGstin[gstin].push(item);
+      });
+
+      // Determine target amount
+      var targetAmt5 = ccForex5 && ccCur5 ? ccForex5 : ccInr5;
+      var useInr = !ccCur5 || (ccCur5 && nearby5[0] && (nearby5[0].inv.currency || 'INR').toUpperCase() === 'INR');
+      if (useInr) targetAmt5 = ccInr5;
+
+      var found5 = null;
+      var thresh5 = Math.max(1, targetAmt5 * 0.005);
+
+      // Step 3: Try full GSTIN group sum first, then combinations
+      Object.keys(byGstin).forEach(function(gstin) {
+        if (found5) return;
+        var group = byGstin[gstin];
+        if (group.length < 2) return;
+
+        var fullSum = group.reduce(function(s, item) { return s + (parseFloat(item.inv.amount) || 0); }, 0);
+        if (Math.abs(fullSum - targetAmt5) <= thresh5) {
+          found5 = group;
+          return;
+        }
+
+        var combos = sumCombinations(group, 2, Math.min(6, group.length));
+        for (var ci = 0; ci < combos.length; ci++) {
+          var combo = combos[ci];
+          var sum = combo.reduce(function(s, item) { return s + (parseFloat(item.inv.amount) || 0); }, 0);
+          if (Math.abs(sum - targetAmt5) <= thresh5) {
+            found5 = combo;
+            break;
+          }
+        }
+      });
+
+      if (found5) {
+        found5.forEach(function(item) {
+          sumInvUsed[item.invIdx] = true;
+          if (rows[item.invIdx]) rows[item.invIdx] = null;
+        });
+
+        var totalSum = found5.reduce(function(s, item) { return s + (parseFloat(item.inv.amount) || 0); }, 0);
+        var totalDiff5 = Math.abs(totalSum - targetAmt5);
+        var invNumbers = found5.map(function(item) { return item.inv.invoice_number || ''; }).filter(Boolean).join(' + ');
+        var gstin5 = found5[0].inv.vendor_gstin || '';
+        var mtype5 = (ccCur5 || 'INR') + ' \u2192 ' + (found5[0].inv.currency || 'INR') + ' (GSTIN:' + gstin5.substring(0, 10) + '.. x' + found5.length + ')';
+
+        rows[ccIdx] = {
+          vendor: found5[0].inv.vendor_name || r.vendor,
+          cc: cc5,
+          inv: {
+            vendor_name: found5[0].inv.vendor_name || r.vendor,
+            amount: totalSum,
+            currency: found5[0].inv.currency || 'INR',
+            date: found5[0].inv.date,
+            invoice_number: invNumbers,
+            vendor_gstin: gstin5,
+            _grouped_invoices: found5.map(function(item) { return item.inv; })
+          },
+          matchType: mtype5,
+          diff: totalDiff5,
+          status: totalDiff5 < 0.01 ? 'exact' : 'close'
+        };
+      }
+    });
+
+    // Remove nulled rows from sum matching
+    for (var ri3 = rows.length - 1; ri3 >= 0; ri3--) {
+      if (rows[ri3] === null) rows.splice(ri3, 1);
+    }
+  })();
+
+  // --- Amount+date matching for unmatched items (vendor-agnostic) ---
+  // If vendor names differ but amount/forex match and dates are close, treat as match
 
   var unmatchedCCIdxs = [];
   var unmatchedInvIdxs = [];
@@ -7130,6 +7295,21 @@ function renderCatView() {
     '<button id="catCreateSelectedBtn" onclick="confirmCatCreateSelected()" style="display:none;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600;margin-left:auto">Create & Record (0)</button>';
   container.appendChild(hdr);
 
+  // Status filter bar
+  var catFilter = document.createElement('div');
+  catFilter.style.cssText = 'padding:6px 12px;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;font-size:11px';
+  catFilter.innerHTML = '<label style="color:var(--text-dim);font-weight:600">Status:</label>' +
+    '<select id="catStatusFilter" onchange="applyCatStatusFilter()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 8px;font-size:11px">' +
+    '<option value="">All</option>' +
+    '<option value="exact">Exact</option>' +
+    '<option value="close">Close</option>' +
+    '<option value="cross_exact">Other Month (Exact)</option>' +
+    '<option value="cross_close">Other Month (Close)</option>' +
+    '<option value="no_invoice">No Invoice</option>' +
+    '<option value="unmapped">Unmapped</option>' +
+    '</select>';
+  container.appendChild(catFilter);
+
   // Reset selection tracking
   _catSelectedInvs = {};
 
@@ -7261,21 +7441,22 @@ function renderCatView() {
       ? '<td style="text-align:center;padding:3px 4px"><input type="checkbox" class="cat-cb" data-catidx="' + filtered.indexOf(r) + '" onchange="toggleCatCheckbox(this)"></td>'
       : '<td style="padding:3px 4px"></td>';
 
-    tr.innerHTML = cbCell +
-      '<td style="font-size:11px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + r.vendor + '">' + r.vendor + '</td>' +
-      '<td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + ccDesc + '">' + ccDesc + '</td>' +
-      '<td style="font-size:10px;color:var(--yellow)">' + ccForex + '</td>' +
-      '<td style="font-family:monospace;font-size:11px;text-align:right">' + ccAmt + '</td>' +
-      '<td style="font-size:10px">' + ccDate + '</td>' +
-      '<td style="font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (r.cc && r.cc.card_name ? r.cc.card_name : '-') + '">' + (r.cc && r.cc.card_name ? r.cc.card_name : '-') + '</td>' +
-      '<td style="font-family:monospace;font-size:11px;text-align:right">' + invAmt + '</td>' +
-      '<td style="font-size:10px">' + invDate + '</td>' +
-      '<td style="font-size:10px">' + (r.matchType || '-') + '</td>' +
-      '<td style="font-family:monospace;font-size:10px;text-align:right">' + diffText + '</td>' +
-      '<td style="padding:3px 4px">' + confHtml + '</td>' +
-      '<td style="font-size:10px;white-space:nowrap">' + statusHtml + '</td>' +
-      '<td style="padding:3px 6px">' + actionHtml + '</td>';
-    tbody.appendChild(tr);
+      tr.innerHTML = cbCell +
+        '<td style="font-size:11px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + r.vendor + '">' + r.vendor + '</td>' +
+        '<td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + ccDesc + '">' + ccDesc + '</td>' +
+        '<td style="font-size:10px;color:var(--yellow)">' + ccForexStr + '</td>' +
+        '<td style="font-family:monospace;font-size:11px;text-align:right">' + ccAmt + '</td>' +
+        '<td style="font-size:10px">' + ccDate + '</td>' +
+        '<td style="font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + cardName + '">' + cardName + '</td>' +
+        '<td style="font-family:monospace;font-size:11px;text-align:right">' + invAmt + '</td>' +
+        '<td style="font-size:10px">' + invDate + '</td>' +
+        '<td style="font-size:10px">' + (r.matchType || '-') + '</td>' +
+        '<td style="font-family:monospace;font-size:10px;text-align:right">' + diffText + '</td>' +
+        '<td style="padding:3px 4px">' + confHtml + '</td>' +
+        '<td style="font-size:10px;white-space:nowrap">' + statusHtml + '</td>' +
+        '<td style="padding:3px 6px">' + actionHtml + '</td>';
+      tbody.appendChild(tr);
+    }
   });
 
   tbl.appendChild(tbody);
