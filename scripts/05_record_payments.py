@@ -96,6 +96,7 @@ def fetch_cc_transactions_from_zoho(api, cards):
                 desc = t.get("description", "") or t.get("payee", "")
                 forex_amt, forex_cur = _extract_forex_from_zoho_desc(desc)
                 entry = {
+                    "transaction_id": t.get("transaction_id", ""),
                     "date": t.get("date", ""),
                     "description": desc,
                     "amount": amount,

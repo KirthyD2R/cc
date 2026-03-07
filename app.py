@@ -209,14 +209,14 @@ def _run_step_thread(step_id, extra_kwargs=None):
 
 
 def _run_all_thread():
-    """Run all 7 steps sequentially in a background thread."""
+    """Run all steps sequentially in a background thread."""
     log_action("=" * 60)
-    log_action("RUN ALL: Starting full pipeline (Steps 1-7)")
+    log_action("RUN ALL: Starting full pipeline (Steps 1-6)")
     log_action("=" * 60)
     with _state_lock:
         _state["last_run_all"] = datetime.now().isoformat()
 
-    for step_id in ["1", "2", "3", "review", "4", "5", "6", "7"]:
+    for step_id in ["1", "2", "3", "review", "4", "5", "6"]:
         step = STEPS[step_id]
         # Skip interactive steps in Run All
         if step.get("skip_in_run_all") or step.get("interactive"):
@@ -724,6 +724,7 @@ def api_payments_preview():
             if float(t.get("amount", 0)) <= 0:
                 continue
             cc_entry = {
+                "transaction_id": t.get("transaction_id", ""),
                 "description": t.get("description", ""),
                 "amount": float(t.get("amount", 0)),
                 "date": t.get("date", ""),
@@ -887,6 +888,7 @@ def api_payments_preview():
                     "bill_number": bill["file"],
                     "status": "matched",
                     "match_score": 300,
+                    "cc_transaction_id": cc.get("transaction_id", ""),
                     "cc_description": cc.get("description", ""),
                     "cc_inr_amount": cc.get("amount", 0),
                     "cc_date": cc.get("date", ""),
@@ -944,6 +946,7 @@ def api_payments_preview():
                 bill_matched[bi] = True
                 entry["status"] = "matched"
                 entry["match_score"] = 200
+                entry["cc_transaction_id"] = best.get("transaction_id", "")
                 entry["cc_description"] = best.get("description", "")
                 entry["cc_inr_amount"] = best.get("amount", 0)
                 entry["cc_date"] = best.get("date", "")
@@ -961,9 +964,25 @@ def api_payments_preview():
         # Collect unmatched CC transactions
         unmatched_cc = [cc_list[i] for i in range(len(cc_list)) if i not in used_cc]
 
+        # Collect unique card names from config for filter dropdown
+        card_names = [c.get("name", "") for c in cards if c.get("name")]
+
+        # Per-card counts: total CC transactions and uncategorized (unmatched to bills)
+        card_cc_total = {}
+        for cc in cc_list:
+            cn = cc.get("card_name", "")
+            card_cc_total[cn] = card_cc_total.get(cn, 0) + 1
+        card_cc_unmatched = {}
+        for cc in unmatched_cc:
+            cn = cc.get("card_name", "")
+            card_cc_unmatched[cn] = card_cc_unmatched.get(cn, 0) + 1
+
         return jsonify({
             "matches": matches,
             "unmatched_cc": unmatched_cc,
+            "card_names": card_names,
+            "card_cc_total": card_cc_total,
+            "card_cc_unmatched": card_cc_unmatched,
             "summary": {
                 "total_bills": len(matches),
                 "matched": matched_count,
@@ -975,6 +994,67 @@ def api_payments_preview():
         from scripts.utils import log_action
         log_action(f"payments/preview error: {e}", "ERROR")
         return jsonify({"error": str(e)}), 500
+
+
+def _auto_match_banking_txn(api, cc_txn_id, payment_id, log_action):
+    """After recording a vendor payment, auto-match the CC banking transaction.
+
+    Fetches Zoho's suggested matches for the banking txn, finds the one
+    matching our payment_id, and calls match_transaction to categorize it.
+    """
+    if not cc_txn_id:
+        log_action("  Auto-match skipped: no cc_transaction_id")
+        return False
+    try:
+        import time
+        # Small delay for Zoho to register the payment before matching
+        time.sleep(0.5)
+
+        match_result = api.get_matching_transactions(cc_txn_id)
+        candidates = match_result.get("matching_transactions", [])
+
+        if not candidates:
+            log_action(f"  Auto-match: no candidates found for banking txn {cc_txn_id}")
+            return False
+
+        # Find the vendor_payment we just created
+        target = None
+        for c in candidates:
+            if c.get("transaction_id") == payment_id:
+                target = c
+                break
+            # Also match by transaction_type = vendor_payment (if payment_id matches reference)
+            if c.get("transaction_type") == "vendor_payment" and c.get("payment_id") == payment_id:
+                target = c
+                break
+
+        if not target:
+            # Fallback: try the first vendor_payment candidate (likely the one we just created)
+            for c in candidates:
+                if c.get("transaction_type") == "vendor_payment":
+                    target = c
+                    log_action(f"  Auto-match: using first vendor_payment candidate")
+                    break
+
+        if target:
+            match_data = [{
+                "transaction_id": target.get("transaction_id"),
+                "transaction_type": target.get("transaction_type", "vendor_payment"),
+            }]
+            api.match_transaction(cc_txn_id, match_data)
+            log_action(f"  Auto-match: banking txn {cc_txn_id} -> categorized")
+            return True
+        else:
+            log_action(f"  Auto-match: payment {payment_id} not found in {len(candidates)} candidates")
+            return False
+
+    except Exception as e:
+        error_msg = str(e).lower()
+        if "already" in error_msg:
+            log_action(f"  Auto-match: already categorized")
+            return True
+        log_action(f"  Auto-match failed: {e}", "WARNING")
+        return False
 
 
 @app.route("/api/payments/record-one", methods=["POST"])
@@ -1056,7 +1136,12 @@ def api_payments_record_one():
 
         if payment_id:
             log_action(f"  Payment recorded: {payment_id}")
-            return jsonify({"status": "paid", "payment_id": payment_id, "bill_id": bill_id})
+
+            # Auto-match: categorize the CC banking transaction
+            cc_txn_id = data.get("cc_transaction_id")
+            matched_banking = _auto_match_banking_txn(api, cc_txn_id, payment_id, log_action)
+
+            return jsonify({"status": "paid", "payment_id": payment_id, "bill_id": bill_id, "banking_matched": matched_banking})
         else:
             return jsonify({"status": "failed", "bill_id": bill_id, "message": "No payment_id returned"})
 
@@ -1144,6 +1229,11 @@ def api_payments_record_selected():
 
                 if payment_id:
                     log_action(f"  Payment recorded: {payment_id}")
+
+                    # Auto-match: categorize the CC banking transaction
+                    cc_txn_id = item.get("cc_transaction_id")
+                    _auto_match_banking_txn(api, cc_txn_id, payment_id, log_action)
+
                     results.append({"bill_id": bill_id, "status": "paid", "payment_id": payment_id})
                 else:
                     results.append({"bill_id": bill_id, "status": "failed"})
@@ -3610,7 +3700,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
               <button class="step-btn" data-step="6" onclick="openPaymentPreview()" style="width:100%">
                 <span class="step-num">6</span> RecordPayment
                 <span class="info-btn" onclick="event.stopPropagation()">i
-                  <span class="info-tooltip">Preview bill-to-CC matches, then record payments individually or in bulk. Shows vendor, amount, and matched CC transaction for confirmation before recording.</span>
+                  <span class="info-tooltip">Preview bill-to-CC matches, then record payments individually or in bulk. Automatically categorizes the CC banking transaction in Zoho after recording (no separate auto-match needed).</span>
                 </span>
                 <span class="step-indicator ind-idle" id="ind-6"></span>
                 <span class="step-msg" id="msg-6"></span>
@@ -3620,14 +3710,6 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
               <button class="upload-btn" onclick="clearPaymentsCache()" style="width:100%">Clear Cache</button>
             </div>
           </div>
-          <button class="step-btn" data-step="7" onclick="runStep('7')">
-            <span class="step-num">7</span> Auto-Match
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Matches uncategorized banking transactions to recorded vendor payments. Reconciles the CC account in Zoho Books automatically.</span>
-            </span>
-            <span class="step-indicator ind-idle" id="ind-7"></span>
-            <span class="step-msg" id="msg-7"></span>
-          </button>
         </div>
       </div>
 
@@ -3786,8 +3868,11 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
       <!-- Payment Preview panel -->
       <div class="review-panel" id="paymentPanel" style="display:none">
         <div class="review-header">
-          <span>Record Payments &mdash; Bill &harr; CC Match</span>
+          <span>Record Payments &mdash; CC &harr; Bill Match</span>
           <div style="display:flex;gap:12px;align-items:center">
+            <select id="paymentCardFilter" onchange="filterPaymentsByCard(this.value)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px;display:none">
+              <option value="">All Cards</option>
+            </select>
             <span id="paymentSummaryText" style="font-size:12px;font-weight:400;color:var(--text-dim)"></span>
             <button id="recordAllBtn" onclick="confirmRecordAll()" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:5px 14px;font-size:11px;cursor:pointer;font-weight:600;display:none">Record All Matched</button>
             <button class="review-close-btn" onclick="closePaymentPanel()">&#10005; Close</button>
@@ -3960,8 +4045,8 @@ function closeModal() {
 
 function confirmRunAll() {
   showModal(
-    'Run All Steps (1-7)?',
-    'This will execute the full pipeline sequentially: Fetch Invoices, Extract Data, Create Bills, Parse CC, Record Payments, Import Banking, and Auto-Match.',
+    'Run All Steps (1-6)?',
+    'This will execute the full pipeline sequentially: Fetch Invoices, Extract Data, Create Bills, Parse CC, Record Payments, and Import Banking.',
     function() { runStep('all'); },
     false
   );
@@ -5004,13 +5089,84 @@ function closePaymentPanel() {
   document.getElementById('logPanel').style.display = 'flex';
 }
 
+function filterPaymentsByCard(cardName) {
+  if (!_paymentPreviewData) return;
+  var matches = _paymentPreviewData.matches || [];
+  var content = document.getElementById('paymentContent');
+  // Data rows have data-status attribute; separator rows have pay-section-sep class
+  var dataRows = content.querySelectorAll('tbody tr[data-status]');
+
+  var visibleMatched = 0, visibleUnmatched = 0, visiblePaid = 0, visibleCcOnly = 0;
+
+  dataRows.forEach(function(row, i) {
+    var m = matches[i];
+    if (!m) return;
+    var rowCard = row.getAttribute('data-card') || '';
+    var status = row.getAttribute('data-status') || '';
+    var show = !cardName || rowCard === cardName;
+    // For unmatched bills (no card on CC side), show only when "All Cards"
+    if (cardName && status === 'unmatched' && !rowCard) show = false;
+
+    row.style.display = show ? '' : 'none';
+    if (show) {
+      if (status === 'matched') visibleMatched++;
+      else if (status === 'unmatched') visibleUnmatched++;
+      else if (status === 'already_paid') visiblePaid++;
+      else if (status === 'cc_only') visibleCcOnly++;
+    }
+  });
+
+  // Show/hide section separators based on whether any rows in that section are visible
+  var seps = {matched: visibleMatched, cc_only: visibleCcOnly, unmatched: visibleUnmatched, other: visiblePaid};
+  ['matched','cc_only','unmatched','other'].forEach(function(sec) {
+    var sep = content.querySelector('.pay-sep-' + sec);
+    if (sep) sep.style.display = seps[sec] > 0 ? '' : 'none';
+  });
+
+  // Update summary text with filtered counts
+  var billCount = visibleMatched + visibleUnmatched + visiblePaid;
+  document.getElementById('paymentSummaryText').textContent =
+    billCount + ' bills \u00B7 ' + visibleMatched + ' matched \u00B7 ' + visibleUnmatched + ' no CC \u00B7 ' + visiblePaid + ' already paid \u00B7 ' + visibleCcOnly + ' no invoice';
+
+  // Update Record All button for filtered view
+  var recordBtn = document.getElementById('recordAllBtn');
+  if (visibleMatched > 0) {
+    recordBtn.style.display = 'inline-block';
+    recordBtn.textContent = 'Record All Matched (' + visibleMatched + ')';
+    recordBtn.disabled = false;
+  } else {
+    recordBtn.style.display = 'none';
+  }
+}
+
 function renderPaymentPreview(data) {
   var matches = data.matches || [];
   var s = data.summary || {};
   var fmt = function(n) { return n != null ? Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) : '-'; };
 
+  // Populate card filter dropdown with uncategorized counts
+  var cardFilter = document.getElementById('paymentCardFilter');
+  var ccTotal = data.card_cc_total || {};
+  var ccUnmatched = data.card_cc_unmatched || {};
+  var totalUncatCount = (data.unmatched_cc || []).length;
+  cardFilter.innerHTML = '<option value="">All Cards (' + totalUncatCount + ' uncategorized)</option>';
+  var cardNames = data.card_names || [];
+  if (cardNames.length > 0) {
+    cardNames.forEach(function(name) {
+      var opt = document.createElement('option');
+      opt.value = name;
+      var total = ccTotal[name] || 0;
+      var uncat = ccUnmatched[name] || 0;
+      opt.textContent = name + ' (' + uncat + '/' + total + ' uncategorized)';
+      cardFilter.appendChild(opt);
+    });
+    cardFilter.style.display = 'inline-block';
+  } else {
+    cardFilter.style.display = 'none';
+  }
+
   document.getElementById('paymentSummaryText').textContent =
-    s.total_bills + ' bills \u00B7 ' + s.matched + ' matched \u00B7 ' + s.unmatched + ' unmatched \u00B7 ' + s.already_paid + ' already paid';
+    s.total_bills + ' bills \u00B7 ' + s.matched + ' matched \u00B7 ' + s.unmatched + ' no CC \u00B7 ' + (s.already_paid || 0) + ' already paid \u00B7 ' + totalUncatCount + ' no invoice';
 
   if (s.matched > 0) {
     document.getElementById('recordAllBtn').style.display = 'inline-block';
@@ -5023,42 +5179,93 @@ function renderPaymentPreview(data) {
   content.style.display = 'block';
   content.innerHTML = '';
 
+  // Merge unmatched CC transactions into matches array for unified display
+  var unmatchedCc = data.unmatched_cc || [];
+  unmatchedCc.forEach(function(cc) {
+    matches.push({
+      status: 'cc_only',
+      cc_transaction_id: cc.transaction_id || '',
+      cc_description: cc.description || '',
+      cc_inr_amount: cc.amount || 0,
+      cc_date: cc.date || '',
+      cc_card: cc.card_name || '',
+      cc_forex_amount: cc.forex_amount || null,
+      cc_forex_currency: cc.forex_currency || null,
+    });
+  });
+
   if (!matches.length) {
-    content.innerHTML = '<div style="text-align:center;color:var(--text-dim);padding:40px">No unpaid bills found</div>';
+    content.innerHTML = '<div style="text-align:center;color:var(--text-dim);padding:40px">No unpaid bills or CC transactions found</div>';
     return;
   }
 
-  // Build table
+  // Sort: matched first, then no CC (unmatched bills), then no invoice (cc_only), then already_paid
+  var order = {matched: 0, unmatched: 1, cc_only: 2, already_paid: 3};
+  matches.sort(function(a, b) {
+    var oa = order.hasOwnProperty(a.status) ? order[a.status] : 9;
+    var ob = order.hasOwnProperty(b.status) ? order[b.status] : 9;
+    return oa - ob;
+  });
+
+  // Build table — CC columns LEFT, Bill columns RIGHT
   var tbl = document.createElement('table');
   tbl.className = 'match-table';
   tbl.style.cssText = 'width:100%;font-size:11px';
   tbl.innerHTML = '<thead><tr>'
-    + '<th style="text-align:left;padding:6px 8px">Vendor</th>'
-    + '<th style="text-align:right;padding:6px 8px">Bill Amt</th>'
-    + '<th style="padding:6px 4px">Cur</th>'
-    + '<th style="padding:6px 8px">Bill Date</th>'
-    + '<th style="text-align:left;padding:6px 8px;border-left:2px solid var(--border)">CC Description</th>'
+    + '<th style="text-align:left;padding:6px 8px">CC Description</th>'
     + '<th style="text-align:right;padding:6px 8px">CC INR</th>'
     + '<th style="padding:6px 8px">CC Date</th>'
     + '<th style="padding:6px 8px">Card</th>'
+    + '<th style="text-align:left;padding:6px 8px;border-left:2px solid var(--border)">Vendor / Invoice</th>'
+    + '<th style="text-align:right;padding:6px 8px">Bill Amt</th>'
+    + '<th style="padding:6px 4px">Cur</th>'
+    + '<th style="padding:6px 8px">Bill Date</th>'
     + '<th style="padding:6px 8px">Status</th>'
     + '<th style="padding:6px 8px">Action</th>'
     + '</tr></thead>';
 
   var tbody = document.createElement('tbody');
+  var _lastSection = '';
 
-  // Sort: matched first, then unmatched, then already_paid
-  var order = {matched: 0, unmatched: 1, already_paid: 2};
-  matches.sort(function(a, b) { return (order[a.status]||9) - (order[b.status]||9); });
+  matches.forEach(function(m, idx) {
+    // Add section separator rows
+    var section = m.status === 'matched' ? 'matched' : (m.status === 'cc_only' ? 'cc_only' : (m.status === 'unmatched' ? 'unmatched' : 'other'));
+    if (section !== _lastSection) {
+      _lastSection = section;
+      var sepTr = document.createElement('tr');
+      sepTr.className = 'pay-section-sep pay-sep-' + section;
+      var sepLabel = '', sepColor = '', sepBg = '';
+      if (section === 'matched') {
+        var mCount = matches.filter(function(x){return x.status==='matched'}).length;
+        sepLabel = '\u2714 Matched (' + mCount + ')';
+        sepColor = 'var(--green)'; sepBg = 'rgba(80,200,120,0.08)';
+      } else if (section === 'cc_only') {
+        var ccCount = matches.filter(function(x){return x.status==='cc_only'}).length;
+        sepLabel = '\u26A0 No Invoice \u2014 CC Only (' + ccCount + ')';
+        sepColor = 'var(--accent)'; sepBg = 'rgba(100,150,255,0.06)';
+      } else if (section === 'unmatched') {
+        var umCount = matches.filter(function(x){return x.status==='unmatched'}).length;
+        sepLabel = '\u26A0 No CC Match \u2014 Bills Only (' + umCount + ')';
+        sepColor = 'var(--yellow)'; sepBg = 'rgba(255,200,50,0.06)';
+      } else {
+        var apCount = matches.filter(function(x){return x.status==='already_paid'}).length;
+        sepLabel = '\u2713 Already Paid (' + apCount + ')';
+        sepColor = 'var(--text-dim)'; sepBg = 'rgba(150,150,150,0.06)';
+      }
+      sepTr.innerHTML = '<td colspan="10" style="padding:7px 10px;font-size:11px;font-weight:700;color:' + sepColor + ';border-top:2px solid var(--border);background:' + sepBg + '">' + sepLabel + '</td>';
+      tbody.appendChild(sepTr);
+    }
 
-  matches.forEach(function(m) {
     var tr = document.createElement('tr');
-    tr.id = 'pay-row-' + m.bill_id;
+    tr.id = 'pay-row-' + (m.bill_id || 'cc-' + idx);
+    tr.setAttribute('data-card', m.cc_card || '');
+    tr.setAttribute('data-status', m.status || '');
 
     var bgColor = 'transparent';
-    if (m.status === 'matched') bgColor = 'rgba(80,200,120,0.06)';
-    else if (m.status === 'unmatched') bgColor = 'rgba(255,200,50,0.06)';
-    else if (m.status === 'already_paid') bgColor = 'rgba(150,150,150,0.06)';
+    if (m.status === 'matched') bgColor = 'rgba(80,200,120,0.04)';
+    else if (m.status === 'cc_only') bgColor = 'rgba(100,150,255,0.04)';
+    else if (m.status === 'unmatched') bgColor = 'rgba(255,200,50,0.04)';
+    else if (m.status === 'already_paid') bgColor = 'rgba(150,150,150,0.04)';
     tr.style.background = bgColor;
 
     var statusBadge = '';
@@ -5066,26 +5273,37 @@ function renderPaymentPreview(data) {
     if (m.status === 'matched') {
       statusBadge = '<span style="color:var(--green);font-weight:600">\u2714 Matched</span>';
       actionBtn = '<button class="bill-create-btn" id="pay-btn-' + m.bill_id + '" onclick="confirmRecordOne(\'' + m.bill_id + '\')">Record</button>';
+    } else if (m.status === 'cc_only') {
+      statusBadge = '<span style="color:var(--accent)">No Invoice</span>';
     } else if (m.status === 'unmatched') {
-      statusBadge = '<span style="color:var(--yellow)">\u26A0 No Match</span>';
+      statusBadge = '<span style="color:var(--yellow)">No CC</span>';
     } else if (m.status === 'already_paid') {
       statusBadge = '<span style="color:var(--text-dim)">\u2713 Paid</span>';
     }
 
-    var ccDesc = m.cc_description || '-';
+    // CC columns (left side) — empty for unmatched/already_paid bills
+    var hasCc = m.status === 'matched' || m.status === 'cc_only';
+    var ccDesc = hasCc ? (m.cc_description || '-') : '';
+    var ccDescFull = ccDesc;
     if (ccDesc.length > 40) ccDesc = ccDesc.substring(0, 40) + '\u2026';
     var forexNote = '';
-    if (m.cc_forex_amount) forexNote = ' (' + m.cc_forex_currency + ' ' + fmt(m.cc_forex_amount) + ')';
+    if (hasCc && m.cc_forex_amount) forexNote = ' (' + m.cc_forex_currency + ' ' + fmt(m.cc_forex_amount) + ')';
+    var dimStyle = 'color:var(--text-dim);';
+
+    // Bill columns (right side) — empty for cc_only
+    var hasBill = m.status !== 'cc_only';
 
     tr.innerHTML =
-      '<td style="text-align:left;padding:5px 8px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (m.vendor_name||'').replace(/"/g,'&quot;') + '">' + (m.vendor_name||'-') + '</td>'
-      + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(m.bill_amount) + '</td>'
-      + '<td style="padding:5px 4px;text-align:center">' + (m.bill_currency||'INR') + '</td>'
-      + '<td style="padding:5px 8px">' + (m.bill_date||'-') + '</td>'
-      + '<td style="text-align:left;padding:5px 8px;border-left:2px solid var(--border);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (m.cc_description||'').replace(/"/g,'&quot;') + '">' + ccDesc + forexNote + '</td>'
-      + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + (m.cc_inr_amount ? fmt(m.cc_inr_amount) : '-') + '</td>'
-      + '<td style="padding:5px 8px">' + (m.cc_date||'-') + '</td>'
-      + '<td style="padding:5px 8px;font-size:10px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (m.cc_card||'-') + '</td>'
+      // --- CC LEFT ---
+      '<td style="text-align:left;padding:5px 8px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' + (hasCc?'':''+dimStyle) + '" title="' + ccDescFull.replace(/"/g,'&quot;') + '">' + (hasCc ? ccDesc + forexNote : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="text-align:right;padding:5px 8px;font-family:monospace;' + (hasCc?'':''+dimStyle) + '">' + (hasCc && m.cc_inr_amount ? fmt(m.cc_inr_amount) : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="padding:5px 8px;' + (hasCc?'':''+dimStyle) + '">' + (hasCc ? (m.cc_date||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="padding:5px 8px;font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (hasCc ? (m.cc_card||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      // --- BILL RIGHT ---
+      + '<td style="text-align:left;padding:5px 8px;border-left:2px solid var(--border);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (m.vendor_name||'').replace(/"/g,'&quot;') + '">' + (hasBill ? (m.vendor_name||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + (hasBill ? fmt(m.bill_amount) : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="padding:5px 4px;text-align:center">' + (hasBill ? (m.bill_currency||'INR') : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="padding:5px 8px">' + (hasBill ? (m.bill_date||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="padding:5px 8px">' + statusBadge + '</td>'
       + '<td style="padding:5px 8px">' + actionBtn + '</td>';
 
@@ -5107,8 +5325,14 @@ function confirmRecordOne(billId) {
 }
 
 function confirmRecordAll() {
-  var count = _paymentPreviewData ? _paymentPreviewData.matches.filter(function(m) { return m.status === 'matched'; }).length : 0;
-  showModal('Record All ' + count + ' Payments?', 'This will mark ' + count + ' bills as PAID in Zoho Books. This cannot be undone easily.', function() {
+  var cardFilter = document.getElementById('paymentCardFilter').value;
+  var count = _paymentPreviewData ? _paymentPreviewData.matches.filter(function(m) {
+    if (m.status !== 'matched') return false;
+    if (cardFilter && (m.cc_card || '') !== cardFilter) return false;
+    return true;
+  }).length : 0;
+  var cardNote = cardFilter ? ' for ' + cardFilter : '';
+  showModal('Record All ' + count + ' Payments?', 'This will mark ' + count + ' bills' + cardNote + ' as PAID in Zoho Books. This cannot be undone easily.', function() {
     recordAllMatched();
   }, true, 'Record All');
 }
@@ -5122,6 +5346,7 @@ function recordOnePayment(billId, previewData) {
   if (previewData && previewData.matches) {
     var m = previewData.matches.find(function(x) { return x.bill_id === billId && x.status === 'matched'; });
     if (m) {
+      payload.cc_transaction_id = m.cc_transaction_id;
       payload.cc_description = m.cc_description;
       payload.cc_inr_amount = m.cc_inr_amount;
       payload.cc_date = m.cc_date;
@@ -5160,10 +5385,15 @@ function recordOnePayment(billId, previewData) {
 
 function recordAllMatched() {
   if (!_paymentPreviewData) return;
+  var cardFilter = document.getElementById('paymentCardFilter').value;
   var matchedItems = _paymentPreviewData.matches
-    .filter(function(m) { return m.status === 'matched'; })
+    .filter(function(m) {
+      if (m.status !== 'matched') return false;
+      if (cardFilter && (m.cc_card || '') !== cardFilter) return false;
+      return true;
+    })
     .map(function(m) {
-      var item = {bill_id: m.bill_id, cc_inr_amount: m.cc_inr_amount, cc_date: m.cc_date, cc_card: m.cc_card};
+      var item = {bill_id: m.bill_id, cc_transaction_id: m.cc_transaction_id, cc_inr_amount: m.cc_inr_amount, cc_date: m.cc_date, cc_card: m.cc_card};
       if (m.cc_forex_amount) { item.cc_forex_amount = m.cc_forex_amount; item.cc_forex_currency = m.cc_forex_currency; }
       return item;
     });
