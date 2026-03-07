@@ -5011,6 +5011,7 @@ function _getStatusKey(inv) {
 }
 function _getMatchTypeLabel(inv) {
   var m = inv.vendor_match_method || 'name';
+  if (m === 'manual') return 'Manual';
   return m === 'gstin' ? 'GSTIN' : m === 'fuzzy' ? 'Fuzzy' : 'Name';
 }
 function _getMatchTypeKey(inv) {
