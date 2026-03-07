@@ -378,9 +378,8 @@
             "category": "invoice_coa_match"
         },
         "COCOBLU RETAIL LIMITED": {
-            "account_name": "Income Tax",
-            "account_id": "2050328000000027411",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "R K WorldInfocom Pvt. Ltd.": {
             "account_name": "Software License",
@@ -392,9 +391,8 @@
             "category": "software_licenses"
         },
         "S2 Labs Inc.": {
-            "account_name": "Duplicate fd amount",
-            "account_id": "2050328000000027455",
-            "category": "invoice_coa_match"
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
         },
         "Anthropic": {
             "account_name": "Software License",
