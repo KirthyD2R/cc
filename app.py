@@ -1691,6 +1691,110 @@ def api_bills_create_and_record():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/api/bills/record-only", methods=["POST"])
+def api_bills_record_only():
+    """Record payment + auto-match banking for an existing bill (skip bill creation)."""
+    data = request.json or {}
+    bill_id = data.get("bill_id", "")
+    cc = data.get("cc", {})
+    cc_inr = cc.get("amount")
+    cc_date = cc.get("date")
+    cc_card = cc.get("card_name")
+    cc_txn_id = cc.get("transaction_id", "")
+
+    if not bill_id:
+        return jsonify({"error": "bill_id required"}), 400
+    if not cc_inr or not cc_date or not cc_card:
+        return jsonify({"error": "cc amount, date, card_name required"}), 400
+
+    try:
+        from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids, log_action
+
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        cards = config.get("credit_cards", [])
+        resolve_account_ids(api, cards)
+        currency_map = api.list_currencies()
+
+        # Get bill details from Zoho
+        bill_data = api.get_bill(bill_id)
+        bill = bill_data.get("bill", {})
+        bill_total = float(bill.get("total", 0))
+        bill_currency = bill.get("currency_code", "INR")
+        vendor_id = bill.get("vendor_id", "")
+
+        if not vendor_id:
+            return jsonify({"error": "Bill has no vendor_id"}), 500
+
+        # Find CC card account
+        account_id = None
+        for card in cards:
+            if card.get("name") == cc_card:
+                account_id = card.get("zoho_account_id")
+                break
+        if not account_id:
+            return jsonify({"error": f"CC card '{cc_card}' not found"}), 400
+
+        # Record payment
+        payment_date = cc_date or bill.get("date", "")
+        payment_data = {
+            "vendor_id": vendor_id,
+            "payment_mode": "Credit Card",
+            "date": payment_date,
+            "amount": bill_total,
+            "paid_through_account_id": account_id,
+            "bills": [{"bill_id": bill_id, "amount_applied": bill_total}],
+        }
+
+        if bill_currency != "INR":
+            actual_inr = float(cc_inr)
+            if bill_total:
+                exact_rate = actual_inr / bill_total
+                for decimals in range(6, 12):
+                    test_rate = round(exact_rate, decimals)
+                    if round(test_rate * bill_total, 2) == round(actual_inr, 2):
+                        exact_rate = test_rate
+                        break
+                else:
+                    exact_rate = round(exact_rate, 10)
+            else:
+                exact_rate = 0
+            payment_data["currency_id"] = currency_map.get(bill_currency)
+            payment_data["exchange_rate"] = exact_rate
+            log_action(f"  {bill_currency} {bill_total} -> INR {actual_inr} (rate: {exact_rate})")
+
+        log_action(f"Recording payment (existing bill): {bill_id} via {cc_card} on {payment_date}")
+        pay_result = api.record_vendor_payment(payment_data)
+        payment = pay_result.get("vendorpayment", {})
+        payment_id = payment.get("payment_id")
+
+        if not payment_id:
+            return jsonify({"error": "Payment failed - no payment_id"}), 500
+
+        log_action(f"  Payment recorded: {payment_id}")
+
+        # Auto-match banking transaction
+        matched_banking = _auto_match_banking_txn(
+            api, cc_txn_id, payment_id, log_action,
+            account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
+        )
+
+        return jsonify({
+            "status": "paid",
+            "bill_id": bill_id,
+            "payment_id": payment_id,
+            "banking_matched": matched_banking,
+        })
+
+    except Exception as e:
+        error_msg = str(e).lower()
+        if "already been paid" in error_msg or "already paid" in error_msg:
+            return jsonify({"status": "already_paid", "bill_id": bill_id})
+        from scripts.utils import log_action
+        log_action(f"record-only error: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/api/payments/clear-cache", methods=["POST"])
 def api_payments_clear_cache():
     """Clear recorded_payments.json so Step 6 re-tries all bills."""
@@ -7133,18 +7237,20 @@ function runCategorizeCheck(idx, mode) {
       var invDate2 = _pd(inv2.date);
       if (_daysDiff(ccDate2, invDate2) > 30) return;
 
-      var diff2 = null, mtype2 = '';
+      var diff2 = null, mtype2 = '', compAmt2 = ccInr2;
       if (ccCur2 && ccForex2 && invCur2 === ccCur2) {
         diff2 = Math.abs(ccForex2 - invAmt2); mtype2 = ccCur2 + ' \u2192 ' + invCur2;
+        compAmt2 = ccForex2;
       } else if (ccCur2 && ccForex2 && invCur2 === 'INR') {
         diff2 = Math.abs(ccInr2 - invAmt2); mtype2 = ccCur2 + ' \u2192 INR (forex)';
       } else if (!ccCur2 && invCur2 === 'INR') {
         diff2 = Math.abs(ccInr2 - invAmt2); mtype2 = 'INR \u2192 INR';
       } else {
-        diff2 = Math.abs(ccInr2 - invAmt2); mtype2 = 'INR \u2192 ' + invCur2;
+        // Cross-currency mismatch (e.g. INR CC vs USD invoice) — skip
+        return;
       }
 
-      var threshold2 = Math.max(1, ccInr2 * 0.01);
+      var threshold2 = Math.max(compAmt2 < 100 ? 0.5 : 1, compAmt2 * 0.01);
       if (diff2 !== null && diff2 <= threshold2 && diff2 < bestDiff2) {
         bestDiff2 = diff2; best2 = inv2; bestInvIdx2 = invIdx; bestMtype2 = mtype2;
       }
@@ -7225,11 +7331,13 @@ function runCategorizeCheck(idx, mode) {
         diff3 = Math.abs(ccInr3 - invAmt3);
         mtype3 = 'INR \u2192 INR';
       } else {
-        diff3 = Math.abs(ccInr3 - invAmt3);
-        mtype3 = 'INR \u2192 ' + invCur3;
+        // Cross-currency mismatch — skip
+        return;
       }
 
-      if (diff3 !== null && diff3 < bestDiff3) {
+      var _compAmt3 = (ccCur3 && ccForex3 && invCur3 === ccCur3) ? ccForex3 : ccInr3;
+      var _thresh3 = Math.max(_compAmt3 < 100 ? 0.5 : 1, _compAmt3 * 0.01);
+      if (diff3 !== null && diff3 <= _thresh3 && diff3 < bestDiff3) {
         bestDiff3 = diff3;
         bestMatch3 = inv;
         bestType3 = mtype3;
@@ -7237,8 +7345,7 @@ function runCategorizeCheck(idx, mode) {
       }
     });
 
-    var threshold3 = Math.max(1, ccInr3 * 0.01);
-    if (bestMatch3 && bestDiff3 <= threshold3) {
+    if (bestMatch3 && bestDiff3 < Infinity) {
       rows[ri] = {
         vendor: (bestMatch3.vendor_name || vendor3),
         cc: cc3,
@@ -7438,7 +7545,22 @@ function renderCatView() {
     var actionHtml = '';
     if ((r.status === 'exact' || r.status === 'close') && r.inv) {
       if (r.inv.in_zoho) {
-        actionHtml = '<span style="font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,0.15);color:var(--green);font-weight:600">In Zoho</span>';
+        var recPayload = JSON.stringify({
+          bill_id: r.inv.zoho_bill_id || '',
+          vendor_name: r.inv.vendor_name || r.vendor,
+          amount: r.inv.amount,
+          currency: r.inv.currency || 'INR',
+          date: r.inv.date,
+          cc: {
+            transaction_id: r.cc ? r.cc.transaction_id || '' : '',
+            amount: r.cc ? r.cc.amount : 0,
+            date: r.cc ? r.cc.date : '',
+            card_name: r.cc ? r.cc.card_name || '' : '',
+            forex_amount: r.cc && r.cc.forex_amount ? r.cc.forex_amount : null,
+            forex_currency: r.cc && r.cc.forex_currency ? r.cc.forex_currency : null
+          }
+        }).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        actionHtml = '<button class="bill-create-btn" onclick="recordPaymentOnly(this, \'' + recPayload + '\')" style="font-size:10px;padding:2px 8px;background:rgba(34,197,94,0.15);color:var(--green);border:1px solid var(--green)">Record</button>';
       } else {
         var ccVendor = r.cc && r.cc.vendor_name ? r.cc.vendor_name : '';
         var payload = JSON.stringify({
@@ -7588,6 +7710,40 @@ function createBillAndRecord(btn, payloadStr) {
       addLogLine('[Bill+Pay] Error: ' + err);
     });
   }, false, 'Create & Record');
+}
+
+// --- Record Payment Only (bill already in Zoho) ---
+function recordPaymentOnly(btn, payloadStr) {
+  var payload = JSON.parse(payloadStr.replace(/&quot;/g, '"'));
+  var desc = (payload.vendor_name || '') + ' — ' + (payload.currency || 'INR') + ' ' + Number(payload.amount).toLocaleString();
+  showModal('Record Payment?', 'Bill already exists in Zoho. This will record payment and auto-match the CC banking transaction: ' + desc, function() {
+    btn.disabled = true;
+    btn.textContent = 'Recording...';
+    fetch('/api/bills/record-only', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.status === 'paid') {
+        var badge = document.createElement('span');
+        badge.style.cssText = 'font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,0.15);color:var(--green);font-weight:600';
+        badge.textContent = '\u2713 Paid';
+        btn.parentNode.replaceChild(badge, btn);
+        addLogLine('[Record] Paid: ' + (payload.vendor_name || '') + ' -> payment_id=' + (data.payment_id || ''));
+      } else {
+        btn.textContent = 'Failed';
+        btn.disabled = false;
+        addLogLine('[Record] Error: ' + (data.error || 'unknown'));
+      }
+    })
+    .catch(function(err) {
+      btn.textContent = 'Error';
+      btn.disabled = false;
+      addLogLine('[Record] Error: ' + err);
+    });
+  }, false, 'Record Payment');
 }
 
 // --- Categorize Check: bulk Create & Record selection ---
