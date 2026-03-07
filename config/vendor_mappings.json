@@ -29,8 +29,8 @@
         "GST": "HDFC Bank - GST",
         "HYPERBROWSER.AI": "Hyperbrowser AI",
         "NRI*NEW RELIC": "New Relic",
-        "CLAUDE.AI SUBSCRIPTION": "Anthropic",
-        "CLAUDE.AISUBSCRIPTION": "Anthropic",
+        "CLAUDE.AI SUBSCRIPTION": "Anthropic USD",
+        "CLAUDE.AISUBSCRIPTION": "Anthropic USD",
         "GROQ INC": "Groq Inc",
         "NETFLIX": "Netflix",
         "ZEPTO MARKETPLACE": "Zepto",
@@ -64,8 +64,8 @@
         "CHANDRASEKAR HARSHAVAR, TIRUCHIRAPPAL": "Chandrasekar Harshavar",
         "MADURAI SRI BALAJI BHA, VILLUPURAM": "Madurai Sri Balaji Bhavan",
         "GROQ INC, MOUNTAIN VIEW": "Groq Inc",
-        "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO": "Anthropic",
-        "CLAUDE.AISUBSCRIPTIONANTHROPIC.COMCA": "Anthropic",
+        "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO": "Anthropic USD",
+        "CLAUDE.AISUBSCRIPTIONANTHROPIC.COMCA": "Anthropic USD",
         "HYPERBROWSER.AI, SAN FRANCISCO": "Hyperbrowser AI",
         "NRI*NEW RELIC, SAN FRANCISCO": "New Relic",
         "KRISHNAMACHARI SRIKKAN, CHENNAI": "Krishnamachari Srikkan",
@@ -155,6 +155,19 @@
         },
         "Anthropic": {
             "company_name": "Anthropic PBC",
+            "gst_treatment": "overseas",
+            "currency_code": "USD",
+            "billing_address": {
+                "address": "548 Market St, PMB 90375",
+                "city": "San Francisco",
+                "state": "California",
+                "zip": "94104",
+                "country": "U.S.A."
+            },
+            "website": "https://www.anthropic.com"
+        },
+        "Anthropic USD": {
+            "company_name": "Anthropic USD",
             "gst_treatment": "overseas",
             "currency_code": "USD",
             "billing_address": {
@@ -390,6 +403,10 @@
             "account_id": "2050328000000027421"
         },
         "Anthropic": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
+        },
+        "Anthropic USD": {
             "account_name": "Software License",
             "account_id": "2050328000000027421"
         },
