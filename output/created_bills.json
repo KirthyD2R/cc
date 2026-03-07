@@ -60,16 +60,6 @@
     "attached": true
   },
   {
-    "file": "AWS -March 2025.pdf",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002931001",
-    "bill_id": "2050328000002924052",
-    "amount": 40513.05,
-    "currency": "INR",
-    "attached": true
-  },
-  {
     "file": "E0100VXR9Z_Invoice.pdf",
     "status": "created",
     "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
@@ -230,16 +220,6 @@
     "attached": true
   },
   {
-    "file": "Invoice_2483942397.pdf",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000003008022",
-    "bill_id": "2050328000003000092",
-    "amount": 293044.46,
-    "currency": "INR",
-    "attached": true
-  },
-  {
     "file": "Atlassian_Invoice_IN-005-589-685.pdf",
     "status": "created",
     "vendor_name": "Atlassian Pty Ltd",
@@ -345,16 +325,6 @@
     "vendor_name": "Google",
     "vendor_id": "2050328000002993047",
     "bill_id": "2050328000003008059",
-    "amount": 1950.0,
-    "currency": "INR",
-    "attached": true
-  },
-  {
-    "file": "Your Google Play Order Receipt from Jan 17, 2025.eml",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Google",
-    "vendor_id": "2050328000002993047",
-    "bill_id": "2050328000003005162",
     "amount": 1950.0,
     "currency": "INR",
     "attached": true
@@ -480,92 +450,32 @@
     "attached": true
   },
   {
-    "file": "AWS-July-2025.pdf",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "bill_id": "2050328000003005250",
-    "amount": 79963.46,
-    "currency": "INR",
-    "attached": true
-  },
-  {
     "file": "Invoice_2403565789.pdf",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "bill_id": "2050328000002991052",
+    "status": "created",
+    "vendor_name": "AWS",
+    "vendor_id": "2050328000002211179",
+    "bill_id": "2050328000003008174",
     "amount": 245438.75,
     "currency": "INR",
     "attached": true
   },
   {
+    "file": "Invoice_2483942397.pdf",
+    "status": "created",
+    "vendor_name": "AWS",
+    "vendor_id": "2050328000002211179",
+    "bill_id": "2050328000002984165",
+    "amount": 293044.46,
+    "currency": "INR",
+    "attached": true
+  },
+  {
     "file": "Invoice_2443583665.pdf",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "bill_id": "2050328000002995167",
+    "status": "created",
+    "vendor_name": "AWS",
+    "vendor_id": "2050328000002211179",
+    "bill_id": "2050328000003007110",
     "amount": 284933.67,
-    "currency": "INR",
-    "attached": true
-  },
-  {
-    "file": "Invoice_2219628753.pdf",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "bill_id": "2050328000003013029",
-    "amount": 7282.99,
-    "currency": "INR",
-    "attached": true
-  },
-  {
-    "file": "AWS MAY-2025.pdf",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "bill_id": "2050328000002993207",
-    "amount": 7782.18,
-    "currency": "INR",
-    "attached": true
-  },
-  {
-    "file": "AWS April-2025.pdf",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "bill_id": "2050328000003012230",
-    "amount": 1824.36,
-    "currency": "INR",
-    "attached": true
-  },
-  {
-    "file": "AWS-Oct 2025.pdf",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "bill_id": "2050328000002986138",
-    "amount": 380319.73,
-    "currency": "INR",
-    "attached": true
-  },
-  {
-    "file": "AWS-Sep-2025.pdf",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "bill_id": "2050328000003005291",
-    "amount": 300039.59,
-    "currency": "INR",
-    "attached": true
-  },
-  {
-    "file": "AWS - Aug -2025.pdf",
-    "status": "deleted_in_zoho",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "bill_id": "2050328000003006176",
-    "amount": 213669.28,
     "currency": "INR",
     "attached": true
   }

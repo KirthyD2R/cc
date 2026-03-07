@@ -2338,6 +2338,7 @@ def api_compare_monthly():
     zoho_bill_numbers = {}   # bill_number -> bill_id
     zoho_bill_numbers_norm = {}  # normalized -> bill_id
     zoho_bill_ids_set = set()  # all bill_ids from cache
+    zoho_vendor_date_amount = {}  # (vendor_lower, date, amount) -> bill_id
     if os.path.exists(bills_cache_path):
         try:
             with open(bills_cache_path, "r", encoding="utf-8") as f:
@@ -2351,10 +2352,32 @@ def api_compare_monthly():
                         norm = _normalize_bill_number(bn)
                         if norm:
                             zoho_bill_numbers_norm[norm] = bid
+                    # Index by vendor+date+amount for fallback matching
+                    bv = (b.get("vendor_name") or "").strip().lower()
+                    bd = b.get("date", "")
+                    ba = round(float(b.get("total", 0)), 2)
+                    if bv and bd and ba and bid:
+                        zoho_vendor_date_amount[(bv, bd, ba)] = bid
+        except Exception:
+            pass
+
+    # Build vendor name aliases from vendors cache (contact_name ↔ company_name)
+    _vendor_aliases = defaultdict(set)  # name_lower -> set of alias names
+    vendors_cache_path = os.path.join(output_dir, "zoho_vendors_cache.json")
+    if os.path.exists(vendors_cache_path):
+        try:
+            with open(vendors_cache_path, "r", encoding="utf-8") as f:
+                for v in json.load(f):
+                    cn = (v.get("contact_name") or "").strip().lower()
+                    comp = (v.get("company_name") or "").strip().lower()
+                    if cn and comp and cn != comp:
+                        _vendor_aliases[cn].add(comp)
+                        _vendor_aliases[comp].add(cn)
         except Exception:
             pass
 
     created_bills_set = {}  # file -> bill_id
+    deleted_bills_set = set()  # files intentionally deleted
     created_bills_path = os.path.join(output_dir, "created_bills.json")
     if os.path.exists(created_bills_path):
         try:
@@ -2364,6 +2387,8 @@ def api_compare_monthly():
                         # Only trust if bill_id still exists in Zoho cache
                         if not zoho_bill_ids_set or entry["bill_id"] in zoho_bill_ids_set:
                             created_bills_set[entry.get("file", "")] = entry["bill_id"]
+                    elif entry.get("status") == "deleted_in_zoho":
+                        deleted_bills_set.add(entry.get("file", ""))
         except Exception:
             pass
 
@@ -2373,9 +2398,11 @@ def api_compare_monthly():
         """Check if invoice already has a bill in Zoho."""
         inv_num = (inv.get("invoice_number") or "").strip()
         fname = inv.get("file", "")
-        # Check created_bills.json first
+        # Check created_bills.json first (includes deleted_in_zoho)
         if fname in created_bills_set:
             return created_bills_set[fname]
+        if fname in deleted_bills_set:
+            return "deleted"  # truthy — prevents re-creation
         # Check by invoice number
         has_reliable = bool(inv_num and inv_num.lower().strip() not in _GENERIC_INV)
         if has_reliable:
@@ -2396,6 +2423,23 @@ def api_compare_monthly():
             norm = _normalize_bill_number(bn)
             if norm and norm in zoho_bill_numbers_norm:
                 return zoho_bill_numbers_norm[norm]
+        # Fallback: match by vendor + date + amount (for bills created manually in Zoho)
+        inv_vendor = (inv.get("vendor_name") or "").strip().lower()
+        inv_date = inv.get("date", "")
+        inv_amount = round(float(inv.get("amount", 0)), 2)
+        if inv_vendor and inv_date and inv_amount:
+            # Build set of vendor name variants to check
+            names_to_check = {inv_vendor}
+            resolved = _resolve_vendor(inv_vendor) if inv_vendor else None
+            if resolved:
+                names_to_check.add(resolved.strip().lower())
+            # Also check vendor alias names (contact_name ↔ company_name from vendors cache)
+            if inv_vendor in _vendor_aliases:
+                names_to_check.update(_vendor_aliases[inv_vendor])
+            for vn in names_to_check:
+                key = (vn, inv_date, inv_amount)
+                if key in zoho_vendor_date_amount:
+                    return zoho_vendor_date_amount[key]
         return None
 
     inv_by_month = defaultdict(list)

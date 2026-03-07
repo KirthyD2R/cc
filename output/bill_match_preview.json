@@ -840,10 +840,10 @@
     "currency": "INR",
     "date": "2025-12-01",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003008174",
+    "match_type": "created_bills",
+    "matched_bill": "Created: AWS"
   },
   {
     "file": "MAA4-6184441_p1_MAA4-6184441_p1_MAA4-6184441.pdf",

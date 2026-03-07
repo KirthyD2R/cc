@@ -442,6 +442,10 @@
         "Vercel": {
             "account_name": "Software License",
             "account_id": "2050328000000027421"
+        },
+        "AWS": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
         }
     }
 }

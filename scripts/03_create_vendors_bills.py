@@ -410,7 +410,7 @@ def run(selected_files=None, vendor_overrides=None):
         log_action(f"Filtered to {len(invoices)} selected invoices (of {len(selected_files)} requested)")
     log_action(f"Processing {len(invoices)} invoices")
 
-    # Load existing bills from cache (fast) or fallback to live Zoho fetch
+    # Fetch bills from Zoho live for accurate dedup (cache may be stale)
     existing_bills = {}       # bill_number -> bill_id (exact)
     existing_bills_norm = {}  # normalized_bill_number -> bill_id
     existing_bill_ids = set()
@@ -419,49 +419,35 @@ def run(selected_files=None, vendor_overrides=None):
     # Also build vendor name -> vendor_id from cache
     cached_vendor_map = {}    # vendor_name_lower -> vendor_id
 
+    def _index_bill(b):
+        bn = b.get("bill_number", "")
+        bid = b.get("bill_id", "")
+        existing_bills[bn] = bid
+        existing_bill_ids.add(bid)
+        norm = _normalize_bill_number(bn)
+        if norm:
+            existing_bills_norm[norm] = bid
+        b_vendor = (b.get("vendor_name") or "").strip().lower()
+        b_date = b.get("date", "")
+        if b_vendor and b_date:
+            existing_vendor_date.add((b_vendor, b_date))
+
     try:
-        if os.path.exists(BILLS_CACHE):
-            with open(BILLS_CACHE, "r", encoding="utf-8") as f:
-                cached_bills = json.load(f)
-            for b in cached_bills:
-                bn = b.get("bill_number", "")
-                bid = b.get("bill_id", "")
-                existing_bills[bn] = bid
-                existing_bill_ids.add(bid)
-                norm = _normalize_bill_number(bn)
-                if norm:
-                    existing_bills_norm[norm] = bid
-                b_vendor = (b.get("vendor_name") or "").strip().lower()
-                b_date = b.get("date", "")
-                if b_vendor and b_date:
-                    existing_vendor_date.add((b_vendor, b_date))
-            log_action(f"Loaded {len(existing_bills)} bills from cache ({len(existing_vendor_date)} vendor+date pairs)")
-        else:
-            # Fallback: fetch from Zoho live
-            log_action("No bills cache found — fetching from Zoho live...")
-            page = 1
-            while True:
-                result = api.list_bills(page=page)
-                bills_page = result.get("bills", [])
-                if not bills_page:
-                    break
-                for b in bills_page:
-                    bn = b.get("bill_number", "")
-                    bid = b.get("bill_id", "")
-                    existing_bills[bn] = bid
-                    existing_bill_ids.add(bid)
-                    norm = _normalize_bill_number(bn)
-                    if norm:
-                        existing_bills_norm[norm] = bid
-                    b_vendor = (b.get("vendor_name") or "").strip().lower()
-                    b_date = b.get("date", "")
-                    if b_vendor and b_date:
-                        existing_vendor_date.add((b_vendor, b_date))
-                has_more = result.get("page_context", {}).get("has_more_page", False)
-                if not has_more:
-                    break
-                page += 1
-            log_action(f"Fetched {len(existing_bills)} bills from Zoho for dedup")
+        # Always fetch live from Zoho for accurate dedup
+        log_action("Fetching bills from Zoho for dedup...")
+        page = 1
+        while True:
+            result = api.list_bills(page=page)
+            bills_page = result.get("bills", [])
+            if not bills_page:
+                break
+            for b in bills_page:
+                _index_bill(b)
+            has_more = result.get("page_context", {}).get("has_more_page", False)
+            if not has_more:
+                break
+            page += 1
+        log_action(f"Loaded {len(existing_bills)} bills from Zoho ({len(existing_vendor_date)} vendor+date pairs)")
 
         # Load vendor cache
         cached_gstin_map = {}  # gstin -> (contact_id, contact_name)
@@ -475,6 +461,12 @@ def run(selected_files=None, vendor_overrides=None):
                 if cn and vid:
                     cached_vendor_map[cn] = vid
                     cached_vendor_currency[cn] = (v.get("currency_code") or "INR").upper()
+                # Also index by company_name (e.g. "AWS" contact with "Amazon Web Services" company)
+                comp = (v.get("company_name") or "").strip().lower()
+                if comp and vid and comp not in cached_vendor_map:
+                    cached_vendor_map[comp] = vid
+                    if comp not in cached_vendor_currency:
+                        cached_vendor_currency[comp] = (v.get("currency_code") or "INR").upper()
                 gst_no = (v.get("gst_no") or "").strip()
                 if gst_no and vid:
                     cached_gstin_map[gst_no] = (vid, v.get("contact_name", ""))
@@ -482,7 +474,7 @@ def run(selected_files=None, vendor_overrides=None):
     except Exception as e:
         log_action(f"Could not load bill/vendor data for dedup: {e}", "WARNING")
 
-    # Load local results — trust "created" entries (Zoho bill-number dedup prevents duplicates)
+    # Load local results — only trust "created" entries with a bill_id
     processed = {}
     if os.path.exists(RESULTS_FILE):
         with open(RESULTS_FILE, "r", encoding="utf-8") as f:
@@ -490,7 +482,7 @@ def run(selected_files=None, vendor_overrides=None):
                 status = entry.get("status", "")
                 if status == "created" and entry.get("bill_id"):
                     processed[entry["file"]] = entry
-                # Discard stale "skipped"/"failed" entries — re-evaluate against current Zoho state
+                # Discard stale "skipped"/"failed"/"deleted_in_zoho" entries — re-evaluate
 
     results = list(processed.values())
 
