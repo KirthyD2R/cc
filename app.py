@@ -2783,6 +2783,42 @@ def _normalize_bill_number(num):
     return s
 
 
+@app.route("/api/zoho-vendors")
+def api_zoho_vendors():
+    """Return Zoho vendor list from cache for the UI dropdown."""
+    cache_path = os.path.join(PROJECT_ROOT, "output", "zoho_vendors_cache.json")
+    if not os.path.exists(cache_path):
+        return jsonify([])
+    with open(cache_path, "r", encoding="utf-8") as f:
+        vendors = json.load(f)
+    return jsonify([{"contact_id": v.get("contact_id", ""), "contact_name": v.get("contact_name", "")} for v in vendors])
+
+
+@app.route("/api/vendor-overrides")
+def api_vendor_overrides_get():
+    """Return saved vendor overrides."""
+    path = os.path.join(PROJECT_ROOT, "output", "vendor_overrides.json")
+    if not os.path.exists(path):
+        return jsonify({})
+    with open(path, "r", encoding="utf-8") as f:
+        return jsonify(json.load(f))
+
+
+@app.route("/api/vendor-overrides", methods=["POST"])
+def api_vendor_overrides_post():
+    """Merge and save vendor overrides."""
+    path = os.path.join(PROJECT_ROOT, "output", "vendor_overrides.json")
+    existing = {}
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            existing = json.load(f)
+    new_overrides = request.json.get("overrides", {})
+    existing.update(new_overrides)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(existing, f, indent=2, ensure_ascii=False)
+    return jsonify({"ok": True, "count": len(existing)})
+
+
 @app.route("/api/bills/match-preview", methods=["POST"])
 def api_bills_match_preview():
     """Classify each extracted invoice as skip/new_bill/new_vendor_bill against Zoho cache."""
