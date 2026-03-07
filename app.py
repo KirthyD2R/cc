@@ -3474,66 +3474,65 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   }
   .modal-btn-confirm.danger:hover { background: #ef4444; }
 
-  /* Bill Picker */
-  .bill-month-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 0;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--accent);
-    cursor: pointer;
-    user-select: none;
-    border-bottom: 1px solid var(--border);
+  /* Bill Picker — Filter Bar */
+  .bill-filter-bar {
+    display: flex; flex-wrap: wrap; gap: 8px; padding: 8px 0 10px; align-items: flex-end;
   }
-  .bill-month-header:hover { color: var(--text); }
-  .bill-month-header .bill-month-count {
-    font-weight: 400;
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-left: auto;
+  .bill-filter-group { display: flex; flex-direction: column; gap: 2px; }
+  .bill-filter-group label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+  .bill-filter-group select,
+  .bill-filter-group input {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text); font-size: 12px; padding: 4px 8px; min-width: 90px;
   }
-  .bill-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 8px 6px 20px;
-    font-size: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+  .bill-filter-group select[multiple] { min-height: 54px; min-width: 110px; }
+  .bill-filter-group input[type="number"] { width: 80px; }
+  .bill-filter-clear {
+    padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    border: 1px solid var(--border); background: transparent; color: var(--text-dim);
+    cursor: pointer; align-self: flex-end;
   }
-  .bill-row.created { opacity: 0.5; }
-  .bill-row .bill-vendor { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .bill-row .bill-amount { width: 100px; text-align: right; font-family: monospace; font-size: 11px; }
-  .bill-row .bill-currency { width: 32px; font-size: 10px; color: var(--text-dim); }
+  .bill-filter-clear:hover { color: var(--text); border-color: var(--text-dim); }
+
+  /* Bill Picker — Table */
+  .bill-table-wrap { flex: 1; overflow-y: auto; min-height: 0; }
+  .bill-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .bill-table thead { position: sticky; top: 0; z-index: 2; background: var(--surface); }
+  .bill-table th {
+    padding: 6px 8px; text-align: left; font-size: 11px; font-weight: 600;
+    color: var(--text-dim); border-bottom: 1px solid var(--border); cursor: pointer;
+    user-select: none; white-space: nowrap;
+  }
+  .bill-table th .sort-arrow { font-size: 10px; margin-left: 2px; opacity: 0.3; }
+  .bill-table th.sorted .sort-arrow { opacity: 1; color: var(--accent); }
+  .bill-table td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  .bill-table tr.row-skip { opacity: 0.45; }
+  .bill-table .col-checkbox { width: 32px; text-align: center; }
+  .bill-table .col-amount { text-align: right; font-family: monospace; font-size: 11px; white-space: nowrap; }
+  .bill-table .col-action { width: 70px; text-align: center; }
+  .bill-table .vendor-cell { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* Bill Picker — Status & Action */
   .bill-status-badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
   }
   .bill-status-badge.pending { background: rgba(251,191,36,0.15); color: #fbbf24; }
   .bill-status-badge.created { background: rgba(52,211,153,0.15); color: #34d399; }
   .bill-create-btn {
-    padding: 3px 10px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    border: 1px solid var(--accent);
-    background: transparent;
-    color: var(--accent);
-    cursor: pointer;
-    white-space: nowrap;
+    padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    border: 1px solid var(--accent); background: transparent; color: var(--accent);
+    cursor: pointer; white-space: nowrap;
   }
   .bill-create-btn:hover { background: var(--accent); color: #fff; }
-  .bill-month-create { font-size: 10px; padding: 2px 8px; margin-left: 8px; }
 
-  /* Bill picker split layout */
+  /* Bill Picker — Split Layout */
   .bill-picker-layout { display: flex; gap: 0; flex: 1; min-height: 0; }
-  .bill-picker-left { flex: 3; overflow-y: auto; min-height: 0; border-right: 1px solid var(--border); padding-right: 12px; }
-  .bill-picker-right { flex: 2; display: flex; flex-direction: column; gap: 10px; padding-left: 16px; min-width: 200px; }
+  .bill-picker-left { flex: 3; display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--border); padding-right: 12px; }
+  .bill-picker-right { flex: 1; display: flex; flex-direction: column; gap: 10px; padding-left: 16px; min-width: 200px; }
+  .bill-selected-count { font-size: 13px; font-weight: 600; padding: 6px 0; color: var(--accent); }
+
+  /* Bill Picker — Summary Cards */
   .bill-summary-total { font-size: 13px; font-weight: 600; padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
   .bill-summary-total .count { font-size: 22px; font-weight: 700; font-family: monospace; }
   .bill-summary-card {
