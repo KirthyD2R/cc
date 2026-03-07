@@ -228,5 +228,35 @@
     "amount": 0.64,
     "currency": "USD",
     "attached": true
+  },
+  {
+    "file": "Invoice_2483942397.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Web Services",
+    "vendor_id": "2050328000003008022",
+    "bill_id": "2050328000003000092",
+    "amount": 293044.46,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Atlassian_Invoice_IN-005-589-685.pdf",
+    "status": "created",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "bill_id": "2050328000003006066",
+    "amount": 83.51,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "8MEU2MRF-0005",
+    "status": "created",
+    "vendor_name": "Gamma",
+    "vendor_id": "2050328000002996079",
+    "bill_id": "2050328000002995087",
+    "amount": 8704.0,
+    "currency": "INR",
+    "attached": false
   }
 ]

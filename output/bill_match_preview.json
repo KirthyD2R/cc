@@ -1093,10 +1093,10 @@
     "currency": "USD",
     "date": "2026-02-11",
     "organized_month": "Feb 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000001809186",
-    "matched_vendor_name": "Atlassian Pty Ltd",
-    "vendor_match_method": "gstin"
+    "action": "skip",
+    "matched_bill_id": "2050328000003006066",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Atlassian Pty Ltd"
   },
   {
     "file": "E0100YQAMI_Invoice.pdf",
@@ -1409,10 +1409,10 @@
     "currency": "INR",
     "date": "2026-02-01",
     "organized_month": "Feb 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003000092",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Amazon Web Services"
   },
   {
     "file": "file_1.pdf",
@@ -1720,10 +1720,10 @@
     "currency": "USD",
     "date": "2026-01-07",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002195001",
-    "matched_vendor_name": "GitHub, Inc.",
-    "vendor_match_method": "fuzzy"
+    "action": "skip",
+    "matched_bill_id": "2050328000003010068",
+    "match_type": "created_bills",
+    "matched_bill": "Created: GitHub, Inc."
   },
   {
     "file": "INV117822242.pdf",
@@ -1733,10 +1733,10 @@
     "currency": "USD",
     "date": "2026-01-28",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002195001",
-    "matched_vendor_name": "GitHub, Inc.",
-    "vendor_match_method": "fuzzy"
+    "action": "skip",
+    "matched_bill_id": "2050328000003013003",
+    "match_type": "created_bills",
+    "matched_bill": "Created: GitHub, Inc."
   },
   {
     "file": "Invoice-7CC5E2D2-0003.pdf",
@@ -3548,9 +3548,10 @@
     "date": "2025-10-07",
     "organized_month": "Oct 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000000356107",
-    "matched_vendor_name": "Integrated Hydroponics India Private Limited",
-    "vendor_match_method": "fuzzy"
+    "matched_vendor_id": "2050328000003008022",
+    "matched_vendor_name": "Amazon Web Services",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
   },
   {
     "file": "PBVN-14918.pdf",

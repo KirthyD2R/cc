@@ -1,5 +1,23 @@
 [
   {
+    "bill_id": "2050328000002995087",
+    "bill_number": "8MEU2MRF-0005",
+    "vendor_name": "Gamma",
+    "vendor_id": "2050328000002996079",
+    "date": "2026-02-04",
+    "total": 8704.0,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000003006066",
+    "bill_number": "IN-005-589-685",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "date": "2026-02-11",
+    "total": 83.51,
+    "status": "paid"
+  },
+  {
     "bill_id": "2050328000003013003",
     "bill_number": "INV117822242",
     "vendor_name": "GitHub, Inc.",

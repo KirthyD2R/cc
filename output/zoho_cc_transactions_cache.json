@@ -1,15 +1,5 @@
 [
   {
-    "date": "2026-02-12",
-    "description": "ATLASSIANAMSTERDAM USD 83.51 [USD 83.51]",
-    "amount": 7579.55,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002998017",
-    "forex_amount": 83.51,
-    "forex_currency": "USD"
-  },
-  {
     "date": "2026-02-10",
     "description": "TATA AIG GENERAL INSURMUMBAI",
     "amount": 49646.0,
@@ -116,14 +106,6 @@
     "transaction_id": "2050328000002995057"
   },
   {
-    "date": "2026-02-06",
-    "description": "1% on all DCC Transaction",
-    "amount": 87.04,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995051"
-  },
-  {
     "date": "2026-02-05",
     "description": "GITHUB, INC.GITHUB.COM USD 3.86 [USD 3.86]",
     "amount": 349.48,
@@ -140,14 +122,6 @@
     "card_name": "HDFC - 7196",
     "zoho_account_id": "2050328000002898667",
     "transaction_id": "2050328000002995043"
-  },
-  {
-    "date": "2026-02-04",
-    "description": "1% on all DCC Transaction",
-    "amount": 38.4,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995033"
   },
   {
     "date": "2026-02-03",
@@ -256,14 +230,6 @@
     "card_name": "HDFC - 7196",
     "zoho_account_id": "2050328000002898667",
     "transaction_id": "2050328000002995003"
-  },
-  {
-    "date": "2025-11-12",
-    "description": "CONSOLIDATED FCY MARKUP FEE",
-    "amount": 836.0,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994059"
   },
   {
     "date": "2025-10-31",
