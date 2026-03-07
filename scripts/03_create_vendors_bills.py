@@ -265,14 +265,12 @@ def create_bill_for_invoice(api, invoice, vendor_id, expense_accounts, default_e
     if gst_treatment == "business_gst":
         if vendor_gstin:
             bill_data["gst_no"] = vendor_gstin
-        # Set source_of_supply (company's state) and place_of_supply (vendor's state)
+        # Set source_of_supply for bills (Zoho Bills API uses source_of_supply, not place_of_supply)
         company_state = _STATE_CODE_MAP.get(_COMPANY_STATE_CODE)
-        if company_state:
-            bill_data["source_of_supply"] = company_state
         if vendor_state_code and vendor_state_code in _STATE_CODE_MAP:
-            bill_data["place_of_supply"] = _STATE_CODE_MAP[vendor_state_code]
+            bill_data["source_of_supply"] = _STATE_CODE_MAP[vendor_state_code]
         elif company_state:
-            bill_data["place_of_supply"] = company_state
+            bill_data["source_of_supply"] = company_state
 
     try:
         result = api.create_bill(bill_data)

@@ -116,14 +116,6 @@
     "forex_currency": "USD"
   },
   {
-    "date": "2026-02-05",
-    "description": "GAMMA.APPGAMMA.APP",
-    "amount": 8704.0,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995043"
-  },
-  {
     "date": "2026-02-03",
     "description": "GITHUB, INC.GITHUB.COM USD 104.00 [USD 104.00]",
     "amount": 9551.62,
@@ -338,22 +330,6 @@
     "transaction_id": "2050328000002993003"
   },
   {
-    "date": "2025-12-18",
-    "description": "WINDSURF WINDSURF.COM CA",
-    "amount": 942.68,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000002162098"
-  },
-  {
-    "date": "2025-12-16",
-    "description": "GOOGLE PLAY CONTENT PU MUMBAI IN",
-    "amount": 1950.0,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000002162096"
-  },
-  {
     "date": "2025-12-15",
     "description": "MICROSOFT INDIA CYBS S MUMBAI IN",
     "amount": 908.6,
@@ -371,27 +347,11 @@
   },
   {
     "date": "2025-11-18",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 918.59,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000001777101"
-  },
-  {
-    "date": "2025-11-18",
     "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
     "amount": 908.6,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000001777099"
-  },
-  {
-    "date": "2025-11-16",
-    "description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
-    "amount": 1950.0,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000001777095"
   },
   {
     "date": "2025-11-09",
@@ -450,14 +410,6 @@
     "transaction_id": "2050328000001777075"
   },
   {
-    "date": "2025-10-16",
-    "description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
-    "amount": 1950.0,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000001777073"
-  },
-  {
     "date": "2025-10-15",
     "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
     "amount": 908.6,
@@ -514,22 +466,6 @@
     "transaction_id": "2050328000000929341"
   },
   {
-    "date": "2025-09-18",
-    "description": "WINDSURF               WINDSURF.COM  CA  (10.00 USD)",
-    "amount": 909.99,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929339"
-  },
-  {
-    "date": "2025-09-16",
-    "description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
-    "amount": 1950.0,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929337"
-  },
-  {
     "date": "2025-09-15",
     "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
     "amount": 908.6,
@@ -568,14 +504,6 @@
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929317"
-  },
-  {
-    "date": "2025-08-16",
-    "description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
-    "amount": 1950.0,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929315"
   },
   {
     "date": "2025-08-15",
@@ -656,14 +584,6 @@
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929287"
-  },
-  {
-    "date": "2025-07-16",
-    "description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
-    "amount": 1950.0,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929285"
   },
   {
     "date": "2025-07-15",
@@ -763,27 +683,11 @@
   },
   {
     "date": "2025-06-18",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 893.1,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929249"
-  },
-  {
-    "date": "2025-06-18",
     "description": "CLAUDE.AI�SUBSCRIPTION�ANTHROPIC.COM�CA�(*Convert�to�EMI) (236.00 USD)",
     "amount": 21077.25,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929247"
-  },
-  {
-    "date": "2025-06-16",
-    "description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
-    "amount": 1950.0,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929245"
   },
   {
     "date": "2025-06-15",
@@ -866,14 +770,6 @@
     "transaction_id": "2050328000000929209"
   },
   {
-    "date": "2025-05-16",
-    "description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
-    "amount": 1950.0,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929207"
-  },
-  {
     "date": "2025-05-15",
     "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
     "amount": 908.6,
@@ -928,22 +824,6 @@
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929187"
-  },
-  {
-    "date": "2025-04-28",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 886.66,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929185"
-  },
-  {
-    "date": "2025-04-26",
-    "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
-    "amount": 331.5,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929183"
   },
   {
     "date": "2025-04-25",

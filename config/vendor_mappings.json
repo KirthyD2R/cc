@@ -408,6 +408,14 @@
         "Atlassian Pty Ltd": {
             "account_name": "Software License",
             "account_id": "2050328000000027421"
+        },
+        "Gamma": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
+        },
+        "Google": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
         }
     }
 }

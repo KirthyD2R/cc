@@ -124,10 +124,10 @@
     "currency": "INR",
     "date": "2025-04-29",
     "organized_month": "Apr 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000357128",
-    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
-    "vendor_match_method": "gstin"
+    "action": "skip",
+    "matched_bill_id": "2050328000003015003",
+    "match_type": "created_bills",
+    "matched_bill": "Created: R K WorldInfocom Pvt. Ltd."
   },
   {
     "file": "Your Google Play Order Receipt from Apr 16, 2025.eml",
@@ -137,7 +137,10 @@
     "currency": "INR",
     "date": "2025-04-16",
     "organized_month": "Apr 2025",
-    "action": "new_vendor_bill"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "invoice-6aa55a53-399a-48bc-8fb9-fc9592fc2389.pdf",
@@ -486,7 +489,10 @@
     "currency": "INR",
     "date": "2025-08-16",
     "organized_month": "Aug 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003004041",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "invoice-0cf94175-74a4-4471-ba26-d41a7c5ca0e0 1.pdf",
@@ -509,7 +515,10 @@
     "currency": "INR",
     "date": "2024-12-16",
     "organized_month": "Dec 2024",
-    "action": "new_vendor_bill"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "1025260426735.pdf",
@@ -900,7 +909,10 @@
     "currency": "INR",
     "date": "2025-12-16",
     "organized_month": "Dec 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003008059",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "FLY IO - Feb.pdf",
@@ -1023,7 +1035,10 @@
     "currency": "INR",
     "date": "2025-02-16",
     "organized_month": "Feb 2025",
-    "action": "new_vendor_bill"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "20260213_Tax Invoice_402-6713984-2813929.pdf",
@@ -1298,7 +1313,10 @@
     "currency": "INR",
     "date": "2026-02-04",
     "organized_month": "Feb 2026",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill": "8MEU2MRF-0005",
+    "matched_bill_id": "2050328000002995087",
+    "match_type": "exact"
   },
   {
     "file": "Invoice-97E328AA-0006.pdf",
@@ -1488,7 +1506,10 @@
     "currency": "INR",
     "date": "2025-01-17",
     "organized_month": "Jan 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003005162",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "1025260502871.pdf",
@@ -1511,7 +1532,10 @@
     "currency": "INR",
     "date": "2026-01-31",
     "organized_month": "Jan 2026",
-    "action": "new_vendor_bill"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "Atlassian_Invoice_IN-005-309-664.pdf",
@@ -2157,7 +2181,10 @@
     "currency": "INR",
     "date": "2025-07-16",
     "organized_month": "Jul 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003000112",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "AWS MAY-2025.pdf",
@@ -2535,7 +2562,10 @@
     "currency": "INR",
     "date": "2025-06-16",
     "organized_month": "Jun 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000002986078",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "1024250419098.pdf",
@@ -2571,7 +2601,10 @@
     "currency": "INR",
     "date": "2025-03-16",
     "organized_month": "Mar 2025",
-    "action": "new_vendor_bill"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "INV123227848_A02676131_03022026.pdf",
@@ -2794,7 +2827,10 @@
     "currency": "INR",
     "date": "2025-05-16",
     "organized_month": "May 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003006113",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "invoice-a62c5b33-39d6-4fb7-8fa5-48d1dc673830.pdf",
@@ -3128,7 +3164,10 @@
     "currency": "INR",
     "date": "2025-11-16",
     "organized_month": "Nov 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000002998090",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "1025260334826.pdf",
@@ -3548,10 +3587,9 @@
     "date": "2025-10-07",
     "organized_month": "Oct 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003008022",
-    "matched_vendor_name": "Amazon Web Services",
-    "vendor_match_method": "fuzzy",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "PBVN-14918.pdf",
@@ -3634,7 +3672,10 @@
     "currency": "INR",
     "date": "2025-10-16",
     "organized_month": "Oct 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003010096",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "Equity Subscription.pdf",
@@ -3930,6 +3971,9 @@
     "currency": "INR",
     "date": "2025-09-16",
     "organized_month": "Sep 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000002998068",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   }
 ]

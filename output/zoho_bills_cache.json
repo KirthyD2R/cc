@@ -1,12 +1,93 @@
 [
   {
+    "bill_id": "2050328000003008059",
+    "bill_number": "SOP.3305-3916-7418-85612..11",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "date": "2025-12-16",
+    "total": 1950.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002998090",
+    "bill_number": "SOP.3305-3916-7418-85612..10",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "date": "2025-11-16",
+    "total": 1950.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000003010096",
+    "bill_number": "SOP.3305-3916-7418-85612..9",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "date": "2025-10-16",
+    "total": 1950.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002998068",
+    "bill_number": "SOP.3305-3916-7418-85612..8",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "date": "2025-09-16",
+    "total": 1950.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000003000112",
+    "bill_number": "SOP.3305-3916-7418-85612..6",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "date": "2025-07-16",
+    "total": 1950.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000003004041",
+    "bill_number": "SOP.3305-3916-7418-85612..7",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "date": "2025-08-16",
+    "total": 1950.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002986078",
+    "bill_number": "SOP.3305-3916-7418-85612..5",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "date": "2025-06-16",
+    "total": 1950.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000003006113",
+    "bill_number": "SOP.3305-3916-7418-85612..4",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "date": "2025-05-16",
+    "total": 1950.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000003015003",
+    "bill_number": "MAA4-687526",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-04-29",
+    "total": 331.5,
+    "status": "paid"
+  },
+  {
     "bill_id": "2050328000002995087",
     "bill_number": "8MEU2MRF-0005",
     "vendor_name": "Gamma",
     "vendor_id": "2050328000002996079",
     "date": "2026-02-04",
     "total": 8704.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003006066",
