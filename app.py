@@ -927,8 +927,10 @@ def api_payments_preview():
                         candidate_bills.extend(bill_idxs)
 
             # Among vendor-matched bills, find best amount match (1% tolerance)
+            # When amounts tie, prefer closest date
             best_bi = None
             best_diff = float("inf")
+            best_date_diff = float("inf")
             for bi in candidate_bills:
                 if bill_matched[bi]:
                     continue
@@ -936,8 +938,18 @@ def api_payments_preview():
                 if diff is None:
                     continue
                 threshold = max(1.0, bills[bi]["amount"] * 0.01)
-                if diff <= threshold and diff < best_diff:
+                if diff > threshold:
+                    continue
+                # Date proximity as tiebreaker
+                try:
+                    bd = _dt.strptime(bills[bi]["date"], "%Y-%m-%d")
+                    cd = _dt.strptime(cc["date"], "%Y-%m-%d")
+                    dd = abs((bd - cd).days)
+                except Exception:
+                    dd = 9999
+                if diff < best_diff or (diff == best_diff and dd < best_date_diff):
                     best_diff = diff
+                    best_date_diff = dd
                     best_bi = bi
 
             if best_bi is not None:
@@ -7444,10 +7456,10 @@ function renderCatView() {
       tr.innerHTML = cbCell +
         '<td style="font-size:11px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + r.vendor + '">' + r.vendor + '</td>' +
         '<td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + ccDesc + '">' + ccDesc + '</td>' +
-        '<td style="font-size:10px;color:var(--yellow)">' + ccForexStr + '</td>' +
+        '<td style="font-size:10px;color:var(--yellow)">' + ccForex + '</td>' +
         '<td style="font-family:monospace;font-size:11px;text-align:right">' + ccAmt + '</td>' +
         '<td style="font-size:10px">' + ccDate + '</td>' +
-        '<td style="font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + cardName + '">' + cardName + '</td>' +
+        '<td style="font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (r.cc && r.cc.card_name ? r.cc.card_name : '-') + '">' + (r.cc && r.cc.card_name ? r.cc.card_name : '-') + '</td>' +
         '<td style="font-family:monospace;font-size:11px;text-align:right">' + invAmt + '</td>' +
         '<td style="font-size:10px">' + invDate + '</td>' +
         '<td style="font-size:10px">' + (r.matchType || '-') + '</td>' +
@@ -7456,7 +7468,6 @@ function renderCatView() {
         '<td style="font-size:10px;white-space:nowrap">' + statusHtml + '</td>' +
         '<td style="padding:3px 6px">' + actionHtml + '</td>';
       tbody.appendChild(tr);
-    }
   });
 
   tbl.appendChild(tbody);
