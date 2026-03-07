@@ -6708,7 +6708,7 @@ function renderCatView() {
   // Table
   var tbl = document.createElement('table');
   tbl.className = 'cat-table';
-  tbl.innerHTML = '<thead><tr><th style="width:28px;text-align:center"><input type="checkbox" id="catSelectAll" onchange="toggleCatSelectAll(this)" title="Select all Create Bill rows"></th><th>Vendor</th><th>CC Description</th><th>CC Forex</th><th>CC Amount (INR)</th><th>CC Date</th><th>Inv Amount</th><th>Inv Date</th><th>Match Type</th><th>Diff</th><th>Confidence</th><th>Status</th><th>Action</th></tr></thead>';
+  tbl.innerHTML = '<thead><tr><th style="width:28px;text-align:center"><input type="checkbox" id="catSelectAll" onchange="toggleCatSelectAll(this)" title="Select all Create Bill rows"></th><th>Vendor</th><th>CC Description</th><th>CC Forex</th><th>CC Amount (INR)</th><th>CC Date</th><th>Card</th><th>Inv Amount</th><th>Inv Date</th><th>Match Type</th><th>Diff</th><th>Confidence</th><th>Status</th><th>Action</th></tr></thead>';
   var tbody = document.createElement('tbody');
 
   filtered.forEach(function(r) {
@@ -6837,6 +6837,7 @@ function renderCatView() {
       '<td style="font-size:10px;color:var(--yellow)">' + ccForex + '</td>' +
       '<td style="font-family:monospace;font-size:11px;text-align:right">' + ccAmt + '</td>' +
       '<td style="font-size:10px">' + ccDate + '</td>' +
+      '<td style="font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (r.cc && r.cc.card_name ? r.cc.card_name : '-') + '">' + (r.cc && r.cc.card_name ? r.cc.card_name : '-') + '</td>' +
       '<td style="font-family:monospace;font-size:11px;text-align:right">' + invAmt + '</td>' +
       '<td style="font-size:10px">' + invDate + '</td>' +
       '<td style="font-size:10px">' + (r.matchType || '-') + '</td>' +
