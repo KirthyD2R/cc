@@ -72,10 +72,10 @@
     "currency": "USD",
     "date": "2025-04-01",
     "organized_month": "Apr 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000349283",
-    "matched_vendor_name": "Fly.io, Inc",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003007003",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Fly.io, Inc"
   },
   {
     "file": "Invoice-7CC5E2D2-0001.pdf",
@@ -85,10 +85,10 @@
     "currency": "USD",
     "date": "2025-04-25",
     "organized_month": "Apr 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000364806",
-    "matched_vendor_name": "Anthropic",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill": "7CC5E2D2-0001",
+    "matched_bill_id": "2050328000002970029",
+    "match_type": "exact"
   },
   {
     "file": "Invoice-E0BCC1DE-0005.pdf",
@@ -300,10 +300,10 @@
     "currency": "USD",
     "date": "2025-08-01",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000349283",
-    "matched_vendor_name": "Fly.io, Inc",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003000044",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Fly.io, Inc"
   },
   {
     "file": "FMAB-317253_p1_FMAB-317253_p1_FMAB-317253.pdf",
@@ -339,10 +339,10 @@
     "currency": "USD",
     "date": "2025-08-26",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000349283",
-    "matched_vendor_name": "Fly.io, Inc",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000002997085",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Fly.io, Inc"
   },
   {
     "file": "GROQ-TAAS-202508-116839.pdf",
@@ -2014,10 +2014,10 @@
     "currency": "USD",
     "date": "2025-07-01",
     "organized_month": "Jul 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000349283",
-    "matched_vendor_name": "Fly.io, Inc",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000002990007",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Fly.io, Inc"
   },
   {
     "file": "FMAB-104573_p1_FMAB-104573_p1_FMAB-104573.pdf",

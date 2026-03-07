@@ -10,14 +10,6 @@
     "forex_currency": "USD"
   },
   {
-    "date": "2026-02-12",
-    "description": "CONSOLIDATED FCY MARKUP FEE",
-    "amount": 189.49,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002998015"
-  },
-  {
     "date": "2026-02-10",
     "description": "TATA AIG GENERAL INSURMUMBAI",
     "amount": 49646.0,
@@ -40,14 +32,6 @@
     "card_name": "HDFC-8948",
     "zoho_account_id": "2050328000002161003",
     "transaction_id": "2050328000002998007"
-  },
-  {
-    "date": "2026-01-12",
-    "description": "CGST-VPS2601302845120-RATE 9.0 -33",
-    "amount": 13.02,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002998003"
   },
   {
     "date": "2026-01-12",
@@ -78,38 +62,6 @@
     "forex_currency": "USD"
   },
   {
-    "date": "2025-12-20",
-    "description": "SGST-VPS2635564564841-RATE 9.0 -33",
-    "amount": 16.07,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002997013"
-  },
-  {
-    "date": "2025-12-20",
-    "description": "CGST-VPS2635564564841-RATE 9.0 -33",
-    "amount": 16.07,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002997011"
-  },
-  {
-    "date": "2025-12-20",
-    "description": "SGST-VPS2635564564837-RATE 9.0 -33",
-    "amount": 45.41,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002997009"
-  },
-  {
-    "date": "2025-12-20",
-    "description": "CGST-VPS2635564564837-RATE 9.0 -33",
-    "amount": 45.41,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002997007"
-  },
-  {
     "date": "2025-12-19",
     "description": "ATLASSIANAMSTERDAM USD 223.07 [USD 223.07]",
     "amount": 20180.94,
@@ -120,30 +72,6 @@
     "forex_currency": "USD"
   },
   {
-    "date": "2025-12-12",
-    "description": "SGST-VPS2634726776513-RATE 9.0 -33",
-    "amount": 23.92,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002997005"
-  },
-  {
-    "date": "2025-12-12",
-    "description": "CGST-VPS2634726776513-RATE 9.0 -33",
-    "amount": 23.92,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002997003"
-  },
-  {
-    "date": "2025-12-12",
-    "description": "CONSOLIDATED FCY MARKUP FEE (Ref# VT253470075033230000120)",
-    "amount": 386.94,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002162064"
-  },
-  {
     "date": "2025-11-28",
     "description": "ATLASSIANAMSTERDAM",
     "amount": 4847.23,
@@ -152,52 +80,12 @@
     "transaction_id": "2050328000002162062"
   },
   {
-    "date": "2025-11-28",
-    "description": "SGST-VPS2633391381525-RATE 9.0 -33 (Ref# VT253330075034490000060",
-    "amount": 10.91,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002162060"
-  },
-  {
-    "date": "2025-11-28",
-    "description": "CGST-VPS2633391381525-RATE 9.0 -33 (Ref# VT253330075034490000060",
-    "amount": 10.91,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002162058"
-  },
-  {
-    "date": "2025-10-12",
-    "description": "CONSOLIDATED FCY MARKUP FEE (Ref# VT252740075036440000159",
-    "amount": 444.05,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002162052"
-  },
-  {
     "date": "2025-09-30",
     "description": "CLAUDE.AI SUBSCRIPTIONANTHROPIC",
     "amount": 17761.83,
     "card_name": "HDFC-8948",
     "zoho_account_id": "2050328000002161003",
     "transaction_id": "2050328000002162050"
-  },
-  {
-    "date": "2025-09-30",
-    "description": "SGST-VPS2627420428814-RATE 9.0 -33 (Ref# VT252740075036440000159)",
-    "amount": 39.96,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002162048"
-  },
-  {
-    "date": "2025-09-30",
-    "description": "CGST-VPS2627420428814-RATE 9.0 -33 (Ref# VT252740075036440000159",
-    "amount": 39.96,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002162046"
   },
   {
     "date": "2026-02-12",
@@ -220,30 +108,6 @@
     "forex_currency": "USD"
   },
   {
-    "date": "2026-02-12",
-    "description": "CONSOLIDATED FCY MARKUP FEE",
-    "amount": 768.57,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995077"
-  },
-  {
-    "date": "2026-02-11",
-    "description": "MICROSOFT INDIAMUMBAI",
-    "amount": 30892.4,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995065"
-  },
-  {
-    "date": "2026-02-11",
-    "description": "MICROSOFT INDIAMUMBAI",
-    "amount": 2395.4,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995063"
-  },
-  {
     "date": "2026-02-09",
     "description": "CLAUDE.AI SUBSCRIPTIONANTHROPIC. USD 200.00 [USD 200.00]",
     "amount": 18171.91,
@@ -254,44 +118,12 @@
     "forex_currency": "USD"
   },
   {
-    "date": "2026-02-09",
-    "description": "SGST-VPS2604176089484-RATE 9.0 -33",
-    "amount": 40.89,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995061"
-  },
-  {
-    "date": "2026-02-09",
-    "description": "CGST-VPS2604176089484-RATE 9.0 -33",
-    "amount": 40.89,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995059"
-  },
-  {
     "date": "2026-02-08",
     "description": "HATHWAY SELFCAREMUMBAI",
     "amount": 11151.0,
     "card_name": "HDFC - 7196",
     "zoho_account_id": "2050328000002898667",
     "transaction_id": "2050328000002995057"
-  },
-  {
-    "date": "2026-02-06",
-    "description": "SGST-VPS2603870466426-RATE 9.0 -33",
-    "amount": 7.83,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995055"
-  },
-  {
-    "date": "2026-02-06",
-    "description": "CGST-VPS2603870466426-RATE 9.0 -33",
-    "amount": 7.83,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995053"
   },
   {
     "date": "2026-02-06",
@@ -313,67 +145,11 @@
   },
   {
     "date": "2026-02-05",
-    "description": "MICROSOFT INDIAMUMBAI",
-    "amount": 2395.4,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995049"
-  },
-  {
-    "date": "2026-02-05",
-    "description": "SGST-VPS2603769609529-RATE 9.0 -33",
-    "amount": 0.79,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995047"
-  },
-  {
-    "date": "2026-02-05",
-    "description": "CGST-VPS2603769609529-RATE 9.0 -33",
-    "amount": 0.79,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995045"
-  },
-  {
-    "date": "2026-02-05",
     "description": "GAMMA.APPGAMMA.APP",
     "amount": 8704.0,
     "card_name": "HDFC - 7196",
     "zoho_account_id": "2050328000002898667",
     "transaction_id": "2050328000002995043"
-  },
-  {
-    "date": "2026-02-04",
-    "description": "SGST-VPS2603668139563-RATE 9.0 -33",
-    "amount": 21.49,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995041"
-  },
-  {
-    "date": "2026-02-04",
-    "description": "CGST-VPS2603668139563-RATE 9.0 -33",
-    "amount": 21.49,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995039"
-  },
-  {
-    "date": "2026-02-04",
-    "description": "SGST-VPS2603668139562-RATE 9.0 -33",
-    "amount": 3.46,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995037"
-  },
-  {
-    "date": "2026-02-04",
-    "description": "CGST-VPS2603668139562-RATE 9.0 -33",
-    "amount": 3.46,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995035"
   },
   {
     "date": "2026-02-04",
@@ -428,38 +204,6 @@
     "transaction_id": "2050328000002995029"
   },
   {
-    "date": "2026-02-02",
-    "description": "SGST-VPS2603465524932-RATE 9.0 -33",
-    "amount": 4.14,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995027"
-  },
-  {
-    "date": "2026-02-02",
-    "description": "CGST-VPS2603465524932-RATE 9.0 -33",
-    "amount": 4.14,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995025"
-  },
-  {
-    "date": "2026-02-02",
-    "description": "SGST-VPS2603465524931-RATE 9.0 -33",
-    "amount": 0.03,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995023"
-  },
-  {
-    "date": "2026-02-02",
-    "description": "CGST-VPS2603465524931-RATE 9.0 -33",
-    "amount": 0.03,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995021"
-  },
-  {
     "date": "2026-01-31",
     "description": "TATA AIG GENERAL INSURMUMBAI",
     "amount": 31041.0,
@@ -474,14 +218,6 @@
     "card_name": "HDFC - 7196",
     "zoho_account_id": "2050328000002898667",
     "transaction_id": "2050328000002995017"
-  },
-  {
-    "date": "2026-01-29",
-    "description": "ZOHO CORPORATIONCHENNAI",
-    "amount": 268.47,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995015"
   },
   {
     "date": "2026-01-28",
@@ -548,70 +284,6 @@
     "transaction_id": "2050328000002994039"
   },
   {
-    "date": "2025-10-24",
-    "description": "CGST-VPS2629806578447-RATE 9.0 -33",
-    "amount": 1.29,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994037"
-  },
-  {
-    "date": "2025-10-24",
-    "description": "SGST-VPS2629806578447-RATE 9.0 -33",
-    "amount": 1.29,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994035"
-  },
-  {
-    "date": "2025-10-24",
-    "description": "CGST-VPS2629806578446-RATE 9.0 -33",
-    "amount": 41.4,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994033"
-  },
-  {
-    "date": "2025-10-24",
-    "description": "SGST-VPS2629806578446-RATE 9.0 -33",
-    "amount": 41.4,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994031"
-  },
-  {
-    "date": "2025-10-24",
-    "description": "CGST-VPS2629806578445-RATE 9.0 -33",
-    "amount": 2.1,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994029"
-  },
-  {
-    "date": "2025-10-24",
-    "description": "SGST-VPS2629806578445-RATE 9.0 -33",
-    "amount": 2.1,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994027"
-  },
-  {
-    "date": "2025-10-24",
-    "description": "CGST-VPS2629806578444-RATE 9.0 -33",
-    "amount": 7.92,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994025"
-  },
-  {
-    "date": "2025-10-24",
-    "description": "SGST-VPS2629806578444-RATE 9.0 -33",
-    "amount": 7.92,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994023"
-  },
-  {
     "date": "2025-10-23",
     "description": "WM SUPERCENTER #2517SANTA ANA USD 6.53 [USD 6.53]",
     "amount": 574.43,
@@ -652,22 +324,6 @@
     "forex_currency": "USD"
   },
   {
-    "date": "2025-10-22",
-    "description": "SGST-VPS2629603477279-RATE 9.0 -33",
-    "amount": 6.26,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994021"
-  },
-  {
-    "date": "2025-10-22",
-    "description": "CGST-VPS2629603477279-RATE 9.0 -33",
-    "amount": 6.26,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994019"
-  },
-  {
     "date": "2025-10-21",
     "description": "APPLEBEES 7675 - POSORLANDO USD 31.60 [USD 31.60]",
     "amount": 2780.17,
@@ -676,30 +332,6 @@
     "transaction_id": "2050328000002994049",
     "forex_amount": 31.6,
     "forex_currency": "USD"
-  },
-  {
-    "date": "2025-10-21",
-    "description": "SGST-VPS2629501295462-RATE 9.0 -33",
-    "amount": 3.85,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994017"
-  },
-  {
-    "date": "2025-10-21",
-    "description": "CGST-VPS2629501295462-RATE 9.0 -33",
-    "amount": 3.85,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994015"
-  },
-  {
-    "date": "2025-10-21",
-    "description": "SGST-VPS2629501295458-RATE 9.0 -33",
-    "amount": 7.92,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994013"
   },
   {
     "date": "2025-10-20",
@@ -1438,16 +1070,6 @@
     "transaction_id": "2050328000002960007"
   },
   {
-    "date": "2026-02-01",
-    "description": "HYPERBROWSER.AI, SAN FRANCISCO [USD 30.00]",
-    "amount": 2754.3,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002960005",
-    "forex_amount": 30.0,
-    "forex_currency": "USD"
-  },
-  {
     "date": "2026-01-14",
     "description": "PVR LIMITED, CHENNAI",
     "amount": 1629.0,
@@ -1465,29 +1087,11 @@
   },
   {
     "date": "2026-01-12",
-    "description": "MICROSOFTBUS, MUMBAI",
-    "amount": 30892.4,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002999025"
-  },
-  {
-    "date": "2026-01-12",
     "description": "NETFLIX, MUMBAI",
     "amount": 649.0,
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000002999023"
-  },
-  {
-    "date": "2026-01-05",
-    "description": "GROQ INC, MOUNTAIN VIEW [USD 6.43]",
-    "amount": 580.98,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002999021",
-    "forex_amount": 6.43,
-    "forex_currency": "USD"
   },
   {
     "date": "2026-01-03",

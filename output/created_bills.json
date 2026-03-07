@@ -108,5 +108,45 @@
     "amount": 200.0,
     "currency": "USD",
     "attached": false
+  },
+  {
+    "file": "FLY IO - April.pdf",
+    "status": "created",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "bill_id": "2050328000003007003",
+    "amount": 12.67,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "FLY IO - July.pdf",
+    "status": "created",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "bill_id": "2050328000002990007",
+    "amount": 12.27,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Fly.io-Aug 26.pdf",
+    "status": "created",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "bill_id": "2050328000002997085",
+    "amount": 9.89,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "FLY IO - Augest.pdf",
+    "status": "created",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "bill_id": "2050328000003000044",
+    "amount": 12.74,
+    "currency": "USD",
+    "attached": true
   }
 ]

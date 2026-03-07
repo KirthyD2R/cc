@@ -397,6 +397,10 @@
         "Anthropic": {
             "account_name": "Software License",
             "account_id": "2050328000000027421"
+        },
+        "Fly.io, Inc": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
         }
     }
 }

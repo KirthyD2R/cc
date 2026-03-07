@@ -1,5 +1,41 @@
 [
   {
+    "bill_id": "2050328000003000044",
+    "bill_number": "02148314-0008",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "date": "2025-08-01",
+    "total": 12.74,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002997085",
+    "bill_number": "02148314-0009",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "date": "2025-08-26",
+    "total": 9.89,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002990007",
+    "bill_number": "02148314-0007",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "date": "2025-07-01",
+    "total": 12.27,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000003007003",
+    "bill_number": "02148314-0004",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "date": "2025-04-01",
+    "total": 12.67,
+    "status": "overdue"
+  },
+  {
     "bill_id": "2050328000002970029",
     "bill_number": "7CC5E2D2-0001",
     "vendor_name": "Anthropic",
@@ -24,7 +60,7 @@
     "vendor_id": "2050328000002965001",
     "date": "2026-01-30",
     "total": 30.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002966003",
@@ -60,7 +96,7 @@
     "vendor_id": "2050328000000357128",
     "date": "2025-10-14",
     "total": 382.85,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002895289",
@@ -123,7 +159,7 @@
     "vendor_id": "2050328000000342219",
     "date": "2026-02-12",
     "total": 2395.4,
-    "status": "open"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002920907",
@@ -132,7 +168,7 @@
     "vendor_id": "2050328000000342219",
     "date": "2026-01-12",
     "total": 30892.4,
-    "status": "open"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002920885",
@@ -141,7 +177,7 @@
     "vendor_id": "2050328000000342219",
     "date": "2026-02-12",
     "total": 30892.4,
-    "status": "open"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002920863",
@@ -150,7 +186,7 @@
     "vendor_id": "2050328000000342219",
     "date": "2026-01-12",
     "total": 2395.4,
-    "status": "open"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002920841",
@@ -330,7 +366,7 @@
     "vendor_id": "2050328000002917774",
     "date": "2026-01-06",
     "total": 6.43,
-    "status": "open"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002917918",
@@ -456,7 +492,7 @@
     "vendor_id": "2050328000000343473",
     "date": "2026-01-29",
     "total": 268.47,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002917002",
