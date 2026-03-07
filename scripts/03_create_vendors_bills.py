@@ -597,6 +597,15 @@ def run(selected_files=None):
                         invoice["vendor_gstin"] = gstin
                         log_action(f"  Enriched vendor GSTIN from cache: {gstin}")
                         break
+            # Update vendor in Zoho if invoice has GSTIN but vendor is missing it
+            if inv_gstin and inv_gstin not in cached_gstin_map:
+                gst_treatment = "overseas" if inv_gstin[:2] == "99" else "business_gst"
+                try:
+                    api.update_vendor(cached_vid, {"gst_treatment": gst_treatment, "gst_no": inv_gstin})
+                    log_action(f"  Updated vendor {vendor_name} with GSTIN {inv_gstin} ({gst_treatment})")
+                    cached_gstin_map[inv_gstin] = (cached_vid, vendor_name)
+                except Exception as e:
+                    log_action(f"  Could not update vendor GST info: {e}", "WARNING")
         elif vendor_name:
             vendor_id, vendor_name = ensure_vendor(api, vendor_name, invoice, vendor_mappings, currency_map)
         else:

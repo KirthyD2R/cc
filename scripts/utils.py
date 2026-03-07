@@ -342,6 +342,9 @@ class ZohoBooksAPI:
         return self._request("DELETE", f"vendorpayments/{payment_id}")
 
     # -- Contacts (Vendors) --
+    def update_vendor(self, contact_id, vendor_data):
+        return self._request("PUT", f"contacts/{contact_id}", json=vendor_data)
+
     def delete_vendor(self, contact_id):
         return self._request("DELETE", f"contacts/{contact_id}")
 
