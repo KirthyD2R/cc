@@ -4894,153 +4894,390 @@ function syncZoho() {
 // --- Bill Picker with Match Preview ---
 let _billPickerData = null;
 let _matchPreviewData = null;
-
+let _billFilteredRows = [];
+let _billSortCol = 'vendor';
+let _billSortAsc = true;
 var _billSelectedFiles = new Set();
 
+function _getStatusLabel(inv) {
+  if (inv.action === 'skip') return 'In Zoho';
+  if (inv.action === 'new_bill') return 'New Bill + Existing Vendor';
+  return 'New Bill + New Vendor';
+}
+function _getStatusKey(inv) {
+  if (inv.action === 'skip') return 'skip';
+  if (inv.action === 'new_bill') return 'new_bill';
+  return 'new_vendor';
+}
+function _getMatchTypeLabel(inv) {
+  var m = inv.vendor_match_method || 'name';
+  return m === 'gstin' ? 'GSTIN' : m === 'fuzzy' ? 'Fuzzy' : 'Name';
+}
+function _getMatchTypeKey(inv) {
+  return inv.vendor_match_method || 'name';
+}
+
 function _renderSummaryPanel(summary, s, totalNew) {
-  _billSelectedFiles.clear();
   summary.innerHTML = ''
-    + '<div class="bill-summary-total"><span>Total Invoices</span><span class="count">' + s.total + '</span></div>'
-    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--green)"></span> Bills == CC in Zoho</span><span class="count" style="color:var(--green)">' + s.skip + '</span></div>'
-    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--accent)"></span> New Bill + Existing vendor</span><span class="count" style="color:var(--accent)">' + s.new_bill + '</span></div>'
-    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--yellow)"></span> New Bill + New Vendor</span><span class="count" style="color:var(--yellow)">' + s.new_vendor_bill + '</span></div>'
+    + '<div class="bill-summary-total"><span>Total Invoices</span><span class="count" id="bpTotal">' + s.total + '</span></div>'
+    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--green)"></span> In Zoho</span><span class="count" style="color:var(--green)" id="bpSkip">' + s.skip + '</span></div>'
+    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--accent)"></span> New Bill + Existing Vendor</span><span class="count" style="color:var(--accent)" id="bpNewBill">' + s.new_bill + '</span></div>'
+    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--yellow)"></span> New Bill + New Vendor</span><span class="count" style="color:var(--yellow)" id="bpNewVendor">' + s.new_vendor_bill + '</span></div>'
     + '<div class="bill-summary-divider"></div>'
-    + '<div class="bill-summary-total"><span>Will Upload</span><span class="count" style="color:var(--accent)">' + totalNew + '</span></div>'
+    + '<div class="bill-summary-total"><span>Will Upload</span><span class="count" style="color:var(--accent)" id="bpWillUpload">' + totalNew + '</span></div>'
+    + '<div class="bill-selected-count" id="bpSelectedCount">Selected: 0</div>'
     + '<div class="bill-summary-upload-section">'
-    + '<button class="modal-btn modal-btn-confirm" id="createSelectedBillsBtn" onclick="createSelectedBills()" style="width:100%;display:none">Create Selected (0)</button>'
-    + '<button class="modal-btn modal-btn-confirm" id="createAllBillsBtn" onclick="createAllBills()" style="width:100%"' + (totalNew === 0 ? ' disabled' : '') + '>Upload All New (' + totalNew + ')</button>'
+    + '<button class="modal-btn modal-btn-confirm" id="createSelectedBillsBtn" onclick="createSelectedBills()" style="width:100%" disabled>Create Selected (0)</button>'
     + '<button class="modal-btn modal-btn-cancel" onclick="closeBillPicker()" style="width:100%">Cancel</button>'
     + '</div>';
 }
 
-function _toggleBillCheckbox(file, checked) {
-  if (checked) {
-    _billSelectedFiles.add(file);
-  } else {
-    _billSelectedFiles.delete(file);
-  }
-  var btn = document.getElementById('createSelectedBillsBtn');
-  if (_billSelectedFiles.size > 0) {
-    btn.style.display = 'block';
-    btn.textContent = 'Create Selected (' + _billSelectedFiles.size + ')';
-  } else {
-    btn.style.display = 'none';
-  }
+function _buildFilterBar(preview) {
+  var months = [];
+  var vendors = [];
+  var seen = {};
+  preview.forEach(function(p) {
+    var m = p.organized_month || 'Unknown';
+    if (!seen['m_'+m]) { months.push(m); seen['m_'+m] = 1; }
+    var v = p.vendor_name || 'Unknown';
+    if (!seen['v_'+v]) { vendors.push(v); seen['v_'+v] = 1; }
+  });
+  months.sort();
+  vendors.sort(function(a,b){ return a.localeCompare(b); });
+
+  var html = '<div class="bill-filter-bar">';
+  html += '<div class="bill-filter-group"><label>From</label><select id="bfFrom"><option value="">All</option>';
+  months.forEach(function(m){ html += '<option value="'+m+'">'+m+'</option>'; });
+  html += '</select></div>';
+  html += '<div class="bill-filter-group"><label>To</label><select id="bfTo"><option value="">All</option>';
+  months.forEach(function(m){ html += '<option value="'+m+'">'+m+'</option>'; });
+  html += '</select></div>';
+  html += '<div class="bill-filter-group"><label>Vendor</label><select id="bfVendor" multiple>';
+  vendors.forEach(function(v){ html += '<option value="'+v.replace(/"/g,'&quot;')+'">'+v+'</option>'; });
+  html += '</select></div>';
+  html += '<div class="bill-filter-group"><label>Min Amt</label><input type="number" id="bfMinAmt" placeholder="0" step="any"></div>';
+  html += '<div class="bill-filter-group"><label>Max Amt</label><input type="number" id="bfMaxAmt" placeholder="any" step="any"></div>';
+  html += '<div class="bill-filter-group"><label>Status</label><select id="bfStatus" multiple>';
+  html += '<option value="skip">In Zoho</option><option value="new_bill">New Bill + Existing Vendor</option><option value="new_vendor">New Bill + New Vendor</option>';
+  html += '</select></div>';
+  html += '<div class="bill-filter-group"><label>Match Type</label><select id="bfMatchType" multiple>';
+  html += '<option value="gstin">GSTIN</option><option value="name">Name</option><option value="fuzzy">Fuzzy</option>';
+  html += '</select></div>';
+  html += '<button class="bill-filter-clear" onclick="clearBillFilters()">Clear</button>';
+  html += '</div>';
+  return html;
 }
 
-function _toggleMonthCheckboxes(monthName, checked) {
+function _buildTable() {
+  var cols = [
+    {key:'check', label:'<input type="checkbox" id="bpSelectAll" onchange="toggleBillSelectAll(this)" style="cursor:pointer;accent-color:var(--accent)">', sort:false, cls:'col-checkbox'},
+    {key:'vendor', label:'Vendor', sort:true},
+    {key:'date', label:'Date', sort:true},
+    {key:'amount', label:'Amount', sort:true, cls:'col-amount'},
+    {key:'status', label:'Status', sort:true},
+    {key:'match', label:'Match', sort:true},
+    {key:'action', label:'', sort:false, cls:'col-action'}
+  ];
+  var html = '<div class="bill-table-wrap"><table class="bill-table"><thead><tr>';
+  cols.forEach(function(c) {
+    var cls = (c.cls ? ' class="'+c.cls+'"' : '');
+    if (c.sort) {
+      var sorted = (_billSortCol === c.key) ? ' sorted' : '';
+      var arrow = (_billSortCol === c.key) ? (_billSortAsc ? '\u25B2' : '\u25BC') : '\u25B2';
+      html += '<th'+cls+' class="'+(c.cls||'')+sorted+'" onclick="sortBillTable(\''+c.key+'\')" style="cursor:pointer">' + c.label + ' <span class="sort-arrow">'+arrow+'</span></th>';
+    } else {
+      html += '<th'+cls+'>' + c.label + '</th>';
+    }
+  });
+  html += '</tr></thead><tbody id="bpTbody"></tbody></table></div>';
+  return html;
+}
+
+function _renderTableRows() {
+  var tbody = document.getElementById('bpTbody');
+  if (!tbody) return;
+  var html = '';
+  _billFilteredRows.forEach(function(inv) {
+    var isSkip = inv.action === 'skip';
+    var rowCls = isSkip ? ' class="row-skip"' : '';
+    var amt = inv.amount ? Number(inv.amount).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) : '0.00';
+    var fileEsc = (inv.file || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    var vendorEsc = (inv.vendor_name || 'Unknown').replace(/"/g, '&quot;');
+
+    // Checkbox
+    var cb = '';
+    if (!isSkip) {
+      var checked = _billSelectedFiles.has(inv.file) ? ' checked' : '';
+      cb = '<input type="checkbox" onchange="onBillCheckChange(this)" data-file="'+fileEsc+'" style="cursor:pointer;accent-color:var(--accent)"'+checked+'>';
+    }
+
+    // Status badge
+    var statusBadge = '';
+    if (isSkip) {
+      statusBadge = '<span class="bill-status-badge created">In Zoho</span>';
+    } else if (inv.action === 'new_bill') {
+      var vmMethod = inv.vendor_match_method || 'name';
+      var vmColor = vmMethod === 'gstin' ? 'var(--green)' : 'var(--accent)';
+      var vmBg = vmMethod === 'gstin' ? 'rgba(34,197,94,0.15)' : 'rgba(108,140,255,0.15)';
+      statusBadge = '<span class="bill-status-badge" style="background:'+vmBg+';color:'+vmColor+'">New Bill</span>';
+    } else {
+      statusBadge = '<span class="bill-status-badge" style="background:rgba(250,204,21,0.15);color:var(--yellow)">New Vendor</span>';
+    }
+
+    // Match type badge (only for new_bill)
+    var matchBadge = '';
+    if (inv.action === 'new_bill') {
+      matchBadge = '<span class="bill-status-badge" style="background:rgba(108,140,255,0.1);color:var(--text-dim)">' + _getMatchTypeLabel(inv) + '</span>';
+    }
+
+    // Action button
+    var actionBtn = '';
+    if (!isSkip) {
+      actionBtn = '<button class="bill-create-btn" onclick="createOneBillConfirm(\''+fileEsc+'\',\''+vendorEsc+'\',\''+amt+'\')">Create</button>';
+    }
+
+    html += '<tr'+rowCls+'>'
+      + '<td class="col-checkbox">'+cb+'</td>'
+      + '<td class="vendor-cell" title="'+vendorEsc+'">'+vendorEsc+'</td>'
+      + '<td>'+(inv.date || '')+'</td>'
+      + '<td class="col-amount">'+amt+' '+(inv.currency || 'INR')+'</td>'
+      + '<td>'+statusBadge+'</td>'
+      + '<td>'+matchBadge+'</td>'
+      + '<td class="col-action">'+actionBtn+'</td>'
+      + '</tr>';
+  });
+  tbody.innerHTML = html;
+  _updateSelectAllCheckbox();
+}
+
+function applyBillFilters() {
   if (!_matchPreviewData) return;
   var preview = _matchPreviewData.preview || [];
+  var fromVal = document.getElementById('bfFrom') ? document.getElementById('bfFrom').value : '';
+  var toVal = document.getElementById('bfTo') ? document.getElementById('bfTo').value : '';
+  var vendorSel = document.getElementById('bfVendor');
+  var vendors = vendorSel ? Array.from(vendorSel.selectedOptions).map(function(o){return o.value}) : [];
+  var minAmt = document.getElementById('bfMinAmt') ? parseFloat(document.getElementById('bfMinAmt').value) : NaN;
+  var maxAmt = document.getElementById('bfMaxAmt') ? parseFloat(document.getElementById('bfMaxAmt').value) : NaN;
+  var statusSel = document.getElementById('bfStatus');
+  var statuses = statusSel ? Array.from(statusSel.selectedOptions).map(function(o){return o.value}) : [];
+  var matchSel = document.getElementById('bfMatchType');
+  var matchTypes = matchSel ? Array.from(matchSel.selectedOptions).map(function(o){return o.value}) : [];
+
+  // Build sorted month list for range filtering
+  var allMonths = [];
+  var monthSet = {};
   preview.forEach(function(p) {
-    if (p.organized_month === monthName && p.action !== 'skip') {
-      var cb = document.getElementById('bill-cb-' + _cbId(p.file));
-      if (cb) { cb.checked = checked; _toggleBillCheckbox(p.file, checked); }
+    var m = p.organized_month || 'Unknown';
+    if (!monthSet[m]) { allMonths.push(m); monthSet[m] = 1; }
+  });
+  allMonths.sort();
+
+  var fromIdx = fromVal ? allMonths.indexOf(fromVal) : 0;
+  var toIdx = toVal ? allMonths.indexOf(toVal) : allMonths.length - 1;
+  if (fromIdx < 0) fromIdx = 0;
+  if (toIdx < 0) toIdx = allMonths.length - 1;
+  var validMonths = {};
+  for (var i = fromIdx; i <= toIdx; i++) validMonths[allMonths[i]] = 1;
+
+  _billFilteredRows = preview.filter(function(inv) {
+    var m = inv.organized_month || 'Unknown';
+    if (fromVal || toVal) { if (!validMonths[m]) return false; }
+    if (vendors.length && vendors.indexOf(inv.vendor_name || 'Unknown') < 0) return false;
+    var amt = parseFloat(inv.amount) || 0;
+    if (!isNaN(minAmt) && amt < minAmt) return false;
+    if (!isNaN(maxAmt) && amt > maxAmt) return false;
+    if (statuses.length && statuses.indexOf(_getStatusKey(inv)) < 0) return false;
+    if (matchTypes.length) {
+      if (inv.action !== 'new_bill') return false;
+      if (matchTypes.indexOf(_getMatchTypeKey(inv)) < 0) return false;
     }
+    return true;
+  });
+  _sortFilteredRows();
+  _renderTableRows();
+  _updateSelectionUI();
+  _updateFilteredSummary();
+}
+
+function _sortFilteredRows() {
+  var col = _billSortCol;
+  var asc = _billSortAsc ? 1 : -1;
+  _billFilteredRows.sort(function(a, b) {
+    var va, vb;
+    if (col === 'vendor') { va = (a.vendor_name||'').toLowerCase(); vb = (b.vendor_name||'').toLowerCase(); }
+    else if (col === 'date') { va = a.date || ''; vb = b.date || ''; }
+    else if (col === 'amount') { va = parseFloat(a.amount)||0; vb = parseFloat(b.amount)||0; }
+    else if (col === 'status') { va = _getStatusKey(a); vb = _getStatusKey(b); }
+    else if (col === 'match') { va = a.action==='new_bill' ? _getMatchTypeKey(a) : 'zzz'; vb = b.action==='new_bill' ? _getMatchTypeKey(b) : 'zzz'; }
+    else { va = ''; vb = ''; }
+    if (va < vb) return -1 * asc;
+    if (va > vb) return 1 * asc;
+    return 0;
   });
 }
 
-function _cbId(file) {
-  return file.replace(/[^a-zA-Z0-9]/g, '_');
+function sortBillTable(col) {
+  if (_billSortCol === col) { _billSortAsc = !_billSortAsc; }
+  else { _billSortCol = col; _billSortAsc = true; }
+  // Update header arrows
+  document.querySelectorAll('.bill-table th').forEach(function(th) { th.classList.remove('sorted'); });
+  var idx = {vendor:1,date:2,amount:3,status:4,match:5}[col];
+  if (idx !== undefined) {
+    var ths = document.querySelectorAll('.bill-table th');
+    if (ths[idx]) {
+      ths[idx].classList.add('sorted');
+      var arrow = ths[idx].querySelector('.sort-arrow');
+      if (arrow) arrow.textContent = _billSortAsc ? '\u25B2' : '\u25BC';
+    }
+  }
+  _sortFilteredRows();
+  _renderTableRows();
+}
+
+function clearBillFilters() {
+  ['bfFrom','bfTo','bfMinAmt','bfMaxAmt'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  ['bfVendor','bfStatus','bfMatchType'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { Array.from(el.options).forEach(function(o){ o.selected = false; }); }
+  });
+  applyBillFilters();
+}
+
+function onBillCheckChange(cb) {
+  var file = cb.getAttribute('data-file');
+  if (cb.checked) { _billSelectedFiles.add(file); } else { _billSelectedFiles.delete(file); }
+  _updateSelectAllCheckbox();
+  _updateSelectionUI();
+}
+
+function toggleBillSelectAll(cb) {
+  var checkboxes = document.querySelectorAll('#bpTbody input[type="checkbox"]');
+  checkboxes.forEach(function(c) {
+    c.checked = cb.checked;
+    var file = c.getAttribute('data-file');
+    if (cb.checked) { _billSelectedFiles.add(file); } else { _billSelectedFiles.delete(file); }
+  });
+  _updateSelectionUI();
+}
+
+function _updateSelectAllCheckbox() {
+  var sa = document.getElementById('bpSelectAll');
+  if (!sa) return;
+  var checkboxes = document.querySelectorAll('#bpTbody input[type="checkbox"]');
+  if (!checkboxes.length) { sa.checked = false; sa.indeterminate = false; return; }
+  var total = checkboxes.length;
+  var checked = Array.from(checkboxes).filter(function(c){return c.checked}).length;
+  sa.checked = checked === total;
+  sa.indeterminate = checked > 0 && checked < total;
+}
+
+function _updateSelectionUI() {
+  var n = _billSelectedFiles.size;
+  var countEl = document.getElementById('bpSelectedCount');
+  if (countEl) countEl.textContent = 'Selected: ' + n;
+  var btn = document.getElementById('createSelectedBillsBtn');
+  if (btn) {
+    btn.textContent = 'Create Selected (' + n + ')';
+    btn.disabled = n === 0;
+  }
+}
+
+function _updateFilteredSummary() {
+  var skip = 0, newBill = 0, newVendor = 0;
+  _billFilteredRows.forEach(function(inv) {
+    if (inv.action === 'skip') skip++;
+    else if (inv.action === 'new_bill') newBill++;
+    else newVendor++;
+  });
+  var total = _billFilteredRows.length;
+  var willUpload = newBill + newVendor;
+  var el;
+  el = document.getElementById('bpTotal'); if (el) el.textContent = total;
+  el = document.getElementById('bpSkip'); if (el) el.textContent = skip;
+  el = document.getElementById('bpNewBill'); if (el) el.textContent = newBill;
+  el = document.getElementById('bpNewVendor'); if (el) el.textContent = newVendor;
+  el = document.getElementById('bpWillUpload'); if (el) el.textContent = willUpload;
 }
 
 function createSelectedBills() {
   if (!_billSelectedFiles.size) return;
+  var n = _billSelectedFiles.size;
   var files = Array.from(_billSelectedFiles);
-  closeBillPicker();
-  addLogLine('[Bills] Creating ' + files.length + ' selected bills...');
-  runStepWithKwargs('3', {selected_files: files});
+  showModal(
+    'Create ' + n + ' Bills?',
+    n + ' bills will be created in Zoho Books.',
+    function() {
+      closeBillPicker();
+      addLogLine('[Bills] Creating ' + n + ' selected bills...');
+      runStepWithKwargs('3', {selected_files: files});
+    },
+    false,
+    'Create ' + n + ' Bills'
+  );
+}
+
+function createOneBillConfirm(filename, vendorName, amount) {
+  showModal(
+    'Create Bill?',
+    'Create bill for <b>' + vendorName + '</b> (' + amount + ')?',
+    function() {
+      closeBillPicker();
+      addLogLine('[Bills] Creating bill for: ' + filename);
+      runStepWithKwargs('3', {selected_files: [filename]});
+    },
+    false,
+    'Create Bill'
+  );
 }
 
 function openBillPicker() {
   _billSelectedFiles.clear();
+  _billSortCol = 'vendor';
+  _billSortAsc = true;
   document.getElementById('billPickerModal').style.display = 'flex';
-  const body = document.getElementById('billPickerBody');
-  const summary = document.getElementById('billPickerSummary');
+  var body = document.getElementById('billPickerBody');
+  var summary = document.getElementById('billPickerSummary');
   body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">Loading match preview...</div>';
   summary.innerHTML = '';
 
-  // Try match preview first (needs Zoho sync cache)
-  fetch('/api/bills/match-preview', {method: 'POST'}).then(r => r.json()).then(data => {
+  fetch('/api/bills/match-preview', {method: 'POST'}).then(function(r){return r.json()}).then(function(data) {
     if (data.error) {
       addLogLine('[Bills] ' + data.error + ' — falling back to basic list');
       _loadBasicBillPicker(body, summary);
       return;
     }
     _matchPreviewData = data;
-    const s = data.summary || {};
-    const totalNew = (s.new_bill || 0) + (s.new_vendor_bill || 0);
-
-    // Right panel: summary cards + buttons
+    var s = data.summary || {};
+    var totalNew = (s.new_bill || 0) + (s.new_vendor_bill || 0);
     _renderSummaryPanel(summary, s, totalNew);
 
-    const preview = data.preview || [];
+    var preview = data.preview || [];
     if (!preview.length) {
       body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">No invoices found. Run Extract Data first.</div>';
       return;
     }
 
-    // Group by organized_month
-    const groups = {};
-    preview.forEach(p => {
-      const month = p.organized_month || 'Unknown';
-      if (!groups[month]) groups[month] = [];
-      groups[month].push(p);
+    body.innerHTML = _buildFilterBar(preview) + _buildTable();
+
+    // Attach filter listeners
+    ['bfFrom','bfTo','bfMinAmt','bfMaxAmt'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('change', applyBillFilters);
+    });
+    ['bfVendor','bfStatus','bfMatchType'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('change', applyBillFilters);
     });
 
-    // Left panel: month groups
-    let html = '';
-    Object.keys(groups).sort().forEach(month => {
-      const items = groups[month];
-      const skipCount = items.filter(i => i.action === 'skip').length;
-      const newCount = items.length - skipCount;
-      var monthEsc = month.replace(/'/g,"\\'");
-      html += '<div class="bill-month-header" onclick="toggleBillMonth(this)">';
-      if (newCount > 0) {
-        html += '<input type="checkbox" onclick="event.stopPropagation();_toggleMonthCheckboxes(\'' + monthEsc + '\',this.checked)" style="margin-right:6px;cursor:pointer;accent-color:var(--accent)">';
-      }
-      html += '<span class="bill-month-arrow">\u25B8</span> '
-        + month
-        + '<span class="bill-month-count">' + items.length + ' inv, ' + newCount + ' new</span>';
-      if (newCount > 0) {
-        html += ' <button class="bill-create-btn bill-month-create" onclick="event.stopPropagation();createMonthBillsPreview(\'' + monthEsc + '\')">Upload (' + newCount + ')</button>';
-      }
-      html += '</div>';
-      html += '<div class="bill-month-group" style="display:none">';
-      items.forEach(inv => {
-        const amt = inv.amount ? Number(inv.amount).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '0.00';
-        let statusBadge = '';
-        let actionBtn = '';
-        let checkbox = '';
-        if (inv.action === 'skip') {
-          const matchLabel = inv.match_type === 'exact' ? 'exact' : inv.match_type === 'normalized' ? 'fuzzy' : 'vendor+date';
-          statusBadge = '<span class="bill-status-badge created" title="Matched: ' + (inv.matched_bill || '').replace(/"/g,'&quot;') + ' (' + matchLabel + ')">In Zoho</span>';
-        } else if (inv.action === 'new_bill') {
-          var vmMethod = inv.vendor_match_method || 'name';
-          var vmLabel = vmMethod === 'gstin' ? 'GSTIN' : vmMethod === 'fuzzy' ? 'Fuzzy' : 'Name';
-          var vmColor = vmMethod === 'gstin' ? 'var(--green)' : 'var(--accent)';
-          var vmBg = vmMethod === 'gstin' ? 'rgba(34,197,94,0.15)' : 'rgba(108,140,255,0.15)';
-          var gstinNote = inv.gstin_missing ? ' (no GSTIN in Zoho)' : '';
-          statusBadge = '<span class="bill-status-badge" style="background:' + vmBg + ';color:' + vmColor + '" title="Vendor: ' + (inv.matched_vendor_name || '').replace(/"/g,'&quot;') + ' [' + vmLabel + ']' + gstinNote + '">New Bill \u00B7 ' + vmLabel + '</span>';
-          actionBtn = '<button class="bill-create-btn" onclick="createOneBill(\'' + inv.file.replace(/'/g, "\\'") + '\')">Create</button>';
-          checkbox = '<input type="checkbox" id="bill-cb-' + _cbId(inv.file) + '" onclick="event.stopPropagation();_toggleBillCheckbox(\'' + inv.file.replace(/'/g, "\\'") + '\',this.checked)" style="margin-right:6px;cursor:pointer;accent-color:var(--accent)">';
-        } else {
-          statusBadge = '<span class="bill-status-badge" style="background:rgba(250,204,21,0.15);color:var(--yellow)">New Vendor</span>';
-          actionBtn = '<button class="bill-create-btn" onclick="createOneBill(\'' + inv.file.replace(/'/g, "\\'") + '\')">Create</button>';
-          checkbox = '<input type="checkbox" id="bill-cb-' + _cbId(inv.file) + '" onclick="event.stopPropagation();_toggleBillCheckbox(\'' + inv.file.replace(/'/g, "\\'") + '\',this.checked)" style="margin-right:6px;cursor:pointer;accent-color:var(--accent)">';
-        }
-        html += '<div class="bill-row' + (inv.action === 'skip' ? ' created' : '') + '">'
-          + checkbox
-          + '<span class="bill-vendor" title="' + (inv.vendor_name || '').replace(/"/g,'&quot;') + '">' + (inv.vendor_name || 'Unknown') + '</span>'
-          + '<span class="bill-amount">' + amt + '</span>'
-          + '<span class="bill-currency">' + (inv.currency || 'INR') + '</span>'
-          + statusBadge
-          + actionBtn
-          + '</div>';
-      });
-      html += '</div>';
-    });
-    body.innerHTML = html;
-  }).catch(err => {
+    _billFilteredRows = preview.slice();
+    _sortFilteredRows();
+    _renderTableRows();
+    _updateSelectionUI();
+  }).catch(function(err) {
     addLogLine('[Bills] Match preview failed: ' + err + ' — falling back');
     _loadBasicBillPicker(body, summary);
   });
