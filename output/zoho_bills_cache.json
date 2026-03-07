@@ -1,86 +1,5 @@
 [
   {
-    "bill_id": "2050328000003006176",
-    "bill_number": "AWS-2295334101",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "date": "2025-09-01",
-    "total": 213669.28,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000003005291",
-    "bill_number": "AWS-2327322985",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "date": "2025-10-01",
-    "total": 300039.59,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002986138",
-    "bill_number": "AWS-2366505997",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "date": "2025-11-01",
-    "total": 380319.73,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000003012230",
-    "bill_number": "AWS-2140007957",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "date": "2025-05-01",
-    "total": 1824.36,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002993207",
-    "bill_number": "AWS-2176831657",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "date": "2025-06-01",
-    "total": 7782.18,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000003013029",
-    "bill_number": "AWS-2219628753",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "date": "2025-07-01",
-    "total": 7282.99,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002995167",
-    "bill_number": "AWS-2443583665",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "date": "2026-01-01",
-    "total": 284933.67,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000002991052",
-    "bill_number": "AWS-2403565789",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "date": "2025-12-01",
-    "total": 245438.75,
-    "status": "overdue"
-  },
-  {
-    "bill_id": "2050328000003005250",
-    "bill_number": "AWS-2257225097",
-    "vendor_name": "Amazon Web Services",
-    "vendor_id": "2050328000002998110",
-    "date": "2025-08-01",
-    "total": 79963.46,
-    "status": "overdue"
-  },
-  {
     "bill_id": "2050328000003017826",
     "bill_number": "97E328AA-0002",
     "vendor_name": "Vercel",
@@ -96,7 +15,7 @@
     "vendor_id": "2050328000002996113",
     "date": "2026-02-01",
     "total": 20.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003015027",

@@ -7,10 +7,10 @@
     "currency": "INR",
     "date": "2025-04-02",
     "organized_month": "Apr 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000002924052",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Amazon Web Services"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002211179",
+    "matched_vendor_name": "AWS",
+    "vendor_match_method": "name"
   },
   {
     "file": "E0100VXPSK_Invoice.pdf",
@@ -202,10 +202,10 @@
     "currency": "INR",
     "date": "2025-08-01",
     "organized_month": "Aug 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000003005250",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Amazon Web Services"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002211179",
+    "matched_vendor_name": "AWS",
+    "vendor_match_method": "name"
   },
   {
     "file": "BLR7-717.pdf",
@@ -840,10 +840,10 @@
     "currency": "INR",
     "date": "2025-12-01",
     "organized_month": "Dec 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000002991052",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Amazon Web Services"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002211179",
+    "matched_vendor_name": "AWS",
+    "vendor_match_method": "name"
   },
   {
     "file": "MAA4-6184441_p1_MAA4-6184441_p1_MAA4-6184441.pdf",
@@ -1433,10 +1433,10 @@
     "currency": "INR",
     "date": "2026-02-01",
     "organized_month": "Feb 2026",
-    "action": "skip",
-    "matched_bill_id": "2050328000003000092",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Amazon Web Services"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002211179",
+    "matched_vendor_name": "AWS",
+    "vendor_match_method": "name"
   },
   {
     "file": "file_1.pdf",
@@ -1515,10 +1515,10 @@
     "currency": "INR",
     "date": "2025-01-17",
     "organized_month": "Jan 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000003005162",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Google"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "1025260502871.pdf",
@@ -1831,10 +1831,10 @@
     "currency": "INR",
     "date": "2026-01-01",
     "organized_month": "Jan 2026",
-    "action": "skip",
-    "matched_bill_id": "2050328000002995167",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Amazon Web Services"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002211179",
+    "matched_vendor_name": "AWS",
+    "vendor_match_method": "name"
   },
   {
     "file": "NON STP-INVOICENSTP25-26918Dt5-Jan-26_Ms. D2R AI Labs Pvt Ltd-NSTP.pdf",
@@ -2151,10 +2151,10 @@
     "currency": "INR",
     "date": "2025-07-01",
     "organized_month": "Jul 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000003013029",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Amazon Web Services"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002211179",
+    "matched_vendor_name": "AWS",
+    "vendor_match_method": "name"
   },
   {
     "file": "MAA4-2323214.pdf",
@@ -2203,10 +2203,10 @@
     "currency": "INR",
     "date": "2025-06-01",
     "organized_month": "Jun 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000002993207",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Amazon Web Services"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002211179",
+    "matched_vendor_name": "AWS",
+    "vendor_match_method": "name"
   },
   {
     "file": "Atlassian_Invoice_IN-003-623-208.pdf",
@@ -2679,10 +2679,10 @@
     "currency": "INR",
     "date": "2025-05-01",
     "organized_month": "May 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000003012230",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Amazon Web Services"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002211179",
+    "matched_vendor_name": "AWS",
+    "vendor_match_method": "name"
   },
   {
     "file": "E0100W84MG_Invoice.pdf",
@@ -2862,10 +2862,10 @@
     "currency": "INR",
     "date": "2025-11-01",
     "organized_month": "Nov 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000002986138",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Amazon Web Services"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002211179",
+    "matched_vendor_name": "AWS",
+    "vendor_match_method": "name"
   },
   {
     "file": "Atlassian_Invoice_IN-004-796-545.pdf",
@@ -3212,10 +3212,10 @@
     "currency": "INR",
     "date": "2025-10-01",
     "organized_month": "Oct 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000003005291",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Amazon Web Services"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002211179",
+    "matched_vendor_name": "AWS",
+    "vendor_match_method": "name"
   },
   {
     "file": "Atlassian_Invoice_IN-004-560-126.pdf",
@@ -3599,10 +3599,9 @@
     "date": "2025-10-07",
     "organized_month": "Oct 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000002998110",
-    "matched_vendor_name": "Amazon Web Services",
-    "vendor_match_method": "fuzzy",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "PBVN-14918.pdf",
@@ -3721,10 +3720,10 @@
     "currency": "INR",
     "date": "2025-09-01",
     "organized_month": "Sep 2025",
-    "action": "skip",
-    "matched_bill_id": "2050328000003006176",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Amazon Web Services"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002211179",
+    "matched_vendor_name": "AWS",
+    "vendor_match_method": "name"
   },
   {
     "file": "Atlassian_Invoice_IN-004-324-189.pdf",

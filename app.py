@@ -1813,7 +1813,7 @@ def api_invoices_list():
                 local_bills = json.load(f)
 
             # Fetch actual bill IDs from Zoho to verify local tracking is accurate
-            from utils import load_config, ZohoBooksAPI
+            from scripts.utils import load_config, ZohoBooksAPI
             zoho_bill_ids = set()
             try:
                 config = load_config()
@@ -1826,14 +1826,31 @@ def api_invoices_list():
                     if not result.get("page_context", {}).get("has_more_page", False):
                         break
                     page += 1
-            except Exception:
+            except Exception as e:
+                from scripts.utils import log_action
+                log_action(f"Zoho bill verification failed: {e}", "WARNING")
                 zoho_bill_ids = None  # Zoho unavailable — fall back to local data
 
+            cleaned_bills = []
             for entry in local_bills:
                 if entry.get("status") == "created" and entry.get("bill_id"):
                     # Only trust "created" if bill still exists in Zoho (or Zoho check failed)
                     if zoho_bill_ids is None or entry["bill_id"] in zoho_bill_ids:
                         created_files.add(entry.get("file", ""))
+                        cleaned_bills.append(entry)
+                    else:
+                        # Bill was deleted in Zoho — remove from local tracking
+                        cleaned_bills.append({**entry, "status": "deleted_in_zoho"})
+                else:
+                    cleaned_bills.append(entry)
+
+            # Update local file if any bills were removed from Zoho
+            if zoho_bill_ids is not None and len(cleaned_bills) != len(local_bills):
+                try:
+                    with open(bills_path, "w", encoding="utf-8") as f:
+                        json.dump(cleaned_bills, f, indent=2)
+                except Exception:
+                    pass
         except Exception:
             pass
 
@@ -2320,12 +2337,15 @@ def api_compare_monthly():
     bills_cache_path = os.path.join(output_dir, "zoho_bills_cache.json")
     zoho_bill_numbers = {}   # bill_number -> bill_id
     zoho_bill_numbers_norm = {}  # normalized -> bill_id
+    zoho_bill_ids_set = set()  # all bill_ids from cache
     if os.path.exists(bills_cache_path):
         try:
             with open(bills_cache_path, "r", encoding="utf-8") as f:
                 for b in json.load(f):
                     bn = b.get("bill_number", "")
                     bid = b.get("bill_id", "")
+                    if bid:
+                        zoho_bill_ids_set.add(bid)
                     if bn:
                         zoho_bill_numbers[bn] = bid
                         norm = _normalize_bill_number(bn)
@@ -2341,7 +2361,9 @@ def api_compare_monthly():
             with open(created_bills_path, "r", encoding="utf-8") as f:
                 for entry in json.load(f):
                     if entry.get("status") == "created" and entry.get("bill_id"):
-                        created_bills_set[entry.get("file", "")] = entry["bill_id"]
+                        # Only trust if bill_id still exists in Zoho cache
+                        if not zoho_bill_ids_set or entry["bill_id"] in zoho_bill_ids_set:
+                            created_bills_set[entry.get("file", "")] = entry["bill_id"]
         except Exception:
             pass
 

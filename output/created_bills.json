@@ -61,7 +61,7 @@
   },
   {
     "file": "AWS -March 2025.pdf",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Amazon Web Services",
     "vendor_id": "2050328000002931001",
     "bill_id": "2050328000002924052",
@@ -231,7 +231,7 @@
   },
   {
     "file": "Invoice_2483942397.pdf",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Amazon Web Services",
     "vendor_id": "2050328000003008022",
     "bill_id": "2050328000003000092",
@@ -351,7 +351,7 @@
   },
   {
     "file": "Your Google Play Order Receipt from Jan 17, 2025.eml",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Google",
     "vendor_id": "2050328000002993047",
     "bill_id": "2050328000003005162",
@@ -481,7 +481,7 @@
   },
   {
     "file": "AWS-July-2025.pdf",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Amazon Web Services",
     "vendor_id": "2050328000002998110",
     "bill_id": "2050328000003005250",
@@ -491,7 +491,7 @@
   },
   {
     "file": "Invoice_2403565789.pdf",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Amazon Web Services",
     "vendor_id": "2050328000002998110",
     "bill_id": "2050328000002991052",
@@ -501,7 +501,7 @@
   },
   {
     "file": "Invoice_2443583665.pdf",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Amazon Web Services",
     "vendor_id": "2050328000002998110",
     "bill_id": "2050328000002995167",
@@ -511,7 +511,7 @@
   },
   {
     "file": "Invoice_2219628753.pdf",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Amazon Web Services",
     "vendor_id": "2050328000002998110",
     "bill_id": "2050328000003013029",
@@ -521,7 +521,7 @@
   },
   {
     "file": "AWS MAY-2025.pdf",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Amazon Web Services",
     "vendor_id": "2050328000002998110",
     "bill_id": "2050328000002993207",
@@ -531,7 +531,7 @@
   },
   {
     "file": "AWS April-2025.pdf",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Amazon Web Services",
     "vendor_id": "2050328000002998110",
     "bill_id": "2050328000003012230",
@@ -541,7 +541,7 @@
   },
   {
     "file": "AWS-Oct 2025.pdf",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Amazon Web Services",
     "vendor_id": "2050328000002998110",
     "bill_id": "2050328000002986138",
@@ -551,7 +551,7 @@
   },
   {
     "file": "AWS-Sep-2025.pdf",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Amazon Web Services",
     "vendor_id": "2050328000002998110",
     "bill_id": "2050328000003005291",
@@ -561,7 +561,7 @@
   },
   {
     "file": "AWS - Aug -2025.pdf",
-    "status": "created",
+    "status": "deleted_in_zoho",
     "vendor_name": "Amazon Web Services",
     "vendor_id": "2050328000002998110",
     "bill_id": "2050328000003006176",

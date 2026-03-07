@@ -83,16 +83,6 @@
   },
   {
     "date": "2026-02-02",
-    "description": "VERCEL INC.VERCEL.COM USD 20.00 [USD 20.00]",
-    "amount": 1840.93,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995069",
-    "forex_amount": 20.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2026-02-02",
     "description": "GITHUB, INC.GITHUB.COM USD .13",
     "amount": 11.97,
     "card_name": "HDFC - 7196",
@@ -106,22 +96,6 @@
     "card_name": "HDFC - 7196",
     "zoho_account_id": "2050328000002898667",
     "transaction_id": "2050328000002995029"
-  },
-  {
-    "date": "2026-01-31",
-    "description": "TATA AIG GENERAL INSURMUMBAI",
-    "amount": 31041.0,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995019"
-  },
-  {
-    "date": "2026-01-28",
-    "description": "YOUTUBEMUMBAI",
-    "amount": 299.0,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995013"
   },
   {
     "date": "2026-01-12",
@@ -782,14 +756,6 @@
     "transaction_id": "2050328000000331007"
   },
   {
-    "date": "2026-02-21",
-    "description": "MGM HEALTHCARE MALAR, CHENNAI",
-    "amount": 800.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002960025"
-  },
-  {
     "date": "2026-02-18",
     "description": "HYPERBROWSER.AI, SAN FRANCISCO",
     "amount": 943.16,
@@ -812,22 +778,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000002960019"
-  },
-  {
-    "date": "2026-02-14",
-    "description": "MGM HEALTHCARE MALAR, CHENNAI",
-    "amount": 7920.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002960017"
-  },
-  {
-    "date": "2026-02-12",
-    "description": "NETFLIX, MUMBAI",
-    "amount": 649.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002960015"
   },
   {
     "date": "2026-02-03",
@@ -868,14 +818,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000002999027"
-  },
-  {
-    "date": "2026-01-12",
-    "description": "NETFLIX, MUMBAI",
-    "amount": 649.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002999023"
   },
   {
     "date": "2026-01-03",
@@ -921,14 +863,6 @@
   },
   {
     "date": "2025-12-23",
-    "description": "SHRI BALAAJEE BHAVAN, KANCHIPURAM",
-    "amount": 617.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002999007"
-  },
-  {
-    "date": "2025-12-23",
     "description": "GOOGLEPLAY, MUMBAI",
     "amount": 2.0,
     "card_name": "Mayura Credit Card",
@@ -960,14 +894,6 @@
     "transaction_id": "2050328000002324095"
   },
   {
-    "date": "2025-12-12",
-    "description": "NETFLIX, MUMBAI",
-    "amount": 649.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002324093"
-  },
-  {
     "date": "2025-12-10",
     "description": "KITES, CHEENAI",
     "amount": 1675.0,
@@ -990,14 +916,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000002324085"
-  },
-  {
-    "date": "2025-12-07",
-    "description": "MADURAI SRI BALAJI BHA, VILLUPURAM",
-    "amount": 550.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002324083"
   },
   {
     "date": "2025-12-05",
