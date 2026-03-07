@@ -3521,8 +3521,71 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
     background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
     color: var(--text); font-size: 12px; padding: 4px 8px; min-width: 90px;
   }
-  .bill-filter-group select[multiple] { min-height: 54px; min-width: 110px; }
   .bill-filter-group input[type="number"] { width: 80px; }
+
+  /* Checkbox Dropdown */
+  .cb-dropdown { position: relative; display: inline-block; }
+  .cb-dropdown-btn {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text); font-size: 12px; padding: 4px 10px; cursor: pointer;
+    display: flex; align-items: center; gap: 6px; white-space: nowrap; min-width: 90px;
+  }
+  .cb-dropdown-btn:hover { border-color: var(--text-dim); }
+  .cb-dropdown-btn .cb-badge {
+    background: var(--accent); color: #fff; font-size: 10px; font-weight: 700;
+    border-radius: 8px; padding: 0 5px; min-width: 16px; text-align: center; line-height: 16px;
+  }
+  .cb-dropdown-panel {
+    display: none; position: absolute; top: 100%; left: 0; z-index: 20;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3); min-width: 180px; max-height: 260px;
+    flex-direction: column; margin-top: 4px;
+  }
+  .cb-dropdown-panel.open { display: flex; }
+  .cb-dropdown-actions {
+    display: flex; gap: 8px; padding: 6px 10px; border-bottom: 1px solid var(--border);
+    font-size: 11px;
+  }
+  .cb-dropdown-actions a {
+    color: var(--accent); cursor: pointer; text-decoration: none;
+  }
+  .cb-dropdown-actions a:hover { text-decoration: underline; }
+  .cb-dropdown-list { overflow-y: auto; padding: 4px 0; flex: 1; }
+  .cb-dropdown-list label {
+    display: flex; align-items: center; gap: 6px; padding: 3px 10px; font-size: 12px;
+    cursor: pointer; white-space: nowrap;
+  }
+  .cb-dropdown-list label:hover { background: var(--surface2); }
+  .cb-dropdown-list input[type="checkbox"] { accent-color: var(--accent); }
+
+  /* Mapping Bar */
+  .bill-mapping-bar {
+    display: flex; align-items: center; gap: 10px; padding: 8px 12px;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+    margin-bottom: 8px; font-size: 13px;
+  }
+  .bill-mapping-bar label { color: var(--text-dim); white-space: nowrap; font-size: 12px; }
+  .bill-mapping-bar .modal-btn { padding: 5px 14px; font-size: 12px; }
+
+  /* Searchable Dropdown */
+  .search-dropdown { position: relative; flex: 1; max-width: 300px; }
+  .search-dropdown input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text); font-size: 12px; padding: 5px 10px; box-sizing: border-box;
+  }
+  .search-dropdown-list {
+    display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 20;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3); max-height: 200px; overflow-y: auto;
+    margin-top: 4px;
+  }
+  .search-dropdown-list.open { display: block; }
+  .sd-item {
+    padding: 5px 10px; font-size: 12px; cursor: pointer; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .sd-item:hover { background: var(--surface2); }
+  .sd-item.selected { background: var(--accent); color: #fff; }
   .bill-filter-clear {
     padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
     border: 1px solid var(--border); background: transparent; color: var(--text-dim);
@@ -3562,24 +3625,25 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   }
   .bill-create-btn:hover { background: var(--accent); color: #fff; }
 
-  /* Bill Picker — Split Layout */
-  .bill-picker-layout { display: flex; gap: 0; flex: 1; min-height: 0; }
-  .bill-picker-left { flex: 3; display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--border); padding-right: 12px; }
-  .bill-picker-right { flex: 1; display: flex; flex-direction: column; gap: 10px; padding-left: 16px; min-width: 200px; }
+  /* Bill Picker — Vertical Layout */
+  .bill-picker-layout { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+  .bill-picker-left { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+  .bill-picker-right {
+    display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px;
+    padding: 10px 0; border-top: 1px solid var(--border); margin-top: 8px;
+  }
   .bill-selected-count { font-size: 13px; font-weight: 600; padding: 6px 0; color: var(--accent); }
 
-  /* Bill Picker — Summary Cards */
-  .bill-summary-total { font-size: 13px; font-weight: 600; padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  .bill-summary-total .count { font-size: 22px; font-weight: 700; font-family: monospace; }
-  .bill-summary-card {
-    background: var(--bg); border-radius: 8px; padding: 10px 14px;
-    display: flex; justify-content: space-between; align-items: center;
+  /* Bill Picker — Bottom Bar Summary */
+  .bill-summary-stat {
+    display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-dim);
   }
-  .bill-summary-card .label { font-size: 12px; display: flex; align-items: center; gap: 6px; color: var(--text-dim); }
-  .bill-summary-card .count { font-size: 18px; font-weight: 700; font-family: monospace; }
-  .bill-summary-card .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .bill-summary-divider { height: 1px; background: var(--border); }
-  .bill-summary-upload-section { margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding-top: 8px; }
+  .bill-summary-stat .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .bill-summary-stat .count { font-weight: 700; font-family: monospace; color: var(--text); }
+  .bill-summary-actions { margin-left: auto; display: flex; gap: 8px; }
+
+  /* Zoho Vendor Column */
+  .col-zoho-vendor { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
   /* Review badge */
   .review-badge {
