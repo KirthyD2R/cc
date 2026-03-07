@@ -5179,17 +5179,17 @@ function applyZohoVendorMapping() {
 }
 
 function _renderSummaryPanel(summary, s, totalNew) {
+  // Note: summary stats are computed from local match-preview data, not untrusted input
   summary.innerHTML = ''
-    + '<div class="bill-summary-total"><span>Total Invoices</span><span class="count" id="bpTotal">' + s.total + '</span></div>'
-    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--green)"></span> In Zoho</span><span class="count" style="color:var(--green)" id="bpSkip">' + s.skip + '</span></div>'
-    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--accent)"></span> New Bill + Existing Vendor</span><span class="count" style="color:var(--accent)" id="bpNewBill">' + s.new_bill + '</span></div>'
-    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--yellow)"></span> New Bill + New Vendor</span><span class="count" style="color:var(--yellow)" id="bpNewVendor">' + s.new_vendor_bill + '</span></div>'
-    + '<div class="bill-summary-divider"></div>'
-    + '<div class="bill-summary-total"><span>Will Upload</span><span class="count" style="color:var(--accent)" id="bpWillUpload">' + totalNew + '</span></div>'
-    + '<div class="bill-selected-count" id="bpSelectedCount">Selected: 0</div>'
-    + '<div class="bill-summary-upload-section">'
-    + '<button class="modal-btn modal-btn-confirm" id="createSelectedBillsBtn" onclick="createSelectedBills()" style="width:100%" disabled>Create Selected (0)</button>'
-    + '<button class="modal-btn modal-btn-cancel" onclick="closeBillPicker()" style="width:100%">Cancel</button>'
+    + '<div class="bill-summary-stat"><span class="dot" style="background:var(--text-dim)"></span> Total <span class="count" id="bpTotal">' + s.total + '</span></div>'
+    + '<div class="bill-summary-stat"><span class="dot" style="background:var(--green)"></span> In Zoho <span class="count" id="bpSkip">' + s.skip + '</span></div>'
+    + '<div class="bill-summary-stat"><span class="dot" style="background:var(--accent)"></span> Existing Vendor <span class="count" id="bpNewBill">' + s.new_bill + '</span></div>'
+    + '<div class="bill-summary-stat"><span class="dot" style="background:var(--yellow)"></span> New Vendor <span class="count" id="bpNewVendor">' + s.new_vendor_bill + '</span></div>'
+    + '<div class="bill-summary-stat"><span class="dot" style="background:var(--accent)"></span> Upload <span class="count" id="bpWillUpload">' + totalNew + '</span></div>'
+    + '<div class="bill-summary-stat" id="bpSelectedCount" style="font-weight:600;color:var(--accent)">Selected: 0</div>'
+    + '<div class="bill-summary-actions">'
+    + '<button class="modal-btn modal-btn-confirm" id="createSelectedBillsBtn" onclick="createSelectedBills()" disabled>Create Selected (0)</button>'
+    + '<button class="modal-btn modal-btn-cancel" onclick="closeBillPicker()">Cancel</button>'
     + '</div>';
 }
 
@@ -5470,13 +5470,21 @@ function createSelectedBills() {
   if (!_billSelectedFiles.size) return;
   var n = _billSelectedFiles.size;
   var files = Array.from(_billSelectedFiles);
+  var overridesDict = {};
+  if (_matchPreviewData && _matchPreviewData.preview) {
+    _matchPreviewData.preview.forEach(function(inv) {
+      if (_billSelectedFiles.has(inv.file) && inv.matched_vendor_id) {
+        overridesDict[inv.file] = { contact_id: inv.matched_vendor_id, contact_name: inv.matched_vendor_name || '' };
+      }
+    });
+  }
   showModal(
     'Create ' + n + ' Bills?',
     n + ' bills will be created in Zoho Books.',
     function() {
       closeBillPicker();
       addLogLine('[Bills] Creating ' + n + ' selected bills...');
-      runStepWithKwargs('3', {selected_files: files});
+      runStepWithKwargs('3', {selected_files: files, vendor_overrides: overridesDict});
     },
     false,
     'Create ' + n + ' Bills'
@@ -5501,21 +5509,36 @@ function openBillPicker() {
   _billSelectedFiles.clear();
   _billSortCol = 'vendor';
   _billSortAsc = true;
+  _selectedZohoVendor = null;
   document.getElementById('billPickerModal').style.display = 'flex';
   var body = document.getElementById('billPickerBody');
   var summary = document.getElementById('billPickerSummary');
   body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">Loading match preview...</div>';
   summary.innerHTML = '';
 
-  fetch('/api/bills/match-preview', {method: 'POST'}).then(function(r){return r.json()}).then(function(data) {
+  Promise.all([
+    fetch('/api/bills/match-preview', {method: 'POST'}).then(function(r){return r.json()}),
+    _loadVendorOverrides(),
+    _loadZohoVendors()
+  ]).then(function(results) {
+    var data = results[0];
     if (data.error) {
       addLogLine('[Bills] ' + data.error + ' — falling back to basic list');
       _loadBasicBillPicker(body, summary);
       return;
     }
     _matchPreviewData = data;
-    var s = data.summary || {};
-    var totalNew = (s.new_bill || 0) + (s.new_vendor_bill || 0);
+    _applyOverridesToPreview();
+
+    // Recount after overrides
+    var s = { total: 0, skip: 0, new_bill: 0, new_vendor_bill: 0 };
+    (data.preview || []).forEach(function(inv) {
+      s.total++;
+      if (inv.action === 'skip') s.skip++;
+      else if (inv.action === 'new_bill') s.new_bill++;
+      else s.new_vendor_bill++;
+    });
+    var totalNew = s.new_bill + s.new_vendor_bill;
     _renderSummaryPanel(summary, s, totalNew);
 
     var preview = data.preview || [];
@@ -5524,14 +5547,16 @@ function openBillPicker() {
       return;
     }
 
-    body.innerHTML = _buildFilterBar(preview) + _buildTable();
+    // Build: filter bar + mapping bar + table
+    var mappingBar = '<div class="bill-mapping-bar">'
+      + '<label>Map selected to Zoho Vendor:</label>'
+      + _buildSearchDropdown()
+      + '<button class="modal-btn modal-btn-confirm" onclick="applyZohoVendorMapping()">Apply</button>'
+      + '</div>';
+    body.innerHTML = _buildFilterBar(preview) + mappingBar + _buildTable();
 
-    // Attach filter listeners
+    // Attach filter listeners for From/To and amount inputs
     ['bfFrom','bfTo','bfMinAmt','bfMaxAmt'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) el.addEventListener('change', applyBillFilters);
-    });
-    ['bfVendor','bfStatus','bfMatchType'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', applyBillFilters);
     });
