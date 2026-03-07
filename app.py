@@ -4036,7 +4036,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
       </div>
 
       <!-- Confirmation modal -->
-      <div id="confirmModal" class="modal-overlay" style="display:none;">
+      <div id="confirmModal" class="modal-overlay" style="display:none;z-index:10000">
         <div class="modal-box">
           <div class="modal-title" id="modalTitle"></div>
           <div class="modal-msg" id="modalMsg"></div>
