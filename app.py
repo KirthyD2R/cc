@@ -1067,14 +1067,35 @@ def api_payments_preview():
         return jsonify({"error": str(e)}), 500
 
 
-def _auto_match_banking_txn(api, cc_txn_id, payment_id, log_action):
+def _auto_match_banking_txn(api, cc_txn_id, payment_id, log_action,
+                            account_id=None, cc_amount=None, cc_date=None):
     """After recording a vendor payment, auto-match the CC banking transaction.
 
     Fetches Zoho's suggested matches for the banking txn, finds the one
     matching our payment_id, and calls match_transaction to categorize it.
+    If cc_txn_id is not provided, searches uncategorized transactions by amount+date.
     """
+    # If no cc_txn_id, try to find it from uncategorized banking transactions
+    if not cc_txn_id and account_id and cc_amount:
+        try:
+            from scripts.utils import log_action as _la
+            result = api.list_uncategorized(account_id)
+            txns = result.get("banktransactions", [])
+            target_amount = round(float(cc_amount), 2)
+            for t in txns:
+                t_amount = abs(round(float(t.get("amount", 0)), 2))
+                t_date = t.get("date", "")
+                if t_amount == target_amount:
+                    if not cc_date or t_date == cc_date:
+                        cc_txn_id = t.get("transaction_id")
+                        log_action(f"  Auto-match: found banking txn {cc_txn_id} by amount {target_amount}" +
+                                   (f" on {cc_date}" if cc_date else ""))
+                        break
+        except Exception as e:
+            log_action(f"  Auto-match: failed to search uncategorized: {e}", "WARNING")
+
     if not cc_txn_id:
-        log_action("  Auto-match skipped: no cc_transaction_id")
+        log_action("  Auto-match skipped: no cc_transaction_id found")
         return False
     try:
         import time
@@ -1210,7 +1231,10 @@ def api_payments_record_one():
 
             # Auto-match: categorize the CC banking transaction
             cc_txn_id = data.get("cc_transaction_id")
-            matched_banking = _auto_match_banking_txn(api, cc_txn_id, payment_id, log_action)
+            matched_banking = _auto_match_banking_txn(
+                api, cc_txn_id, payment_id, log_action,
+                account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
+            )
 
             return jsonify({"status": "paid", "payment_id": payment_id, "bill_id": bill_id, "banking_matched": matched_banking})
         else:
@@ -1628,7 +1652,10 @@ def api_bills_create_and_record():
         log_action(f"  Payment recorded: {payment_id}")
 
         # --- Step 3: Auto-match banking transaction ---
-        matched_banking = _auto_match_banking_txn(api, cc_txn_id, payment_id, log_action)
+        matched_banking = _auto_match_banking_txn(
+            api, cc_txn_id, payment_id, log_action,
+            account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
+        )
 
         return jsonify({
             "status": "paid",
@@ -2248,6 +2275,7 @@ def api_compare_monthly():
         if float(t.get("amount", 0)) <= 0:
             continue  # Skip credits (refunds, payments, waivers)
         cc_by_month[get_cc_month(t)].append({
+            "transaction_id": t.get("transaction_id", ""),
             "date": t.get("date", ""),
             "description": t.get("description", ""),
             "amount": t.get("amount", 0),
@@ -6871,9 +6899,11 @@ function createBillAndRecord(btn, payloadStr) {
         var badge = document.createElement('span');
         badge.style.cssText = 'font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,0.15);color:var(--green);font-weight:600';
         badge.textContent = '\u2713 Paid';
+        // Get row reference before replacing btn (which removes it from DOM)
+        var row = btn.closest('tr');
         btn.parentNode.replaceChild(badge, btn);
         // Disable checkbox if present
-        var cb = btn.closest('tr').querySelector('.cat-cb');
+        var cb = row ? row.querySelector('.cat-cb') : null;
         if (cb) { cb.checked = false; cb.disabled = true; }
         addLogLine('[Bill+Pay] Paid: ' + (inv.invoice_number || inv.vendor_name) + ' -> ' + (data.bill_id || '') + ' / ' + (data.payment_id || ''));
       } else if (data.status === 'bill_created') {

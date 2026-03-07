@@ -1460,7 +1460,10 @@
     "currency": "INR",
     "date": "2026-02-26",
     "organized_month": "Feb 2026",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003005184",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Blue Dart Express Ltd"
   },
   {
     "file": "1024250374165.pdf",

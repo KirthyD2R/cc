@@ -358,5 +358,35 @@
     "amount": 1950.0,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "logsLiveEinvoicePDFINV260233RT256132026-02-26.pdf",
+    "status": "created",
+    "vendor_name": "Blue Dart Express Ltd",
+    "vendor_id": "2050328000002994082",
+    "bill_id": "2050328000003005184",
+    "amount": 3280.4,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "PZLFLIEU-0005",
+    "status": "created",
+    "vendor_name": "Anthropic",
+    "vendor_id": "2050328000000364806",
+    "bill_id": "2050328000002997163",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": false
+  },
+  {
+    "file": "IN-005-113-294",
+    "status": "created",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "bill_id": "2050328000003011050",
+    "amount": 79.06,
+    "currency": "USD",
+    "attached": false
   }
 ]
