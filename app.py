@@ -1466,6 +1466,186 @@ def api_bills_create_one():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/api/bills/create-and-record", methods=["POST"])
+def api_bills_create_and_record():
+    """Create bill + record payment + auto-match banking transaction in one step."""
+    data = request.json or {}
+    inv = data.get("invoice", {})
+    cc = data.get("cc", {})
+
+    vendor_name = inv.get("vendor_name", "")
+    amount = inv.get("amount")
+    currency = inv.get("currency", "INR")
+    date = inv.get("date")
+    invoice_number = inv.get("invoice_number", "")
+    vendor_gstin = inv.get("vendor_gstin", "")
+
+    cc_inr = cc.get("amount")
+    cc_date = cc.get("date")
+    cc_card = cc.get("card_name")
+    cc_txn_id = cc.get("transaction_id", "")
+
+    if not vendor_name or not amount or not date:
+        return jsonify({"error": "invoice vendor_name, amount, date required"}), 400
+    if not cc_inr or not cc_date or not cc_card:
+        return jsonify({"error": "cc amount, date, card_name required"}), 400
+
+    try:
+        mod_03 = _import_script("03_create_vendors_bills.py")
+        from scripts.utils import load_config, load_vendor_mappings, ZohoBooksAPI, resolve_account_ids, log_action
+
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        vendor_mappings = load_vendor_mappings()
+        currency_map = api.list_currencies()
+        cards = config.get("credit_cards", [])
+        resolve_account_ids(api, cards)
+
+        # --- Step 1: Create bill ---
+        invoice = {
+            "file": invoice_number or vendor_name,
+            "vendor_name": vendor_name,
+            "vendor_gstin": vendor_gstin,
+            "amount": float(amount),
+            "currency": currency,
+            "date": date,
+            "invoice_number": invoice_number,
+        }
+
+        vendor_id, resolved_name = mod_03.ensure_vendor(
+            api, vendor_name, invoice, vendor_mappings, currency_map,
+        )
+        if not vendor_id:
+            return jsonify({"error": f"Could not find or create vendor '{vendor_name}'"}), 500
+
+        expense_accounts = api.get_expense_accounts()
+        igst_tax_id = None
+        intrastate_tax_id = None
+        default_exemption_id = None
+        try:
+            taxes = api.list_taxes()
+            for t in taxes:
+                tname = t.get("tax_name", "").lower()
+                if "igst" in tname and t.get("tax_percentage") == 18:
+                    igst_tax_id = t.get("tax_id")
+                if ("cgst" in tname or "sgst" in tname) and t.get("tax_percentage") == 9:
+                    intrastate_tax_id = intrastate_tax_id or t.get("tax_id")
+            exemptions = api.list_tax_exemptions()
+            for ex in exemptions:
+                if "non" in ex.get("exemption_reason", "").lower():
+                    default_exemption_id = ex.get("tax_exemption_id")
+                    break
+        except Exception:
+            pass
+
+        default_expense = config.get("default_expense_account", "Credit Card Charges")
+        result = mod_03.create_bill_for_invoice(
+            api, invoice, vendor_id, expense_accounts, default_expense, currency_map,
+            vendor_name=resolved_name,
+            igst_tax_id=igst_tax_id, intrastate_tax_id=intrastate_tax_id,
+            default_exemption_id=default_exemption_id,
+        )
+
+        if not result or not result[0]:
+            return jsonify({"error": "Failed to create bill"}), 500
+
+        bill_id = result[0]
+        is_new = result[1]
+        bill_status = "created" if is_new else "exists"
+        log_action(f"Bill {bill_status}: {invoice_number or vendor_name} -> {bill_id}")
+
+        # Save to created_bills.json
+        bills_file = os.path.join(PROJECT_ROOT, "output", "created_bills.json")
+        try:
+            existing = []
+            if os.path.exists(bills_file):
+                with open(bills_file, "r") as f:
+                    existing = json.load(f)
+            existing.append({
+                "file": invoice_number or vendor_name,
+                "status": bill_status,
+                "vendor_name": resolved_name or vendor_name,
+                "vendor_id": vendor_id,
+                "bill_id": bill_id,
+                "amount": float(amount),
+                "currency": currency,
+                "attached": False,
+            })
+            with open(bills_file, "w") as f:
+                json.dump(existing, f, indent=2)
+        except Exception:
+            pass
+
+        # --- Step 2: Record payment ---
+        bill_data = api.get_bill(bill_id)
+        bill = bill_data.get("bill", {})
+        bill_total = float(bill.get("total", 0))
+        bill_currency = bill.get("currency_code", "INR")
+
+        account_id = None
+        for card in cards:
+            if card.get("name") == cc_card:
+                account_id = card.get("zoho_account_id")
+                break
+        if not account_id:
+            return jsonify({"status": "bill_created", "bill_id": bill_id, "error": f"CC card '{cc_card}' not found"})
+
+        payment_date = cc_date or bill.get("date", "")
+        payment_data = {
+            "vendor_id": vendor_id,
+            "payment_mode": "Credit Card",
+            "date": payment_date,
+            "amount": bill_total,
+            "paid_through_account_id": account_id,
+            "bills": [{"bill_id": bill_id, "amount_applied": bill_total}],
+        }
+
+        if bill_currency != "INR":
+            actual_inr = float(cc_inr)
+            if bill_total:
+                exact_rate = actual_inr / bill_total
+                for decimals in range(6, 12):
+                    test_rate = round(exact_rate, decimals)
+                    if round(test_rate * bill_total, 2) == round(actual_inr, 2):
+                        exact_rate = test_rate
+                        break
+                else:
+                    exact_rate = round(exact_rate, 10)
+            else:
+                exact_rate = 0
+            payment_data["currency_id"] = currency_map.get(bill_currency)
+            payment_data["exchange_rate"] = exact_rate
+            log_action(f"  {bill_currency} {bill_total} -> INR {actual_inr} (rate: {exact_rate})")
+
+        log_action(f"Recording payment: bill {bill_id} via {cc_card} on {payment_date}")
+        pay_result = api.record_vendor_payment(payment_data)
+        payment = pay_result.get("vendorpayment", {})
+        payment_id = payment.get("payment_id")
+
+        if not payment_id:
+            return jsonify({"status": "bill_created", "bill_id": bill_id, "error": "Payment failed - no payment_id"})
+
+        log_action(f"  Payment recorded: {payment_id}")
+
+        # --- Step 3: Auto-match banking transaction ---
+        matched_banking = _auto_match_banking_txn(api, cc_txn_id, payment_id, log_action)
+
+        return jsonify({
+            "status": "paid",
+            "bill_id": bill_id,
+            "payment_id": payment_id,
+            "banking_matched": matched_banking,
+        })
+
+    except Exception as e:
+        error_msg = str(e).lower()
+        if "already been paid" in error_msg or "already paid" in error_msg:
+            return jsonify({"status": "already_paid", "bill_id": data.get("bill_id", "")})
+        from scripts.utils import log_action
+        log_action(f"create-and-record error: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/api/payments/clear-cache", methods=["POST"])
 def api_payments_clear_cache():
     """Clear recorded_payments.json so Step 6 re-tries all bills."""
@@ -6519,7 +6699,7 @@ function renderCatView() {
     (crossMatched ? '<span style="color:var(--accent)">\u2194 Other Month: ' + crossMatched + '</span>' : '') +
     '<span style="color:var(--yellow)">\u26A0 No Invoice: ' + noInv + '</span>' +
     (unmapped ? '<span style="color:var(--text-dim)">\u2753 Unmapped: ' + unmapped + '</span>' : '') +
-    '<button id="catCreateSelectedBtn" onclick="confirmCatCreateSelected()" style="display:none;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600;margin-left:auto">Create Selected (0)</button>';
+    '<button id="catCreateSelectedBtn" onclick="confirmCatCreateSelected()" style="display:none;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600;margin-left:auto">Create & Record (0)</button>';
   container.appendChild(hdr);
 
   // Reset selection tracking
@@ -6568,21 +6748,31 @@ function renderCatView() {
     var invDate = r.inv && r.inv.date ? r.inv.date : '-';
     var diffText = r.diff != null ? fmt(r.diff) : '-';
 
-    // Create Bill button or In Zoho badge for exact/close matches that have invoice data
+    // Create Bill & Record button or Paid/In Zoho badge
     var actionHtml = '';
     if ((r.status === 'exact' || r.status === 'close') && r.inv) {
       if (r.inv.in_zoho) {
         actionHtml = '<span style="font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,0.15);color:var(--green);font-weight:600">In Zoho</span>';
       } else {
-        var invData = JSON.stringify({
-          vendor_name: r.inv.vendor_name || r.vendor,
-          amount: r.inv.amount,
-          currency: r.inv.currency || 'INR',
-          date: r.inv.date,
-          invoice_number: r.inv.invoice_number || '',
-          vendor_gstin: r.inv.vendor_gstin || ''
+        var payload = JSON.stringify({
+          invoice: {
+            vendor_name: r.inv.vendor_name || r.vendor,
+            amount: r.inv.amount,
+            currency: r.inv.currency || 'INR',
+            date: r.inv.date,
+            invoice_number: r.inv.invoice_number || '',
+            vendor_gstin: r.inv.vendor_gstin || ''
+          },
+          cc: {
+            transaction_id: r.cc ? r.cc.transaction_id || '' : '',
+            amount: r.cc ? r.cc.amount : 0,
+            date: r.cc ? r.cc.date : '',
+            card_name: r.cc ? r.cc.card_name || '' : '',
+            forex_amount: r.cc && r.cc.forex_amount ? r.cc.forex_amount : null,
+            forex_currency: r.cc && r.cc.forex_currency ? r.cc.forex_currency : null
+          }
         }).replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        actionHtml = '<button class="bill-create-btn" onclick="createBillFromCompare(this, \'' + invData + '\')" style="font-size:10px;padding:2px 8px">Create Bill</button>';
+        actionHtml = '<button class="bill-create-btn" onclick="createBillAndRecord(this, \'' + payload + '\')" style="font-size:10px;padding:2px 8px">Create & Record</button>';
       }
     }
 
@@ -6661,38 +6851,170 @@ function renderCatView() {
   container.appendChild(tbl);
 }
 
-// --- Create Bill from Monthly Compare ---
-function createBillFromCompare(btn, invDataStr) {
-  var inv = JSON.parse(invDataStr.replace(/&quot;/g, '"'));
+// --- Create Bill & Record Payment from Monthly Compare ---
+function createBillAndRecord(btn, payloadStr) {
+  var payload = JSON.parse(payloadStr.replace(/&quot;/g, '"'));
+  var inv = payload.invoice || {};
   var desc = (inv.vendor_name || '') + ' — ' + (inv.currency || 'INR') + ' ' + Number(inv.amount).toLocaleString() + (inv.invoice_number ? ' (' + inv.invoice_number + ')' : '');
-  showModal('Create Bill in Zoho?', 'This will create a new bill: ' + desc, function() {
+  showModal('Create Bill & Record Payment?', 'This will create a bill and record payment in Zoho Books: ' + desc, function() {
     btn.disabled = true;
-    btn.textContent = '...';
-    fetch('/api/bills/create-one', {
+    btn.textContent = 'Creating...';
+    fetch('/api/bills/create-and-record', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(inv),
+      body: JSON.stringify(payload),
     })
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      if (data.status === 'created' || data.status === 'exists') {
+      if (data.status === 'paid') {
         var badge = document.createElement('span');
         badge.style.cssText = 'font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,0.15);color:var(--green);font-weight:600';
-        badge.textContent = 'In Zoho';
+        badge.textContent = '\u2713 Paid';
         btn.parentNode.replaceChild(badge, btn);
-        addLogLine('[Bill] ' + (data.status === 'created' ? 'Created' : 'Already exists') + ': ' + (inv.invoice_number || inv.vendor_name) + (data.bill_id ? ' -> ' + data.bill_id : ''));
+        // Disable checkbox if present
+        var cb = btn.closest('tr').querySelector('.cat-cb');
+        if (cb) { cb.checked = false; cb.disabled = true; }
+        addLogLine('[Bill+Pay] Paid: ' + (inv.invoice_number || inv.vendor_name) + ' -> ' + (data.bill_id || '') + ' / ' + (data.payment_id || ''));
+      } else if (data.status === 'bill_created') {
+        btn.textContent = 'Bill OK, Pay Failed';
+        btn.style.color = 'var(--yellow)';
+        btn.disabled = false;
+        addLogLine('[Bill+Pay] Bill created but payment failed: ' + (data.error || 'unknown'));
+      } else if (data.status === 'already_paid') {
+        var badge2 = document.createElement('span');
+        badge2.style.cssText = 'font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,0.15);color:var(--green);font-weight:600';
+        badge2.textContent = '\u2713 Paid';
+        btn.parentNode.replaceChild(badge2, btn);
       } else {
         btn.textContent = 'Failed';
         btn.disabled = false;
-        addLogLine('[Bill] Error: ' + (data.error || 'unknown'));
+        addLogLine('[Bill+Pay] Error: ' + (data.error || 'unknown'));
       }
     })
     .catch(function(err) {
       btn.textContent = 'Error';
       btn.disabled = false;
-      addLogLine('[Bill] Error: ' + err);
+      addLogLine('[Bill+Pay] Error: ' + err);
     });
-  }, false, 'Create Bill');
+  }, false, 'Create & Record');
+}
+
+// --- Categorize Check: bulk Create & Record selection ---
+var _catSelectedItems = {}; // idx -> {invoice, cc} payload
+
+function toggleCatCheckbox(cb) {
+  var idx = cb.getAttribute('data-catidx');
+  if (cb.checked) {
+    var filtered = _catRows.filter(function(r) { return r.cc != null; });
+    var r = filtered[parseInt(idx)];
+    if (r && r.inv && r.cc) {
+      _catSelectedItems[idx] = {
+        invoice: {
+          vendor_name: r.inv.vendor_name || r.vendor,
+          amount: r.inv.amount,
+          currency: r.inv.currency || 'INR',
+          date: r.inv.date,
+          invoice_number: r.inv.invoice_number || '',
+          vendor_gstin: r.inv.vendor_gstin || ''
+        },
+        cc: {
+          transaction_id: r.cc.transaction_id || '',
+          amount: r.cc.amount || 0,
+          date: r.cc.date || '',
+          card_name: r.cc.card_name || '',
+          forex_amount: r.cc.forex_amount || null,
+          forex_currency: r.cc.forex_currency || null
+        }
+      };
+    }
+  } else {
+    delete _catSelectedItems[idx];
+  }
+  _updateCatSelectedBtn();
+}
+
+function toggleCatSelectAll(cb) {
+  document.querySelectorAll('.cat-cb').forEach(function(c) {
+    var row = c.closest('tr');
+    if (row && row.style.display === 'none') return;
+    c.checked = cb.checked;
+    toggleCatCheckbox(c);
+  });
+}
+
+function _updateCatSelectedBtn() {
+  var btn = document.getElementById('catCreateSelectedBtn');
+  var count = Object.keys(_catSelectedItems).length;
+  if (count > 0) {
+    btn.style.display = 'inline-block';
+    btn.textContent = 'Create & Record (' + count + ')';
+    btn.disabled = false;
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+function confirmCatCreateSelected() {
+  var count = Object.keys(_catSelectedItems).length;
+  if (!count) return;
+  showModal('Create Bills & Record Payments?', 'This will create ' + count + ' bills, record payments, and auto-match banking transactions in Zoho Books.', function() {
+    catCreateAndRecordSelected();
+  }, true, 'Create & Record ' + count);
+}
+
+function catCreateAndRecordSelected() {
+  var keys = Object.keys(_catSelectedItems);
+  if (!keys.length) return;
+  var btn = document.getElementById('catCreateSelectedBtn');
+  btn.disabled = true;
+  btn.textContent = 'Processing ' + keys.length + '...';
+  var total = keys.length, done = 0, success = 0;
+
+  // Sequential to avoid rate limits
+  function processNext(i) {
+    if (i >= keys.length) {
+      btn.textContent = success + '/' + total + ' Paid';
+      _updateCatSelectedBtn();
+      addLogLine('[Bill+Pay] Bulk: ' + success + '/' + total + ' paid');
+      return;
+    }
+    var idx = keys[i];
+    var payload = _catSelectedItems[idx];
+    var inv = payload.invoice;
+    var cb = document.querySelector('.cat-cb[data-catidx="' + idx + '"]');
+    btn.textContent = 'Processing ' + (i + 1) + '/' + total + '...';
+
+    fetch('/api/bills/create-and-record', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      done++;
+      if (data.status === 'paid' || data.status === 'already_paid') {
+        success++;
+        if (cb) {
+          var actionTd = cb.closest('tr').querySelector('td:last-child');
+          if (actionTd) {
+            actionTd.innerHTML = '<span style="font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,0.15);color:var(--green);font-weight:600">\u2713 Paid</span>';
+          }
+          cb.checked = false; cb.disabled = true;
+        }
+        delete _catSelectedItems[idx];
+        addLogLine('[Bill+Pay] Paid: ' + (inv.invoice_number || inv.vendor_name));
+      } else {
+        addLogLine('[Bill+Pay] Failed: ' + (inv.invoice_number || inv.vendor_name) + ' - ' + (data.error || 'unknown'));
+      }
+      setTimeout(function() { processNext(i + 1); }, 500);
+    })
+    .catch(function(err) {
+      done++;
+      addLogLine('[Bill+Pay] Error: ' + (inv.invoice_number || inv.vendor_name) + ' - ' + err);
+      setTimeout(function() { processNext(i + 1); }, 500);
+    });
+  }
+  processNext(0);
 }
 
 // --- Info tooltip positioning (fixed, not clipped by scroll) ---
