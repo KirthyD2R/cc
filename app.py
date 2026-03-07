@@ -3957,7 +3957,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             </div>
             <div style="display:flex;gap:6px;margin-top:4px">
               <button class="upload-btn" onclick="openBillPicker()" style="flex:1">Upload 1</button>
-              <button class="upload-btn" onclick="createAllBillsDirect()" style="flex:1">Upload All</button>
+              <button class="upload-btn" onclick="openBillPicker()" style="flex:1">Upload All</button>
             </div>
           </div>
           <button class="step-btn review-btn" onclick="openReviewPanel()">
@@ -5284,18 +5284,17 @@ function openBillPicker() {
 }
 
 function _loadBasicBillPicker(body, summary) {
-  // Fallback: basic invoice list without match preview
-  fetch('/api/invoices/list').then(r => r.json()).then(data => {
+  // Fallback: flat table without match preview (no Zoho sync cache)
+  fetch('/api/invoices/list').then(function(r){return r.json()}).then(function(data) {
     if (data.error) {
       body.innerHTML = '<div style="color:var(--red);font-size:13px;padding:12px 0">' + data.error + '</div>';
       return;
     }
     _billPickerData = data;
     _matchPreviewData = null;
-    const s = data.summary || {};
-    const totalPending = s.pending || 0;
+    var s = data.summary || {};
+    var totalPending = s.pending || 0;
 
-    // Right panel: basic summary + buttons
     summary.innerHTML = ''
       + '<div class="bill-summary-total"><span>Total Invoices</span><span class="count">' + (s.total || 0) + '</span></div>'
       + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--green)"></span> Created</span><span class="count" style="color:var(--green)">' + (s.created || 0) + '</span></div>'
@@ -5303,181 +5302,51 @@ function _loadBasicBillPicker(body, summary) {
       + '<div class="bill-summary-divider"></div>'
       + '<div style="font-size:11px;color:var(--text-dim);padding:4px 0">Sync Zoho first for smart dedup</div>'
       + '<div class="bill-summary-upload-section">'
-      + '<button class="modal-btn modal-btn-confirm" id="createAllBillsBtn" onclick="createAllBills()" style="width:100%"' + (totalPending === 0 ? ' disabled' : '') + '>Create All Pending (' + totalPending + ')</button>'
       + '<button class="modal-btn modal-btn-cancel" onclick="closeBillPicker()" style="width:100%">Cancel</button>'
       + '</div>';
 
-    // Left panel: month groups
-    const months = data.months || [];
+    var months = data.months || [];
     if (!months.length) {
       body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">No invoices found. Run Step 2 (Extract Data) first.</div>';
       return;
     }
 
-    let html = '';
-    months.forEach((group, gi) => {
-      const pending = group.invoices.filter(i => i.status === 'pending').length;
-      const total = group.invoices.length;
-      html += '<div class="bill-month-header" onclick="toggleBillMonth(this)">'
-        + '<span class="bill-month-arrow">\u25B8</span> '
-        + group.month
-        + '<span class="bill-month-count">' + total + ' inv, ' + pending + ' pending</span>'
-        + (pending > 0 ? ' <button class="bill-create-btn bill-month-create" onclick="event.stopPropagation();createMonthBills(\'' + group.month.replace(/'/g,"\\'") + '\')">Create (' + pending + ')</button>' : '')
-        + '</div>';
-      html += '<div class="bill-month-group" style="display:none">';
-      group.invoices.forEach(inv => {
-        const isCreated = inv.status === 'created';
-        const amt = inv.amount ? Number(inv.amount).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '0.00';
-        html += '<div class="bill-row' + (isCreated ? ' created' : '') + '">'
-          + '<span class="bill-vendor" title="' + (inv.vendor_name || '').replace(/"/g,'&quot;') + '">' + (inv.vendor_name || 'Unknown') + '</span>'
-          + '<span class="bill-amount">' + amt + '</span>'
-          + '<span class="bill-currency">' + (inv.currency || 'INR') + '</span>'
-          + '<span class="bill-status-badge ' + inv.status + '">' + inv.status + '</span>';
+    var html = '<div class="bill-table-wrap"><table class="bill-table"><thead><tr>'
+      + '<th>Vendor</th><th>Month</th><th class="col-amount">Amount</th><th>Status</th><th class="col-action"></th>'
+      + '</tr></thead><tbody>';
+    months.forEach(function(group) {
+      group.invoices.forEach(function(inv) {
+        var isCreated = inv.status === 'created';
+        var amt = inv.amount ? Number(inv.amount).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) : '0.00';
+        var vendorEsc = (inv.vendor_name || 'Unknown').replace(/"/g, '&quot;');
+        var rowCls = isCreated ? ' class="row-skip"' : '';
+        html += '<tr'+rowCls+'>'
+          + '<td class="vendor-cell" title="'+vendorEsc+'">'+vendorEsc+'</td>'
+          + '<td>'+group.month+'</td>'
+          + '<td class="col-amount">'+amt+' '+(inv.currency || 'INR')+'</td>'
+          + '<td><span class="bill-status-badge '+inv.status+'">'+inv.status+'</span></td>'
+          + '<td class="col-action">';
         if (!isCreated) {
-          html += '<button class="bill-create-btn" onclick="createOneBill(\'' + inv.file.replace(/'/g, "\\'") + '\')">Create</button>';
+          html += '<button class="bill-create-btn" onclick="createOneBill(\''+inv.file.replace(/'/g, "\\'")+'\')">Create</button>';
         }
-        html += '</div>';
+        html += '</td></tr>';
       });
-      html += '</div>';
     });
+    html += '</tbody></table></div>';
     body.innerHTML = html;
-  }).catch(err => {
+  }).catch(function(err) {
     body.innerHTML = '<div style="color:var(--red);font-size:13px;padding:12px 0">Error: ' + err + '</div>';
   });
-}
-
-function createMonthBillsPreview(monthName) {
-  if (!_matchPreviewData) return;
-  const preview = _matchPreviewData.preview || [];
-  const pending = preview.filter(p => p.organized_month === monthName && p.action !== 'skip').map(p => p.file);
-  if (!pending.length) {
-    addLogLine('[Bills] No new invoices in ' + monthName);
-    return;
-  }
-  closeBillPicker();
-  addLogLine('[Bills] Creating ' + pending.length + ' bills for ' + monthName + '...');
-  runStepWithKwargs('3', {selected_files: pending});
 }
 
 function closeBillPicker() {
   document.getElementById('billPickerModal').style.display = 'none';
 }
 
-function toggleBillMonth(header) {
-  const group = header.nextElementSibling;
-  const arrow = header.querySelector('.bill-month-arrow');
-  if (group.style.display === 'none') {
-    group.style.display = 'block';
-    arrow.textContent = '\u25BE';
-  } else {
-    group.style.display = 'none';
-    arrow.textContent = '\u25B8';
-  }
-}
-
 function createOneBill(filename) {
   closeBillPicker();
   addLogLine('[Bills] Creating bill for: ' + filename);
   runStepWithKwargs('3', {selected_files: [filename]});
-}
-
-function createMonthBills(monthName) {
-  if (!_billPickerData) return;
-  const group = (_billPickerData.months || []).find(g => g.month === monthName);
-  if (!group) return;
-  const pending = group.invoices.filter(i => i.status === 'pending').map(i => i.file);
-  if (!pending.length) {
-    addLogLine('[Bills] No pending invoices in ' + monthName);
-    return;
-  }
-  closeBillPicker();
-  addLogLine('[Bills] Creating ' + pending.length + ' bills for ' + monthName + '...');
-  runStepWithKwargs('3', {selected_files: pending});
-}
-
-function createAllBills() {
-  // If match preview is active, use it to filter only new items
-  if (_matchPreviewData) {
-    const pending = (_matchPreviewData.preview || []).filter(p => p.action !== 'skip').map(p => p.file);
-    if (!pending.length) {
-      addLogLine('[Bills] No new invoices to create (all exist in Zoho)');
-      return;
-    }
-    closeBillPicker();
-    addLogLine('[Bills] Creating ' + pending.length + ' new bills (skipping existing)...');
-    runStepWithKwargs('3', {selected_files: pending});
-    return;
-  }
-  // Fallback to basic picker data
-  if (!_billPickerData) return;
-  const pending = [];
-  (_billPickerData.months || []).forEach(g => {
-    g.invoices.forEach(inv => {
-      if (inv.status === 'pending') pending.push(inv.file);
-    });
-  });
-  if (!pending.length) {
-    addLogLine('[Bills] No pending invoices to create');
-    return;
-  }
-  closeBillPicker();
-  addLogLine('[Bills] Creating bills for ' + pending.length + ' pending invoices...');
-  runStepWithKwargs('3', {selected_files: pending});
-}
-
-function createAllBillsDirect() {
-  // "Upload All" — use match preview if Zoho cache exists
-  fetch('/api/bills/match-preview', {method: 'POST'}).then(r => r.json()).then(data => {
-    if (data.error) {
-      // Fallback to basic list
-      _createAllBillsBasic();
-      return;
-    }
-    const pending = (data.preview || []).filter(p => p.action !== 'skip').map(p => p.file);
-    const skipCount = (data.summary || {}).skip || 0;
-    if (!pending.length) {
-      addLogLine('[Bills] No new invoices to create (' + skipCount + ' already exist in Zoho)');
-      return;
-    }
-    showModal(
-      'Upload All New Bills?',
-      pending.length + ' new bills will be created. ' + skipCount + ' existing bills will be skipped.',
-      function() {
-        addLogLine('[Bills] Creating ' + pending.length + ' new bills (skipping ' + skipCount + ' existing)...');
-        runStepWithKwargs('3', {selected_files: pending});
-      },
-      false,
-      'Upload ' + pending.length + ' Bills'
-    );
-  }).catch(() => _createAllBillsBasic());
-}
-
-function _createAllBillsBasic() {
-  fetch('/api/invoices/list').then(r => r.json()).then(data => {
-    if (data.error) {
-      addLogLine('[Bills] Error: ' + data.error);
-      return;
-    }
-    const pending = [];
-    (data.months || []).forEach(g => {
-      g.invoices.forEach(inv => {
-        if (inv.status === 'pending') pending.push(inv.file);
-      });
-    });
-    if (!pending.length) {
-      addLogLine('[Bills] No pending invoices to create');
-      return;
-    }
-    showModal(
-      'Create All Pending Bills?',
-      'This will create vendors and bills in Zoho Books for ' + pending.length + ' pending invoices.',
-      function() {
-        addLogLine('[Bills] Creating bills for ' + pending.length + ' pending invoices...');
-        runStepWithKwargs('3', {selected_files: pending});
-      },
-      false
-    );
-  }).catch(err => addLogLine('[Bills] Request failed: ' + err));
 }
 
 function runStepWithKwargs(step, kwargs) {
