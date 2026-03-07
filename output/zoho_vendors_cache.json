@@ -200,6 +200,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000002999099",
+    "contact_name": "GitHub",
+    "company_name": "GitHub, Inc.",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
     "contact_id": "2050328000002195001",
     "contact_name": "GitHub, Inc.",
     "company_name": "GitHub, Inc.",
@@ -349,6 +357,14 @@
     "company_name": "Power House",
     "gst_no": "33ACPPJ8218A2ZT",
     "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000003012043",
+    "contact_name": "R K WorldInfocom Pvt Ltd",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "business_none",
     "currency_code": "INR"
   },
   {

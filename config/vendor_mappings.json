@@ -372,18 +372,13 @@
             "account_name": "Software License",
             "account_id": "2050328000000027421"
         },
-        "CLICKTECH RETAIL PRIVATE LIMITED": {
-            "account_name": "Income Tax",
-            "account_id": "2050328000000027411",
-            "category": "invoice_coa_match"
-        },
         "COCOBLU RETAIL LIMITED": {
             "account_name": "Office Supplies",
             "account_id": "2050328000000000498"
         },
         "R K WorldInfocom Pvt. Ltd.": {
-            "account_name": "Software License",
-            "account_id": "2050328000000027421"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "Amazon Web Services": {
             "account_name": "Software License",
@@ -399,6 +394,18 @@
             "account_id": "2050328000000027421"
         },
         "Fly.io, Inc": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
+        },
+        "GitHub": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
+        },
+        "R K WorldInfocom Pvt Ltd": {
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
+        },
+        "Atlassian Pty Ltd": {
             "account_name": "Software License",
             "account_id": "2050328000000027421"
         }

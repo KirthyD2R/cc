@@ -213,7 +213,10 @@ def create_bill_for_invoice(api, invoice, vendor_id, expense_accounts, default_e
     # Ignore company's own GSTIN if it was mistakenly extracted as vendor's
     if vendor_gstin == _COMPANY_GSTIN:
         vendor_gstin = ""
-    if vendor_gstin:
+    if vendor_gstin and vendor_gstin[:2] == "99":
+        # GSTIN starting with 99 = foreign entity (OIDAR), treat as overseas
+        gst_treatment = "overseas"
+    elif vendor_gstin:
         gst_treatment = "business_gst"
     elif currency and currency != "INR":
         gst_treatment = "overseas"
@@ -259,8 +262,17 @@ def create_bill_for_invoice(api, invoice, vendor_id, expense_accounts, default_e
         "is_inclusive_tax": gst_treatment == "business_gst",
         "line_items": [line_item],
     }
-    if vendor_gstin:
-        bill_data["gst_no"] = vendor_gstin
+    if gst_treatment == "business_gst":
+        if vendor_gstin:
+            bill_data["gst_no"] = vendor_gstin
+        # Set source_of_supply (company's state) and place_of_supply (vendor's state)
+        company_state = _STATE_CODE_MAP.get(_COMPANY_STATE_CODE)
+        if company_state:
+            bill_data["source_of_supply"] = company_state
+        if vendor_state_code and vendor_state_code in _STATE_CODE_MAP:
+            bill_data["place_of_supply"] = _STATE_CODE_MAP[vendor_state_code]
+        elif company_state:
+            bill_data["place_of_supply"] = company_state
 
     try:
         result = api.create_bill(bill_data)
