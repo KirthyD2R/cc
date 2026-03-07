@@ -5213,17 +5213,14 @@ function _buildFilterBar(preview) {
   html += '<div class="bill-filter-group"><label>To</label><select id="bfTo"><option value="">All</option>';
   months.forEach(function(m){ html += '<option value="'+m+'">'+m+'</option>'; });
   html += '</select></div>';
-  html += '<div class="bill-filter-group"><label>Vendor</label><select id="bfVendor" multiple>';
-  vendors.forEach(function(v){ html += '<option value="'+v.replace(/"/g,'&quot;')+'">'+v+'</option>'; });
-  html += '</select></div>';
+  var vendorOpts = vendors.map(function(v){ return {value: v, text: v}; });
+  html += '<div class="bill-filter-group"><label>Vendor</label>' + _buildCheckboxDropdown('vendor', 'Vendor', vendorOpts) + '</div>';
   html += '<div class="bill-filter-group"><label>Min Amt</label><input type="number" id="bfMinAmt" placeholder="0" step="any"></div>';
   html += '<div class="bill-filter-group"><label>Max Amt</label><input type="number" id="bfMaxAmt" placeholder="any" step="any"></div>';
-  html += '<div class="bill-filter-group"><label>Status</label><select id="bfStatus" multiple>';
-  html += '<option value="skip">In Zoho</option><option value="new_bill">New Bill + Existing Vendor</option><option value="new_vendor">New Bill + New Vendor</option>';
-  html += '</select></div>';
-  html += '<div class="bill-filter-group"><label>Match Type</label><select id="bfMatchType" multiple>';
-  html += '<option value="gstin">GSTIN</option><option value="name">Name</option><option value="fuzzy">Fuzzy</option>';
-  html += '</select></div>';
+  var statusOpts = [{value:'skip',text:'In Zoho'},{value:'new_bill',text:'New Bill + Existing Vendor'},{value:'new_vendor',text:'New Bill + New Vendor'}];
+  html += '<div class="bill-filter-group"><label>Status</label>' + _buildCheckboxDropdown('status', 'Status', statusOpts) + '</div>';
+  var matchOpts = [{value:'gstin',text:'GSTIN'},{value:'name',text:'Name'},{value:'fuzzy',text:'Fuzzy'},{value:'manual',text:'Manual'}];
+  html += '<div class="bill-filter-group"><label>Match Type</label>' + _buildCheckboxDropdown('matchtype', 'Match Type', matchOpts) + '</div>';
   html += '<button class="bill-filter-clear" onclick="clearBillFilters()">Clear</button>';
   html += '</div>';
   return html;
@@ -5237,6 +5234,7 @@ function _buildTable() {
     {key:'amount', label:'Amount', sort:true, cls:'col-amount'},
     {key:'status', label:'Status', sort:true},
     {key:'match', label:'Match', sort:true},
+    {key:'zoho_vendor', label:'Zoho Vendor', sort:true, cls:'col-zoho-vendor'},
     {key:'action', label:'', sort:false, cls:'col-action'}
   ];
   var html = '<div class="bill-table-wrap"><table class="bill-table"><thead><tr>';
@@ -5297,6 +5295,14 @@ function _renderTableRows() {
       actionBtn = '<button class="bill-create-btn" onclick="createOneBillConfirm(\''+fileEsc+'\',\''+vendorEsc+'\',\''+amt+'\')">Create</button>';
     }
 
+    // Zoho vendor column
+    var zohoVendor = '';
+    if (isSkip) {
+      zohoVendor = inv.matched_vendor_name || (inv.matched_bill ? inv.matched_bill.vendor_name || '' : '');
+    } else if (inv.action === 'new_bill') {
+      zohoVendor = inv.matched_vendor_name || '';
+    }
+
     html += '<tr'+rowCls+'>'
       + '<td class="col-checkbox">'+cb+'</td>'
       + '<td class="vendor-cell" title="'+vendorEsc+'">'+vendorEsc+'</td>'
@@ -5304,6 +5310,7 @@ function _renderTableRows() {
       + '<td class="col-amount">'+amt+' '+(inv.currency || 'INR')+'</td>'
       + '<td>'+statusBadge+'</td>'
       + '<td>'+matchBadge+'</td>'
+      + '<td class="col-zoho-vendor" title="'+zohoVendor.replace(/"/g,'&quot;')+'">'+zohoVendor+'</td>'
       + '<td class="col-action">'+actionBtn+'</td>'
       + '</tr>';
   });
@@ -5316,14 +5323,11 @@ function applyBillFilters() {
   var preview = _matchPreviewData.preview || [];
   var fromVal = document.getElementById('bfFrom') ? document.getElementById('bfFrom').value : '';
   var toVal = document.getElementById('bfTo') ? document.getElementById('bfTo').value : '';
-  var vendorSel = document.getElementById('bfVendor');
-  var vendors = vendorSel ? Array.from(vendorSel.selectedOptions).map(function(o){return o.value}) : [];
+  var vendors = _getCbValues('vendor');
   var minAmt = document.getElementById('bfMinAmt') ? parseFloat(document.getElementById('bfMinAmt').value) : NaN;
   var maxAmt = document.getElementById('bfMaxAmt') ? parseFloat(document.getElementById('bfMaxAmt').value) : NaN;
-  var statusSel = document.getElementById('bfStatus');
-  var statuses = statusSel ? Array.from(statusSel.selectedOptions).map(function(o){return o.value}) : [];
-  var matchSel = document.getElementById('bfMatchType');
-  var matchTypes = matchSel ? Array.from(matchSel.selectedOptions).map(function(o){return o.value}) : [];
+  var statuses = _getCbValues('status');
+  var matchTypes = _getCbValues('matchtype');
 
   // Build sorted month list for range filtering
   var allMonths = [];
@@ -5371,6 +5375,7 @@ function _sortFilteredRows() {
     else if (col === 'amount') { va = parseFloat(a.amount)||0; vb = parseFloat(b.amount)||0; }
     else if (col === 'status') { va = _getStatusKey(a); vb = _getStatusKey(b); }
     else if (col === 'match') { va = a.action==='new_bill' ? _getMatchTypeKey(a) : 'zzz'; vb = b.action==='new_bill' ? _getMatchTypeKey(b) : 'zzz'; }
+    else if (col === 'zoho_vendor') { va = (a.matched_vendor_name||'').toLowerCase(); vb = (b.matched_vendor_name||'').toLowerCase(); }
     else { va = ''; vb = ''; }
     if (va < vb) return -1 * asc;
     if (va > vb) return 1 * asc;
@@ -5383,7 +5388,7 @@ function sortBillTable(col) {
   else { _billSortCol = col; _billSortAsc = true; }
   // Update header arrows
   document.querySelectorAll('.bill-table th').forEach(function(th) { th.classList.remove('sorted'); });
-  var idx = {vendor:1,date:2,amount:3,status:4,match:5}[col];
+  var idx = {vendor:1,date:2,amount:3,status:4,match:5,zoho_vendor:6}[col];
   if (idx !== undefined) {
     var ths = document.querySelectorAll('.bill-table th');
     if (ths[idx]) {
@@ -5401,10 +5406,7 @@ function clearBillFilters() {
     var el = document.getElementById(id);
     if (el) el.value = '';
   });
-  ['bfVendor','bfStatus','bfMatchType'].forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el) { Array.from(el.options).forEach(function(o){ o.selected = false; }); }
-  });
+  ['vendor','status','matchtype'].forEach(function(id) { _cbSelectAll(id); });
   applyBillFilters();
 }
 
