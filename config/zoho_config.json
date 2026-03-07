@@ -1,0 +1,53 @@
+{
+    "zoho_books": {
+        "base_url": "https://www.zohoapis.in/books/v3",
+        "organization_id": "60032826109",
+        "client_id": "1000.XC5DHQY1VQRTVVSZB20GVTU5HRXA7Y",
+        "client_secret": "0e904c34a72e8f9161b2c41a459521239f99828894",
+        "refresh_token": "1000.16371868d32df8f0ebb6f501a6e72ecc.917fad3a08c08aac424b04db51305145",
+        "redirect_uri": "http://localhost:8080/callback"
+    },
+    "invoice_email": {
+        "email": "invoice@d2railabs.com",
+        "note": "Reset password via Forgot Password before first use"
+    },
+    "credit_cards": [
+        {
+            "name": "HDFC-8948",
+            "pdf_file": "HDFC -CC-Jan2026-Gayatri.pdf",
+            "pdf_patterns": [
+                "HDFC*",
+                "pastStatement*"
+            ],
+            "bank": "HDFC",
+            "last_four_digits": "8948",
+            "zoho_account_id": "2050328000002161003"
+        },
+        {
+            "name": "HDFC - 7196",
+            "pdf_file": "HDFC -CC-Jan2026-Gayatri.pdf",
+            "pdf_patterns": [
+                "HDFC*",
+                "pastStatement*"
+            ],
+            "bank": "HDFC",
+            "last_four_digits": "7196",
+            "zoho_account_id": "2050328000002898667"
+        },
+        {
+            "name": "Kotak bank credit card",
+            "pdf_file": "Kotak CC-Dec 2025.pdf",
+            "bank": "Kotak",
+            "last_four_digits": "9157",
+            "zoho_account_id": "2050328000000232005"
+        },
+        {
+            "name": "Mayura Credit Card",
+            "pdf_file": "Mayura_CC-Dec2025 1.pdf",
+            "bank": "IDFC FIRST",
+            "last_four_digits": "9677",
+            "pdf_password": "1001",
+            "zoho_account_id": "2050328000000552784"
+        }
+    ]
+}

@@ -1,0 +1,546 @@
+[
+  {
+    "contact_id": "2050328000000360692",
+    "contact_name": "Aarav Enterprises",
+    "company_name": "Aarav Enterprises",
+    "gst_no": "08AIJPJ9012G1ZA",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000141517",
+    "contact_name": "Accountzontrack",
+    "company_name": "Accountzontrack",
+    "gst_no": "33ALFPR7869C1ZU",
+    "gst_treatment": "business_registered_composition",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000356618",
+    "contact_name": "acko",
+    "company_name": "ACKO",
+    "gst_no": "27AAOCA9055C1ZJ",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000140001",
+    "contact_name": "Amazon",
+    "company_name": "Amazon",
+    "gst_no": "",
+    "gst_treatment": "business_none",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000356420",
+    "contact_name": "Amazon Asia-Pacific Holdings Private Limited",
+    "company_name": "Amazon Asia-Pacific Holdings Private Limited",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000357340",
+    "contact_name": "Amazon Seller Services Private Limited",
+    "company_name": "Amazon Seller Services Private Limited",
+    "gst_no": "29AAICA3918J1ZE",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000185001",
+    "contact_name": "American Express",
+    "company_name": "American Express",
+    "gst_no": "",
+    "gst_treatment": "business_none",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000356139",
+    "contact_name": "AMICIKART ONLINE SERVICES PRIVATE  LIMITED",
+    "company_name": "AMICIKART ONLINE SERVICES PRIVATE  LIMITED",
+    "gst_no": "33AAMCA8029N1Z9",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000364806",
+    "contact_name": "Anthropic",
+    "company_name": "Anthropic",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000358038",
+    "contact_name": "Appario Retail Private Ltd",
+    "company_name": "Appario Retail Private Ltd",
+    "gst_no": "33AALCA0171E1Z6",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000360596",
+    "contact_name": "Apple Quaker Bridg",
+    "company_name": "Apple Quaker Bridg",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000356123",
+    "contact_name": "AquaNature",
+    "company_name": "AquaNature",
+    "gst_no": "27BADPM5264Q1Z2",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000001809186",
+    "contact_name": "Atlassian Pty Ltd",
+    "company_name": "Atlassian Pty Ltd",
+    "gst_no": "9917AUS29001OSF",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
+    "contact_id": "2050328000002211179",
+    "contact_name": "AWS",
+    "company_name": "Amazon Web Services",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000366749",
+    "contact_name": "BORA MOBILITY LLP",
+    "company_name": "BORA MOBILITY LLP",
+    "gst_no": "29AAVFB3612J1Z3",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000368555",
+    "contact_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "company_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "gst_no": "36AAJCC9783E1Z8",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002888195",
+    "contact_name": "COCOBLU RETAIL LIMITED",
+    "company_name": "",
+    "gst_no": "33AAJCC8517E1ZS",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000346001",
+    "contact_name": "Codeium",
+    "company_name": "Codeium",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000365062",
+    "contact_name": "DSIJ PVT. LTD",
+    "company_name": "DSIJ PVT. LTD",
+    "gst_no": "27AACCR4303G1ZP",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000366213",
+    "contact_name": "ERGOOFIS",
+    "company_name": "ERGOOFIS INDIA PVT LTD",
+    "gst_no": "33AAHCE0598H1ZL",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000352327",
+    "contact_name": "ETRADE MARKETING PVT LTD",
+    "company_name": "ETRADE MARKETING PVT LTD",
+    "gst_no": "33AADCV4254H1ZF",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000349880",
+    "contact_name": "Exafunction, Inc.",
+    "company_name": "Exafunction, Inc.",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000352173",
+    "contact_name": "Fireball Technologies",
+    "company_name": "Fireball Technologies",
+    "gst_no": "36AADFF6762B1ZM",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000349283",
+    "contact_name": "Fly.io, Inc",
+    "company_name": "Fly.io, Inc",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000333175",
+    "contact_name": "Geddit Convenience Private Limited",
+    "company_name": "Geddit Convenience Private Limited",
+    "gst_no": "33AAJCG0980D1ZV",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002195001",
+    "contact_name": "GitHub, Inc.",
+    "company_name": "GitHub, Inc.",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
+    "contact_id": "2050328000002917774",
+    "contact_name": "GROQ",
+    "company_name": "GROQ",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
+    "contact_id": "2050328000000356512",
+    "contact_name": "Hathway Broadband Internet",
+    "company_name": "Hathway Broadband Internet",
+    "gst_no": "33AAACC6814B1ZB",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000354972",
+    "contact_name": "Home Secure PestoBird Services Pvt. Ltd",
+    "company_name": "Home Secure PestoBird Services Pvt. Ltd",
+    "gst_no": "29AAECH7489P1ZH",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000140307",
+    "contact_name": "ICICI Lombard",
+    "company_name": "ICICI Lombard",
+    "gst_no": "33AAACI7904G2ZT",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000356716",
+    "contact_name": "INFINITI RETAIL LIMITED (trading as Croma)",
+    "company_name": "INFINITI RETAIL LIMITED (trading as Croma)",
+    "gst_no": "33AACCV1726H1ZL",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000358436",
+    "contact_name": "Infinti retail",
+    "company_name": "Infiniti Retail Ltd",
+    "gst_no": "33AACCV1726H1ZL",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000356107",
+    "contact_name": "Integrated Hydroponics India Private Limited",
+    "company_name": "Integrated Hydroponics India Private Limited",
+    "gst_no": "09AAFCI8149G1Z9",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000227054",
+    "contact_name": "John Savarimuthu",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "business_none",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000001691483",
+    "contact_name": "KUN AUTO PVT LTD COMPANY",
+    "company_name": "KUN AUTO COMPANY PVT LTD",
+    "gst_no": "33AAACK8991K1Z2",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000001986003",
+    "contact_name": "L&L CONSULTANTS",
+    "company_name": "L&L CONSULTANTS",
+    "gst_no": "29AOKPL0335D1Z5",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000359077",
+    "contact_name": "LinkedIn Singapore Pte Ltd",
+    "company_name": "LinkedIn Singapore Pte Ltd",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000552623",
+    "contact_name": "Logical Miners Private Limited",
+    "company_name": "Logical Miners Private Limited",
+    "gst_no": "29AAFCN3298R1ZF",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000140067",
+    "contact_name": "Make My trip",
+    "company_name": "make my trip",
+    "gst_no": "",
+    "gst_treatment": "business_none",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000342219",
+    "contact_name": "Microsoft Corporation (India) Pvt Ltd",
+    "company_name": "",
+    "gst_no": "06AAACM5586C1ZL",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000356980",
+    "contact_name": "Mitrin Enterprise",
+    "company_name": "Mitrin Enterprise",
+    "gst_no": "24ABSFM9331R1ZB",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000363611",
+    "contact_name": "MORE RETAIL PRIVATE LIMITED",
+    "company_name": "MORE RETAIL PRIVATE LIMITED",
+    "gst_no": "33AAACP2678Q1ZX",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000366001",
+    "contact_name": "OpenAI, LLC",
+    "company_name": "OpenAI, LLC",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002211995",
+    "contact_name": "Power House",
+    "company_name": "Power House",
+    "gst_no": "33ACPPJ8218A2ZT",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000357128",
+    "contact_name": "R K WorldInfocom Pvt. Ltd.",
+    "company_name": "R K WorldInfocom Pvt. Ltd.",
+    "gst_no": "33AAECR0564M1ZA",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000333283",
+    "contact_name": "RAM INFOTECH LAPTOP SERVICE CHENNAI PRIVATE LIMITED",
+    "company_name": "RAM INFOTECH LAPTOP SERVICE CHENNAI PRIVATE LIMITED",
+    "gst_no": "33AAJCR3661E1ZI",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000352225",
+    "contact_name": "Raviraj Bhagwat Karale",
+    "company_name": "Raviraj Bhagwat Karale",
+    "gst_no": "27EKTPK7364G1ZG",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000356826",
+    "contact_name": "RETAILEZ PRIVATE LIMITED",
+    "company_name": "RETAILEZ PRIVATE LIMITED",
+    "gst_no": "33AALCR3173P1ZU",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000364886",
+    "contact_name": "ROSHAN",
+    "company_name": "ROSHAN",
+    "gst_no": "33AAIFR7046M1ZT",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002965001",
+    "contact_name": "S2 Labs Inc.",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
+    "contact_id": "2050328000000356928",
+    "contact_name": "SalesMaza International",
+    "company_name": "SalesMaza International",
+    "gst_no": "33EQIPS9326D1ZM",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000140233",
+    "contact_name": "SHL",
+    "company_name": "SHL",
+    "gst_no": "06AADCS2982D1ZG",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000141105",
+    "contact_name": "Shopomall",
+    "company_name": "Shopomall",
+    "gst_no": "33AEEFS8902B1ZC",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000136930",
+    "contact_name": "Sky Badmiton Acadamy",
+    "company_name": "Sky Badmiton Academy",
+    "gst_no": "",
+    "gst_treatment": "business_none",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002894623",
+    "contact_name": "SOFTWARE TECHNOLOGY PARKS OF INDIA",
+    "company_name": "SOFTWARE TECHNOLOGY PARKS OF INDIA",
+    "gst_no": "33AAATS2468J1ZD",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000352379",
+    "contact_name": "Sri Lakshmi Enterprises",
+    "company_name": "Sri Lakshmi Enterprises",
+    "gst_no": "33ADVPN2290B1ZK",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000552219",
+    "contact_name": "Srinivasan Ganesan",
+    "company_name": "Srinivasan Ganesan",
+    "gst_no": "",
+    "gst_treatment": "business_none",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002917312",
+    "contact_name": "SUPABASE",
+    "company_name": "SUPABASE",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
+    "contact_id": "2050328000000309587",
+    "contact_name": "Techdew UX Design and Consulting Private Limited",
+    "company_name": "Techdew UX Design and Consulting Private Limited",
+    "gst_no": "33AAFCT4294D1ZF",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002358003",
+    "contact_name": "The Detailing Mafia",
+    "company_name": "The Detailing Mafia",
+    "gst_no": "33ABVFA4032C1Zs",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000552077",
+    "contact_name": "TURF TOWN",
+    "company_name": "TURF TOWN",
+    "gst_no": "",
+    "gst_treatment": "business_none",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000137146",
+    "contact_name": "UBER9 BUSINESS PROCESS SERVICES PRIVATE LIMITED",
+    "company_name": "UBER9 BUSINESS PROCESS SERVICES PRIVATE LIMITED",
+    "gst_no": "33AABCU7650C1ZM",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000358336",
+    "contact_name": "VALUECART PRIVATE LIMITED",
+    "company_name": "VALUECART PRIVATE LIMITED",
+    "gst_no": "33AAFCV5265N2ZU",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000335001",
+    "contact_name": "VGP GOLDEN BEACH RESORT",
+    "company_name": "VGP GOLDEN BEACH RESORT",
+    "gst_no": "33AAACV3002G1Z0",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000352275",
+    "contact_name": "WE Hydroponics",
+    "company_name": "WE Hydroponics",
+    "gst_no": "23AURPB7696J1Z1",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000349429",
+    "contact_name": "Windsurf",
+    "company_name": "Windsurf",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000509003",
+    "contact_name": "WISSEND INTELSPOT PRIVATE LIMITED",
+    "company_name": "WISSEND INTELSPOT PRIVATE LIMITED",
+    "gst_no": "33AAECW0262F1ZP",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000000343473",
+    "contact_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "company_name": "",
+    "gst_no": "33AAACZ4322M2Z9",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  }
+]

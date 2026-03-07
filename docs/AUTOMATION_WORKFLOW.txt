@@ -1,0 +1,555 @@
+============================================================
+CC STATEMENT AUTOMATION - WORKFLOW PROCESS
+Step-by-Step Setup & Monthly Execution Guide
+============================================================
+
+Created: 2026-02-18
+
+
+============================================================
+OVERVIEW
+============================================================
+
+Pipeline: 7 scripts in 2 phases, run once per month after CC
+statement closing dates.
+
+  Phase 1: Invoice Emails → Zoho Bills (Steps 1-3)
+  Phase 2: CC Statement PDFs → Payments → Banking → Match (Steps 4-7)
+
+Current Mode:   Manual (python run_all.py --auto)
+Target Mode:    Scheduled automation with Task Scheduler + Power Automate
+
+
+============================================================
+SECTION A: ONE-TIME SETUP (Do Once)
+============================================================
+
+
+--- A1. Python Environment ---
+
+  Location: d:\Downloads\cc-statement-automation\
+  Python:   3.10+ required
+
+  Install dependencies:
+    pip install -r requirements.txt
+
+  Key packages:
+    - pdfplumber         (PDF text extraction)
+    - requests           (HTTP/API calls)
+    - fuzzywuzzy         (vendor name matching)
+    - python-Levenshtein (faster fuzzy matching)
+    - msal               (Microsoft auth - optional, using direct OAuth now)
+
+
+--- A2. Zoho Books API Credentials ---
+
+  File: config/zoho_config.json
+
+  Fields to set (get from https://api-console.zoho.in/):
+    - client_id          → Zoho API Console > Self Client > Client ID
+    - client_secret      → Zoho API Console > Self Client > Client Secret
+    - refresh_token      → Generated via get_refresh_token.py
+    - organization_id    → Zoho Books > Settings > Organization Profile > Org ID
+    - base_url           → "https://www.zohoapis.in/books/v3" (India region)
+                           Change to .com / .eu / .com.au for other regions
+
+  Generate Refresh Token:
+    1. Go to https://api-console.zoho.in/
+    2. Create a Self Client if not exists
+    3. Generate code with scope: ZohoBooks.fullaccess.all
+    4. Run: python get_refresh_token.py
+    5. Paste the code when prompted
+    6. Token saved to config/zoho_config.json automatically
+
+  IMPORTANT: Refresh token expires after 60 days of inactivity.
+  Running the pipeline at least once a month keeps it alive.
+
+
+--- A3. Outlook / Microsoft Graph API ---
+
+  File: config/outlook_config.json
+
+  Fields to set (get from https://portal.azure.com/ > App Registrations):
+    - client_id          → Azure App > Overview > Application (client) ID
+    - client_secret      → Azure App > Certificates & Secrets > New secret
+    - tenant_id          → Azure App > Overview > Directory (tenant) ID
+    - redirect_uri       → "http://localhost:8080/callback"
+    - scopes             → ["Mail.Read", "User.Read"]
+
+  Azure App Setup:
+    1. Azure Portal > Azure Active Directory > App Registrations > New
+    2. Name: "CC Statement Automation"
+    3. Redirect URI: Web > http://localhost:8080/callback
+    4. API Permissions: Add > Microsoft Graph > Delegated > Mail.Read
+    5. Grant admin consent
+
+  CURRENT LIMITATION: No refresh token saved. Browser auth required
+  every ~1 hour. For automation, need to:
+    - Save refresh_token from token response
+    - Add refresh logic in 01_fetch_invoices.py
+    - OR use Client Credentials flow (app-level, no user consent needed)
+      Requires: Mail.Read Application permission + admin consent
+
+
+--- A4. Credit Card Configuration ---
+
+  File: config/zoho_config.json > "credit_cards" array
+
+  For EACH credit card, add:
+    {
+      "name": "HDFC CC 8948",           ← Display name (used in logs + CSV filenames)
+      "pdf_file": "HDFC-CC-Jan2026.pdf", ← PDF filename in input_pdfs/ folder
+      "bank": "HDFC",                    ← Parser selector: "HDFC" | "Kotak" | "IDFC FIRST"
+      "last_four_digits": "8948",        ← For reference only
+      "zoho_account_id": "336963300..."  ← From Zoho Books Banking > CC Account > URL
+    }
+
+  How to find zoho_account_id:
+    - Zoho Books > Banking > Click on the CC account
+    - URL will be: .../banking#/accounts/3369633000000043025/...
+    - The long number is the account ID
+
+  Supported Banks:
+    - HDFC      → Regex parser (DD/MM/YYYY | HH:MM DESC C AMOUNT)
+    - Kotak     → Regex parser (DD Mon YYYY DESC AMOUNT CR/Dr)
+    - IDFC FIRST → Regex parser (DD/MM/YYYY DESC AMOUNT DR/CR, multi-line)
+    - Other     → Fallback table extraction (unreliable)
+
+
+--- A5. Vendor Mappings ---
+
+  File: config/vendor_mappings.json
+
+  Two sections:
+
+  1. "mappings" - CC merchant string → Zoho vendor name
+     Maps the truncated merchant names on CC statements to clean vendor names.
+     Example: "ANTHROPIC" → "Anthropic"
+              "NRI*NEW RELIC" → "New Relic"
+              "ATLASSIANAMSTERDAM" → "Atlassian"
+
+  2. "vendor_details" - vendor name → company info
+     Optional details for auto-creating vendors in Zoho.
+     Example: "Anthropic": {"company_name": "Anthropic PBC", "website": "anthropic.com"}
+
+
+--- A6. Folder Structure ---
+
+  cc-statement-automation/
+  ├── config/
+  │   ├── zoho_config.json          ← Zoho creds + CC card config
+  │   ├── outlook_config.json       ← Microsoft Graph creds
+  │   ├── vendor_mappings.json      ← Merchant → vendor name maps
+  │   ├── outlook_token.json        ← Cached Outlook token (auto-generated)
+  │   └── tokens.json               ← Zoho token cache (auto-generated)
+  ├── input_pdfs/
+  │   ├── invoices/                 ← Invoice PDFs from email (Step 1 output)
+  │   ├── HDFC-CC-Jan2026.pdf       ← CC statement PDFs (manually placed)
+  │   ├── Kotak-CC-Dec2025.pdf
+  │   └── Mayura-CC-Dec2025.pdf
+  ├── output/
+  │   ├── extracted_invoices.json   ← Step 2 output
+  │   ├── created_bills.json        ← Step 3 output
+  │   ├── cc_transactions.json      ← Step 4 output (combined JSON)
+  │   ├── HDFC_CC_8948_transactions.csv  ← Step 4 output (per-card CSV)
+  │   ├── recorded_payments.json    ← Step 5 output
+  │   └── automation.log            ← All script logs (append-only)
+  ├── scripts/                      ← All 7 pipeline scripts + utilities
+  └── run_all.py                    ← Pipeline runner
+
+
+============================================================
+SECTION B: MONTHLY WORKFLOW (Manual - Current Process)
+============================================================
+
+
+--- B1. Before Running (Monthly Prep) ---
+
+  □ 1. Download CC statement PDFs from bank websites/email
+       - HDFC: net banking > Cards > Statement > Download PDF
+       - Kotak: net banking > Credit Card > e-Statement
+       - IDFC FIRST / Mayura: net banking > Credit Card > Statement
+
+  □ 2. Place PDFs in input_pdfs/ folder
+       - Use any filename (will be referenced in config)
+
+  □ 3. Update config/zoho_config.json:
+       - Set "pdf_file" for each card to the new PDF filename
+       Example: "pdf_file": "HDFC-CC-Feb2026.pdf"
+
+  □ 4. Update config/outlook_config.json (if needed):
+       - Set "search_period" > "from" and "to" dates
+       - Or leave broad range to catch all invoices
+
+  □ 5. Add any new vendor mappings:
+       - If you have new merchants, add to config/vendor_mappings.json
+       - Check previous run's automation.log for "No vendor match" warnings
+
+
+--- B2. Run the Pipeline ---
+
+  Option 1 - Full auto (no pauses):
+    python run_all.py --auto
+
+  Option 2 - Interactive (pause after each step to verify):
+    python run_all.py
+
+  Option 3 - Run specific phase:
+    python run_all.py --phase 1     # Invoice → Bills only
+    python run_all.py --phase 2     # CC → Payments → Banking only
+
+  Option 4 - Start from specific step:
+    python run_all.py --from 4      # Skip invoice steps, start at CC parsing
+
+  Option 5 - Run individual scripts:
+    python scripts/01_fetch_invoices.py
+    python scripts/02_extract_invoices.py
+    python scripts/03_create_vendors_bills.py
+    python scripts/04_parse_cc_statements.py
+    python scripts/05_record_payments.py
+    python scripts/06_import_to_banking.py
+    python scripts/07_auto_match.py
+
+
+--- B3. What Each Step Does ---
+
+  Step 1: Fetch Invoices from Outlook
+    - Connects to Invoice@d2railabs.com via Microsoft Graph
+    - Downloads PDF attachments from emails in search_period
+    - Saves to input_pdfs/invoices/
+    - Skips already-downloaded files (by filename)
+
+  Step 2: Extract Invoice Data from PDFs
+    - Reads each PDF using pdfplumber
+    - Detects vendor by keywords (Atlassian, AWS, Google, etc.)
+    - Extracts: vendor name, invoice number, date, amount, currency
+    - Saves to output/extracted_invoices.json
+
+  Step 3: Create Vendors & Bills in Zoho
+    - For each extracted invoice:
+      a. Find or create vendor in Zoho Books
+      b. Create bill with line items
+      c. Attach PDF to the bill
+    - Dedup: skips if filename already processed (created_bills.json)
+    - Saves to output/created_bills.json
+
+  Step 4: Parse CC Statement PDFs
+    - Reads each CC statement PDF using bank-specific parser
+    - Extracts: date, description, amount (debit/credit)
+    - Outputs per-card CSV (for Zoho Banking import) + combined JSON
+    - JSON includes card_name and zoho_account_id for payment matching
+
+  Step 5: Record Vendor Payments
+    - For each unpaid bill from Step 3:
+      a. Find matching CC transaction by vendor name + amount
+      b. For USD bills: extract exchange rate from CC INR amount
+      c. Record payment in Zoho linking bill → CC account
+    - Bills become PAID status in Zoho
+    - Skips bills with no matching CC transaction (stays open)
+
+  Step 6: Import to Zoho Banking
+    - Uploads each card's CSV to Zoho Banking
+    - Creates uncategorized transactions in each CC account
+    - These appear in Banking > CC Account > Uncategorized tab
+
+  Step 7: Auto-Match
+    - For each uncategorized banking transaction:
+      a. Looks for matching vendor payment (from Step 5)
+      b. Matches by amount (5% tolerance) and vendor name
+      c. Links them in Zoho → transaction becomes Categorized
+    - Matched transactions appear in Banking > Categorized tab
+
+
+--- B4. After Running (Verification) ---
+
+  □ 1. Check output/automation.log for errors/warnings
+  □ 2. Zoho Books > Purchases > Bills → verify PAID status
+  □ 3. Zoho Books > Banking > CC accounts → verify Categorized count
+  □ 4. Review unmatched bills: check recorded_payments.json for "failed"
+  □ 5. Review unmatched CC transactions in Zoho Banking > Uncategorized
+  □ 6. Add missing vendor mappings for "No vendor match" entries
+
+
+--- B5. Cleanup (If Needed) ---
+
+  Delete all automation-created data (bills, payments, vendors, banking):
+    python scripts/cleanup_all.py
+
+  Delete only banking transactions:
+    python scripts/delete_banking_transactions.py
+
+  Delete only bills:
+    python scripts/delete_bills.py
+
+  List current bills:
+    python scripts/list_bills.py
+
+  WARNING: cleanup_all.py deletes ALL vendors in the org, not just
+  automation-created ones. Use with caution.
+
+
+============================================================
+SECTION C: AUTOMATION SETUP (Future - Task Scheduler + Power Automate)
+============================================================
+
+
+--- C1. Architecture ---
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │                    TRIGGER OPTIONS                          │
+  │                                                             │
+  │  Option A: Windows Task Scheduler (simplest)                │
+  │    → Runs run_all.py --auto on 5th of every month           │
+  │                                                             │
+  │  Option B: Power Automate + Task Scheduler (hybrid)         │
+  │    → Power Automate watches email for CC statements          │
+  │    → Saves PDFs to input_pdfs/ automatically                │
+  │    → Task Scheduler runs pipeline after all PDFs arrive     │
+  │                                                             │
+  │  Option C: Full Power Automate (cloud-only)                 │
+  │    → Not recommended - Python scripts need local execution  │
+  └─────────────────────────────────────────────────────────────┘
+
+  Recommended: Option B (Hybrid)
+
+
+--- C2. Task Scheduler Setup (Windows) ---
+
+  1. Open Task Scheduler (taskschd.msc)
+
+  2. Create New Task:
+     - Name: "CC Statement Automation"
+     - Security: "Run whether user is logged on or not"
+     - Check: "Run with highest privileges"
+
+  3. Trigger:
+     - Monthly, on Day 5 (or whenever CC statements are available)
+     - Start time: 10:00 AM
+     - Or: Daily at 10 AM with a condition script that checks
+       if all 3 CC PDFs exist in input_pdfs/
+
+  4. Action:
+     - Program: C:\Path\To\python.exe
+     - Arguments: run_all.py --auto
+     - Start in: d:\Downloads\cc-statement-automation\
+
+  5. Conditions:
+     - Check: "Start only if network connection is available"
+
+  6. Settings:
+     - "If task fails, restart every 5 minutes, up to 3 times"
+     - "Stop task if it runs longer than 1 hour"
+
+
+--- C3. Wrapper Script for Scheduled Execution ---
+
+  Create a file: run_scheduled.bat
+
+  Contents:
+  ──────────────────────────────────────────────
+  @echo off
+  cd /d "d:\Downloads\cc-statement-automation"
+
+  REM Check if all CC statement PDFs exist
+  REM (Add checks per card here)
+
+  REM Run pipeline
+  python run_all.py --auto > output\scheduled_run_%date:~-4%%date:~3,2%%date:~0,2%.log 2>&1
+
+  REM Check exit code
+  if %errorlevel% neq 0 (
+      echo Pipeline failed. Check log. >> output\errors.log
+  )
+  ──────────────────────────────────────────────
+
+  Point Task Scheduler to this .bat file instead of python directly.
+
+
+--- C4. Power Automate Flow (CC Statement Auto-Download) ---
+
+  Flow Name: "Auto-Download CC Statements"
+
+  Trigger:
+    "When a new email arrives (V3)" in Invoice@d2railabs.com
+    Filter: Has Attachments = Yes
+    Filter: Subject contains "Statement" OR "Credit Card"
+
+  Actions:
+    1. For each attachment in email:
+       a. Condition: attachment name ends with ".pdf"
+       b. If yes:
+          - Get file content
+          - Create file in OneDrive/SharePoint OR
+          - Save to local folder via On-Premises Data Gateway
+          - Path: d:\Downloads\cc-statement-automation\input_pdfs\
+
+    2. Send notification (Teams/Email):
+       "CC statement PDF saved: [filename]. Pipeline will run on schedule."
+
+  IMPORTANT: To save files to local disk from Power Automate,
+  you need the "On-Premises Data Gateway" installed on this machine.
+  Alternative: Save to OneDrive, then sync folder to local disk.
+
+
+--- C5. Power Automate Flow (Invoice Email Forwarding) ---
+
+  Flow Name: "Auto-Forward Invoice Emails"
+
+  This replaces Step 1 (01_fetch_invoices.py) entirely.
+
+  Trigger:
+    "When a new email arrives" in Invoice@d2railabs.com
+    Filter: Has Attachments = Yes
+
+  Actions:
+    1. For each attachment:
+       a. Condition: ends with ".pdf"
+       b. Save to input_pdfs/invoices/ folder
+
+    2. Optional: Run Step 2-3 immediately via HTTP trigger
+       (requires a small Flask/FastAPI wrapper around the scripts)
+
+
+--- C6. Code Changes Needed for Full Automation ---
+
+  Priority 1 - MUST FIX for unattended runs:
+
+    □ 1. Outlook refresh token (01_fetch_invoices.py)
+         Current: Browser auth every hour (blocks automation)
+         Fix: Save refresh_token, add refresh logic
+         Or: Switch to Client Credentials flow (no user needed)
+         Or: Replace Step 1 entirely with Power Automate flow
+
+    □ 2. Auto-discover CC PDFs (zoho_config.json)
+         Current: Must manually set "pdf_file" each month
+         Fix: Add "pdf_pattern" field, glob for matching files
+         Example: "pdf_pattern": "HDFC*CC*.pdf"
+                  Script finds most recent matching file
+
+    □ 3. Fail-fast in run_all.py
+         Current: --auto continues even if a step fails
+         Fix: Add --fail-fast flag, stop pipeline on first failure
+         Log error, send notification
+
+    □ 4. Delete old banking statements before import (Step 6)
+         Current: Old statements block new imports silently
+         Fix: Auto-delete existing statements for each CC account
+              before importing new CSV
+
+  Priority 2 - SHOULD FIX for reliability:
+
+    □ 5. Zoho API error details (utils.py)
+         Current: raise_for_status() loses error message
+         Fix: Parse resp.json() for Zoho error before raising
+
+    □ 6. Zoho token expiry handling (utils.py)
+         Current: 60-day expired token crashes with generic 400
+         Fix: Detect "invalid_grant", print re-auth instructions
+
+    □ 7. Step 6 duplicate detection (06_import_to_banking.py)
+         Current: Re-runs create duplicate banking transactions
+         Fix: Add imported_statements.json tracking file
+
+    □ 8. Notification on completion/failure
+         Fix: Add email/Teams notification at end of run_all.py
+         Use: Power Automate HTTP trigger or smtplib
+
+  Priority 3 - NICE TO HAVE:
+
+    □ 9.  Currency IDs from API (not hardcoded)
+    □ 10. Configurable matching tolerances
+    □ 11. Log rotation (per-run or max-size)
+    □ 12. Unmatched merchant auto-suggest
+
+
+--- C7. Notification Setup ---
+
+  Option A: Email notification (simple)
+    Add to run_all.py after pipeline completes:
+      import smtplib
+      # Send summary email with counts and errors
+
+  Option B: Power Automate HTTP trigger
+    1. Create Power Automate flow with HTTP trigger
+    2. Pipeline posts JSON summary to trigger URL
+    3. Flow sends Teams message / email with results
+
+  Option C: Windows Toast notification
+    pip install win10toast
+    from win10toast import ToastNotifier
+    ToastNotifier().show_toast("CC Automation", "Pipeline complete!")
+
+
+============================================================
+SECTION D: MONTHLY CHECKLIST (Quick Reference)
+============================================================
+
+  BEFORE PIPELINE:
+  □ Download CC statement PDFs from all 3 banks
+  □ Place in input_pdfs/ folder
+  □ Update pdf_file in config/zoho_config.json (until auto-discover is built)
+  □ Check config/vendor_mappings.json for any new vendors (optional)
+
+  RUN:
+  □ python run_all.py --auto
+  □ Or wait for Task Scheduler to trigger
+
+  AFTER PIPELINE:
+  □ Check output/automation.log for errors
+  □ Verify Zoho Books > Banking > CC accounts > Categorized
+  □ Verify Zoho Books > Purchases > Bills > PAID status
+  □ Handle any unmatched transactions manually in Zoho
+
+  QUARTERLY:
+  □ Run pipeline at least once every 60 days to keep Zoho refresh token alive
+  □ Review and update vendor_mappings.json with new merchants
+  □ Check if any bank changed statement PDF format (parser may need update)
+  □ Renew Microsoft client_secret if expired (Azure portal)
+
+
+============================================================
+SECTION E: TROUBLESHOOTING
+============================================================
+
+  Problem: "invalid_grant" or 400 error from Zoho
+  Cause:   Refresh token expired (60+ days unused)
+  Fix:     Re-run get_refresh_token.py to generate new token
+
+  Problem: Step 1 hangs waiting for browser
+  Cause:   Outlook token expired, needs interactive login
+  Fix:     Run Step 1 manually once to authenticate
+           Long-term: implement refresh token or Client Credentials
+
+  Problem: Banking shows 0 after Step 6 import
+  Cause:   Old statements blocking new import
+  Fix:     Delete old statements first:
+           python scripts/delete_banking_transactions.py
+           Then re-run Step 6
+
+  Problem: Step 5 says "No CC transaction found" for all bills
+  Cause:   1. CC statement PDF not parsed (wrong pdf_file in config)
+           2. Vendor mappings missing for the merchant name
+           3. Amount mismatch > 1 INR (tolerance too tight)
+  Fix:     Check output/cc_transactions.json has transactions
+           Check vendor_mappings.json has the merchant keyword
+           Review automation.log for specific skip reasons
+
+  Problem: "already been paid" errors in Step 5
+  Cause:   Previous run already recorded payments
+  Fix:     Check recorded_payments.json for status: "paid"
+           These are correctly skipped on re-run
+
+  Problem: Mayura/IDFC FIRST parses 0 transactions
+  Cause:   PDF format changed, parser regex doesn't match
+  Fix:     Open PDF in pdfplumber, print raw text, update regex
+           in scripts/04_parse_cc_statements.py parse_idfc_first()
+
+  Problem: "Rate limit" or "Too many requests" from Zoho
+  Cause:   Zoho API rate limit (100 requests/minute for free plan)
+  Fix:     Wait 1-2 minutes, re-run from the failed step:
+           python run_all.py --from <step_number>
+
+
+============================================================
+END OF WORKFLOW DOCUMENT
+============================================================

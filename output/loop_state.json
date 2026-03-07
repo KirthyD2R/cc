@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "last_run": "2026-02-24T19:32:08.365355",
+  "last_email_check": null,
+  "processed_email_ids": [],
+  "processed_pdf_files": [
+    "LNKD_INVOICE_51998567905.pdf"
+  ],
+  "cc_statements_hash": {
+    "HDFC CC 8948": "417a7743c9d86e8c3cba19cafde0a61f",
+    "Kotak CC 9157": "e5bc76f8694d030dd6ec9fdd26bca999",
+    "Mayura CC 9677": "dbc6a2b0bdb0493079a383f67911e135"
+  },
+  "consecutive_failures": 1,
+  "run_history": [
+    {
+      "timestamp": "2026-02-24T18:56:05.186821",
+      "phases_run": [
+        "extract_invoices",
+        "create_vendors_bills",
+        "parse_cc_statements",
+        "record_payments",
+        "import_to_banking",
+        "auto_match"
+      ],
+      "errors": [
+        {
+          "phase": "fetch_invoices",
+          "error": "Outlook token expired and cannot refresh. Run 'python scripts/01_fetch_invoices.py' manually to re-authenticate."
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-02-24T19:28:58.782529",
+      "phases_run": [
+        "extract_invoices",
+        "create_vendors_bills",
+        "parse_cc_statements",
+        "import_to_banking"
+      ],
+      "errors": [
+        {
+          "phase": "fetch_invoices",
+          "error": "Outlook token expired and cannot refresh. Run 'python scripts/01_fetch_invoices.py' manually to re-authenticate."
+        },
+        {
+          "phase": "record_payments",
+          "error": "[Errno 22] Invalid argument"
+        },
+        {
+          "phase": "auto_match",
+          "error": "[Errno 22] Invalid argument"
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-02-24T19:31:24.391818",
+      "phases_run": [
+        "extract_invoices",
+        "create_vendors_bills",
+        "parse_cc_statements",
+        "record_payments",
+        "import_to_banking",
+        "auto_match"
+      ],
+      "errors": []
+    },
+    {
+      "timestamp": "2026-02-24T19:32:08.365355",
+      "phases_run": [
+        "extract_invoices"
+      ],
+      "errors": [
+        {
+          "phase": "create_vendors_bills",
+          "error": "429  for GET chartofaccounts: The API call for this organization has exceeded the maximum call rate limit of 1,000"
+        },
+        {
+          "phase": "parse_cc_statements",
+          "error": "429  for GET bankaccounts: The API call for this organization has exceeded the maximum call rate limit of 1,000"
+        },
+        {
+          "phase": "record_payments",
+          "error": "429  for GET bankaccounts: The API call for this organization has exceeded the maximum call rate limit of 1,000"
+        },
+        {
+          "phase": "import_to_banking",
+          "error": "429  for GET bankaccounts: The API call for this organization has exceeded the maximum call rate limit of 1,000"
+        },
+        {
+          "phase": "auto_match",
+          "error": "429  for GET bankaccounts: The API call for this organization has exceeded the maximum call rate limit of 1,000"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,338 @@
+Delivered-To: d2railabs@gmail.com
+Received: by 2002:a17:504:82d7:b0:1c9b:6f7d:5629 with SMTP id m23csp3280499njj;
+        Wed, 16 Apr 2025 05:28:34 -0700 (PDT)
+X-Received: by 2002:a05:6a21:62c8:b0:1f5:7eb5:72dc with SMTP id adf61e73a8af0-203b3e4e438mr2953308637.3.1744806514115;
+        Wed, 16 Apr 2025 05:28:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1744806514; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hXdw8BD8Waoo7+HDhbDTdHu4m0e2woaSzvxSr36VX1RL8FY+AzSkZTsA80PMmCg7rV
+         29+bq3NCsNsh8eqX3Ebt9DYy+YW8J8zmqdKN7JMU7UvW+4s3z0+r/L/wwNq8TNoa+Xs1
+         jTWsPg82wZUlbZc+KlAhrEf8IQVrWRoNIZ2nbSq38h0gH67pWfDR6tBEbGVGrgfTjaem
+         vFoNjNrqee03Zoqjdjbi6nLpTpDjiom1+ea21ebYiBTVuE73R/gyzzCKklDp9c1H9R3d
+         uzW5n0sN5CeQBZIlHcrncmdOTAH3vdJrcxQeISSw9HJVbloX08GkWXTO4Jtp8l63VC/l
+         ticQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:from:subject:message-id:feedback-id:reply-to:date:mime-version
+         :dkim-signature;
+        bh=zlrO79XZfF0KRYbr4X7t9Gwe35M9M7SBytQ4KCGt578=;
+        fh=BOzrlOGT4ElihLIKxOuuMrxlprjf/CPiQ4yePB3YAO8=;
+        b=GGp2JBQEW/GJmyajMg0SfpiGq+Fj0QJpE/O7hp1uKV0zSB4brLwvhXY6ZUPDBami4D
+         T09cQtnINgxPW+8vrJ6A4CbZNmxTbRpNm+nkAh6fw9Y6fWdwyq3HewzaIiliQEIPCt16
+         jSgYD2dI6BAVudK1TVGBDlpOtSTZWeqljisrKdNc2zZBD0yG6bwexEpuYCwQDN3iSion
+         ffx8hZXwlyzw6pA3n1JSHgAzdY2psMqLmPj37rQEFmF0zGu4DTtHRIbNRTHw47dqtZPr
+         J071jhKfnui/Xf7g/bjNsR7Uqo1WBfSb/za1eYD9OMVLt68fYnIEJeFyt+/vYVyGS3xK
+         nyrg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=IleXfjNV;
+       spf=pass (google.com: domain of 3cal_zxikcfoiqqingrnc0-pqtgrn0iqqing.eqof4tckncduiockn.eqo@scoutcamp.bounces.google.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=3caL_ZxIKCfoiqqingrnc0-pqtgrn0iqqing.eqof4tckncduiockn.eqo@scoutcamp.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@gmail.com
+Return-Path: <3caL_ZxIKCfoiqqingrnc0-pqtgrn0iqqing.eqof4tckncduiockn.eqo@scoutcamp.bounces.google.com>
+Received: from mail-sor-f69.google.com (mail-sor-f69.google.com. [209.85.220.69])
+        by mx.google.com with SMTPS id 41be03b00d2f7-b02a206d4a8sor8999001a12.3.2025.04.16.05.28.33
+        for <d2railabs@gmail.com>
+        (Google Transport Security);
+        Wed, 16 Apr 2025 05:28:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3cal_zxikcfoiqqingrnc0-pqtgrn0iqqing.eqof4tckncduiockn.eqo@scoutcamp.bounces.google.com designates 209.85.220.69 as permitted sender) client-ip=209.85.220.69;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=IleXfjNV;
+       spf=pass (google.com: domain of 3cal_zxikcfoiqqingrnc0-pqtgrn0iqqing.eqof4tckncduiockn.eqo@scoutcamp.bounces.google.com designates 209.85.220.69 as permitted sender) smtp.mailfrom=3caL_ZxIKCfoiqqingrnc0-pqtgrn0iqqing.eqof4tckncduiockn.eqo@scoutcamp.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dara=pass header.i=@gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1744806513; x=1745411313; dara=google.com;
+        h=to:from:subject:message-id:feedback-id:reply-to:date:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zlrO79XZfF0KRYbr4X7t9Gwe35M9M7SBytQ4KCGt578=;
+        b=IleXfjNVYI9U4jFHCb2m0KLbzkSyxAPmInRAqI1LL7m0GN8wfSgrsrIQEhPqpv+ifx
+         brg+MaO0N9x2kye3xk3cQG/meyHYeHvWJXeTlyr0si+heuD6NS3iXSVGCP4IjFtW545C
+         hjoH3gl6Tz6+j0VBrwnFndQoAsEQGOlAPmJm0kKy0AUIuPDppUHMYAlQMZvgJ1HUYqAj
+         Vo5uStFIFNJJSTlckQ5C8Eupx6OFVI3JLbBuepj7FiP86vp/Y3px5kl9cu7JcfOPsNSb
+         8DuCFHu0QiuQTI4rodUZo0Zp1+ZAwG7PCtdGJN55EabSG2TghjkFQrk+z+Sj7r8ZBV7y
+         4G6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744806513; x=1745411313;
+        h=to:from:subject:message-id:feedback-id:reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zlrO79XZfF0KRYbr4X7t9Gwe35M9M7SBytQ4KCGt578=;
+        b=k+A+zw4BuGt9fAI3lJFLgQCJlMW3q7F8Es4Cg3dJ4njXyiBwYcZ7BuLvkcAMGBABto
+         sokTm0OseBDV411Hf7DhJlhU/9veWVTGwq812u6orWS4O5GWMZA6xAPsLtjRpxZ15mCO
+         NVsIal5KEu6gT82AYhIOrnF92GfGUkAs8xTpxdsJWUKfKOVVwOrzzl3kVk45uohpofuH
+         uWc3xjl7q7GsAg6VqWZsZVYelSHMw7oGNOdh9diCr50dZiHqJ2cLpv8ODuVEPvo8COOb
+         YW3FmBO1OawHTljeF9sEg4cBG07aSRAGwqKxZjw5zoxCkUxwn7bPj1p7kS9JangGvFCR
+         rCZA==
+X-Gm-Message-State: AOJu0YxVplC9anPJ9mjD9asd4U5t908nHQ18c8gahPUWepnpNU+Hmk4S
+	u7vr3xk2EOf+OwDCYV8Hhs+iJbzDLL/pg4Htv92ceKRRBYy06YfV27cr
+X-Google-Smtp-Source: AGHT+IGx8+i00nP3Tkzx5h8MsrKQsELRfIRSMG9cDcD6lSJtXlF0Dy+w70wl9hD3ObaTsFyO6WshewM=
+X-Received: by 2002:a17:90b:5188:b0:2fe:ba7f:8032 with SMTP id
+ 98e67ed59e1d1-30863f1840amr2529877a91.9.1744806513813; Wed, 16 Apr 2025
+ 05:28:33 -0700 (PDT)
+Date: Wed, 16 Apr 2025 05:28:33 -0700
+Reply-To: Google Play <googleplay-noreply@google.com>
+X-Google-Id: 186549
+Feedback-ID: P-286712824-0:C10044049:M110110518-en:gamma
+X-Notifications: 60b6f657518a0000
+X-Notifications-Bounce-Info: Ab2lIHUz4Pbj-DVZJ1Shyk_X0KnIiE9eqJyEwCG-vYNdFiTezRtbM8b2xCkP26hvVLByvUztUx8iHP-MxkpoHRZ-9YfILowjtxfspztpiGSOQRDr9fEVliYu0jcZt9m0WMUciPxnKRmYTK0ziUod0EI7fMMyDJtEZ0A0PuPbvmTP7nywycEuFYMZiKHgp1mfUF45kvJiFH2EQ9-_UnZjwUCq5kXyY45c9XmBp39AKpQpInoinyAhARAT2oMdhSfPAHfZ6F9Q9HmQCcrE4glmzCITiieg2bnv999mgQDqpOpFFdJ84mb1l5TK3fb5BNGILDEWiLoG1O_zGTxPEy-1XeoZ8c3_wiMEw0nl2uZHrWJLyzP4p4307XkRkQnEv8XlCEOp5ZrIpUDnMoJO6A0_Gnrb-Nb_TF7i2D5wOC99YSvHzVTHrGfCgmlhYShdgc7itr52p6ap7SKlf3nQ8hCI8QbPp1yjWtRb_MB8ms1kKirjOKP0AyGwa8iL2cxh70dTyypoQ0111IKFFgNjAwNjA0MDQxNTM1NTk2OTMzMg
+Message-ID: <68cf51410336b9e9f4daec197faf6229834c9be9-10044049-110294243@google.com>
+Subject: Your Google Play Order Receipt from Apr 16, 2025
+From: Google Play <googleplay-noreply@google.com>
+To: d2railabs@gmail.com
+Content-Type: multipart/alternative; boundary="000000000000752cc80632e46cf6"
+MIME-Version: 1.0
+
+--000000000000752cc80632e46cf6
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Transfer-Encoding: base64
+
+R29vZ2xlIFBsYXkNCg0KDQpUaGFuayB5b3UNCg0KDQpZb3VyIHN1YnNjcmlwdGlvbiBmcm9tIEdv
+b2dsZSBJcmVsYW5kIExpbWl0ZWQgb24gR29vZ2xlIFBsYXkgY29udGludWVzIGFuZCAgDQp5b3Un
+dmUgYmVlbiBjaGFyZ2VkLiBNYW5hZ2UgeW91ciBzdWJzY3JpcHRpb25zDQoNClRvIGhlbHAga2Vl
+cCB5b3VyIHN1YnNjcmlwdGlvbiBhY3RpdmUsIGFkZCBhIGJhY2t1cCBwYXltZW50IG1ldGhvZC4N
+Cg0KDQpBZGQgYmFja3VwDQoNCg0KT3JkZXIgbnVtYmVyOiBTT1AuMzMwNS0zOTE2LTc0MTgtODU2
+MTIuLjMNCk9yZGVyIGRhdGU6IEFwciAxNiwgMjAyNSA1OjU4OjMwIFBNIEdNVCs1OjMwDQpZb3Vy
+IGFjY291bnQ6IGQycmFpbGFic0BnbWFpbC5jb20NCg0KDQpJdGVtIFByaWNlDQoNCg0KR29vZ2xl
+IE9uZSBBSSBQcmVtaXVtIChHb29nbGUgT25lKSAoYnkgR29vZ2xlIExMQykg4oK5MSw5NTAuMDAv
+bW9udGgNCg0KQXV0by1yZW5ld2luZyBzdWJzY3JpcHRpb24NCg0KDQoNClRvdGFsOiDigrkxLDk1
+MC4wMC9tb250aA0KDQooSW5jbHVkZXMgR1NUIG9mIOKCuTI5Ny40NikNCg0KDQpQYXltZW50IG1l
+dGhvZDoNCg0KVmlzYS05MTU3DQoNCg0KDQpCeSBzdWJzY3JpYmluZywgeW91IGF1dGhvcml6ZSB1
+cyB0byBjaGFyZ2UgeW91IHRoZSBzdWJzY3JpcHRpb24gY29zdCAoYXMgIA0KZGVzY3JpYmVkIGFi
+b3ZlKSBhdXRvbWF0aWNhbGx5LCBjaGFyZ2VkIHRvIHRoZSBwYXltZW50IG1ldGhvZCBwcm92aWRl
+ZCAgDQp1bnRpbCBjYW5jZWxlZC4gTGVhcm4gaG93IHRvIGNhbmNlbC4gS2VlcCB0aGlzIGZvciB5
+b3VyIHJlY29yZHMuDQoNClF1ZXN0aW9ucz8gVmlzaXQgR29vZ2xlIElyZWxhbmQgTGltaXRlZC4N
+Cg0KDQpHb29nbGUgUGxheQ0KDQpBbGwgeW91ciBlbnRlcnRhaW5tZW50IGluIG9uZSBwbGFjZSwg
+YXZhaWxhYmxlIGFueXdoZXJlLiBMZWFybiBtb3JlIOKAug0KDQoNCg0KU2VlIHlvdXIgR29vZ2xl
+IFBsYXkgT3JkZXIgSGlzdG9yeS4NCg0KVmlldyB0aGUgR29vZ2xlIFBsYXkgUmVmdW5kIFBvbGlj
+eSBhbmQgdGhlIFRlcm1zIG9mIFNlcnZpY2UuDQoNCg0KwqkgMjAyNSBHb29nbGUgfCBBbGwgUmln
+aHRzIFJlc2VydmVkLg0KR29vZ2xlIEFzaWEgUGFjaWZpYyBQdGUuIExpbWl0ZWQsIDcwIFBhc2ly
+IFBhbmphbmcgUm9hZCwgIzAzLTcxLCBNYXBsZXRyZWUgIA0KQnVzaW5lc3MgQ2l0eSwgU2luZ2Fw
+b3JlIDExNzM3MQ0KDQpQbGVhc2UgZG9uJ3QgcmVwbHkgdG8gdGhpcyBlbWFpbCwgYXMgd2UgYXJl
+IHVuYWJsZSB0byByZXNwb25kIGZyb20gdGhpcyAgDQplbWFpbCBhZGRyZXNzLiBJZiB5b3UgbmVl
+ZCBzdXBwb3J0LCB2aXNpdCB0aGUgR29vZ2xlIFBsYXkgSGVscCBDZW50ZXIuDQoNCg0K
+--000000000000752cc80632e46cf6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html lang=3D"en"><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3D8">
+<title>
+Google Play purchase </title>
+</head>
+<body dir=3D"ltr" style=3D"font-family: verdana; font-size: 14px; color: #5=
+55555; line-height: 21px;" id=3D"gamma">
+<div style=3D"width: 590px;">
+<div style=3D"background: url('http://www.gstatic.com/android/market_images=
+/email/email_top.png') no-repeat;width:100%; height: 75px; display:block">
+<div style=3D"padding-top: 30px; padding-left: 50px; padding-right: 50px;">
+<a href=3D"https://notifications.google.com/g/p/ANiao5qJy-KF8X-lh56ELhrOS7q=
+rr-_JVWB7jYe7TGqgnrbViNS5iwb61hpZf0VxWXGZY2PWMYOqXdcUXG4aV9Ib7m7zybyiIKsc4e=
+CkQl8-_dAaOfI1sY2LtlLJbw" target=3D"_blank" style=3D"display: inline-block;=
+ border-top: 4px solid transparent; border-bottom: 4px solid transparent;">
+<img alt=3D"Google Play" title=3D"Google Play" width=3D"162" src=3D"https:/=
+/www.gstatic.com/gumdrop/files/google-play-crm-lockup-ic-h-transparent-w688=
+px-h140px-2x.png" style=3D"border:none;">
+</a>
+</div>
+</div>
+<div style=3D"background: url('http://www.gstatic.com/android/market_images=
+/email/email_mid.png') repeat-y;width:100%; display:block"><div style=3D"pa=
+dding-left: 50px; padding-right: 50px; padding-bottom: 1px;">
+<div style=3D"border-bottom: 1px solid #EDEDED;"></div>
+<div style=3D"margin: 20px 0px;font-size: 30px;line-height: 36px;text-align=
+:left">
+Thank you</div>
+<div style=3D"text-align:left">
+<div>
+Your subscription from Google Ireland Limited on Google Play continues and =
+you've been charged. <a href=3D"https://notifications.google.com/g/p/ANiao5=
+qndv8u7JhwOUM8daVQ5SNuQzCMX47nvmtxRVapP9zhh2ZbeEfgH21aiy0JblFBf90xIo8kN9CLl=
+MZablwQMo13sKxnvJzXaKNVE5-wdX0ceEt1sCD5ik2Mu_A2H8z4LIJwOgu6Zx0OemZwFD2N3fo"=
+ style=3D"text-decoration: none; color: #1565C0;" target=3D"_blank">Manage =
+your subscriptions</a>
+<br aria-hidden=3D"true"><br aria-hidden=3D"true">
+To help keep your subscription active, add a backup payment method.<div sty=
+le=3D"margin-bottom: 36px;"></div>
+<div style=3D"text-align: center;">
+<a target=3D"_blank" style=3D"-moz-border-radius:4px; -webkit-border-radius=
+:4px; background:#00818F; color:#FDFDFD; font-family:Roboto, Helvetica Neue=
+, Helvetica, Arial, sans-serif; font-size:16px; line-height:24px; font-weig=
+ht:500; border-top:12px solid #00818F; border-bottom:12px solid #00818F; bo=
+rder-left:48px solid #00818F; border-right:48px solid #00818F; text-decorat=
+ion:none;" href=3D"https://notifications.google.com/g/p/ANiao5roqasDnL_W49G=
+7XOqg5sqfg4VRK3wCSndkdweHwX8yh2L0IMQN8KlcdjSXGfoKef2ZC4HRiVrTlfEBfixrMCv8Ql=
+YIyjiQFvOPGeJFoGjc-USKEeJVAQogrZlSQKB24y7dDUbrjHud5qVObO8N0gKB3HuooEuW4LH3p=
+qO6B0c0x1z91_7U9FA6MWQP_d4JhDXgo_0rgw1nAA5BSwrm419MrWbFOYXwbzR5kmk1JgNW77ft=
+rDjx59ylS5BzpSHmzpgSx0Ixhm6GbdQ0BpQmeZg4TAKmdXKb1OrG85Mzjfi-EcN-f0s7XeFzjRV=
+en8vxbLdGsWq6_iCwb01gJFHaNVtytn6z-7OTke1r37uislI">
+Add backup </a>
+</div><div style=3D"margin-bottom: 36px;"></div> </div>
+<br aria-hidden=3D"true">
+<div style=3D"margin-bottom: 20px;text-align:left">
+<b>
+Order number: </b> SOP.3305-3916-7418-85612..3<br>
+<b>
+Order date: </b> Apr 16, 2025 5:58:30=E2=80=AFPM GMT+5:30 <br><b>Your accou=
+nt:</b> d2railabs@gmail.com
+</div>
+</div>
+<div>
+<div></div>
+<span></span>
+<table role=3D"presentation" style=3D"width:100%;margin:5px 0">
+<tbody>
+<tr>
+<td style=3D"text-align:left;font-weight:bold;font-size: 14px; line-height:=
+21px;">
+Item </td>
+<td style=3D"text-align:right;font-weight:bold;font-size: 14px; line-height=
+:21px;" width=3D"70">
+Price </td>
+</tr>
+</tbody>
+</table>
+<div style=3D"border-bottom:1px solid #ededed"></div>
+<table role=3D"presentation" style=3D"width: 100%;margin: 5px 0;">
+<tr>
+<tr>
+<td style=3D"text-align:left;font-size: 14px; line-height: 21px;padding-rig=
+ht: 10px">
+<span>
+<span dir=3D"ltr">
+Google One AI Premium (Google One)
+</span>
+(by Google LLC)
+</span> </td>
+<td style=3D"text-align:right;font-size: 14px; line-height: 21px;">
+<span itemprop=3D"price">
+<span>
+=E2=82=B91,950.00/month
+</span> </span>
+</td>
+</tr>
+<tr>
+<td style=3D"text-align:left;font-size:14px; line-height: 21px;padding-righ=
+t:10px">
+Auto-renewing subscription </td>
+<td style=3D"text-align: right;font-size:14px; line-height: 21px;"></td>
+</tr>
+</tr></table>
+<div style=3D"border-bottom: 1px solid #EDEDED;"></div>
+<table role=3D"presentation" style=3D"width:100%;margin:5px 0">
+<tr>
+<td style=3D"text-align:right;font-size: 14px; line-height:21px;" width=3D"=
+150" colspan=3D"2">
+<span dir=3D"left">Total</span>: <span>
+=E2=82=B91,950.00/month </span>
+</td>
+</tr>
+<tr>
+<td style=3D"text-align:right;font-size: 14px; line-height:21px;" width=3D"=
+150" colspan=3D"2">(Includes GST of =E2=82=B9297.46)</td>
+</tr>
+</table>
+<div style=3D"border-bottom:1px solid #ededed"></div>
+<table role=3D"presentation" style=3D"width:100%;margin:5px 0 15px 0;paddin=
+g:0;border-spacing:0">
+<tr>
+<td style=3D"text-align:left;font-weight:bold;font-size:14px; line-height:2=
+1px; vertical-align:top">
+Payment method: </td>
+<td>
+<table role=3D"presentation" style=3D"margin-left:auto;font-size:14px; line=
+-height:21px;">
+<tbody>
+<tr>
+<td style=3D"font-size:14px; line-height:21px; text-align:right">
+Visa-9157
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</table>
+<div style=3D"border-bottom:1px solid #ededed"></div>
+</div>
+<div style=3D"margin: 48px 0 20px 0; font-size: 10px; line-height: 15px; co=
+lor: #707070;">
+By subscribing, you authorize us to charge you the subscription cost (as de=
+scribed above) automatically, charged to the payment method provided until =
+canceled. <a href=3D"https://notifications.google.com/g/p/ANiao5qhkfy8m1Wm5=
+syvV6nmLqSixNy7WKH4KpxftApEBZX5ZTNyl9RRB9fh2I-g4Q8-lYDu_aBiOZHBvHgaL_SG4QTC=
+aFAg4pnLPW-3s9KsGQGdsaPf9Wuw7YYtTMPk2eWDz8er86wrHLS_-f3BupaYcmFsO6uZrHdSM6r=
+pFg-MrnxS9FgN0mqN4DgGyrT3nl0wntPbZ0g">Learn how to cancel</a>. Keep this fo=
+r your records.<br aria-hidden=3D"true"><br aria-hidden=3D"true">
+Questions? Visit <a href=3D"https://notifications.google.com/g/p/ANiao5of87=
+fXngU4KOhFYuWk6pEj4W0Hu5OT4ZsqmL-q42l2zlKBoMLv6X496aUFZfrmpn6njV2tcz6qKScZw=
+JCRjZr2QDDMjTGGk4Nx0EXDNzDYcF1R">Google Ireland Limited</a>.
+</div>
+<div style=3D"border-bottom:1px solid #ededed"></div>
+<div style=3D"margin: 10px 5px;position: relative;display: inline-block;">
+<table role=3D"presentation">
+<tbody>
+<tr>
+<td aria-hidden=3D"true" style=3D"vertical-align:top;">
+<div style=3D"margin-left:8px; margin-top: 3px;"><img width=3D"56" src=3D"h=
+ttps://www.gstatic.com/gumdrop/files/google-play-crm-logo-transparent-w192p=
+x-h192px-2x.png" alt=3D"" title=3D"Google Play"></div>
+</td>
+<td style=3D"vertical-align:top; font-size:12px; color:#555555; line-height=
+:18px;">
+<div style=3D"font-size: 14px; line-height:21px; font-weight: bold; margin-=
+bottom: 8px;">Google Play</div>
+<div style=3D"margin-bottom:8px;">
+All your entertainment in one place, available anywhere. <a href=3D"https:/=
+/notifications.google.com/g/p/ANiao5oQqV49UpYLZfSQmK9bfgNLA4B0jl5BCe7pPrCWo=
+uRMjnhi7kMUxv2HwGOVGgXyC-Kx9y0W9odiyqPnsYwuYoizvwU5lDpBzEhlTSl6HC2KLSg6w8-e=
+csx4JQ" style=3D"text-decoration: none; color: #1565C0;" target=3D"_blank">=
+Learn more</a> <a href=3D"https://notifications.google.com/g/p/ANiao5qNfYAI=
+BARVp0InXg3dWt2chkdDS2k4_c-lbcUXQHb1XSIIcMuhO6XEYwSL-14f0PmL81Is7YRx8pgTSxn=
+Dk7txjHSdidDSewX7bnQYQq7fQOZvaQ" style=3D"font-family:'Droid Sans',Arial,sa=
+ns-serif;color:#2B7F91;font-size:14px;text-decoration:none;padding-left:4px=
+;line-height:21px; display:inline-block;" target=3D"_blank">=E2=80=BA</a></=
+div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style=3D"border-bottom: 1px solid #EDEDED;"></div>
+<div style=3D"margin: 20px 0 0; font-size: 10px; line-height; 15px; color: =
+#707070;">
+See your <a href=3D"https://notifications.google.com/g/p/ANiao5rEOfWxRqb4Lj=
+tI_3HmZbPA8jC8Hy2MnGc3Jl6WHbCHpF5hWmzlmWd3hq9g1slPQyWDwveBBBbJliZ44g7Of4K7T=
+aMolT75mj3wAo5I71y1USz4xWL0TI0e3NHgUe2RPRPMv-FR4uYc9W9VbCu6HA" style=3D"tex=
+t-decoration: none; color: #1565C0;" target=3D"_blank">Google Play Order Hi=
+story</a>. <br aria-hidden=3D"true"><br aria-hidden=3D"true">
+View the Google Play <a href=3D"https://notifications.google.com/g/p/ANiao5=
+qAWH8maJMh0UxR6WgOOCu6tBdYF6MUZBPQ7VYPzaYFCHU8GuxKcYWgbn6s9eKMdA2NkDmTOztF5=
+DGlA2QJWSq6NcS0fh3TemWjIF1JD1VxfZ5pfTbrdR4nIQBOQN1piyIqClZp3CuC2GnZgOl_prSf=
+iqzR" style=3D"text-decoration: none; color: #1565C0;" target=3D"_blank">Re=
+fund Policy</a> and the <a href=3D"https://notifications.google.com/g/p/ANi=
+ao5r0ylzHII4P4dEdDC0cn6Zb8t3THOp1uMbjza2lVgLNLwiPj2_QX12zmDFStG4UNuB6yN03W_=
+IaYdW4KyiuedQBrE0unyerFadfU1E4O_bJqlekGKL21bLF_yT4-MhzijHC14Z8Y71oR2asV1C_r=
+I6VZ4g" style=3D"text-decoration: none; color: #1565C0;" target=3D"_blank">=
+Terms of Service</a>.</div>
+<div style=3D"font-size: 10px; line-height: 15px; color: #707070;">
+<br aria-hidden=3D"true">
+=C2=A9 2025 Google | All Rights Reserved. <br aria-hidden=3D"true">
+Google Asia Pacific Pte. Limited, 70 Pasir Panjang Road, #03-71, Mapletree =
+Business City, Singapore 117371 <br aria-hidden=3D"true"><br aria-hidden=3D=
+"true">
+Please don't reply to this email, as we are unable to respond from this ema=
+il address. If you need support, visit the <a href=3D"https://notifications=
+.google.com/g/p/ANiao5q5APhRe3Eb8GHtUh00sASUVSA27MVuSUG-EdPZLuhvT_6zX_0TtIW=
+YGa0zk67Zf5pSQcJDJw88185iRZhjcP8z7V_jCratguGR60bHcz-WaUo7ayQ0vt313G0SVG3TtA=
+haYtEQnjl2v6LrOnhh769PYHVO" style=3D"text-decoration: none; color: #1565C0;=
+" target=3D"_blank">Google Play Help Center</a>.</div>
+</div>
+</div>
+<div style=3D"background: url('http://www.gstatic.com/android/market_images=
+/email/email_bottom.png') no-repeat;width:100%; height: 50px; display:block=
+">
+</div>
+</body>
+</html>=
+
+--000000000000752cc80632e46cf6--

@@ -1,0 +1,168 @@
+ CRITICAL: Secrets in Version Control
+
+  All these files are STAGED in git despite config/ being in .gitignore:
+
+  ┌────────────────────────────┬────────────────────────────────────────────────┐
+  │            File            │                Exposed Secrets                 │
+  ├────────────────────────────┼────────────────────────────────────────────────┤
+  │ config/outlook_config.json │ Azure client_id, client_secret, tenant_id      │
+  ├────────────────────────────┼────────────────────────────────────────────────┤
+  │ config/outlook_token.json  │ JWT access token                               │
+  ├────────────────────────────┼────────────────────────────────────────────────┤
+  │ config/self_client.json    │ Zoho OAuth client_id, client_secret, auth code │
+  ├────────────────────────────┼────────────────────────────────────────────────┤
+  │ config/tokens.json         │ Zoho refresh_token + access_token              │
+  ├────────────────────────────┼────────────────────────────────────────────────┤
+  │ config/zoho_config.json    │ Zoho credentials, org ID, credit card details  │
+  └────────────────────────────┴────────────────────────────────────────────────┘
+
+  The .gitignore has config/ but the files were already git add-ed, so they're tracked anyway. These credentials should be revoked and regenerated.
+
+  ---
+  CRITICAL: Hardcoded Values That Break Portability
+
+  1. run_scheduled.bat:11 — Absolute machine-specific path
+
+  cd /d "d:\Downloads\cc-statement-automation 2\cc-statement-automation"
+  Only works on one specific Windows machine.
+
+  2. organize_outlook.py:189-190 — Hardcoded date range
+
+  "2025-01-01" to "2026-12-31"
+  Will stop finding emails after Dec 2026.
+
+  3. vendor_mappings.json:318-382 — Zoho account IDs (org-specific)
+
+  "NSTP": { "account_id": "3543887000000075003" }
+  "Info Edge (Naukri)": { "account_id": "3543887000000076003" }
+  12 hardcoded Zoho account IDs that only work for one specific Zoho organization.
+
+  4. zoho_config.json — Credit card Zoho account IDs
+
+  "HDFC CC 8948": { "zoho_account_id": "3543887000000043092" }
+  "Kotak CC 9157": { "zoho_account_id": "3543887000000042068" }
+
+  ---
+  HIGH: Business Logic Hardcoded in Python (Not Config)
+
+  5. utils.py:444-475 — Vendor categories (32 vendors in code)
+
+  KNOWN_VENDOR_CATEGORIES = {
+      "Amazon Web Services": "cloud_infrastructure",
+      "Atlassian": "saas_devtools",
+      "Anthropic": "ai_ml_services",
+      ...  # 32 total
+  }
+  Adding a new vendor requires a code change, not a config edit.
+
+  6. utils.py:496-512 — COA account name mapping (14 categories)
+
+  CATEGORY_TO_ACCOUNT = {
+      "cloud_infrastructure": ("Cloud Infrastructure & Hosting", "expense"),
+      "saas_devtools": ("Software Subscriptions - Dev Tools", "expense"),
+      ...
+  }
+  Account names must exactly match Zoho Books COA. Any mismatch = silent failure.
+
+  7. 02_extract_invoices.py:74-91 — Vendor detection keywords
+
+  "ATLASSIAN", "AMAZON WEB SERVICES", "GITHUB, INC", "ANTHROPIC", ...
+  16 hardcoded vendor keywords. New vendors won't be detected.
+
+  8. 04_parse_cc_statements.py:278-282 — Only 3 banks supported
+
+  PARSERS = {
+      "HDFC": parse_hdfc,
+      "Kotak": parse_kotak,
+      "IDFC FIRST": parse_idfc_first,
+  }
+  Any other bank = complete failure. Each parser is also tightly coupled to a specific PDF format.
+
+  ---
+  HIGH: Hardcoded Thresholds & Magic Numbers
+
+  ┌───────────────────────┬──────┬───────────────────────────────────────────┬───────────────────────────────────────┐
+  │         File          │ Line │                   Value                   │                Purpose                │
+  ├───────────────────────┼──────┼───────────────────────────────────────────┼───────────────────────────────────────┤
+  │ 05_record_payments.py │ 104  │ tolerance = max(5.0, bill_amount * 0.005) │ INR amount matching (0.5%, min 5 INR) │
+  ├───────────────────────┼──────┼───────────────────────────────────────────┼───────────────────────────────────────┤
+  │ 05_record_payments.py │ 116  │ 0.02                                      │ USD amount matching tolerance         │
+  ├───────────────────────┼──────┼───────────────────────────────────────────┼───────────────────────────────────────┤
+  │ 05_record_payments.py │ 129  │ 5 days                                    │ Date proximity window                 │
+  ├───────────────────────┼──────┼───────────────────────────────────────────┼───────────────────────────────────────┤
+  │ 05_record_payments.py │ 141  │ 30                                        │ Confidence score threshold            │
+  ├───────────────────────┼──────┼───────────────────────────────────────────┼───────────────────────────────────────┤
+  │ 07_auto_match.py      │ 68   │ 0.01 + 100                                │ 1% tolerance, 100 INR floor           │
+  ├───────────────────────┼──────┼───────────────────────────────────────────┼───────────────────────────────────────┤
+  │ utils.py              │ 352  │ 75                                        │ Fuzzy match threshold                 │
+  ├───────────────────────┼──────┼───────────────────────────────────────────┼───────────────────────────────────────┤
+  │ 01_fetch_invoices.py  │ 203  │ 60 days                                   │ Default email search period           │
+  ├───────────────────────┼──────┼───────────────────────────────────────────┼───────────────────────────────────────┤
+  │ run_loop.py           │ 85   │ 600 sec                                   │ Lock timeout (10 min)                 │
+  ├───────────────────────┼──────┼───────────────────────────────────────────┼───────────────────────────────────────┤
+  │ run_loop.py           │ 159  │ 5000                                      │ Max tracked email IDs                 │
+  ├───────────────────────┼──────┼───────────────────────────────────────────┼───────────────────────────────────────┤
+  │ run_loop.py           │ 283  │ 3                                         │ Consecutive failure alert threshold   │
+  ├───────────────────────┼──────┼───────────────────────────────────────────┼───────────────────────────────────────┤
+  │ utils.py              │ 420  │ 5 MB                                      │ Log rotation size                     │
+  └───────────────────────┴──────┴───────────────────────────────────────────┴───────────────────────────────────────┘
+
+  None of these are configurable without editing code.
+
+  ---
+  MEDIUM: Limited Currency/Locale Support
+
+  - utils.py:399 — Only strips ₹, $, €, INR from amounts. Other currencies crash.
+  - utils.py:376-381 — Only 13 date formats supported. Regional/unusual formats fail silently.
+  - 05_record_payments.py — All tolerance values tuned for INR. USD tolerance is separate but still hardcoded.
+
+  ---
+  MEDIUM: Hardcoded File Paths (All Scripts)
+
+  Every script has its own hardcoded I/O paths:
+  input_pdfs/invoices/          → 01, 02
+  output/extracted_invoices.json → 02, 03
+  output/bill_results.json       → 03, 05
+  output/cc_transactions.json    → 04, 05
+  output/payments_results.json   → 05
+  config/outlook_config.json     → 01
+  config/outlook_token.json      → 01
+  config/zoho_config.json        → utils.py
+  config/vendor_mappings.json    → utils.py
+  None use environment variables or a central path config.
+
+  ---
+  MEDIUM: Deprecated Dependencies
+
+  requirements.txt uses fuzzywuzzy (deprecated) instead of thefuzz. There's even a comment about migrating but it hasn't been done.
+
+  OCR dependencies (pytesseract, pdf2image) are commented out — scanned PDFs will crash.
+
+  ---
+  MEDIUM: Undocumented Script Interfaces
+
+  run_loop.py dynamically imports and calls run() from each script with specific parameter signatures (e.g., run(since_timestamp=..., known_email_ids=...,
+  headless=True)). These signatures are not validated or documented — if any script changes its signature, the loop breaks silently.
+
+  ---
+  Summary: What Needs to Move to Config
+
+  ┌──────────────────────────────────────────┬──────────────────────────────────────────┐
+  │          Currently Hardcoded In          │               Should Be In               │
+  ├──────────────────────────────────────────┼──────────────────────────────────────────┤
+  │ Vendor categories (utils.py)             │ vendor_mappings.json                     │
+  ├──────────────────────────────────────────┼──────────────────────────────────────────┤
+  │ COA account mappings (utils.py)          │ vendor_mappings.json or zoho_config.json │
+  ├──────────────────────────────────────────┼──────────────────────────────────────────┤
+  │ Bank parsers (04_parse_cc_statements.py) │ Plugin/config system                     │
+  ├──────────────────────────────────────────┼──────────────────────────────────────────┤
+  │ Matching thresholds (05, 07)             │ zoho_config.json                         │
+  ├──────────────────────────────────────────┼──────────────────────────────────────────┤
+  │ Search date range (organize_outlook.py)  │ Dynamic (rolling window)                 │
+  ├──────────────────────────────────────────┼──────────────────────────────────────────┤
+  │ File paths (all scripts)                 │ Central config or env vars               │
+  ├──────────────────────────────────────────┼──────────────────────────────────────────┤
+  │ Vendor detection keywords (02)           │ vendor_mappings.json                     │
+  ├──────────────────────────────────────────┼──────────────────────────────────────────┤
+  │ Absolute bat path (run_scheduled.bat)    │ %~dp0 (script-relative)                  │
+  └──────────────────────────────────────────┴──────────────────────────────────────────┘

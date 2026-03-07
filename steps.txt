@@ -1,0 +1,53 @@
+# CC Statement Automation
+
+# --- Setup ---
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+
+# Config:
+# - config/zoho_config.json       -> Zoho credentials & CC account IDs
+# - config/outlook_config.json    -> Azure/Graph API creds (copy from .example)
+# - config/vendor_mappings.json   -> merchant -> vendor name mappings
+# - input_pdfs/cc_statements/     -> Place CC statement PDFs here
+# - input_pdfs/invoices/          -> Invoice PDFs (auto-downloaded by Step 1)
+
+# --- Steps (run in order) ---
+
+# Step 1: Fetch invoice PDFs from Outlook
+python scripts/01_fetch_invoices.py
+
+# Step 2: Extract vendor, amount, date, currency from invoice PDFs
+python scripts/02_extract_invoices.py
+
+# Step 3: Create vendors + bills in Zoho Books, attach PDFs
+python scripts/03_create_vendors_bills.py
+
+# Step 4: Parse CC statement PDFs into CSV + JSON (actual INR amounts)
+python scripts/04_parse_cc_statements.py
+
+# Step 5: Record payments - match bills to CC transactions (zero forex diff for USD)
+python scripts/05_record_payments.py
+
+# Step 6: Import CC transaction CSVs to Zoho Banking (uncategorized)
+python scripts/06_import_to_banking.py
+
+# Step 7: Auto-match uncategorized bank transactions to paid bills
+python scripts/07_auto_match.py
+
+# --- Run All ---
+python run_all.py                    # Interactive (pauses after each step)
+python run_all.py --auto             # No pauses
+python run_all.py --phase 1          # Only Steps 1-3 (invoices -> bills)
+python run_all.py --phase 2          # Only Steps 4-7 (CC -> payments -> match)
+python run_all.py --from 5           # Resume from Step 5
+
+# --- Utilities ---
+python scripts/list_bills.py                       # View all bills
+python scripts/list_bills.py --status paid         # View only paid bills
+python scripts/delete_bills.py --dry-run           # Preview bills to delete
+python scripts/delete_bills.py                     # Delete all bills (for re-runs)
+python scripts/organize_outlook.py                 # Move processed emails to "Processed Invoices"
+python scripts/organize_outlook.py --dry-run       # Preview which emails will be moved
+python scripts/organize_outlook.py --folder "Done" # Move to a custom folder name
+python scripts/organize_outlook.py --days 60       # Look back 60 days instead of 30

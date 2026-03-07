@@ -1,0 +1,6103 @@
+"""
+Web UI Dashboard — CC Statement Automation
+
+Single-file Flask app with embedded HTML/CSS/JS.
+Provides a browser-based dashboard to run pipeline steps, view live logs, and track status.
+
+Usage:
+    python app.py              # Starts server and opens browser at http://localhost:5000
+    python app.py --port 8080  # Custom port
+    python app.py --no-open    # Don't auto-open browser
+"""
+
+import os
+import sys
+import json
+import re
+import glob
+import queue
+import threading
+import time
+import importlib.util
+import argparse
+import webbrowser
+import traceback
+from datetime import datetime
+
+from flask import Flask, Response, jsonify, request, render_template_string
+
+# --- Setup paths ---
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+SCRIPTS_DIR = os.path.join(PROJECT_ROOT, "scripts")
+sys.path.insert(0, SCRIPTS_DIR)
+
+from utils import PROJECT_ROOT as UTILS_ROOT, log_action, _log_subscribers
+
+app = Flask(__name__)
+
+# --- Script registry ---
+STEPS = {
+    "1": {
+        "script": "01_fetch_invoices.py",
+        "name": "Fetch Invoices from Inbox",
+        "desc": "Download invoice PDFs from Outlook",
+        "phase": 1,
+        "run_kwargs": {"headless": False},
+    },
+    "2": {
+        "script": "02_extract_invoices.py",
+        "name": "Extract Data",
+        "desc": "Extract vendor/amount/date from PDFs",
+        "phase": 1,
+        "run_kwargs": {},
+    },
+    "3": {
+        "script": "03_create_vendors_bills.py",
+        "name": "Create Bills and Vendors",
+        "desc": "Create vendors & bills in Zoho Books",
+        "phase": 1,
+        "run_kwargs": {},
+    },
+    "4": {
+        "script": "04_parse_cc_statements.py",
+        "name": "Parse CC",
+        "desc": "Parse CC statement PDFs to CSV + JSON",
+        "phase": 2,
+        "run_kwargs": {},
+    },
+    "5": {
+        "script": "06_import_to_banking.py",
+        "name": "Import Banking",
+        "desc": "Import CC transactions to Zoho Banking",
+        "phase": 2,
+        "run_kwargs": {},
+    },
+    "6": {
+        "script": "05_record_payments.py",
+        "name": "Payments",
+        "desc": "Record payments (match bills to CC)",
+        "phase": 2,
+        "run_kwargs": {},
+    },
+    "7": {
+        "script": "07_auto_match.py",
+        "name": "Auto-Match",
+        "desc": "Auto-match transactions to paid bills",
+        "phase": 2,
+        "run_kwargs": {},
+    },
+    "review": {
+        "script": None,
+        "name": "Review Accounts",
+        "desc": "Review and fix expense account assignments on bills",
+        "phase": 1,
+        "run_kwargs": {},
+        "interactive": True,
+        "skip_in_run_all": True,
+    },
+}
+
+# --- In-memory state ---
+_state_lock = threading.Lock()
+_state = {
+    "running": False,
+    "current_step": None,
+    "step_results": {},  # step_id -> {status, message, timestamp, result}
+    "last_run_all": None,
+}
+
+
+def _import_script(filename):
+    """Import a script from scripts/ folder by filename."""
+    module_name = filename.replace(".py", "")
+    spec = importlib.util.spec_from_file_location(
+        module_name, os.path.join(SCRIPTS_DIR, filename)
+    )
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _run_step(step_id, extra_kwargs=None):
+    """Execute a single pipeline step. Called from background thread."""
+    step = STEPS[step_id]
+
+    # Guard: interactive steps cannot be run as scripts
+    if step.get("interactive"):
+        log_action(f"Step '{step_id}' ({step['name']}) is interactive — use the UI panel instead.", "WARNING")
+        with _state_lock:
+            _state["step_results"][step_id] = {
+                "status": "success",
+                "message": "Interactive step — use UI panel",
+                "timestamp": datetime.now().isoformat(),
+            }
+        return
+
+    with _state_lock:
+        _state["current_step"] = step_id
+        _state["step_results"][step_id] = {
+            "status": "running",
+            "message": f"Running {step['name']}...",
+            "timestamp": datetime.now().isoformat(),
+        }
+
+    log_action(f"=== Step {step_id}: {step['name']} ===")
+    try:
+        mod = _import_script(step["script"])
+        kwargs = dict(step["run_kwargs"])
+        if extra_kwargs:
+            kwargs.update(extra_kwargs)
+        result = mod.run(**kwargs)
+        result_dict = result if isinstance(result, dict) else {}
+
+        with _state_lock:
+            _state["step_results"][step_id] = {
+                "status": "success",
+                "message": _summarize_result(step_id, result_dict),
+                "timestamp": datetime.now().isoformat(),
+                "result": _safe_serialize(result_dict),
+            }
+        log_action(f"=== Step {step_id} DONE: {_state['step_results'][step_id]['message']} ===")
+    except Exception as e:
+        tb = traceback.format_exc()
+        log_action(f"Step {step_id} FAILED: {e}", "ERROR")
+        log_action(tb, "ERROR")
+        with _state_lock:
+            _state["step_results"][step_id] = {
+                "status": "error",
+                "message": str(e)[:200],
+                "timestamp": datetime.now().isoformat(),
+            }
+
+
+def _safe_serialize(obj):
+    """Make a result dict JSON-safe (convert sets, etc.)."""
+    if isinstance(obj, dict):
+        return {k: _safe_serialize(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_safe_serialize(v) for v in obj]
+    if isinstance(obj, set):
+        return list(obj)
+    return obj
+
+
+def _summarize_result(step_id, result):
+    """Create a human-readable summary from step result dict."""
+    if not result:
+        return "Done"
+    parts = []
+    for key in ["downloaded_count", "new_count", "created_count", "total_transactions",
+                 "paid_count", "imported_count", "matched_count"]:
+        if key in result:
+            label = key.replace("_", " ").replace("count", "").strip()
+            parts.append(f"{label}: {result[key]}")
+    for key in ["skipped_count", "total_count", "cards_parsed"]:
+        if key in result:
+            label = key.replace("_", " ").replace("count", "").strip()
+            parts.append(f"{label}: {result[key]}")
+    return " | ".join(parts) if parts else "Done"
+
+
+def _run_step_thread(step_id, extra_kwargs=None):
+    """Run a step in a background thread with lock management."""
+    try:
+        _run_step(step_id, extra_kwargs=extra_kwargs)
+    finally:
+        with _state_lock:
+            _state["running"] = False
+            _state["current_step"] = None
+
+
+def _run_all_thread():
+    """Run all 7 steps sequentially in a background thread."""
+    log_action("=" * 60)
+    log_action("RUN ALL: Starting full pipeline (Steps 1-7)")
+    log_action("=" * 60)
+    with _state_lock:
+        _state["last_run_all"] = datetime.now().isoformat()
+
+    for step_id in ["1", "2", "3", "review", "4", "5", "6", "7"]:
+        step = STEPS[step_id]
+        # Skip interactive steps in Run All
+        if step.get("skip_in_run_all") or step.get("interactive"):
+            log_action(f"Skipping '{step['name']}' (interactive step — use UI panel)")
+            continue
+        # Check if still supposed to be running (could be cancelled)
+        with _state_lock:
+            if not _state["running"]:
+                log_action("Run All cancelled.", "WARNING")
+                return
+        _run_step(step_id)
+        # Stop on error
+        with _state_lock:
+            if _state["step_results"].get(step_id, {}).get("status") == "error":
+                log_action(f"Run All stopped: Step {step_id} failed.", "ERROR")
+                break
+
+    log_action("=" * 60)
+    log_action("RUN ALL: Complete")
+    log_action("=" * 60)
+
+    with _state_lock:
+        _state["running"] = False
+        _state["current_step"] = None
+
+
+def _run_cleanup_thread():
+    """Run cleanup in a background thread."""
+    log_action("=" * 60)
+    log_action("CLEANUP: Starting complete cleanup")
+    log_action("=" * 60)
+
+    with _state_lock:
+        _state["current_step"] = "cleanup"
+
+    try:
+        cleanup_mod = _import_script("cleanup_all.py")
+        from utils import load_config, ZohoBooksAPI, resolve_account_ids
+
+        config = load_config()
+        api_obj = ZohoBooksAPI(config)
+        resolve_account_ids(api_obj, config.get("credit_cards", []))
+
+        cleanup_mod.cleanup_banking(api_obj, config)
+        cleanup_mod.cleanup_vendor_payments(api_obj)
+        cleanup_mod.cleanup_bills(api_obj)
+        cleanup_mod.cleanup_vendors(api_obj)
+        cleanup_mod.cleanup_remaining_bank_txns(api_obj, config)
+        cleanup_mod.cleanup_local_files()
+
+        log_action("CLEANUP: Complete")
+        with _state_lock:
+            _state["step_results"]["cleanup"] = {
+                "status": "success",
+                "message": "All Zoho data + local files cleaned",
+                "timestamp": datetime.now().isoformat(),
+            }
+    except Exception as e:
+        log_action(f"CLEANUP FAILED: {e}", "ERROR")
+        log_action(traceback.format_exc(), "ERROR")
+        with _state_lock:
+            _state["step_results"]["cleanup"] = {
+                "status": "error",
+                "message": str(e)[:200],
+                "timestamp": datetime.now().isoformat(),
+            }
+    finally:
+        with _state_lock:
+            _state["running"] = False
+            _state["current_step"] = None
+
+
+# --- Flask Routes ---
+
+@app.route("/")
+def index():
+    return render_template_string(DASHBOARD_HTML)
+
+
+@app.route("/api/extract-zips", methods=["POST"])
+def api_extract_zips():
+    """Extract PDFs from ZIP files in 'all zips' folder, then run Step 2 to organize month-wise."""
+    with _state_lock:
+        if _state["running"]:
+            return jsonify({"error": "A step is already running", "current": _state["current_step"]}), 409
+        _state["running"] = True
+
+    def _extract_zips_thread():
+        try:
+            with _state_lock:
+                _state["current_step"] = "extract-zips"
+                _state["step_results"]["extract-zips"] = {
+                    "status": "running",
+                    "message": "Extracting ZIPs...",
+                    "timestamp": datetime.now().isoformat(),
+                }
+
+            log_action("=== Extract ZIPs ===")
+
+            # Extract PDFs from ZIPs into input_pdfs/invoices/
+            mod_zip = _import_script("extract_zips.py")
+            zip_results = mod_zip.extract_pdfs_all()
+
+            msg = f"Extracted {zip_results['copied']} new PDFs from ZIPs into input_pdfs/invoices/"
+            with _state_lock:
+                _state["step_results"]["extract-zips"] = {
+                    "status": "success",
+                    "message": msg,
+                    "timestamp": datetime.now().isoformat(),
+                }
+            log_action(f"=== Extract ZIPs DONE: {msg} — Run Extract Data next ===")
+        except Exception as e:
+            tb = traceback.format_exc()
+            log_action(f"Extract ZIPs FAILED: {e}", "ERROR")
+            log_action(tb, "ERROR")
+            with _state_lock:
+                _state["step_results"]["extract-zips"] = {
+                    "status": "error",
+                    "message": str(e)[:200],
+                    "timestamp": datetime.now().isoformat(),
+                }
+        finally:
+            with _state_lock:
+                _state["running"] = False
+                _state["current_step"] = None
+
+    t = threading.Thread(target=_extract_zips_thread, daemon=True)
+    t.start()
+    return jsonify({"ok": True, "step": "extract-zips"})
+
+
+@app.route("/api/run/<step>", methods=["POST"])
+def api_run(step):
+    with _state_lock:
+        if _state["running"]:
+            return jsonify({"error": "A step is already running", "current": _state["current_step"]}), 409
+        _state["running"] = True
+
+    if step == "all":
+        t = threading.Thread(target=_run_all_thread, daemon=True)
+    elif step == "cleanup":
+        t = threading.Thread(target=_run_cleanup_thread, daemon=True)
+    elif step in STEPS:
+        # Guard interactive steps from being "run"
+        if STEPS[step].get("interactive"):
+            with _state_lock:
+                _state["running"] = False
+            return jsonify({"error": f"'{STEPS[step]['name']}' is interactive — use the review panel UI"}), 400
+
+        # Accept optional run_kwargs from JSON body
+        extra_kwargs = None
+        if request.is_json and request.json:
+            extra_kwargs = request.json.get("run_kwargs")
+
+        t = threading.Thread(target=_run_step_thread, args=(step, extra_kwargs), daemon=True)
+    else:
+        with _state_lock:
+            _state["running"] = False
+        return jsonify({"error": f"Unknown step: {step}"}), 400
+
+    t.start()
+    return jsonify({"ok": True, "step": step})
+
+
+@app.route("/api/status")
+def api_status():
+    with _state_lock:
+        return jsonify({
+            "running": _state["running"],
+            "current_step": _state["current_step"],
+            "step_results": _state["step_results"],
+            "last_run_all": _state["last_run_all"],
+            "summary": _get_summary(),
+        })
+
+
+@app.route("/api/logs")
+def api_logs_sse():
+    """SSE endpoint for live log streaming."""
+    q = queue.Queue(maxsize=500)
+    _log_subscribers.append(q)
+
+    def stream():
+        try:
+            while True:
+                try:
+                    line = q.get(timeout=30)
+                    yield f"data: {json.dumps({'line': line})}\n\n"
+                except queue.Empty:
+                    # Send keepalive
+                    yield ": keepalive\n\n"
+        except GeneratorExit:
+            pass
+        finally:
+            try:
+                _log_subscribers.remove(q)
+            except ValueError:
+                pass
+
+    return Response(stream(), mimetype="text/event-stream",
+                    headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
+@app.route("/api/logs/history")
+def api_logs_history():
+    """Return last N lines from automation.log."""
+    log_path = os.path.join(PROJECT_ROOT, "output", "automation.log")
+    n = request.args.get("n", 200, type=int)
+    lines = []
+    if os.path.exists(log_path):
+        try:
+            with open(log_path, "r", encoding="utf-8", errors="replace") as f:
+                all_lines = f.readlines()
+                lines = [l.rstrip() for l in all_lines[-n:]]
+        except Exception:
+            pass
+    return jsonify({"lines": lines})
+
+
+def _update_vendor_account_mapping(vendor_name, account_id, account_name):
+    """Update vendor_mappings.json account_mappings so future bills auto-use the corrected account."""
+    mappings_path = os.path.join(PROJECT_ROOT, "config", "vendor_mappings.json")
+    try:
+        with open(mappings_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if "account_mappings" not in data:
+            data["account_mappings"] = {}
+        data["account_mappings"][vendor_name] = {
+            "account_name": account_name,
+            "account_id": account_id,
+        }
+        with open(mappings_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+        log_action(f"Updated vendor mapping: {vendor_name} -> {account_name}")
+    except Exception as e:
+        log_action(f"Failed to update vendor mappings: {e}", "WARNING")
+
+
+@app.route("/api/review/bills")
+def api_review_bills():
+    """Load created_bills.json and resolve account names from local mappings (no per-bill API calls)."""
+    bills_path = os.path.join(PROJECT_ROOT, "output", "created_bills.json")
+    if not os.path.exists(bills_path):
+        return jsonify({"error": "No created_bills.json found. Run Step 3 first."}), 404
+
+    try:
+        with open(bills_path, "r", encoding="utf-8") as f:
+            local_bills = json.load(f)
+    except Exception as e:
+        return jsonify({"error": f"Failed to read bills file: {e}"}), 500
+
+    # Load account mappings from vendor_mappings.json (same source Step 3 used)
+    from utils import load_vendor_mappings
+    vendor_mappings = load_vendor_mappings()
+    account_mappings = vendor_mappings.get("account_mappings", {})
+    default_account = vendor_mappings.get("default_expense_account", "Credit Card Charges")
+
+    result = []
+    for entry in local_bills:
+        if entry.get("status") != "created" or not entry.get("bill_id"):
+            continue
+
+        vendor_name = entry.get("vendor_name", "Unknown")
+        mapping = account_mappings.get(vendor_name, {})
+        account_name = mapping.get("account_name", default_account)
+        account_id = mapping.get("account_id", "")
+
+        result.append({
+            "bill_id": entry["bill_id"],
+            "vendor_name": vendor_name,
+            "amount": entry.get("amount"),
+            "currency": entry.get("currency", "INR"),
+            "account_id": account_id,
+            "account_name": account_name,
+        })
+
+    return jsonify({"bills": result})
+
+
+@app.route("/api/review/accounts")
+def api_review_accounts():
+    """Return sorted list of expense accounts for dropdowns."""
+    from utils import load_config, ZohoBooksAPI
+    config = load_config()
+    api = ZohoBooksAPI(config)
+    try:
+        accounts = api.get_expense_accounts()
+        sorted_accounts = sorted(
+            [{"account_id": aid, "account_name": aname} for aname, aid in accounts.items()],
+            key=lambda x: x["account_name"],
+        )
+        return jsonify({"accounts": sorted_accounts})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/review/update-account", methods=["POST"])
+def api_review_update_account():
+    """Update a bill's expense account in Zoho and cache in vendor_mappings."""
+    data = request.json
+    bill_id = data.get("bill_id")
+    account_id = data.get("account_id")
+    account_name = data.get("account_name", "")
+    vendor_name = data.get("vendor_name", "")
+
+    if not bill_id or not account_id:
+        return jsonify({"error": "bill_id and account_id are required"}), 400
+
+    from utils import load_config, ZohoBooksAPI
+    config = load_config()
+    api = ZohoBooksAPI(config)
+
+    try:
+        # Fetch current bill to get full line_items
+        bill_resp = api.get_bill(bill_id)
+        bill = bill_resp.get("bill", {})
+        line_items = bill.get("line_items", [])
+        if not line_items:
+            return jsonify({"error": "Bill has no line items"}), 400
+
+        # Build clean line items with only writable fields for Zoho PUT
+        clean_items = []
+        for i, li in enumerate(line_items):
+            clean = {
+                "line_item_id": li.get("line_item_id"),
+                "account_id": account_id if i == 0 else li.get("account_id"),
+                "description": li.get("description", ""),
+                "rate": li.get("rate", 0),
+                "quantity": li.get("quantity", 1),
+            }
+            if li.get("tax_id"):
+                clean["tax_id"] = li["tax_id"]
+            if li.get("item_id"):
+                clean["item_id"] = li["item_id"]
+            clean_items.append(clean)
+
+        result = api.update_bill(bill_id, {"line_items": clean_items})
+        updated_bill = result.get("bill", {})
+        updated_items = updated_bill.get("line_items", [])
+        actual_account = updated_items[0].get("account_name", "?") if updated_items else "?"
+        log_action(f"Updated bill {bill_id} account to {account_name} ({account_id}) — Zoho confirmed: {actual_account}")
+
+        # Also update vendor_mappings.json for future auto-assignment
+        if vendor_name and vendor_name != "Unknown":
+            _update_vendor_account_mapping(vendor_name, account_id, account_name)
+
+        return jsonify({"ok": True})
+    except Exception as e:
+        log_action(f"Failed to update bill account: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/review/bulk-update-account", methods=["POST"])
+def api_review_bulk_update_account():
+    """Update expense account for all bills of a vendor in one go."""
+    data = request.json
+    bill_ids = data.get("bill_ids", [])
+    account_id = data.get("account_id")
+    account_name = data.get("account_name", "")
+    vendor_name = data.get("vendor_name", "")
+
+    if not bill_ids or not account_id:
+        return jsonify({"error": "bill_ids and account_id are required"}), 400
+
+    from utils import load_config, ZohoBooksAPI
+    config = load_config()
+    api = ZohoBooksAPI(config)
+
+    succeeded = []
+    failed = []
+
+    for bill_id in bill_ids:
+        try:
+            bill_resp = api.get_bill(bill_id)
+            bill = bill_resp.get("bill", {})
+            line_items = bill.get("line_items", [])
+            if not line_items:
+                failed.append({"bill_id": bill_id, "error": "No line items"})
+                continue
+
+            # Build clean line items with only writable fields
+            clean_items = []
+            for i, li in enumerate(line_items):
+                clean = {
+                    "line_item_id": li.get("line_item_id"),
+                    "account_id": account_id if i == 0 else li.get("account_id"),
+                    "description": li.get("description", ""),
+                    "rate": li.get("rate", 0),
+                    "quantity": li.get("quantity", 1),
+                }
+                if li.get("tax_id"):
+                    clean["tax_id"] = li["tax_id"]
+                if li.get("item_id"):
+                    clean["item_id"] = li["item_id"]
+                clean_items.append(clean)
+
+            api.update_bill(bill_id, {"line_items": clean_items})
+            succeeded.append(bill_id)
+            time.sleep(0.3)  # Rate limit
+        except Exception as e:
+            failed.append({"bill_id": bill_id, "error": str(e)})
+            log_action(f"Bulk update failed for bill {bill_id}: {e}", "ERROR")
+
+    # Update vendor mapping once for all bills
+    if vendor_name and vendor_name != "Unknown" and succeeded:
+        _update_vendor_account_mapping(vendor_name, account_id, account_name)
+
+    log_action(f"Bulk updated {len(succeeded)}/{len(bill_ids)} bills for {vendor_name} -> {account_name}")
+    return jsonify({"ok": True, "succeeded": succeeded, "failed": failed})
+
+
+@app.route("/api/review/create-account", methods=["POST"])
+def api_review_create_account():
+    """Create a new expense account in Zoho COA."""
+    data = request.json
+    name = data.get("name", "").strip()
+    description = data.get("description", "").strip()
+
+    if not name:
+        return jsonify({"error": "Account name is required"}), 400
+
+    from utils import load_config, ZohoBooksAPI
+    config = load_config()
+    api = ZohoBooksAPI(config)
+
+    try:
+        result = api.create_expense_account(name, description)
+        account = result.get("account", {})
+        return jsonify({
+            "ok": True,
+            "account_id": account.get("account_id"),
+            "account_name": account.get("account_name", name),
+        })
+    except Exception as e:
+        log_action(f"Failed to create expense account: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/review/available-csvs")
+def api_available_csvs():
+    """List parsed CC transaction CSVs available for import."""
+    output_dir = os.path.join(PROJECT_ROOT, "output")
+    config_path = os.path.join(PROJECT_ROOT, "config", "zoho_config.json")
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            config = json.load(f)
+    except Exception:
+        config = {}
+
+    cards = config.get("credit_cards", [])
+    available = []
+    for card in cards:
+        name = card["name"]
+        safe_name = name.replace(" ", "_")
+        csv_path = os.path.join(output_dir, f"{safe_name}_transactions.csv")
+        if os.path.exists(csv_path):
+            # Count rows
+            try:
+                with open(csv_path, "r", encoding="utf-8") as f:
+                    row_count = sum(1 for _ in f) - 1  # minus header
+            except Exception:
+                row_count = 0
+            available.append({"card_name": name, "csv_file": f"{safe_name}_transactions.csv", "rows": row_count})
+    return jsonify({"cards": available})
+
+
+@app.route("/api/payments/preview")
+def api_payments_preview():
+    """Preview bill-to-CC-transaction matches.
+
+    Fetches live from Zoho: unpaid bills + CC transactions from 4 configured cards.
+    Matching priority: amount (INR or USD→INR) > forex > closest date > fuzzy vendor.
+    """
+    try:
+        mod_05 = _import_script("05_record_payments.py")
+        from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids, log_action
+        from datetime import datetime as _dt
+
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        cards = config.get("credit_cards", [])
+        resolve_account_ids(api, cards)
+
+        # 1. Fetch unpaid bills from Zoho (live)
+        zoho_bills = mod_05.fetch_unpaid_bills_from_zoho(api)
+        bills = [
+            {
+                "bill_id": b.get("bill_id", ""),
+                "vendor_id": b.get("vendor_id", ""),
+                "vendor_name": b.get("vendor_name", ""),
+                "amount": float(b.get("total", 0)),
+                "currency": b.get("currency_code", "INR"),
+                "file": b.get("bill_number", b.get("bill_id", "")),
+                "date": b.get("date", ""),
+            }
+            for b in zoho_bills if b.get("bill_id")
+        ]
+
+        # 2. Fetch CC transactions from Zoho Banking (live, all 4 cards)
+        cc_transactions = mod_05.fetch_cc_transactions_from_zoho(api, cards)
+
+        # Build CC list (debits only)
+        cc_list = []
+        for t in cc_transactions:
+            if float(t.get("amount", 0)) <= 0:
+                continue
+            cc_entry = {
+                "description": t.get("description", ""),
+                "amount": float(t.get("amount", 0)),
+                "date": t.get("date", ""),
+                "card_name": t.get("card_name", ""),
+                "zoho_account_id": t.get("zoho_account_id", ""),
+            }
+            if t.get("forex_amount"):
+                cc_entry["forex_amount"] = t["forex_amount"]
+                cc_entry["forex_currency"] = t["forex_currency"]
+            cc_list.append(cc_entry)
+
+        # 3. Build vendor_mappings resolver for fuzzy vendor bonus
+        vm_path = os.path.join(PROJECT_ROOT, "config", "vendor_mappings.json")
+        vendor_map = {}
+        vendor_map_norm = {}
+        def _norm(s):
+            return re.sub(r'[\s.\-,*()]+', '', s.lower())
+        try:
+            with open(vm_path, "r", encoding="utf-8") as f:
+                vm = json.load(f)
+            for k, v in vm.get("mappings", {}).items():
+                vendor_map[k.lower()] = v
+                vendor_map_norm[_norm(k)] = v
+        except Exception:
+            pass
+        _sorted_keys = sorted(vendor_map.keys(), key=len, reverse=True)
+        _sorted_norm_keys = sorted(vendor_map_norm.keys(), key=len, reverse=True)
+
+        def _resolve_vendor(desc):
+            if not desc:
+                return None
+            dl = desc.lower()
+            dn = _norm(desc)
+            if dl in vendor_map:
+                return vendor_map[dl]
+            if dn in vendor_map_norm:
+                return vendor_map_norm[dn]
+            for key in _sorted_keys:
+                if key and len(key) >= 4 and key in dl:
+                    return vendor_map[key]
+            for key in _sorted_norm_keys:
+                if key and len(key) >= 4 and key in dn:
+                    return vendor_map_norm[key]
+            return None
+
+        def _vendor_match(bill_vendor, cc_desc):
+            """Fuzzy vendor match: resolved CC vendor vs bill vendor name."""
+            resolved = _resolve_vendor(cc_desc)
+            if not resolved:
+                return False
+            rv = _norm(resolved)
+            bv = _norm(bill_vendor)
+            # Exact normalized match
+            if rv == bv:
+                return True
+            # Substring match (either direction)
+            if len(rv) >= 4 and (rv in bv or bv in rv):
+                return True
+            # First-word match (e.g. "microsoft" in "microsoftcorporationindiapvtltd")
+            rv_first = _norm(resolved.split()[0]) if resolved.split() else ""
+            if rv_first and len(rv_first) >= 4 and rv_first in bv:
+                return True
+            return False
+
+        # 4. Two-phase matching (same logic as Monthly Compare categorize step):
+        #    Phase 1: Vendor-first — group by resolved vendor, match by amount within vendor
+        #    Phase 2: Amount fallback — unmatched bills try amount+date across all CC (tight tolerance)
+        used_cc = set()  # indices of CC transactions already matched
+        matches = []
+        matched_count = 0
+        unmatched_count = 0
+
+        # --- Helper: amount-match a bill against a CC transaction ---
+        def _amount_diff(bill, cc):
+            """Return (diff, match_type) or (None, None) if not comparable."""
+            bill_amt = bill["amount"]
+            bill_cur = bill["currency"]
+            cc_inr = cc["amount"]
+            fx = cc.get("forex_amount")
+            fx_cur = (cc.get("forex_currency") or "").upper()
+
+            # Case 1: Same forex currency (e.g. USD bill, USD forex on CC)
+            if fx and fx_cur and bill_cur.upper() == fx_cur:
+                return abs(fx - bill_amt), f"{fx_cur} → {bill_cur}"
+            # Case 2: INR bill, INR CC (no forex)
+            if bill_cur == "INR" and not fx:
+                return abs(cc_inr - bill_amt), "INR → INR"
+            # Case 3: INR bill, CC has forex (compare INR amounts)
+            if bill_cur == "INR" and fx:
+                return abs(cc_inr - bill_amt), f"{fx_cur} → INR (forex)"
+            # Case 4: USD bill, no forex tag — estimate INR range (75-100)
+            if bill_cur == "USD" and not fx:
+                est_min = bill_amt * 75
+                est_max = bill_amt * 100
+                if est_min <= cc_inr <= est_max:
+                    return abs(cc_inr - bill_amt * 86), "USD → INR (est)"
+            return None, None
+
+        # --- Resolve CC vendor names for grouping ---
+        cc_vendors = []  # parallel to cc_list: resolved vendor name or None
+        for cc in cc_list:
+            cc_vendors.append(_resolve_vendor(cc.get("description", "")))
+
+        # --- Phase 1: Vendor-first matching ---
+        # Group bills by normalized vendor name
+        from collections import defaultdict
+        bill_vendor_groups = defaultdict(list)  # norm_vendor -> [bill_index]
+        for bi, bill in enumerate(bills):
+            bv = _norm(bill["vendor_name"])
+            bill_vendor_groups[bv].append(bi)
+
+        # Also map via vendor_mappings: resolved CC vendor → normalized
+        bill_matched = [False] * len(bills)
+
+        for ci, cc in enumerate(cc_list):
+            if ci in used_cc:
+                continue
+            rv = cc_vendors[ci]
+            if not rv:
+                continue
+            rv_norm = _norm(rv)
+
+            # Find bills whose vendor matches this CC's resolved vendor
+            candidate_bills = []
+            for bv_norm, bill_idxs in bill_vendor_groups.items():
+                if rv_norm == bv_norm:
+                    candidate_bills.extend(bill_idxs)
+                elif len(rv_norm) >= 4 and (rv_norm in bv_norm or bv_norm in rv_norm):
+                    candidate_bills.extend(bill_idxs)
+                else:
+                    # First-word match
+                    rv_first = _norm(rv.split()[0]) if rv.split() else ""
+                    if rv_first and len(rv_first) >= 4 and rv_first in bv_norm:
+                        candidate_bills.extend(bill_idxs)
+
+            # Among vendor-matched bills, find best amount match (1% tolerance)
+            best_bi = None
+            best_diff = float("inf")
+            for bi in candidate_bills:
+                if bill_matched[bi]:
+                    continue
+                diff, mtype = _amount_diff(bills[bi], cc)
+                if diff is None:
+                    continue
+                threshold = max(1.0, bills[bi]["amount"] * 0.01)
+                if diff <= threshold and diff < best_diff:
+                    best_diff = diff
+                    best_bi = bi
+
+            if best_bi is not None:
+                bill = bills[best_bi]
+                bill_matched[best_bi] = True
+                used_cc.add(ci)
+                entry = {
+                    "bill_id": bill["bill_id"],
+                    "vendor_id": bill["vendor_id"],
+                    "vendor_name": bill["vendor_name"],
+                    "bill_amount": bill["amount"],
+                    "bill_currency": bill["currency"],
+                    "bill_date": bill["date"],
+                    "bill_number": bill["file"],
+                    "status": "matched",
+                    "match_score": 300,
+                    "cc_description": cc.get("description", ""),
+                    "cc_inr_amount": cc.get("amount", 0),
+                    "cc_date": cc.get("date", ""),
+                    "cc_card": cc.get("card_name", ""),
+                }
+                if cc.get("forex_amount"):
+                    entry["cc_forex_amount"] = cc["forex_amount"]
+                    entry["cc_forex_currency"] = cc["forex_currency"]
+                matched_count += 1
+                matches.append(entry)
+
+        # --- Phase 2: Amount+date fallback for unmatched bills ---
+        for bi, bill in enumerate(bills):
+            if bill_matched[bi]:
+                continue
+
+            entry = {
+                "bill_id": bill["bill_id"],
+                "vendor_id": bill["vendor_id"],
+                "vendor_name": bill["vendor_name"],
+                "bill_amount": bill["amount"],
+                "bill_currency": bill["currency"],
+                "bill_date": bill["date"],
+                "bill_number": bill["file"],
+            }
+
+            best = None
+            best_diff = float("inf")
+            best_idx = None
+
+            for ci, cc in enumerate(cc_list):
+                if ci in used_cc:
+                    continue
+
+                # Date limit: within 30 days
+                try:
+                    bd = _dt.strptime(bill["date"], "%Y-%m-%d")
+                    cd = _dt.strptime(cc["date"], "%Y-%m-%d")
+                    if abs((bd - cd).days) > 30:
+                        continue
+                except Exception:
+                    continue
+
+                diff, mtype = _amount_diff(bill, cc)
+                if diff is None:
+                    continue
+                threshold = max(1.0, bill["amount"] * 0.01)
+                if diff <= threshold and diff < best_diff:
+                    best_diff = diff
+                    best = cc
+                    best_idx = ci
+
+            if best is not None:
+                used_cc.add(best_idx)
+                bill_matched[bi] = True
+                entry["status"] = "matched"
+                entry["match_score"] = 200
+                entry["cc_description"] = best.get("description", "")
+                entry["cc_inr_amount"] = best.get("amount", 0)
+                entry["cc_date"] = best.get("date", "")
+                entry["cc_card"] = best.get("card_name", "")
+                if best.get("forex_amount"):
+                    entry["cc_forex_amount"] = best["forex_amount"]
+                    entry["cc_forex_currency"] = best["forex_currency"]
+                matched_count += 1
+            else:
+                entry["status"] = "unmatched"
+                unmatched_count += 1
+
+            matches.append(entry)
+
+        # Collect unmatched CC transactions
+        unmatched_cc = [cc_list[i] for i in range(len(cc_list)) if i not in used_cc]
+
+        return jsonify({
+            "matches": matches,
+            "unmatched_cc": unmatched_cc,
+            "summary": {
+                "total_bills": len(matches),
+                "matched": matched_count,
+                "unmatched": unmatched_count,
+                "unmatched_cc_count": len(unmatched_cc),
+            },
+        })
+    except Exception as e:
+        from scripts.utils import log_action
+        log_action(f"payments/preview error: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/payments/record-one", methods=["POST"])
+def api_payments_record_one():
+    """Record payment for a single bill using CC transaction from preview."""
+    data = request.json or {}
+    bill_id = data.get("bill_id")
+    if not bill_id:
+        return jsonify({"error": "bill_id required"}), 400
+
+    try:
+        from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids, log_action
+
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        cards = config.get("credit_cards", [])
+        resolve_account_ids(api, cards)
+
+        currency_map = api.list_currencies()
+
+        # Fetch the bill from Zoho
+        bill_data = api.get_bill(bill_id)
+        bill = bill_data.get("bill", {})
+        bill_total = float(bill.get("total", 0))
+        bill_currency = bill.get("currency_code", "INR")
+        vendor_id = bill.get("vendor_id", "")
+
+        # Use CC match from preview (passed from frontend)
+        cc_inr = data.get("cc_inr_amount")
+        cc_date = data.get("cc_date")
+        cc_card = data.get("cc_card")
+
+        if not cc_inr or not cc_date:
+            return jsonify({"status": "unmatched", "bill_id": bill_id, "message": "No CC match data provided"})
+
+        # Resolve CC card -> zoho_account_id
+        account_id = None
+        for card in cards:
+            if card.get("name") == cc_card:
+                account_id = card.get("zoho_account_id")
+                break
+        if not account_id:
+            return jsonify({"error": f"CC card '{cc_card}' not found in config"}), 400
+
+        # Build payment
+        payment_date = cc_date or bill.get("date", "")
+        payment_data = {
+            "vendor_id": vendor_id,
+            "payment_mode": "Credit Card",
+            "date": payment_date,
+            "amount": bill_total,
+            "paid_through_account_id": account_id,
+            "bills": [{"bill_id": bill_id, "amount_applied": bill_total}],
+        }
+
+        # Handle foreign currency: calculate exchange rate from CC INR amount
+        if bill_currency != "INR":
+            actual_inr = float(cc_inr)
+            if bill_total:
+                exact_rate = actual_inr / bill_total
+                for decimals in range(6, 12):
+                    test_rate = round(exact_rate, decimals)
+                    if round(test_rate * bill_total, 2) == round(actual_inr, 2):
+                        exact_rate = test_rate
+                        break
+                else:
+                    exact_rate = round(exact_rate, 10)
+            else:
+                exact_rate = 0
+            payment_data["currency_id"] = currency_map.get(bill_currency)
+            payment_data["exchange_rate"] = exact_rate
+            log_action(f"  {bill_currency} {bill_total} -> INR {actual_inr} (rate: {exact_rate})")
+
+        log_action(f"Recording payment: bill {bill_id} via {cc_card} on {payment_date} ({bill_currency} {bill_total})")
+
+        result = api.record_vendor_payment(payment_data)
+        payment = result.get("vendorpayment", {})
+        payment_id = payment.get("payment_id")
+
+        if payment_id:
+            log_action(f"  Payment recorded: {payment_id}")
+            return jsonify({"status": "paid", "payment_id": payment_id, "bill_id": bill_id})
+        else:
+            return jsonify({"status": "failed", "bill_id": bill_id, "message": "No payment_id returned"})
+
+    except Exception as e:
+        error_msg = str(e).lower()
+        if "already been paid" in error_msg or "already paid" in error_msg:
+            log_action(f"  Bill {bill_id} already paid")
+            return jsonify({"status": "already_paid", "bill_id": bill_id})
+        from scripts.utils import log_action
+        log_action(f"record-one error for {bill_id}: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/payments/record-selected", methods=["POST"])
+def api_payments_record_selected():
+    """Record payments for multiple bills using CC match data from preview."""
+    data = request.json or {}
+    items = data.get("items", [])
+    if not items:
+        return jsonify({"error": "items required"}), 400
+
+    try:
+        from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids, log_action
+        import time
+
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        cards = config.get("credit_cards", [])
+        resolve_account_ids(api, cards)
+        currency_map = api.list_currencies()
+
+        # Build card name -> account_id map
+        card_map = {c.get("name"): c.get("zoho_account_id") for c in cards}
+
+        results = []
+        for item in items:
+            bill_id = item.get("bill_id")
+            if not bill_id:
+                continue
+            try:
+                bill_data = api.get_bill(bill_id)
+                bill = bill_data.get("bill", {})
+                bill_total = float(bill.get("total", 0))
+                bill_currency = bill.get("currency_code", "INR")
+                vendor_id = bill.get("vendor_id", "")
+
+                cc_card = item.get("cc_card", "")
+                cc_inr = item.get("cc_inr_amount")
+                cc_date = item.get("cc_date")
+                account_id = card_map.get(cc_card)
+
+                if not cc_inr or not cc_date or not account_id:
+                    results.append({"bill_id": bill_id, "status": "unmatched"})
+                    continue
+
+                payment_date = cc_date
+                payment_data = {
+                    "vendor_id": vendor_id,
+                    "payment_mode": "Credit Card",
+                    "date": payment_date,
+                    "amount": bill_total,
+                    "paid_through_account_id": account_id,
+                    "bills": [{"bill_id": bill_id, "amount_applied": bill_total}],
+                }
+
+                if bill_currency != "INR":
+                    actual_inr = float(cc_inr)
+                    if bill_total:
+                        exact_rate = actual_inr / bill_total
+                        for decimals in range(6, 12):
+                            test_rate = round(exact_rate, decimals)
+                            if round(test_rate * bill_total, 2) == round(actual_inr, 2):
+                                exact_rate = test_rate
+                                break
+                        else:
+                            exact_rate = round(exact_rate, 10)
+                    else:
+                        exact_rate = 0
+                    payment_data["currency_id"] = currency_map.get(bill_currency)
+                    payment_data["exchange_rate"] = exact_rate
+
+                log_action(f"Recording payment: bill {bill_id} via {cc_card} ({bill_currency} {bill_total})")
+                result = api.record_vendor_payment(payment_data)
+                payment_id = result.get("vendorpayment", {}).get("payment_id")
+
+                if payment_id:
+                    log_action(f"  Payment recorded: {payment_id}")
+                    results.append({"bill_id": bill_id, "status": "paid", "payment_id": payment_id})
+                else:
+                    results.append({"bill_id": bill_id, "status": "failed"})
+
+            except Exception as e:
+                error_msg = str(e).lower()
+                if "already been paid" in error_msg or "already paid" in error_msg:
+                    results.append({"bill_id": bill_id, "status": "already_paid"})
+                else:
+                    log_action(f"record-selected error for {bill_id}: {e}", "ERROR")
+                    results.append({"bill_id": bill_id, "status": "error", "message": str(e)})
+
+            time.sleep(0.3)
+
+        paid = sum(1 for r in results if r["status"] == "paid")
+        return jsonify({"results": results, "paid_count": paid, "total": len(results)})
+    except Exception as e:
+        from scripts.utils import log_action
+        log_action(f"record-selected error: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
+def _update_payment_tracking(bill_entry, payment_id, cc_match):
+    """Append to recorded_payments.json tracking file."""
+    payments_file = os.path.join(PROJECT_ROOT, "output", "recorded_payments.json")
+    payments = []
+    if os.path.exists(payments_file):
+        with open(payments_file, "r", encoding="utf-8") as f:
+            payments = json.load(f)
+
+    entry = {
+        "file": bill_entry.get("file", ""),
+        "bill_id": bill_entry["bill_id"],
+        "vendor_name": bill_entry.get("vendor_name"),
+        "amount": bill_entry.get("amount"),
+        "currency": bill_entry.get("currency"),
+        "payment_id": payment_id,
+        "status": "paid",
+    }
+    if cc_match:
+        entry["cc_inr_amount"] = cc_match.get("inr_amount")
+        entry["cc_card"] = cc_match.get("card_name")
+
+    # Remove any existing entry for this bill_id
+    payments = [p for p in payments if p.get("bill_id") != bill_entry["bill_id"]]
+    payments.append(entry)
+
+    os.makedirs(os.path.dirname(payments_file), exist_ok=True)
+    with open(payments_file, "w", encoding="utf-8") as f:
+        json.dump(payments, f, indent=2, ensure_ascii=False)
+
+
+@app.route("/api/bills/create-one", methods=["POST"])
+def api_bills_create_one():
+    """Create a single bill in Zoho from invoice data (used by Monthly Compare exact match rows)."""
+    data = request.json or {}
+    vendor_name = data.get("vendor_name", "")
+    amount = data.get("amount")
+    currency = data.get("currency", "INR")
+    date = data.get("date")
+    invoice_number = data.get("invoice_number", "")
+    vendor_gstin = data.get("vendor_gstin", "")
+
+    if not vendor_name or not amount or not date:
+        return jsonify({"error": "vendor_name, amount, and date are required"}), 400
+
+    try:
+        mod_03 = _import_script("03_create_vendors_bills.py")
+        from scripts.utils import load_config, load_vendor_mappings, ZohoBooksAPI, log_action
+
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        vendor_mappings = load_vendor_mappings()
+        currency_map = api.list_currencies()
+
+        # Resolve vendor (find or create)
+        invoice = {
+            "file": invoice_number or vendor_name,
+            "vendor_name": vendor_name,
+            "vendor_gstin": vendor_gstin,
+            "amount": float(amount),
+            "currency": currency,
+            "date": date,
+            "invoice_number": invoice_number,
+        }
+
+        vendor_id, resolved_name = mod_03.ensure_vendor(
+            api, vendor_name, invoice, vendor_mappings, currency_map,
+        )
+        if not vendor_id:
+            return jsonify({"error": f"Could not find or create vendor '{vendor_name}'"}), 500
+
+        # Get expense accounts
+        expense_accounts = api.get_expense_accounts()
+
+        # Get tax IDs
+        igst_tax_id = None
+        intrastate_tax_id = None
+        default_exemption_id = None
+        try:
+            taxes = api.list_taxes()
+            for t in taxes:
+                tname = t.get("tax_name", "").lower()
+                if "igst" in tname and t.get("tax_percentage") == 18:
+                    igst_tax_id = t.get("tax_id")
+                if ("cgst" in tname or "sgst" in tname) and t.get("tax_percentage") == 9:
+                    intrastate_tax_id = intrastate_tax_id or t.get("tax_id")
+            exemptions = api.list_tax_exemptions()
+            for ex in exemptions:
+                if "non" in ex.get("exemption_reason", "").lower():
+                    default_exemption_id = ex.get("tax_exemption_id")
+                    break
+        except Exception:
+            pass
+
+        default_expense = config.get("default_expense_account", "Credit Card Charges")
+        result = mod_03.create_bill_for_invoice(
+            api, invoice, vendor_id, expense_accounts, default_expense, currency_map,
+            vendor_name=resolved_name,
+            igst_tax_id=igst_tax_id, intrastate_tax_id=intrastate_tax_id,
+            default_exemption_id=default_exemption_id,
+        )
+
+        if result and result[0]:
+            bill_id = result[0]
+            is_new = result[1]
+            status = "created" if is_new else "exists"
+            log_action(f"Bill {status}: {invoice_number or vendor_name} -> {bill_id}")
+
+            # Append to created_bills.json so Review Accounts panel can see it
+            bills_file = os.path.join(PROJECT_ROOT, "output", "created_bills.json")
+            try:
+                existing = []
+                if os.path.exists(bills_file):
+                    with open(bills_file, "r") as f:
+                        existing = json.load(f)
+                existing.append({
+                    "file": invoice_number or vendor_name,
+                    "status": status,
+                    "vendor_name": resolved_name or vendor_name,
+                    "vendor_id": vendor_id,
+                    "bill_id": bill_id,
+                    "amount": float(amount),
+                    "currency": currency,
+                    "attached": False,
+                })
+                with open(bills_file, "w") as f:
+                    json.dump(existing, f, indent=2)
+            except Exception as ex:
+                log_action(f"Warning: could not update created_bills.json: {ex}", "WARN")
+
+            return jsonify({"status": status, "bill_id": bill_id, "bill_number": invoice_number})
+        else:
+            return jsonify({"error": "Failed to create bill"}), 500
+
+    except Exception as e:
+        from scripts.utils import log_action
+        log_action(f"create-one bill error: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/payments/clear-cache", methods=["POST"])
+def api_payments_clear_cache():
+    """Clear recorded_payments.json so Step 6 re-tries all bills."""
+    payments_file = os.path.join(PROJECT_ROOT, "output", "recorded_payments.json")
+    if os.path.exists(payments_file):
+        os.remove(payments_file)
+        return jsonify({"status": "ok", "message": "Payments cache cleared — Step 6 will retry all bills"})
+    return jsonify({"status": "ok", "message": "No payments cache to clear"})
+
+
+@app.route("/api/cc/clear-parsed", methods=["POST"])
+def api_cc_clear_parsed():
+    """Delete cc_transactions.json and all CC CSV files so Step 4 re-parses fresh."""
+    output_dir = os.path.join(PROJECT_ROOT, "output")
+    removed = []
+    # Remove combined JSON
+    json_path = os.path.join(output_dir, "cc_transactions.json")
+    if os.path.exists(json_path):
+        os.remove(json_path)
+        removed.append("cc_transactions.json")
+    # Remove all card CSV files
+    import glob
+    for csv_path in glob.glob(os.path.join(output_dir, "*_transactions.csv")):
+        os.remove(csv_path)
+        removed.append(os.path.basename(csv_path))
+    if removed:
+        return jsonify({"status": "ok", "message": f"Cleared: {', '.join(removed)}"})
+    return jsonify({"status": "ok", "message": "No parsed data to clear"})
+
+
+@app.route("/api/banking/clear-cache", methods=["POST"])
+def api_banking_clear_cache():
+    """Clear the imported_statements.json tracking file so Step 5 re-imports."""
+    tracking_file = os.path.join(PROJECT_ROOT, "output", "imported_statements.json")
+    if os.path.exists(tracking_file):
+        os.remove(tracking_file)
+        return jsonify({"status": "ok", "message": "Import cache cleared"})
+    return jsonify({"status": "ok", "message": "No cache to clear"})
+
+
+@app.route("/api/banking/delete-transactions", methods=["POST"])
+def api_banking_delete_transactions():
+    """Delete all banking transactions for a specific CC card from Zoho, then clear cache."""
+    data = request.json or {}
+    card_name = data.get("card_name")
+    if not card_name:
+        return jsonify({"status": "error", "message": "card_name required"}), 400
+
+    try:
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        cards = config.get("credit_cards", [])
+        from scripts.utils import resolve_account_ids
+        resolve_account_ids(api, cards)
+
+        card = next((c for c in cards if c["name"] == card_name), None)
+        if not card:
+            return jsonify({"status": "error", "message": f"Card '{card_name}' not found"}), 404
+
+        account_id = card["zoho_account_id"]
+
+        # Fetch all transactions for this account
+        all_txns = []
+        page = 1
+        while True:
+            result = api.list_bank_transactions(account_id, page=page)
+            txns = result.get("banktransactions", [])
+            if not txns:
+                break
+            all_txns.extend(txns)
+            if not result.get("page_context", {}).get("has_more_page", False):
+                break
+            page += 1
+
+        deleted = 0
+        for txn in all_txns:
+            txn_id = txn["transaction_id"]
+            status = txn.get("status", "").lower()
+            try:
+                if status in ("matched", "categorized"):
+                    try:
+                        api.uncategorize_transaction(txn_id)
+                    except Exception:
+                        pass
+                api.delete_bank_transaction(txn_id)
+                deleted += 1
+            except Exception:
+                pass
+
+        # Clear import cache so Step 5 re-imports fresh
+        tracking_file = os.path.join(PROJECT_ROOT, "output", "imported_statements.json")
+        if os.path.exists(tracking_file):
+            os.remove(tracking_file)
+
+        return jsonify({"status": "ok", "message": f"Deleted {deleted} transactions for {card_name}", "deleted": deleted})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route("/api/invoices/list")
+def api_invoices_list():
+    """List extracted invoices grouped by month, with bill creation status."""
+    invoices_path = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
+    bills_path = os.path.join(PROJECT_ROOT, "output", "created_bills.json")
+
+    if not os.path.exists(invoices_path):
+        return jsonify({"error": "No extracted_invoices.json found. Run Step 2 first."}), 404
+
+    try:
+        with open(invoices_path, "r", encoding="utf-8") as f:
+            invoices = json.load(f)
+    except Exception as e:
+        return jsonify({"error": f"Failed to read invoices: {e}"}), 500
+
+    # Build set of already-created filenames — verify against Zoho (not just local file)
+    created_files = set()
+    if os.path.exists(bills_path):
+        try:
+            with open(bills_path, "r", encoding="utf-8") as f:
+                local_bills = json.load(f)
+
+            # Fetch actual bill IDs from Zoho to verify local tracking is accurate
+            from utils import load_config, ZohoBooksAPI
+            zoho_bill_ids = set()
+            try:
+                config = load_config()
+                api = ZohoBooksAPI(config)
+                page = 1
+                while True:
+                    result = api.list_bills() if page == 1 else api._request("GET", "bills", params={"page": page})
+                    for b in result.get("bills", []):
+                        zoho_bill_ids.add(b.get("bill_id"))
+                    if not result.get("page_context", {}).get("has_more_page", False):
+                        break
+                    page += 1
+            except Exception:
+                zoho_bill_ids = None  # Zoho unavailable — fall back to local data
+
+            for entry in local_bills:
+                if entry.get("status") == "created" and entry.get("bill_id"):
+                    # Only trust "created" if bill still exists in Zoho (or Zoho check failed)
+                    if zoho_bill_ids is None or entry["bill_id"] in zoho_bill_ids:
+                        created_files.add(entry.get("file", ""))
+        except Exception:
+            pass
+
+    # Group invoices by month
+    from collections import defaultdict
+    month_groups = defaultdict(list)
+    no_date = []
+    for inv in invoices:
+        date_str = inv.get("date", "")
+        file_name = inv.get("file", "")
+        status = "created" if file_name in created_files else "pending"
+        entry = {
+            "file": file_name,
+            "vendor_name": inv.get("vendor_name", "Unknown"),
+            "amount": inv.get("amount", 0),
+            "currency": inv.get("currency", "INR"),
+            "date": date_str,
+            "status": status,
+        }
+        if date_str:
+            try:
+                dt = datetime.strptime(date_str, "%Y-%m-%d")
+                month_key = dt.strftime("%b %Y")
+                month_groups[month_key].append(entry)
+                continue
+            except ValueError:
+                pass
+        no_date.append(entry)
+
+    # Sort months chronologically (newest first)
+    def _month_sort_key(m):
+        try:
+            return datetime.strptime(m, "%b %Y")
+        except ValueError:
+            return datetime.min
+    sorted_months = sorted(month_groups.keys(), key=_month_sort_key, reverse=True)
+
+    months = []
+    for m in sorted_months:
+        months.append({"month": m, "invoices": month_groups[m]})
+    if no_date:
+        months.append({"month": "No Date", "invoices": no_date})
+
+    total = len(invoices)
+    pending = total - len(created_files & {inv.get("file", "") for inv in invoices})
+    created = total - pending
+
+    return jsonify({
+        "months": months,
+        "summary": {"total": total, "pending": pending, "created": created},
+    })
+
+
+@app.route("/api/upload/cc", methods=["POST"])
+def api_upload_cc():
+    """Receive multipart PDF files, save to input_pdfs/cc_statements/."""
+    cc_dir = os.path.join(PROJECT_ROOT, "input_pdfs", "cc_statements")
+    os.makedirs(cc_dir, exist_ok=True)
+
+    files = request.files.getlist("files")
+    if not files:
+        return jsonify({"error": "No files uploaded"}), 400
+
+    saved = []
+    for f in files:
+        if not f.filename or not f.filename.lower().endswith(".pdf"):
+            continue
+        # Secure the filename
+        safe_name = os.path.basename(f.filename)
+        dest = os.path.join(cc_dir, safe_name)
+        f.save(dest)
+        saved.append(safe_name)
+        log_action(f"Uploaded CC statement: {safe_name}")
+
+    if not saved:
+        return jsonify({"error": "No valid PDF files in upload"}), 400
+
+    return jsonify({"ok": True, "files": saved})
+
+
+def _get_summary():
+    """Build a summary from output JSON files if they exist."""
+    summary = {}
+    output_dir = os.path.join(PROJECT_ROOT, "output")
+
+    # Extracted invoices count
+    invoices_path = os.path.join(output_dir, "extracted_invoices.json")
+    if os.path.exists(invoices_path):
+        try:
+            with open(invoices_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            summary["invoices"] = len(data) if isinstance(data, list) else 0
+        except Exception:
+            pass
+
+    # CC transactions count
+    cc_path = os.path.join(output_dir, "cc_transactions.json")
+    if os.path.exists(cc_path):
+        try:
+            with open(cc_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            if isinstance(data, list):
+                summary["cc_transactions"] = len(data)
+            elif isinstance(data, dict):
+                total = 0
+                for card_txns in data.values():
+                    if isinstance(card_txns, list):
+                        total += len(card_txns)
+                summary["cc_transactions"] = total
+        except Exception:
+            pass
+
+    # Bills created
+    bills_path = os.path.join(output_dir, "created_bills.json")
+    if os.path.exists(bills_path):
+        try:
+            with open(bills_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            summary["bills"] = len(data) if isinstance(data, list) else 0
+        except Exception:
+            pass
+
+    return summary
+
+
+def _determine_unmatched_reason(payment, cc_transactions, reverse_vendor_map):
+    """Analyze why a bill didn't match any CC transaction."""
+    vendor_name = payment.get("vendor_name", "")
+    if not vendor_name:
+        return "No vendor name on bill"
+
+    bill_amount = payment.get("amount", 0)
+    currency = payment.get("currency", "INR")
+
+    keywords = reverse_vendor_map.get(vendor_name.lower(), [vendor_name.lower()])
+
+    # Search CC transactions for vendor keyword matches
+    vendor_txns = []
+    for txn in cc_transactions:
+        desc_lower = txn.get("description", "").lower()
+        for kw in keywords:
+            if kw in desc_lower or desc_lower.startswith(kw[:10]):
+                vendor_txns.append(txn)
+                break
+
+    if not vendor_txns:
+        return "No CC transaction found for this vendor"
+
+    if currency == "USD":
+        return (f"Vendor found in CC ({len(vendor_txns)} txn) but "
+                f"USD ${bill_amount} not matched (exchange rate / date mismatch)")
+
+    amounts = [t["amount"] for t in vendor_txns]
+    closest = min(amounts, key=lambda a: abs(a - bill_amount))
+    diff = abs(closest - bill_amount)
+    pct = (diff / bill_amount * 100) if bill_amount else 0
+    return (f"Vendor in CC ({len(vendor_txns)} txn) - amount mismatch "
+            f"(bill: {bill_amount:,.2f}, closest CC: {closest:,.2f}, diff: {pct:.1f}%)")
+
+
+@app.route("/api/match-status")
+def api_match_status():
+    """Return match status data for the Match Status dashboard panel."""
+    output_dir = os.path.join(PROJECT_ROOT, "output")
+
+    payments_path = os.path.join(output_dir, "recorded_payments.json")
+    payments = []
+    if os.path.exists(payments_path):
+        try:
+            with open(payments_path, "r", encoding="utf-8") as f:
+                payments = json.load(f)
+        except Exception:
+            return jsonify({"error": "Failed to read recorded_payments.json"}), 500
+
+    if not payments:
+        return jsonify({"error": "No payment data found. Run Step 6 (Payments) first."}), 404
+
+    # Load CC transactions for unmatched reason analysis
+    cc_path = os.path.join(output_dir, "cc_transactions.json")
+    cc_transactions = []
+    if os.path.exists(cc_path):
+        try:
+            with open(cc_path, "r", encoding="utf-8") as f:
+                cc_transactions = json.load(f)
+        except Exception:
+            pass
+
+    # Build reverse vendor map: vendor_name -> merchant keywords
+    vendor_mappings_path = os.path.join(PROJECT_ROOT, "config", "vendor_mappings.json")
+    reverse_map = {}
+    try:
+        with open(vendor_mappings_path, "r", encoding="utf-8") as f:
+            vm = json.load(f)
+        for merchant, vendor in vm.get("mappings", {}).items():
+            reverse_map.setdefault(vendor.lower(), []).append(merchant.lower())
+    except Exception:
+        pass
+
+    matched = []
+    unmatched = []
+
+    for p in payments:
+        row = {
+            "file": p.get("file"),
+            "vendor_name": p.get("vendor_name"),
+            "amount": p.get("amount"),
+            "currency": p.get("currency", "INR"),
+            "cc_inr_amount": p.get("cc_inr_amount"),
+            "cc_card": p.get("cc_card"),
+            "status": p.get("status"),
+        }
+
+        if p.get("status") == "paid":
+            matched.append(row)
+        else:
+            row["reason"] = _determine_unmatched_reason(
+                p, cc_transactions, reverse_map
+            )
+            unmatched.append(row)
+
+    return jsonify({
+        "matched": matched,
+        "unmatched": unmatched,
+        "summary": {
+            "matched_count": len(matched),
+            "unmatched_count": len(unmatched),
+            "total_count": len(payments),
+        },
+    })
+
+
+@app.route("/api/check-cc-match")
+def api_check_cc_match():
+    """Compare cached unpaid bills with cached CC transactions for side-by-side review (no live Zoho calls)."""
+    try:
+        mod_05 = _import_script("05_record_payments.py")
+        from scripts.utils import load_vendor_mappings
+
+        # Load cached data
+        bills_cache_path = os.path.join(PROJECT_ROOT, "output", "zoho_bills_cache.json")
+        cc_txns_cache_path = os.path.join(PROJECT_ROOT, "output", "zoho_cc_transactions_cache.json")
+
+        if not os.path.exists(bills_cache_path) or not os.path.exists(cc_txns_cache_path):
+            return jsonify({"error": "Cache not found. Click Sync Zoho first."}), 404
+
+        with open(bills_cache_path, "r", encoding="utf-8") as f:
+            all_bills = json.load(f)
+        with open(cc_txns_cache_path, "r", encoding="utf-8") as f:
+            cc_raw = json.load(f)
+
+        # Filter to unpaid/overdue bills only
+        bills = [
+            {
+                "vendor_name": b.get("vendor_name", ""),
+                "amount": float(b.get("total", 0)),
+                "currency": b.get("currency", b.get("currency_code", "INR")),
+                "date": b.get("date", ""),
+            }
+            for b in all_bills
+            if b.get("status") in ("open", "unpaid", "overdue") and b.get("vendor_name")
+        ]
+
+        # Build keyword -> vendor_name reverse map for grouping
+        vendor_mappings = load_vendor_mappings()
+        vendor_to_merchants = mod_05.build_vendor_to_merchants(vendor_mappings)
+        keyword_to_vendor = {}
+        for bill in bills:
+            vname = bill["vendor_name"]
+            vkey = vname.lower()
+            keyword_to_vendor[vkey] = vname
+            keyword_to_vendor[vkey.replace(" ", "")] = vname
+            for kw in vendor_to_merchants.get(vkey, []):
+                keyword_to_vendor[kw.lower()] = vname
+
+        def _get_vendor_for_cc(desc):
+            desc_lower = desc.lower()
+            desc_norm = mod_05._normalize(desc)
+            for kw, vname in keyword_to_vendor.items():
+                if not kw:
+                    continue
+                if kw in desc_lower:
+                    return vname
+                if desc_lower.startswith(kw[:10]):
+                    return vname
+                kw_norm = mod_05._normalize(kw)
+                if len(kw_norm) >= 6 and kw_norm in desc_norm:
+                    return vname
+            return None
+
+        # Group bills by vendor
+        from collections import defaultdict
+        bill_groups = defaultdict(list)
+        for b in bills:
+            bill_groups[b["vendor_name"]].append(b)
+
+        # Group CC transactions by matched vendor
+        cc_groups = defaultdict(list)
+        unmatched_cc = []
+        for t in cc_raw:
+            if float(t.get("amount", 0)) <= 0:
+                continue
+            vname = _get_vendor_for_cc(t.get("description", ""))
+            entry = {
+                "description": t.get("description", ""),
+                "amount": t.get("amount", 0),
+                "date": t.get("date", ""),
+                "card_name": t.get("card_name", ""),
+            }
+            if vname:
+                cc_groups[vname].append(entry)
+            else:
+                unmatched_cc.append(entry)
+
+        # Build grouped list sorted by vendor name
+        all_vendors = sorted(set(list(bill_groups.keys()) + list(cc_groups.keys())))
+        grouped = [
+            {
+                "vendor": v,
+                "bills": bill_groups.get(v, []),
+                "cc_transactions": cc_groups.get(v, []),
+            }
+            for v in all_vendors
+        ]
+
+        total_bills = sum(len(g["bills"]) for g in grouped)
+        total_cc = sum(len(g["cc_transactions"]) for g in grouped)
+
+        return jsonify({
+            "grouped": grouped,
+            "unmatched_cc": unmatched_cc,
+            "summary": {
+                "vendors_count": len(grouped),
+                "bills_count": total_bills,
+                "cc_transactions_count": total_cc,
+                "unmatched_cc_count": len(unmatched_cc),
+            },
+        })
+    except Exception as e:
+        log_action(f"check-cc-match error: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
+def _parse_month_key(month_str):
+    """Parse 'Feb 2026' -> sortable tuple (2026, 2). Returns (0, 0) on failure."""
+    try:
+        dt = datetime.strptime(month_str, "%b %Y")
+        return (dt.year, dt.month)
+    except Exception:
+        return (0, 0)
+
+
+@app.route("/api/compare/monthly")
+def api_compare_monthly():
+    """Compare CC transactions vs organized invoices, grouped by month."""
+    from collections import defaultdict
+
+    output_dir = os.path.join(PROJECT_ROOT, "output")
+
+    # --- Load CC transactions ---
+    cc_path = os.path.join(output_dir, "cc_transactions.json")
+    cc_transactions = []
+    if os.path.exists(cc_path):
+        try:
+            with open(cc_path, "r", encoding="utf-8") as f:
+                cc_transactions = json.load(f)
+        except Exception:
+            pass
+
+    # --- Load invoices (prefer compare_invoices.json from org_inv, fallback to extracted_invoices.json) ---
+    inv_path = os.path.join(output_dir, "compare_invoices.json")
+    if not os.path.exists(inv_path):
+        inv_path = os.path.join(output_dir, "extracted_invoices.json")
+    invoices = []
+    if os.path.exists(inv_path):
+        try:
+            with open(inv_path, "r", encoding="utf-8") as f:
+                invoices = json.load(f)
+        except Exception:
+            pass
+
+    if not cc_transactions and not invoices:
+        return jsonify({"error": "No data found. Click 'Parse All Invoices' and 'Parse All CC' first."}), 404
+
+    # --- Month helpers ---
+    month_from_path_re = re.compile(r'organized_invoices[/\\](\w+ \d{4})[/\\]')
+
+    def get_invoice_month(inv):
+        # Direct month field from compare_invoices.json
+        om = inv.get("organized_month", "")
+        if om:
+            return om
+        # Fallback: parse from organized_path
+        op = inv.get("organized_path", "")
+        m = month_from_path_re.search(op)
+        if m:
+            return m.group(1)
+        d = inv.get("date", "")
+        if d and len(d) >= 7:
+            try:
+                dt = datetime.strptime(d[:10], "%Y-%m-%d")
+                return dt.strftime("%b %Y")
+            except Exception:
+                pass
+        return "Unknown"
+
+    def get_cc_month(txn):
+        d = txn.get("date", "")
+        if d and len(d) >= 7:
+            try:
+                dt = datetime.strptime(d[:10], "%Y-%m-%d")
+                return dt.strftime("%b %Y")
+            except Exception:
+                pass
+        return "Unknown"
+
+    # --- Vendor name resolution from vendor_mappings ---
+    vm_path = os.path.join(PROJECT_ROOT, "config", "vendor_mappings.json")
+    vendor_map = {}        # lowercased keys
+    vendor_map_norm = {}   # normalized keys (no punctuation/spaces)
+    def _norm(s):
+        return re.sub(r'[\s.\-,*()]+', '', s.lower())
+    try:
+        with open(vm_path, "r", encoding="utf-8") as f:
+            vm = json.load(f)
+        for k, v in vm.get("mappings", {}).items():
+            vendor_map[k.lower()] = v
+            vendor_map_norm[_norm(k)] = v
+    except Exception:
+        pass
+    _sorted_keys = sorted(vendor_map.keys(), key=len, reverse=True)
+    _sorted_norm_keys = sorted(vendor_map_norm.keys(), key=len, reverse=True)
+
+    def _resolve_vendor(desc):
+        if not desc:
+            return None
+        dl = desc.lower()
+        dn = _norm(desc)
+        # 1. Exact lowercase match
+        if dl in vendor_map:
+            return vendor_map[dl]
+        # 2. Exact normalized match
+        if dn in vendor_map_norm:
+            return vendor_map_norm[dn]
+        # 3. Substring match on lowercase (longest key first)
+        for key in _sorted_keys:
+            if key and len(key) >= 4 and key in dl:
+                return vendor_map[key]
+        # 4. Substring match on normalized (handles commas, dots, etc.)
+        for key in _sorted_norm_keys:
+            if key and len(key) >= 4 and key in dn:
+                return vendor_map_norm[key]
+        return None
+
+    # --- Group by month (debits only) ---
+    cc_by_month = defaultdict(list)
+    for t in cc_transactions:
+        if float(t.get("amount", 0)) <= 0:
+            continue  # Skip credits (refunds, payments, waivers)
+        cc_by_month[get_cc_month(t)].append({
+            "date": t.get("date", ""),
+            "description": t.get("description", ""),
+            "amount": t.get("amount", 0),
+            "card_name": t.get("card_name", ""),
+            "forex_amount": t.get("forex_amount"),
+            "forex_currency": t.get("forex_currency"),
+            "vendor_name": _resolve_vendor(t.get("description", "")),
+        })
+
+    # --- Load Zoho bills cache + created_bills for "In Zoho" check ---
+    bills_cache_path = os.path.join(output_dir, "zoho_bills_cache.json")
+    zoho_bill_numbers = {}   # bill_number -> bill_id
+    zoho_bill_numbers_norm = {}  # normalized -> bill_id
+    if os.path.exists(bills_cache_path):
+        try:
+            with open(bills_cache_path, "r", encoding="utf-8") as f:
+                for b in json.load(f):
+                    bn = b.get("bill_number", "")
+                    bid = b.get("bill_id", "")
+                    if bn:
+                        zoho_bill_numbers[bn] = bid
+                        norm = _normalize_bill_number(bn)
+                        if norm:
+                            zoho_bill_numbers_norm[norm] = bid
+        except Exception:
+            pass
+
+    created_bills_set = {}  # file -> bill_id
+    created_bills_path = os.path.join(output_dir, "created_bills.json")
+    if os.path.exists(created_bills_path):
+        try:
+            with open(created_bills_path, "r", encoding="utf-8") as f:
+                for entry in json.load(f):
+                    if entry.get("status") == "created" and entry.get("bill_id"):
+                        created_bills_set[entry.get("file", "")] = entry["bill_id"]
+        except Exception:
+            pass
+
+    _GENERIC_INV = {"payment", "original", "invoice", "bill", "tax", "none", "n/a", ""}
+
+    def _check_in_zoho(inv):
+        """Check if invoice already has a bill in Zoho."""
+        inv_num = (inv.get("invoice_number") or "").strip()
+        fname = inv.get("file", "")
+        # Check created_bills.json first
+        if fname in created_bills_set:
+            return created_bills_set[fname]
+        # Check by invoice number
+        has_reliable = bool(inv_num and inv_num.lower().strip() not in _GENERIC_INV)
+        if has_reliable:
+            if inv_num in zoho_bill_numbers:
+                return zoho_bill_numbers[inv_num]
+            norm = _normalize_bill_number(inv_num)
+            if norm and norm in zoho_bill_numbers_norm:
+                return zoho_bill_numbers_norm[norm]
+            # Also check with INV- prefix
+            legacy = f"INV-{inv_num}"
+            if legacy in zoho_bill_numbers:
+                return zoho_bill_numbers[legacy]
+        else:
+            # Try filename without extension as bill number
+            bn = re.sub(r'\.(pdf|eml)$', '', fname, flags=re.IGNORECASE)
+            if bn in zoho_bill_numbers:
+                return zoho_bill_numbers[bn]
+            norm = _normalize_bill_number(bn)
+            if norm and norm in zoho_bill_numbers_norm:
+                return zoho_bill_numbers_norm[norm]
+        return None
+
+    inv_by_month = defaultdict(list)
+    for inv in invoices:
+        zoho_bid = _check_in_zoho(inv)
+        inv_by_month[get_invoice_month(inv)].append({
+            "vendor_name": inv.get("vendor_name", "") or "",
+            "vendor_gstin": inv.get("vendor_gstin"),
+            "amount": inv.get("amount"),
+            "currency": inv.get("currency", "INR"),
+            "date": inv.get("date", ""),
+            "invoice_number": inv.get("invoice_number", ""),
+            "in_zoho": bool(zoho_bid),
+            "zoho_bill_id": zoho_bid or "",
+        })
+
+    # --- Build sorted month list (newest first) ---
+    all_months = sorted(
+        set(list(cc_by_month.keys()) + list(inv_by_month.keys())),
+        key=lambda m: _parse_month_key(m),
+        reverse=True,
+    )
+
+    months = []
+    for mk in all_months:
+        cc_list = sorted(cc_by_month.get(mk, []), key=lambda x: x.get("date", ""))
+        inv_list = sorted(inv_by_month.get(mk, []), key=lambda x: x.get("date", ""))
+        cc_total = sum(t["amount"] for t in cc_list if t.get("amount") and t["amount"] > 0)
+        inv_total = sum(i["amount"] for i in inv_list if i.get("amount"))
+        months.append({
+            "month": mk,
+            "cc_transactions": cc_list,
+            "invoices": inv_list,
+            "cc_count": len(cc_list),
+            "inv_count": len(inv_list),
+            "cc_total": round(cc_total, 2),
+            "inv_total": round(inv_total, 2),
+        })
+
+    return jsonify({
+        "months": months,
+        "summary": {
+            "total_months": len(months),
+            "total_cc": sum(m["cc_count"] for m in months),
+            "total_invoices": sum(m["inv_count"] for m in months),
+        },
+    })
+
+
+def _auto_update_vendor_mappings(invoices_list, log_action):
+    """Auto-discover new vendor mappings from parsed invoices + unmapped CC descriptions."""
+    try:
+        vm_path = os.path.join(PROJECT_ROOT, "config", "vendor_mappings.json")
+        with open(vm_path, "r", encoding="utf-8") as f:
+            vm_data = json.load(f)
+        mappings = vm_data.get("mappings", {})
+
+        def _nrm(s):
+            return re.sub(r'[\s.\-,*()]+', '', s.lower())
+
+        existing_values = set(mappings.values())  # clean vendor names
+        existing_keys_norm = {_nrm(k) for k in mappings}
+
+        # --- Step 1: Collect invoice vendor names, resolve canonical target ---
+        inv_vendor_canonical = {}  # invoice vendor_name → canonical mapping target
+        for inv in invoices_list:
+            vn = (inv.get("vendor_name") or "").strip()
+            if not vn or vn.lower() in {"unknown", "n/a", ""}:
+                continue
+            if vn in inv_vendor_canonical:
+                continue
+            if vn in existing_values:
+                inv_vendor_canonical[vn] = vn
+                continue
+            # Check if loosely matches an existing mapping value
+            vn_n = _nrm(vn)
+            matched = None
+            for ev in existing_values:
+                ev_n = _nrm(ev)
+                if ev_n and vn_n and (ev_n in vn_n or vn_n in ev_n):
+                    matched = ev
+                    break
+            inv_vendor_canonical[vn] = matched or vn
+
+        # --- Step 2: Build token lookup (vendor name fragments → canonical) ---
+        # Combine existing mapping values + invoice vendor names
+        all_canonical = set(existing_values) | set(inv_vendor_canonical.values())
+        token_map = {}  # normalized token → canonical name
+
+        # Full normalized vendor names
+        for canon in all_canonical:
+            cn = _nrm(canon)
+            if cn and len(cn) >= 4:
+                token_map[cn] = canon
+
+        # First-word tokens — only add if UNIQUE to one vendor (skip ambiguous)
+        first_word_vendors = {}  # first_word → set of vendor names
+        for canon in all_canonical:
+            words = [w for w in re.split(r'[\s,.\-*()]+', canon) if w]
+            if words:
+                fw = _nrm(words[0])
+                if fw and len(fw) >= 5:
+                    first_word_vendors.setdefault(fw, set()).add(canon)
+        for fw, vendors in first_word_vendors.items():
+            if len(vendors) == 1 and fw not in token_map:
+                token_map[fw] = next(iter(vendors))
+
+        # Existing mapping keys as tokens (these are manually curated, safe)
+        for k, v in mappings.items():
+            kn = _nrm(k)
+            if kn and len(kn) >= 4:
+                token_map[kn] = v
+
+        sorted_tokens = sorted(token_map.keys(), key=len, reverse=True)
+
+        # --- Step 3: Find unmapped CC descriptions & auto-map ---
+        new_mappings = {}
+        cc_path = os.path.join(PROJECT_ROOT, "output", "cc_transactions.json")
+        if os.path.exists(cc_path):
+            with open(cc_path, "r", encoding="utf-8") as f:
+                cc_txns = json.load(f)
+
+            map_lower = {k.lower(): v for k, v in mappings.items()}
+            map_norm = {_nrm(k): v for k, v in mappings.items()}
+            sk_low = sorted(map_lower.keys(), key=len, reverse=True)
+            sk_nrm = sorted(map_norm.keys(), key=len, reverse=True)
+
+            for t in cc_txns:
+                desc = t.get("description", "").strip()
+                if not desc or float(t.get("amount", 0)) <= 0:
+                    continue
+                dl = desc.lower()
+                dn = _nrm(desc)
+
+                # Already mapped? (replicate _resolve_vendor logic)
+                if dl in map_lower or dn in map_norm:
+                    continue
+                found = False
+                for key in sk_low:
+                    if key and len(key) >= 4 and key in dl:
+                        found = True
+                        break
+                if not found:
+                    for key in sk_nrm:
+                        if key and len(key) >= 4 and key in dn:
+                            found = True
+                            break
+                if found:
+                    continue
+
+                # Try token matching (longest first for precision)
+                for tok in sorted_tokens:
+                    if tok in dn:
+                        target = token_map[tok]
+                        new_mappings[desc] = target
+                        # Update local lookup so we don't double-add variants
+                        map_lower[dl] = target
+                        map_norm[dn] = target
+                        break
+
+        if new_mappings:
+            mappings.update(new_mappings)
+            vm_data["mappings"] = mappings
+            with open(vm_path, "w", encoding="utf-8") as f:
+                json.dump(vm_data, f, indent=4, ensure_ascii=False)
+            log_action(f"Auto-mapping: {len(new_mappings)} new vendor mappings added:")
+            for desc, target in sorted(new_mappings.items(), key=lambda x: x[1]):
+                log_action(f"    '{desc}' → '{target}'")
+        else:
+            log_action("Auto-mapping: no new vendor mappings needed")
+    except Exception as e:
+        log_action(f"Auto-mapping failed: {e}", "WARNING")
+
+
+def _parse_org_invoices_thread():
+    """Background thread: extract invoice data from organized_invoices/."""
+    from scripts.utils import log_action
+    try:
+        mod_02 = _import_script("02_extract_invoices.py")
+        org_root = os.path.join(PROJECT_ROOT, "organized_invoices")
+        output_path = os.path.join(PROJECT_ROOT, "output", "compare_invoices.json")
+
+        log_action("=" * 50)
+        log_action("Parse All Invoices from organized_invoices/")
+        log_action("=" * 50)
+
+        results = []
+        total = 0
+        for month_folder in sorted(os.listdir(org_root)):
+            month_dir = os.path.join(org_root, month_folder)
+            if not os.path.isdir(month_dir):
+                continue
+            pdfs = [f for f in os.listdir(month_dir) if f.lower().endswith((".pdf", ".eml"))]
+            log_action(f"  {month_folder}: {len(pdfs)} files")
+            for pdf_file in sorted(pdfs):
+                pdf_path = os.path.join(month_dir, pdf_file)
+                try:
+                    inv = mod_02.extract_invoice(pdf_path, pdf_file)
+                    if inv:
+                        # Amazon India returns a list of invoices (one per page)
+                        inv_list = inv if isinstance(inv, list) else [inv]
+                        for item in inv_list:
+                            item["organized_month"] = month_folder
+                            item["organized_path"] = pdf_path
+                            results.append(item)
+                            total += 1
+                            log_action(f"    {item.get('file', pdf_file)} -> {item.get('vendor_name', '?')}, {item.get('amount', '?')} {item.get('currency', '?')}")
+                    else:
+                        log_action(f"    {pdf_file} -> no data", "WARNING")
+                except Exception as e:
+                    log_action(f"    {pdf_file} -> FAILED: {e}", "WARNING")
+
+        # Dedup by invoice_number (keep first occurrence)
+        seen = {}
+        deduped = []
+        generic = {"payment", "original", "invoice", "receipt", "bill", "tax", "none", "n/a", ""}
+        for inv in results:
+            num = inv.get("invoice_number", "")
+            if num and num.lower().strip() not in generic and num in seen:
+                log_action(f"  Dedup: skipping {inv['file']} (same #{num} as {seen[num]})")
+                continue
+            if num and num.lower().strip() not in generic:
+                seen[num] = inv["file"]
+            deduped.append(inv)
+
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(deduped, f, indent=2, ensure_ascii=False)
+
+        log_action(f"Done: {len(deduped)} invoices extracted ({total} total, {total - len(deduped)} deduped)")
+
+        # --- Auto-discover & update vendor mappings ---
+        _auto_update_vendor_mappings(deduped, log_action)
+
+    except Exception as e:
+        log_action(f"Parse org invoices failed: {e}", "ERROR")
+    finally:
+        with _state_lock:
+            _state["running"] = False
+            _state["current_step"] = None
+
+
+@app.route("/api/compare/parse-org-invoices", methods=["POST"])
+def api_parse_org_invoices():
+    """Start background extraction from organized_invoices/ folder."""
+    with _state_lock:
+        if _state["running"]:
+            return jsonify({"error": "A step is already running", "current": _state["current_step"]}), 409
+        _state["running"] = True
+        _state["current_step"] = "Parse Org Invoices"
+
+    org_root = os.path.join(PROJECT_ROOT, "organized_invoices")
+    if not os.path.isdir(org_root):
+        with _state_lock:
+            _state["running"] = False
+            _state["current_step"] = None
+        return jsonify({"error": "organized_invoices/ folder not found"}), 404
+
+    t = threading.Thread(target=_parse_org_invoices_thread, daemon=True)
+    t.start()
+    return jsonify({"status": "started"})
+
+
+# --- Sync Zoho (bills + vendors cache) ---
+
+def _sync_zoho_thread():
+    """Background thread: fetch all bills + vendors from Zoho and save as local cache."""
+    from scripts.utils import log_action, load_config, ZohoBooksAPI
+    try:
+        log_action("=" * 50)
+        log_action("Sync Zoho: Fetching bills, vendors & CC accounts")
+        log_action("=" * 50)
+
+        config = load_config()
+        api = ZohoBooksAPI(config)
+
+        # --- Fetch ALL bills (paginated) ---
+        all_bills = []
+        page = 1
+        while True:
+            result = api.list_bills(page=page)
+            bills_page = result.get("bills", [])
+            if not bills_page:
+                break
+            for b in bills_page:
+                all_bills.append({
+                    "bill_id": b.get("bill_id"),
+                    "bill_number": b.get("bill_number", ""),
+                    "vendor_name": b.get("vendor_name", ""),
+                    "vendor_id": b.get("vendor_id", ""),
+                    "date": b.get("date", ""),
+                    "total": b.get("total", 0),
+                    "status": b.get("status", ""),
+                })
+            has_more = result.get("page_context", {}).get("has_more_page", False)
+            if not has_more:
+                break
+            page += 1
+            log_action(f"  Bills page {page}...")
+
+        log_action(f"Fetched {len(all_bills)} bills from Zoho")
+
+        # --- Fetch ALL vendors (paginated) ---
+        all_vendors = []
+        page = 1
+        while True:
+            result = api.list_all_vendors(page=page)
+            contacts = result.get("contacts", [])
+            if not contacts:
+                break
+            for v in contacts:
+                all_vendors.append({
+                    "contact_id": v.get("contact_id"),
+                    "contact_name": v.get("contact_name", ""),
+                    "company_name": v.get("company_name", ""),
+                    "gst_no": v.get("gst_no", ""),
+                    "gst_treatment": v.get("gst_treatment", ""),
+                    "currency_code": v.get("currency_code", "INR"),
+                })
+            has_more = result.get("page_context", {}).get("has_more_page", False)
+            if not has_more:
+                break
+            page += 1
+            log_action(f"  Vendors page {page}...")
+
+        log_action(f"Fetched {len(all_vendors)} vendors from Zoho")
+
+        # --- Fetch CC bank accounts ---
+        bank_accounts = api.list_bank_accounts()
+        cc_accounts = [a for a in bank_accounts if a.get("account_type") == "credit_card"]
+        log_action(f"Fetched {len(cc_accounts)} CC accounts from Zoho Banking")
+
+        # --- Save caches ---
+        os.makedirs(os.path.join(PROJECT_ROOT, "output"), exist_ok=True)
+        bills_cache = os.path.join(PROJECT_ROOT, "output", "zoho_bills_cache.json")
+        vendors_cache = os.path.join(PROJECT_ROOT, "output", "zoho_vendors_cache.json")
+
+        with open(bills_cache, "w", encoding="utf-8") as f:
+            json.dump(all_bills, f, indent=2, ensure_ascii=False)
+        with open(vendors_cache, "w", encoding="utf-8") as f:
+            json.dump(all_vendors, f, indent=2, ensure_ascii=False)
+
+        cc_cache = os.path.join(PROJECT_ROOT, "output", "zoho_cc_accounts_cache.json")
+        with open(cc_cache, "w", encoding="utf-8") as f:
+            json.dump(cc_accounts, f, indent=2, ensure_ascii=False)
+
+        # --- Fetch CC transactions (uncategorized) from each configured card ---
+        cards = config.get("credit_cards", [])
+        all_cc_txns = []
+        for card in cards:
+            account_id = card.get("zoho_account_id")
+            if not account_id:
+                log_action(f"  Skipping card '{card.get('name')}' - no zoho_account_id")
+                continue
+            card_name = card.get("name", "")
+            page = 1
+            card_txns = 0
+            while True:
+                result = api.list_uncategorized(account_id, page=page)
+                for t in result.get("banktransactions", []):
+                    amount = float(t.get("amount") or 0)
+                    desc = t.get("description", "") or t.get("payee", "")
+                    entry = {
+                        "date": t.get("date", ""),
+                        "description": desc,
+                        "amount": amount,
+                        "card_name": card_name,
+                        "zoho_account_id": account_id,
+                        "transaction_id": t.get("transaction_id", ""),
+                    }
+                    # Parse forex from '[USD 359.90]' in description
+                    import re as _re
+                    fx_m = _re.search(r'\[([A-Z]{3})\s+([\d,.]+)\]', desc)
+                    if fx_m:
+                        try:
+                            entry["forex_amount"] = float(fx_m.group(2).replace(',', ''))
+                            entry["forex_currency"] = fx_m.group(1)
+                        except ValueError:
+                            pass
+                    all_cc_txns.append(entry)
+                    card_txns += 1
+                if not result.get("page_context", {}).get("has_more_page", False):
+                    break
+                page += 1
+            log_action(f"  {card_name}: {card_txns} uncategorized transactions")
+
+        cc_txns_cache = os.path.join(PROJECT_ROOT, "output", "zoho_cc_transactions_cache.json")
+        with open(cc_txns_cache, "w", encoding="utf-8") as f:
+            json.dump(all_cc_txns, f, indent=2, ensure_ascii=False)
+
+        log_action(f"Saved: {len(all_bills)} bills -> zoho_bills_cache.json")
+        log_action(f"Saved: {len(all_vendors)} vendors -> zoho_vendors_cache.json")
+        log_action(f"Saved: {len(cc_accounts)} CC accounts -> zoho_cc_accounts_cache.json")
+        log_action(f"Saved: {len(all_cc_txns)} CC transactions -> zoho_cc_transactions_cache.json")
+
+        # Resolve/update CC account IDs in config
+        from scripts.utils import resolve_account_ids
+        cards = config.get("credit_cards", [])
+        if cards:
+            resolve_account_ids(api, cards)
+
+        log_action("Sync Zoho complete!")
+
+    except Exception as e:
+        log_action(f"Sync Zoho failed: {e}", "ERROR")
+    finally:
+        with _state_lock:
+            _state["running"] = False
+            _state["current_step"] = None
+
+
+@app.route("/api/zoho/sync", methods=["POST"])
+def api_zoho_sync():
+    """Start background sync of all bills + vendors from Zoho."""
+    with _state_lock:
+        if _state["running"]:
+            return jsonify({"error": "A step is already running", "current": _state["current_step"]}), 409
+        _state["running"] = True
+        _state["current_step"] = "Sync Zoho"
+
+    t = threading.Thread(target=_sync_zoho_thread, daemon=True)
+    t.start()
+    return jsonify({"status": "started"})
+
+
+# --- Match Preview (bill dedup analysis) ---
+
+def _normalize_bill_number(num):
+    """Normalize bill number for fuzzy matching: strip INV- prefix, lowercase, remove non-alphanumeric."""
+    import re
+    if not num:
+        return ""
+    s = num.strip()
+    # Strip common prefixes
+    s = re.sub(r'^(INV[-_]?)', '', s, flags=re.IGNORECASE)
+    # Lowercase and remove non-alphanumeric
+    s = re.sub(r'[^a-z0-9]', '', s.lower())
+    return s
+
+
+@app.route("/api/bills/match-preview", methods=["POST"])
+def api_bills_match_preview():
+    """Classify each extracted invoice as skip/new_bill/new_vendor_bill against Zoho cache."""
+    from scripts.utils import log_action
+
+    # Load extracted invoices (prefer compare_invoices, fallback to extracted_invoices)
+    compare_path = os.path.join(PROJECT_ROOT, "output", "compare_invoices.json")
+    extract_path = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
+    invoices_path = compare_path if os.path.exists(compare_path) else extract_path
+    if not os.path.exists(invoices_path):
+        return jsonify({"error": "No extracted invoices found. Run Extract Data first."}), 404
+
+    with open(invoices_path, "r", encoding="utf-8") as f:
+        invoices = json.load(f)
+
+    # Load Zoho caches
+    bills_cache_path = os.path.join(PROJECT_ROOT, "output", "zoho_bills_cache.json")
+    vendors_cache_path = os.path.join(PROJECT_ROOT, "output", "zoho_vendors_cache.json")
+    if not os.path.exists(bills_cache_path) or not os.path.exists(vendors_cache_path):
+        return jsonify({"error": "Zoho cache not found. Click Sync Zoho first."}), 404
+
+    with open(bills_cache_path, "r", encoding="utf-8") as f:
+        zoho_bills = json.load(f)
+    with open(vendors_cache_path, "r", encoding="utf-8") as f:
+        zoho_vendors = json.load(f)
+
+    # Build indices
+    # Exact bill number -> bill info
+    bills_exact = {}
+    # Normalized bill number -> bill info
+    bills_norm = {}
+    # (vendor_name_lower, date) -> bill info
+    bills_vendor_date = {}
+    for b in zoho_bills:
+        bn = b.get("bill_number", "")
+        bills_exact[bn] = b
+        norm = _normalize_bill_number(bn)
+        if norm:
+            bills_norm[norm] = b
+
+        vn = (b.get("vendor_name") or "").strip().lower()
+        bd = b.get("date", "")
+        if vn and bd:
+            bills_vendor_date[(vn, bd)] = b
+
+    # Vendor name -> vendor info (lowercase)
+    vendor_name_map = {}
+    import re
+    _norm_v = lambda s: re.sub(r'[\s.\-,*()]+', '', s.lower()) if s else ""
+    vendor_norm_map = {}
+    for v in zoho_vendors:
+        cn = (v.get("contact_name") or "").strip()
+        if cn:
+            vendor_name_map[cn.lower()] = v
+            vendor_norm_map[_norm_v(cn)] = v
+        comp = (v.get("company_name") or "").strip()
+        if comp:
+            vendor_name_map[comp.lower()] = v
+            vendor_norm_map[_norm_v(comp)] = v
+
+    # GSTIN -> vendor info
+    vendor_gstin_map = {}
+    for v in zoho_vendors:
+        gst_no = (v.get("gst_no") or "").strip()
+        if gst_no:
+            vendor_gstin_map[gst_no] = v
+
+    # Also load vendor_mappings for resolving names
+    vm_path = os.path.join(PROJECT_ROOT, "config", "vendor_mappings.json")
+    vendor_mappings_data = {}
+    if os.path.exists(vm_path):
+        with open(vm_path, "r", encoding="utf-8") as f:
+            vendor_mappings_data = json.load(f).get("mappings", {})
+
+    _GENERIC_NUMBERS = {"payment", "original", "invoice", "bill", "tax", "none", "n/a", ""}
+
+    # Load created_bills.json to mark already-created bills
+    created_bills_path = os.path.join(PROJECT_ROOT, "output", "created_bills.json")
+    created_bills_map = {}  # file -> entry
+    if os.path.exists(created_bills_path):
+        try:
+            with open(created_bills_path, "r", encoding="utf-8") as f:
+                for entry in json.load(f):
+                    if entry.get("status") == "created" and entry.get("bill_id"):
+                        created_bills_map[entry["file"]] = entry
+        except Exception:
+            pass
+
+    # Classify each invoice
+    preview = []
+    for inv in invoices:
+        raw_inv_number = inv.get("invoice_number", "")
+        vendor_name = inv.get("vendor_name", "")
+        amount = inv.get("amount", 0)
+        inv_date = inv.get("date", "")
+        has_reliable = bool(raw_inv_number and raw_inv_number.lower().strip() not in _GENERIC_NUMBERS)
+        # GitHub receipt files use generic receipt numbers — fall back to filename
+        fname = inv.get("file", "")
+        if has_reliable and fname.lower().startswith("github") and "receipt" in fname.lower():
+            has_reliable = False
+
+        inv_number = raw_inv_number if has_reliable else re.sub(r'\.(pdf|eml)$', '', fname, flags=re.IGNORECASE)
+        bill_number = inv_number
+        bill_number_legacy = f"INV-{inv_number}"  # for matching old bills
+
+        entry = {
+            "file": inv.get("file", ""),
+            "invoice_number": raw_inv_number,
+            "vendor_name": vendor_name,
+            "amount": amount,
+            "currency": inv.get("currency", "INR"),
+            "date": inv_date,
+            "organized_month": inv.get("organized_month", ""),
+        }
+
+        # --- Check if already created via Step 3 ---
+        fname = inv.get("file", "")
+        if fname in created_bills_map:
+            cb = created_bills_map[fname]
+            entry["action"] = "skip"
+            entry["matched_bill_id"] = cb.get("bill_id", "")
+            entry["match_type"] = "created_bills"
+            entry["matched_bill"] = f"Created: {cb.get('vendor_name', '')}"
+            preview.append(entry)
+            continue
+
+        # --- Check if bill already exists ---
+        matched_bill = None
+        match_type = None
+
+        # 1. Exact bill number match (check both new format and legacy INV- prefix)
+        if bill_number in bills_exact:
+            matched_bill = bills_exact[bill_number]
+            match_type = "exact"
+        elif bill_number_legacy in bills_exact:
+            matched_bill = bills_exact[bill_number_legacy]
+            match_type = "exact"
+        # 2. Normalized match (e.g., INV-02148314-0004 vs 02148314-0004)
+        elif has_reliable:
+            norm = _normalize_bill_number(inv_number)
+            if norm and norm in bills_norm:
+                matched_bill = bills_norm[norm]
+                match_type = "normalized"
+        # 3. Vendor+date fallback (only if no reliable invoice number)
+        if not matched_bill and not has_reliable and vendor_name and inv_date:
+            vn_lower = vendor_name.strip().lower()
+            # Also try mapped vendor name
+            names_to_check = {vn_lower}
+            mapped_name = vendor_mappings_data.get(vendor_name) or vendor_mappings_data.get(vn_lower)
+            if mapped_name:
+                names_to_check.add(mapped_name.strip().lower())
+            for n in names_to_check:
+                if (n, inv_date) in bills_vendor_date:
+                    matched_bill = bills_vendor_date[(n, inv_date)]
+                    match_type = "vendor_date"
+                    break
+
+        if matched_bill:
+            entry["action"] = "skip"
+            entry["matched_bill"] = matched_bill.get("bill_number", "")
+            entry["matched_bill_id"] = matched_bill.get("bill_id", "")
+            entry["match_type"] = match_type
+            preview.append(entry)
+            continue
+
+        # --- Check if vendor exists ---
+        vendor_found = None
+        vendor_match_method = None
+        inv_gstin = (inv.get("vendor_gstin") or "").strip()
+
+        # Priority 1: GSTIN match (most reliable)
+        if inv_gstin and inv_gstin in vendor_gstin_map:
+            vendor_found = vendor_gstin_map[inv_gstin]
+            vendor_match_method = "gstin"
+
+        # Priority 2: Name-based matching
+        if not vendor_found and vendor_name:
+            vn_lower = vendor_name.strip().lower()
+            vn_norm = _norm_v(vendor_name)
+            # Direct vendor match
+            if vn_lower in vendor_name_map:
+                vendor_found = vendor_name_map[vn_lower]
+                vendor_match_method = "name"
+            elif vn_norm in vendor_norm_map:
+                vendor_found = vendor_norm_map[vn_norm]
+                vendor_match_method = "name"
+            else:
+                # Try via vendor_mappings
+                mapped_name = vendor_mappings_data.get(vendor_name) or vendor_mappings_data.get(vn_lower)
+                if mapped_name:
+                    mn_lower = mapped_name.strip().lower()
+                    mn_norm = _norm_v(mapped_name)
+                    if mn_lower in vendor_name_map:
+                        vendor_found = vendor_name_map[mn_lower]
+                        vendor_match_method = "name"
+                    elif mn_norm in vendor_norm_map:
+                        vendor_found = vendor_norm_map[mn_norm]
+                        vendor_match_method = "name"
+            # Fuzzy match against Zoho vendor names (catches "Microsoft" ≈ "Microsoft Pvt Ltd")
+            if not vendor_found:
+                from thefuzz import fuzz
+                best_score, best_vendor = 0, None
+                for vkey, vinfo in vendor_name_map.items():
+                    score = fuzz.token_set_ratio(vn_lower, vkey)
+                    if score > best_score:
+                        best_score, best_vendor = score, vinfo
+                if best_score >= 85:
+                    vendor_found = best_vendor
+                    vendor_match_method = "fuzzy"
+
+        if vendor_found:
+            entry["action"] = "new_bill"
+            entry["matched_vendor_id"] = vendor_found.get("contact_id", "")
+            entry["matched_vendor_name"] = vendor_found.get("contact_name", "")
+            entry["vendor_match_method"] = vendor_match_method
+            # Flag if vendor matched but GSTIN missing in Zoho
+            if vendor_match_method != "gstin" and inv_gstin:
+                zoho_gst = (vendor_found.get("gst_no") or "").strip()
+                if not zoho_gst:
+                    entry["gstin_missing"] = True
+        else:
+            entry["action"] = "new_vendor_bill"
+
+        preview.append(entry)
+
+    # Save preview for reference
+    preview_path = os.path.join(PROJECT_ROOT, "output", "bill_match_preview.json")
+    os.makedirs(os.path.dirname(preview_path), exist_ok=True)
+    with open(preview_path, "w", encoding="utf-8") as f:
+        json.dump(preview, f, indent=2, ensure_ascii=False)
+
+    # Summary counts
+    skip_count = sum(1 for p in preview if p["action"] == "skip")
+    new_bill_count = sum(1 for p in preview if p["action"] == "new_bill")
+    new_vendor_bill_count = sum(1 for p in preview if p["action"] == "new_vendor_bill")
+
+    log_action(f"Match preview: {skip_count} skip, {new_bill_count} new bills, {new_vendor_bill_count} new vendor+bill")
+
+    return jsonify({
+        "preview": preview,
+        "summary": {
+            "total": len(preview),
+            "skip": skip_count,
+            "new_bill": new_bill_count,
+            "new_vendor_bill": new_vendor_bill_count,
+        },
+    })
+
+
+@app.route("/api/compare/save-categorize", methods=["POST"])
+def api_save_categorize():
+    """Save categorize check results to output/categorize_<month>.json."""
+    data = request.json or {}
+    month = data.get("month", "unknown")
+    rows = data.get("rows", [])
+    summary = data.get("summary", {})
+
+    # "Jan 2026" -> "categorize_jan_2026.json"
+    safe_name = month.lower().replace(" ", "_")
+    filename = f"categorize_{safe_name}.json"
+    output_path = os.path.join(PROJECT_ROOT, "output", filename)
+
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump({
+            "month": month,
+            "rows": rows,
+            "summary": summary,
+            "saved_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        }, f, indent=2, ensure_ascii=False)
+
+    return jsonify({"status": "ok", "month": month, "path": output_path})
+
+
+@app.route("/api/compare/categorize-overall")
+def api_categorize_overall():
+    """Aggregate counts from all saved categorize_*.json files."""
+    output_dir = os.path.join(PROJECT_ROOT, "output")
+    totals = {"exact": 0, "close": 0, "cross_exact": 0, "cross_close": 0,
+              "no_invoice": 0, "unmapped": 0, "no_cc": 0, "total": 0, "months_done": 0}
+    months_detail = []
+    for fn in sorted(glob.glob(os.path.join(output_dir, "categorize_*.json"))):
+        try:
+            with open(fn, encoding="utf-8") as f:
+                data = json.load(f)
+            counts = {"exact": 0, "close": 0, "cross_exact": 0, "cross_close": 0,
+                       "no_invoice": 0, "unmapped": 0, "no_cc": 0}
+            for row in data.get("rows", []):
+                s = row.get("status", "")
+                if s in counts:
+                    counts[s] += 1
+            month_total = sum(counts.values())
+            for k in counts:
+                totals[k] += counts[k]
+            totals["total"] += month_total
+            totals["months_done"] += 1
+            months_detail.append({"month": data.get("month", ""), "counts": counts, "total": month_total})
+        except Exception:
+            continue
+    return jsonify({"totals": totals, "months": months_detail})
+
+
+# --- HTML Dashboard (embedded) ---
+
+DASHBOARD_HTML = r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CC Statement Automation</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #232733;
+    --border: #2e3345;
+    --text: #e1e4ed;
+    --text-dim: #8b90a0;
+    --accent: #6c8cff;
+    --accent-hover: #8ba4ff;
+    --green: #4ade80;
+    --red: #f87171;
+    --orange: #fb923c;
+    --yellow: #facc15;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+  }
+  .container { display: flex; flex-direction: column; height: 100vh; padding: 16px 20px; }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .header h1 span { color: var(--accent); }
+  .status-badge {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .status-idle { background: var(--surface2); color: var(--text-dim); }
+  .status-running { background: rgba(108,140,255,0.15); color: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  /* Main two-column layout */
+  .main-layout {
+    display: flex;
+    gap: 16px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* Left panel — phases (20%) */
+  .left-panel {
+    width: 20%;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: visible;
+    flex-shrink: 0;
+  }
+  .left-panel-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: calc(100vh - 60px);
+    padding-right: 4px;
+  }
+
+  /* Right panel — logs (80%) */
+  .right-panel {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  /* Phase sections */
+  .phase {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .phase-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .step-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Step buttons */
+  .step-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    width: 100%;
+  }
+  .step-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    background: rgba(108,140,255,0.08);
+  }
+  .step-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    background: var(--bg);
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-indicator {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .ind-idle { background: var(--border); }
+  .ind-running { background: var(--accent); animation: pulse 1s infinite; }
+  .ind-success { background: var(--green); }
+  .ind-error { background: var(--red); }
+
+  /* Step result tooltip */
+  .step-btn .step-msg {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 10;
+    color: var(--text-dim);
+    pointer-events: none;
+  }
+  .step-btn { position: relative; }
+  .step-btn:hover .step-msg { display: block; }
+
+  /* Info icon + tooltip */
+  .info-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--text-dim);
+    font-size: 10px;
+    font-weight: 700;
+    font-style: italic;
+    cursor: help;
+    flex-shrink: 0;
+    position: relative;
+    margin-left: auto;
+  }
+  .info-btn:hover { background: var(--accent); color: #fff; }
+  .info-tooltip {
+    display: none;
+    position: fixed;
+    background: var(--surface2);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 11.5px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5;
+    white-space: normal;
+    width: 280px;
+    z-index: 9999;
+    color: var(--text);
+    pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+
+  /* Action row */
+  .action-row {
+    display: flex;
+    gap: 6px;
+  }
+  .btn-primary {
+    padding: 8px 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex: 1;
+  }
+  .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-danger {
+    padding: 8px 14px;
+    background: transparent;
+    color: var(--red);
+    border: 1px solid rgba(248,113,113,0.3);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex: 1;
+  }
+  .btn-danger:hover:not(:disabled) { background: rgba(248,113,113,0.1); }
+  .btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Summary bar */
+  .summary-bar {
+    display: flex;
+    gap: 12px;
+    padding: 10px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    flex-wrap: wrap;
+  }
+  .summary-item {
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .summary-item strong {
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 600;
+    margin-right: 2px;
+  }
+
+  /* Log panel */
+  .log-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+  .log-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .log-header button {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .log-header button:hover { color: var(--text); }
+  #logBox {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  #logBox::-webkit-scrollbar { width: 6px; }
+  #logBox::-webkit-scrollbar-track { background: transparent; }
+  #logBox::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .log-line { white-space: pre-wrap; word-break: break-all; }
+  .log-line-INFO { color: var(--text-dim); }
+  .log-line-WARNING { color: var(--orange); }
+  .log-line-ERROR { color: var(--red); }
+
+  /* Confirmation modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 32px;
+    min-width: 360px;
+    max-width: 440px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  }
+  .modal-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .modal-msg {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  .modal-btn {
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+  }
+  .modal-btn-cancel {
+    background: var(--surface2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .modal-btn-cancel:hover { color: var(--text); background: var(--bg); }
+  .modal-btn-confirm {
+    background: var(--accent);
+    color: #fff;
+  }
+  .modal-btn-confirm:hover { background: var(--accent-hover); }
+  .modal-btn-confirm.danger {
+    background: var(--red);
+  }
+  .modal-btn-confirm.danger:hover { background: #ef4444; }
+
+  /* Bill Picker */
+  .bill-month-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .bill-month-header:hover { color: var(--text); }
+  .bill-month-header .bill-month-count {
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-left: auto;
+  }
+  .bill-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px 6px 20px;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .bill-row.created { opacity: 0.5; }
+  .bill-row .bill-vendor { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bill-row .bill-amount { width: 100px; text-align: right; font-family: monospace; font-size: 11px; }
+  .bill-row .bill-currency { width: 32px; font-size: 10px; color: var(--text-dim); }
+  .bill-status-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .bill-status-badge.pending { background: rgba(251,191,36,0.15); color: #fbbf24; }
+  .bill-status-badge.created { background: rgba(52,211,153,0.15); color: #34d399; }
+  .bill-create-btn {
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .bill-create-btn:hover { background: var(--accent); color: #fff; }
+  .bill-month-create { font-size: 10px; padding: 2px 8px; margin-left: 8px; }
+
+  /* Bill picker split layout */
+  .bill-picker-layout { display: flex; gap: 0; flex: 1; min-height: 0; }
+  .bill-picker-left { flex: 3; overflow-y: auto; min-height: 0; border-right: 1px solid var(--border); padding-right: 12px; }
+  .bill-picker-right { flex: 2; display: flex; flex-direction: column; gap: 10px; padding-left: 16px; min-width: 200px; }
+  .bill-summary-total { font-size: 13px; font-weight: 600; padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .bill-summary-total .count { font-size: 22px; font-weight: 700; font-family: monospace; }
+  .bill-summary-card {
+    background: var(--bg); border-radius: 8px; padding: 10px 14px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .bill-summary-card .label { font-size: 12px; display: flex; align-items: center; gap: 6px; color: var(--text-dim); }
+  .bill-summary-card .count { font-size: 18px; font-weight: 700; font-family: monospace; }
+  .bill-summary-card .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .bill-summary-divider { height: 1px; background: var(--border); }
+  .bill-summary-upload-section { margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding-top: 8px; }
+
+  /* Review badge */
+  .review-badge {
+    background: var(--accent) !important;
+    color: #fff !important;
+    font-size: 10px !important;
+  }
+  .review-btn {
+    border-style: dashed !important;
+    border-color: var(--accent) !important;
+    opacity: 0.85;
+  }
+  .review-btn:hover:not(:disabled) {
+    opacity: 1;
+    border-style: solid !important;
+  }
+
+  /* Review panel */
+  .review-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+  .review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .review-close-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .review-close-btn:hover { color: var(--red); border-color: var(--red); }
+  .review-create-btn {
+    background: rgba(108,140,255,0.1);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .review-create-btn:hover { background: rgba(108,140,255,0.2); }
+  .review-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+  }
+  .review-loading {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 40px 0;
+    font-size: 13px;
+  }
+  .review-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .review-table th {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .review-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(46,51,69,0.5);
+    vertical-align: middle;
+  }
+  .review-table select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: 5px 8px;
+    font-size: 12px;
+    width: 100%;
+    max-width: 220px;
+  }
+  .review-table select:focus { border-color: var(--accent); outline: none; }
+  .review-save-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .review-save-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .review-save-btn.saved {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .review-save-btn.save-error {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .review-save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .vendor-group-header td {
+    background: var(--surface2);
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--accent);
+  }
+  .vendor-group-header .vendor-bulk-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+  }
+  .vendor-group-header .vendor-name-label {
+    flex-shrink: 0;
+    min-width: 120px;
+  }
+  .vendor-group-header .vendor-bill-count {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+  .vendor-bulk-select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: 5px 8px;
+    font-size: 12px;
+    min-width: 180px;
+  }
+  .vendor-bulk-select:focus { border-color: var(--accent); outline: none; }
+  .apply-all-btn {
+    background: rgba(108,140,255,0.1);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .apply-all-btn:hover { background: rgba(108,140,255,0.25); }
+  .apply-all-btn.saved { border-color: var(--green); color: var(--green); }
+  .apply-all-btn.save-error { border-color: var(--red); color: var(--red); }
+  .apply-all-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Match Status panel */
+  .match-summary {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .match-stat {
+    padding: 12px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-align: center;
+    flex: 1;
+  }
+  .match-stat .stat-value {
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .match-stat .stat-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+  .stat-matched .stat-value { color: var(--green); }
+  .stat-unmatched .stat-value { color: var(--orange); }
+  .stat-total .stat-value { color: var(--accent); }
+  .match-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .match-tab {
+    padding: 8px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .match-tab:hover { color: var(--text); }
+  .match-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .match-tab.tab-matched.active { color: var(--green); border-bottom-color: var(--green); }
+  .match-tab.tab-unmatched.active { color: var(--orange); border-bottom-color: var(--orange); }
+  .match-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .match-table th {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-dim);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    background: var(--surface2);
+    z-index: 1;
+  }
+  .match-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(46,51,69,0.5);
+    vertical-align: middle;
+  }
+  .match-table .status-paid { color: var(--green); font-weight: 600; }
+  .match-table .status-unmatched { color: var(--orange); font-weight: 600; }
+  .match-table .reason-cell { font-size: 11px; color: var(--red); max-width: 300px; }
+  .cat-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    border: 1px solid var(--border);
+  }
+  .cat-table th {
+    text-align: left;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    background: var(--surface2);
+    z-index: 1;
+  }
+  .cat-table td {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .match-btn {
+    border-style: dashed !important;
+    border-color: var(--orange) !important;
+    opacity: 0.85;
+  }
+  .match-btn:hover:not(:disabled) {
+    opacity: 1;
+    border-style: solid !important;
+  }
+  .check-btn {
+    border-style: dashed !important;
+    border-color: var(--yellow) !important;
+    opacity: 0.85;
+  }
+  .check-btn:hover:not(:disabled) {
+    opacity: 1;
+    border-style: solid !important;
+  }
+  .compare-btn {
+    border-style: dashed !important;
+    border-color: var(--green, #4ade80) !important;
+    opacity: 0.85;
+  }
+  .compare-btn:hover:not(:disabled) {
+    opacity: 1;
+    border-style: solid !important;
+  }
+
+  /* Step with upload */
+  .step-with-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .upload-row {
+    display: flex;
+  }
+  .upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    padding: 5px 10px;
+    background: transparent;
+    border: 1px dashed var(--border);
+    border-radius: 6px;
+    color: var(--text-dim);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .upload-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(108,140,255,0.05);
+  }
+  .upload-step-btn {
+    cursor: pointer;
+    border-style: dashed;
+  }
+  .upload-step-btn:hover {
+    border-color: var(--accent);
+    background: rgba(108,140,255,0.05);
+  }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <h1><span>CC</span> Statement Automation</h1>
+    <div id="globalStatus" class="status-badge status-idle">Idle</div>
+  </div>
+
+  <!-- Two-column layout -->
+  <div class="main-layout">
+    <!-- Left panel: Phases -->
+    <div class="left-panel">
+    <div class="left-panel-scroll">
+      <!-- Box 1: Invoices → Compare -->
+      <div class="phase">
+        <div class="phase-label">Invoices &rarr; Compare</div>
+        <div class="step-grid">
+          <button class="step-btn" data-step="1" onclick="runStep('1')">
+            <span class="step-num">1</span> Fetch Invoices
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Connects to Outlook via Microsoft Graph API, searches inbox for invoice/receipt emails, and downloads PDF attachments to input_pdfs/invoices/</span>
+            </span>
+            <span class="step-indicator ind-idle" id="ind-1"></span>
+            <span class="step-msg" id="msg-1"></span>
+          </button>
+          <button class="step-btn" onclick="runExtractZips()" id="btn-extract-zips" style="border:1.5px dashed var(--accent);background:rgba(108,140,255,0.05)">
+            <span class="step-num" style="background:var(--accent);color:#fff;font-size:10px">Z</span> Extract ZIPs
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Extract PDFs from ZIP files (and loose PDFs) in 'all zips' folder, then parse and organize into month-wise folders.</span>
+            </span>
+            <span class="step-indicator ind-idle" id="ind-extract-zips"></span>
+            <span class="step-msg" id="msg-extract-zips"></span>
+          </button>
+          <button class="step-btn" data-step="2" onclick="runStep('2')">
+            <span class="step-num">2</span> Extract Data
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Reads each invoice PDF using pdfplumber + OCR fallback. Extracts vendor name, amount, date, currency, and invoice number.</span>
+            </span>
+            <span class="step-indicator ind-idle" id="ind-2"></span>
+            <span class="step-msg" id="msg-2"></span>
+          </button>
+          <button class="step-btn compare-btn" onclick="openComparePanel()">
+            <span class="step-num" style="background:var(--green, #4ade80);color:#000;font-size:10px">$</span> Monthly Compare
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Compare CC statement transactions vs organized invoices side-by-side, grouped by month. Shows vendor GSTIN and forex details.</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Box 2: Bills -->
+      <div class="phase">
+        <div class="phase-label">Bills</div>
+        <div class="step-grid">
+          <button class="step-btn" onclick="syncZoho()" style="border:1.5px dashed var(--accent);background:rgba(108,140,255,0.05)">
+            <span class="step-num" style="background:var(--accent);color:#fff;font-size:10px">S</span> Sync Zoho
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Pull all existing bills, vendors &amp; CC bank accounts from Zoho Books into local cache. Run this before creating bills to enable smart dedup.</span>
+            </span>
+            <span class="step-indicator ind-idle" id="ind-sync"></span>
+            <span class="step-msg" id="msg-sync"></span>
+          </button>
+          <div class="step-with-upload">
+            <div class="upload-row">
+              <div class="step-btn" data-step="3" style="cursor:default">
+                <span class="step-num">3</span> Create Bills
+                <span class="info-btn" onclick="event.stopPropagation()">i
+                  <span class="info-tooltip">Use Upload 1 to pick invoices with match preview, or Upload All to create bills for all new invoices (skips existing).</span>
+                </span>
+                <span class="step-indicator ind-idle" id="ind-3"></span>
+                <span class="step-msg" id="msg-3"></span>
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:4px">
+              <button class="upload-btn" onclick="openBillPicker()" style="flex:1">Upload 1</button>
+              <button class="upload-btn" onclick="createAllBillsDirect()" style="flex:1">Upload All</button>
+            </div>
+          </div>
+          <button class="step-btn review-btn" onclick="openReviewPanel()">
+            <span class="step-num review-badge">R</span> Review Accounts
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Review and fix expense account assignments on bills created in Step 3. You can change accounts and create new ones. This is optional &mdash; skipped during Run All.</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Box 3: Payments -->
+      <div class="phase">
+        <div class="phase-label">Payments</div>
+        <div class="step-grid">
+          <div class="step-with-upload">
+            <div class="upload-row">
+              <button class="step-btn" data-step="6" onclick="openPaymentPreview()" style="width:100%">
+                <span class="step-num">6</span> RecordPayment
+                <span class="info-btn" onclick="event.stopPropagation()">i
+                  <span class="info-tooltip">Preview bill-to-CC matches, then record payments individually or in bulk. Shows vendor, amount, and matched CC transaction for confirmation before recording.</span>
+                </span>
+                <span class="step-indicator ind-idle" id="ind-6"></span>
+                <span class="step-msg" id="msg-6"></span>
+              </button>
+            </div>
+            <div style="margin-top:4px">
+              <button class="upload-btn" onclick="clearPaymentsCache()" style="width:100%">Clear Cache</button>
+            </div>
+          </div>
+          <button class="step-btn" data-step="7" onclick="runStep('7')">
+            <span class="step-num">7</span> Auto-Match
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Matches uncategorized banking transactions to recorded vendor payments. Reconciles the CC account in Zoho Books automatically.</span>
+            </span>
+            <span class="step-indicator ind-idle" id="ind-7"></span>
+            <span class="step-msg" id="msg-7"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Box 4: Banking -->
+      <div class="phase">
+        <div class="phase-label">Banking</div>
+        <div class="step-grid">
+          <div class="step-with-upload">
+            <div class="upload-row">
+              <input type="file" id="ccUploadInput" accept=".pdf" multiple style="display:none" onchange="handleCCUpload(this)">
+              <label for="ccUploadInput" class="step-btn upload-step-btn">
+                <span class="step-num">4</span> Upload &amp; Parse CC
+                <span class="info-btn" onclick="event.stopPropagation()">i
+                  <span class="info-tooltip">Upload CC statement PDFs (HDFC, Kotak, Mayura) to parse into transactions. Only uploaded files are parsed.</span>
+                </span>
+                <span class="step-indicator ind-idle" id="ind-4"></span>
+                <span class="step-msg" id="msg-4"></span>
+              </label>
+            </div>
+            <div style="margin-top:4px">
+              <button class="upload-btn" onclick="clearParsedCC()" style="width:100%">Clear Parsed Data</button>
+            </div>
+          </div>
+          <div class="step-with-upload">
+            <div class="upload-row">
+              <button class="step-btn" data-step="5" onclick="openImportPicker()" style="width:100%">
+                <span class="step-num">5</span> Import Banking
+                <span class="info-btn" onclick="event.stopPropagation()">i
+                  <span class="info-tooltip">Choose which CC card's parsed transactions to import into Zoho Books Banking. Transactions appear as 'Uncategorized' in each CC account.</span>
+                </span>
+                <span class="step-indicator ind-idle" id="ind-5"></span>
+                <span class="step-msg" id="msg-5"></span>
+              </button>
+            </div>
+            <div style="margin-top:4px">
+              <button class="upload-btn" onclick="clearImportCache()" style="width:100%">Clear Cache</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons (hidden — backend logic retained) -->
+      <div class="action-row" style="display:none;">
+        <button class="btn-primary" id="btnRunAll" onclick="confirmRunAll()">Run All</button>
+        <button class="btn-danger" id="btnCleanup" onclick="confirmCleanup()">Cleanup</button>
+      </div>
+
+      <!-- Confirmation modal -->
+      <div id="confirmModal" class="modal-overlay" style="display:none;">
+        <div class="modal-box">
+          <div class="modal-title" id="modalTitle"></div>
+          <div class="modal-msg" id="modalMsg"></div>
+          <div class="modal-actions">
+            <button class="modal-btn modal-btn-cancel" onclick="closeModal()">No, Cancel</button>
+            <button class="modal-btn modal-btn-confirm" id="modalConfirmBtn">Yes, Proceed</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="summary-bar" id="summaryBar">
+        <div class="summary-item"><strong id="sumInvoices">-</strong> Invoices</div>
+        <div class="summary-item"><strong id="sumBills">-</strong> Bills</div>
+        <div class="summary-item"><strong id="sumCC">-</strong> CC Txns</div>
+      </div>
+    </div><!-- end left-panel-scroll -->
+    </div><!-- end left-panel -->
+
+    <!-- Right panel: Logs + Review -->
+    <div class="right-panel">
+      <div class="log-panel" id="logPanel">
+        <div class="log-header">
+          <span>Live Logs</span>
+          <button onclick="clearLogs()">Clear</button>
+        </div>
+        <div id="logBox"></div>
+      </div>
+
+      <!-- Review panel (hidden by default, overlays log panel) -->
+      <div class="review-panel" id="reviewPanel" style="display:none">
+        <div class="review-header">
+          <span>Review Expense Accounts</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="review-create-btn" onclick="openCreateAccountModal()">+ New Account</button>
+            <button class="review-close-btn" onclick="closeReviewPanel()">&#10005; Close</button>
+          </div>
+        </div>
+        <div class="review-body" id="reviewBody">
+          <div class="review-loading" id="reviewLoading">Loading bills...</div>
+          <table class="review-table" id="reviewTable" style="display:none">
+            <thead>
+              <tr>
+                <th>Vendor</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Current Account</th>
+                <th>Change To</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="reviewTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Match Status panel (hidden by default, overlays log panel) -->
+      <div class="review-panel" id="matchPanel" style="display:none">
+        <div class="review-header">
+          <span>Match Status</span>
+          <button class="review-close-btn" onclick="closeMatchPanel()">&#10005; Close</button>
+        </div>
+        <div class="review-body" id="matchBody">
+          <div class="review-loading" id="matchLoading">Loading match data...</div>
+          <div id="matchContent" style="display:none">
+            <div class="match-summary">
+              <div class="match-stat stat-matched">
+                <div class="stat-value" id="matchedCount">0</div>
+                <div class="stat-label">Matched</div>
+              </div>
+              <div class="match-stat stat-unmatched">
+                <div class="stat-value" id="unmatchedCount">0</div>
+                <div class="stat-label">Unmatched</div>
+              </div>
+              <div class="match-stat stat-total">
+                <div class="stat-value" id="totalCount">0</div>
+                <div class="stat-label">Total</div>
+              </div>
+            </div>
+            <div class="match-tabs">
+              <button class="match-tab tab-matched active" onclick="switchMatchTab('matched')">Matched</button>
+              <button class="match-tab tab-unmatched" onclick="switchMatchTab('unmatched')">Unmatched</button>
+            </div>
+            <table class="match-table">
+              <thead><tr id="matchTableHead"></tr></thead>
+              <tbody id="matchTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Check CC Match panel (hidden by default, overlays log panel) -->
+      <div class="review-panel" id="checkPanel" style="display:none">
+        <div class="review-header">
+          <span>Check CC Match (cached)</span>
+          <div style="display:flex;gap:16px;align-items:center">
+            <span id="checkSummaryText" style="font-size:12px;font-weight:400;color:var(--text-dim)"></span>
+            <button class="review-close-btn" onclick="closeCheckPanel()">&#10005; Close</button>
+          </div>
+        </div>
+        <div id="checkBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+          <div class="review-loading" id="checkLoading" style="align-self:center;width:100%;text-align:center">Fetching from Zoho...</div>
+          <div id="checkContent" style="display:none;flex:1;overflow-y:auto;flex-direction:column"></div>
+        </div>
+      </div>
+
+      <!-- Payment Preview panel -->
+      <div class="review-panel" id="paymentPanel" style="display:none">
+        <div class="review-header">
+          <span>Record Payments &mdash; Bill &harr; CC Match</span>
+          <div style="display:flex;gap:12px;align-items:center">
+            <span id="paymentSummaryText" style="font-size:12px;font-weight:400;color:var(--text-dim)"></span>
+            <button id="recordAllBtn" onclick="confirmRecordAll()" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:5px 14px;font-size:11px;cursor:pointer;font-weight:600;display:none">Record All Matched</button>
+            <button class="review-close-btn" onclick="closePaymentPanel()">&#10005; Close</button>
+          </div>
+        </div>
+        <div id="paymentBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+          <div class="review-loading" id="paymentLoading" style="align-self:center;width:100%;text-align:center">Fetching bills &amp; CC transactions...</div>
+          <div id="paymentContent" style="display:none;flex:1;overflow-y:auto"></div>
+        </div>
+      </div>
+
+      <!-- Monthly Compare panel (hidden by default, overlays log panel) -->
+      <div class="review-panel" id="comparePanel" style="display:none">
+        <div class="review-header">
+          <span>Monthly Compare &mdash; CC vs Invoices</span>
+          <div style="display:flex;gap:12px;align-items:center">
+            <button id="parseAllBillsBtn" onclick="parseOrgInvoices()" style="background:var(--accent);color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer">Parse All Invoices</button>
+            <button id="parseAllCCBtn" onclick="parseAllForCompare('4','parseAllCCBtn','CC')" style="background:var(--yellow);color:#000;border:none;border-radius:6px;padding:4px 10px;font-size:11px;cursor:pointer">Parse All CC</button>
+            <select id="compareMonthSelect" onchange="renderCompareMonth(this.value)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px"></select>
+            <span id="compareSummaryText" style="font-size:12px;font-weight:400;color:var(--text-dim)"></span>
+            <button class="review-close-btn" onclick="closeComparePanel()">&#10005; Close</button>
+          </div>
+        </div>
+        <div id="compareBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+          <div class="review-loading" id="compareLoading" style="align-self:center;width:100%;text-align:center">Loading data...</div>
+          <div id="compareContent" style="display:none;flex:1;overflow-y:auto;flex-direction:column"></div>
+        </div>
+      </div>
+
+      <!-- Import Picker modal -->
+      <div id="importPickerModal" class="modal-overlay" style="display:none">
+        <div class="modal-box">
+          <div class="modal-title">Select Cards to Import</div>
+          <div id="importPickerBody" style="margin-bottom:16px">
+            <div style="color:var(--text-dim);font-size:13px;padding:12px 0">Loading available CSVs...</div>
+          </div>
+          <div class="modal-actions">
+            <button class="modal-btn modal-btn-cancel" onclick="closeImportPicker()">Cancel</button>
+            <button class="modal-btn modal-btn-confirm" onclick="importSelectedCards()">Import Selected</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bill Picker modal -->
+      <div id="billPickerModal" class="modal-overlay" style="display:none">
+        <div class="modal-box" style="max-width:1100px;max-height:85vh;width:95vw;display:flex;flex-direction:column">
+          <div class="modal-title">Select Invoices to Create Bills</div>
+          <div class="bill-picker-layout">
+            <div class="bill-picker-left" id="billPickerBody">
+              <div style="color:var(--text-dim);font-size:13px;padding:12px 0">Loading invoices...</div>
+            </div>
+            <div class="bill-picker-right" id="billPickerSummary"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Create Account modal -->
+      <div id="createAccountModal" class="modal-overlay" style="display:none">
+        <div class="modal-box">
+          <div class="modal-title">Create New Expense Account</div>
+          <div style="margin-bottom:16px">
+            <label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:4px">Account Name</label>
+            <input type="text" id="newAccountName" placeholder="e.g. Cloud Infrastructure" style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px">
+          </div>
+          <div style="margin-bottom:20px">
+            <label style="display:block;font-size:12px;color:var(--text-dim);margin-bottom:4px">Description (optional)</label>
+            <input type="text" id="newAccountDesc" placeholder="e.g. AWS, GCP hosting costs" style="width:100%;padding:8px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px">
+          </div>
+          <div class="modal-actions">
+            <button class="modal-btn modal-btn-cancel" onclick="closeCreateAccountModal()">Cancel</button>
+            <button class="modal-btn modal-btn-confirm" id="createAccountBtn" onclick="createNewAccount()">Create</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const logBox = document.getElementById('logBox');
+let autoScroll = true;
+
+// Track scroll position — disable auto-scroll when user scrolls up
+logBox.addEventListener('scroll', () => {
+  const atBottom = logBox.scrollHeight - logBox.scrollTop - logBox.clientHeight < 40;
+  autoScroll = atBottom;
+});
+
+function addLogLine(text) {
+  const div = document.createElement('div');
+  div.className = 'log-line';
+  // Color based on level
+  if (text.includes('[ERROR]')) div.className += ' log-line-ERROR';
+  else if (text.includes('[WARNING]')) div.className += ' log-line-WARNING';
+  else div.className += ' log-line-INFO';
+  div.textContent = text;
+  logBox.appendChild(div);
+  // Limit to 1000 lines
+  while (logBox.children.length > 1000) logBox.removeChild(logBox.firstChild);
+  if (autoScroll) logBox.scrollTop = logBox.scrollHeight;
+}
+
+function clearLogs() {
+  logBox.innerHTML = '';
+}
+
+// --- SSE for live logs ---
+let evtSource = null;
+function connectSSE() {
+  evtSource = new EventSource('/api/logs');
+  evtSource.onmessage = function(e) {
+    try {
+      const data = JSON.parse(e.data);
+      if (data.line) addLogLine(data.line);
+    } catch(err) {}
+  };
+  evtSource.onerror = function() {
+    evtSource.close();
+    setTimeout(connectSSE, 3000);
+  };
+}
+connectSSE();
+
+// --- Load log history on page load ---
+fetch('/api/logs/history?n=100')
+  .then(r => r.json())
+  .then(data => {
+    (data.lines || []).forEach(l => addLogLine(l));
+  });
+
+// --- Run step ---
+function runStep(step) {
+  fetch('/api/run/' + step, {method: 'POST'})
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        addLogLine('[UI] ' + data.error);
+      }
+      pollStatus();
+    })
+    .catch(err => addLogLine('[UI] Request failed: ' + err));
+}
+
+function runExtractZips() {
+  fetch('/api/extract-zips', {method: 'POST'})
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        addLogLine('[UI] ' + data.error);
+      }
+      pollStatus();
+    })
+    .catch(err => addLogLine('[UI] Request failed: ' + err));
+}
+
+// --- Confirmation modals ---
+function showModal(title, msg, onConfirm, isDanger, confirmText) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalMsg').innerHTML = msg;
+  const btn = document.getElementById('modalConfirmBtn');
+  btn.className = 'modal-btn modal-btn-confirm' + (isDanger ? ' danger' : '');
+  btn.textContent = confirmText || (isDanger ? 'Yes, Delete' : 'Yes, Proceed');
+  btn.onclick = function() { closeModal(); onConfirm(); };
+  document.getElementById('confirmModal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('confirmModal').style.display = 'none';
+}
+
+function confirmRunAll() {
+  showModal(
+    'Run All Steps (1-7)?',
+    'This will execute the full pipeline sequentially: Fetch Invoices, Extract Data, Create Bills, Parse CC, Record Payments, Import Banking, and Auto-Match.',
+    function() { runStep('all'); },
+    false
+  );
+}
+
+function confirmCleanup() {
+  showModal(
+    'Delete ALL Zoho Data?',
+    'This will permanently DELETE all vendors, bills, payments, and bank transactions from Zoho Books, plus local output files. This cannot be undone.',
+    function() { runStep('cleanup'); },
+    true
+  );
+}
+
+// --- Poll status ---
+function pollStatus() {
+  fetch('/api/status')
+    .then(r => r.json())
+    .then(updateUI)
+    .catch(() => {});
+}
+
+function updateUI(data) {
+  // Global status badge
+  const badge = document.getElementById('globalStatus');
+  if (data.running) {
+    badge.className = 'status-badge status-running';
+    let label = 'Running';
+    if (data.current_step && data.current_step !== 'cleanup') {
+      label = 'Running Step ' + data.current_step;
+    } else if (data.current_step === 'cleanup') {
+      label = 'Cleaning Up';
+    }
+    badge.textContent = label;
+  } else {
+    badge.className = 'status-badge status-idle';
+    badge.textContent = 'Idle';
+  }
+
+  // Disable/enable buttons
+  const btns = document.querySelectorAll('.step-btn, .btn-primary, .btn-danger');
+  btns.forEach(b => b.disabled = data.running);
+
+  // Step indicators + tooltips
+  for (let i = 1; i <= 7; i++) {
+    const ind = document.getElementById('ind-' + i);
+    const msg = document.getElementById('msg-' + i);
+    const res = data.step_results[String(i)];
+    if (!res) {
+      ind.className = 'step-indicator ind-idle';
+      msg.textContent = '';
+      continue;
+    }
+    ind.className = 'step-indicator ind-' + res.status;
+    msg.textContent = res.message || '';
+    msg.style.display = '';
+  }
+
+  // Extract ZIPs indicator
+  const zipInd = document.getElementById('ind-extract-zips');
+  const zipMsgEl = document.getElementById('msg-extract-zips');
+  const zipRes = data.step_results['extract-zips'];
+  if (zipRes) {
+    zipInd.className = 'step-indicator ind-' + zipRes.status;
+    zipMsgEl.textContent = zipRes.message || '';
+  } else if (data.current_step === 'extract-zips' && data.running) {
+    zipInd.className = 'step-indicator ind-running';
+    zipMsgEl.textContent = 'Extracting...';
+  }
+
+  // Sync Zoho indicator
+  const syncInd = document.getElementById('ind-sync');
+  const syncMsg = document.getElementById('msg-sync');
+  if (data.current_step === 'Sync Zoho' && data.running) {
+    syncInd.className = 'step-indicator ind-running';
+    syncMsg.textContent = 'Syncing...';
+  } else if (syncInd.className.includes('ind-running') && !data.running) {
+    syncInd.className = 'step-indicator ind-success';
+    syncMsg.textContent = 'Done';
+  }
+
+  // Summary
+  const s = data.summary || {};
+  document.getElementById('sumInvoices').textContent = s.invoices != null ? s.invoices : '-';
+  document.getElementById('sumBills').textContent = s.bills != null ? s.bills : '-';
+  document.getElementById('sumCC').textContent = s.cc_transactions != null ? s.cc_transactions : '-';
+}
+
+// Poll every 2 seconds
+setInterval(pollStatus, 2000);
+pollStatus();
+
+// --- Review Panel ---
+let _reviewAccounts = []; // cached accounts list
+
+function openReviewPanel() {
+  document.getElementById('logPanel').style.display = 'none';
+  document.getElementById('matchPanel').style.display = 'none';
+  document.getElementById('checkPanel').style.display = 'none';
+  document.getElementById('comparePanel').style.display = 'none';
+  document.getElementById('paymentPanel').style.display = 'none';
+  document.getElementById('reviewPanel').style.display = 'flex';
+  document.getElementById('reviewLoading').style.display = 'block';
+  document.getElementById('reviewTable').style.display = 'none';
+
+  // Fetch bills + accounts in parallel
+  Promise.all([
+    fetch('/api/review/bills').then(r => r.json()),
+    fetch('/api/review/accounts').then(r => r.json()),
+  ]).then(([billsData, accountsData]) => {
+    if (billsData.error) {
+      document.getElementById('reviewLoading').textContent = billsData.error;
+      return;
+    }
+    _reviewAccounts = accountsData.accounts || [];
+    renderReviewTable(billsData.bills || []);
+  }).catch(err => {
+    document.getElementById('reviewLoading').textContent = 'Failed to load: ' + err;
+  });
+}
+
+function closeReviewPanel() {
+  document.getElementById('reviewPanel').style.display = 'none';
+  document.getElementById('logPanel').style.display = 'flex';
+}
+
+function renderReviewTable(bills) {
+  const tbody = document.getElementById('reviewTableBody');
+  tbody.innerHTML = '';
+
+  if (!bills.length) {
+    const el = document.getElementById('reviewLoading');
+    el.textContent = 'No bills found. Run Step 3 first.';
+    el.style.display = 'block';
+    document.getElementById('reviewTable').style.display = 'none';
+    return;
+  }
+
+  // Group bills by vendor name
+  const vendorGroups = {};
+  bills.forEach((bill, idx) => {
+    const vn = bill.vendor_name || 'Unknown';
+    if (!vendorGroups[vn]) vendorGroups[vn] = [];
+    vendorGroups[vn].push({...bill, _origIdx: idx});
+  });
+
+  // Sort vendor names alphabetically
+  const sortedVendors = Object.keys(vendorGroups).sort();
+
+  let globalIdx = 0;
+  sortedVendors.forEach(vendorName => {
+    const group = vendorGroups[vendorName];
+
+    // --- Vendor group header row with Apply All ---
+    const headerTr = document.createElement('tr');
+    headerTr.className = 'vendor-group-header';
+    const headerTd = document.createElement('td');
+    headerTd.colSpan = 6;
+
+    const bulkRow = document.createElement('div');
+    bulkRow.className = 'vendor-bulk-row';
+
+    const nameLabel = document.createElement('span');
+    nameLabel.className = 'vendor-name-label';
+    nameLabel.innerHTML = vendorName + ' <span class="vendor-bill-count">(' + group.length + ' bill' + (group.length > 1 ? 's' : '') + ')</span>';
+    bulkRow.appendChild(nameLabel);
+
+    // Only show Apply All controls if vendor has multiple bills
+    if (group.length > 1) {
+      const bulkSelect = document.createElement('select');
+      bulkSelect.className = 'vendor-bulk-select';
+      bulkSelect.id = 'bulkSelect-' + vendorName.replace(/[^a-zA-Z0-9]/g, '_');
+      const defOpt = document.createElement('option');
+      defOpt.value = '';
+      defOpt.textContent = '-- select account --';
+      bulkSelect.appendChild(defOpt);
+      _reviewAccounts.forEach(a => {
+        const opt = document.createElement('option');
+        opt.value = a.account_id;
+        opt.textContent = a.account_name;
+        opt.setAttribute('data-name', a.account_name);
+        bulkSelect.appendChild(opt);
+      });
+      bulkRow.appendChild(bulkSelect);
+
+      const applyBtn = document.createElement('button');
+      applyBtn.className = 'apply-all-btn';
+      applyBtn.textContent = 'Apply All';
+      applyBtn.id = 'bulkBtn-' + vendorName.replace(/[^a-zA-Z0-9]/g, '_');
+      applyBtn.onclick = function() { bulkSaveVendorAccount(vendorName, group); };
+      bulkRow.appendChild(applyBtn);
+    }
+
+    headerTd.appendChild(bulkRow);
+    headerTr.appendChild(headerTd);
+    tbody.appendChild(headerTr);
+
+    // --- Individual bill rows ---
+    group.forEach(bill => {
+      const idx = globalIdx++;
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-vendor', vendorName);
+
+      // Vendor (dimmed since header shows it)
+      const tdVendor = document.createElement('td');
+      tdVendor.textContent = bill.vendor_name;
+      tdVendor.style.color = 'var(--text-dim)';
+      tdVendor.style.paddingLeft = '20px';
+      tr.appendChild(tdVendor);
+
+      // Amount
+      const tdAmount = document.createElement('td');
+      tdAmount.textContent = bill.amount != null ? Number(bill.amount).toLocaleString() : '-';
+      tr.appendChild(tdAmount);
+
+      // Currency
+      const tdCurrency = document.createElement('td');
+      tdCurrency.textContent = bill.currency || 'INR';
+      tr.appendChild(tdCurrency);
+
+      // Current Account
+      const tdCurrent = document.createElement('td');
+      tdCurrent.textContent = bill.account_name || '-';
+      tdCurrent.style.color = 'var(--text-dim)';
+      tdCurrent.id = 'currentAcct-' + idx;
+      tr.appendChild(tdCurrent);
+
+      // Change To (dropdown)
+      const tdChange = document.createElement('td');
+      const select = document.createElement('select');
+      select.id = 'selectAcct-' + idx;
+      const defaultOpt = document.createElement('option');
+      defaultOpt.value = '';
+      defaultOpt.textContent = '-- keep current --';
+      select.appendChild(defaultOpt);
+      _reviewAccounts.forEach(a => {
+        const opt = document.createElement('option');
+        opt.value = a.account_id;
+        opt.textContent = a.account_name;
+        opt.setAttribute('data-name', a.account_name);
+        select.appendChild(opt);
+      });
+      tdChange.appendChild(select);
+      tr.appendChild(tdChange);
+
+      // Action (Save button)
+      const tdAction = document.createElement('td');
+      const btn = document.createElement('button');
+      btn.className = 'review-save-btn';
+      btn.textContent = 'Save';
+      btn.id = 'saveBtn-' + idx;
+      btn.setAttribute('data-bill-id', bill.bill_id);
+      btn.onclick = function() { saveAccountChange(bill.bill_id, idx, bill.vendor_name); };
+      tdAction.appendChild(btn);
+      tr.appendChild(tdAction);
+
+      tbody.appendChild(tr);
+    });
+  });
+
+  // Store bills globally for bulk operations
+  window._reviewBills = bills;
+  window._reviewVendorGroups = vendorGroups;
+
+  document.getElementById('reviewLoading').style.display = 'none';
+  document.getElementById('reviewTable').style.display = 'table';
+}
+
+function saveAccountChange(billId, idx, vendorName) {
+  const select = document.getElementById('selectAcct-' + idx);
+  const btn = document.getElementById('saveBtn-' + idx);
+  const accountId = select.value;
+  if (!accountId) {
+    addLogLine('[Review] No account selected for row ' + idx);
+    return;
+  }
+  const accountName = select.options[select.selectedIndex].getAttribute('data-name') || '';
+
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+
+  fetch('/api/review/update-account', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({bill_id: billId, account_id: accountId, account_name: accountName, vendor_name: vendorName}),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      btn.textContent = 'Saved';
+      btn.className = 'review-save-btn saved';
+      document.getElementById('currentAcct-' + idx).textContent = accountName;
+    } else {
+      btn.textContent = 'Error';
+      btn.className = 'review-save-btn save-error';
+      addLogLine('[Review] Error: ' + (data.error || 'Unknown'));
+    }
+    btn.disabled = false;
+  })
+  .catch(err => {
+    btn.textContent = 'Error';
+    btn.className = 'review-save-btn save-error';
+    btn.disabled = false;
+    addLogLine('[Review] Request failed: ' + err);
+  });
+}
+
+function bulkSaveVendorAccount(vendorName, group) {
+  const safeVendor = vendorName.replace(/[^a-zA-Z0-9]/g, '_');
+  const select = document.getElementById('bulkSelect-' + safeVendor);
+  const btn = document.getElementById('bulkBtn-' + safeVendor);
+  const accountId = select.value;
+  if (!accountId) {
+    addLogLine('[Review] No account selected for ' + vendorName);
+    return;
+  }
+  const accountName = select.options[select.selectedIndex].getAttribute('data-name') || '';
+  const billIds = group.map(b => b.bill_id);
+
+  btn.disabled = true;
+  btn.textContent = 'Applying...';
+
+  fetch('/api/review/bulk-update-account', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({bill_ids: billIds, account_id: accountId, account_name: accountName, vendor_name: vendorName}),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      const okCount = (data.succeeded || []).length;
+      const failCount = (data.failed || []).length;
+      btn.textContent = okCount + '/' + billIds.length + ' Done';
+      btn.className = failCount ? 'apply-all-btn save-error' : 'apply-all-btn saved';
+      addLogLine('[Review] ' + vendorName + ': ' + okCount + ' bills updated to ' + accountName);
+
+      // Update individual row UI for succeeded bills
+      document.querySelectorAll('tr[data-vendor="' + vendorName + '"]').forEach(row => {
+        const saveBtn = row.querySelector('.review-save-btn');
+        if (!saveBtn) return;
+        const billId = saveBtn.getAttribute('data-bill-id');
+        if ((data.succeeded || []).includes(billId)) {
+          saveBtn.textContent = 'Saved';
+          saveBtn.className = 'review-save-btn saved';
+          // Update current account label
+          const idx = saveBtn.id.replace('saveBtn-', '');
+          const currentEl = document.getElementById('currentAcct-' + idx);
+          if (currentEl) currentEl.textContent = accountName;
+        }
+      });
+    } else {
+      btn.textContent = 'Error';
+      btn.className = 'apply-all-btn save-error';
+      addLogLine('[Review] Bulk error for ' + vendorName + ': ' + (data.error || 'Unknown'));
+    }
+    btn.disabled = false;
+  })
+  .catch(err => {
+    btn.textContent = 'Error';
+    btn.className = 'apply-all-btn save-error';
+    btn.disabled = false;
+    addLogLine('[Review] Bulk request failed: ' + err);
+  });
+}
+
+// --- Create Account Modal ---
+function openCreateAccountModal() {
+  document.getElementById('newAccountName').value = '';
+  document.getElementById('newAccountDesc').value = '';
+  document.getElementById('createAccountModal').style.display = 'flex';
+}
+
+function closeCreateAccountModal() {
+  document.getElementById('createAccountModal').style.display = 'none';
+}
+
+function createNewAccount() {
+  const name = document.getElementById('newAccountName').value.trim();
+  const desc = document.getElementById('newAccountDesc').value.trim();
+  if (!name) return;
+
+  const btn = document.getElementById('createAccountBtn');
+  btn.disabled = true;
+  btn.textContent = 'Creating...';
+
+  fetch('/api/review/create-account', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name: name, description: desc}),
+  })
+  .then(r => r.json())
+  .then(data => {
+    btn.disabled = false;
+    btn.textContent = 'Create';
+    if (data.ok) {
+      // Add to cached accounts list and all dropdowns
+      const newAcct = {account_id: data.account_id, account_name: data.account_name};
+      _reviewAccounts.push(newAcct);
+      _reviewAccounts.sort((a, b) => a.account_name.localeCompare(b.account_name));
+
+      // Update all select dropdowns
+      document.querySelectorAll('[id^="selectAcct-"]').forEach(select => {
+        const opt = document.createElement('option');
+        opt.value = data.account_id;
+        opt.textContent = data.account_name;
+        opt.setAttribute('data-name', data.account_name);
+        // Insert sorted
+        let inserted = false;
+        for (let i = 1; i < select.options.length; i++) {
+          if (select.options[i].textContent > data.account_name) {
+            select.insertBefore(opt, select.options[i]);
+            inserted = true;
+            break;
+          }
+        }
+        if (!inserted) select.appendChild(opt);
+      });
+
+      closeCreateAccountModal();
+      addLogLine('[Review] Created account: ' + data.account_name);
+    } else {
+      addLogLine('[Review] Error creating account: ' + (data.error || 'Unknown'));
+    }
+  })
+  .catch(err => {
+    btn.disabled = false;
+    btn.textContent = 'Create';
+    addLogLine('[Review] Request failed: ' + err);
+  });
+}
+
+// --- CC Upload ---
+let _lastUploadedFiles = [];  // track uploaded files for import filtering
+
+function handleCCUpload(input) {
+  const files = input.files;
+  if (!files || !files.length) return;
+
+  const formData = new FormData();
+  for (let i = 0; i < files.length; i++) {
+    formData.append('files', files[i]);
+  }
+
+  addLogLine('[Upload] Uploading ' + files.length + ' CC statement(s)...');
+
+  fetch('/api/upload/cc', {method: 'POST', body: formData})
+    .then(r => r.json())
+    .then(data => {
+      if (data.ok) {
+        _lastUploadedFiles = data.files;
+        addLogLine('[Upload] Saved: ' + data.files.join(', '));
+        runStepWithKwargs('4', {selected_files: data.files});
+      } else {
+        addLogLine('[Upload] Error: ' + (data.error || 'Unknown'));
+      }
+    })
+    .catch(err => addLogLine('[Upload] Request failed: ' + err));
+
+  input.value = '';
+}
+
+// --- Import Picker ---
+function clearPaymentsCache() {
+  fetch('/api/payments/clear-cache', {method: 'POST'})
+    .then(r => r.json())
+    .then(d => appendLog('[INFO] ' + d.message))
+    .catch(e => appendLog('[ERROR] ' + e));
+}
+
+function clearParsedCC() {
+  showModal(
+    'Clear Parsed CC Data',
+    'This will delete cc_transactions.json and all CSV files so Step 4 re-parses fresh on next upload.',
+    () => {
+      fetch('/api/cc/clear-parsed', {method: 'POST'})
+        .then(r => r.json())
+        .then(d => appendLog('[INFO] ' + d.message))
+        .catch(e => appendLog('[ERROR] ' + e));
+    }, true, 'Yes, Clear'
+  );
+}
+
+function clearImportCache() {
+  fetch('/api/banking/clear-cache', {method: 'POST'})
+    .then(r => r.json())
+    .then(d => appendLog('[INFO] ' + d.message))
+    .catch(e => appendLog('[ERROR] ' + e));
+}
+
+function openImportPicker() {
+  document.getElementById('importPickerModal').style.display = 'flex';
+  const body = document.getElementById('importPickerBody');
+  body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">Loading...</div>';
+
+  // Get last parsed cards from step 4 result
+  fetch('/api/status').then(r => r.json()).then(statusData => {
+    const parsed = (statusData.step_results && statusData.step_results['4'] && statusData.step_results['4'].result)
+      ? statusData.step_results['4'].result.cards_parsed || []
+      : [];
+
+    return fetch('/api/review/available-csvs').then(r => r.json()).then(data => {
+      let cards = data.cards || [];
+
+      // Only show cards parsed in last Step 4 run — never show all
+      cards = cards.filter(c => parsed.includes(c.card_name));
+
+      if (!cards.length) {
+        body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">No parsed CSVs found. Upload & Parse CC statements first (Step 4).</div>';
+        return;
+      }
+      let html = '';
+      cards.forEach((c, i) => {
+        html += '<label style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer">'
+          + '<input type="checkbox" class="import-card-cb" value="' + c.card_name.replace(/"/g,'&quot;') + '" checked>'
+          + '<span>' + c.card_name + '</span>'
+          + '<span style="color:var(--text-dim);margin-left:auto;font-size:11px">' + c.rows + ' txns</span>'
+          + '</label>';
+      });
+      body.innerHTML = html;
+    });
+  }).catch(err => {
+    body.innerHTML = '<div style="color:var(--red);font-size:13px;padding:12px 0">Error: ' + err + '</div>';
+  });
+}
+
+function closeImportPicker() {
+  document.getElementById('importPickerModal').style.display = 'none';
+}
+
+function importSelectedCards() {
+  const checkboxes = document.querySelectorAll('.import-card-cb:checked');
+  const selected = Array.from(checkboxes).map(cb => cb.value);
+  if (!selected.length) {
+    addLogLine('[Import] No cards selected');
+    return;
+  }
+  closeImportPicker();
+  addLogLine('[Import] Importing: ' + selected.join(', '));
+  runStepWithKwargs('5', {selected_cards: selected});
+}
+
+// --- Sync Zoho ---
+function syncZoho() {
+  addLogLine('[Sync] Starting Zoho sync (bills, vendors & CC accounts)...');
+  fetch('/api/zoho/sync', {method: 'POST'})
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        addLogLine('[Sync] ' + data.error);
+      } else {
+        addLogLine('[Sync] Sync started...');
+        pollStatus();
+      }
+    })
+    .catch(err => addLogLine('[Sync] Request failed: ' + err));
+}
+
+// --- Bill Picker with Match Preview ---
+let _billPickerData = null;
+let _matchPreviewData = null;
+
+function _renderSummaryPanel(summary, s, totalNew) {
+  summary.innerHTML = ''
+    + '<div class="bill-summary-total"><span>Total Invoices</span><span class="count">' + s.total + '</span></div>'
+    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--green)"></span> Bills == CC in Zoho</span><span class="count" style="color:var(--green)">' + s.skip + '</span></div>'
+    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--accent)"></span> New Bill + Existing vendor</span><span class="count" style="color:var(--accent)">' + s.new_bill + '</span></div>'
+    + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--yellow)"></span> New Bill + New Vendor</span><span class="count" style="color:var(--yellow)">' + s.new_vendor_bill + '</span></div>'
+    + '<div class="bill-summary-divider"></div>'
+    + '<div class="bill-summary-total"><span>Will Upload</span><span class="count" style="color:var(--accent)">' + totalNew + '</span></div>'
+    + '<div class="bill-summary-upload-section">'
+    + '<button class="modal-btn modal-btn-confirm" id="createAllBillsBtn" onclick="createAllBills()" style="width:100%"' + (totalNew === 0 ? ' disabled' : '') + '>Upload All New (' + totalNew + ')</button>'
+    + '<button class="modal-btn modal-btn-cancel" onclick="closeBillPicker()" style="width:100%">Cancel</button>'
+    + '</div>';
+}
+
+function openBillPicker() {
+  document.getElementById('billPickerModal').style.display = 'flex';
+  const body = document.getElementById('billPickerBody');
+  const summary = document.getElementById('billPickerSummary');
+  body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">Loading match preview...</div>';
+  summary.innerHTML = '';
+
+  // Try match preview first (needs Zoho sync cache)
+  fetch('/api/bills/match-preview', {method: 'POST'}).then(r => r.json()).then(data => {
+    if (data.error) {
+      addLogLine('[Bills] ' + data.error + ' — falling back to basic list');
+      _loadBasicBillPicker(body, summary);
+      return;
+    }
+    _matchPreviewData = data;
+    const s = data.summary || {};
+    const totalNew = (s.new_bill || 0) + (s.new_vendor_bill || 0);
+
+    // Right panel: summary cards + buttons
+    _renderSummaryPanel(summary, s, totalNew);
+
+    const preview = data.preview || [];
+    if (!preview.length) {
+      body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">No invoices found. Run Extract Data first.</div>';
+      return;
+    }
+
+    // Group by organized_month
+    const groups = {};
+    preview.forEach(p => {
+      const month = p.organized_month || 'Unknown';
+      if (!groups[month]) groups[month] = [];
+      groups[month].push(p);
+    });
+
+    // Left panel: month groups
+    let html = '';
+    Object.keys(groups).sort().forEach(month => {
+      const items = groups[month];
+      const skipCount = items.filter(i => i.action === 'skip').length;
+      const newCount = items.length - skipCount;
+      html += '<div class="bill-month-header" onclick="toggleBillMonth(this)">'
+        + '<span class="bill-month-arrow">\u25B8</span> '
+        + month
+        + '<span class="bill-month-count">' + items.length + ' inv, ' + newCount + ' new</span>';
+      if (newCount > 0) {
+        html += ' <button class="bill-create-btn bill-month-create" onclick="event.stopPropagation();createMonthBillsPreview(\'' + month.replace(/'/g,"\\'") + '\')">Upload (' + newCount + ')</button>';
+      }
+      html += '</div>';
+      html += '<div class="bill-month-group" style="display:none">';
+      items.forEach(inv => {
+        const amt = inv.amount ? Number(inv.amount).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '0.00';
+        let statusBadge = '';
+        let actionBtn = '';
+        if (inv.action === 'skip') {
+          const matchLabel = inv.match_type === 'exact' ? 'exact' : inv.match_type === 'normalized' ? 'fuzzy' : 'vendor+date';
+          statusBadge = '<span class="bill-status-badge created" title="Matched: ' + (inv.matched_bill || '').replace(/"/g,'&quot;') + ' (' + matchLabel + ')">In Zoho</span>';
+        } else if (inv.action === 'new_bill') {
+          var vmMethod = inv.vendor_match_method || 'name';
+          var vmLabel = vmMethod === 'gstin' ? 'GSTIN' : vmMethod === 'fuzzy' ? 'Fuzzy' : 'Name';
+          var vmColor = vmMethod === 'gstin' ? 'var(--green)' : 'var(--accent)';
+          var vmBg = vmMethod === 'gstin' ? 'rgba(34,197,94,0.15)' : 'rgba(108,140,255,0.15)';
+          var gstinNote = inv.gstin_missing ? ' (no GSTIN in Zoho)' : '';
+          statusBadge = '<span class="bill-status-badge" style="background:' + vmBg + ';color:' + vmColor + '" title="Vendor: ' + (inv.matched_vendor_name || '').replace(/"/g,'&quot;') + ' [' + vmLabel + ']' + gstinNote + '">New Bill \u00B7 ' + vmLabel + '</span>';
+          actionBtn = '<button class="bill-create-btn" onclick="createOneBill(\'' + inv.file.replace(/'/g, "\\'") + '\')">Create</button>';
+        } else {
+          statusBadge = '<span class="bill-status-badge" style="background:rgba(250,204,21,0.15);color:var(--yellow)">New Vendor</span>';
+          actionBtn = '<button class="bill-create-btn" onclick="createOneBill(\'' + inv.file.replace(/'/g, "\\'") + '\')">Create</button>';
+        }
+        html += '<div class="bill-row' + (inv.action === 'skip' ? ' created' : '') + '">'
+          + '<span class="bill-vendor" title="' + (inv.vendor_name || '').replace(/"/g,'&quot;') + '">' + (inv.vendor_name || 'Unknown') + '</span>'
+          + '<span class="bill-amount">' + amt + '</span>'
+          + '<span class="bill-currency">' + (inv.currency || 'INR') + '</span>'
+          + statusBadge
+          + actionBtn
+          + '</div>';
+      });
+      html += '</div>';
+    });
+    body.innerHTML = html;
+  }).catch(err => {
+    addLogLine('[Bills] Match preview failed: ' + err + ' — falling back');
+    _loadBasicBillPicker(body, summary);
+  });
+}
+
+function _loadBasicBillPicker(body, summary) {
+  // Fallback: basic invoice list without match preview
+  fetch('/api/invoices/list').then(r => r.json()).then(data => {
+    if (data.error) {
+      body.innerHTML = '<div style="color:var(--red);font-size:13px;padding:12px 0">' + data.error + '</div>';
+      return;
+    }
+    _billPickerData = data;
+    _matchPreviewData = null;
+    const s = data.summary || {};
+    const totalPending = s.pending || 0;
+
+    // Right panel: basic summary + buttons
+    summary.innerHTML = ''
+      + '<div class="bill-summary-total"><span>Total Invoices</span><span class="count">' + (s.total || 0) + '</span></div>'
+      + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--green)"></span> Created</span><span class="count" style="color:var(--green)">' + (s.created || 0) + '</span></div>'
+      + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--yellow)"></span> Pending</span><span class="count" style="color:var(--yellow)">' + totalPending + '</span></div>'
+      + '<div class="bill-summary-divider"></div>'
+      + '<div style="font-size:11px;color:var(--text-dim);padding:4px 0">Sync Zoho first for smart dedup</div>'
+      + '<div class="bill-summary-upload-section">'
+      + '<button class="modal-btn modal-btn-confirm" id="createAllBillsBtn" onclick="createAllBills()" style="width:100%"' + (totalPending === 0 ? ' disabled' : '') + '>Create All Pending (' + totalPending + ')</button>'
+      + '<button class="modal-btn modal-btn-cancel" onclick="closeBillPicker()" style="width:100%">Cancel</button>'
+      + '</div>';
+
+    // Left panel: month groups
+    const months = data.months || [];
+    if (!months.length) {
+      body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">No invoices found. Run Step 2 (Extract Data) first.</div>';
+      return;
+    }
+
+    let html = '';
+    months.forEach((group, gi) => {
+      const pending = group.invoices.filter(i => i.status === 'pending').length;
+      const total = group.invoices.length;
+      html += '<div class="bill-month-header" onclick="toggleBillMonth(this)">'
+        + '<span class="bill-month-arrow">\u25B8</span> '
+        + group.month
+        + '<span class="bill-month-count">' + total + ' inv, ' + pending + ' pending</span>'
+        + (pending > 0 ? ' <button class="bill-create-btn bill-month-create" onclick="event.stopPropagation();createMonthBills(\'' + group.month.replace(/'/g,"\\'") + '\')">Create (' + pending + ')</button>' : '')
+        + '</div>';
+      html += '<div class="bill-month-group" style="display:none">';
+      group.invoices.forEach(inv => {
+        const isCreated = inv.status === 'created';
+        const amt = inv.amount ? Number(inv.amount).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '0.00';
+        html += '<div class="bill-row' + (isCreated ? ' created' : '') + '">'
+          + '<span class="bill-vendor" title="' + (inv.vendor_name || '').replace(/"/g,'&quot;') + '">' + (inv.vendor_name || 'Unknown') + '</span>'
+          + '<span class="bill-amount">' + amt + '</span>'
+          + '<span class="bill-currency">' + (inv.currency || 'INR') + '</span>'
+          + '<span class="bill-status-badge ' + inv.status + '">' + inv.status + '</span>';
+        if (!isCreated) {
+          html += '<button class="bill-create-btn" onclick="createOneBill(\'' + inv.file.replace(/'/g, "\\'") + '\')">Create</button>';
+        }
+        html += '</div>';
+      });
+      html += '</div>';
+    });
+    body.innerHTML = html;
+  }).catch(err => {
+    body.innerHTML = '<div style="color:var(--red);font-size:13px;padding:12px 0">Error: ' + err + '</div>';
+  });
+}
+
+function createMonthBillsPreview(monthName) {
+  if (!_matchPreviewData) return;
+  const preview = _matchPreviewData.preview || [];
+  const pending = preview.filter(p => p.organized_month === monthName && p.action !== 'skip').map(p => p.file);
+  if (!pending.length) {
+    addLogLine('[Bills] No new invoices in ' + monthName);
+    return;
+  }
+  closeBillPicker();
+  addLogLine('[Bills] Creating ' + pending.length + ' bills for ' + monthName + '...');
+  runStepWithKwargs('3', {selected_files: pending});
+}
+
+function closeBillPicker() {
+  document.getElementById('billPickerModal').style.display = 'none';
+}
+
+function toggleBillMonth(header) {
+  const group = header.nextElementSibling;
+  const arrow = header.querySelector('.bill-month-arrow');
+  if (group.style.display === 'none') {
+    group.style.display = 'block';
+    arrow.textContent = '\u25BE';
+  } else {
+    group.style.display = 'none';
+    arrow.textContent = '\u25B8';
+  }
+}
+
+function createOneBill(filename) {
+  closeBillPicker();
+  addLogLine('[Bills] Creating bill for: ' + filename);
+  runStepWithKwargs('3', {selected_files: [filename]});
+}
+
+function createMonthBills(monthName) {
+  if (!_billPickerData) return;
+  const group = (_billPickerData.months || []).find(g => g.month === monthName);
+  if (!group) return;
+  const pending = group.invoices.filter(i => i.status === 'pending').map(i => i.file);
+  if (!pending.length) {
+    addLogLine('[Bills] No pending invoices in ' + monthName);
+    return;
+  }
+  closeBillPicker();
+  addLogLine('[Bills] Creating ' + pending.length + ' bills for ' + monthName + '...');
+  runStepWithKwargs('3', {selected_files: pending});
+}
+
+function createAllBills() {
+  // If match preview is active, use it to filter only new items
+  if (_matchPreviewData) {
+    const pending = (_matchPreviewData.preview || []).filter(p => p.action !== 'skip').map(p => p.file);
+    if (!pending.length) {
+      addLogLine('[Bills] No new invoices to create (all exist in Zoho)');
+      return;
+    }
+    closeBillPicker();
+    addLogLine('[Bills] Creating ' + pending.length + ' new bills (skipping existing)...');
+    runStepWithKwargs('3', {selected_files: pending});
+    return;
+  }
+  // Fallback to basic picker data
+  if (!_billPickerData) return;
+  const pending = [];
+  (_billPickerData.months || []).forEach(g => {
+    g.invoices.forEach(inv => {
+      if (inv.status === 'pending') pending.push(inv.file);
+    });
+  });
+  if (!pending.length) {
+    addLogLine('[Bills] No pending invoices to create');
+    return;
+  }
+  closeBillPicker();
+  addLogLine('[Bills] Creating bills for ' + pending.length + ' pending invoices...');
+  runStepWithKwargs('3', {selected_files: pending});
+}
+
+function createAllBillsDirect() {
+  // "Upload All" — use match preview if Zoho cache exists
+  fetch('/api/bills/match-preview', {method: 'POST'}).then(r => r.json()).then(data => {
+    if (data.error) {
+      // Fallback to basic list
+      _createAllBillsBasic();
+      return;
+    }
+    const pending = (data.preview || []).filter(p => p.action !== 'skip').map(p => p.file);
+    const skipCount = (data.summary || {}).skip || 0;
+    if (!pending.length) {
+      addLogLine('[Bills] No new invoices to create (' + skipCount + ' already exist in Zoho)');
+      return;
+    }
+    showModal(
+      'Upload All New Bills?',
+      pending.length + ' new bills will be created. ' + skipCount + ' existing bills will be skipped.',
+      function() {
+        addLogLine('[Bills] Creating ' + pending.length + ' new bills (skipping ' + skipCount + ' existing)...');
+        runStepWithKwargs('3', {selected_files: pending});
+      },
+      false,
+      'Upload ' + pending.length + ' Bills'
+    );
+  }).catch(() => _createAllBillsBasic());
+}
+
+function _createAllBillsBasic() {
+  fetch('/api/invoices/list').then(r => r.json()).then(data => {
+    if (data.error) {
+      addLogLine('[Bills] Error: ' + data.error);
+      return;
+    }
+    const pending = [];
+    (data.months || []).forEach(g => {
+      g.invoices.forEach(inv => {
+        if (inv.status === 'pending') pending.push(inv.file);
+      });
+    });
+    if (!pending.length) {
+      addLogLine('[Bills] No pending invoices to create');
+      return;
+    }
+    showModal(
+      'Create All Pending Bills?',
+      'This will create vendors and bills in Zoho Books for ' + pending.length + ' pending invoices.',
+      function() {
+        addLogLine('[Bills] Creating bills for ' + pending.length + ' pending invoices...');
+        runStepWithKwargs('3', {selected_files: pending});
+      },
+      false
+    );
+  }).catch(err => addLogLine('[Bills] Request failed: ' + err));
+}
+
+function runStepWithKwargs(step, kwargs) {
+  fetch('/api/run/' + step, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({run_kwargs: kwargs}),
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.error) {
+      addLogLine('[UI] ' + data.error);
+    }
+    pollStatus();
+  })
+  .catch(err => addLogLine('[UI] Request failed: ' + err));
+}
+
+// --- Match Status Panel ---
+let _matchData = null;
+
+function openMatchPanel() {
+  document.getElementById('logPanel').style.display = 'none';
+  document.getElementById('reviewPanel').style.display = 'none';
+  document.getElementById('checkPanel').style.display = 'none';
+  document.getElementById('comparePanel').style.display = 'none';
+  document.getElementById('paymentPanel').style.display = 'none';
+  document.getElementById('matchPanel').style.display = 'flex';
+  document.getElementById('matchLoading').style.display = 'block';
+  document.getElementById('matchContent').style.display = 'none';
+
+  fetch('/api/match-status')
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        document.getElementById('matchLoading').textContent = data.error;
+        return;
+      }
+      _matchData = data;
+      renderMatchPanel(data);
+    })
+    .catch(err => {
+      document.getElementById('matchLoading').textContent = 'Failed to load: ' + err;
+    });
+}
+
+function closeMatchPanel() {
+  document.getElementById('matchPanel').style.display = 'none';
+  document.getElementById('logPanel').style.display = 'flex';
+}
+
+function renderMatchPanel(data) {
+  document.getElementById('matchedCount').textContent = data.summary.matched_count;
+  document.getElementById('unmatchedCount').textContent = data.summary.unmatched_count;
+  document.getElementById('totalCount').textContent = data.summary.total_count;
+  document.getElementById('matchLoading').style.display = 'none';
+  document.getElementById('matchContent').style.display = 'block';
+  switchMatchTab('matched');
+}
+
+function switchMatchTab(tab) {
+  document.querySelectorAll('.match-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.tab-' + tab).classList.add('active');
+
+  const tbody = document.getElementById('matchTableBody');
+  const thead = document.getElementById('matchTableHead');
+  tbody.innerHTML = '';
+
+  const items = tab === 'matched' ? _matchData.matched : _matchData.unmatched;
+
+  if (tab === 'unmatched') {
+    thead.innerHTML = '<th>Vendor</th><th>Invoice File</th><th>Bill Amount</th>'
+      + '<th>Currency</th><th>CC Card</th><th>CC INR Amount</th><th>Status</th><th>Reason</th>';
+  } else {
+    thead.innerHTML = '<th>Vendor</th><th>Invoice File</th><th>Bill Amount</th>'
+      + '<th>Currency</th><th>CC Card</th><th>CC INR Amount</th><th>Status</th>';
+  }
+
+  if (!items || !items.length) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = tab === 'unmatched' ? 8 : 7;
+    td.style.textAlign = 'center';
+    td.style.color = 'var(--text-dim)';
+    td.style.padding = '30px';
+    td.textContent = tab === 'matched' ? 'No matched payments yet' : 'All bills matched!';
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    return;
+  }
+
+  items.forEach(item => {
+    const tr = document.createElement('tr');
+    const addTd = (text, opts) => {
+      const td = document.createElement('td');
+      td.textContent = text || '-';
+      if (opts) Object.assign(td.style, opts);
+      tr.appendChild(td);
+      return td;
+    };
+
+    addTd(item.vendor_name);
+    const fileTd = addTd(item.file, {fontSize:'11px',maxWidth:'200px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'});
+    fileTd.title = item.file || '';
+    addTd(item.amount != null ? Number(item.amount).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '-');
+    addTd(item.currency);
+    addTd(item.cc_card);
+    addTd(item.cc_inr_amount != null ? Number(item.cc_inr_amount).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '-');
+
+    const statusTd = addTd(item.status);
+    statusTd.className = item.status === 'paid' ? 'status-paid' : 'status-unmatched';
+
+    if (tab === 'unmatched') {
+      const reasonTd = addTd(item.reason);
+      reasonTd.className = 'reason-cell';
+      reasonTd.title = item.reason || '';
+    }
+
+    tbody.appendChild(tr);
+  });
+}
+
+// --- Check Bills & CC Panel ---
+function openCheckPanel() {
+  document.getElementById('logPanel').style.display = 'none';
+  document.getElementById('reviewPanel').style.display = 'none';
+  document.getElementById('matchPanel').style.display = 'none';
+  document.getElementById('comparePanel').style.display = 'none';
+  document.getElementById('paymentPanel').style.display = 'none';
+  document.getElementById('checkPanel').style.display = 'flex';
+  document.getElementById('checkLoading').style.display = 'block';
+  document.getElementById('checkContent').style.display = 'none';
+
+  fetch('/api/check-cc-match')
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        document.getElementById('checkLoading').textContent = data.error;
+        return;
+      }
+      renderCheckPanel(data);
+    })
+    .catch(err => {
+      document.getElementById('checkLoading').textContent = 'Failed to load: ' + err;
+    });
+}
+
+function closeCheckPanel() {
+  document.getElementById('checkPanel').style.display = 'none';
+  document.getElementById('logPanel').style.display = 'flex';
+}
+
+// --- Payment Preview Panel ---
+var _paymentPreviewData = null;
+
+function openPaymentPreview() {
+  document.getElementById('logPanel').style.display = 'none';
+  document.getElementById('reviewPanel').style.display = 'none';
+  document.getElementById('matchPanel').style.display = 'none';
+  document.getElementById('comparePanel').style.display = 'none';
+  document.getElementById('checkPanel').style.display = 'none';
+  document.getElementById('paymentPanel').style.display = 'flex';
+  document.getElementById('paymentLoading').style.display = 'block';
+  document.getElementById('paymentContent').style.display = 'none';
+  document.getElementById('recordAllBtn').style.display = 'none';
+
+  fetch('/api/payments/preview')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) {
+        document.getElementById('paymentLoading').textContent = data.error;
+        return;
+      }
+      _paymentPreviewData = data;
+      renderPaymentPreview(data);
+    })
+    .catch(function(err) {
+      document.getElementById('paymentLoading').textContent = 'Failed: ' + err;
+    });
+}
+
+function closePaymentPanel() {
+  document.getElementById('paymentPanel').style.display = 'none';
+  document.getElementById('logPanel').style.display = 'flex';
+}
+
+function renderPaymentPreview(data) {
+  var matches = data.matches || [];
+  var s = data.summary || {};
+  var fmt = function(n) { return n != null ? Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) : '-'; };
+
+  document.getElementById('paymentSummaryText').textContent =
+    s.total_bills + ' bills \u00B7 ' + s.matched + ' matched \u00B7 ' + s.unmatched + ' unmatched \u00B7 ' + s.already_paid + ' already paid';
+
+  if (s.matched > 0) {
+    document.getElementById('recordAllBtn').style.display = 'inline-block';
+    document.getElementById('recordAllBtn').textContent = 'Record All Matched (' + s.matched + ')';
+    document.getElementById('recordAllBtn').disabled = false;
+  }
+
+  document.getElementById('paymentLoading').style.display = 'none';
+  var content = document.getElementById('paymentContent');
+  content.style.display = 'block';
+  content.innerHTML = '';
+
+  if (!matches.length) {
+    content.innerHTML = '<div style="text-align:center;color:var(--text-dim);padding:40px">No unpaid bills found</div>';
+    return;
+  }
+
+  // Build table
+  var tbl = document.createElement('table');
+  tbl.className = 'match-table';
+  tbl.style.cssText = 'width:100%;font-size:11px';
+  tbl.innerHTML = '<thead><tr>'
+    + '<th style="text-align:left;padding:6px 8px">Vendor</th>'
+    + '<th style="text-align:right;padding:6px 8px">Bill Amt</th>'
+    + '<th style="padding:6px 4px">Cur</th>'
+    + '<th style="padding:6px 8px">Bill Date</th>'
+    + '<th style="text-align:left;padding:6px 8px;border-left:2px solid var(--border)">CC Description</th>'
+    + '<th style="text-align:right;padding:6px 8px">CC INR</th>'
+    + '<th style="padding:6px 8px">CC Date</th>'
+    + '<th style="padding:6px 8px">Card</th>'
+    + '<th style="padding:6px 8px">Status</th>'
+    + '<th style="padding:6px 8px">Action</th>'
+    + '</tr></thead>';
+
+  var tbody = document.createElement('tbody');
+
+  // Sort: matched first, then unmatched, then already_paid
+  var order = {matched: 0, unmatched: 1, already_paid: 2};
+  matches.sort(function(a, b) { return (order[a.status]||9) - (order[b.status]||9); });
+
+  matches.forEach(function(m) {
+    var tr = document.createElement('tr');
+    tr.id = 'pay-row-' + m.bill_id;
+
+    var bgColor = 'transparent';
+    if (m.status === 'matched') bgColor = 'rgba(80,200,120,0.06)';
+    else if (m.status === 'unmatched') bgColor = 'rgba(255,200,50,0.06)';
+    else if (m.status === 'already_paid') bgColor = 'rgba(150,150,150,0.06)';
+    tr.style.background = bgColor;
+
+    var statusBadge = '';
+    var actionBtn = '';
+    if (m.status === 'matched') {
+      statusBadge = '<span style="color:var(--green);font-weight:600">\u2714 Matched</span>';
+      actionBtn = '<button class="bill-create-btn" id="pay-btn-' + m.bill_id + '" onclick="confirmRecordOne(\'' + m.bill_id + '\')">Record</button>';
+    } else if (m.status === 'unmatched') {
+      statusBadge = '<span style="color:var(--yellow)">\u26A0 No Match</span>';
+    } else if (m.status === 'already_paid') {
+      statusBadge = '<span style="color:var(--text-dim)">\u2713 Paid</span>';
+    }
+
+    var ccDesc = m.cc_description || '-';
+    if (ccDesc.length > 40) ccDesc = ccDesc.substring(0, 40) + '\u2026';
+    var forexNote = '';
+    if (m.cc_forex_amount) forexNote = ' (' + m.cc_forex_currency + ' ' + fmt(m.cc_forex_amount) + ')';
+
+    tr.innerHTML =
+      '<td style="text-align:left;padding:5px 8px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (m.vendor_name||'').replace(/"/g,'&quot;') + '">' + (m.vendor_name||'-') + '</td>'
+      + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(m.bill_amount) + '</td>'
+      + '<td style="padding:5px 4px;text-align:center">' + (m.bill_currency||'INR') + '</td>'
+      + '<td style="padding:5px 8px">' + (m.bill_date||'-') + '</td>'
+      + '<td style="text-align:left;padding:5px 8px;border-left:2px solid var(--border);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (m.cc_description||'').replace(/"/g,'&quot;') + '">' + ccDesc + forexNote + '</td>'
+      + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + (m.cc_inr_amount ? fmt(m.cc_inr_amount) : '-') + '</td>'
+      + '<td style="padding:5px 8px">' + (m.cc_date||'-') + '</td>'
+      + '<td style="padding:5px 8px;font-size:10px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (m.cc_card||'-') + '</td>'
+      + '<td style="padding:5px 8px">' + statusBadge + '</td>'
+      + '<td style="padding:5px 8px">' + actionBtn + '</td>';
+
+    tbody.appendChild(tr);
+  });
+
+  tbl.appendChild(tbody);
+  content.appendChild(tbl);
+}
+
+function confirmRecordOne(billId) {
+  var m = _paymentPreviewData && _paymentPreviewData.matches
+    ? _paymentPreviewData.matches.find(function(x) { return x.bill_id === billId && x.status === 'matched'; })
+    : null;
+  var desc = m ? (m.vendor_name || '') + ' — ' + (m.bill_currency||'INR') + ' ' + Number(m.bill_amount).toLocaleString() + ' via ' + (m.cc_card||'CC') : billId;
+  showModal('Record Payment?', 'This will mark the bill as PAID in Zoho Books: ' + desc, function() {
+    recordOnePayment(billId, _paymentPreviewData);
+  }, false, 'Record');
+}
+
+function confirmRecordAll() {
+  var count = _paymentPreviewData ? _paymentPreviewData.matches.filter(function(m) { return m.status === 'matched'; }).length : 0;
+  showModal('Record All ' + count + ' Payments?', 'This will mark ' + count + ' bills as PAID in Zoho Books. This cannot be undone easily.', function() {
+    recordAllMatched();
+  }, true, 'Record All');
+}
+
+function recordOnePayment(billId, previewData) {
+  var btn = document.getElementById('pay-btn-' + billId);
+  if (btn) { btn.disabled = true; btn.textContent = '...'; }
+
+  // Find the matched CC info from preview data
+  var payload = {bill_id: billId};
+  if (previewData && previewData.matches) {
+    var m = previewData.matches.find(function(x) { return x.bill_id === billId && x.status === 'matched'; });
+    if (m) {
+      payload.cc_description = m.cc_description;
+      payload.cc_inr_amount = m.cc_inr_amount;
+      payload.cc_date = m.cc_date;
+      payload.cc_card = m.cc_card;
+      if (m.cc_forex_amount) {
+        payload.cc_forex_amount = m.cc_forex_amount;
+        payload.cc_forex_currency = m.cc_forex_currency;
+      }
+    }
+  }
+
+  fetch('/api/payments/record-one', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var row = document.getElementById('pay-row-' + billId);
+    if (data.status === 'paid') {
+      if (row) row.style.background = 'rgba(80,200,120,0.15)';
+      if (btn) { btn.textContent = '\u2713 Paid'; btn.style.color = 'var(--green)'; }
+      addLogLine('[Payment] Recorded: ' + billId);
+    } else if (data.status === 'already_paid') {
+      if (btn) { btn.textContent = 'Already Paid'; btn.style.color = 'var(--text-dim)'; }
+    } else {
+      if (btn) { btn.textContent = 'Failed'; btn.disabled = false; btn.style.color = 'var(--yellow)'; }
+      addLogLine('[Payment] No match for ' + billId);
+    }
+  })
+  .catch(function(err) {
+    if (btn) { btn.textContent = 'Error'; btn.disabled = false; }
+    addLogLine('[Payment] Error: ' + err);
+  });
+}
+
+function recordAllMatched() {
+  if (!_paymentPreviewData) return;
+  var matchedItems = _paymentPreviewData.matches
+    .filter(function(m) { return m.status === 'matched'; })
+    .map(function(m) {
+      var item = {bill_id: m.bill_id, cc_inr_amount: m.cc_inr_amount, cc_date: m.cc_date, cc_card: m.cc_card};
+      if (m.cc_forex_amount) { item.cc_forex_amount = m.cc_forex_amount; item.cc_forex_currency = m.cc_forex_currency; }
+      return item;
+    });
+
+  if (!matchedItems.length) return;
+
+  var allBtn = document.getElementById('recordAllBtn');
+  allBtn.disabled = true;
+  allBtn.textContent = 'Recording ' + matchedItems.length + '...';
+
+  // Disable individual buttons
+  matchedItems.forEach(function(item) {
+    var btn = document.getElementById('pay-btn-' + item.bill_id);
+    if (btn) { btn.disabled = true; btn.textContent = '...'; }
+  });
+
+  fetch('/api/payments/record-selected', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({items: matchedItems}),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var results = data.results || [];
+    var paidCount = 0;
+    results.forEach(function(r) {
+      var row = document.getElementById('pay-row-' + r.bill_id);
+      var btn = document.getElementById('pay-btn-' + r.bill_id);
+      if (r.status === 'paid') {
+        if (row) row.style.background = 'rgba(80,200,120,0.15)';
+        if (btn) { btn.textContent = '\u2713 Paid'; btn.style.color = 'var(--green)'; }
+        paidCount++;
+      } else {
+        if (btn) { btn.textContent = r.status; btn.disabled = false; }
+      }
+    });
+    allBtn.textContent = paidCount + '/' + matchedItems.length + ' Recorded';
+    addLogLine('[Payment] Bulk record: ' + paidCount + '/' + matchedItems.length + ' paid');
+  })
+  .catch(function(err) {
+    allBtn.textContent = 'Error';
+    allBtn.disabled = false;
+    addLogLine('[Payment] Bulk error: ' + err);
+  });
+}
+
+function renderCheckPanel(data) {
+  const grouped = data.grouped || [];
+  const summary = data.summary || {};
+  const fmt = n => n != null ? Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '-';
+
+  document.getElementById('checkSummaryText').textContent =
+    (summary.vendors_count || 0) + ' vendors · ' + (summary.bills_count || 0) + ' bills · ' + (summary.cc_transactions_count || 0) + ' CC matched · ' + (summary.unmatched_cc_count || 0) + ' CC unmatched';
+
+  const content = document.getElementById('checkContent');
+  content.innerHTML = '';
+
+  if (!grouped.length) {
+    content.innerHTML = '<div style="text-align:center;color:var(--text-dim);padding:40px">No data found</div>';
+  } else {
+    // Sticky column headers
+    const colHeader = document.createElement('div');
+    colHeader.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;position:sticky;top:0;z-index:2;background:var(--bg-panel);border-bottom:2px solid var(--border);flex-shrink:0';
+    colHeader.innerHTML =
+      '<div style="padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--accent)">Bills</div>' +
+      '<div style="padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--yellow);border-left:1px solid var(--border)">CC Transactions</div>';
+    content.appendChild(colHeader);
+
+    grouped.forEach(function(group) {
+      const billsLen = group.bills.length;
+      const ccLen = group.cc_transactions.length;
+      const hasMatch = billsLen > 0 && ccLen > 0;
+
+      // Vendor header row
+      const vendorHeader = document.createElement('div');
+      vendorHeader.style.cssText = 'padding:5px 12px;font-size:12px;font-weight:600;background:rgba(255,255,255,0.04);display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);border-top:1px solid var(--border)';
+      vendorHeader.innerHTML =
+        '<span style="color:' + (hasMatch ? '#4ade80' : 'var(--text-dim)') + ';font-size:8px">●</span>' +
+        '<span>' + group.vendor + '</span>' +
+        '<span style="font-size:10px;color:var(--text-dim);font-weight:400">' + billsLen + ' bill' + (billsLen!==1?'s':'') + ' · ' + ccLen + ' CC txn' + (ccLen!==1?'s':'') + '</span>' +
+        (!hasMatch ? '<span style="font-size:10px;color:#f59e0b;margin-left:auto">⚠ no match</span>' : '');
+
+      // Two-column body
+      const cols = document.createElement('div');
+      cols.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border)';
+
+      // Bills column
+      const billsCol = document.createElement('div');
+      billsCol.style.cssText = 'border-right:1px solid var(--border);min-width:0';
+      if (!billsLen) {
+        billsCol.innerHTML = '<div style="padding:6px 12px;font-size:11px;color:var(--text-dim)">— no bills</div>';
+      } else {
+        const tbl = document.createElement('table');
+        tbl.className = 'match-table';
+        tbl.style.width = '100%';
+        const thead = '<thead><tr><th>Amount</th><th>Cur</th><th>Date</th></tr></thead>';
+        const tbody = document.createElement('tbody');
+        group.bills.forEach(function(b) {
+          const tr = document.createElement('tr');
+          tr.innerHTML = '<td style="font-family:monospace;font-size:11px">' + fmt(b.amount) + '</td><td>' + (b.currency||'INR') + '</td><td>' + (b.date||'-') + '</td>';
+          tbody.appendChild(tr);
+        });
+        tbl.innerHTML = thead;
+        tbl.appendChild(tbody);
+        billsCol.appendChild(tbl);
+      }
+
+      // CC column
+      const ccCol = document.createElement('div');
+      ccCol.style.cssText = 'min-width:0';
+      if (!ccLen) {
+        ccCol.innerHTML = '<div style="padding:6px 12px;font-size:11px;color:var(--text-dim)">— no CC match</div>';
+      } else {
+        const tbl = document.createElement('table');
+        tbl.className = 'match-table';
+        tbl.style.width = '100%';
+        const thead = '<thead><tr><th>Description</th><th>INR Amt</th><th>Date</th><th>Card</th></tr></thead>';
+        const tbody = document.createElement('tbody');
+        group.cc_transactions.forEach(function(t) {
+          const tr = document.createElement('tr');
+          const cardShort = (t.card_name||'-').replace('CC ','');
+          tr.innerHTML =
+            '<td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px" title="' + t.description + '">' + (t.description||'-') + '</td>' +
+            '<td style="font-family:monospace;font-size:11px">' + fmt(t.amount) + '</td>' +
+            '<td>' + (t.date||'-') + '</td>' +
+            '<td style="font-size:10px;color:var(--text-dim)">' + cardShort + '</td>';
+          tbody.appendChild(tr);
+        });
+        tbl.innerHTML = thead;
+        tbl.appendChild(tbody);
+        ccCol.appendChild(tbl);
+      }
+
+      cols.appendChild(billsCol);
+      cols.appendChild(ccCol);
+
+      const section = document.createElement('div');
+      section.appendChild(vendorHeader);
+      section.appendChild(cols);
+      content.appendChild(section);
+    });
+  }
+
+  document.getElementById('checkLoading').style.display = 'none';
+  document.getElementById('checkContent').style.display = 'block';
+}
+
+// --- Monthly Compare Panel ---
+var _compareData = null;
+
+function openComparePanel() {
+  document.getElementById('logPanel').style.display = 'none';
+  document.getElementById('reviewPanel').style.display = 'none';
+  document.getElementById('matchPanel').style.display = 'none';
+  document.getElementById('checkPanel').style.display = 'none';
+  document.getElementById('paymentPanel').style.display = 'none';
+  document.getElementById('comparePanel').style.display = 'flex';
+  document.getElementById('compareLoading').style.display = 'block';
+  document.getElementById('compareContent').style.display = 'none';
+
+  fetch('/api/compare/monthly')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) {
+        document.getElementById('compareLoading').textContent = data.error;
+        return;
+      }
+      _compareData = data;
+      renderComparePanel(data);
+    })
+    .catch(function(err) {
+      document.getElementById('compareLoading').textContent = 'Failed to load: ' + err;
+    });
+}
+
+function closeComparePanel() {
+  document.getElementById('comparePanel').style.display = 'none';
+  document.getElementById('logPanel').style.display = 'flex';
+}
+
+function parseAllForCompare(step, btnId, label) {
+  var btn = document.getElementById(btnId);
+  btn.disabled = true;
+  btn.textContent = 'Parsing ' + label + '...';
+  fetch('/api/run/' + step, { method: 'POST' })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      btn.textContent = 'Done! Refreshing...';
+      // Refresh compare data
+      return fetch('/api/compare/monthly').then(function(r) { return r.json(); });
+    })
+    .then(function(data) {
+      if (data && !data.error) {
+        _compareData = data;
+        renderComparePanel(data);
+      }
+      btn.disabled = false;
+      btn.textContent = label === 'CC' ? 'Parse All CC' : 'Parse All Invoices';
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      btn.textContent = label === 'CC' ? 'Parse All CC' : 'Parse All Invoices';
+      alert('Parse failed: ' + err);
+    });
+}
+
+function parseOrgInvoices() {
+  var btn = document.getElementById('parseAllBillsBtn');
+  btn.disabled = true;
+  btn.textContent = 'Parsing Invoices...';
+  fetch('/api/compare/parse-org-invoices', { method: 'POST' })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) { alert(data.error); btn.disabled = false; btn.textContent = 'Parse All Invoices'; return; }
+      // Poll until done
+      var poll = setInterval(function() {
+        fetch('/api/status').then(function(r) { return r.json(); }).then(function(st) {
+          if (!st.running) {
+            clearInterval(poll);
+            btn.textContent = 'Done! Refreshing...';
+            fetch('/api/compare/monthly').then(function(r) { return r.json(); }).then(function(d) {
+              if (d && !d.error) { _compareData = d; renderComparePanel(d); }
+              btn.disabled = false;
+              btn.textContent = 'Parse All Invoices';
+            });
+          }
+        });
+      }, 2000);
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      btn.textContent = 'Parse All Invoices';
+      alert('Parse failed: ' + err);
+    });
+}
+
+function renderComparePanel(data) {
+  var months = data.months || [];
+  var summary = data.summary || {};
+
+  document.getElementById('compareSummaryText').textContent =
+    (summary.total_months || 0) + ' months · ' +
+    (summary.total_cc || 0) + ' CC txns · ' +
+    (summary.total_invoices || 0) + ' invoices';
+
+  // Populate month dropdown
+  var select = document.getElementById('compareMonthSelect');
+  select.innerHTML = '';
+  months.forEach(function(m, idx) {
+    var opt = document.createElement('option');
+    opt.value = idx;
+    opt.textContent = m.month + ' (' + m.cc_count + ' CC / ' + m.inv_count + ' inv)';
+    select.appendChild(opt);
+  });
+
+  document.getElementById('compareLoading').style.display = 'none';
+  document.getElementById('compareContent').style.display = 'block';
+
+  if (months.length > 0) {
+    renderCompareMonth(0);
+  } else {
+    document.getElementById('compareContent').innerHTML =
+      '<div style="text-align:center;color:var(--text-dim);padding:40px">No data found</div>';
+  }
+}
+
+function renderCompareMonth(idx) {
+  idx = parseInt(idx);
+  var m = _compareData.months[idx];
+  var content = document.getElementById('compareContent');
+  content.innerHTML = '';
+  var fmt = function(n) { return n != null ? Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '-'; };
+  var fmtDate = function(d) { if (!d || d.length < 10) return d || '-'; var p = d.split('-'); return p[2] + '-' + p[1] + '-' + p[0]; };
+
+  // Month summary bar
+  var summaryBar = document.createElement('div');
+  summaryBar.style.cssText = 'display:flex;gap:24px;padding:8px 12px;font-size:12px;border-bottom:1px solid var(--border);flex-shrink:0;background:rgba(255,255,255,0.03)';
+  summaryBar.innerHTML =
+    '<span><strong>' + m.cc_count + '</strong> CC transactions &middot; Total: <strong style="font-family:monospace">' + fmt(m.cc_total) + '</strong> INR</span>' +
+    '<span style="margin-left:auto"><strong>' + m.inv_count + '</strong> invoices &middot; Total: <strong style="font-family:monospace">' + fmt(m.inv_total) + '</strong></span>';
+  content.appendChild(summaryBar);
+
+  // Sticky two-column header
+  var colHeader = document.createElement('div');
+  colHeader.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;position:sticky;top:0;z-index:2;background:var(--bg-panel);border-bottom:2px solid var(--border);flex-shrink:0';
+  colHeader.innerHTML =
+    '<div style="padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--yellow)">CC Statements (' + m.cc_count + ')</div>' +
+    '<div style="padding:8px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--accent);border-left:1px solid var(--border)">Invoices (' + m.inv_count + ')</div>';
+  content.appendChild(colHeader);
+
+  // Two-column body
+  var cols = document.createElement('div');
+  cols.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;flex:1;min-height:0';
+
+  // --- CC column ---
+  var ccCol = document.createElement('div');
+  ccCol.style.cssText = 'border-right:1px solid var(--border);min-width:0;overflow-y:auto';
+  if (!m.cc_transactions.length) {
+    ccCol.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--text-dim)">No CC transactions this month</div>';
+  } else {
+    var tbl = document.createElement('table');
+    tbl.className = 'match-table';
+    tbl.style.width = '100%';
+    tbl.innerHTML = '<thead><tr><th>Date</th><th>Description</th><th>Amount (INR)</th><th>Forex</th><th>Card</th></tr></thead>';
+    var tbody = document.createElement('tbody');
+    m.cc_transactions.forEach(function(t) {
+      var tr = document.createElement('tr');
+      var forexText = t.forex_currency && t.forex_amount
+        ? t.forex_currency + ' ' + fmt(t.forex_amount) : '-';
+      var cardShort = (t.card_name || '-').replace('CC ', '');
+      tr.innerHTML =
+        '<td style="white-space:nowrap;font-size:11px">' + fmtDate(t.date) + '</td>' +
+        '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px" title="' + (t.description || '') + '">' + (t.description || '-') + '</td>' +
+        '<td style="font-family:monospace;font-size:11px;text-align:right">' + fmt(t.amount) + '</td>' +
+        '<td style="font-size:10px;color:var(--yellow)">' + forexText + '</td>' +
+        '<td style="font-size:10px;color:var(--text-dim)">' + cardShort + '</td>';
+      tbody.appendChild(tr);
+    });
+    tbl.appendChild(tbody);
+    ccCol.appendChild(tbl);
+  }
+
+  // --- Invoice column ---
+  var invCol = document.createElement('div');
+  invCol.style.cssText = 'min-width:0;overflow-y:auto';
+  if (!m.invoices.length) {
+    invCol.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--text-dim)">No invoices this month</div>';
+  } else {
+    var tbl2 = document.createElement('table');
+    tbl2.className = 'match-table';
+    tbl2.style.width = '100%';
+    tbl2.innerHTML = '<thead><tr><th>Vendor</th><th>GSTIN</th><th>Amount</th><th>Date</th><th>Invoice #</th></tr></thead>';
+    var tbody2 = document.createElement('tbody');
+    m.invoices.forEach(function(inv) {
+      var tr = document.createElement('tr');
+      var gstinHtml = inv.vendor_gstin
+        ? '<span title="' + inv.vendor_gstin + '">' + inv.vendor_gstin + '</span>'
+        : '<span style="color:var(--text-dim)">-</span>';
+      tr.innerHTML =
+        '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px" title="' + (inv.vendor_name || '') + '">' + (inv.vendor_name || '-') + '</td>' +
+        '<td style="font-size:10px;font-family:monospace">' + gstinHtml + '</td>' +
+        '<td style="font-family:monospace;font-size:11px;text-align:right">' + fmt(inv.amount) + ' <span style="font-size:9px;color:var(--text-dim)">' + (inv.currency || 'INR') + '</span></td>' +
+        '<td style="white-space:nowrap;font-size:11px">' + fmtDate(inv.date) + '</td>' +
+        '<td style="font-size:10px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (inv.invoice_number || '') + '">' + (inv.invoice_number || '-') + '</td>';
+      tbody2.appendChild(tr);
+    });
+    tbl2.appendChild(tbody2);
+    invCol.appendChild(tbl2);
+  }
+
+  cols.appendChild(ccCol);
+  cols.appendChild(invCol);
+  content.appendChild(cols);
+
+  // --- Categorize Check button ---
+  var catBar = document.createElement('div');
+  catBar.style.cssText = 'padding:10px 12px;border-top:1px solid var(--border);text-align:center;flex-shrink:0';
+
+  var catBtn = document.createElement('button');
+  catBtn.textContent = 'Categorize Check';
+  catBtn.style.cssText = 'background:transparent;color:var(--accent);border:1px dashed var(--accent);padding:6px 18px;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600';
+  catBtn.onclick = function() { runCategorizeCheck(idx, 'cc'); };
+  catBar.appendChild(catBtn);
+
+  content.appendChild(catBar);
+
+  // Container for categorize results
+  var catResults = document.createElement('div');
+  catResults.id = 'categorizeResults';
+  content.appendChild(catResults);
+}
+
+var _catRows = [];
+var _catMonth = '';
+
+function runCategorizeCheck(idx, mode) {
+  idx = parseInt(idx);
+  var m = _compareData.months[idx];
+  var ccList = m.cc_transactions || [];
+  var invList = m.invoices || [];
+  var container = document.getElementById('categorizeResults');
+  container.innerHTML = '';
+  var fmt = function(n) { return n != null ? Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '-'; };
+
+  // Group CC by vendor
+  var ccByVendor = {};
+  var unmappedCC = [];
+  ccList.forEach(function(t) {
+    var v = t.vendor_name;
+    if (!v) { unmappedCC.push(t); return; }
+    if (!ccByVendor[v]) ccByVendor[v] = [];
+    ccByVendor[v].push(Object.assign({_matched: false}, t));
+  });
+
+  // Group invoices by vendor
+  var invByVendor = {};
+  invList.forEach(function(inv) {
+    var v = inv.vendor_name || '';
+    if (!v) return;
+    if (!invByVendor[v]) invByVendor[v] = [];
+    invByVendor[v].push(Object.assign({_matched: false}, inv));
+  });
+
+  // All vendors from both sides
+  var allVendors = {};
+  Object.keys(ccByVendor).forEach(function(v) { allVendors[v] = true; });
+  Object.keys(invByVendor).forEach(function(v) { allVendors[v] = true; });
+  var vendorList = Object.keys(allVendors).sort();
+
+  var rows = []; // {vendor, cc, inv, matchType, status}
+
+  vendorList.forEach(function(vendor) {
+    var ccs = (ccByVendor[vendor] || []).slice();
+    var invs = (invByVendor[vendor] || []).slice();
+
+    // Try to match each CC to an invoice
+    ccs.forEach(function(cc) {
+      var bestMatch = null;
+      var bestType = '';
+      var bestDiff = Infinity;
+
+      invs.forEach(function(inv) {
+        if (inv._matched) return;
+        var ccForex = cc.forex_amount ? parseFloat(cc.forex_amount) : null;
+        var ccCur = cc.forex_currency || null;
+        var ccInr = parseFloat(cc.amount) || 0;
+        var invAmt = parseFloat(inv.amount) || 0;
+        var invCur = (inv.currency || 'INR').toUpperCase();
+
+        var diff = null;
+        var mtype = '';
+
+        // Case 1: USD -> USD (or same forex currency)
+        if (ccCur && ccForex && invCur === ccCur) {
+          diff = Math.abs(ccForex - invAmt);
+          mtype = ccCur + ' \u2192 ' + invCur;
+        }
+        // Case 2: Forex -> INR (CC has forex, invoice is INR)
+        else if (ccCur && ccForex && invCur === 'INR') {
+          diff = Math.abs(ccInr - invAmt);
+          mtype = ccCur + ' \u2192 INR (forex)';
+        }
+        // Case 3: INR -> INR (no forex)
+        else if (!ccCur && invCur === 'INR') {
+          diff = Math.abs(ccInr - invAmt);
+          mtype = 'INR \u2192 INR';
+        }
+        // Case 4: Any currency -> INR with forex
+        else if (ccCur && ccForex && invCur !== ccCur && invCur !== 'INR') {
+          // Cross-currency — can't reliably match
+          return;
+        }
+        // Fallback: just compare INR amounts
+        else {
+          diff = Math.abs(ccInr - invAmt);
+          mtype = 'INR \u2192 ' + invCur;
+        }
+
+        if (diff !== null && diff < bestDiff) {
+          bestDiff = diff;
+          bestMatch = inv;
+          bestType = mtype;
+        }
+      });
+
+      // Tolerance: exact or within 1% or Rs 1
+      var threshold = Math.max(1, (parseFloat(cc.amount) || 0) * 0.01);
+      if (bestMatch && bestDiff <= threshold) {
+        bestMatch._matched = true;
+        cc._matched = true;
+        rows.push({
+          vendor: vendor,
+          cc: cc,
+          inv: bestMatch,
+          matchType: bestType,
+          diff: bestDiff,
+          status: bestDiff < 0.01 ? 'exact' : 'close'
+        });
+      } else {
+        rows.push({
+          vendor: vendor,
+          cc: cc,
+          inv: null,
+          matchType: '',
+          diff: null,
+          status: 'no_invoice'
+        });
+      }
+    });
+
+    // Unmatched invoices
+    invs.forEach(function(inv) {
+      if (inv._matched) return;
+      rows.push({
+        vendor: vendor,
+        cc: null,
+        inv: inv,
+        matchType: '',
+        diff: null,
+        status: 'no_cc'
+      });
+    });
+  });
+
+  // Unmapped CC (no vendor resolved)
+  unmappedCC.forEach(function(cc) {
+    rows.push({
+      vendor: '(unmapped)',
+      cc: cc,
+      inv: null,
+      matchType: '',
+      diff: null,
+      status: 'unmapped'
+    });
+  });
+
+  // --- Amount+date matching for unmatched items (vendor-agnostic) ---
+  // If vendor names differ but amount/forex match and dates are close, treat as match
+  var _pd = function(s) { if (!s) return null; var d = new Date(s); return isNaN(d.getTime()) ? null : d; };
+  var _daysDiff = function(a, b) { if (!a || !b) return 9999; return Math.abs((a - b) / 86400000); };
+
+  var unmatchedCCIdxs = [];
+  var unmatchedInvIdxs = [];
+  rows.forEach(function(r, ri) {
+    if ((r.status === 'no_invoice' || r.status === 'unmapped') && r.cc) unmatchedCCIdxs.push(ri);
+    if (r.status === 'no_cc' && r.inv) unmatchedInvIdxs.push(ri);
+  });
+
+  var _invUsed = {};
+  unmatchedCCIdxs.forEach(function(ccIdx) {
+    var r = rows[ccIdx];
+    var cc2 = r.cc;
+    var ccInr2 = parseFloat(cc2.amount) || 0;
+    var ccForex2 = cc2.forex_amount ? parseFloat(cc2.forex_amount) : null;
+    var ccCur2 = cc2.forex_currency || null;
+    var ccDate2 = _pd(cc2.date);
+    var best2 = null, bestDiff2 = Infinity, bestInvIdx2 = -1, bestMtype2 = '';
+
+    unmatchedInvIdxs.forEach(function(invIdx) {
+      if (_invUsed[invIdx]) return;
+      var inv2 = rows[invIdx].inv;
+      var invAmt2 = parseFloat(inv2.amount) || 0;
+      var invCur2 = (inv2.currency || 'INR').toUpperCase();
+      var invDate2 = _pd(inv2.date);
+      if (_daysDiff(ccDate2, invDate2) > 30) return;
+
+      var diff2 = null, mtype2 = '';
+      if (ccCur2 && ccForex2 && invCur2 === ccCur2) {
+        diff2 = Math.abs(ccForex2 - invAmt2); mtype2 = ccCur2 + ' \u2192 ' + invCur2;
+      } else if (ccCur2 && ccForex2 && invCur2 === 'INR') {
+        diff2 = Math.abs(ccInr2 - invAmt2); mtype2 = ccCur2 + ' \u2192 INR (forex)';
+      } else if (!ccCur2 && invCur2 === 'INR') {
+        diff2 = Math.abs(ccInr2 - invAmt2); mtype2 = 'INR \u2192 INR';
+      } else {
+        diff2 = Math.abs(ccInr2 - invAmt2); mtype2 = 'INR \u2192 ' + invCur2;
+      }
+
+      var threshold2 = Math.max(1, ccInr2 * 0.01);
+      if (diff2 !== null && diff2 <= threshold2 && diff2 < bestDiff2) {
+        bestDiff2 = diff2; best2 = inv2; bestInvIdx2 = invIdx; bestMtype2 = mtype2;
+      }
+    });
+
+    if (best2 && bestInvIdx2 >= 0) {
+      _invUsed[bestInvIdx2] = true;
+      rows[ccIdx] = {
+        vendor: (best2.vendor_name || r.vendor),
+        cc: cc2, inv: best2, matchType: bestMtype2, diff: bestDiff2,
+        status: bestDiff2 < 0.01 ? 'exact' : 'close'
+      };
+      rows[bestInvIdx2] = null; // mark for removal
+    }
+  });
+
+  // Remove nulled rows
+  for (var _ri = rows.length - 1; _ri >= 0; _ri--) {
+    if (rows[_ri] === null) rows.splice(_ri, 1);
+  }
+
+  // --- Cross-month search for unmatched CC (limited to +/- 1 month) ---
+  var _monthNames = {Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11};
+  var _parseMonthDate = function(mk) {
+    var parts = (mk || '').split(' ');
+    if (parts.length !== 2) return null;
+    var mon = _monthNames[parts[0]];
+    var yr = parseInt(parts[1]);
+    if (mon == null || isNaN(yr)) return null;
+    return new Date(yr, mon, 15);
+  };
+  var _curMonthDate = _parseMonthDate(m.month);
+
+  var otherMonthInvs = [];
+  _compareData.months.forEach(function(om, omIdx) {
+    if (omIdx === idx) return;
+    // Only include months within ~45 days (roughly 1 month gap)
+    var omDate = _parseMonthDate(om.month);
+    if (_curMonthDate && omDate && Math.abs(_curMonthDate - omDate) > 45 * 86400000) return;
+    (om.invoices || []).forEach(function(inv) {
+      otherMonthInvs.push(Object.assign({_src_month: om.month}, inv));
+    });
+  });
+
+  rows.forEach(function(r, ri) {
+    if (r.status !== 'no_invoice' && r.status !== 'unmapped') return;
+    if (!r.cc) return;
+    var cc3 = r.cc;
+    var vendor3 = r.vendor;
+    var ccInr3 = parseFloat(cc3.amount) || 0;
+    var ccForex3 = cc3.forex_amount ? parseFloat(cc3.forex_amount) : null;
+    var ccCur3 = cc3.forex_currency || null;
+    var ccDate3 = _pd(cc3.date);
+    var bestMatch3 = null;
+    var bestType3 = '';
+    var bestDiff3 = Infinity;
+    var bestMonth3 = '';
+
+    otherMonthInvs.forEach(function(inv) {
+      var vendorMatch3 = (inv.vendor_name || '') === vendor3;
+      var invAmt3 = parseFloat(inv.amount) || 0;
+      var invCur3 = (inv.currency || 'INR').toUpperCase();
+      var invDate3 = _pd(inv.date);
+
+      // For non-vendor matches, also require date proximity (45 days)
+      if (!vendorMatch3 && _daysDiff(ccDate3, invDate3) > 45) return;
+
+      var diff3 = null;
+      var mtype3 = '';
+      if (ccCur3 && ccForex3 && invCur3 === ccCur3) {
+        diff3 = Math.abs(ccForex3 - invAmt3);
+        mtype3 = ccCur3 + ' \u2192 ' + invCur3;
+      } else if (ccCur3 && ccForex3 && invCur3 === 'INR') {
+        diff3 = Math.abs(ccInr3 - invAmt3);
+        mtype3 = ccCur3 + ' \u2192 INR (forex)';
+      } else if (!ccCur3 && invCur3 === 'INR') {
+        diff3 = Math.abs(ccInr3 - invAmt3);
+        mtype3 = 'INR \u2192 INR';
+      } else {
+        diff3 = Math.abs(ccInr3 - invAmt3);
+        mtype3 = 'INR \u2192 ' + invCur3;
+      }
+
+      if (diff3 !== null && diff3 < bestDiff3) {
+        bestDiff3 = diff3;
+        bestMatch3 = inv;
+        bestType3 = mtype3;
+        bestMonth3 = inv._src_month;
+      }
+    });
+
+    var threshold3 = Math.max(1, ccInr3 * 0.01);
+    if (bestMatch3 && bestDiff3 <= threshold3) {
+      rows[ri] = {
+        vendor: (bestMatch3.vendor_name || vendor3),
+        cc: cc3,
+        inv: bestMatch3,
+        matchType: bestType3 + ' [' + bestMonth3 + ']',
+        diff: bestDiff3,
+        status: bestDiff3 < 0.01 ? 'cross_exact' : 'cross_close'
+      };
+    }
+  });
+
+  // Sort rows
+  var statusOrder = {exact: 0, close: 0, cross_exact: 1, cross_close: 1, no_cc: 2, no_invoice: 3, unmapped: 4};
+  rows.sort(function(a, b) {
+    var oa = statusOrder[a.status] != null ? statusOrder[a.status] : 4;
+    var ob = statusOrder[b.status] != null ? statusOrder[b.status] : 4;
+    if (oa !== ob) return oa - ob;
+    return (a.vendor || '').localeCompare(b.vendor || '');
+  });
+
+  // Store globally and save
+  _catRows = rows;
+  _catMonth = m.month;
+
+  var matched = rows.filter(function(r) { return r.status === 'exact' || r.status === 'close'; }).length;
+  var crossMatched = rows.filter(function(r) { return r.status === 'cross_exact' || r.status === 'cross_close'; }).length;
+  var noInv = rows.filter(function(r) { return r.status === 'no_invoice'; }).length;
+  var noCc = rows.filter(function(r) { return r.status === 'no_cc'; }).length;
+  var unmapped = rows.filter(function(r) { return r.status === 'unmapped'; }).length;
+
+  // Save to file
+  var saveRows = rows.map(function(r) {
+    return {
+      vendor: r.vendor,
+      cc_amount_inr: r.cc ? r.cc.amount : null,
+      cc_forex_amount: r.cc && r.cc.forex_amount ? r.cc.forex_amount : null,
+      cc_forex_currency: r.cc && r.cc.forex_currency ? r.cc.forex_currency : null,
+      cc_date: r.cc ? r.cc.date : null,
+      cc_description: r.cc ? r.cc.description : null,
+      inv_amount: r.inv ? r.inv.amount : null,
+      inv_currency: r.inv ? r.inv.currency : null,
+      inv_date: r.inv ? r.inv.date : null,
+      inv_invoice_number: r.inv ? r.inv.invoice_number : null,
+      inv_vendor_gstin: r.inv ? r.inv.vendor_gstin : null,
+      match_type: r.matchType || null,
+      diff: r.diff != null ? r.diff : null,
+      status: r.status
+    };
+  });
+  fetch('/api/compare/save-categorize', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      month: m.month, rows: saveRows,
+      summary: {matched: matched, cross_matched: crossMatched, no_invoice: noInv, no_cc: noCc, unmapped: unmapped}
+    })
+  }).then(function() {
+    // Refresh overall summary after save completes
+    _fetchOverallCategorize();
+  });
+
+  // Render CC-based view
+  renderCatView('cc');
+}
+
+function _fetchOverallCategorize() {
+  fetch('/api/compare/categorize-overall').then(function(r) { return r.json(); }).then(function(data) {
+    var el = document.getElementById('catOverallSummary');
+    if (!el) return;
+    var t = data.totals || {};
+    var total = t.total || 0;
+    var matched = (t.exact || 0) + (t.close || 0);
+    var cross = (t.cross_exact || 0) + (t.cross_close || 0);
+    var resolved = matched + cross;
+    var pct = total ? Math.round(resolved / total * 100) : 0;
+    el.innerHTML =
+      '<strong style="font-size:13px;min-width:120px">\uD83D\uDCCA All Months (' + (t.months_done || 0) + ' done, ' + total + ' txns)</strong>' +
+      '<span style="color:var(--green)">\u2713 Exact: ' + (t.exact || 0) + '</span>' +
+      '<span style="color:var(--green)">\u2248 Close: ' + (t.close || 0) + '</span>' +
+      '<span style="color:var(--accent)">\u2194 Other Month: ' + cross +
+        (cross ? ' <span style="font-size:10px;opacity:0.7">(E:' + (t.cross_exact||0) + ' C:' + (t.cross_close||0) + ')</span>' : '') + '</span>' +
+      '<span style="color:var(--yellow)">\u26A0 No Invoice: ' + (t.no_invoice || 0) + '</span>' +
+      '<span style="color:var(--text-dim)">\u2753 Unmapped: ' + (t.unmapped || 0) + '</span>' +
+      '<span style="color:var(--green);margin-left:auto;font-weight:bold">\u2714 Resolved: ' + resolved + '/' + total + ' (' + pct + '%)</span>';
+  }).catch(function() {
+    var el = document.getElementById('catOverallSummary');
+    if (el) el.innerHTML = '<span style="color:var(--text-dim)">Run Categorize Check on each month to build overall summary</span>';
+  });
+}
+
+function renderCatView() {
+  var container = document.getElementById('categorizeResults');
+  container.innerHTML = '';
+  var rows = _catRows;
+  if (!rows.length) return;
+  var fmt = function(n) { return n != null ? Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '-'; };
+
+  // CC-based: only rows that have a CC entry
+  var filtered = rows.filter(function(r) { return r.cc != null; });
+
+  var exactCount = filtered.filter(function(r) { return r.status === 'exact'; }).length;
+  var closeCount = filtered.filter(function(r) { return r.status === 'close'; }).length;
+  var matched = exactCount + closeCount;
+  var crossExact = filtered.filter(function(r) { return r.status === 'cross_exact'; }).length;
+  var crossClose = filtered.filter(function(r) { return r.status === 'cross_close'; }).length;
+  var crossMatched = crossExact + crossClose;
+  var noInv = filtered.filter(function(r) { return r.status === 'no_invoice'; }).length;
+  var unmapped = filtered.filter(function(r) { return r.status === 'unmapped'; }).length;
+
+  // Overall summary row (all months aggregate) - placeholder, filled async
+  var overallDiv = document.createElement('div');
+  overallDiv.id = 'catOverallSummary';
+  overallDiv.style.cssText = 'padding:10px 12px;font-size:12px;border-bottom:2px solid var(--accent);background:rgba(108,140,255,0.08);display:flex;gap:12px;flex-wrap:wrap;align-items:center';
+  overallDiv.innerHTML = '<span style="color:var(--text-dim)">Loading overall summary...</span>';
+  container.appendChild(overallDiv);
+  _fetchOverallCategorize();
+
+  // Header
+  var hdr = document.createElement('div');
+  hdr.style.cssText = 'padding:10px 12px;font-size:12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.03);display:flex;gap:16px;flex-wrap:wrap;align-items:center';
+  hdr.innerHTML =
+    '<strong style="font-size:13px">CC Based (' + filtered.length + ')</strong>' +
+    '<span style="color:var(--green)">\u2713 Matched: ' + matched + '</span>' +
+    (crossMatched ? '<span style="color:var(--accent)">\u2194 Other Month: ' + crossMatched + '</span>' : '') +
+    '<span style="color:var(--yellow)">\u26A0 No Invoice: ' + noInv + '</span>' +
+    (unmapped ? '<span style="color:var(--text-dim)">\u2753 Unmapped: ' + unmapped + '</span>' : '');
+  container.appendChild(hdr);
+
+  // Table
+  var tbl = document.createElement('table');
+  tbl.className = 'cat-table';
+  tbl.innerHTML = '<thead><tr><th>Vendor</th><th>CC Description</th><th>CC Forex</th><th>CC Amount (INR)</th><th>CC Date</th><th>Inv Amount</th><th>Inv Date</th><th>Match Type</th><th>Diff</th><th>Status</th><th>Action</th></tr></thead>';
+  var tbody = document.createElement('tbody');
+
+  filtered.forEach(function(r) {
+    var tr = document.createElement('tr');
+    var statusHtml = '';
+    var rowBg = '';
+    if (r.status === 'exact') {
+      statusHtml = '<span style="color:var(--green)">\u2713 Exact</span>';
+      rowBg = 'rgba(80,200,120,0.06)';
+    } else if (r.status === 'close') {
+      statusHtml = '<span style="color:var(--green)">\u2248 Close</span>';
+      rowBg = 'rgba(80,200,120,0.04)';
+    } else if (r.status === 'cross_exact') {
+      statusHtml = '<span style="color:var(--accent)">\u2194 Other Month (Exact)</span>';
+      rowBg = 'rgba(96,165,250,0.08)';
+    } else if (r.status === 'cross_close') {
+      statusHtml = '<span style="color:var(--accent)">\u2194 Other Month (Close)</span>';
+      rowBg = 'rgba(96,165,250,0.05)';
+    } else if (r.status === 'no_invoice') {
+      statusHtml = '<span style="color:var(--yellow)">\u26A0 No Invoice</span>';
+      rowBg = 'rgba(255,200,50,0.06)';
+    } else if (r.status === 'unmapped') {
+      statusHtml = '<span style="color:var(--text-dim)">\u2753 Unmapped</span>';
+      rowBg = 'rgba(150,150,150,0.06)';
+    }
+    if (rowBg) tr.style.background = rowBg;
+
+    var ccDesc = r.cc ? (r.cc.description || '-') : '-';
+    var ccAmt = r.cc ? fmt(r.cc.amount) : '-';
+    var ccForex = r.cc && r.cc.forex_currency && r.cc.forex_amount
+      ? r.cc.forex_currency + ' ' + fmt(r.cc.forex_amount) : '-';
+    var ccDate = r.cc && r.cc.date ? r.cc.date : '-';
+    var invAmt = r.inv ? fmt(r.inv.amount) + ' <span style="font-size:9px;color:var(--text-dim)">' + (r.inv.currency || 'INR') + '</span>' : '-';
+    var invDate = r.inv && r.inv.date ? r.inv.date : '-';
+    var diffText = r.diff != null ? fmt(r.diff) : '-';
+
+    // Create Bill button or In Zoho badge for exact/close matches that have invoice data
+    var actionHtml = '';
+    if ((r.status === 'exact' || r.status === 'close') && r.inv) {
+      if (r.inv.in_zoho) {
+        actionHtml = '<span style="font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,0.15);color:var(--green);font-weight:600">In Zoho</span>';
+      } else {
+        var invData = JSON.stringify({
+          vendor_name: r.inv.vendor_name || r.vendor,
+          amount: r.inv.amount,
+          currency: r.inv.currency || 'INR',
+          date: r.inv.date,
+          invoice_number: r.inv.invoice_number || '',
+          vendor_gstin: r.inv.vendor_gstin || ''
+        }).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        actionHtml = '<button class="bill-create-btn" onclick="createBillFromCompare(this, \'' + invData + '\')" style="font-size:10px;padding:2px 8px">Create Bill</button>';
+      }
+    }
+
+    tr.innerHTML =
+      '<td style="font-size:11px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + r.vendor + '">' + r.vendor + '</td>' +
+      '<td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + ccDesc + '">' + ccDesc + '</td>' +
+      '<td style="font-size:10px;color:var(--yellow)">' + ccForex + '</td>' +
+      '<td style="font-family:monospace;font-size:11px;text-align:right">' + ccAmt + '</td>' +
+      '<td style="font-size:10px">' + ccDate + '</td>' +
+      '<td style="font-family:monospace;font-size:11px;text-align:right">' + invAmt + '</td>' +
+      '<td style="font-size:10px">' + invDate + '</td>' +
+      '<td style="font-size:10px">' + (r.matchType || '-') + '</td>' +
+      '<td style="font-family:monospace;font-size:10px;text-align:right">' + diffText + '</td>' +
+      '<td style="font-size:10px;white-space:nowrap">' + statusHtml + '</td>' +
+      '<td style="padding:3px 6px">' + actionHtml + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  tbl.appendChild(tbody);
+  container.appendChild(tbl);
+}
+
+// --- Create Bill from Monthly Compare ---
+function createBillFromCompare(btn, invDataStr) {
+  var inv = JSON.parse(invDataStr.replace(/&quot;/g, '"'));
+  var desc = (inv.vendor_name || '') + ' — ' + (inv.currency || 'INR') + ' ' + Number(inv.amount).toLocaleString() + (inv.invoice_number ? ' (' + inv.invoice_number + ')' : '');
+  showModal('Create Bill in Zoho?', 'This will create a new bill: ' + desc, function() {
+    btn.disabled = true;
+    btn.textContent = '...';
+    fetch('/api/bills/create-one', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(inv),
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.status === 'created' || data.status === 'exists') {
+        var badge = document.createElement('span');
+        badge.style.cssText = 'font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,0.15);color:var(--green);font-weight:600';
+        badge.textContent = 'In Zoho';
+        btn.parentNode.replaceChild(badge, btn);
+        addLogLine('[Bill] ' + (data.status === 'created' ? 'Created' : 'Already exists') + ': ' + (inv.invoice_number || inv.vendor_name) + (data.bill_id ? ' -> ' + data.bill_id : ''));
+      } else {
+        btn.textContent = 'Failed';
+        btn.disabled = false;
+        addLogLine('[Bill] Error: ' + (data.error || 'unknown'));
+      }
+    })
+    .catch(function(err) {
+      btn.textContent = 'Error';
+      btn.disabled = false;
+      addLogLine('[Bill] Error: ' + err);
+    });
+  }, false, 'Create Bill');
+}
+
+// --- Info tooltip positioning (fixed, not clipped by scroll) ---
+document.querySelectorAll('.info-btn').forEach(function(btn) {
+  var tip = btn.querySelector('.info-tooltip');
+  if (!tip) return;
+  btn.addEventListener('mouseenter', function() {
+    var rect = btn.getBoundingClientRect();
+    tip.style.display = 'block';
+    // Position to the right of the button
+    var left = rect.right + 10;
+    var top = rect.top + rect.height / 2 - tip.offsetHeight / 2;
+    // Keep within viewport
+    if (left + 290 > window.innerWidth) left = rect.left - 290;
+    if (top < 4) top = 4;
+    if (top + tip.offsetHeight > window.innerHeight - 4) top = window.innerHeight - 4 - tip.offsetHeight;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  });
+  btn.addEventListener('mouseleave', function() {
+    tip.style.display = 'none';
+  });
+});
+</script>
+</body>
+</html>
+"""
+
+# --- Main ---
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="CC Statement Automation Dashboard")
+    parser.add_argument("--port", type=int, default=5000, help="Port to run on (default: 5000)")
+    parser.add_argument("--no-open", action="store_true", help="Don't auto-open browser")
+    args = parser.parse_args()
+
+    # Ensure output dir exists
+    os.makedirs(os.path.join(PROJECT_ROOT, "output"), exist_ok=True)
+
+    log_action("Dashboard starting on http://localhost:{0}".format(args.port))
+
+    if not args.no_open and not os.environ.get("WERKZEUG_RUN_MAIN"):
+        # Only open browser on initial launch, not on reloader restarts
+        threading.Timer(1.5, lambda: webbrowser.open(f"http://localhost:{args.port}")).start()
+
+    # TEMPLATES_AUTO_RELOAD: pick up HTML/CSS/JS changes on browser refresh
+    app.config["TEMPLATES_AUTO_RELOAD"] = True
+    app.jinja_env.auto_reload = True
+    app.run(host="0.0.0.0", port=args.port, debug=False, threaded=True, use_reloader=True)

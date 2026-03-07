@@ -1,0 +1,61 @@
+{
+  "month": "Mar 2026",
+  "rows": [
+    {
+      "vendor": "GitHub",
+      "cc_amount_inr": null,
+      "cc_forex_amount": null,
+      "cc_forex_currency": null,
+      "cc_date": null,
+      "cc_description": null,
+      "inv_amount": 161.88,
+      "inv_currency": "USD",
+      "inv_date": "2026-03-02",
+      "inv_invoice_number": "INV123227848",
+      "inv_vendor_gstin": null,
+      "match_type": null,
+      "diff": null,
+      "status": "no_cc"
+    },
+    {
+      "vendor": "Info Edge (Naukri)",
+      "cc_amount_inr": null,
+      "cc_forex_amount": null,
+      "cc_forex_currency": null,
+      "cc_date": null,
+      "cc_description": null,
+      "inv_amount": 8761.5,
+      "inv_currency": "INR",
+      "inv_date": "2026-03-03",
+      "inv_invoice_number": "NK09I0326001326",
+      "inv_vendor_gstin": "09AAACI1838D1ZU",
+      "match_type": null,
+      "diff": null,
+      "status": "no_cc"
+    },
+    {
+      "vendor": "LinkedIn",
+      "cc_amount_inr": null,
+      "cc_forex_amount": null,
+      "cc_forex_currency": null,
+      "cc_date": null,
+      "cc_description": null,
+      "inv_amount": 3654,
+      "inv_currency": "INR",
+      "inv_date": "2026-03-06",
+      "inv_invoice_number": "Purchaser",
+      "inv_vendor_gstin": null,
+      "match_type": null,
+      "diff": null,
+      "status": "no_cc"
+    }
+  ],
+  "summary": {
+    "matched": 0,
+    "cross_matched": 0,
+    "no_invoice": 0,
+    "no_cc": 3,
+    "unmapped": 0
+  },
+  "saved_at": "2026-03-06 19:50:50"
+}

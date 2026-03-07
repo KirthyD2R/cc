@@ -1,0 +1,2828 @@
+[
+  {
+    "bill_id": "2050328000002970029",
+    "bill_number": "7CC5E2D2-0001",
+    "vendor_name": "Anthropic",
+    "vendor_id": "2050328000000364806",
+    "date": "2025-04-25",
+    "total": 200.0,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002971004",
+    "bill_number": "E0BCC1DE-0005",
+    "vendor_name": "Anthropic",
+    "vendor_id": "2050328000000364806",
+    "date": "2025-04-22",
+    "total": 23.6,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002970003",
+    "bill_number": "B8ERAOBF-0011",
+    "vendor_name": "S2 Labs Inc.",
+    "vendor_id": "2050328000002965001",
+    "date": "2026-01-30",
+    "total": 30.0,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002966003",
+    "bill_number": "B8ERAOBF-0012",
+    "vendor_name": "S2 Labs Inc.",
+    "vendor_id": "2050328000002965001",
+    "date": "2026-02-18",
+    "total": 10.0,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002963003",
+    "bill_number": "E0100VXR9Z_Invoice",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-04-12",
+    "total": 16056.28,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002918862",
+    "bill_number": "INV-E0100VXPSK_Invoice",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-04-12",
+    "total": 35915.28,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002897167",
+    "bill_number": "INV-FMAB-451441",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-10-14",
+    "total": 382.85,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002895289",
+    "bill_number": "INV-FMAB-451439",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-10-14",
+    "total": 189.05,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002893179",
+    "bill_number": "INV-FMAB-213926",
+    "vendor_name": "COCOBLU RETAIL LIMITED",
+    "vendor_id": "2050328000002888195",
+    "date": "2025-10-08",
+    "total": 273.0,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002893157",
+    "bill_number": "INV-HYD8-3820556",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "date": "2025-10-18",
+    "total": 6475.0,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002886262",
+    "bill_number": "INV-E0100XPIP1_Invoice",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-10-12",
+    "total": 6774.27,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002898681",
+    "bill_number": "02148314-0006",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "date": "2025-06-01",
+    "total": 1113.67,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920951",
+    "bill_number": "E0100Y80IG",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-12-12",
+    "total": 30892.4,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920929",
+    "bill_number": "E0100YQAML",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2026-02-12",
+    "total": 2395.4,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002920907",
+    "bill_number": "E0100YH8QM",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2026-01-12",
+    "total": 30892.4,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002920885",
+    "bill_number": "E0100YQAMM",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2026-02-12",
+    "total": 30892.4,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002920863",
+    "bill_number": "E0100YH2YB",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2026-01-12",
+    "total": 2395.4,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002920841",
+    "bill_number": "E0100Y80IF",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-12-12",
+    "total": 2395.4,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920819",
+    "bill_number": "E0100XPIP4",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-10-12",
+    "total": 2566.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920797",
+    "bill_number": "E0100X5B1N",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-08-12",
+    "total": 31185.5,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002920775",
+    "bill_number": "E0100XPIP5",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-10-12",
+    "total": 30892.4,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002920753",
+    "bill_number": "E0100XYTHP",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-11-12",
+    "total": 30892.4,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920731",
+    "bill_number": "E0100XFZFO",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-09-12",
+    "total": 30892.4,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002920709",
+    "bill_number": "E0100XG6GR",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-09-12",
+    "total": 2566.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920687",
+    "bill_number": "E0100XYTJW",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-11-12",
+    "total": 2384.37,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920665",
+    "bill_number": "E0100X5B1M",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-08-12",
+    "total": 2345.72,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920643",
+    "bill_number": "E0100W8BO6",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-05-12",
+    "total": 29075.2,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002920621",
+    "bill_number": "E0100WTWFZ",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-07-12",
+    "total": 29983.8,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002920599",
+    "bill_number": "E0100WJF6R",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-06-12",
+    "total": 30247.59,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920577",
+    "bill_number": "E0100VXPSR",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-04-12",
+    "total": 29075.2,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002920555",
+    "bill_number": "E0100WJF6Q",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-06-12",
+    "total": 3295.06,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920533",
+    "bill_number": "E0100W84MJ",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-05-12",
+    "total": 3079.8,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920511",
+    "bill_number": "E0100WTWFY",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-07-12",
+    "total": 3250.9,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002920489",
+    "bill_number": "E0100VXPSQ",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-04-12",
+    "total": 3079.8,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002918014",
+    "bill_number": "GROQ-TAAS-202511-165203",
+    "vendor_name": "GROQ",
+    "vendor_id": "2050328000002917774",
+    "date": "2025-11-07",
+    "total": 1.59,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917982",
+    "bill_number": "GROQ-TAAS-202602-214357",
+    "vendor_name": "GROQ",
+    "vendor_id": "2050328000002917774",
+    "date": "2026-02-06",
+    "total": 1.74,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917950",
+    "bill_number": "GROQ-TAAS-202601-199788",
+    "vendor_name": "GROQ",
+    "vendor_id": "2050328000002917774",
+    "date": "2026-01-06",
+    "total": 6.43,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002917918",
+    "bill_number": "GROQ-TAAS-202512-174643",
+    "vendor_name": "GROQ",
+    "vendor_id": "2050328000002917774",
+    "date": "2025-12-06",
+    "total": 1.29,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917886",
+    "bill_number": "GROQ-TAAS-202510-143678",
+    "vendor_name": "GROQ",
+    "vendor_id": "2050328000002917774",
+    "date": "2025-10-06",
+    "total": 2.43,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917854",
+    "bill_number": "GROQTAAS202509131986",
+    "vendor_name": "GROQ",
+    "vendor_id": "2050328000002917774",
+    "date": "2025-09-06",
+    "total": 0.38,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000002917822",
+    "bill_number": "GROQTAAS202508118887",
+    "vendor_name": "GROQ",
+    "vendor_id": "2050328000002917774",
+    "date": "2025-08-25",
+    "total": 9.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917790",
+    "bill_number": "GROQTAAS202508116839",
+    "vendor_name": "GROQ",
+    "vendor_id": "2050328000002917774",
+    "date": "2025-08-13",
+    "total": 1.02,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917504",
+    "bill_number": "AEEHRQ-00006",
+    "vendor_name": "SUPABASE",
+    "vendor_id": "2050328000002917312",
+    "date": "2025-11-02",
+    "total": 25.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917472",
+    "bill_number": "AEEHRQ-00005",
+    "vendor_name": "SUPABASE",
+    "vendor_id": "2050328000002917312",
+    "date": "2025-10-02",
+    "total": 25.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917440",
+    "bill_number": "AEEHRQ-00004",
+    "vendor_name": "SUPABASE",
+    "vendor_id": "2050328000002917312",
+    "date": "2025-09-02",
+    "total": 25.01,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917408",
+    "bill_number": "AEEHRQ-00003",
+    "vendor_name": "SUPABASE",
+    "vendor_id": "2050328000002917312",
+    "date": "2025-08-02",
+    "total": 25.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917376",
+    "bill_number": "AEEHRQ-00002",
+    "vendor_name": "SUPABASE",
+    "vendor_id": "2050328000002917312",
+    "date": "2025-07-01",
+    "total": 26.93,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917328",
+    "bill_number": "AEEHRQ-00001",
+    "vendor_name": "SUPABASE",
+    "vendor_id": "2050328000002917312",
+    "date": "2025-06-02",
+    "total": 25.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917110",
+    "bill_number": "1025260222143",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2025-08-22",
+    "total": 2058.18,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002917074",
+    "bill_number": "1025260334826",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2025-10-29",
+    "total": 23349.84,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002917038",
+    "bill_number": "1025260502871",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2026-01-29",
+    "total": 268.47,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002917002",
+    "bill_number": "1025260282844",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2025-09-29",
+    "total": 42480.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002916962",
+    "bill_number": "1025260205383",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2025-08-12",
+    "total": 2170.03,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002916926",
+    "bill_number": "1025260152757",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2025-07-09",
+    "total": 6375.89,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002898237",
+    "bill_number": "02148314-0005",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "date": "2025-05-01",
+    "total": 1072.17,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002894641",
+    "bill_number": "152624275997726",
+    "vendor_name": "SOFTWARE TECHNOLOGY PARKS OF INDIA",
+    "vendor_id": "2050328000002894623",
+    "date": "2026-01-05",
+    "total": 126420.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002894371",
+    "bill_number": "VS/25-26/894139",
+    "vendor_name": "UBER9 BUSINESS PROCESS SERVICES PRIVATE LIMITED",
+    "vendor_id": "2050328000000137146",
+    "date": "2025-12-17",
+    "total": 4130.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002894283",
+    "bill_number": "VS/25-26/879625",
+    "vendor_name": "UBER9 BUSINESS PROCESS SERVICES PRIVATE LIMITED",
+    "vendor_id": "2050328000000137146",
+    "date": "2025-11-05",
+    "total": 130743.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002772235",
+    "bill_number": "PI03",
+    "vendor_name": "L&L CONSULTANTS",
+    "vendor_id": "2050328000001986003",
+    "date": "2026-02-16",
+    "total": 430818.1,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002521238",
+    "bill_number": "1",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "date": "2025-12-12",
+    "total": 119.44,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002521138",
+    "bill_number": "PI02",
+    "vendor_name": "L&L CONSULTANTS",
+    "vendor_id": "2050328000001986003",
+    "date": "2026-02-09",
+    "total": 1496468.44,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002358031",
+    "bill_number": "ECRS/0011/25- 26",
+    "vendor_name": "The Detailing Mafia",
+    "vendor_id": "2050328000002358003",
+    "date": "2025-08-29",
+    "total": 106200.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002328003",
+    "bill_number": "10932",
+    "vendor_name": "Power House",
+    "vendor_id": "2050328000002211995",
+    "date": "2025-10-04",
+    "total": 23000.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002211929",
+    "bill_number": "2176831657",
+    "vendor_name": "AWS",
+    "vendor_id": "2050328000002211179",
+    "date": "2025-06-01",
+    "total": 7782.18,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002211861",
+    "bill_number": "2140007957",
+    "vendor_name": "AWS",
+    "vendor_id": "2050328000002211179",
+    "date": "2025-05-01",
+    "total": 1824.36,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002211793",
+    "bill_number": "2107934141",
+    "vendor_name": "AWS",
+    "vendor_id": "2050328000002211179",
+    "date": "2025-04-02",
+    "total": 40513.05,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002211725",
+    "bill_number": "2257225097",
+    "vendor_name": "AWS",
+    "vendor_id": "2050328000002211179",
+    "date": "2025-08-01",
+    "total": 79963.46,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002211657",
+    "bill_number": "2295334101",
+    "vendor_name": "AWS",
+    "vendor_id": "2050328000002211179",
+    "date": "2025-09-01",
+    "total": 213669.28,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002211263",
+    "bill_number": "2327322985",
+    "vendor_name": "AWS",
+    "vendor_id": "2050328000002211179",
+    "date": "2025-10-01",
+    "total": 300039.59,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002211195",
+    "bill_number": "2366505997",
+    "vendor_name": "AWS",
+    "vendor_id": "2050328000002211179",
+    "date": "2025-11-01",
+    "total": 380319.73,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002211109",
+    "bill_number": "INV94136438",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-07-28",
+    "total": 0.64,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002211015",
+    "bill_number": "INV86578999, INV86595678",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-06-02",
+    "total": 12.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002195933",
+    "bill_number": "INV86710303, INV86710352",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-06-03",
+    "total": 27.06,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002195861",
+    "bill_number": "INV87220423",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-06-08",
+    "total": 3.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002195789",
+    "bill_number": "INV87612320",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-06-12",
+    "total": 8.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002195717",
+    "bill_number": "INV89156862",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-06-27",
+    "total": 1.33,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002195568",
+    "bill_number": "INV89628732",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-07-02",
+    "total": 223.37,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002195490",
+    "bill_number": "INV95005231",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-08-02",
+    "total": 161.54,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002195414",
+    "bill_number": "INV98806878",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-09-02",
+    "total": 95.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002195338",
+    "bill_number": "INV102416114",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-10-02",
+    "total": 136.37,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002195252",
+    "bill_number": "INV106152420",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-11-02",
+    "total": 76.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002195162",
+    "bill_number": "INV108376917",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-11-19",
+    "total": 1.73,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002195031",
+    "bill_number": "INV108377000",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "date": "2025-11-19",
+    "total": 1.73,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002044012",
+    "bill_number": "PI01",
+    "vendor_name": "L&L CONSULTANTS",
+    "vendor_id": "2050328000001986003",
+    "date": "2026-01-08",
+    "total": 1496468.44,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000001827156",
+    "bill_number": "IN-004-796-545",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "date": "2025-11-11",
+    "total": 88.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000001827066",
+    "bill_number": "IN-004-324-189",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "date": "2025-09-11",
+    "total": 151.75,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000001809832",
+    "bill_number": "IN-003-856-325",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "date": "2025-07-11",
+    "total": 359.9,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000001809568",
+    "bill_number": "IN-003-623-208",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "date": "2025-06-11",
+    "total": 342.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000001809444",
+    "bill_number": "IN-003-418-066",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "date": "2025-05-11",
+    "total": 349.52,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000001809354",
+    "bill_number": "IN-003-223-854",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "date": "2025-04-11",
+    "total": 331.82,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000001809202",
+    "bill_number": "IN-004-088-291",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "date": "2025-08-11",
+    "total": 391.04,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000001807090",
+    "bill_number": "GST/HTN/62056",
+    "vendor_name": "KUN AUTO PVT LTD COMPANY",
+    "vendor_id": "2050328000001691483",
+    "date": "2025-08-14",
+    "total": 2198068.0,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000001015237",
+    "bill_number": "#ISINV000027",
+    "vendor_name": "WISSEND INTELSPOT PRIVATE LIMITED",
+    "vendor_id": "2050328000000509003",
+    "date": "2025-10-07",
+    "total": 64628.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000552641",
+    "bill_number": "#21",
+    "vendor_name": "Logical Miners Private Limited",
+    "vendor_id": "2050328000000552623",
+    "date": "2025-05-01",
+    "total": 119340.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000552235",
+    "bill_number": "00001",
+    "vendor_name": "Srinivasan Ganesan",
+    "vendor_id": "2050328000000552219",
+    "date": "2025-04-30",
+    "total": 2975.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000552093",
+    "bill_number": "C7R5WAM6T7K6",
+    "vendor_name": "TURF TOWN",
+    "vendor_id": "2050328000000552077",
+    "date": "2025-04-07",
+    "total": 3060.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000552003",
+    "bill_number": "MAA4-11691",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-03-28",
+    "total": 376.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000368729",
+    "bill_number": "FMAB-225658",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "date": "2025-02-26",
+    "total": 2199.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000368695",
+    "bill_number": "BLR8-4313439",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "date": "2025-02-26",
+    "total": 11995.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000368657",
+    "bill_number": "FMAB-225603",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "date": "2025-02-26",
+    "total": 9495.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000368575",
+    "bill_number": "HYD3-1805275",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "date": "2025-02-10",
+    "total": 16999.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000366769",
+    "bill_number": "BLR8-279",
+    "vendor_name": "BORA MOBILITY LLP",
+    "vendor_id": "2050328000000366749",
+    "date": "2025-01-31",
+    "total": 94999.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000366231",
+    "bill_number": "431",
+    "vendor_name": "ERGOOFIS",
+    "vendor_id": "2050328000000366213",
+    "date": "2024-04-20",
+    "total": 110400.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000366149",
+    "bill_number": "6B404BC80003",
+    "vendor_name": "OpenAI, LLC",
+    "vendor_id": "2050328000000366001",
+    "date": "2024-06-13",
+    "total": 865.74,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000366083",
+    "bill_number": "6B404BC80002",
+    "vendor_name": "OpenAI, LLC",
+    "vendor_id": "2050328000000366001",
+    "date": "2024-05-02",
+    "total": 864.7,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000366017",
+    "bill_number": "6B404BC80001",
+    "vendor_name": "OpenAI, LLC",
+    "vendor_id": "2050328000000366001",
+    "date": "2024-04-08",
+    "total": 863.98,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000365082",
+    "bill_number": "202501323993",
+    "vendor_name": "DSIJ PVT. LTD",
+    "vendor_id": "2050328000000365062",
+    "date": "2025-03-03",
+    "total": 1999.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000364904",
+    "bill_number": "ADI/000041",
+    "vendor_name": "ROSHAN",
+    "vendor_id": "2050328000000364886",
+    "date": "2024-06-13",
+    "total": 120495.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000364822",
+    "bill_number": "1C11B54F0001",
+    "vendor_name": "Anthropic",
+    "vendor_id": "2050328000000364806",
+    "date": "2024-12-24",
+    "total": 1764.22,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000364712",
+    "bill_number": "BLR7-6894706",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-12-01",
+    "total": 269.1,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000364616",
+    "bill_number": "BLR7-6894699",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-12-01",
+    "total": 269.1,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000364532",
+    "bill_number": "BLR7-6894701",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-12-01",
+    "total": 364.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000364436",
+    "bill_number": "BLR7-6894695",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-12-01",
+    "total": 223.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000364315",
+    "bill_number": "BLR7-6894682",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-12-01",
+    "total": 294.95,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000364231",
+    "bill_number": "BLR7-6894700",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-12-01",
+    "total": 203.4,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000364111",
+    "bill_number": "BLR7-6894653",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-12-01",
+    "total": 516.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000364015",
+    "bill_number": "MAA4-11651",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-04-01",
+    "total": 237.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000363931",
+    "bill_number": "MAA4-11691",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-04-01",
+    "total": 376.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000363835",
+    "bill_number": "MAA4-11488",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-04-01",
+    "total": 237.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000363739",
+    "bill_number": "MAA4-11713",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-04-01",
+    "total": 252.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000363629",
+    "bill_number": "IN-21004",
+    "vendor_name": "MORE RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000363611",
+    "date": "2025-03-10",
+    "total": 284.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000363517",
+    "bill_number": "MAA4-11724",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-04-01",
+    "total": 331.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000363433",
+    "bill_number": "MAA4-7876950",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-02-02",
+    "total": 246.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000363349",
+    "bill_number": "MAA4-7876958",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-02-02",
+    "total": 245.7,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000363265",
+    "bill_number": "MAA4-7876931",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-02-02",
+    "total": 246.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000363181",
+    "bill_number": "MAA4-8535008",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-03-02",
+    "total": 418.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000363085",
+    "bill_number": "MAA4-8535142",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-03-02",
+    "total": 326.4,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000363001",
+    "bill_number": "MAA4-7078078",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-01-01",
+    "total": 364.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000362905",
+    "bill_number": "MAA4-7078076",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-01-01",
+    "total": 256.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000362821",
+    "bill_number": "MAA4-7078073",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-01-01",
+    "total": 261.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000362737",
+    "bill_number": "MAA4-7078086",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-01-01",
+    "total": 335.75,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000362653",
+    "bill_number": "MAA4-7078035",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2025-01-01",
+    "total": 261.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000362557",
+    "bill_number": "UMA7-312463",
+    "vendor_name": "Amazon Seller Services Private Limited",
+    "vendor_id": "2050328000000357340",
+    "date": "2024-09-19",
+    "total": 299.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000362461",
+    "bill_number": "BLR8-5245857",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-10-01",
+    "total": 356.4,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000362377",
+    "bill_number": "BLR8-5245840",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-10-01",
+    "total": 256.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000362293",
+    "bill_number": "BLR8-5245876",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-10-01",
+    "total": 256.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000362197",
+    "bill_number": "BLR8-5245871",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-10-01",
+    "total": 269.1,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000362101",
+    "bill_number": "BLR8-5245867",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-10-01",
+    "total": 300.05,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000362005",
+    "bill_number": "MAA4-5678195",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-11-01",
+    "total": 209.95,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000361078",
+    "bill_number": "MAA4-5678201",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-11-01",
+    "total": 220.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000360982",
+    "bill_number": "MAA4-5678184",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-11-01",
+    "total": 194.4,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000360898",
+    "bill_number": "MAA4-5678204",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-11-01",
+    "total": 364.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000360800",
+    "bill_number": "UMA7-378012",
+    "vendor_name": "Amazon Seller Services Private Limited",
+    "vendor_id": "2050328000000357340",
+    "date": "2024-10-21",
+    "total": 440.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000360714",
+    "bill_number": "IN-121",
+    "vendor_name": "Aarav Enterprises",
+    "vendor_id": "2050328000000360692",
+    "date": "2024-04-14",
+    "total": 499.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000360620",
+    "bill_number": "1024250255106",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2024-10-28",
+    "total": 23349.84,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000360003",
+    "bill_number": "51998567905",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "date": "2024-05-08",
+    "total": 8400.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000359093",
+    "bill_number": "5119495124",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "date": "2024-10-05",
+    "total": 8400.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000359005",
+    "bill_number": "1024250022609",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2024-04-18",
+    "total": 4213.09,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000358534",
+    "bill_number": "1024250024240",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2024-04-20",
+    "total": 10474.51,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000358454",
+    "bill_number": "SLEC9965952",
+    "vendor_name": "Infinti retail",
+    "vendor_id": "2050328000000358436",
+    "date": "2024-07-10",
+    "total": 3599.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000358354",
+    "bill_number": "MAA4-9983",
+    "vendor_name": "VALUECART PRIVATE LIMITED",
+    "vendor_id": "2050328000000358336",
+    "date": "2024-05-31",
+    "total": 2999.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000358254",
+    "bill_number": "MAA4-1378716",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-06-02",
+    "total": 273.55,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000358170",
+    "bill_number": "MAA4-1378701",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-06-02",
+    "total": 273.55,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000358056",
+    "bill_number": "MAA4-614085",
+    "vendor_name": "Appario Retail Private Ltd",
+    "vendor_id": "2050328000000358038",
+    "date": "2024-05-30",
+    "total": 6265.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000357966",
+    "bill_number": "MAA4-1378717",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-05-02",
+    "total": 364.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000357882",
+    "bill_number": "MAA4-1378713",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-06-02",
+    "total": 273.55,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000357798",
+    "bill_number": "MAA4-1378705",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-06-02",
+    "total": 273.55,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000357712",
+    "bill_number": "MAA4-1378708",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-06-20",
+    "total": 307.61,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000357634",
+    "bill_number": "IN-506459",
+    "vendor_name": "Amazon Asia-Pacific Holdings Private Limited",
+    "vendor_id": "2050328000000356420",
+    "date": "2024-05-16",
+    "total": 169.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000357538",
+    "bill_number": "MAA4-1378709",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-06-02",
+    "total": 548.1,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000357440",
+    "bill_number": "BLR8-2346990",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-06-30",
+    "total": 288.75,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000357358",
+    "bill_number": "IN-10206003",
+    "vendor_name": "Amazon Seller Services Private Limited",
+    "vendor_id": "2050328000000357340",
+    "date": "2024-07-10",
+    "total": 399.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000357246",
+    "bill_number": "BLR8-2346989",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-06-30",
+    "total": 376.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000357148",
+    "bill_number": "MAA4-659101",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "date": "2024-05-01",
+    "total": 265.05,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000357000",
+    "bill_number": "IN-667",
+    "vendor_name": "Mitrin Enterprise",
+    "vendor_id": "2050328000000356980",
+    "date": "2024-04-20",
+    "total": 1849.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000356948",
+    "bill_number": "MAA4-1583",
+    "vendor_name": "SalesMaza International",
+    "vendor_id": "2050328000000356928",
+    "date": "2024-04-20",
+    "total": 295.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000356846",
+    "bill_number": "MAA4-116525",
+    "vendor_name": "RETAILEZ PRIVATE LIMITED",
+    "vendor_id": "2050328000000356826",
+    "date": "2024-04-14",
+    "total": 599.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000356742",
+    "bill_number": "SLA340367004316",
+    "vendor_name": "INFINITI RETAIL LIMITED (trading as Croma)",
+    "vendor_id": "2050328000000356716",
+    "date": "2024-12-29",
+    "total": 98770.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000356636",
+    "bill_number": "DBCR10208926546/00",
+    "vendor_name": "acko",
+    "vendor_id": "2050328000000356618",
+    "date": "2024-06-23",
+    "total": 8126.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000356532",
+    "bill_number": "I0133P2504004818",
+    "vendor_name": "Hathway Broadband Internet",
+    "vendor_id": "2050328000000356512",
+    "date": "2024-04-01",
+    "total": 11001.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000356436",
+    "bill_number": "IN-170506",
+    "vendor_name": "Amazon Asia-Pacific Holdings Private Limited",
+    "vendor_id": "2050328000000356420",
+    "date": "2024-04-16",
+    "total": 169.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000356239",
+    "bill_number": "MAA4-29",
+    "vendor_name": "AMICIKART ONLINE SERVICES PRIVATE  LIMITED",
+    "vendor_id": "2050328000000356139",
+    "date": "2024-04-01",
+    "total": 1398.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000356205",
+    "bill_number": "QWEC-165",
+    "vendor_name": "AquaNature",
+    "vendor_id": "2050328000000356123",
+    "date": "2024-04-01",
+    "total": 3730.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000356163",
+    "bill_number": "IN-9",
+    "vendor_name": "Integrated Hydroponics India Private Limited",
+    "vendor_id": "2050328000000356107",
+    "date": "2024-04-01",
+    "total": 728.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000354994",
+    "bill_number": "BLR8-125",
+    "vendor_name": "Home Secure PestoBird Services Pvt. Ltd",
+    "vendor_id": "2050328000000354972",
+    "date": "2024-04-04",
+    "total": 593.01,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000354036",
+    "bill_number": "17007BD50002",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-01-02",
+    "total": 888.27,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353970",
+    "bill_number": "17007BD50001",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2024-12-17",
+    "total": 879.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353904",
+    "bill_number": "30E803970004",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-03-18",
+    "total": 1347.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353838",
+    "bill_number": "30E803970003",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-02-18",
+    "total": 1350.56,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353772",
+    "bill_number": "30E803970002",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-01-18",
+    "total": 1345.99,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353706",
+    "bill_number": "7F5E7E210006",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-03-18",
+    "total": 1347.5,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353640",
+    "bill_number": "7F5E7E210005",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-02-18",
+    "total": 1350.56,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353574",
+    "bill_number": "7F5E7E210004",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-01-18",
+    "total": 1345.99,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353508",
+    "bill_number": "17007BD50003",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-01-17",
+    "total": 897.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353442",
+    "bill_number": "144743ED0005",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-02-17",
+    "total": 899.77,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353376",
+    "bill_number": "144743ED0004",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-01-17",
+    "total": 897.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353292",
+    "bill_number": "144743ED0003",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-01-01",
+    "total": 888.09,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353226",
+    "bill_number": "144743ED0002",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2024-12-21",
+    "total": 880.97,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353160",
+    "bill_number": "144743ED0001",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2024-12-17",
+    "total": 879.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353094",
+    "bill_number": "144743ED0006",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-03-17",
+    "total": 900.22,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000353028",
+    "bill_number": "026710580004",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-03-17",
+    "total": 900.22,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349962",
+    "bill_number": "026710580003",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-02-17",
+    "total": 899.77,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349896",
+    "bill_number": "026710580002",
+    "vendor_name": "Exafunction, Inc.",
+    "vendor_id": "2050328000000349880",
+    "date": "2025-01-17",
+    "total": 897.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349816",
+    "bill_number": "026710580004",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-03-17",
+    "total": 900.22,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349750",
+    "bill_number": "D5B890B10006",
+    "vendor_name": "Windsurf",
+    "vendor_id": "2050328000000349429",
+    "date": "2025-03-27",
+    "total": 889.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349674",
+    "bill_number": "D5B890B10005",
+    "vendor_name": "Windsurf",
+    "vendor_id": "2050328000000349429",
+    "date": "2025-02-26",
+    "total": 1350.56,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349608",
+    "bill_number": "D5B890B10004",
+    "vendor_name": "Windsurf",
+    "vendor_id": "2050328000000349429",
+    "date": "2025-01-26",
+    "total": 893.93,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349542",
+    "bill_number": "D5B890B10002",
+    "vendor_name": "Windsurf",
+    "vendor_id": "2050328000000349429",
+    "date": "2025-01-02",
+    "total": 888.09,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349445",
+    "bill_number": "D5B890B10001",
+    "vendor_name": "Windsurf",
+    "vendor_id": "2050328000000349429",
+    "date": "2024-12-17",
+    "total": 879.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349365",
+    "bill_number": "021483140003",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "date": "2025-03-01",
+    "total": 1027.08,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349299",
+    "bill_number": "021483140002",
+    "vendor_name": "Fly.io, Inc",
+    "vendor_id": "2050328000000349283",
+    "date": "2025-02-01",
+    "total": 1126.99,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349213",
+    "bill_number": "03E829480004",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-03-17",
+    "total": 900.22,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349141",
+    "bill_number": "03E829480002",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-01-17",
+    "total": 897.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349069",
+    "bill_number": "03E829480003",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-02-17",
+    "total": 899.77,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000349003",
+    "bill_number": "03E829480001",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2024-12-17",
+    "total": 879.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346569",
+    "bill_number": "196268CB0004",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-03-18",
+    "total": 898.33,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346543",
+    "bill_number": "196268CB0003",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-02-18",
+    "total": 899.77,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346517",
+    "bill_number": "196268CB0002",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-01-18",
+    "total": 897.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346491",
+    "bill_number": "88500CEF0003",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-02-17",
+    "total": 899.77,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346465",
+    "bill_number": "88500CEF0002",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-01-17",
+    "total": 897.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346439",
+    "bill_number": "88500CEF0001",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2024-12-01",
+    "total": 879.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346413",
+    "bill_number": "88500CEF0004",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-03-17",
+    "total": 900.22,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346387",
+    "bill_number": "9BB0D3820005",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-03-18",
+    "total": 898.33,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346361",
+    "bill_number": "9BB0D3820004",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-02-18",
+    "total": 899.77,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346335",
+    "bill_number": "9BB0D3820003",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-01-18",
+    "total": 897.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346309",
+    "bill_number": "5BF661000005",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-04-17",
+    "total": 885.24,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346283",
+    "bill_number": "4FCCFE7A0006",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-03-17",
+    "total": 900.22,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346257",
+    "bill_number": "4FCCFE7A0005",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-02-17",
+    "total": 899.77,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346231",
+    "bill_number": "4FCCFE7A0004",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-01-17",
+    "total": 897.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346205",
+    "bill_number": "4FCCFE7A0003",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-01-07",
+    "total": 887.14,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346179",
+    "bill_number": "4FCCFE7A002",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-01-07",
+    "total": 888.09,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346153",
+    "bill_number": "4FCCFE7A0007",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-04-17",
+    "total": 886.33,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346127",
+    "bill_number": "4FCCFE7A0001",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2024-12-17",
+    "total": 879.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346101",
+    "bill_number": "1D8093DC0004",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-02-23",
+    "total": 898.15,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346071",
+    "bill_number": "1D8093DC0005",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-03-23",
+    "total": 898.33,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346045",
+    "bill_number": "1D8093DC0003",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2025-01-23",
+    "total": 1343.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000346019",
+    "bill_number": "4FCCFE7A0002",
+    "vendor_name": "Codeium",
+    "vendor_id": "2050328000000346001",
+    "date": "2024-12-16",
+    "total": 879.32,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343533",
+    "bill_number": "1024250419098",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2025-03-03",
+    "total": 81656.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343511",
+    "bill_number": "1024250374165",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2025-01-30",
+    "total": 20682.13,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343489",
+    "bill_number": "1024250215064",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "date": "2024-09-25",
+    "total": 22117.45,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343455",
+    "bill_number": "TIO25HR101694060",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-03-19",
+    "total": 1817.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343435",
+    "bill_number": "TIO25HR101659624",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-03-12",
+    "total": 29075.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343415",
+    "bill_number": "TIO25HR101659677",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-03-12",
+    "total": 21579.23,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343395",
+    "bill_number": "TIO25HR101659713",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-03-12",
+    "total": 3079.8,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343375",
+    "bill_number": "TIO25HR101659530",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-03-12",
+    "total": 20515.15,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343355",
+    "bill_number": "TIO25HR101658334",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-03-12",
+    "total": 908.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343335",
+    "bill_number": "TIO25HR101544272",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-02-19",
+    "total": 1817.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343315",
+    "bill_number": "TIO25HR101513514",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-02-12",
+    "total": 7503.28,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343295",
+    "bill_number": "TIO25HR101513526",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-02-12",
+    "total": 280944.02,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343275",
+    "bill_number": "TIO25HR101510166",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-02-12",
+    "total": 908.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343255",
+    "bill_number": "TIO25HR101513169",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-02-12",
+    "total": 58710.4,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343235",
+    "bill_number": "TIO25HR101513672",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-02-12",
+    "total": 3427.51,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343215",
+    "bill_number": "TIO25HR101396503",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-01-19",
+    "total": 1817.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343195",
+    "bill_number": "TIO25HR101361630",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-01-12",
+    "total": 34189.1,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343175",
+    "bill_number": "TIO25HR101361351",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-01-12",
+    "total": 2908.7,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343155",
+    "bill_number": "TIO25HR101362048",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-01-12",
+    "total": 908.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343135",
+    "bill_number": "TIO25HR101361587",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-01-12",
+    "total": 28166.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343115",
+    "bill_number": "TIO25HR101361600",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-01-12",
+    "total": 72867.48,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343095",
+    "bill_number": "TIO25HR101250477",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-12-19",
+    "total": 1817.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343075",
+    "bill_number": "TIO25HR101214413",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-12-12",
+    "total": 43085.03,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343055",
+    "bill_number": "TIO25HR101214294",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-12-12",
+    "total": 545.31,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343035",
+    "bill_number": "TIO25HR101216940",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-12-12",
+    "total": 908.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000343015",
+    "bill_number": "TIO25HR101214412",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-12-12",
+    "total": 41003.96,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342995",
+    "bill_number": "TIO25HR101108452",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-11-19",
+    "total": 1817.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342975",
+    "bill_number": "TIO25HR101075004",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-11-12",
+    "total": 6047.21,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342955",
+    "bill_number": "TIO25HR101075196",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-11-12",
+    "total": 11501.11,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342935",
+    "bill_number": "TIO25HR101074128",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-11-12",
+    "total": 848.89,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342915",
+    "bill_number": "TIO25HR101074918",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-11-12",
+    "total": 18981.08,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342895",
+    "bill_number": "TIO25HR100969949",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-10-19",
+    "total": 1817.2,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342875",
+    "bill_number": "TIO25HR100935480",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-10-12",
+    "total": 6734.54,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342855",
+    "bill_number": "TIO25HR100936593",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-10-12",
+    "total": 848.89,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342835",
+    "bill_number": "TIO25HR100935231",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-10-12",
+    "total": 34636.36,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342815",
+    "bill_number": "TIO25HR100935260",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-10-12",
+    "total": 6366.69,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342795",
+    "bill_number": "TIO25HR100830130",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-09-19",
+    "total": 1697.78,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342775",
+    "bill_number": "TIO25HR100795590",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-09-12",
+    "total": 848.89,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342755",
+    "bill_number": "TIO25HR100799597",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-09-12",
+    "total": 4874.29,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342735",
+    "bill_number": "TIO25HR100799555",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-09-12",
+    "total": 6835.53,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342715",
+    "bill_number": "TIO25HR100798725",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-09-12",
+    "total": 17200.81,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342695",
+    "bill_number": "TIO25HR100680541",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-08-19",
+    "total": 1697.78,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342675",
+    "bill_number": "TIO25HR100645073",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-08-12",
+    "total": 10937.05,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342655",
+    "bill_number": "TIO25HR100644755",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-08-12",
+    "total": 7395.65,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342635",
+    "bill_number": "TIO25HR100645116",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-08-12",
+    "total": 3395.57,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342615",
+    "bill_number": "TIO25HR100645540",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-08-12",
+    "total": 848.89,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342595",
+    "bill_number": "TIO25HR100531368",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-07-19",
+    "total": 1697.78,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342575",
+    "bill_number": "TIO25HR100496126",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-07-12",
+    "total": 848.89,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342555",
+    "bill_number": "TIO25HR100499880",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-07-12",
+    "total": 8759.79,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342535",
+    "bill_number": "TIO25HR100499890",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-07-12",
+    "total": 7395.65,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342515",
+    "bill_number": "TIO25HR100500111",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-07-12",
+    "total": 3395.57,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342495",
+    "bill_number": "TIO25HR100383864",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-06-19",
+    "total": 1697.78,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342475",
+    "bill_number": "TIO25HR100351702",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-06-12",
+    "total": 7520.12,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342455",
+    "bill_number": "TIO25HR100351757",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-06-12",
+    "total": 3395.57,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342435",
+    "bill_number": "TIO25HR100351603",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-06-12",
+    "total": 9074.55,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342415",
+    "bill_number": "TIO25HR100349809",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-06-12",
+    "total": 848.89,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342395",
+    "bill_number": "TIO25HR100237353",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-05-19",
+    "total": 1697.78,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342375",
+    "bill_number": "TIO25HR100207910",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-05-12",
+    "total": 7130.69,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342355",
+    "bill_number": "TIO25HR100205765",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-05-12",
+    "total": 848.89,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342335",
+    "bill_number": "TIO25HR100207618",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-05-12",
+    "total": 8853.33,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342315",
+    "bill_number": "TIO25HR100207535",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-05-12",
+    "total": 9169.54,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342295",
+    "bill_number": "TIO25HR100094332",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-04-19",
+    "total": 1697.78,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342275",
+    "bill_number": "TIO25HR100062359",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-04-12",
+    "total": 3768.45,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342255",
+    "bill_number": "TIO25HR100062011",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-04-12",
+    "total": 5098.13,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000342235",
+    "bill_number": "TIO25HR100061715",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2024-04-12",
+    "total": 848.89,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000333299",
+    "bill_number": "A-24-25-1057",
+    "vendor_name": "RAM INFOTECH LAPTOP SERVICE CHENNAI PRIVATE LIMITED",
+    "vendor_id": "2050328000000333283",
+    "date": "2025-03-30",
+    "total": 4500.04,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000333191",
+    "bill_number": "G331124-2480560",
+    "vendor_name": "Geddit Convenience Private Limited",
+    "vendor_id": "2050328000000333175",
+    "date": "2024-12-31",
+    "total": 308.79,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000313437",
+    "bill_number": "001",
+    "vendor_name": "John Savarimuthu",
+    "vendor_id": "2050328000000227054",
+    "date": "2025-03-12",
+    "total": 1764000.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000312821",
+    "bill_number": "AZT-2425-0825",
+    "vendor_name": "Accountzontrack",
+    "vendor_id": "2050328000000141517",
+    "date": "2025-02-03",
+    "total": 21240.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000312359",
+    "bill_number": "TD15102024-062",
+    "vendor_name": "Techdew UX Design and Consulting Private Limited",
+    "vendor_id": "2050328000000309587",
+    "date": "2024-10-15",
+    "total": 119033.03,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000311191",
+    "bill_number": "TD29062024-032",
+    "vendor_name": "Techdew UX Design and Consulting Private Limited",
+    "vendor_id": "2050328000000309587",
+    "date": "2024-06-29",
+    "total": 120588.59,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000311041",
+    "bill_number": "TD31072024-040",
+    "vendor_name": "Techdew UX Design and Consulting Private Limited",
+    "vendor_id": "2050328000000309587",
+    "date": "2024-07-31",
+    "total": 47751.89,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000310513",
+    "bill_number": "TD31052024-023",
+    "vendor_name": "Techdew UX Design and Consulting Private Limited",
+    "vendor_id": "2050328000000309587",
+    "date": "2024-05-31",
+    "total": 115680.19,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000309603",
+    "bill_number": "TD30042024-009",
+    "vendor_name": "Techdew UX Design and Consulting Private Limited",
+    "vendor_id": "2050328000000309587",
+    "date": "2024-04-01",
+    "total": 113329.84,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000141559",
+    "bill_number": "0012",
+    "vendor_name": "Sky Badmiton Acadamy",
+    "vendor_id": "2050328000000136930",
+    "date": "2024-07-31",
+    "total": 22400.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000141533",
+    "bill_number": "AZT-2425-0566",
+    "vendor_name": "Accountzontrack",
+    "vendor_id": "2050328000000141517",
+    "date": "2024-07-31",
+    "total": 2000.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000141457",
+    "bill_number": "VS/24-25/691670",
+    "vendor_name": "UBER9 BUSINESS PROCESS SERVICES PRIVATE LIMITED",
+    "vendor_id": "2050328000000137146",
+    "date": "2024-06-30",
+    "total": 306.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000141121",
+    "bill_number": "MAA4-290",
+    "vendor_name": "Shopomall",
+    "vendor_id": "2050328000000141105",
+    "date": "2024-06-28",
+    "total": 17091.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000141053",
+    "bill_number": "019",
+    "vendor_name": "Sky Badmiton Acadamy",
+    "vendor_id": "2050328000000136930",
+    "date": "2024-06-28",
+    "total": 22400.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000140793",
+    "bill_number": "0011",
+    "vendor_name": "Sky Badmiton Acadamy",
+    "vendor_id": "2050328000000136930",
+    "date": "2024-06-13",
+    "total": 22400.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000140323",
+    "bill_number": "100524421832",
+    "vendor_name": "ICICI Lombard",
+    "vendor_id": "2050328000000140307",
+    "date": "2024-04-30",
+    "total": 271365.78,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000140251",
+    "bill_number": "SI06231284",
+    "vendor_name": "SHL",
+    "vendor_id": "2050328000000140233",
+    "date": "2024-04-30",
+    "total": 64900.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000140137",
+    "bill_number": "0010",
+    "vendor_name": "Sky Badmiton Acadamy",
+    "vendor_id": "2050328000000136930",
+    "date": "2024-05-03",
+    "total": 22400.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000140081",
+    "bill_number": "M06AI24I17917425",
+    "vendor_name": "Make My trip",
+    "vendor_id": "2050328000000140067",
+    "date": "2024-05-29",
+    "total": 9913.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000140015",
+    "bill_number": "405-7517468-7381117",
+    "vendor_name": "Amazon",
+    "vendor_id": "2050328000000140001",
+    "date": "2024-04-09",
+    "total": 16000.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000137168",
+    "bill_number": "VS/24-25/666095",
+    "vendor_name": "UBER9 BUSINESS PROCESS SERVICES PRIVATE LIMITED",
+    "vendor_id": "2050328000000137146",
+    "date": "2024-04-30",
+    "total": 283200.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000000136944",
+    "bill_number": "009",
+    "vendor_name": "Sky Badmiton Acadamy",
+    "vendor_id": "2050328000000136930",
+    "date": "2024-04-12",
+    "total": 22400.0,
+    "status": "paid"
+  }
+]

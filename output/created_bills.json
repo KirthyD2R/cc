@@ -1,0 +1,112 @@
+[
+  {
+    "file": "E0100XPIP1_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002886262",
+    "amount": 6774.27,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "HYD8-3820556_p1_HYD8-3820556_p1_HYD8-3820556.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000002893157",
+    "amount": 6475.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-213926_p1_FMAB-213926_p1_FMAB-213926.pdf",
+    "status": "created",
+    "vendor_name": "COCOBLU RETAIL LIMITED",
+    "vendor_id": "2050328000002888195",
+    "bill_id": "2050328000002893179",
+    "amount": 273.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-451439_p1_FMAB-451439_p1_FMAB-451439.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002895289",
+    "amount": 189.05,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-451441_p1_FMAB-451441_p1_FMAB-451441.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002897167",
+    "amount": 382.85,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100VXPSK_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002918862",
+    "amount": 35915.28,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "AWS -March 2025.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Web Services",
+    "vendor_id": "2050328000002931001",
+    "bill_id": "2050328000002924052",
+    "amount": 40513.05,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100VXR9Z_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002963003",
+    "amount": 16056.28,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Invoice-B8ERAOBF-0012.pdf",
+    "status": "created",
+    "vendor_name": "S2 Labs Inc.",
+    "vendor_id": "2050328000002965001",
+    "bill_id": "2050328000002966003",
+    "amount": 10.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-B8ERAOBF-0011.pdf",
+    "status": "created",
+    "vendor_name": "S2 Labs Inc.",
+    "vendor_id": "2050328000002965001",
+    "bill_id": "2050328000002970003",
+    "amount": 30.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "7CC5E2D2-0001",
+    "status": "created",
+    "vendor_name": "Anthropic",
+    "vendor_id": "2050328000000364806",
+    "bill_id": "2050328000002970029",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": false
+  }
+]

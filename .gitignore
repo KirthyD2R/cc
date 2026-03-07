@@ -1,0 +1,18 @@
+# Credentials - NEVER commit these
+
+.env*
+
+# Input/Output data
+
+
+*.log
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db

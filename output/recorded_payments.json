@@ -1,0 +1,1178 @@
+[
+  {
+    "file": "INV-Invoice-PZLFLIEU-0002 (1)",
+    "bill_id": "3568833000000106109",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": "3568833000000127049",
+    "status": "paid",
+    "cc_inr_amount": 17200.83,
+    "cc_card": "Mayura CC 9677"
+  },
+  {
+    "file": "INV-INV89628732",
+    "bill_id": "3568833000000106089",
+    "vendor_name": "GitHub",
+    "amount": 223.37,
+    "currency": "USD",
+    "payment_id": "3568833000000098111",
+    "status": "paid",
+    "cc_inr_amount": 19145.04,
+    "cc_card": "Mayura CC 9677"
+  },
+  {
+    "file": "INV-IN-003-856-325",
+    "bill_id": "3568833000000124003",
+    "vendor_name": "Atlassian",
+    "amount": 359.9,
+    "currency": "USD",
+    "payment_id": "3568833000000105063",
+    "status": "paid",
+    "cc_inr_amount": 30876.9,
+    "cc_card": "Mayura CC 9677"
+  },
+  {
+    "file": "INV-E0100X5B1M",
+    "bill_id": "3568833000000104119",
+    "vendor_name": "Microsoft",
+    "amount": 2345.72,
+    "currency": "INR",
+    "payment_id": "3568833000000138023",
+    "status": "paid",
+    "cc_inr_amount": 2345.72,
+    "cc_card": "Kotak CC 9157"
+  },
+  {
+    "file": "INV-92832245029",
+    "bill_id": "3568833000000130003",
+    "vendor_name": "Microsoft",
+    "amount": 908.6,
+    "currency": "INR",
+    "payment_id": "3568833000000109174",
+    "status": "paid",
+    "cc_inr_amount": 908.6,
+    "cc_card": "Kotak CC 9157"
+  },
+  {
+    "file": "INV-Invoice-PZLFLIEU-0002",
+    "bill_id": "3568833000000098019",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": "3568833000000139003",
+    "status": "paid",
+    "cc_inr_amount": 17200.83,
+    "cc_card": "Mayura CC 9677"
+  },
+  {
+    "file": "INV-INV89156862",
+    "bill_id": "3568833000000143186",
+    "vendor_name": "GitHub",
+    "amount": 1.33,
+    "currency": "USD",
+    "payment_id": "3568833000000156146",
+    "status": "paid",
+    "cc_inr_amount": 114.06,
+    "cc_card": "Mayura CC 9677"
+  },
+  {
+    "file": "INV-AEEHRQ-00001",
+    "bill_id": "3568833000000154133",
+    "vendor_name": "Supabase Pte. Ltd",
+    "amount": 25.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-PZLFLIEU-0001 (1)",
+    "bill_id": "3568833000000158125",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-IVSLM7IE-0001 (2)",
+    "bill_id": "3568833000000151173",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV87612320",
+    "bill_id": "3568833000000158105",
+    "vendor_name": "GitHub",
+    "amount": 8.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV87220423",
+    "bill_id": "3568833000000149143",
+    "vendor_name": "GitHub",
+    "amount": 3.2,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-ZEUU3HS6-0001",
+    "bill_id": "3568833000000137170",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-PZLFLIEU-0001",
+    "bill_id": "3568833000000136181",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-IVSLM7IE-0001",
+    "bill_id": "3568833000000134230",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-IVSLM7IE-0001 (1)",
+    "bill_id": "3568833000000146126",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100WJF6Q",
+    "bill_id": "3568833000000155259",
+    "vendor_name": "Microsoft",
+    "amount": 3295.05,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-IN-003-623-208",
+    "bill_id": "3568833000000153181",
+    "vendor_name": "Atlassian",
+    "amount": 342.2,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AWS-2176831657",
+    "bill_id": "3568833000000131204",
+    "vendor_name": "Amazon Web Services",
+    "amount": 7782.18,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-260233RT25613",
+    "bill_id": "3568833000000141233",
+    "vendor_name": "Blue Dart Express Ltd",
+    "amount": 3280.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-BHEBGWUC-0002",
+    "bill_id": "3568833000000153161",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-GWDVKZKR-0002",
+    "bill_id": "3568833000000158064",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-B8ERAOBF",
+    "bill_id": "3568833000000136161",
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 30.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-GROQ-TAAS-202602-214357",
+    "bill_id": "3568833000000153141",
+    "vendor_name": "Groq Inc",
+    "amount": 1.74,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AWS-2483942397",
+    "bill_id": "3568833000000148188",
+    "vendor_name": "Amazon Web Services",
+    "amount": 293044.46,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-7CC5E2D2-0004",
+    "bill_id": "3568833000000160100",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-VRUCOSGS-0002",
+    "bill_id": "3568833000000134210",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-OIGZ1BOY-0002",
+    "bill_id": "3568833000000136141",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-BNUWHKRC-0001",
+    "bill_id": "3568833000000132189",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-97E328AA-0006",
+    "bill_id": "3568833000000148168",
+    "vendor_name": "Vercel",
+    "amount": 20.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-8MEU2MRF-0005",
+    "bill_id": "3568833000000143152",
+    "vendor_name": "Gamma",
+    "amount": 8704.0,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-2KMAHYKG-0001",
+    "bill_id": "3568833000000138157",
+    "vendor_name": "Wispr Flow",
+    "amount": 3840.0,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-1C11B54F-0009",
+    "bill_id": "3568833000000156126",
+    "vendor_name": "Anthropic",
+    "amount": 236.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV121408495",
+    "bill_id": "3568833000000138137",
+    "vendor_name": "GitHub",
+    "amount": 3.43,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV120386739",
+    "bill_id": "3568833000000159148",
+    "vendor_name": "GitHub",
+    "amount": 2.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV119811653",
+    "bill_id": "3568833000000139165",
+    "vendor_name": "GitHub",
+    "amount": 5.43,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV118823992",
+    "bill_id": "3568833000000156064",
+    "vendor_name": "GitHub",
+    "amount": 3.57,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV118672157",
+    "bill_id": "3568833000000143132",
+    "vendor_name": "GitHub",
+    "amount": 3.86,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV118474160",
+    "bill_id": "3568833000000147167",
+    "vendor_name": "GitHub",
+    "amount": 104.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV118377403",
+    "bill_id": "3568833000000148148",
+    "vendor_name": "GitHub",
+    "amount": 0.13,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100YQAMM",
+    "bill_id": "3568833000000140086",
+    "vendor_name": "Microsoft",
+    "amount": 30892.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100YQAML",
+    "bill_id": "3568833000000141192",
+    "vendor_name": "Microsoft",
+    "amount": 2395.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-IN-005-589-685",
+    "bill_id": "3568833000000160059",
+    "vendor_name": "Atlassian",
+    "amount": 83.51,
+    "currency": "USD",
+    "payment_id": "3568833000000131245",
+    "status": "paid",
+    "cc_inr_amount": 7579.55,
+    "cc_card": "HDFC CC 8948"
+  },
+  {
+    "file": "INV-93094202594",
+    "bill_id": "3568833000000134169",
+    "vendor_name": "Microsoft",
+    "amount": 2395.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-73094202517",
+    "bill_id": "3568833000000155197",
+    "vendor_name": "Microsoft",
+    "amount": 30892.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-IVSLM7IE-0003 (1)",
+    "bill_id": "3568833000000141172",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-GROQ-TAAS-202601-199788",
+    "bill_id": "3568833000000145104",
+    "vendor_name": "Groq Inc",
+    "amount": 6.43,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Coburns Cug Invoice",
+    "bill_id": "3568833000000143112",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AWS-2443583665",
+    "bill_id": "3568833000000149086",
+    "vendor_name": "Amazon Web Services",
+    "amount": 284933.67,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-7CC5E2D2-0003",
+    "bill_id": "3568833000000147126",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV115000183",
+    "bill_id": "3568833000000154063",
+    "vendor_name": "GitHub",
+    "amount": 3.35,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV114237710",
+    "bill_id": "3568833000000152085",
+    "vendor_name": "GitHub",
+    "amount": 103.12,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-NSTP-918",
+    "bill_id": "3568833000000145084",
+    "vendor_name": "NSTP",
+    "amount": 129800.0,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-IVSLM7IE-0003",
+    "bill_id": "3568833000000159107",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-GWDVKZKR-0001",
+    "bill_id": "3568833000000147106",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV117822242",
+    "bill_id": "3568833000000139124",
+    "vendor_name": "GitHub",
+    "amount": 0.64,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV01443315",
+    "bill_id": "3568833000000153065",
+    "vendor_name": "New Relic",
+    "amount": 10.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100YH8QM",
+    "bill_id": "3568833000000143092",
+    "vendor_name": "Microsoft",
+    "amount": 30892.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100YH2YB",
+    "bill_id": "3568833000000131163",
+    "vendor_name": "Microsoft",
+    "amount": 2395.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-IN-005-309-664",
+    "bill_id": "3568833000000146085",
+    "vendor_name": "Atlassian",
+    "amount": 64.07,
+    "currency": "USD",
+    "payment_id": "3568833000000146206",
+    "status": "paid",
+    "cc_inr_amount": 5787.51,
+    "cc_card": "HDFC CC 8948"
+  },
+  {
+    "file": "INV-5472759398",
+    "bill_id": "3568833000000138117",
+    "vendor_name": "Google",
+    "amount": 4748.63,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-1025260502871",
+    "bill_id": "3568833000000136079",
+    "vendor_name": "Zoho",
+    "amount": 227.51,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-PZLFLIEU-0008",
+    "bill_id": "3568833000000153045",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-IVSLM7IE-0002 (2)",
+    "bill_id": "3568833000000138097",
+    "vendor_name": "Anthropic",
+    "amount": 98.71,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-GROQ-TAAS-202512-174643",
+    "bill_id": "3568833000000139083",
+    "vendor_name": "Groq Inc",
+    "amount": 1.29,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AWS-2403565789",
+    "bill_id": "3568833000000161003",
+    "vendor_name": "Amazon Web Services",
+    "amount": 245438.75,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-7CC5E2D2-0002",
+    "bill_id": "3568833000000140066",
+    "vendor_name": "Anthropic",
+    "amount": 126.5,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV111271149",
+    "bill_id": "3568833000000137130",
+    "vendor_name": "GitHub",
+    "amount": 5.68,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV110087524",
+    "bill_id": "3568833000000155100",
+    "vendor_name": "GitHub",
+    "amount": 86.6,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-IVSLM7IE-0002",
+    "bill_id": "3568833000000148086",
+    "vendor_name": "Anthropic",
+    "amount": 98.71,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-IVSLM7IE-0002 (1)",
+    "bill_id": "3568833000000131122",
+    "vendor_name": "Anthropic",
+    "amount": 98.71,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-97E328AA-0004",
+    "bill_id": "3568833000000146065",
+    "vendor_name": "Vercel",
+    "amount": 20.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-1C11B54F-0007",
+    "bill_id": "3568833000000141089",
+    "vendor_name": "Anthropic",
+    "amount": 134.06,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100Y80IG",
+    "bill_id": "3568833000000154043",
+    "vendor_name": "Microsoft",
+    "amount": 30892.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100Y80IF",
+    "bill_id": "3568833000000138077",
+    "vendor_name": "Microsoft",
+    "amount": 2395.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-IN-005-113-294",
+    "bill_id": "3568833000000132106",
+    "vendor_name": "Atlassian",
+    "amount": 79.06,
+    "currency": "USD",
+    "payment_id": "3568833000000137204",
+    "status": "paid",
+    "cc_inr_amount": 7139.89,
+    "cc_card": "HDFC CC 8948"
+  },
+  {
+    "file": "INV-IN-005-041-698",
+    "bill_id": "3568833000000158044",
+    "vendor_name": "Atlassian",
+    "amount": 117.47,
+    "currency": "USD",
+    "payment_id": "3568833000000154153",
+    "status": "paid",
+    "cc_inr_amount": 10630.48,
+    "cc_card": "HDFC CC 8948"
+  },
+  {
+    "file": "INV-1025260426735",
+    "bill_id": "3568833000000152065",
+    "vendor_name": "Zoho",
+    "amount": 8820.0,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AEEHRQ-00006",
+    "bill_id": "3568833000000159045",
+    "vendor_name": "Supabase Pte. Ltd",
+    "amount": 25.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-PZLFLIEU-0007 (1)",
+    "bill_id": "3568833000000151023",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-GROQ-TAAS-202511-165203",
+    "bill_id": "3568833000000134128",
+    "vendor_name": "Groq Inc",
+    "amount": 1.59,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV106152420",
+    "bill_id": "3568833000000132086",
+    "vendor_name": "GitHub",
+    "amount": 76.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-NSTP-854",
+    "bill_id": "3568833000000156023",
+    "vendor_name": "NSTP",
+    "amount": 1180.0,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-NK09I1126020619",
+    "bill_id": "3568833000000131102",
+    "vendor_name": "Info Edge (Naukri)",
+    "amount": 10513.8,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-NK09I1126006982",
+    "bill_id": "3568833000000158024",
+    "vendor_name": "Info Edge (Naukri)",
+    "amount": 1947.0,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-ZEUU3HS6-0003",
+    "bill_id": "3568833000000150079",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-PZLFLIEU-0007",
+    "bill_id": "3568833000000131082",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-97E328AA-0002",
+    "bill_id": "3568833000000155038",
+    "vendor_name": "Vercel",
+    "amount": 20.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV108377000",
+    "bill_id": "3568833000000147065",
+    "vendor_name": "GitHub",
+    "amount": 1.73,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV108376917",
+    "bill_id": "3568833000000134108",
+    "vendor_name": "GitHub",
+    "amount": 1.73,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100XYTJW",
+    "bill_id": "3568833000000152045",
+    "vendor_name": "Microsoft",
+    "amount": 2384.36,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100XYTHP",
+    "bill_id": "3568833000000154023",
+    "vendor_name": "Microsoft",
+    "amount": 30892.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-IN-004-796-545",
+    "bill_id": "3568833000000134067",
+    "vendor_name": "Atlassian",
+    "amount": 88.5,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AWS-2366505997",
+    "bill_id": "3568833000000137089",
+    "vendor_name": "Amazon Web Services",
+    "amount": 380319.73,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AEEHRQ-00005",
+    "bill_id": "3568833000000147045",
+    "vendor_name": "Supabase Pte. Ltd",
+    "amount": 25.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-PZLFLIEU-0006",
+    "bill_id": "3568833000000156003",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-GROQ-TAAS-202510-143678",
+    "bill_id": "3568833000000137069",
+    "vendor_name": "Groq Inc",
+    "amount": 2.43,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV102416114",
+    "bill_id": "3568833000000154003",
+    "vendor_name": "GitHub",
+    "amount": 136.37,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-ZEUU3HS6-0002",
+    "bill_id": "3568833000000145064",
+    "vendor_name": "Anthropic",
+    "amount": 68.61,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV01386703",
+    "bill_id": "3568833000000142039",
+    "vendor_name": "New Relic",
+    "amount": 0.97,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100XPIP5",
+    "bill_id": "3568833000000146024",
+    "vendor_name": "Microsoft",
+    "amount": 30892.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100XPIP4",
+    "bill_id": "3568833000000150045",
+    "vendor_name": "Microsoft",
+    "amount": 2566.5,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-IN-004-560-126",
+    "bill_id": "3568833000000145044",
+    "vendor_name": "Atlassian",
+    "amount": 223.07,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AWS-2327322985",
+    "bill_id": "3568833000000151003",
+    "vendor_name": "Amazon Web Services",
+    "amount": 300039.59,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-1025260334826",
+    "bill_id": "3568833000000141027",
+    "vendor_name": "Zoho",
+    "amount": 19788.0,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AEEHRQ-00004",
+    "bill_id": "3568833000000140025",
+    "vendor_name": "Supabase Pte. Ltd",
+    "amount": 25.01,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-PZLFLIEU-0005 (1)",
+    "bill_id": "3568833000000149003",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": "3568833000000137242",
+    "status": "paid",
+    "cc_inr_amount": 17761.83,
+    "cc_card": "HDFC CC 8948"
+  },
+  {
+    "file": "INV-INV98806878",
+    "bill_id": "3568833000000148003",
+    "vendor_name": "GitHub",
+    "amount": 95.32,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-PZLFLIEU-0005",
+    "bill_id": "3568833000000131062",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100XG6GR",
+    "bill_id": "3568833000000140005",
+    "vendor_name": "Microsoft",
+    "amount": 2566.5,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100XFZFO",
+    "bill_id": "3568833000000138057",
+    "vendor_name": "Microsoft",
+    "amount": 30892.4,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-IN-004-324-189",
+    "bill_id": "3568833000000141007",
+    "vendor_name": "Atlassian",
+    "amount": 151.75,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AWS-2295334101",
+    "bill_id": "3568833000000137028",
+    "vendor_name": "Amazon Web Services",
+    "amount": 213669.28,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-1025260282844",
+    "bill_id": "3568833000000145003",
+    "vendor_name": "Zoho",
+    "amount": 36000.0,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AEEHRQ-00003",
+    "bill_id": "3568833000000138003",
+    "vendor_name": "Supabase Pte. Ltd",
+    "amount": 25.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-PZLFLIEU-0004 (1)",
+    "bill_id": "3568833000000123051",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-GROQ",
+    "bill_id": "3568833000000136017",
+    "vendor_name": "Groq Inc",
+    "amount": 1.02,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV95005231",
+    "bill_id": "3568833000000116073",
+    "vendor_name": "GitHub",
+    "amount": 161.54,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-IN-004-088-291",
+    "bill_id": "3568833000000134003",
+    "vendor_name": "Atlassian",
+    "amount": 391.04,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-Invoice-PZLFLIEU-0004",
+    "bill_id": "3568833000000132003",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100X5B1N",
+    "bill_id": "3568833000000127088",
+    "vendor_name": "Microsoft",
+    "amount": 31185.5,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AWS-2257225097",
+    "bill_id": "3568833000000130023",
+    "vendor_name": "Amazon Web Services",
+    "amount": 79963.46,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-1025260222143",
+    "bill_id": "3568833000000128142",
+    "vendor_name": "Zoho",
+    "amount": 1744.22,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-1025260205383",
+    "bill_id": "3568833000000095140",
+    "vendor_name": "Zoho",
+    "amount": 1839.01,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-AEEHRQ-00002",
+    "bill_id": "3568833000000113067",
+    "vendor_name": "Supabase Pte. Ltd",
+    "amount": 26.93,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-INV94136438",
+    "bill_id": "3568833000000107025",
+    "vendor_name": "GitHub",
+    "amount": 0.64,
+    "currency": "USD",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-E0100WTWFZ",
+    "bill_id": "3568833000000095019",
+    "vendor_name": "Microsoft",
+    "amount": 29983.8,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  },
+  {
+    "file": "INV-1025260152757",
+    "bill_id": "3568833000000123003",
+    "vendor_name": "Zoho",
+    "amount": 5403.29,
+    "currency": "INR",
+    "payment_id": null,
+    "status": "unmatched"
+  }
+]

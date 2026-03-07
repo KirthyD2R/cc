@@ -1,0 +1,404 @@
+{
+    "_comment": "Map CC statement merchant names to clean Zoho vendor names",
+    "mappings": {
+        "ATLASSIAN AMSTERDAM": "Atlassian",
+        "ATLASSIANAMSTERDAM": "Atlassian",
+        "CONSOLIDATED FCY MARKUP FEE": "HDFC Bank - FCY Charges",
+        "BPPY CC PAYMENT": "HDFC Bank - CC Payment",
+        "CGST-VPS": "HDFC Bank - GST",
+        "SGST-VPS": "HDFC Bank - GST",
+        "CGST-VPS2635564564841": "HDFC Bank - GST",
+        "SGST-VPS2635564564841": "HDFC Bank - GST",
+        "CGST-VPS2635564564837": "HDFC Bank - GST",
+        "SGST-VPS2635564564837": "HDFC Bank - GST",
+        "CGST-VPS2634726776513": "HDFC Bank - GST",
+        "SGST-VPS2634726776513": "HDFC Bank - GST",
+        "GOOGLE PLAY CONTENT PU": "Google",
+        "GOOGLEPLAYCONTENTPUMUMBAI": "Google",
+        "GOOGLEPLAY": "Google",
+        "GOOGLEWORKSP": "Google",
+        "GOOGLECLOUD": "Google",
+        "MICROSOFT INDIA CYBS": "Microsoft",
+        "MICROSOFTINDIACYBSS": "Microsoft",
+        "MICROSOFTBUS": "Microsoft",
+        "AMAZON INDIA CYBS": "Amazon India",
+        "AMAZONINDIACYBSSI": "Amazon India",
+        "AMAZON PAY INDIA PRIVA": "Amazon India",
+        "WINDSURF WINDSURF.COM": "Windsurf",
+        "WINDSURF": "Windsurf",
+        "GST": "HDFC Bank - GST",
+        "HYPERBROWSER.AI": "Hyperbrowser AI",
+        "NRI*NEW RELIC": "New Relic",
+        "CLAUDE.AI SUBSCRIPTION": "Anthropic",
+        "CLAUDE.AISUBSCRIPTION": "Anthropic",
+        "GROQ INC": "Groq Inc",
+        "NETFLIX": "Netflix",
+        "ZEPTO MARKETPLACE": "Zepto",
+        "KRISHNAMACHARI SRIKKAN": "Krishnamachari Srikkan",
+        "CHANDRASEKAR HARSHAVAR": "Chandrasekar Harshavar",
+        "MADURAI SRI BALAJI BHA": "Madurai Sri Balaji Bhavan",
+        "SANMITH PURE VEGETARIA": "Sanmith Pure Vegetarian",
+        "KITES, CHEENAI": "Kites",
+        "Surcharge waiver for fuel txn": "Fuel Surcharge Waiver",
+        "BillDesk BBPS CC Payment": "BillDesk - CC Payment",
+        "ATLASSIAN AMSTERDAM (USD 64.07)": "Atlassian",
+        "SGST-VPS2635564564841-RATE 9.0": "HDFC Bank - GST",
+        "WINDSURF WINDSURF.COM CA": "Windsurf",
+        "MICROSOFTINDIACYBSSMUMBAI IN": "Microsoft",
+        "MICROSOFT INDIA": "Microsoft",
+        "IND*MICROSOFT": "Microsoft",
+        "AMAZONWEBSERVICESC": "Amazon Web Services",
+        "AMAZONWEBSERVICESC BANGALORE": "Amazon Web Services",
+        "AMAZONAWSESC": "Amazon Web Services",
+        "AMAZON WEB SERVICES": "Amazon Web Services",
+        "AMAZONINDIACYBSSI MUMBAI": "Amazon India",
+        "AMAZONIN": "Amazon India",
+        "AMAZONPRIME": "Amazon India",
+        "AMAZONPAYINDIAPVTL": "Amazon India",
+        "AMAZON MARK": "Amazon India",
+        "AMAZON MKTPL": "Amazon India",
+        "ZEPTO MARKETPLACE PRIV, BANGALORE": "Zepto",
+        "NETFLIX, MUMBAI": "Netflix",
+        "SURCHARGE WAIVER FOR FUEL TXN": "Fuel Surcharge Waiver",
+        "SANMITH PURE VEGETARIA, CHENNAI": "Sanmith Pure Vegetarian",
+        "CHANDRASEKAR HARSHAVAR, TIRUCHIRAPPAL": "Chandrasekar Harshavar",
+        "MADURAI SRI BALAJI BHA, VILLUPURAM": "Madurai Sri Balaji Bhavan",
+        "GROQ INC, MOUNTAIN VIEW": "Groq Inc",
+        "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO": "Anthropic",
+        "CLAUDE.AISUBSCRIPTIONANTHROPIC.COMCA": "Anthropic",
+        "HYPERBROWSER.AI, SAN FRANCISCO": "Hyperbrowser AI",
+        "NRI*NEW RELIC, SAN FRANCISCO": "New Relic",
+        "KRISHNAMACHARI SRIKKAN, CHENNAI": "Krishnamachari Srikkan",
+        "BILLDESK BBPS CC PAYMENT": "BillDesk - CC Payment",
+        "IND*LINKEDIN": "LinkedIn",
+        "IND*LINKEDIN(PGSI)": "LinkedIn",
+        "LINKEDIN": "LinkedIn",
+        "ZOHO": "Zoho",
+        "ZOHOCORP": "Zoho",
+        "VERCEL": "Vercel",
+        "GITHUB": "GitHub",
+        "FLY.IO": "Fly.io",
+        "OPENAI": "OpenAI",
+        "OPENAI, SAN FRANCISCO": "OpenAI",
+        "Razorpay*Swiggy": "Swiggy",
+        "MEDIUM": "Medium",
+        "RESUMEBUILDER": "ResumeBuilder",
+        "CODEIUM.COM": "Windsurf",
+        "GITHUB, INC.": "GitHub",
+        "MEDIUMMONTHLY": "Medium",
+        "OPENAI *CHATGPT": "OpenAI",
+        "OPENAI*CHATGPT": "OpenAI",
+        "TATA AIG": "Tata AIG",
+        "RSP*TATA AIG": "Tata AIG",
+        "RAZ*TATA AIG": "Tata AIG",
+        "SUPABASE": "Supabase Pte. Ltd",
+        "RELIANCEJIO": "Reliance Jio",
+        "GODADDY": "GoDaddy",
+        "HOTSTARCYBSSI": "Disney+ Hotstar",
+        "BOOKMYSHOW": "BookMyShow",
+        "HATHWAY SELFCARE": "Hathway",
+        "UBER": "Uber",
+        "LYFT": "Lyft",
+        "APPLE INDIA": "Apple",
+        "IND*NORTON": "Norton",
+        "WWW NAUKRI COM": "Info Edge (Naukri)",
+        "Adobe Systems Software": "Adobe",
+        "PPSL*SWIGGY": "Swiggy",
+        "Swiggy IN": "Swiggy",
+        "APPLEBEES 7675 - POS, ORLANDO": "Apple",
+        "WISPRWISPRFLOW.": "Wispr Flow",
+        "GAMMA.APPGAMMA.APP": "Gamma"
+    },
+    "default_expense_account": "Credit Card Charges",
+    "default_tax_treatment": "out_of_scope",
+    "vendor_details": {
+        "Atlassian": {
+            "company_name": "Atlassian Pty Ltd",
+            "gst_treatment": "overseas",
+            "currency_code": "USD",
+            "billing_address": {
+                "address": "Level 6, 341 George Street",
+                "city": "Sydney",
+                "state": "NSW",
+                "zip": "2000",
+                "country": "Australia"
+            },
+            "website": "https://www.atlassian.com"
+        },
+        "Amazon Web Services": {
+            "company_name": "Amazon Web Services India Private Limited",
+            "gst_treatment": "business_gst",
+            "gst_no": "",
+            "currency_code": "INR",
+            "billing_address": {
+                "address": "Block E, 14th Floor, IL&FS Financial Centre, Bandra Kurla Complex",
+                "city": "Mumbai",
+                "state": "Maharashtra",
+                "zip": "400051",
+                "country": "India"
+            },
+            "website": "https://aws.amazon.com"
+        },
+        "Amazon India": {
+            "company_name": "Amazon Pay (India) Private Limited",
+            "gst_treatment": "business_gst",
+            "gst_no": "",
+            "currency_code": "INR",
+            "billing_address": {
+                "address": "World Trade Centre, Brigade Gateway Campus, 26/1 Dr. Rajkumar Road, Malleshwaram (W)",
+                "city": "Bangalore",
+                "state": "Karnataka",
+                "zip": "560055",
+                "country": "India"
+            },
+            "website": "https://www.amazon.in"
+        },
+        "Anthropic": {
+            "company_name": "Anthropic PBC",
+            "gst_treatment": "overseas",
+            "currency_code": "USD",
+            "billing_address": {
+                "address": "548 Market St, PMB 90375",
+                "city": "San Francisco",
+                "state": "California",
+                "zip": "94104",
+                "country": "U.S.A."
+            },
+            "website": "https://www.anthropic.com"
+        },
+        "GitHub": {
+            "company_name": "GitHub, Inc.",
+            "gst_treatment": "overseas",
+            "currency_code": "USD",
+            "billing_address": {
+                "address": "88 Colin P Kelly Jr St",
+                "city": "San Francisco",
+                "state": "California",
+                "zip": "94107",
+                "country": "U.S.A."
+            },
+            "website": "https://github.com"
+        },
+        "Google": {
+            "company_name": "Google India Private Limited",
+            "gst_treatment": "business_gst",
+            "gst_no": "06AACCG0527D1Z8",
+            "currency_code": "INR",
+            "billing_address": {
+                "address": "No.3, RMZ Infinity, Tower E, Old Madras Road",
+                "city": "Bangalore",
+                "state": "Karnataka",
+                "zip": "560016",
+                "country": "India"
+            },
+            "website": "https://www.google.com"
+        },
+        "Microsoft": {
+            "company_name": "Microsoft Corporation (India) Pvt. Ltd.",
+            "gst_treatment": "business_gst",
+            "gst_no": "06AAACM5586C1ZL",
+            "currency_code": "INR",
+            "billing_address": {
+                "address": "Microsoft Campus, Gachibowli, Hyderabad",
+                "city": "Hyderabad",
+                "state": "Telangana",
+                "zip": "500032",
+                "country": "India"
+            },
+            "website": "https://www.microsoft.com"
+        },
+        "New Relic": {
+            "company_name": "New Relic, Inc.",
+            "gst_treatment": "overseas",
+            "currency_code": "USD",
+            "billing_address": {
+                "address": "188 Spear Street, Suite 1200",
+                "city": "San Francisco",
+                "state": "California",
+                "zip": "94105",
+                "country": "U.S.A."
+            },
+            "website": "https://newrelic.com"
+        },
+        "Windsurf": {
+            "company_name": "Codeium Inc.",
+            "gst_treatment": "overseas",
+            "currency_code": "USD",
+            "billing_address": {
+                "city": "Mountain View",
+                "state": "California",
+                "country": "U.S.A."
+            },
+            "website": "https://windsurf.com"
+        },
+        "Groq Inc": {
+            "company_name": "Groq, Inc.",
+            "gst_treatment": "overseas",
+            "currency_code": "USD",
+            "billing_address": {
+                "city": "Mountain View",
+                "state": "California",
+                "country": "U.S.A."
+            },
+            "website": "https://groq.com"
+        },
+        "Hyperbrowser AI": {
+            "company_name": "Hyperbrowser AI",
+            "gst_treatment": "overseas",
+            "currency_code": "USD",
+            "billing_address": {
+                "city": "San Francisco",
+                "state": "California",
+                "country": "U.S.A."
+            }
+        },
+        "Netflix": {
+            "company_name": "Netflix Entertainment Services India LLP",
+            "gst_treatment": "business_gst",
+            "gst_no": "",
+            "currency_code": "INR",
+            "billing_address": {
+                "city": "Mumbai",
+                "state": "Maharashtra",
+                "country": "India"
+            },
+            "website": "https://www.netflix.com"
+        },
+        "HDFC Bank - FCY Charges": {
+            "company_name": "HDFC Bank Ltd",
+            "gst_treatment": "business_gst",
+            "gst_no": "",
+            "currency_code": "INR",
+            "billing_address": {
+                "address": "HDFC Bank House, Senapati Bapat Marg, Lower Parel",
+                "city": "Mumbai",
+                "state": "Maharashtra",
+                "zip": "400013",
+                "country": "India"
+            }
+        },
+        "HDFC Bank - GST": {
+            "company_name": "HDFC Bank Ltd",
+            "gst_treatment": "business_gst",
+            "gst_no": "",
+            "currency_code": "INR",
+            "billing_address": {
+                "address": "HDFC Bank House, Senapati Bapat Marg, Lower Parel",
+                "city": "Mumbai",
+                "state": "Maharashtra",
+                "zip": "400013",
+                "country": "India"
+            }
+        },
+        "BillDesk - CC Payment": {
+            "company_name": "IndiaIdeas.com Limited (BillDesk)",
+            "gst_treatment": "business_gst",
+            "gst_no": "",
+            "currency_code": "INR",
+            "billing_address": {
+                "city": "Mumbai",
+                "state": "Maharashtra",
+                "country": "India"
+            }
+        },
+        "Info Edge (Naukri)": {
+            "company_name": "Info Edge (India) Limited",
+            "gst_treatment": "business_gst",
+            "gst_no": "09AAACI1838D1ZU",
+            "currency_code": "INR",
+            "billing_address": {
+                "address": "B-8, Sector 132",
+                "city": "Noida",
+                "state": "Uttar Pradesh",
+                "zip": "201304",
+                "country": "India"
+            },
+            "website": "https://www.naukri.com"
+        },
+        "NSTP": {
+            "company_name": "NSTP",
+            "gst_treatment": "business_gst",
+            "gst_no": "33AAATS2468J1ZD",
+            "currency_code": "INR",
+            "billing_address": {
+                "country": "India"
+            }
+        },
+        "Vercel": {
+            "company_name": "Vercel Inc.",
+            "gst_treatment": "overseas",
+            "currency_code": "USD",
+            "billing_address": {
+                "address": "440 N Barranca Ave #4133",
+                "city": "Covina",
+                "state": "California",
+                "zip": "91723",
+                "country": "U.S.A."
+            },
+            "website": "https://vercel.com"
+        },
+        "Zoho": {
+            "company_name": "Zoho Corporation Pvt. Ltd.",
+            "gst_treatment": "business_gst",
+            "gst_no": "33AAACZ4322M2Z9",
+            "currency_code": "INR",
+            "billing_address": {
+                "address": "Estancia IT Park, Plot No. 140 & 151, GST Road, Vallanchery Village",
+                "city": "Chennai",
+                "state": "Tamil Nadu",
+                "zip": "603202",
+                "country": "India"
+            },
+            "website": "https://www.zoho.com"
+        }
+    },
+    "gstin_map": {
+        "06AAACM5586C1ZL": "Microsoft",
+        "06AACCG0527D1Z8": "Google",
+        "33AAACZ4322M2Z9": "Zoho",
+        "09AAACI1838D1ZU": "Info Edge (Naukri)",
+        "33AAATS2468J1ZD": "NSTP",
+        "33AAACB0446L1ZZ": "Blue Dart Express Ltd",
+        "33AAPCA6346P1Z2": "Amazon Retail India Private Limited",
+        "29AABCF8078M1ZX": "Flipkart India Private Limited",
+        "33AAPCA5954P1ZY": "Apollo Pharmacies LIMITED",
+        "9917AUS29001OSF": "Atlassian",
+        "06AAECR0564M1Z7": "R K WorldInfocom Pvt Ltd Daniel J",
+        "36AAPCA6346P1ZW": "Amazon Retail India Private Limited",
+        "29AAICC4863G1ZD": "CIGFIL RETAIL PRIVATE LIMITED"
+    },
+    "account_mappings": {
+        "Microsoft Corporation (India) Pvt Ltd": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
+        },
+        "CLICKTECH RETAIL PRIVATE LIMITED": {
+            "account_name": "Income Tax",
+            "account_id": "2050328000000027411",
+            "category": "invoice_coa_match"
+        },
+        "COCOBLU RETAIL LIMITED": {
+            "account_name": "Income Tax",
+            "account_id": "2050328000000027411",
+            "category": "invoice_coa_match"
+        },
+        "R K WorldInfocom Pvt. Ltd.": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
+        },
+        "Amazon Web Services": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421",
+            "category": "software_licenses"
+        },
+        "S2 Labs Inc.": {
+            "account_name": "Duplicate fd amount",
+            "account_id": "2050328000000027455",
+            "category": "invoice_coa_match"
+        },
+        "Anthropic": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
+        }
+    }
+}
