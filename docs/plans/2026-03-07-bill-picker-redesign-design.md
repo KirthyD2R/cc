@@ -63,7 +63,8 @@ The current bill picker modal uses month-grouped accordions that require expandi
 | Date From/To | Month dropdowns | `organized_month` |
 | Vendor | Multi-select dropdown | `vendor_name` |
 | Amount Min/Max | Number inputs | `amount` |
-| Status | Multi-select dropdown | `action` + `vendor_match_method` |
+| Status | Multi-select dropdown (3 options) | `action`: "In Zoho", "New Bill + Existing Vendor", "New Bill + New Vendor" |
+| Match Type | Multi-select dropdown (3 options) | `vendor_match_method`: "GSTIN", "Name", "Fuzzy" — only applies to "New Bill + Existing Vendor" rows |
 | Clear | Button | Resets all filters |
 
 All filtering is client-side (data already loaded from API).

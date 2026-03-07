@@ -63,17 +63,19 @@ New code provides these functions/globals:
 - `_billSelectedFiles` — Set of selected filenames
 
 **Helper functions:**
-- `_getStatusLabel(inv)` — returns display label like "In Zoho", "New Bill · GSTIN", "New Vendor"
-- `_getStatusKey(inv)` — returns filter key like "skip", "new_vendor", "new_bill_gstin"
+- `_getStatusLabel(inv)` — returns display label: "In Zoho", "New Bill + Existing Vendor", "New Bill + New Vendor"
+- `_getStatusKey(inv)` — returns filter key: "skip", "new_bill", "new_vendor"
+- `_getMatchTypeLabel(inv)` — returns match method label: "GSTIN", "Name", "Fuzzy" (only for new_bill rows)
+- `_getMatchTypeKey(inv)` — returns match method key: "gstin", "name", "fuzzy"
 
 **Rendering functions:**
 - `_renderSummaryPanel(summary, s, totalNew)` — right panel with summary cards + "Selected: N" + "Create Selected (N)" button
-- `_buildFilterBar(preview)` — generates HTML for filter bar with From/To month dropdowns, Vendor multi-select, Min/Max amount inputs, Status multi-select, Clear button
+- `_buildFilterBar(preview)` — generates HTML for filter bar with From/To month dropdowns, Vendor multi-select, Min/Max amount inputs, Status multi-select (3 options: In Zoho / New Bill + Existing Vendor / New Bill + New Vendor), Match Type multi-select (3 options: GSTIN / Name / Fuzzy), Clear button
 - `_buildTable()` — generates table shell with sortable headers and empty tbody
 - `_renderTableRows()` — fills tbody from `_billFilteredRows` with checkboxes, status badges, Create buttons
 
 **Filter/Sort functions:**
-- `applyBillFilters()` — reads all filter inputs, filters `_matchPreviewData.preview`, stores in `_billFilteredRows`, sorts, renders
+- `applyBillFilters()` — reads all filter inputs (including Status and Match Type), filters `_matchPreviewData.preview`, stores in `_billFilteredRows`, sorts, renders. Match Type filter only applies to rows where action is "new_bill".
 - `_sortFilteredRows()` — sorts `_billFilteredRows` by current sort column/direction
 - `sortBillTable(col)` — click handler for column headers, toggles sort
 - `clearBillFilters()` — resets all filter inputs, re-applies
@@ -161,7 +163,7 @@ Open http://localhost:5000 and click "Upload 1" to open bill picker. Verify:
 
 1. Modal opens near-fullscreen with filter bar + flat table
 2. Filter bar has: From dropdown, To dropdown, Vendor multi-select, Min/Max amount, Status multi-select, Clear
-3. Table columns: checkbox, vendor, date, amount (right-aligned), status badge, action button
+3. Table columns: checkbox, vendor, date, amount (right-aligned), status badge, match type badge (for new_bill rows), action button
 4. "In Zoho" rows greyed out with no checkbox and no Create button
 5. Selectable rows have working checkboxes and Create buttons
 6. Column header click sorts (toggle asc/desc, arrow indicator)
