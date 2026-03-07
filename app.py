@@ -1509,6 +1509,12 @@ def api_bills_create_and_record():
     cc_card = cc.get("card_name")
     cc_txn_id = cc.get("transaction_id", "")
 
+    # For foreign currency invoices, prefer the CC-mapped vendor name if available
+    # (e.g., CC maps "CLAUDE.AI SUBSCRIPTION" -> "Anthropic USD" while invoice says "Anthropic")
+    cc_vendor = cc.get("vendor_name", "")
+    if currency != "INR" and cc_vendor and cc_vendor != vendor_name:
+        vendor_name = cc_vendor
+
     if not vendor_name or not amount or not date:
         return jsonify({"error": "invoice vendor_name, amount, date required"}), 400
     if not cc_inr or not cc_date or not cc_card:
@@ -7176,6 +7182,7 @@ function renderCatView() {
       if (r.inv.in_zoho) {
         actionHtml = '<span style="font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,0.15);color:var(--green);font-weight:600">In Zoho</span>';
       } else {
+        var ccVendor = r.cc && r.cc.vendor_name ? r.cc.vendor_name : '';
         var payload = JSON.stringify({
           invoice: {
             vendor_name: r.inv.vendor_name || r.vendor,
@@ -7191,7 +7198,8 @@ function renderCatView() {
             date: r.cc ? r.cc.date : '',
             card_name: r.cc ? r.cc.card_name || '' : '',
             forex_amount: r.cc && r.cc.forex_amount ? r.cc.forex_amount : null,
-            forex_currency: r.cc && r.cc.forex_currency ? r.cc.forex_currency : null
+            forex_currency: r.cc && r.cc.forex_currency ? r.cc.forex_currency : null,
+            vendor_name: ccVendor
           }
         }).replace(/'/g, "\\'").replace(/"/g, '&quot;');
         actionHtml = '<button class="bill-create-btn" onclick="createBillAndRecord(this, \'' + payload + '\')" style="font-size:10px;padding:2px 8px">Create & Record</button>';

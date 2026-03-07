@@ -102,9 +102,9 @@
   {
     "file": "7CC5E2D2-0001",
     "status": "created",
-    "vendor_name": "Anthropic",
-    "vendor_id": "2050328000000364806",
-    "bill_id": "2050328000002970029",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002991006",
     "amount": 200.0,
     "currency": "USD",
     "attached": false
@@ -372,9 +372,9 @@
   {
     "file": "PZLFLIEU-0005",
     "status": "created",
-    "vendor_name": "Anthropic",
-    "vendor_id": "2050328000000364806",
-    "bill_id": "2050328000002997163",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003005230",
     "amount": 200.0,
     "currency": "USD",
     "attached": false
@@ -388,5 +388,185 @@
     "amount": 79.06,
     "currency": "USD",
     "attached": false
+  },
+  {
+    "file": "E0BCC1DE-0005",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003007050",
+    "amount": 23.6,
+    "currency": "USD",
+    "attached": false
+  },
+  {
+    "file": "IVSLM7IE-0001",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002982058",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": false
+  },
+  {
+    "file": "ZEUU3HS6-0001",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003006156",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": false
+  },
+  {
+    "file": "PZLFLIEU-0001",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003005210",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": false
+  },
+  {
+    "file": "PZLFLIEU-0004",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002993149",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": false
+  },
+  {
+    "file": "ZEUU3HS6-0002",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003001073",
+    "amount": 68.61,
+    "currency": "USD",
+    "attached": false
+  },
+  {
+    "file": "Invoice-97E328AA-0004.pdf",
+    "status": "created",
+    "vendor_name": "Vercel",
+    "vendor_id": "2050328000002996113",
+    "bill_id": "2050328000003015027",
+    "amount": 20.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-97E328AA-0006.pdf",
+    "status": "created",
+    "vendor_name": "Vercel",
+    "vendor_id": "2050328000002996113",
+    "bill_id": "2050328000002991026",
+    "amount": 20.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-97E328AA-0002.pdf",
+    "status": "created",
+    "vendor_name": "Vercel",
+    "vendor_id": "2050328000002996113",
+    "bill_id": "2050328000003017826",
+    "amount": 20.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "AWS-July-2025.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Web Services",
+    "vendor_id": "2050328000002998110",
+    "bill_id": "2050328000003005250",
+    "amount": 79963.46,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Invoice_2403565789.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Web Services",
+    "vendor_id": "2050328000002998110",
+    "bill_id": "2050328000002991052",
+    "amount": 245438.75,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Invoice_2443583665.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Web Services",
+    "vendor_id": "2050328000002998110",
+    "bill_id": "2050328000002995167",
+    "amount": 284933.67,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Invoice_2219628753.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Web Services",
+    "vendor_id": "2050328000002998110",
+    "bill_id": "2050328000003013029",
+    "amount": 7282.99,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "AWS MAY-2025.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Web Services",
+    "vendor_id": "2050328000002998110",
+    "bill_id": "2050328000002993207",
+    "amount": 7782.18,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "AWS April-2025.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Web Services",
+    "vendor_id": "2050328000002998110",
+    "bill_id": "2050328000003012230",
+    "amount": 1824.36,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "AWS-Oct 2025.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Web Services",
+    "vendor_id": "2050328000002998110",
+    "bill_id": "2050328000002986138",
+    "amount": 380319.73,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "AWS-Sep-2025.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Web Services",
+    "vendor_id": "2050328000002998110",
+    "bill_id": "2050328000003005291",
+    "amount": 300039.59,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "AWS - Aug -2025.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Web Services",
+    "vendor_id": "2050328000002998110",
+    "bill_id": "2050328000003006176",
+    "amount": 213669.28,
+    "currency": "INR",
+    "attached": true
   }
 ]

@@ -87,7 +87,7 @@
     "organized_month": "Apr 2025",
     "action": "skip",
     "matched_bill": "7CC5E2D2-0001",
-    "matched_bill_id": "2050328000002970029",
+    "matched_bill_id": "2050328000002991006",
     "match_type": "exact"
   },
   {
@@ -100,7 +100,7 @@
     "organized_month": "Apr 2025",
     "action": "skip",
     "matched_bill": "E0BCC1DE-0005",
-    "matched_bill_id": "2050328000002971004",
+    "matched_bill_id": "2050328000003007050",
     "match_type": "exact"
   },
   {
@@ -202,10 +202,10 @@
     "currency": "INR",
     "date": "2025-08-01",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003005250",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Amazon Web Services"
   },
   {
     "file": "BLR7-717.pdf",
@@ -430,10 +430,10 @@
     "currency": "USD",
     "date": "2025-08-28",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000364806",
-    "matched_vendor_name": "Anthropic",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill": "PZLFLIEU-0004",
+    "matched_bill_id": "2050328000002993149",
+    "match_type": "exact"
   },
   {
     "file": "LKO1-857.pdf",
@@ -554,10 +554,10 @@
     "currency": "USD",
     "date": "2025-12-19",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000001809186",
-    "matched_vendor_name": "Atlassian Pty Ltd",
-    "vendor_match_method": "gstin"
+    "action": "skip",
+    "matched_bill": "IN-005-113-294",
+    "matched_bill_id": "2050328000003011050",
+    "match_type": "exact"
   },
   {
     "file": "BLR7-6537963_p1_BLR7-6537963_p1_BLR7-6537963.pdf",
@@ -749,7 +749,10 @@
     "currency": "USD",
     "date": "2025-12-01",
     "organized_month": "Dec 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003015027",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Vercel"
   },
   {
     "file": "Invoice-B8ERAOBF-0007.pdf",
@@ -837,10 +840,10 @@
     "currency": "INR",
     "date": "2025-12-01",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000002991052",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Amazon Web Services"
   },
   {
     "file": "MAA4-6184441_p1_MAA4-6184441_p1_MAA4-6184441.pdf",
@@ -1326,7 +1329,10 @@
     "currency": "USD",
     "date": "2026-02-01",
     "organized_month": "Feb 2026",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000002991026",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Vercel"
   },
   {
     "file": "Invoice-B8ERAOBF-0012.pdf",
@@ -1825,10 +1831,10 @@
     "currency": "INR",
     "date": "2026-01-01",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000002995167",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Amazon Web Services"
   },
   {
     "file": "NON STP-INVOICENSTP25-26918Dt5-Jan-26_Ms. D2R AI Labs Pvt Ltd-NSTP.pdf",
@@ -2145,10 +2151,10 @@
     "currency": "INR",
     "date": "2025-07-01",
     "organized_month": "Jul 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003013029",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Amazon Web Services"
   },
   {
     "file": "MAA4-2323214.pdf",
@@ -2197,10 +2203,10 @@
     "currency": "INR",
     "date": "2025-06-01",
     "organized_month": "Jun 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000002993207",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Amazon Web Services"
   },
   {
     "file": "Atlassian_Invoice_IN-003-623-208.pdf",
@@ -2454,10 +2460,10 @@
     "currency": "USD",
     "date": "2025-06-10",
     "organized_month": "Jun 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000364806",
-    "matched_vendor_name": "Anthropic",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill": "IVSLM7IE-0001",
+    "matched_bill_id": "2050328000002982058",
+    "match_type": "exact"
   },
   {
     "file": "Invoice-PZLFLIEU-0001.pdf",
@@ -2467,10 +2473,10 @@
     "currency": "USD",
     "date": "2025-06-13",
     "organized_month": "Jun 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000364806",
-    "matched_vendor_name": "Anthropic",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill": "PZLFLIEU-0001",
+    "matched_bill_id": "2050328000003005210",
+    "match_type": "exact"
   },
   {
     "file": "Invoice-ZEUU3HS6-0001.pdf",
@@ -2480,10 +2486,10 @@
     "currency": "USD",
     "date": "2025-06-12",
     "organized_month": "Jun 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000364806",
-    "matched_vendor_name": "Anthropic",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill": "ZEUU3HS6-0001",
+    "matched_bill_id": "2050328000003006156",
+    "match_type": "exact"
   },
   {
     "file": "MAA4-1088415_p1_MAA4-1088415_p1_MAA4-1088415.pdf",
@@ -2673,10 +2679,10 @@
     "currency": "INR",
     "date": "2025-05-01",
     "organized_month": "May 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003012230",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Amazon Web Services"
   },
   {
     "file": "E0100W84MG_Invoice.pdf",
@@ -2856,10 +2862,10 @@
     "currency": "INR",
     "date": "2025-11-01",
     "organized_month": "Nov 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000002986138",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Amazon Web Services"
   },
   {
     "file": "Atlassian_Invoice_IN-004-796-545.pdf",
@@ -3052,7 +3058,10 @@
     "currency": "USD",
     "date": "2025-11-30",
     "organized_month": "Nov 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003017826",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Vercel"
   },
   {
     "file": "Invoice-AEEHRQ-00006.pdf",
@@ -3203,10 +3212,10 @@
     "currency": "INR",
     "date": "2025-10-01",
     "organized_month": "Oct 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003005291",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Amazon Web Services"
   },
   {
     "file": "Atlassian_Invoice_IN-004-560-126.pdf",
@@ -3216,10 +3225,10 @@
     "currency": "USD",
     "date": "2025-10-11",
     "organized_month": "Oct 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000001809186",
-    "matched_vendor_name": "Atlassian Pty Ltd",
-    "vendor_match_method": "gstin"
+    "action": "skip",
+    "matched_bill": "IN-004-560-126",
+    "matched_bill_id": "2050328000003017318",
+    "match_type": "exact"
   },
   {
     "file": "BLR7-68.pdf",
@@ -3464,10 +3473,10 @@
     "currency": "USD",
     "date": "2025-10-15",
     "organized_month": "Oct 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000364806",
-    "matched_vendor_name": "Anthropic",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill": "ZEUU3HS6-0002",
+    "matched_bill_id": "2050328000003001073",
+    "match_type": "exact"
   },
   {
     "file": "MAA4-1730312_p1_MAA4-1730312_p1_MAA4-1730312.pdf",
@@ -3590,9 +3599,10 @@
     "date": "2025-10-07",
     "organized_month": "Oct 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
-    "matched_vendor_name": "Google",
-    "vendor_match_method": "fuzzy"
+    "matched_vendor_id": "2050328000002998110",
+    "matched_vendor_name": "Amazon Web Services",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
   },
   {
     "file": "PBVN-14918.pdf",
@@ -3711,10 +3721,10 @@
     "currency": "INR",
     "date": "2025-09-01",
     "organized_month": "Sep 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003006176",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Amazon Web Services"
   },
   {
     "file": "Atlassian_Invoice_IN-004-324-189.pdf",
@@ -3913,10 +3923,10 @@
     "currency": "USD",
     "date": "2025-09-28",
     "organized_month": "Sep 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000364806",
-    "matched_vendor_name": "Anthropic",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill": "PZLFLIEU-0005",
+    "matched_bill_id": "2050328000003005230",
+    "match_type": "exact"
   },
   {
     "file": "MAA4-22967_p1_MAA4-22967_p1_MAA4-22967.pdf",

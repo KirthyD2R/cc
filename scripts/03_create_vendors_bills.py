@@ -465,6 +465,7 @@ def run(selected_files=None, vendor_overrides=None):
 
         # Load vendor cache
         cached_gstin_map = {}  # gstin -> (contact_id, contact_name)
+        cached_vendor_currency = {}  # lowered name -> currency_code
         if os.path.exists(VENDORS_CACHE):
             with open(VENDORS_CACHE, "r", encoding="utf-8") as f:
                 cached_vendors = json.load(f)
@@ -473,6 +474,7 @@ def run(selected_files=None, vendor_overrides=None):
                 vid = v.get("contact_id", "")
                 if cn and vid:
                     cached_vendor_map[cn] = vid
+                    cached_vendor_currency[cn] = (v.get("currency_code") or "INR").upper()
                 gst_no = (v.get("gst_no") or "").strip()
                 if gst_no and vid:
                     cached_gstin_map[gst_no] = (vid, v.get("contact_name", ""))

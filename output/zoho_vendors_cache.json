@@ -48,6 +48,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000002998110",
+    "contact_name": "Amazon Web Services",
+    "company_name": "Amazon Web Services India Private Limited",
+    "gst_no": "",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
     "contact_id": "2050328000000185001",
     "contact_name": "American Express",
     "company_name": "American Express",
@@ -70,6 +78,14 @@
     "gst_no": "",
     "gst_treatment": "overseas",
     "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002997181",
+    "contact_name": "Anthropic USD",
+    "company_name": "Anthropic USD",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
   },
   {
     "contact_id": "2050328000000358038",
@@ -109,6 +125,14 @@
     "company_name": "Amazon Web Services",
     "gst_no": "",
     "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002994082",
+    "contact_name": "Blue Dart Express Ltd",
+    "company_name": "",
+    "gst_no": "33AAACB0446L1ZZ",
+    "gst_treatment": "business_gst",
     "currency_code": "INR"
   },
   {
@@ -526,6 +550,14 @@
     "gst_no": "33AAFCV5265N2ZU",
     "gst_treatment": "business_gst",
     "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002996113",
+    "contact_name": "Vercel",
+    "company_name": "Vercel Inc.",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
   },
   {
     "contact_id": "2050328000000335001",

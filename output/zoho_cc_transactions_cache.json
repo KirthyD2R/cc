@@ -1,21 +1,5 @@
 [
   {
-    "date": "2026-02-10",
-    "description": "TATA AIG GENERAL INSURMUMBAI",
-    "amount": 49646.0,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002998013"
-  },
-  {
-    "date": "2026-01-19",
-    "description": "AMAZONINGURGAON",
-    "amount": 1682.0,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002998009"
-  },
-  {
     "date": "2026-01-19",
     "description": "AMAZONINGURGAON",
     "amount": 19322.01,
@@ -24,48 +8,12 @@
     "transaction_id": "2050328000002998007"
   },
   {
-    "date": "2026-01-12",
-    "description": "CONSOLIDATED FCY MARKUP FEE",
-    "amount": 827.71,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002997021"
-  },
-  {
-    "date": "2025-12-20",
-    "description": "ATLASSIANAMSTERDAM USD 79.06 [USD 79.06]",
-    "amount": 7139.89,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002997019",
-    "forex_amount": 79.06,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-12-19",
-    "description": "ATLASSIANAMSTERDAM USD 223.07 [USD 223.07]",
-    "amount": 20180.94,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002997017",
-    "forex_amount": 223.07,
-    "forex_currency": "USD"
-  },
-  {
     "date": "2025-11-28",
     "description": "ATLASSIANAMSTERDAM",
     "amount": 4847.23,
     "card_name": "HDFC-8948",
     "zoho_account_id": "2050328000002161003",
     "transaction_id": "2050328000002162062"
-  },
-  {
-    "date": "2025-09-30",
-    "description": "CLAUDE.AI SUBSCRIPTIONANTHROPIC",
-    "amount": 17761.83,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002162050"
   },
   {
     "date": "2026-02-12",
@@ -166,14 +114,6 @@
     "card_name": "HDFC - 7196",
     "zoho_account_id": "2050328000002898667",
     "transaction_id": "2050328000002995019"
-  },
-  {
-    "date": "2026-01-30",
-    "description": "ONLINE PYMT RECD-CIDNY911A0F0XO",
-    "amount": 284934.0,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995017"
   },
   {
     "date": "2026-01-28",
@@ -834,6 +774,14 @@
     "transaction_id": "2050328000000929181"
   },
   {
+    "date": "2025-04-23",
+    "description": "OPENAI *CHATGPT SUBSCR OPENAI.COM CA Computer (23.60 USD)",
+    "amount": 2082.32,
+    "card_name": "Kotak bank credit card",
+    "zoho_account_id": "2050328000000232005",
+    "transaction_id": "2050328000000331007"
+  },
+  {
     "date": "2026-02-21",
     "description": "MGM HEALTHCARE MALAR, CHENNAI",
     "amount": 800.0,
@@ -1252,14 +1200,6 @@
     "transaction_id": "2050328000001812231"
   },
   {
-    "date": "2025-10-15",
-    "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
-    "amount": 6095.18,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812229"
-  },
-  {
     "date": "2025-10-11",
     "description": "LA QUINTA MOTOR INNS, DURHAM",
     "amount": 382.07,
@@ -1410,14 +1350,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939637"
-  },
-  {
-    "date": "2025-08-29",
-    "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
-    "amount": 17532.6,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939633"
   },
   {
     "date": "2025-08-25",
@@ -1812,30 +1744,6 @@
     "transaction_id": "2050328000000939443"
   },
   {
-    "date": "2025-06-13",
-    "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
-    "amount": 17136.6,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939441"
-  },
-  {
-    "date": "2025-06-12",
-    "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
-    "amount": 17107.4,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939437"
-  },
-  {
-    "date": "2025-06-11",
-    "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
-    "amount": 17140.6,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939433"
-  },
-  {
     "date": "2025-06-10",
     "description": "IND*LINKEDIN (PGSI), www.linkedin.",
     "amount": 8400.0,
@@ -1938,14 +1846,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939379"
-  },
-  {
-    "date": "2025-04-25",
-    "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
-    "amount": 17086.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939373"
   },
   {
     "date": "2025-04-24",

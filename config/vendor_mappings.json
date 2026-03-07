@@ -438,6 +438,10 @@
             "account_name": "Duplicate fd amount",
             "account_id": "2050328000000027455",
             "category": "invoice_coa_match"
+        },
+        "Vercel": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
         }
     }
 }
