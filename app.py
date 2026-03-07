@@ -5017,6 +5017,167 @@ function _getMatchTypeKey(inv) {
   return inv.vendor_match_method || 'name';
 }
 
+/* --- Checkbox Dropdown Component --- */
+function _buildCheckboxDropdown(id, label, options) {
+  var html = '<div class="cb-dropdown" id="cbd_' + id + '">'
+    + '<button type="button" class="cb-dropdown-btn" onclick="_toggleCbDropdown(\'' + id + '\')">'
+    + label + ' <span class="cb-badge" id="cbd_badge_' + id + '"></span></button>'
+    + '<div class="cb-dropdown-panel" id="cbd_panel_' + id + '">'
+    + '<div class="cb-dropdown-actions">'
+    + '<a onclick="_cbSelectAll(\'' + id + '\')">Select All</a>'
+    + '<a onclick="_cbClearAll(\'' + id + '\')">Clear</a></div>'
+    + '<div class="cb-dropdown-list">';
+  options.forEach(function(o) {
+    html += '<label><input type="checkbox" checked value="' + o.value + '" onchange="_onCbChange(\'' + id + '\')">' + o.text + '</label>';
+  });
+  html += '</div></div></div>';
+  return html;
+}
+function _toggleCbDropdown(id) {
+  var panel = document.getElementById('cbd_panel_' + id);
+  var isOpen = panel.classList.contains('open');
+  document.querySelectorAll('.cb-dropdown-panel.open').forEach(function(p) { p.classList.remove('open'); });
+  if (!isOpen) panel.classList.add('open');
+}
+function _onCbChange(id) {
+  _updateCbBadge(id);
+  applyBillFilters();
+}
+function _cbSelectAll(id) {
+  document.querySelectorAll('#cbd_panel_' + id + ' input[type="checkbox"]').forEach(function(cb) { cb.checked = true; });
+  _updateCbBadge(id);
+  applyBillFilters();
+}
+function _cbClearAll(id) {
+  document.querySelectorAll('#cbd_panel_' + id + ' input[type="checkbox"]').forEach(function(cb) { cb.checked = false; });
+  _updateCbBadge(id);
+  applyBillFilters();
+}
+function _updateCbBadge(id) {
+  var all = document.querySelectorAll('#cbd_panel_' + id + ' input[type="checkbox"]');
+  var checked = document.querySelectorAll('#cbd_panel_' + id + ' input[type="checkbox"]:checked');
+  var badge = document.getElementById('cbd_badge_' + id);
+  if (badge) badge.textContent = checked.length < all.length ? checked.length : '';
+}
+function _getCbValues(id) {
+  var vals = [];
+  document.querySelectorAll('#cbd_panel_' + id + ' input[type="checkbox"]:checked').forEach(function(cb) { vals.push(cb.value); });
+  return vals;
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.cb-dropdown')) {
+    document.querySelectorAll('.cb-dropdown-panel.open').forEach(function(p) { p.classList.remove('open'); });
+  }
+});
+
+/* --- Searchable Zoho Vendor Dropdown --- */
+var _zohoVendors = [];
+var _selectedZohoVendor = null;
+
+function _loadZohoVendors() {
+  return fetch('/api/zoho-vendors').then(function(r) { return r.json(); }).then(function(data) {
+    _zohoVendors = data;
+  });
+}
+function _buildSearchDropdown() {
+  return '<div class="search-dropdown" id="zohoVendorSearch">'
+    + '<input type="text" placeholder="Search Zoho vendor..." onfocus="_openZohoDropdown()" oninput="_filterZohoDropdown()">'
+    + '<div class="search-dropdown-list" id="zohoVendorList"></div></div>';
+}
+function _openZohoDropdown() {
+  _filterZohoDropdown();
+  document.getElementById('zohoVendorList').classList.add('open');
+}
+function _filterZohoDropdown() {
+  var input = document.querySelector('#zohoVendorSearch input');
+  var q = (input ? input.value : '').toLowerCase();
+  var list = document.getElementById('zohoVendorList');
+  var items = '';
+  var count = 0;
+  for (var i = 0; i < _zohoVendors.length && count < 50; i++) {
+    var v = _zohoVendors[i];
+    if (q && v.contact_name.toLowerCase().indexOf(q) < 0) continue;
+    var sel = _selectedZohoVendor && _selectedZohoVendor.contact_id === v.contact_id ? ' selected' : '';
+    items += '<div class="sd-item' + sel + '" onclick="_selectZohoVendor(this)" data-id="' + v.contact_id + '" data-name="' + v.contact_name.replace(/"/g, '&quot;') + '">' + v.contact_name + '</div>';
+    count++;
+  }
+  if (!items) items = '<div class="sd-item" style="color:var(--text-dim)">No matches</div>';
+  // Note: vendor names come from local zoho_vendors_cache.json, not untrusted input
+  list.innerHTML = items;
+}
+function _selectZohoVendor(el) {
+  _selectedZohoVendor = { contact_id: el.getAttribute('data-id'), contact_name: el.getAttribute('data-name') };
+  var input = document.querySelector('#zohoVendorSearch input');
+  if (input) input.value = _selectedZohoVendor.contact_name;
+  document.getElementById('zohoVendorList').classList.remove('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.search-dropdown')) {
+    var list = document.getElementById('zohoVendorList');
+    if (list) list.classList.remove('open');
+  }
+});
+
+/* --- Vendor Overrides --- */
+var _vendorOverrides = {};
+
+function _loadVendorOverrides() {
+  return fetch('/api/vendor-overrides').then(function(r) { return r.json(); }).then(function(data) {
+    _vendorOverrides = data;
+  });
+}
+function _applyOverridesToPreview() {
+  if (!_matchPreviewData || !_matchPreviewData.preview) return;
+  _matchPreviewData.preview.forEach(function(inv) {
+    var vname = inv.vendor_name || '';
+    if (_vendorOverrides[vname] && inv.action === 'new_vendor') {
+      inv.action = 'new_bill';
+      inv.matched_vendor_id = _vendorOverrides[vname].contact_id;
+      inv.matched_vendor_name = _vendorOverrides[vname].contact_name;
+      inv.vendor_match_method = 'manual';
+    }
+  });
+}
+function applyZohoVendorMapping() {
+  if (!_selectedZohoVendor) { showToast('Select a Zoho vendor first', 'warning'); return; }
+  var selectedRows = [];
+  _matchPreviewData.preview.forEach(function(inv) {
+    if (_billSelectedFiles.indexOf(inv.file) >= 0) selectedRows.push(inv);
+  });
+  if (!selectedRows.length) { showToast('Select at least one invoice row', 'warning'); return; }
+  var overrides = {};
+  selectedRows.forEach(function(inv) {
+    var vname = inv.vendor_name || inv.file;
+    overrides[vname] = { contact_id: _selectedZohoVendor.contact_id, contact_name: _selectedZohoVendor.contact_name };
+  });
+  fetch('/api/vendor-overrides', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ overrides: overrides })
+  }).then(function(r) { return r.json(); }).then(function() {
+    Object.assign(_vendorOverrides, overrides);
+    selectedRows.forEach(function(inv) {
+      if (inv.action === 'new_vendor') inv.action = 'new_bill';
+      inv.matched_vendor_id = _selectedZohoVendor.contact_id;
+      inv.matched_vendor_name = _selectedZohoVendor.contact_name;
+      inv.vendor_match_method = 'manual';
+    });
+    _sortFilteredRows();
+    _renderTableRows();
+    var s = { total: 0, skip: 0, new_bill: 0, new_vendor_bill: 0 };
+    _matchPreviewData.preview.forEach(function(inv) {
+      s.total++;
+      if (inv.action === 'skip') s.skip++;
+      else if (inv.action === 'new_bill') s.new_bill++;
+      else s.new_vendor_bill++;
+    });
+    var totalNew = s.new_bill + s.new_vendor_bill;
+    var summary = document.getElementById('billPickerSummary');
+    if (summary) _renderSummaryPanel(summary, s, totalNew);
+    showToast('Mapped ' + selectedRows.length + ' invoice(s) to ' + _selectedZohoVendor.contact_name, 'success');
+  });
+}
+
 function _renderSummaryPanel(summary, s, totalNew) {
   summary.innerHTML = ''
     + '<div class="bill-summary-total"><span>Total Invoices</span><span class="count" id="bpTotal">' + s.total + '</span></div>'
