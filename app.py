@@ -823,6 +823,72 @@ def api_payments_preview():
                     return abs(cc_inr - bill_amt * 86), "USD → INR (est)"
             return None, None
 
+        # --- Confidence scoring helper ---
+        def _compute_confidence(bill, cc, cc_resolved_vendor):
+            """Compute vendor/amount/date confidence (0-100 each) for a bill-CC match."""
+            # Vendor confidence
+            vendor_conf = 0
+            if cc_resolved_vendor:
+                rv = _norm(cc_resolved_vendor)
+                bv = _norm(bill["vendor_name"])
+                if rv == bv:
+                    vendor_conf = 100
+                elif len(rv) >= 4 and (rv in bv or bv in rv):
+                    vendor_conf = 80
+                else:
+                    rv_first = _norm(cc_resolved_vendor.split()[0]) if cc_resolved_vendor.split() else ""
+                    if rv_first and len(rv_first) >= 4 and rv_first in bv:
+                        vendor_conf = 60
+
+            # Amount confidence
+            amount_conf = 0
+            diff, mtype = _amount_diff(bill, cc)
+            if diff is not None:
+                bill_amt = bill["amount"] if bill["amount"] else 1
+                pct_diff = diff / bill_amt
+                if pct_diff < 0.001:
+                    amount_conf = 100
+                elif pct_diff < 0.005:
+                    amount_conf = 95
+                elif pct_diff < 0.01:
+                    amount_conf = 90
+                elif pct_diff < 0.03:
+                    amount_conf = 75
+                elif pct_diff < 0.05:
+                    amount_conf = 60
+                else:
+                    amount_conf = 40
+                # Forex exact match gets bonus
+                if mtype and "est" in mtype:
+                    amount_conf = min(amount_conf, 70)
+
+            # Date confidence
+            date_conf = 0
+            try:
+                bd = _dt.strptime(bill["date"], "%Y-%m-%d")
+                cd = _dt.strptime(cc["date"], "%Y-%m-%d")
+                day_diff = abs((bd - cd).days)
+                if day_diff == 0:
+                    date_conf = 100
+                elif day_diff <= 2:
+                    date_conf = 90
+                elif day_diff <= 5:
+                    date_conf = 75
+                elif day_diff <= 10:
+                    date_conf = 50
+                elif day_diff <= 30:
+                    date_conf = 25
+            except Exception:
+                pass
+
+            overall = int(vendor_conf * 0.4 + amount_conf * 0.4 + date_conf * 0.2)
+            return {
+                "vendor": vendor_conf,
+                "amount": amount_conf,
+                "date": date_conf,
+                "overall": overall,
+            }
+
         # --- Resolve CC vendor names for grouping ---
         cc_vendors = []  # parallel to cc_list: resolved vendor name or None
         for cc in cc_list:
@@ -878,6 +944,7 @@ def api_payments_preview():
                 bill = bills[best_bi]
                 bill_matched[best_bi] = True
                 used_cc.add(ci)
+                conf = _compute_confidence(bill, cc, rv)
                 entry = {
                     "bill_id": bill["bill_id"],
                     "vendor_id": bill["vendor_id"],
@@ -888,6 +955,7 @@ def api_payments_preview():
                     "bill_number": bill["file"],
                     "status": "matched",
                     "match_score": 300,
+                    "confidence": conf,
                     "cc_transaction_id": cc.get("transaction_id", ""),
                     "cc_description": cc.get("description", ""),
                     "cc_inr_amount": cc.get("amount", 0),
@@ -944,8 +1012,11 @@ def api_payments_preview():
             if best is not None:
                 used_cc.add(best_idx)
                 bill_matched[bi] = True
+                best_resolved = cc_vendors[best_idx] if best_idx < len(cc_vendors) else None
+                conf = _compute_confidence(bill, best, best_resolved)
                 entry["status"] = "matched"
                 entry["match_score"] = 200
+                entry["confidence"] = conf
                 entry["cc_transaction_id"] = best.get("transaction_id", "")
                 entry["cc_description"] = best.get("description", "")
                 entry["cc_inr_amount"] = best.get("amount", 0)
@@ -3874,7 +3945,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
               <option value="">All Cards</option>
             </select>
             <span id="paymentSummaryText" style="font-size:12px;font-weight:400;color:var(--text-dim)"></span>
-            <button id="recordAllBtn" onclick="confirmRecordAll()" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:5px 14px;font-size:11px;cursor:pointer;font-weight:600;display:none">Record All Matched</button>
+            <button id="recordSelectedBtn" onclick="confirmRecordSelected()" style="background:var(--accent);color:#fff;border:none;border-radius:6px;padding:5px 14px;font-size:11px;cursor:pointer;font-weight:600;display:none">Record Selected (0)</button>
             <button class="review-close-btn" onclick="closePaymentPanel()">&#10005; Close</button>
           </div>
         </div>
@@ -3895,6 +3966,15 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <span id="compareSummaryText" style="font-size:12px;font-weight:400;color:var(--text-dim)"></span>
             <button class="review-close-btn" onclick="closeComparePanel()">&#10005; Close</button>
           </div>
+        </div>
+        <div id="compareFilterBar" style="display:none;padding:6px 12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);gap:12px;align-items:center;flex-shrink:0;flex-wrap:wrap;font-size:12px">
+          <label style="color:var(--text-dim)">Vendor:</label>
+          <select id="compareVendorFilter" onchange="applyCompareFilters()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 8px;font-size:11px;max-width:200px"></select>
+          <label style="color:var(--text-dim);margin-left:12px">From:</label>
+          <input type="date" id="compareDateFrom" onchange="applyCompareFilters()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 6px;font-size:11px;color-scheme:dark">
+          <label style="color:var(--text-dim)">To:</label>
+          <input type="date" id="compareDateTo" onchange="applyCompareFilters()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 6px;font-size:11px;color-scheme:dark">
+          <button onclick="clearCompareFilters()" style="background:transparent;color:var(--accent);border:1px dashed var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Clear</button>
         </div>
         <div id="compareBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden">
           <div class="review-loading" id="compareLoading" style="align-self:center;width:100%;text-align:center">Loading data...</div>
@@ -4608,7 +4688,10 @@ function syncZoho() {
 let _billPickerData = null;
 let _matchPreviewData = null;
 
+var _billSelectedFiles = new Set();
+
 function _renderSummaryPanel(summary, s, totalNew) {
+  _billSelectedFiles.clear();
   summary.innerHTML = ''
     + '<div class="bill-summary-total"><span>Total Invoices</span><span class="count">' + s.total + '</span></div>'
     + '<div class="bill-summary-card"><span class="label"><span class="dot" style="background:var(--green)"></span> Bills == CC in Zoho</span><span class="count" style="color:var(--green)">' + s.skip + '</span></div>'
@@ -4617,12 +4700,52 @@ function _renderSummaryPanel(summary, s, totalNew) {
     + '<div class="bill-summary-divider"></div>'
     + '<div class="bill-summary-total"><span>Will Upload</span><span class="count" style="color:var(--accent)">' + totalNew + '</span></div>'
     + '<div class="bill-summary-upload-section">'
+    + '<button class="modal-btn modal-btn-confirm" id="createSelectedBillsBtn" onclick="createSelectedBills()" style="width:100%;display:none">Create Selected (0)</button>'
     + '<button class="modal-btn modal-btn-confirm" id="createAllBillsBtn" onclick="createAllBills()" style="width:100%"' + (totalNew === 0 ? ' disabled' : '') + '>Upload All New (' + totalNew + ')</button>'
     + '<button class="modal-btn modal-btn-cancel" onclick="closeBillPicker()" style="width:100%">Cancel</button>'
     + '</div>';
 }
 
+function _toggleBillCheckbox(file, checked) {
+  if (checked) {
+    _billSelectedFiles.add(file);
+  } else {
+    _billSelectedFiles.delete(file);
+  }
+  var btn = document.getElementById('createSelectedBillsBtn');
+  if (_billSelectedFiles.size > 0) {
+    btn.style.display = 'block';
+    btn.textContent = 'Create Selected (' + _billSelectedFiles.size + ')';
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+function _toggleMonthCheckboxes(monthName, checked) {
+  if (!_matchPreviewData) return;
+  var preview = _matchPreviewData.preview || [];
+  preview.forEach(function(p) {
+    if (p.organized_month === monthName && p.action !== 'skip') {
+      var cb = document.getElementById('bill-cb-' + _cbId(p.file));
+      if (cb) { cb.checked = checked; _toggleBillCheckbox(p.file, checked); }
+    }
+  });
+}
+
+function _cbId(file) {
+  return file.replace(/[^a-zA-Z0-9]/g, '_');
+}
+
+function createSelectedBills() {
+  if (!_billSelectedFiles.size) return;
+  var files = Array.from(_billSelectedFiles);
+  closeBillPicker();
+  addLogLine('[Bills] Creating ' + files.length + ' selected bills...');
+  runStepWithKwargs('3', {selected_files: files});
+}
+
 function openBillPicker() {
+  _billSelectedFiles.clear();
   document.getElementById('billPickerModal').style.display = 'flex';
   const body = document.getElementById('billPickerBody');
   const summary = document.getElementById('billPickerSummary');
@@ -4663,12 +4786,16 @@ function openBillPicker() {
       const items = groups[month];
       const skipCount = items.filter(i => i.action === 'skip').length;
       const newCount = items.length - skipCount;
-      html += '<div class="bill-month-header" onclick="toggleBillMonth(this)">'
-        + '<span class="bill-month-arrow">\u25B8</span> '
+      var monthEsc = month.replace(/'/g,"\\'");
+      html += '<div class="bill-month-header" onclick="toggleBillMonth(this)">';
+      if (newCount > 0) {
+        html += '<input type="checkbox" onclick="event.stopPropagation();_toggleMonthCheckboxes(\'' + monthEsc + '\',this.checked)" style="margin-right:6px;cursor:pointer;accent-color:var(--accent)">';
+      }
+      html += '<span class="bill-month-arrow">\u25B8</span> '
         + month
         + '<span class="bill-month-count">' + items.length + ' inv, ' + newCount + ' new</span>';
       if (newCount > 0) {
-        html += ' <button class="bill-create-btn bill-month-create" onclick="event.stopPropagation();createMonthBillsPreview(\'' + month.replace(/'/g,"\\'") + '\')">Upload (' + newCount + ')</button>';
+        html += ' <button class="bill-create-btn bill-month-create" onclick="event.stopPropagation();createMonthBillsPreview(\'' + monthEsc + '\')">Upload (' + newCount + ')</button>';
       }
       html += '</div>';
       html += '<div class="bill-month-group" style="display:none">';
@@ -4676,6 +4803,7 @@ function openBillPicker() {
         const amt = inv.amount ? Number(inv.amount).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '0.00';
         let statusBadge = '';
         let actionBtn = '';
+        let checkbox = '';
         if (inv.action === 'skip') {
           const matchLabel = inv.match_type === 'exact' ? 'exact' : inv.match_type === 'normalized' ? 'fuzzy' : 'vendor+date';
           statusBadge = '<span class="bill-status-badge created" title="Matched: ' + (inv.matched_bill || '').replace(/"/g,'&quot;') + ' (' + matchLabel + ')">In Zoho</span>';
@@ -4687,11 +4815,14 @@ function openBillPicker() {
           var gstinNote = inv.gstin_missing ? ' (no GSTIN in Zoho)' : '';
           statusBadge = '<span class="bill-status-badge" style="background:' + vmBg + ';color:' + vmColor + '" title="Vendor: ' + (inv.matched_vendor_name || '').replace(/"/g,'&quot;') + ' [' + vmLabel + ']' + gstinNote + '">New Bill \u00B7 ' + vmLabel + '</span>';
           actionBtn = '<button class="bill-create-btn" onclick="createOneBill(\'' + inv.file.replace(/'/g, "\\'") + '\')">Create</button>';
+          checkbox = '<input type="checkbox" id="bill-cb-' + _cbId(inv.file) + '" onclick="event.stopPropagation();_toggleBillCheckbox(\'' + inv.file.replace(/'/g, "\\'") + '\',this.checked)" style="margin-right:6px;cursor:pointer;accent-color:var(--accent)">';
         } else {
           statusBadge = '<span class="bill-status-badge" style="background:rgba(250,204,21,0.15);color:var(--yellow)">New Vendor</span>';
           actionBtn = '<button class="bill-create-btn" onclick="createOneBill(\'' + inv.file.replace(/'/g, "\\'") + '\')">Create</button>';
+          checkbox = '<input type="checkbox" id="bill-cb-' + _cbId(inv.file) + '" onclick="event.stopPropagation();_toggleBillCheckbox(\'' + inv.file.replace(/'/g, "\\'") + '\',this.checked)" style="margin-right:6px;cursor:pointer;accent-color:var(--accent)">';
         }
         html += '<div class="bill-row' + (inv.action === 'skip' ? ' created' : '') + '">'
+          + checkbox
           + '<span class="bill-vendor" title="' + (inv.vendor_name || '').replace(/"/g,'&quot;') + '">' + (inv.vendor_name || 'Unknown') + '</span>'
           + '<span class="bill-amount">' + amt + '</span>'
           + '<span class="bill-currency">' + (inv.currency || 'INR') + '</span>'
@@ -5067,7 +5198,7 @@ function openPaymentPreview() {
   document.getElementById('paymentPanel').style.display = 'flex';
   document.getElementById('paymentLoading').style.display = 'block';
   document.getElementById('paymentContent').style.display = 'none';
-  document.getElementById('recordAllBtn').style.display = 'none';
+  document.getElementById('recordSelectedBtn').style.display = 'none';
 
   fetch('/api/payments/preview')
     .then(function(r) { return r.json(); })
@@ -5128,15 +5259,12 @@ function filterPaymentsByCard(cardName) {
   document.getElementById('paymentSummaryText').textContent =
     billCount + ' bills \u00B7 ' + visibleMatched + ' matched \u00B7 ' + visibleUnmatched + ' no CC \u00B7 ' + visiblePaid + ' already paid \u00B7 ' + visibleCcOnly + ' no invoice';
 
-  // Update Record All button for filtered view
-  var recordBtn = document.getElementById('recordAllBtn');
-  if (visibleMatched > 0) {
-    recordBtn.style.display = 'inline-block';
-    recordBtn.textContent = 'Record All Matched (' + visibleMatched + ')';
-    recordBtn.disabled = false;
-  } else {
-    recordBtn.style.display = 'none';
-  }
+  // Reset checkboxes on filter change
+  _paySelectedBills.clear();
+  var selAll = document.getElementById('paySelectAll');
+  if (selAll) selAll.checked = false;
+  document.querySelectorAll('.pay-cb').forEach(function(c) { c.checked = false; });
+  _updatePaySelectedBtn();
 }
 
 function renderPaymentPreview(data) {
@@ -5168,12 +5296,6 @@ function renderPaymentPreview(data) {
   document.getElementById('paymentSummaryText').textContent =
     s.total_bills + ' bills \u00B7 ' + s.matched + ' matched \u00B7 ' + s.unmatched + ' no CC \u00B7 ' + (s.already_paid || 0) + ' already paid \u00B7 ' + totalUncatCount + ' no invoice';
 
-  if (s.matched > 0) {
-    document.getElementById('recordAllBtn').style.display = 'inline-block';
-    document.getElementById('recordAllBtn').textContent = 'Record All Matched (' + s.matched + ')';
-    document.getElementById('recordAllBtn').disabled = false;
-  }
-
   document.getElementById('paymentLoading').style.display = 'none';
   var content = document.getElementById('paymentContent');
   content.style.display = 'block';
@@ -5199,19 +5321,31 @@ function renderPaymentPreview(data) {
     return;
   }
 
-  // Sort: matched first, then no CC (unmatched bills), then no invoice (cc_only), then already_paid
+  // Sort: matched first (by confidence desc), then no CC, then no invoice, then already_paid
   var order = {matched: 0, unmatched: 1, cc_only: 2, already_paid: 3};
   matches.sort(function(a, b) {
     var oa = order.hasOwnProperty(a.status) ? order[a.status] : 9;
     var ob = order.hasOwnProperty(b.status) ? order[b.status] : 9;
-    return oa - ob;
+    if (oa !== ob) return oa - ob;
+    // Within matched, sort by confidence descending
+    if (a.status === 'matched' && b.status === 'matched') {
+      var ca = (a.confidence && a.confidence.overall) || 0;
+      var cb = (b.confidence && b.confidence.overall) || 0;
+      return cb - ca;
+    }
+    return 0;
   });
+
+  // Reset selected checkboxes
+  _paySelectedBills.clear();
+  document.getElementById('recordSelectedBtn').style.display = 'none';
 
   // Build table — CC columns LEFT, Bill columns RIGHT
   var tbl = document.createElement('table');
   tbl.className = 'match-table';
   tbl.style.cssText = 'width:100%;font-size:11px';
   tbl.innerHTML = '<thead><tr>'
+    + '<th style="padding:6px 4px;text-align:center;width:28px"><input type="checkbox" id="paySelectAll" onchange="togglePaySelectAll(this)" title="Select all matched"></th>'
     + '<th style="text-align:left;padding:6px 8px">CC Description</th>'
     + '<th style="text-align:right;padding:6px 8px">CC INR</th>'
     + '<th style="padding:6px 8px">CC Date</th>'
@@ -5220,12 +5354,17 @@ function renderPaymentPreview(data) {
     + '<th style="text-align:right;padding:6px 8px">Bill Amt</th>'
     + '<th style="padding:6px 4px">Cur</th>'
     + '<th style="padding:6px 8px">Bill Date</th>'
-    + '<th style="padding:6px 8px">Status</th>'
+    + '<th style="padding:6px 8px;text-align:center">Confidence</th>'
     + '<th style="padding:6px 8px">Action</th>'
     + '</tr></thead>';
 
   var tbody = document.createElement('tbody');
   var _lastSection = '';
+
+  function _confDot(val) {
+    var col = val >= 90 ? 'var(--green)' : val >= 60 ? 'var(--yellow)' : 'var(--red,#ef4444)';
+    return '<span style="color:' + col + ';font-weight:700" title="' + val + '%">' + val + '</span>';
+  }
 
   matches.forEach(function(m, idx) {
     // Add section separator rows
@@ -5252,7 +5391,7 @@ function renderPaymentPreview(data) {
         sepLabel = '\u2713 Already Paid (' + apCount + ')';
         sepColor = 'var(--text-dim)'; sepBg = 'rgba(150,150,150,0.06)';
       }
-      sepTr.innerHTML = '<td colspan="10" style="padding:7px 10px;font-size:11px;font-weight:700;color:' + sepColor + ';border-top:2px solid var(--border);background:' + sepBg + '">' + sepLabel + '</td>';
+      sepTr.innerHTML = '<td colspan="11" style="padding:7px 10px;font-size:11px;font-weight:700;color:' + sepColor + ';border-top:2px solid var(--border);background:' + sepBg + '">' + sepLabel + '</td>';
       tbody.appendChild(sepTr);
     }
 
@@ -5268,17 +5407,24 @@ function renderPaymentPreview(data) {
     else if (m.status === 'already_paid') bgColor = 'rgba(150,150,150,0.04)';
     tr.style.background = bgColor;
 
-    var statusBadge = '';
+    var confCell = '';
     var actionBtn = '';
     if (m.status === 'matched') {
-      statusBadge = '<span style="color:var(--green);font-weight:600">\u2714 Matched</span>';
       actionBtn = '<button class="bill-create-btn" id="pay-btn-' + m.bill_id + '" onclick="confirmRecordOne(\'' + m.bill_id + '\')">Record</button>';
+      // Confidence breakdown: V=vendor, A=amount, D=date
+      var c = m.confidence || {};
+      var ov = c.overall || 0;
+      var ovColor = ov >= 85 ? 'var(--green)' : ov >= 60 ? 'var(--yellow)' : 'var(--red,#ef4444)';
+      confCell = '<div style="text-align:center;line-height:1.4">'
+        + '<div style="font-size:13px;font-weight:700;color:' + ovColor + '">' + ov + '%</div>'
+        + '<div style="font-size:9px;color:var(--text-dim)">Vendor:' + _confDot(c.vendor||0) + ' Amt:' + _confDot(c.amount||0) + ' Date:' + _confDot(c.date||0) + '</div>'
+        + '</div>';
     } else if (m.status === 'cc_only') {
-      statusBadge = '<span style="color:var(--accent)">No Invoice</span>';
+      confCell = '<span style="color:var(--accent);font-size:10px">No Invoice</span>';
     } else if (m.status === 'unmatched') {
-      statusBadge = '<span style="color:var(--yellow)">No CC</span>';
+      confCell = '<span style="color:var(--yellow);font-size:10px">No CC</span>';
     } else if (m.status === 'already_paid') {
-      statusBadge = '<span style="color:var(--text-dim)">\u2713 Paid</span>';
+      confCell = '<span style="color:var(--text-dim);font-size:10px">\u2713 Paid</span>';
     }
 
     // CC columns (left side) — empty for unmatched/already_paid bills
@@ -5293,9 +5439,17 @@ function renderPaymentPreview(data) {
     // Bill columns (right side) — empty for cc_only
     var hasBill = m.status !== 'cc_only';
 
-    tr.innerHTML =
+    // Checkbox cell — only for matched rows
+    var cbCell = '';
+    if (m.status === 'matched') {
+      cbCell = '<td style="text-align:center;padding:5px 4px"><input type="checkbox" class="pay-cb" data-billid="' + m.bill_id + '" onchange="togglePayCheckbox(this)"></td>';
+    } else {
+      cbCell = '<td style="padding:5px 4px"></td>';
+    }
+
+    tr.innerHTML = cbCell
       // --- CC LEFT ---
-      '<td style="text-align:left;padding:5px 8px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' + (hasCc?'':''+dimStyle) + '" title="' + ccDescFull.replace(/"/g,'&quot;') + '">' + (hasCc ? ccDesc + forexNote : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="text-align:left;padding:5px 8px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' + (hasCc?'':''+dimStyle) + '" title="' + ccDescFull.replace(/"/g,'&quot;') + '">' + (hasCc ? ccDesc + forexNote : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="text-align:right;padding:5px 8px;font-family:monospace;' + (hasCc?'':''+dimStyle) + '">' + (hasCc && m.cc_inr_amount ? fmt(m.cc_inr_amount) : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="padding:5px 8px;' + (hasCc?'':''+dimStyle) + '">' + (hasCc ? (m.cc_date||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="padding:5px 8px;font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (hasCc ? (m.cc_card||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
@@ -5304,7 +5458,7 @@ function renderPaymentPreview(data) {
       + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + (hasBill ? fmt(m.bill_amount) : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="padding:5px 4px;text-align:center">' + (hasBill ? (m.bill_currency||'INR') : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="padding:5px 8px">' + (hasBill ? (m.bill_date||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
-      + '<td style="padding:5px 8px">' + statusBadge + '</td>'
+      + '<td style="padding:5px 8px">' + confCell + '</td>'
       + '<td style="padding:5px 8px">' + actionBtn + '</td>';
 
     tbody.appendChild(tr);
@@ -5322,19 +5476,6 @@ function confirmRecordOne(billId) {
   showModal('Record Payment?', 'This will mark the bill as PAID in Zoho Books: ' + desc, function() {
     recordOnePayment(billId, _paymentPreviewData);
   }, false, 'Record');
-}
-
-function confirmRecordAll() {
-  var cardFilter = document.getElementById('paymentCardFilter').value;
-  var count = _paymentPreviewData ? _paymentPreviewData.matches.filter(function(m) {
-    if (m.status !== 'matched') return false;
-    if (cardFilter && (m.cc_card || '') !== cardFilter) return false;
-    return true;
-  }).length : 0;
-  var cardNote = cardFilter ? ' for ' + cardFilter : '';
-  showModal('Record All ' + count + ' Payments?', 'This will mark ' + count + ' bills' + cardNote + ' as PAID in Zoho Books. This cannot be undone easily.', function() {
-    recordAllMatched();
-  }, true, 'Record All');
 }
 
 function recordOnePayment(billId, previewData) {
@@ -5383,29 +5524,67 @@ function recordOnePayment(billId, previewData) {
   });
 }
 
-function recordAllMatched() {
-  if (!_paymentPreviewData) return;
-  var cardFilter = document.getElementById('paymentCardFilter').value;
-  var matchedItems = _paymentPreviewData.matches
-    .filter(function(m) {
-      if (m.status !== 'matched') return false;
-      if (cardFilter && (m.cc_card || '') !== cardFilter) return false;
-      return true;
-    })
+// --- Payment checkbox selection ---
+var _paySelectedBills = new Set();
+
+function togglePayCheckbox(cb) {
+  var billId = cb.getAttribute('data-billid');
+  if (cb.checked) _paySelectedBills.add(billId);
+  else _paySelectedBills.delete(billId);
+  _updatePaySelectedBtn();
+}
+
+function togglePaySelectAll(cb) {
+  var checkboxes = document.querySelectorAll('.pay-cb');
+  checkboxes.forEach(function(c) {
+    // Only toggle visible (not filtered out) rows
+    var row = c.closest('tr');
+    if (row && row.style.display === 'none') return;
+    c.checked = cb.checked;
+    var billId = c.getAttribute('data-billid');
+    if (cb.checked) _paySelectedBills.add(billId);
+    else _paySelectedBills.delete(billId);
+  });
+  _updatePaySelectedBtn();
+}
+
+function _updatePaySelectedBtn() {
+  var btn = document.getElementById('recordSelectedBtn');
+  var count = _paySelectedBills.size;
+  if (count > 0) {
+    btn.style.display = 'inline-block';
+    btn.textContent = 'Record Selected (' + count + ')';
+    btn.disabled = false;
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+function confirmRecordSelected() {
+  var count = _paySelectedBills.size;
+  if (!count) return;
+  showModal('Record ' + count + ' Selected Payments?', 'This will mark ' + count + ' selected bills as PAID in Zoho Books.', function() {
+    recordSelectedPayments();
+  }, true, 'Record Selected');
+}
+
+function recordSelectedPayments() {
+  if (!_paymentPreviewData || !_paySelectedBills.size) return;
+  var selectedItems = _paymentPreviewData.matches
+    .filter(function(m) { return m.status === 'matched' && _paySelectedBills.has(m.bill_id); })
     .map(function(m) {
       var item = {bill_id: m.bill_id, cc_transaction_id: m.cc_transaction_id, cc_inr_amount: m.cc_inr_amount, cc_date: m.cc_date, cc_card: m.cc_card};
       if (m.cc_forex_amount) { item.cc_forex_amount = m.cc_forex_amount; item.cc_forex_currency = m.cc_forex_currency; }
       return item;
     });
 
-  if (!matchedItems.length) return;
+  if (!selectedItems.length) return;
 
-  var allBtn = document.getElementById('recordAllBtn');
-  allBtn.disabled = true;
-  allBtn.textContent = 'Recording ' + matchedItems.length + '...';
+  var selBtn = document.getElementById('recordSelectedBtn');
+  selBtn.disabled = true;
+  selBtn.textContent = 'Recording ' + selectedItems.length + '...';
 
-  // Disable individual buttons
-  matchedItems.forEach(function(item) {
+  selectedItems.forEach(function(item) {
     var btn = document.getElementById('pay-btn-' + item.bill_id);
     if (btn) { btn.disabled = true; btn.textContent = '...'; }
   });
@@ -5413,7 +5592,7 @@ function recordAllMatched() {
   fetch('/api/payments/record-selected', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({items: matchedItems}),
+    body: JSON.stringify({items: selectedItems}),
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
@@ -5422,21 +5601,25 @@ function recordAllMatched() {
     results.forEach(function(r) {
       var row = document.getElementById('pay-row-' + r.bill_id);
       var btn = document.getElementById('pay-btn-' + r.bill_id);
+      var cb = document.querySelector('.pay-cb[data-billid="' + r.bill_id + '"]');
       if (r.status === 'paid') {
         if (row) row.style.background = 'rgba(80,200,120,0.15)';
         if (btn) { btn.textContent = '\u2713 Paid'; btn.style.color = 'var(--green)'; }
+        if (cb) { cb.checked = false; cb.disabled = true; }
+        _paySelectedBills.delete(r.bill_id);
         paidCount++;
       } else {
         if (btn) { btn.textContent = r.status; btn.disabled = false; }
       }
     });
-    allBtn.textContent = paidCount + '/' + matchedItems.length + ' Recorded';
-    addLogLine('[Payment] Bulk record: ' + paidCount + '/' + matchedItems.length + ' paid');
+    selBtn.textContent = paidCount + '/' + selectedItems.length + ' Recorded';
+    _updatePaySelectedBtn();
+    addLogLine('[Payment] Selected record: ' + paidCount + '/' + selectedItems.length + ' paid');
   })
   .catch(function(err) {
-    allBtn.textContent = 'Error';
-    allBtn.disabled = false;
-    addLogLine('[Payment] Bulk error: ' + err);
+    selBtn.textContent = 'Error';
+    selBtn.disabled = false;
+    addLogLine('[Payment] Selected error: ' + err);
   });
 }
 
@@ -5642,6 +5825,13 @@ function renderComparePanel(data) {
   // Populate month dropdown
   var select = document.getElementById('compareMonthSelect');
   select.innerHTML = '';
+  // "All Months" option
+  var allOpt = document.createElement('option');
+  allOpt.value = 'all';
+  var totalCC = months.reduce(function(s, m) { return s + (m.cc_count || 0); }, 0);
+  var totalInv = months.reduce(function(s, m) { return s + (m.inv_count || 0); }, 0);
+  allOpt.textContent = 'All Months (' + totalCC + ' CC / ' + totalInv + ' inv)';
+  select.appendChild(allOpt);
   months.forEach(function(m, idx) {
     var opt = document.createElement('option');
     opt.value = idx;
@@ -5653,7 +5843,7 @@ function renderComparePanel(data) {
   document.getElementById('compareContent').style.display = 'block';
 
   if (months.length > 0) {
-    renderCompareMonth(0);
+    renderCompareMonth('all');
   } else {
     document.getElementById('compareContent').innerHTML =
       '<div style="text-align:center;color:var(--text-dim);padding:40px">No data found</div>';
@@ -5661,8 +5851,27 @@ function renderComparePanel(data) {
 }
 
 function renderCompareMonth(idx) {
-  idx = parseInt(idx);
-  var m = _compareData.months[idx];
+  var m;
+  if (idx === 'all' || idx === 'NaN') {
+    // Merge all months
+    var allCC = [], allInv = [];
+    var ccTot = 0, invTot = 0;
+    _compareData.months.forEach(function(mo) {
+      allCC = allCC.concat(mo.cc_transactions || []);
+      allInv = allInv.concat(mo.invoices || []);
+      ccTot += (mo.cc_total || 0);
+      invTot += (mo.inv_total || 0);
+    });
+    m = {
+      month: 'All Months',
+      cc_transactions: allCC, invoices: allInv,
+      cc_count: allCC.length, inv_count: allInv.length,
+      cc_total: ccTot, inv_total: invTot
+    };
+  } else {
+    idx = parseInt(idx);
+    m = _compareData.months[idx];
+  }
   var content = document.getElementById('compareContent');
   content.innerHTML = '';
   var fmt = function(n) { return n != null ? Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '-'; };
@@ -5701,6 +5910,8 @@ function renderCompareMonth(idx) {
     var tbody = document.createElement('tbody');
     m.cc_transactions.forEach(function(t) {
       var tr = document.createElement('tr');
+      tr.setAttribute('data-vendor', (t.vendor_name || t.description || '').toLowerCase());
+      tr.setAttribute('data-date', t.date || '');
       var forexText = t.forex_currency && t.forex_amount
         ? t.forex_currency + ' ' + fmt(t.forex_amount) : '-';
       var cardShort = (t.card_name || '-').replace('CC ', '');
@@ -5729,6 +5940,8 @@ function renderCompareMonth(idx) {
     var tbody2 = document.createElement('tbody');
     m.invoices.forEach(function(inv) {
       var tr = document.createElement('tr');
+      tr.setAttribute('data-vendor', (inv.vendor_name || '').toLowerCase());
+      tr.setAttribute('data-date', inv.date || '');
       var gstinHtml = inv.vendor_gstin
         ? '<span title="' + inv.vendor_gstin + '">' + inv.vendor_gstin + '</span>'
         : '<span style="color:var(--text-dim)">-</span>';
@@ -5764,16 +5977,131 @@ function renderCompareMonth(idx) {
   var catResults = document.createElement('div');
   catResults.id = 'categorizeResults';
   content.appendChild(catResults);
+
+  // Populate vendor filter dropdown
+  var vendors = {};
+  m.cc_transactions.forEach(function(t) { var v = t.vendor_name || t.description || ''; if (v) vendors[v] = true; });
+  m.invoices.forEach(function(inv) { var v = inv.vendor_name || ''; if (v) vendors[v] = true; });
+  var vSelect = document.getElementById('compareVendorFilter');
+  vSelect.innerHTML = '<option value="">All Vendors</option>';
+  Object.keys(vendors).sort().forEach(function(v) {
+    var opt = document.createElement('option');
+    opt.value = v.toLowerCase();
+    opt.textContent = v.length > 30 ? v.substring(0, 28) + '...' : v;
+    opt.title = v;
+    vSelect.appendChild(opt);
+  });
+
+  // Set date range defaults from month data
+  var dateFrom = document.getElementById('compareDateFrom');
+  var dateTo = document.getElementById('compareDateTo');
+  dateFrom.value = '';
+  dateTo.value = '';
+
+  // Show filter bar
+  document.getElementById('compareFilterBar').style.display = 'flex';
+}
+
+function applyCompareFilters() {
+  var vendorVal = (document.getElementById('compareVendorFilter').value || '').toLowerCase();
+  var dateFrom = document.getElementById('compareDateFrom').value || '';
+  var dateTo = document.getElementById('compareDateTo').value || '';
+
+  // Filter CC rows
+  var ccRows = document.querySelectorAll('#compareContent table:first-of-type tbody tr');
+  // Tables are inside the grid columns; get both tbodies
+  var tables = document.querySelectorAll('#compareContent table.match-table');
+  if (tables.length >= 1) {
+    var ccTbody = tables[0].querySelector('tbody');
+    if (ccTbody) {
+      Array.prototype.forEach.call(ccTbody.rows, function(tr) {
+        var rv = tr.getAttribute('data-vendor') || '';
+        var rd = tr.getAttribute('data-date') || '';
+        var show = true;
+        if (vendorVal && rv.indexOf(vendorVal) === -1) show = false;
+        if (dateFrom && rd && rd < dateFrom) show = false;
+        if (dateTo && rd && rd > dateTo) show = false;
+        tr.style.display = show ? '' : 'none';
+      });
+    }
+  }
+  if (tables.length >= 2) {
+    var invTbody = tables[1].querySelector('tbody');
+    if (invTbody) {
+      Array.prototype.forEach.call(invTbody.rows, function(tr) {
+        var rv = tr.getAttribute('data-vendor') || '';
+        var rd = tr.getAttribute('data-date') || '';
+        var show = true;
+        if (vendorVal && rv.indexOf(vendorVal) === -1) show = false;
+        if (dateFrom && rd && rd < dateFrom) show = false;
+        if (dateTo && rd && rd > dateTo) show = false;
+        tr.style.display = show ? '' : 'none';
+      });
+    }
+  }
+
+  // Also filter Categorize Check rows
+  var catRows = document.querySelectorAll('#categorizeResults .cat-row');
+  Array.prototype.forEach.call(catRows, function(tr) {
+    var rv = tr.getAttribute('data-vendor') || '';
+    var rd = tr.getAttribute('data-date') || '';
+    var show = true;
+    if (vendorVal && rv.indexOf(vendorVal) === -1) show = false;
+    if (dateFrom && rd && rd < dateFrom) show = false;
+    if (dateTo && rd && rd > dateTo) show = false;
+    tr.style.display = show ? '' : 'none';
+  });
+}
+
+function clearCompareFilters() {
+  document.getElementById('compareVendorFilter').value = '';
+  document.getElementById('compareDateFrom').value = '';
+  document.getElementById('compareDateTo').value = '';
+  applyCompareFilters();
 }
 
 var _catRows = [];
 var _catMonth = '';
 
 function runCategorizeCheck(idx, mode) {
-  idx = parseInt(idx);
-  var m = _compareData.months[idx];
-  var ccList = m.cc_transactions || [];
-  var invList = m.invoices || [];
+  var m;
+  if (idx === 'all' || isNaN(parseInt(idx))) {
+    var allCC = [], allInv = [];
+    _compareData.months.forEach(function(mo) {
+      allCC = allCC.concat(mo.cc_transactions || []);
+      allInv = allInv.concat(mo.invoices || []);
+    });
+    m = { month: 'All Months', cc_transactions: allCC, invoices: allInv };
+  } else {
+    idx = parseInt(idx);
+    m = _compareData.months[idx];
+  }
+  var ccList = (m.cc_transactions || []).slice();
+  var invList = (m.invoices || []).slice();
+
+  // Apply active vendor/date filters
+  var vendorVal = (document.getElementById('compareVendorFilter').value || '').toLowerCase();
+  var dateFrom = document.getElementById('compareDateFrom').value || '';
+  var dateTo = document.getElementById('compareDateTo').value || '';
+  if (vendorVal || dateFrom || dateTo) {
+    ccList = ccList.filter(function(t) {
+      var v = (t.vendor_name || t.description || '').toLowerCase();
+      var d = t.date || '';
+      if (vendorVal && v.indexOf(vendorVal) === -1) return false;
+      if (dateFrom && d && d < dateFrom) return false;
+      if (dateTo && d && d > dateTo) return false;
+      return true;
+    });
+    invList = invList.filter(function(inv) {
+      var v = (inv.vendor_name || '').toLowerCase();
+      var d = inv.date || '';
+      if (vendorVal && v.indexOf(vendorVal) === -1) return false;
+      if (dateFrom && d && d < dateFrom) return false;
+      if (dateTo && d && d > dateTo) return false;
+      return true;
+    });
+  }
+
   var container = document.getElementById('categorizeResults');
   container.innerHTML = '';
   var fmt = function(n) { return n != null ? Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '-'; };
@@ -5809,11 +6137,17 @@ function runCategorizeCheck(idx, mode) {
     var ccs = (ccByVendor[vendor] || []).slice();
     var invs = (invByVendor[vendor] || []).slice();
 
-    // Try to match each CC to an invoice
+    // Sort both by date so greedy matching pairs chronologically
+    ccs.sort(function(a, b) { return (a.date || '').localeCompare(b.date || ''); });
+    invs.sort(function(a, b) { return (a.date || '').localeCompare(b.date || ''); });
+
+    // Try to match each CC to an invoice (prefer closest date when amounts tie)
     ccs.forEach(function(cc) {
       var bestMatch = null;
       var bestType = '';
       var bestDiff = Infinity;
+      var bestDateDiff = Infinity;
+      var _ccDate = cc.date ? new Date(cc.date) : null;
 
       invs.forEach(function(inv) {
         if (inv._matched) return;
@@ -5852,16 +6186,24 @@ function runCategorizeCheck(idx, mode) {
           mtype = 'INR \u2192 ' + invCur;
         }
 
-        if (diff !== null && diff < bestDiff) {
+        // Date proximity as tiebreaker when amounts are equal
+        var dateDiff = 9999;
+        if (_ccDate && inv.date) {
+          var invD = new Date(inv.date);
+          dateDiff = Math.abs((_ccDate - invD) / 86400000);
+        }
+
+        if (diff !== null && (diff < bestDiff || (diff === bestDiff && dateDiff < bestDateDiff))) {
           bestDiff = diff;
+          bestDateDiff = dateDiff;
           bestMatch = inv;
           bestType = mtype;
         }
       });
 
-      // Tolerance: exact or within 1% or Rs 1
+      // Tolerance: exact or within 1% or Rs 1, AND date within ±10 days
       var threshold = Math.max(1, (parseFloat(cc.amount) || 0) * 0.01);
-      if (bestMatch && bestDiff <= threshold) {
+      if (bestMatch && bestDiff <= threshold && bestDateDiff <= 10) {
         bestMatch._matched = true;
         cc._matched = true;
         rows.push({
@@ -5973,7 +6315,8 @@ function runCategorizeCheck(idx, mode) {
     if (rows[_ri] === null) rows.splice(_ri, 1);
   }
 
-  // --- Cross-month search for unmatched CC (limited to +/- 1 month) ---
+  // --- Cross-month search for unmatched CC (limited to +/- 1 month) --- skip when viewing all months
+  if (idx === 'all' || isNaN(parseInt(idx))) { /* skip cross-month for all-months view */ } else {
   var _monthNames = {Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11};
   var _parseMonthDate = function(mk) {
     var parts = (mk || '').split(' ');
@@ -6055,13 +6398,18 @@ function runCategorizeCheck(idx, mode) {
       };
     }
   });
+  } // end cross-month else block
 
-  // Sort rows
+  // Sort rows: Create Bill first, then In Zoho, then rest
   var statusOrder = {exact: 0, close: 0, cross_exact: 1, cross_close: 1, no_cc: 2, no_invoice: 3, unmapped: 4};
   rows.sort(function(a, b) {
     var oa = statusOrder[a.status] != null ? statusOrder[a.status] : 4;
     var ob = statusOrder[b.status] != null ? statusOrder[b.status] : 4;
     if (oa !== ob) return oa - ob;
+    // Within matched: Create Bill (not in_zoho) before In Zoho
+    var aZoho = (a.inv && a.inv.in_zoho) ? 1 : 0;
+    var bZoho = (b.inv && b.inv.in_zoho) ? 1 : 0;
+    if (aZoho !== bZoho) return aZoho - bZoho;
     return (a.vendor || '').localeCompare(b.vendor || '');
   });
 
@@ -6170,17 +6518,24 @@ function renderCatView() {
     '<span style="color:var(--green)">\u2713 Matched: ' + matched + '</span>' +
     (crossMatched ? '<span style="color:var(--accent)">\u2194 Other Month: ' + crossMatched + '</span>' : '') +
     '<span style="color:var(--yellow)">\u26A0 No Invoice: ' + noInv + '</span>' +
-    (unmapped ? '<span style="color:var(--text-dim)">\u2753 Unmapped: ' + unmapped + '</span>' : '');
+    (unmapped ? '<span style="color:var(--text-dim)">\u2753 Unmapped: ' + unmapped + '</span>' : '') +
+    '<button id="catCreateSelectedBtn" onclick="confirmCatCreateSelected()" style="display:none;background:var(--accent);color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600;margin-left:auto">Create Selected (0)</button>';
   container.appendChild(hdr);
+
+  // Reset selection tracking
+  _catSelectedInvs = {};
 
   // Table
   var tbl = document.createElement('table');
   tbl.className = 'cat-table';
-  tbl.innerHTML = '<thead><tr><th>Vendor</th><th>CC Description</th><th>CC Forex</th><th>CC Amount (INR)</th><th>CC Date</th><th>Inv Amount</th><th>Inv Date</th><th>Match Type</th><th>Diff</th><th>Status</th><th>Action</th></tr></thead>';
+  tbl.innerHTML = '<thead><tr><th style="width:28px;text-align:center"><input type="checkbox" id="catSelectAll" onchange="toggleCatSelectAll(this)" title="Select all Create Bill rows"></th><th>Vendor</th><th>CC Description</th><th>CC Forex</th><th>CC Amount (INR)</th><th>CC Date</th><th>Inv Amount</th><th>Inv Date</th><th>Match Type</th><th>Diff</th><th>Confidence</th><th>Status</th><th>Action</th></tr></thead>';
   var tbody = document.createElement('tbody');
 
   filtered.forEach(function(r) {
     var tr = document.createElement('tr');
+    tr.className = 'cat-row';
+    tr.setAttribute('data-vendor', (r.vendor || '').toLowerCase());
+    tr.setAttribute('data-date', (r.cc && r.cc.date) || '');
     var statusHtml = '';
     var rowBg = '';
     if (r.status === 'exact') {
@@ -6231,7 +6586,62 @@ function renderCatView() {
       }
     }
 
-    tr.innerHTML =
+    // Compute confidence for matched rows
+    var confHtml = '-';
+    if (r.cc && r.inv && (r.status === 'exact' || r.status === 'close' || r.status === 'cross_exact' || r.status === 'cross_close')) {
+      // Vendor confidence
+      var ccVendor = (r.cc.vendor_name || r.cc.description || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      var invVendor = (r.inv.vendor_name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      var vConf = 0;
+      if (ccVendor && invVendor) {
+        if (ccVendor === invVendor || ccVendor.indexOf(invVendor) !== -1 || invVendor.indexOf(ccVendor) !== -1) vConf = 100;
+        else {
+          var ccW = ccVendor.substring(0, Math.min(4, ccVendor.length));
+          var invW = invVendor.substring(0, Math.min(4, invVendor.length));
+          if (ccW === invW) vConf = 80;
+        }
+      }
+      // Amount confidence — use same currency comparison as the match logic
+      var ccForexAm = r.cc.forex_amount ? parseFloat(r.cc.forex_amount) : null;
+      var ccForexCur = r.cc.forex_currency || null;
+      var ccInrAm = parseFloat(r.cc.amount) || 0;
+      var invAm = parseFloat(r.inv.amount) || 0;
+      var invCur = (r.inv.currency || 'INR').toUpperCase();
+      var ccAm, compareAm;
+      if (ccForexCur && ccForexAm && invCur === ccForexCur) {
+        // Same forex currency (e.g. USD vs USD)
+        ccAm = ccForexAm; compareAm = invAm;
+      } else if (ccForexCur && ccForexAm && invCur === 'INR') {
+        // Forex CC vs INR invoice — compare INR
+        ccAm = ccInrAm; compareAm = invAm;
+      } else {
+        ccAm = ccInrAm; compareAm = invAm;
+      }
+      var amDiff = Math.abs(ccAm - compareAm);
+      var amPct = ccAm > 0 ? (amDiff / ccAm) : 1;
+      var aConf = amPct < 0.001 ? 100 : amPct < 0.01 ? 95 : amPct < 0.05 ? 80 : amPct < 0.1 ? 60 : 40;
+      // Date confidence
+      var dConf = 0;
+      if (r.cc.date && r.inv.date) {
+        var cd = new Date(r.cc.date), id = new Date(r.inv.date);
+        var daysDiff = Math.abs((cd - id) / 86400000);
+        dConf = daysDiff <= 1 ? 100 : daysDiff <= 5 ? 90 : daysDiff <= 15 ? 50 : daysDiff <= 30 ? 25 : 0;
+      }
+      var overall = Math.round(vConf * 0.4 + aConf * 0.4 + dConf * 0.2);
+      var ovColor = overall >= 85 ? 'var(--green)' : overall >= 60 ? 'var(--yellow)' : 'var(--red,#ef4444)';
+      var _cd = function(v) { var c = v >= 90 ? 'var(--green)' : v >= 60 ? 'var(--yellow)' : 'var(--red,#ef4444)'; return '<span style="color:'+c+';font-weight:700">'+v+'</span>'; };
+      confHtml = '<div style="text-align:center;line-height:1.4">'
+        + '<div style="font-size:12px;font-weight:700;color:' + ovColor + '">' + overall + '%</div>'
+        + '<div style="font-size:8px;color:var(--text-dim)">Vendor:' + _cd(vConf) + ' Amt:' + _cd(aConf) + ' Date:' + _cd(dConf) + '</div></div>';
+    }
+
+    // Checkbox for Create Bill rows
+    var canCreate = (r.status === 'exact' || r.status === 'close') && r.inv && !r.inv.in_zoho;
+    var cbCell = canCreate
+      ? '<td style="text-align:center;padding:3px 4px"><input type="checkbox" class="cat-cb" data-catidx="' + filtered.indexOf(r) + '" onchange="toggleCatCheckbox(this)"></td>'
+      : '<td style="padding:3px 4px"></td>';
+
+    tr.innerHTML = cbCell +
       '<td style="font-size:11px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + r.vendor + '">' + r.vendor + '</td>' +
       '<td style="font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + ccDesc + '">' + ccDesc + '</td>' +
       '<td style="font-size:10px;color:var(--yellow)">' + ccForex + '</td>' +
@@ -6241,6 +6651,7 @@ function renderCatView() {
       '<td style="font-size:10px">' + invDate + '</td>' +
       '<td style="font-size:10px">' + (r.matchType || '-') + '</td>' +
       '<td style="font-family:monospace;font-size:10px;text-align:right">' + diffText + '</td>' +
+      '<td style="padding:3px 4px">' + confHtml + '</td>' +
       '<td style="font-size:10px;white-space:nowrap">' + statusHtml + '</td>' +
       '<td style="padding:3px 6px">' + actionHtml + '</td>';
     tbody.appendChild(tr);
