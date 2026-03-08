@@ -125,7 +125,8 @@
     "amount": 1694.07,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 988939\nEffective Date Transaction ID Invoice Number Purchaser Email\n4/30/2025 P386109456 51195567355 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹1,694.07 4/28/2025 Monthly VISA ****9157\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nPremium Business\n1 ₹1,694.07 1 ₹1,694.07\nFrom April 28",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Apr 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\LNKD_INVOICE_51195567355.pdf"
   },
@@ -139,6 +140,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Apr 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\MAA4-280872_p1_MAA4-280872.pdf"
   },
@@ -152,6 +158,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd Daniel J\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, 17/85 2nd Main Road, Karpagam Avenue 3rd\nDurainallur Village, Ponneri Taluk Street, Raja Annamalaipuram\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TAMIL NADU, 600028\nIN IN\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA Shipping Address :\nDaniel J\nD2R AI Labs Pvt Ltd\nFSSAI License No.\n11222999000045 S",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Apr 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\MAA4-687526.pdf"
   },
@@ -190,7 +201,8 @@
     "amount": 331.82,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-003-223-854\nSydney NSW 2000, Australia Invoice date: Apr 11, 2025\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 331.82\nAmount paid via credit card: USD 331.82\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx9677\nCardholder's Name: SYLVESTER DANIE",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "Apr 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\invoice-6aa55a53-399a-48bc-8fb9-fc9592fc2389.pdf"
   },
@@ -269,6 +281,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nWIDEVIEW SOLUTIONS D2R AI LABS PRIVATE LIMITED\n* Sy No. 524/1,2,3,4,6, 525/1,2,3,4,5,6, Sreela Terrace, 2nd Floor, #105, First Main Road,,\n526/3,4,5,6,527 of madivala village, and Sy Gandhi Nagar, Adyar,\nno.51/1 of thatanahalli village, kasaba hobli, CHENNAI, TN, 600020\nanekal taluk, Bangalore urban district IN\nBangalore, Karnataka, 562107 GST Registration No: 33AAICD7217K1ZK\nIN State/UT Code: 33\nPAN No: AA",
     "vendor_gstin": "29AAFFW0573P1ZG",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR7",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\BLR7-717.pdf"
   },
@@ -282,6 +299,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nETRADE MARKETING PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Building 2 ( Wh 2), Plot no. 12/P2 (IT Sector), Sreela Terrace, 2nd Floor, #105, First Main Road,,\nHitech, Defence and Aerospace Park, Devanahalli Gandhi Nagar, Adyar,\nBengaluru, Karnataka, 562149 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AADCV4254H\nGST Registration No: 29AADCV4254H1Z4\n",
     "vendor_gstin": "29AADCV4254H1Z4",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR8",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\BLR8-2104995_p1_BLR8-2104995.pdf"
   },
@@ -373,6 +395,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\FMAB-317253_p1_FMAB-317253.pdf"
   },
@@ -386,6 +413,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\FMAB-324269_p1_FMAB-324269.pdf"
   },
@@ -438,6 +470,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nARPIT AGRAWAL D2R AI LABS PRIVATE LIMITED\n* House no. 522 , Ground floor Mahaveer Nagar Sreela Terrace, 2nd Floor, #105, First Main Road,,\n2nd. Gandhi Nagar, Adyar,\nKOTA, RAJASTHAN, 324005 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: DXLPA0204B\nGST Registration No: 08DXLPA0204B2Z9\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nDaniel\nDoor #1, First Floor, 7/9 Chol",
     "vendor_gstin": "08DXLPA0204B2Z9",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "IN",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\IN-6584.pdf"
   },
@@ -503,6 +540,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nBigIntent Global India Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* Khasra numbers:444(P),445(P),459(P), Sreela Terrace, 2nd Floor, #105, First Main Road,,\n460,461,462,463,464, Gandhi Nagar, Adyar,\n465,466,467,468,469,470,471,472,473,474,,, CHENNAI, TN, 600020\n75(P),476,477,478, 479,480, IN\n481,482,483(P),491,492,493(P) Village - GST Registration No: 33AAICD7217K1ZK\nBhaukapur, State/UT Code: 33\nLucknow, Uttar Prad",
     "vendor_gstin": "09AAKCB4313J1ZM",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "LKO1",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\LKO1-857.pdf"
   },
@@ -515,7 +557,8 @@
     "amount": 8400.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n8/9/2025 P526915056 511129930927 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 8/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400.0",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\LNKD_INVOICE_511129930927.pdf"
   },
@@ -528,7 +571,8 @@
     "amount": 7058.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n8/18/2025 P539364186 511132686884 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹7,058.00 8/17/2025 Threshold Billing MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nLinkedIn Singapore Pte Ltd, 10 Marina Boulevard, Marina Bay Financial Centre Tower",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\LNKD_INVOICE_511132686884.pdf"
   },
@@ -542,6 +586,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nETRADE MARKETING PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AADCV4254H\nGST Registration No: 33AADCV4254H1ZF\nShipping A",
     "vendor_gstin": "33AADCV4254H1ZF",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\MAA4-1175721_p1_MAA4-1175721.pdf"
   },
@@ -555,6 +604,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI Labs Pvt Ltd\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela terrace, 2nd floor, #105, 1st main road,\nDurainallur Village, Ponneri Taluk Gandhi nagar, Adyar\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TAMIL NADU, 600020\nIN IN\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA Shipping Address :\nD2R AI Labs Pvt Ltd\nD2R AI Labs Pvt Ltd\nFSSAI License",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\MAA4-3735302.pdf"
   },
@@ -581,6 +635,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nECONETING E-COMMERCE PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Plot No. 33, Block A, Mohan Cooperative Sreela Terrace, 2nd Floor, #105, First Main Road,,\nIndustrial Estate Gandhi Nagar, Adyar,\nNew Delhi, Delhi, 110044 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAGCE8352C\nGST Registration No: 07AAGCE8352C1ZR\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nDani",
     "vendor_gstin": "07AAGCE8352C1ZR",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "PNQ2",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\PNQ2-6335.pdf"
   },
@@ -606,7 +665,8 @@
     "amount": 391.04,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-004-088-291\nSydney NSW 2000, Australia Invoice date: Aug 11, 2025\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 391.04\nAmount paid via credit card: USD 391.04\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx9677\nCardholder's Name: SYLVESTER DANIE",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\invoice-0cf94175-74a4-4471-ba26-d41a7c5ca0e0 1.pdf"
   },
@@ -658,7 +718,8 @@
     "amount": 117.47,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-005-041-698\nSydney NSW 2000, Australia Invoice date: Dec 11, 2025\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 117.47\nAmount paid via credit card: USD 117.47\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx8948\nThank you for your payment!\nTo lea",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "Dec 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\Atlassian_Invoice_IN-005-041-698.pdf"
   },
@@ -671,7 +732,8 @@
     "amount": 79.06,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-005-113-294\nSydney NSW 2000, Australia Invoice date: Dec 19, 2025\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 79.06\nAmount paid via credit card: USD 79.06\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx8948\nThank you for your payment!\nTo learn",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "Dec 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\Atlassian_Invoice_IN-005-113-294.pdf"
   },
@@ -685,6 +747,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n61aa2e7b374cd9940b1b6257fcb41c981ddacf41bae37aca721c6e735b07c6d4\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* Sy No. 524/1,2,3,4,6, 525/1,2,3,4,5,6, Sreela Terrace, 2nd Floor, #105, First Main Road,,\n526/3,4,5,6,527 of madivala village, and Sy Gandhi Nagar, Adyar,\nno.51/1 of thatanahalli village, kasaba hobli, CHENNAI, TN, 600020\nanekal taluk, Bangalore urban district IN\nBangalor",
     "vendor_gstin": "29AAECR0564M2ZY",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR7",
     "organized_month": "Dec 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\BLR7-6537963_p1_BLR7-6537963.pdf"
   },
@@ -698,6 +765,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n4ce2bf354f24c6ec50b41c20f257773aba838df2026ba9c9077443a5863d2f96\nIRN/QR Code:\nSold By : Billing Address :\nCOCOBLU RETAIL LIMITED D2R AI LABS PRIVATE LIMITED\n* Kh No 18//21, 19//25, 34//5, 6, 7/1 min, 14/2/2 Sreela Terrace, 2nd Floor, #105, First Main Road,,\nmin, 15/1 min, 27, 35//1, 7, 8, 9/1, 9/2, 10/1, 10/2, Gandhi Nagar, Adyar,\n11 min, 12, 13, 14, Village - Jamalpur CHENNAI, TN, 600020\nGurgaon, Haryana, 122503 IN\nIN GST Regist",
     "vendor_gstin": "06AAJCC8517E1ZP",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "DEL4",
     "organized_month": "Dec 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\DEL4-4002106_p1_DEL4-4002106.pdf"
   },
@@ -776,6 +848,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n6e5adf73c220d2a06e2bec4c5214f3db295e07b0039d9a95c226fe3a6a5451e7\nIRN/QR Code:\nSold By : Billing Address :\nCOCOBLU RETAIL LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC8517E State/UT Code: 33\nGST Registration No: 33AAJCC8517E1",
     "vendor_gstin": "33AAJCC8517E1ZS",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Dec 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\FMAB-291923_p1_FMAB-291923.pdf"
   },
@@ -789,6 +866,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\nfd3c731fb6d890cdf1e553d787933125cfc164cdfb08df5276d9e115ade06d29\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC9783E State/UT Code: 33\nGST Registration No: 33A",
     "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Dec 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\FMAB-291923_p1_FMAB-291923.pdf"
   },
@@ -971,6 +1053,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Dec 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\MAA4-6184441_p1_MAA4-6184441.pdf"
   },
@@ -984,6 +1071,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Dec 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\MAA4-6184576_p1_MAA4-6184576.pdf"
   },
@@ -997,6 +1089,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n37be5ba67052873c4404490048608920a1fb449ba3015eb62139204908ce0317\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN ",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Dec 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\MAA4-6415046_p1_MAA4-6415046.pdf"
   },
@@ -1023,6 +1120,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nDEAL N DONE D2R AI LABS PRIVATE LIMITED\n* Hno. 43/4 panchasheel colony part-3, Basantpur, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nismailpur village, Near- Shayam vatika garden Gandhi Nagar, Adyar,\nFARIDABAD, HARYANA, 121003 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: DMWPR6067P\nGST Registration No: 06DMWPR6067P1ZQ\nShipping Address :\nD2R AI LABS PRIVATE",
     "vendor_gstin": "06DMWPR6067P1ZQ",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "VWQP",
     "organized_month": "Dec 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\VWQP-2485.pdf"
   },
@@ -1192,6 +1294,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nSANDEEP AGARWAL D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nSHOP NO S2-13, RIICO HOUSING COLONY, Gandhi Nagar, Adyar,\nNEAR HEERA COLD STORAGE, ROAD NO 1D, CHENNAI, TN, 600020\nVKI AREA IN\nJAIPUR, RAJASTHAN, 302013 GST Registration No: 33AAICD7217K1ZK\nIN State/UT Code: 33\nPAN No: ASGPA7843P Shipping Address :\nGST Registration No: 08ASGPA7843P1Z8 D2R AI LABS PRIVATE LIMITED",
     "vendor_gstin": "08ASGPA7843P1Z8",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "IN",
     "organized_month": "Feb 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Feb 2026\\20260213_Tax Invoice_402-6713984-2813929.pdf"
   },
@@ -1205,6 +1312,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nAmazon Retail India Private Limited D2R AI Labs Pvt Ltd\n* Sreela terrace, 2nd floor, #105, 1st main road,\nAmazon Seller Services Private Limited Gandhi nagar, Adyar\nWarehouse,, Permalkoil St, Ayyavupuram, CHENNAI, TAMIL NADU, 600020\nVirugambakkam IN\nCHENNAI, TAMIL NADU, 600093 State/UT Code: 33\nIN\nShipping Address :\nPAN No: AAPCA6346P D2R AI Labs Pvt Ltd\nGST Registration No: 33AAPCA6346P1Z2 D2R AI Labs Pvt ",
     "vendor_gstin": "33AAPCA6346P1Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "UMA7",
     "organized_month": "Feb 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Feb 2026\\20260216_Tax Invoice_402-2904307-3394704.pdf"
   },
@@ -1218,6 +1330,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nJIN OFFICE SOLUTIONS D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nRenaissance industrial smart city, Kalyan Sape Gandhi Nagar, Adyar,\nroad, Vashere village, Amane post,, Bhiwandi CHENNAI, TN, 600020\ntaluka, Thane disctrict IN\nThane, Maharashtra, 421302 GST Registration No: 33AAICD7217K1ZK\nIN State/UT Code: 33\nPAN No: AAOFJ9887A Shipping Address :\nGST Registration No: 27AA",
     "vendor_gstin": "27AAOFJ9887A1ZS",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BOM5",
     "organized_month": "Feb 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Feb 2026\\20260217_Tax Invoice_408-5265385-5379544.pdf"
   },
@@ -1256,7 +1373,8 @@
     "amount": 83.51,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-005-589-685\nSydney NSW 2000, Australia Invoice date: Feb 11, 2026\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 83.51\nAmount paid via credit card: USD 83.51\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx8948\nThank you for your payment!\nTo learn",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "Feb 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Feb 2026\\Atlassian_Invoice_IN-005-589-685.pdf"
   },
@@ -1724,7 +1842,8 @@
     "amount": 64.07,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-005-309-664\nSydney NSW 2000, Australia Invoice date: Jan 11, 2026\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 64.07\nAmount paid via credit card: USD 64.07\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx8948\nThank you for your payment!\nTo learn",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "Jan 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\Atlassian_Invoice_IN-005-309-664.pdf"
   },
@@ -1738,6 +1857,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n0eb4014a819b432e541fdc1ca39d2e9fb74a24478f1f51ae89414d360e61d7b9\nIRN/QR Code:\nSold By : Billing Address :\nRETAILEZ PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nBuilding 2 ( Wh 2), Plot no. 12/P2 (IT Sector), Gandhi Nagar, Adyar,\nHitech, Defence and Aerospace Park, Devanahalli CHENNAI, TN, 600020\nBengaluru, Karnataka, 562149 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Cod",
     "vendor_gstin": "29AALCR3173P1ZJ",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR8",
     "organized_month": "Jan 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\BLR8-3508287_p1_BLR8-3508287.pdf"
   },
@@ -1764,6 +1888,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\na7f56183d364fb3009168c1ca13a6cd3d2164bda178479e934271c781f7b7c84\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nRect/Killa Nos. 38//8/2 min, 192//22/1,196//2/1/1, Gandhi Nagar, Adyar,\n37//15/1, 15/2,, Adjacent to Starex School, Village CHENNAI, TN, 600020\n- Binola, National Highway -8, Tehsil - Manesar IN\nGurgaon, Haryana, 122413 G",
     "vendor_gstin": "06AAECR0564M1Z7",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "DEL5",
     "organized_month": "Jan 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\DEL5-10059983_p1_DEL5-10059983.pdf"
   },
@@ -1777,6 +1906,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n064c5e89866d2e65d5f09679b571fca54b5d685904bd1c4f1331c5240650a2dd\nIRN/QR Code:\nSold By : Billing Address :\nMS ENTERPRISES D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nPlot no 28, Block A, Mohan Co-operative Industrial Gandhi Nagar, Adyar,\nEstate CHENNAI, TN, 600020\nNEW DELHI, DELHI, 110044 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AKFPG2127D\nGST Registration No: 07AKFP",
     "vendor_gstin": "07AKFPG2127D1ZR",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "DEX3",
     "organized_month": "Jan 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\DEX3-832_p1_DEX3-832.pdf"
   },
@@ -1855,6 +1989,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\nde7d5824896cbc1dc1fe2fe040096bbad7870c28c8a4bc3ff4451814fab381d8\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\n12-1, Professor colony,, East Tambaram, Gandhi Nagar, Adyar,\nCHENNAI, TAMIL NADU, 600059 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Jan 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\FMAB-712215_p1_FMAB-712215.pdf"
   },
@@ -1881,6 +2020,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nSAJANI FASHION D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nSajani House, opp.malhar dhosa, behind cancer Gandhi Nagar, Adyar,\nhospital, dabholi gam, ved r CHENNAI, TN, 600020\nSURAT, GUJARAT, 395004 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AZIPR7901E\nGST Registration No: 24AZIPR7901E1ZD Shipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Labs",
     "vendor_gstin": "24AZIPR7901E1ZD",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "IN",
     "organized_month": "Jan 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\IN-27876.pdf"
   },
@@ -1894,6 +2038,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nSANTOSH DEVI BHANSALI D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nNo6/2, PID No 47-5-6/2, Shop No 408, Luciya City Gandhi Nagar, Adyar,\nCentre, Sri, Dharmaraya Swamy Temple Street, CHENNAI, TN, 600020\nBengaluru IN\nBengaluru Urban, KARNATAKA, 560002 GST Registration No: 33AAICD7217K1ZK\nIN State/UT Code: 33\nPAN No: AHUPB9565E Shipping Address :\nGST Registration No: 29AHUPB",
     "vendor_gstin": "29AHUPB9565E1ZS",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "IN",
     "organized_month": "Jan 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\IN-7698.pdf"
   },
@@ -2037,6 +2186,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\nc2415869f235e5424777b9ce4ab49385a152eac536d584a0dfe1d0b46135c0b2\nIRN/QR Code:\nSold By : Billing Address :\nMAGMA CARE PVT LTD D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\n5/51, JAGATIPOTA KISAN MARKET NEAR Gandhi Nagar, Adyar,\nDULICHAND MOTOR GARAGE, NA CHENNAI, TN, 600020\nKolkata, West Bengal, 700152 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAKCM3750E\nGST Registratio",
     "vendor_gstin": "19AAKCM3750E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "QEA1",
     "organized_month": "Jan 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\QEA1-10628_p1_QEA1-10628.pdf"
   },
@@ -2050,6 +2204,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\naf116aa36ad8ffe6aa322f5fa5dd30ff6d52e636c4617e410a4a9cf6e47888c6\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nSurvey No: 77/2A3, Siruvapuri Murugan Industrial Gandhi Nagar, Adyar,\nand Logistics Parks Pvt Ltd,, Thamaripakkam, CHENNAI, TN, 600020\nAgaram and Settupakkam Village, Thiruvallur IN\nTaluk, Thiruvallur Dist, GST Re",
     "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "SMAB",
     "organized_month": "Jan 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\SMAB-89886_p1_SMAB-89886.pdf"
   },
@@ -2063,6 +2222,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nAmazon Retail India Private Limited D2R AI Labs Pvt Ltd\n* Sreela terrace, 2nd floor, #105, 1st main road,\nAmazon Seller Services Private Limited Gandhi nagar, Adyar\nWarehouse,, Permalkoil St, Ayyavupuram, CHENNAI, TAMIL NADU, 600020\nVirugambakkam IN\nCHENNAI, TAMIL NADU, 600093 State/UT Code: 33\nIN\nShipping Address :\nPAN No: AAPCA6346P D2R AI Labs Pvt Ltd\nGST Registration No: 33AAPCA6346P1Z2 D2R AI Labs Pvt ",
     "vendor_gstin": "33AAPCA6346P1Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "UMA7",
     "organized_month": "Jan 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\UMA7-548986_p1_UMA7-548986.pdf"
   },
@@ -2076,6 +2240,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI Labs Pvt Ltd\n* Sreela terrace, 2nd floor, #105, 1st main road,\nAmazon Seller Services Private Limited Gandhi nagar, Adyar\nWarehouse,, Permalkoil St, Ayyavupuram, CHENNAI, TAMIL NADU, 600020\nVirugambakkam IN\nCHENNAI, TAMIL NADU, 600093 State/UT Code: 33\nIN\nShipping Address :\nPAN No: AAECR0564M D2R AI Labs Pvt Ltd\nGST Registration No: 33AAECR0564M1ZA D2R AI Labs Pvt Ltd\nSreela ",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "UMA7",
     "organized_month": "Jan 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\UMA7-548986_p1_UMA7-548986.pdf"
   },
@@ -2101,7 +2270,8 @@
     "amount": 359.9,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-003-856-325\nSydney NSW 2000, Australia Invoice date: Jul 11, 2025\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 359.90\nAmount paid via credit card: USD 359.90\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx9677\nCardholder's Name: SYLVESTER DANIE",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "Jul 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\Atlassian_Invoice_IN-003-856-325.pdf"
   },
@@ -2115,6 +2285,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Sy No. 524/1,2,3,4,6, 525/1,2,3,4,5,6, Sreela Terrace, 2nd Floor, #105, First Main Road,,\n526/3,4,5,6,527 of madivala village, and Sy Gandhi Nagar, Adyar,\nno.51/1 of thatanahalli village, kasaba hobli, CHENNAI, TN, 600020\nanekal taluk, Bangalore urban district IN\nBangalore, Karnataka, 562107 GST Registration No: 33AAICD7217K1ZK\nIN S",
     "vendor_gstin": "29AAJCC9783E1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR7",
     "organized_month": "Jul 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\BLR7-1536989_p1_BLR7-1536989.pdf"
   },
@@ -2128,6 +2303,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Building 2 ( Wh 2), Plot no. 12/P2 (IT Sector), Sreela Terrace, 2nd Floor, #105, First Main Road,,\nHitech, Defence and Aerospace Park, Devanahalli Gandhi Nagar, Adyar,\nBengaluru, Karnataka, 562149 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 29AAJCC9783E1Z3\n",
     "vendor_gstin": "29AAJCC9783E1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR8",
     "organized_month": "Jul 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\BLR8-1594523_p1_BLR8-1594523.pdf"
   },
@@ -2141,6 +2321,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd Daniel J\n* Emporium Industrial Park India Pvt Ltd, Rahaka 17/85 2nd Main Road, Karpagam Avenue 3rd\nand Ranika Singhola, Village Rahaka,, Tehsil, Street, Raja Annamalaipuram\nNimot PS, Sohna, CHENNAI, TAMIL NADU, 600028\nGURUGRAM, HARYANA, 122103 IN\nIN State/UT Code: 33\nPAN No: AAECR0564M Shipping Address :\nGST Registration No: 06AAECR0564M1Z7 Daniel J\nD2R AI Labs Pvt Ltd\nSreela terrac",
     "vendor_gstin": "06AAECR0564M1Z7",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "DED4",
     "organized_month": "Jul 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\DED4-2596022.pdf"
   },
@@ -2245,6 +2430,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCOCOBLU RETAIL LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC8517E State/UT Code: 33\nGST Registration No: 33AAJCC8517E1ZS\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Labs Pvt Ltd\n",
     "vendor_gstin": "33AAJCC8517E1ZS",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Jul 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\FMAB-104573_p1_FMAB-104573.pdf"
   },
@@ -2258,6 +2448,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC9783E State/UT Code: 33\nGST Registration No: 33AAJCC9783E1ZE\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Lab",
     "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Jul 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\FMAB-130122_p1_FMAB-130122.pdf"
   },
@@ -2361,7 +2556,8 @@
     "amount": 928.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n7/4/2025 P476492286 511117756315 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹928.00 7/3/2025 Threshold Billing MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nJob views\n• Job Title: Unidata / Unibasic",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Jul 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\LNKD_INVOICE_511117756315.pdf"
   },
@@ -2374,7 +2570,8 @@
     "amount": 8400.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n7/9/2025 P482859576 511119256762 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 7/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400.0",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Jul 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\LNKD_INVOICE_511119256762.pdf"
   },
@@ -2388,6 +2585,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd Daniel J\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, 17/85 2nd Main Road, Karpagam Avenue 3rd\nDurainallur Village, Ponneri Taluk Street, Raja Annamalaipuram\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TAMIL NADU, 600028\nIN IN\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA Shipping Address :\nDaniel J\nD2R AI Labs Pvt Ltd\nFSSAI License No.\n11222999000045 S",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Jul 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\MAA4-2323214.pdf"
   },
@@ -2401,6 +2603,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd Daniel J\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, 17/85 2nd Main Road, Karpagam Avenue 3rd\nDurainallur Village, Ponneri Taluk Street, Raja Annamalaipuram\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TAMIL NADU, 600028\nIN IN\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA Shipping Address :\nDaniel J\nD2R AI Labs Pvt Ltd\nFSSAI License No.\n11222999000045 S",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Jul 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\MAA4-2323237.pdf"
   },
@@ -2439,7 +2646,8 @@
     "amount": 342.2,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-003-623-208\nSydney NSW 2000, Australia Invoice date: Jun 11, 2025\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 342.20\nAmount paid via credit card: USD 342.20\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx9677\nCardholder's Name: SYLVESTER DANIE",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\Atlassian_Invoice_IN-003-623-208.pdf"
   },
@@ -2453,6 +2661,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nETRADE MARKETING PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Sy No. 524/1,2,3,4,6, 525/1,2,3,4,5,6, Sreela Terrace, 2nd Floor, #105, First Main Road,,\n526/3,4,5,6,527 of madivala village, and Sy Gandhi Nagar, Adyar,\nno.51/1 of thatanahalli village, kasaba hobli, CHENNAI, TN, 600020\nanekal taluk, Bangalore urban district IN\nBangalore, Karnataka, 562107 GST Registration No: 33AAICD7217K1ZK\nIN S",
     "vendor_gstin": "29AADCV4254H1Z4",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR7",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\BLR7-1062095_p1_BLR7-1062095.pdf"
   },
@@ -2544,6 +2757,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\FMAB-182420_p1_FMAB-182420.pdf"
   },
@@ -2557,6 +2775,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nAggarwal Enterprises D2R AI LABS PRIVATE LIMITED\n* G-1/46,Budh Vihar phase-1 ground floor, north Sreela Terrace, 2nd Floor, #105, First Main Road,,\nwest delhi Gandhi Nagar, Adyar,\nNEW DELHI, DELHI, 110086 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: BNEPA0491F\nGST Registration No: 07BNEPA0491F1ZG\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Labs Pvt Ltd\nS",
     "vendor_gstin": "07BNEPA0491F1ZG",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "IN",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\IN-1362.pdf"
   },
@@ -2570,6 +2793,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nShivam Enterprises D2R AI LABS PRIVATE LIMITED\n* RZ/D-33 ground floor PRATAP GARDEN UTTAM Sreela Terrace, 2nd Floor, #105, First Main Road,,\nNAGAR Gandhi Nagar, Adyar,\nnew delhi, DELHI, 110059 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AXCPK1601J\nGST Registration No: 07AXCPK1601J2ZT\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Labs Pvt Ltd\nSreela terrac",
     "vendor_gstin": "07AXCPK1601J2ZT",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "IN",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\IN-4132.pdf"
   },
@@ -2738,7 +2966,8 @@
     "amount": 8400.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 988939\nEffective Date Transaction ID Invoice Number Purchaser Email\n6/9/2025 P441245346 511109459487 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 6/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400.0",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\LNKD_INVOICE_511109459487.pdf"
   },
@@ -2751,7 +2980,8 @@
     "amount": 7106.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n6/27/2025 P466559276 511115460511 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹7,106.00 6/26/2025 Threshold Billing MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nJob views\n• Job Title: Senior C# Deve",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\LNKD_INVOICE_511115460511.pdf"
   },
@@ -2765,6 +2995,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 33AAJCC9783E1ZE\nShipping A",
     "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\MAA4-1088415_p1_MAA4-1088415.pdf"
   },
@@ -2778,6 +3013,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 33AAJCC9783E1ZE\nShipping A",
     "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\MAA4-1088537_p1_MAA4-1088537.pdf"
   },
@@ -2791,6 +3031,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nGLOBAL BRANDS D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AYWPA0131C\nGST Registration No: 33AYWPA0131C1Z3\nShipping Address :\nFSSAI Lice",
     "vendor_gstin": "33AYWPA0131C1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\MAA4-12223_p1_MAA4-12223.pdf"
   },
@@ -2804,6 +3049,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\MAA4-2213948_p1_MAA4-2213948.pdf"
   },
@@ -2817,6 +3067,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\MAA4-2216157_p1_MAA4-2216157.pdf"
   },
@@ -2830,6 +3085,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nAccuprints D2R AI LABS PRIVATE LIMITED\n* Plot No.- 798, Islampur Village Sector -38 near Sreela Terrace, 2nd Floor, #105, First Main Road,,\nsubhash chowk Gandhi Nagar, Adyar,\nGURUGRAM, HARYANA, 122018 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AURPS1867J\nGST Registration No: 06AURPS1867J1ZV\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Labs ",
     "vendor_gstin": "06AURPS1867J1ZV",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "VLMN",
     "organized_month": "Jun 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\VLMN-7560_p1_VLMN-7560.pdf"
   },
@@ -2959,7 +3219,8 @@
     "amount": 3654.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n9/16/2025 P580552306 511142624687 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹3,654.00 9/15/2025 Threshold Billing MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nJob views\n• Job Title: E-commerce Dev",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Mar 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\LNKD_INVOICE_511142624687.pdf"
   },
@@ -2972,7 +3233,8 @@
     "amount": 0.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n3/3/2026 P832275846 519212432510 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹0.00 3/3/2026 Monthly VISA ****7196\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600020, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400.00\nFrom Mar",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Mar 2026",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\LNKD_INVOICE_519212432510.pdf"
   },
@@ -3090,6 +3352,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nAPOLLO PHARMACIES LIMITED D2R AI Labs Pvt Ltd\n* PLOT NO.82 SOUTH FACING FIRST FLOOR Sreela terrace, 2nd floor, #105, 1st main road,\nINDIRA PRIYADHARSHINI, NAGAR Gandhi nagar, Adyar\nPERUMBAKKAM CHENNAI 600100 CHENNAI, TAMIL NADU, 600020\nChennai, Tamil Nadu, 600100 IN\nIN State/UT Code: 33\nPAN No: AAPCA5954P Shipping Address :\nGST Registration No: 33AAPCA5954P1ZY D2R AI Labs Pvt Ltd\nD2R AI Labs Pvt Ltd\nSreela ",
     "vendor_gstin": "33AAPCA5954P1ZY",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "EZX9",
     "organized_month": "May 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\EZX9-37865.pdf"
   },
@@ -3116,6 +3383,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS PRIVATE LIMITE",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "May 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\FMAB-74681.pdf"
   },
@@ -3129,6 +3401,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nAROCKYA SANTHAI D2R AI LABS PRIVATE LIMITED\n* NO 7 MUGALIVAKKAM MAIN ROAD, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nMADHANANDAPURAM Gandhi Nagar, Adyar,\nCHENNAI, TAMIL NADU, 600125 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAUFA4749A\nGST Registration No: 33AAUFA4749A1ZJ\nShipping Address :\nFSSAI License No. D2R AI LABS PRIVATE LIMITED\n12414008001068 D2",
     "vendor_gstin": "33AAUFA4749A1ZJ",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "IN",
     "organized_month": "May 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\IN-3035.pdf"
   },
@@ -3142,6 +3419,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nSUBRAMANIYAN D2R AI LABS PRIVATE LIMITED\n* NO:1/18 perumal kovil street, indra nagar Sreela Terrace, 2nd Floor, #105, First Main Road,,\n,redhills Gandhi Nagar, Adyar,\nCHENNAI, TAMIL NADU, 600052 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: EELPS7478F\nGST Registration No: 33EELPS7478F1ZV\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Labs Pvt Ltd\nSreela terr",
     "vendor_gstin": "33EELPS7478F1ZV",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "IN",
     "organized_month": "May 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\IN-755.pdf"
   },
@@ -3155,6 +3437,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd Daniel J\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, 17/85 2nd Main Road, Karpagam Avenue 3rd\nDurainallur Village, Ponneri Taluk Street, Raja Annamalaipuram\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TAMIL NADU, 600028\nIN IN\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA Shipping Address :\nDaniel J\nD2R AI Labs Pvt Ltd\nFSSAI License No.\n11222999000045 S",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "May 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\MAA4-1449907.pdf"
   },
@@ -3168,6 +3455,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "May 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\MAA4-907489_p1_MAA4-907489.pdf"
   },
@@ -3194,6 +3486,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nSurajmal Tea Private Limited D2R AI LABS PRIVATE LIMITED\n* C/o Yusen Logistics, Survey no 2(part), Ring Sreela Terrace, 2nd Floor, #105, First Main Road,,\nRoad, MR-11,, Village Pipliya Kumhar, Near Gandhi Nagar, Adyar,\nMETRO CASH & CARRY Store, CHENNAI, TN, 600020\nIndore, Madhya Pradesh, 453771 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAYCS1664F\nGST Registration No: ",
     "vendor_gstin": "23AAYCS1664F1Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "SIDA",
     "organized_month": "May 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\SIDA-1153_p1_SIDA-1153.pdf"
   },
@@ -3219,7 +3516,8 @@
     "amount": 349.52,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-003-418-066\nSydney NSW 2000, Australia Invoice date: May 11, 2025\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 349.52\nAmount paid via credit card: USD 349.52\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx9677\nCardholder's Name: SYLVESTER DANIE",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "May 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\invoice-a62c5b33-39d6-4fb7-8fa5-48d1dc673830.pdf"
   },
@@ -3245,7 +3543,8 @@
     "amount": 88.5,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-004-796-545\nSydney NSW 2000, Australia Invoice date: Nov 11, 2025\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 88.50\nAmount paid via credit card: USD 88.50\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx9677\nCardholder's Name: SYLVESTER DANIEL ",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "Nov 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\Atlassian_Invoice_IN-004-796-545.pdf"
   },
@@ -3324,6 +3623,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC9783E State/UT Code: 33\nGST Registration No: 33AAJCC9783E1ZE\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Lab",
     "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Nov 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\FMAB-348994_p1_FMAB-348994.pdf"
   },
@@ -3337,6 +3641,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Nov 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\FMAB-556098_p1_FMAB-556098.pdf"
   },
@@ -3363,6 +3672,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* Survey Number 99/1, Mamidipally Village, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nShamshabad Gandhi Nagar, Adyar,\nHYDERABAD, TELANGANA, 500108 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 36AAECR0564M3Z2\nShipping Address :\nFSSAI License No. D2R AI LABS PRI",
     "vendor_gstin": "36AAECR0564M3Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "HYD3",
     "organized_month": "Nov 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\HYD3-3357396_p1_HYD3-3357396.pdf"
   },
@@ -3376,6 +3690,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nAmazon Retail India Private Limited D2R AI Labs Pvt Ltd\n* GMR Airport City, Survey No. 99/1, Mamidipally D2R AI Labs Pvt Ltd\nVillage, Shamshabad Sreela terrace, 2nd floor, #105, 1st main road,\nHyderabad, Telangana, 500108 Gandhi nagar, Adyar\nIN CHENNAI, TAMIL NADU, 600020\nIN\nState/UT Code: 33\nPAN No: AAPCA6346P\nGST Registration No: 36AAPCA6346P1ZW\nShipping Address :\nD2R AI Labs Pvt Ltd\nFSSAI License No.\n100",
     "vendor_gstin": "36AAPCA6346P1ZW",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "HYD8",
     "organized_month": "Nov 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\HYD8-1815245.pdf"
   },
@@ -3492,7 +3811,8 @@
     "amount": 8400.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n11/9/2025 P658626696 511159612412 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 11/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Nov 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\LNKD_INVOICE_511159612412.pdf"
   },
@@ -3506,6 +3826,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCRALOFT LLP D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AARFC5965H\nGST Registration No: 33AARFC5965H1Z2\nShipping Address :\nD2R AI LABS ",
     "vendor_gstin": "33AARFC5965H1Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Nov 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\MAA4-3241_p1_MAA4-3241.pdf"
   },
@@ -3558,6 +3883,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nNOSH ROBOTICS PVT LTD D2R AI LABS PRIVATE LIMITED\n* MAVEL INDUSTRIAL AND LOGISTICS PARKS Sreela Terrace, 2nd Floor, #105, First Main Road,,\nPRIVATE LIMITED, S No. 10/3A2, 10/3B, 11/2, Gandhi Nagar, Adyar,\n12/1A, 12/1B2, 12/2, 12/3, 12/4, 12/5, Belathur CHENNAI, TN, 600020\nVillage, Hosur Tk IN\nKrishnagiri, Tamil Nadu, 635124 GST Registration No: 33AAICD7217K1ZK\nIN State/UT Code: 33\nPAN No: AAICN6056A Shippin",
     "vendor_gstin": "33AAICN6056A2ZR",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "SCJB",
     "organized_month": "Nov 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\SCJB-1.pdf"
   },
@@ -3597,6 +3927,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nCPU TECH D2R AI LABS PRIVATE LIMITED\n* Plot no. 120 X and part portion of plot no. 119 Sreela Terrace, 2nd Floor, #105, First Main Road,,\nW2, Gallops Industrial Park 1, Village Rajoda, Gandhi Nagar, Adyar,\nTaluka Bavla, District Ahmedabad CHENNAI, TN, 600020\nAhmedabad, GUJARAT, 382220 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AUSPM5246Q\nGST Registration No: 24AUSPM5246Q1ZR Shippin",
     "vendor_gstin": "24AUSPM5246Q1ZR",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "AMD2",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\AMD2-1482.pdf"
   },
@@ -3622,7 +3957,8 @@
     "amount": 223.07,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-004-560-126\nSydney NSW 2000, Australia Invoice date: Oct 11, 2025\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 223.07\nAmount paid via credit card: USD 223.07\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx8948\nThank you for your payment!\nTo lea",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\Atlassian_Invoice_IN-004-560-126.pdf"
   },
@@ -3636,6 +3972,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nNAYANABEN RAJESHBHAI KACHA D2R AI LABS PRIVATE LIMITED\n* Sy No. 524/1,2,3,4,6, 525/1,2,3,4,5,6, Sreela Terrace, 2nd Floor, #105, First Main Road,,\n526/3,4,5,6,527 of madivala village, and Sy Gandhi Nagar, Adyar,\nno.51/1 of thatanahalli village, kasaba hobli, CHENNAI, TN, 600020\nanekal taluk, Bangalore urban district IN\nBangalore, Karnataka, 562107 GST Registration No: 33AAICD7217K1ZK\nIN State/UT Code: 33\nPA",
     "vendor_gstin": "29GBQPK0273J1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR7",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\BLR7-68.pdf"
   },
@@ -3649,6 +3990,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nETRADE MARKETING PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Building 2 ( Wh 2), Plot no. 12/P2 (IT Sector), Sreela Terrace, 2nd Floor, #105, First Main Road,,\nHitech, Defence and Aerospace Park, Devanahalli Gandhi Nagar, Adyar,\nBengaluru, Karnataka, 562149 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AADCV4254H\nGST Registration No: 29AADCV4254H1Z4\n",
     "vendor_gstin": "29AADCV4254H1Z4",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR8",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\BLR8-2573720_p1_BLR8-2573720.pdf"
   },
@@ -3727,6 +4073,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCOCOBLU RETAIL LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC8517E State/UT Code: 33\nGST Registration No: 33AAJCC8517E1ZS\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Labs Pvt Ltd\n",
     "vendor_gstin": "33AAJCC8517E1ZS",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\FMAB-213926_p1_FMAB-213926.pdf"
   },
@@ -3740,6 +4091,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\FMAB-451439_p1_FMAB-451439.pdf"
   },
@@ -3753,6 +4109,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\FMAB-451441_p1_FMAB-451441.pdf"
   },
@@ -3779,6 +4140,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* GMR Airport City, Survey No. 99/1, Mamidipally Sreela Terrace, 2nd Floor, #105, First Main Road,,\nVillage, Shamshabad Gandhi Nagar, Adyar,\nHyderabad, Telangana, 500108 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 36AAJCC9783E1Z8\nShipping Address :\nD2R AI LAB",
     "vendor_gstin": "36AAJCC9783E1Z8",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "HYD8",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\HYD8-3820556_p1_HYD8-3820556.pdf"
   },
@@ -3792,6 +4158,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nE zone Shop D2R AI LABS PRIVATE LIMITED\n* G27, 2nd Floor, Shaheen Bagh, Abul Fazal Sreela Terrace, 2nd Floor, #105, First Main Road,,\nEnclave Part-2, Jamia Nagar Okhla Gandhi Nagar, Adyar,\nNEW DELHI, DELHI, 110025 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: FNZPS8460M\nGST Registration No: 07FNZPS8460M1ZL\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nDaniel\nDoor ",
     "vendor_gstin": "07FNZPS8460M1ZL",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "IN",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\IN-3563.pdf"
   },
@@ -3805,6 +4176,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nA2Z SALES D2R AI LABS PRIVATE LIMITED\n* 126/53, J- Block, Govind Nagar, KANPUR, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nKanpur Nagar Gandhi Nagar, Adyar,\nKANPUR, UTTAR PRADESH, 208006 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: DNZPK0991P\nGST Registration No: 09DNZPK0991P1ZP\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Labs Pvt Ltd\nSreela terr",
     "vendor_gstin": "09DNZPK0991P1ZP",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "IN",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\IN-478.pdf"
   },
@@ -3895,7 +4271,8 @@
     "amount": 8400.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n10/9/2025 P615232576 511150750291 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 10/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\LNKD_INVOICE_511150750291.pdf"
   },
@@ -3908,7 +4285,8 @@
     "amount": 436.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n10/15/2025 P623423046 511152667797 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹436.00 10/14/2025 Threshold Billing MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nLinkedIn Singapore Pte Ltd, 10 Marina Boulevard, Marina Bay Financial Centre Tower",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\LNKD_INVOICE_511152667797.pdf"
   },
@@ -3922,6 +4300,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nRETAILEZ PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AALCR3173P\nGST Registration No: 33AALCR3173P1ZU\nShipping Address :",
     "vendor_gstin": "33AALCR3173P1ZU",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-1730312_p1_MAA4-1730312.pdf"
   },
@@ -3935,6 +4318,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 33AAJCC9783E1ZE\nShipping A",
     "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-2433044_p1_MAA4-2433044.pdf"
   },
@@ -3948,6 +4336,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 33AAJCC9783E1ZE\nShipping A",
     "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-2496953_p1_MAA4-2496953.pdf"
   },
@@ -3961,6 +4354,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-5043276_p1_MAA4-5043276.pdf"
   },
@@ -3974,6 +4372,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :\nFSSAI Licens",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-5043359.pdf"
   },
@@ -3987,6 +4390,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
     "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-5043360_p1_MAA4-5043360.pdf"
   },
@@ -4000,6 +4408,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nTIGER PUG COMMERCE PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AACCN8253B\nGST Registration No: 33AACCN8253B1ZT\nShipping",
     "vendor_gstin": "33AACCN8253B1ZT",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-50642_p1_MAA4-50642.pdf"
   },
@@ -4013,6 +4426,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nTIGER PUG COMMERCE PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AACCN8253B\nGST Registration No: 33AACCN8253B1ZT\nShipping",
     "vendor_gstin": "33AACCN8253B1ZT",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-50643_p1_MAA4-50643.pdf"
   },
@@ -4026,6 +4444,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nAmazon Retail India Private Limited D2R AI Labs Pvt Ltd\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, D2R AI Labs Pvt Ltd\nDurainallur Village, Ponneri Taluk Sreela terrace, 2nd floor, #105, 1st main road,\nThiruvalluvar, Tamil Nadu, 601206 Gandhi nagar, Adyar\nIN CHENNAI, TAMIL NADU, 600020\nIN\nState/UT Code: 33\nPAN No: AAPCA6346P\nGST Registration No: 33AAPCA6346P1Z2\nShipping Address :\nD2R AI Labs Pvt Ltd\nFS",
     "vendor_gstin": "33AAPCA6346P1Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-551983.pdf"
   },
@@ -4039,6 +4462,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nSPIGEN INDIA PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: ABACS5056L\nGST Registration No: 33ABACS5056L1Z8\nShipping Addre",
     "vendor_gstin": "33ABACS5056L1Z8",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-61528_p1_MAA4-61528.pdf"
   },
@@ -4052,6 +4480,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nAKASH RAJESHBHAI NAKRANI D2R AI LABS PRIVATE LIMITED\n* amaziing star bb-215 yogichok to chopati road, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nnear mahaveer sarcal Gandhi Nagar, Adyar,\nSURAT, GUJARAT, 395010 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AXOPN1446L\nGST Registration No: 24AXOPN1446L3Z2\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nDaniel\nD",
     "vendor_gstin": "24AXOPN1446L3Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "PBVN",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\PBVN-14918.pdf"
   },
@@ -4065,6 +4498,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nRAM LAL RAM CHANDRA (INDIA) LIMITED D2R AI LABS PRIVATE LIMITED\n* A-8, Sector A-3, Tronica City Industrial Area, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nGhaziabad, Uttar Pradesh, 201103 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAACR6529A State/UT Code: 33\nGST Registration No: 09AAACR6529A1ZL\nShipping Address :\nD2R AI LABS PRIVATE LIM",
     "vendor_gstin": "09AAACR6529A1ZL",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "RNPU",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\RNPU-47304_p1_RNPU-47304.pdf"
   },
@@ -4078,6 +4516,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Survey No: 77/2A3, Siruvapuri Murugan Sreela Terrace, 2nd Floor, #105, First Main Road,,\nIndustrial and Logistics Parks Pvt Ltd,, Gandhi Nagar, Adyar,\nThamaripakkam, Agaram and Settupakkam CHENNAI, TN, 600020\nVillage, Thiruvallur Taluk, Thiruvallur Dist, IN\nChennai, Tamil Nadu, 601103 GST Registration No: 33AAICD7217K1ZK\nIN State/UT",
     "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "SMAB",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\SMAB-62796_p1_SMAB-62796.pdf"
   },
@@ -4104,6 +4547,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nvachanamrut marketing D2R AI LABS PRIVATE LIMITED\n* 3RD FLO0R, PANCH FALIYA,OPP KRISNA Sreela Terrace, 2nd Floor, #105, First Main Road,,\nROWHOUSE,, NEAR HENNY ARCED, DABHOLI Gandhi Nagar, Adyar,\nBRTS ROAD, DABHOLIGAM, CHENNAI, TN, 600020\nSURAT, GUJARAT, 395004 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: ATEPL8178M\nGST Registration No: 24ATEPL8178M1Z3 Shipping Address :\nD2R AI LABS ",
     "vendor_gstin": "24ATEPL8178M1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "TJFF",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\TJFF-4575.pdf"
   },
@@ -4130,6 +4578,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nWIDEVIEW SOLUTIONS D2R AI LABS PRIVATE LIMITED\n* WIDEVIEW SOLUTIONS, Shop No. 104, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nBritannia Road, RG City Centre, Lawrence Road Gandhi Nagar, Adyar,\nIndustrial Area CHENNAI, TN, 600020\nNEW DELHI, DELHI, 110035 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAFFW0573P\nGST Registration No: 07AAFFW0573P1ZM Shipping Address :\nD2R AI LABS ",
     "vendor_gstin": "07AAFFW0573P1ZM",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "VSDX",
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\VSDX-1323.pdf"
   },
@@ -4181,7 +4634,8 @@
     "amount": 151.75,
     "currency": "USD",
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-004-324-189\nSydney NSW 2000, Australia Invoice date: Sep 11, 2025\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 151.75\nAmount paid via credit card: USD 151.75\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx9677\nCardholder's Name: SYLVESTER DANIE",
-    "vendor_gstin": "9917AUS29001OSF",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\Atlassian_Invoice_IN-004-324-189.pdf"
   },
@@ -4260,6 +4714,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nGLOBAL BRANDS D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AYWPA0131C State/UT Code: 33\nGST Registration No: 33AYWPA0131C1Z3\nFSSAI License No. Shipping Address :\n10017047000782 D2R AI LABS PRIVATE LIMI",
     "vendor_gstin": "33AYWPA0131C1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\FMAB-1775_p1_FMAB-1775.pdf"
   },
@@ -4273,6 +4732,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC9783E State/UT Code: 33\nGST Registration No: 33AAJCC9783E1ZE\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Lab",
     "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\FMAB-1775_p1_FMAB-1775.pdf"
   },
@@ -4286,6 +4750,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC9783E State/UT Code: 33\nGST Registration No: 33AAJCC9783E1ZE\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Lab",
     "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\FMAB-224830_p1_FMAB-224830.pdf"
   },
@@ -4312,6 +4781,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* GMR Airport City, Survey No. 99/1, Mamidipally Sreela Terrace, 2nd Floor, #105, First Main Road,,\nVillage, Shamshabad Gandhi Nagar, Adyar,\nHyderabad, Telangana, 500108 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 36AAECR0564M3Z2\nShipping Address :\nFSSAI License No. ",
     "vendor_gstin": "36AAECR0564M3Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "HYD8",
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\HYD8-5540544_p1_HYD8-5540544.pdf"
   },
@@ -4325,6 +4799,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nDhruti Enterprises D2R AI LABS PRIVATE LIMITED\n* Office No. 02, 1 st Floor, Khan Manzil, calicut Sreela Terrace, 2nd Floor, #105, First Main Road,,\nStreet,, Ballard Estate, Fort, Mumbai Gandhi Nagar, Adyar,\nMUMBAI, MAHARASHTRA, 400038 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AHIPD9623P\nGST Registration No: 27AHIPD9623P1ZS\nShipping Address :\nD2R AI LABS PRIVATE",
     "vendor_gstin": "27AHIPD9623P1ZS",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "IN",
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\IN-2825.pdf"
   },
@@ -4389,7 +4868,8 @@
     "amount": 8400.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n9/9/2025 P571095056 511140168715 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 9/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400.0",
-    "vendor_gstin": "201109821G",
+    "vendor_gstin": null,
+    "vendor_tax_id": "201109821G",
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\LNKD_INVOICE_511140168715.pdf"
   },
@@ -4403,6 +4883,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nGLOBAL BRANDS D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AYWPA0131C\nGST Registration No: 33AYWPA0131C1Z3\nShipping Address :\nFSSAI Lice",
     "vendor_gstin": "33AYWPA0131C1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\MAA4-22967_p1_MAA4-22967.pdf"
   },
@@ -4429,6 +4914,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nAmazon Retail India Private Limited Daniel J\n* Amazon Seller Services Private Limited 17/85 2nd Main Road, Karpagam Avenue 3rd\nWarehouse,, Permalkoil St, Ayyavupuram, Street, Raja Annamalaipuram\nVirugambakkam CHENNAI, TAMIL NADU, 600028\nCHENNAI, TAMIL NADU, 600093 IN\nIN State/UT Code: 33\nPAN No: AAPCA6346P Shipping Address :\nGST Registration No: 33AAPCA6346P1Z2 Daniel J\nD2R AI Labs Pvt Ltd\nSreela terrace, 2",
     "vendor_gstin": "33AAPCA6346P1Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "UMA7",
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\UMA7-330621.pdf"
   },
@@ -4442,6 +4932,11 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nAmazon Retail India Private Limited D2R AI Labs Pvt Ltd\n* Amazon Seller Services Private Limited Sreela terrace, 2nd floor, #105, 1st main road,\nWarehouse,, Permalkoil St, Ayyavupuram, Gandhi nagar, Adyar\nVirugambakkam CHENNAI, TAMIL NADU, 600020\nCHENNAI, TAMIL NADU, 600093 IN\nIN State/UT Code: 33\nPAN No: AAPCA6346P Shipping Address :\nGST Registration No: 33AAPCA6346P1Z2 D2R AI Labs Pvt Ltd\nD2R AI Labs Pvt ",
     "vendor_gstin": "33AAPCA6346P1Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "UMA7",
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\UMA7-343905.pdf"
   },

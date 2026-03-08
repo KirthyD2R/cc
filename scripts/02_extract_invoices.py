@@ -966,16 +966,23 @@ def extract_invoice(pdf_path, filename):
     vendor_gstin = _extract_vendor_gstin(text)
 
     # LinkedIn: extract SG GST from footer (e.g., "SG GST: 201109821G")
+    vendor_tax_id = None
     if not vendor_gstin and vendor == "LinkedIn":
         m = re.search(r"SG\s+GST:\s*(\S+)", text)
         if m:
-            vendor_gstin = m.group(1).rstrip(".,;")
+            vendor_tax_id = m.group(1).rstrip(".,;")
+
+    # Validate Indian GSTIN format — move non-Indian tax IDs to vendor_tax_id
+    _indian_gstin_re = re.compile(r'^\d{2}[A-Z]{5}\d{4}[A-Z]\d[A-Z\d][A-Z\d]$')
+    if vendor_gstin and not _indian_gstin_re.match(vendor_gstin):
+        vendor_tax_id = vendor_gstin
+        vendor_gstin = None
 
     # GSTIN-based vendor resolution: match against gstin_map and Zoho vendor cache
     if not vendor and vendor_gstin:
         vendor = _resolve_vendor_by_gstin(vendor_gstin)
 
-    return {
+    result = {
         "file": filename,
         "path": pdf_path,
         "vendor_name": vendor,
@@ -986,6 +993,9 @@ def extract_invoice(pdf_path, filename):
         "raw_text_preview": text[:500],
         "vendor_gstin": vendor_gstin,
     }
+    if vendor_tax_id:
+        result["vendor_tax_id"] = vendor_tax_id
+    return result
 
 
 def _detect_vendor_fallback(text):

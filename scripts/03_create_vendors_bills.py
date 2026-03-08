@@ -25,6 +25,11 @@ VENDORS_CACHE = os.path.join(PROJECT_ROOT, "output", "zoho_vendors_cache.json")
 # Company GSTIN and state code (first 2 digits) for IGST vs CGST+SGST determination
 _COMPANY_GSTIN = "33AAICD7217K1ZK"
 _COMPANY_STATE_CODE = _COMPANY_GSTIN[:2]  # "33" = Tamil Nadu
+_INDIAN_GSTIN_RE = re.compile(r'^\d{2}[A-Z]{5}\d{4}[A-Z]\d[A-Z\d][A-Z\d]$')
+
+def _is_valid_indian_gstin(gstin):
+    """Check if a string is a valid 15-char Indian GSTIN format."""
+    return bool(gstin and _INDIAN_GSTIN_RE.match(gstin))
 
 # GSTIN state code → Zoho place_of_supply code mapping
 _STATE_CODE_MAP = {
@@ -133,7 +138,7 @@ def ensure_vendor(api, vendor_name, invoice, vendor_mappings, currency_map):
     # GST treatment: use vendor_details config, or infer from invoice data
     if vendor_details.get("gst_treatment"):
         vendor_data["gst_treatment"] = vendor_details["gst_treatment"]
-    elif invoice.get("vendor_gstin"):
+    elif invoice.get("vendor_gstin") and _is_valid_indian_gstin(invoice["vendor_gstin"]):
         vendor_data["gst_treatment"] = "business_gst"
         vendor_data["gst_no"] = invoice["vendor_gstin"]
     elif currency and currency != "INR":
@@ -213,7 +218,11 @@ def create_bill_for_invoice(api, invoice, vendor_id, expense_accounts, default_e
     # Ignore company's own GSTIN if it was mistakenly extracted as vendor's
     if vendor_gstin == _COMPANY_GSTIN:
         vendor_gstin = ""
-    if vendor_gstin and vendor_gstin[:2] == "99":
+    # Non-Indian GSTIN (e.g. SG UEN "201109821G") → treat as overseas, don't send as gst_no
+    if vendor_gstin and not _is_valid_indian_gstin(vendor_gstin):
+        vendor_gstin = ""  # Clear invalid GSTIN so it won't be sent to Zoho
+        gst_treatment = "overseas"
+    elif vendor_gstin and vendor_gstin[:2] == "99":
         # GSTIN starting with 99 = foreign entity (OIDAR), treat as overseas
         gst_treatment = "overseas"
     elif vendor_gstin:
@@ -599,15 +608,23 @@ def run(selected_files=None, vendor_overrides=None):
                             invoice["vendor_gstin"] = gstin
                             log_action(f"  Enriched vendor GSTIN from cache: {gstin}")
                             break
-                # Update vendor in Zoho if invoice has GSTIN but vendor is missing it
+                # Update vendor in Zoho if invoice has valid Indian GSTIN but vendor is missing it
                 if inv_gstin and inv_gstin not in cached_gstin_map:
-                    gst_treatment = "overseas" if inv_gstin[:2] == "99" else "business_gst"
-                    try:
-                        api.update_vendor(cached_vid, {"gst_treatment": gst_treatment, "gst_no": inv_gstin})
-                        log_action(f"  Updated vendor {vendor_name} with GSTIN {inv_gstin} ({gst_treatment})")
-                        cached_gstin_map[inv_gstin] = (cached_vid, vendor_name)
-                    except Exception as e:
-                        log_action(f"  Could not update vendor GST info: {e}", "WARNING")
+                    if not _is_valid_indian_gstin(inv_gstin):
+                        # Non-Indian tax ID (e.g. SG UEN) — set overseas, skip gst_no
+                        try:
+                            api.update_vendor(cached_vid, {"gst_treatment": "overseas"})
+                            log_action(f"  Updated vendor {vendor_name} as overseas (non-Indian tax ID: {inv_gstin})")
+                        except Exception as e:
+                            log_action(f"  Could not update vendor GST info: {e}", "WARNING")
+                    else:
+                        gst_treatment = "overseas" if inv_gstin[:2] == "99" else "business_gst"
+                        try:
+                            api.update_vendor(cached_vid, {"gst_treatment": gst_treatment, "gst_no": inv_gstin})
+                            log_action(f"  Updated vendor {vendor_name} with GSTIN {inv_gstin} ({gst_treatment})")
+                            cached_gstin_map[inv_gstin] = (cached_vid, vendor_name)
+                        except Exception as e:
+                            log_action(f"  Could not update vendor GST info: {e}", "WARNING")
             elif vendor_name:
                 vendor_id, vendor_name = ensure_vendor(api, vendor_name, invoice, vendor_mappings, currency_map)
             else:

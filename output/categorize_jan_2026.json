@@ -220,7 +220,7 @@
       "inv_currency": "USD",
       "inv_date": "2026-01-11",
       "inv_invoice_number": "IN-005-309-664",
-      "inv_vendor_gstin": "9917AUS29001OSF",
+      "inv_vendor_gstin": null,
       "match_type": null,
       "diff": null,
       "status": "no_cc"
@@ -473,5 +473,5 @@
     "no_cc": 23,
     "unmapped": 1
   },
-  "saved_at": "2026-03-08 16:22:39"
+  "saved_at": "2026-03-08 16:47:47"
 }
