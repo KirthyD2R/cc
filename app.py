@@ -1854,6 +1854,8 @@ def api_bills_create_and_record_bulk():
                     except Exception as e:
                         log_action(f"  [{idx+1}] Failed to attach PDF: {e}", "WARNING")
 
+                time.sleep(0.5)  # Allow Zoho to finalize bill before recording payment
+
                 # --- Step 2: Record payment for this bill ---
                 bill_data = api.get_bill(bill_id)
                 bill = bill_data.get("bill", {})
@@ -2089,11 +2091,12 @@ def api_bills_record_only():
                     log_action(f"  Bill {bid} has zero balance, skipping")
                     skipped.append(bid)
                     continue
-                bills_to_pay.append({"bill_id": bid, "amount_applied": balance})
-                total_amount += balance
+                bill_vendor_id = bill.get("vendor_id", "")
                 bill_currency = bill.get("currency_code", "INR")
+                bills_to_pay.append({"bill_id": bid, "amount_applied": balance, "vendor_id": bill_vendor_id, "currency": bill_currency})
+                total_amount += balance
                 if not vendor_id:
-                    vendor_id = bill.get("vendor_id", "")
+                    vendor_id = bill_vendor_id
             except Exception as ex:
                 error_msg = str(ex).lower()
                 if "already" in error_msg and "paid" in error_msg:
@@ -2106,60 +2109,92 @@ def api_bills_record_only():
                 return jsonify({"status": "already_paid", "bill_id": all_bill_ids[0], "skipped": skipped})
             return jsonify({"error": "No bills to pay"}), 400
 
-        if not vendor_id:
-            return jsonify({"error": "Bill has no vendor_id"}), 500
+        if not bills_to_pay:
+            return jsonify({"error": "No bills with valid vendor"}), 500
 
-        # Record single payment covering all bills
+        # Group bills by vendor_id — Zoho requires one payment per vendor
+        from collections import defaultdict
+        vendor_groups = defaultdict(lambda: {"bills": [], "total": 0, "currency": "INR"})
+        for bp in bills_to_pay:
+            vid = bp.pop("vendor_id")
+            cur = bp.pop("currency", "INR")
+            vendor_groups[vid]["bills"].append(bp)
+            vendor_groups[vid]["total"] += bp["amount_applied"]
+            vendor_groups[vid]["currency"] = cur
+
         payment_date = cc_date
-        payment_data = {
-            "vendor_id": vendor_id,
-            "payment_mode": "Credit Card",
-            "date": payment_date,
-            "amount": round(total_amount, 2),
-            "paid_through_account_id": account_id,
-            "bills": bills_to_pay,
-        }
+        all_payment_ids = []
+        total_all = sum(g["total"] for g in vendor_groups.values())
 
-        if bill_currency != "INR":
-            actual_inr = float(cc_inr)
-            if total_amount:
-                exact_rate = actual_inr / total_amount
-                for decimals in range(6, 12):
-                    test_rate = round(exact_rate, decimals)
-                    if round(test_rate * total_amount, 2) == round(actual_inr, 2):
-                        exact_rate = test_rate
-                        break
+        for vid, group in vendor_groups.items():
+            group_total = round(group["total"], 2)
+            group_currency = group["currency"]
+
+            payment_data = {
+                "vendor_id": vid,
+                "payment_mode": "Credit Card",
+                "date": payment_date,
+                "amount": group_total,
+                "paid_through_account_id": account_id,
+                "bills": group["bills"],
+            }
+
+            if group_currency != "INR":
+                # Proportion of CC INR amount for this vendor group
+                proportion = group_total / total_all if total_all else 1
+                actual_inr = round(float(cc_inr) * proportion, 2)
+                if group_total:
+                    exact_rate = actual_inr / group_total
+                    for decimals in range(6, 12):
+                        test_rate = round(exact_rate, decimals)
+                        if round(test_rate * group_total, 2) == round(actual_inr, 2):
+                            exact_rate = test_rate
+                            break
+                    else:
+                        exact_rate = round(exact_rate, 10)
                 else:
-                    exact_rate = round(exact_rate, 10)
+                    exact_rate = 0
+                payment_data["currency_id"] = currency_map.get(group_currency)
+                payment_data["exchange_rate"] = exact_rate
+                log_action(f"  {group_currency} {group_total} -> INR {actual_inr} (rate: {exact_rate})")
+
+            bill_count = len(group["bills"])
+            log_action(f"Recording payment ({bill_count} bill{'s' if bill_count > 1 else ''}): {', '.join(b['bill_id'] for b in group['bills'])} via {cc_card} on {payment_date}")
+            pay_result = api.record_vendor_payment(payment_data)
+            payment = pay_result.get("vendorpayment", {})
+            payment_id = payment.get("payment_id")
+
+            if payment_id:
+                log_action(f"  Payment recorded: {payment_id} (total: {group_total})")
+                all_payment_ids.append(payment_id)
             else:
-                exact_rate = 0
-            payment_data["currency_id"] = currency_map.get(bill_currency)
-            payment_data["exchange_rate"] = exact_rate
-            log_action(f"  {bill_currency} {total_amount} -> INR {actual_inr} (rate: {exact_rate})")
+                log_action(f"  Payment failed for vendor {vid}", "ERROR")
 
-        bill_count = len(bills_to_pay)
-        log_action(f"Recording payment ({bill_count} bill{'s' if bill_count > 1 else ''}): {', '.join(b['bill_id'] for b in bills_to_pay)} via {cc_card} on {payment_date}")
-        pay_result = api.record_vendor_payment(payment_data)
-        payment = pay_result.get("vendorpayment", {})
-        payment_id = payment.get("payment_id")
+        if not all_payment_ids:
+            return jsonify({"error": "All payments failed"}), 500
 
-        if not payment_id:
-            return jsonify({"error": "Payment failed - no payment_id"}), 500
-
-        log_action(f"  Payment recorded: {payment_id} (total: {round(total_amount, 2)})")
-
-        # Auto-match banking transaction
-        matched_banking = _auto_match_banking_txn(
-            api, cc_txn_id, payment_id, log_action,
-            account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
-        )
+        # Auto-match banking transaction (use first payment if single, multi otherwise)
+        matched_banking = False
+        if len(all_payment_ids) == 1:
+            matched_banking = _auto_match_banking_txn(
+                api, cc_txn_id, all_payment_ids[0], log_action,
+                account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
+            )
+        elif len(all_payment_ids) > 1:
+            import time
+            time.sleep(1)
+            matched_banking = _auto_match_banking_txn_multi(
+                api, cc_txn_id, all_payment_ids, log_action,
+                account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
+            )
 
         return jsonify({
             "status": "paid",
             "bill_id": all_bill_ids[0],
-            "bill_ids": [b["bill_id"] for b in bills_to_pay],
+            "bill_ids": [b["bill_id"] for bp in vendor_groups.values() for b in bp["bills"]],
             "skipped": skipped,
-            "payment_id": payment_id,
+            "payment_id": all_payment_ids[0] if all_payment_ids else "",
+            "payment_ids": all_payment_ids,
             "banking_matched": matched_banking,
         })
 
