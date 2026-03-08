@@ -1777,9 +1777,13 @@ def api_bills_create_and_record_bulk():
             if currency != "INR" and cc_vendor and cc_vendor != vendor_name:
                 vendor_name = cc_vendor
 
-            log_action(f"  [{idx+1}/{len(invoices)}] Creating bill: {invoice_number or vendor_name} ({currency} {amount})")
+            # --- Step 1: Create bill (or use existing) ---
+            existing_bill_id = inv.get("zoho_bill_id", "")
+            if existing_bill_id and existing_bill_id != "deleted":
+                log_action(f"  [{idx+1}/{len(invoices)}] Bill already in Zoho: {invoice_number or vendor_name} -> {existing_bill_id}")
+            else:
+                log_action(f"  [{idx+1}/{len(invoices)}] Creating bill: {invoice_number or vendor_name} ({currency} {amount})")
 
-            # --- Step 1: Create bill ---
             invoice_obj = {
                 "file": invoice_number or vendor_name,
                 "vendor_name": vendor_name,
@@ -1799,20 +1803,27 @@ def api_bills_create_and_record_bulk():
                     results.append({"invoice_number": invoice_number, "status": "error", "error": f"Vendor not found: {vendor_name}"})
                     continue
 
-                result = mod_03.create_bill_for_invoice(
-                    api, invoice_obj, vendor_id, expense_accounts, default_expense, currency_map,
-                    vendor_name=resolved_name,
-                    igst_tax_id=igst_tax_id, intrastate_tax_id=intrastate_tax_id,
-                    default_exemption_id=default_exemption_id,
-                )
+                # Skip bill creation if already in Zoho
+                bill_id = None
+                is_new = False
+                if existing_bill_id and existing_bill_id != "deleted":
+                    bill_id = existing_bill_id
+                else:
+                    result = mod_03.create_bill_for_invoice(
+                        api, invoice_obj, vendor_id, expense_accounts, default_expense, currency_map,
+                        vendor_name=resolved_name,
+                        igst_tax_id=igst_tax_id, intrastate_tax_id=intrastate_tax_id,
+                        default_exemption_id=default_exemption_id,
+                    )
 
-                if not result or not result[0]:
-                    log_action(f"  [{idx+1}] Failed: could not create bill", "ERROR")
-                    results.append({"invoice_number": invoice_number, "status": "error", "error": "Failed to create bill"})
-                    continue
+                    if not result or not result[0]:
+                        log_action(f"  [{idx+1}] Failed: could not create bill", "ERROR")
+                        results.append({"invoice_number": invoice_number, "status": "error", "error": "Failed to create bill"})
+                        continue
 
-                bill_id = result[0]
-                is_new = result[1]
+                    bill_id = result[0]
+                    is_new = result[1]
+
                 log_action(f"  [{idx+1}] Bill {'created' if is_new else 'exists'}: {bill_id}")
 
                 # --- Attach PDF ---
@@ -1905,6 +1916,21 @@ def api_bills_create_and_record_bulk():
         error_count = sum(1 for r in results if r.get("status") == "error")
         log_action(f"[Bulk] Done: {created_count} created, {paid_count} recorded, {already_paid_count} skipped (already paid), {error_count} errors")
 
+        # --- Auto-match CC banking transaction with all recorded payments ---
+        banking_matched = False
+        if payment_ids and cc_txn_id:
+            try:
+                banking_matched = _auto_match_banking_txn_multi(
+                    api, cc_txn_id, payment_ids, log_action,
+                    account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
+                )
+                if banking_matched:
+                    log_action(f"[Bulk] CC banking transaction matched: {len(payment_ids)} payments -> {cc_txn_id}")
+                else:
+                    log_action(f"[Bulk] CC banking auto-match failed", "WARNING")
+            except Exception as e:
+                log_action(f"[Bulk] CC banking auto-match error: {e}", "WARNING")
+
         overall_status = "paid" if paid_count > 0 and error_count == 0 else ("partial" if paid_count > 0 else "error")
         return jsonify({
             "status": overall_status,
@@ -1915,6 +1941,7 @@ def api_bills_create_and_record_bulk():
             "already_paid_count": already_paid_count,
             "bill_created_only": bill_created_only,
             "error_count": error_count,
+            "banking_matched": banking_matched,
         })
 
     except Exception as e:
@@ -8278,7 +8305,9 @@ function renderCatView() {
               invoice_number: gi.invoice_number || '',
               vendor_gstin: gi.vendor_gstin || '',
               file: gi.file || '',
-              organized_path: (gi.organized_path || '').replace(/\\/g, '/')
+              organized_path: (gi.organized_path || '').replace(/\\/g, '/'),
+              in_zoho: gi.in_zoho || false,
+              zoho_bill_id: gi.zoho_bill_id || ''
             };
           }),
           cc: {
@@ -8407,12 +8436,20 @@ function renderCatView() {
           if (giStatus === 'paid') giStatusHtml = '<span style="color:var(--green);font-size:9px">\u2705 Paid</span>';
           else if (gi.in_zoho) giStatusHtml = '<span style="color:var(--yellow);font-size:9px">\u25CF In Zoho</span>';
           var removeBtn = '<button onclick="removeGroupedInvoice(' + catRowIdx + ',' + giIdx + ')" style="font-size:9px;padding:1px 6px;background:rgba(239,68,68,0.15);color:var(--red,#ef4444);border:1px solid rgba(239,68,68,0.3);border-radius:4px;cursor:pointer" title="Remove this invoice from group">\u2715</button>';
+          // Build Amazon entity key tags (e.g., ASSPL, ARIPL)
+          var entityTags = '';
+          if (gi.amazon_entities) {
+            entityTags = Object.keys(gi.amazon_entities).map(function(code) {
+              return ' <span style="font-size:8px;padding:1px 3px;border-radius:3px;background:rgba(255,255,255,0.06);color:var(--yellow)" title="' + code + '-' + (gi.amazon_entities[code] || '') + '">' + code + '</span>';
+            }).join('');
+          }
+          var sellerLabel = gi.vendor_name ? ' <span style="font-size:9px;color:var(--text-dim)">(' + gi.vendor_name + ')</span>' : '';
           subTr.innerHTML =
             '<td style="text-align:center">' + removeBtn + '</td>' +
             '<td colspan="5" style="font-size:10px;padding-left:24px;color:var(--text-dim)">' +
               '<span style="color:var(--accent);margin-right:4px">\u2514</span> ' +
               'Bill ' + (giIdx + 1) + ': <span style="color:var(--text)">' + (gi.invoice_number || 'N/A') + '</span>' +
-              (gi.amazon_fc_code ? ' <span style="font-size:8px;padding:1px 3px;border-radius:3px;background:rgba(255,255,255,0.06);color:var(--yellow)">' + gi.amazon_fc_code + '</span>' : '') +
+              entityTags + sellerLabel +
             '</td>' +
             '<td style="font-family:monospace;font-size:10px;text-align:right">' + giAmt + '</td>' +
             '<td style="font-size:10px">' + (gi.date || '-') + '</td>' +
