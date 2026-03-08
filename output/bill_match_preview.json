@@ -13,6 +13,19 @@
     "vendor_match_method": "name"
   },
   {
+    "file": "Apr 2025.pdf",
+    "invoice_number": "5237284366",
+    "vendor_name": "Google",
+    "amount": 4874.34,
+    "currency": "INR",
+    "date": "2025-04-30",
+    "organized_month": "Apr 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "gstin"
+  },
+  {
     "file": "E0100VXPSK_Invoice.pdf",
     "invoice_number": "E0100VXPSK_Invoice",
     "vendor_name": "Microsoft",
@@ -22,6 +35,8 @@
     "organized_month": "Apr 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002918862",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "created_bills",
     "matched_bill": "Created: Microsoft Corporation (India) Pvt Ltd"
   },
@@ -36,6 +51,8 @@
     "action": "skip",
     "matched_bill": "E0100VXPSQ",
     "matched_bill_id": "2050328000002920489",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -49,6 +66,8 @@
     "action": "skip",
     "matched_bill": "E0100VXPSR",
     "matched_bill_id": "2050328000002920577",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -61,6 +80,8 @@
     "organized_month": "Apr 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002963003",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "created_bills",
     "matched_bill": "Created: Microsoft Corporation (India) Pvt Ltd"
   },
@@ -74,6 +95,8 @@
     "organized_month": "Apr 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003007003",
+    "matched_vendor_name": "Fly.io, Inc",
+    "matched_vendor_id": "2050328000000349283",
     "match_type": "created_bills",
     "matched_bill": "Created: Fly.io, Inc"
   },
@@ -88,6 +111,8 @@
     "action": "skip",
     "matched_bill": "7CC5E2D2-0001",
     "matched_bill_id": "2050328000002991006",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
     "match_type": "exact"
   },
   {
@@ -101,6 +126,8 @@
     "action": "skip",
     "matched_bill": "E0BCC1DE-0005",
     "matched_bill_id": "2050328000003007050",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
     "match_type": "exact"
   },
   {
@@ -113,6 +140,8 @@
     "organized_month": "Apr 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003006005",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "matched_vendor_id": "2050328000000357128",
     "match_type": "created_bills",
     "matched_bill": "Created: R K WorldInfocom Pvt. Ltd."
   },
@@ -126,6 +155,8 @@
     "organized_month": "Apr 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003015003",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "matched_vendor_id": "2050328000000357128",
     "match_type": "created_bills",
     "matched_bill": "Created: R K WorldInfocom Pvt. Ltd."
   },
@@ -153,6 +184,8 @@
     "action": "skip",
     "matched_bill": "IN-003-223-854",
     "matched_bill_id": "2050328000001809354",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
     "match_type": "exact"
   },
   {
@@ -166,6 +199,8 @@
     "action": "skip",
     "matched_bill": "1025260205383",
     "matched_bill_id": "2050328000002916962",
+    "matched_vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "matched_vendor_id": "2050328000000343473",
     "match_type": "exact"
   },
   {
@@ -179,6 +214,8 @@
     "action": "skip",
     "matched_bill": "1025260222143",
     "matched_bill_id": "2050328000002917110",
+    "matched_vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "matched_vendor_id": "2050328000000343473",
     "match_type": "exact"
   },
   {
@@ -208,6 +245,19 @@
     "vendor_match_method": "name"
   },
   {
+    "file": "Aug 2025.pdf",
+    "invoice_number": "5347652740",
+    "vendor_name": "Google",
+    "amount": 4889.41,
+    "currency": "INR",
+    "date": "2025-08-31",
+    "organized_month": "Aug 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "gstin"
+  },
+  {
     "file": "BLR7-717.pdf",
     "invoice_number": "BLR7-717",
     "vendor_name": "WIDEVIEW SOLUTIONS",
@@ -217,6 +267,8 @@
     "organized_month": "Aug 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003013087",
+    "matched_vendor_name": "WIDEVIEW SOLUTIONS",
+    "matched_vendor_id": "2050328000003001093",
     "match_type": "created_bills",
     "matched_bill": "Created: WIDEVIEW SOLUTIONS"
   },
@@ -230,6 +282,8 @@
     "organized_month": "Aug 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002982114",
+    "matched_vendor_name": "ETRADE MARKETING PVT LTD",
+    "matched_vendor_id": "2050328000000352327",
     "match_type": "created_bills",
     "matched_bill": "Created: ETRADE MARKETING PVT LTD"
   },
@@ -244,6 +298,8 @@
     "action": "skip",
     "matched_bill": "E0100X581J_Invoice",
     "matched_bill_id": "2050328000003006305",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -257,6 +313,8 @@
     "action": "skip",
     "matched_bill": "E0100X5B1G_Invoice",
     "matched_bill_id": "2050328000002995187",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -270,6 +328,8 @@
     "action": "skip",
     "matched_bill": "E0100X5B1M",
     "matched_bill_id": "2050328000002920665",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -283,6 +343,8 @@
     "action": "skip",
     "matched_bill": "E0100X5B1N",
     "matched_bill_id": "2050328000002920797",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -296,6 +358,8 @@
     "action": "skip",
     "matched_bill": "E0100X5F2C_Invoice",
     "matched_bill_id": "2050328000002993335",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -308,6 +372,8 @@
     "organized_month": "Aug 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003000044",
+    "matched_vendor_name": "Fly.io, Inc",
+    "matched_vendor_id": "2050328000000349283",
     "match_type": "created_bills",
     "matched_bill": "Created: Fly.io, Inc"
   },
@@ -320,9 +386,9 @@
     "date": "2025-08-25",
     "organized_month": "Aug 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "FMAB-324269_p1_FMAB-324269_p1_FMAB-324269.pdf",
@@ -333,9 +399,9 @@
     "date": "2025-08-28",
     "organized_month": "Aug 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "Fly.io-Aug 26.pdf",
@@ -347,6 +413,8 @@
     "organized_month": "Aug 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002997085",
+    "matched_vendor_name": "Fly.io, Inc",
+    "matched_vendor_id": "2050328000000349283",
     "match_type": "created_bills",
     "matched_bill": "Created: Fly.io, Inc"
   },
@@ -361,6 +429,8 @@
     "action": "skip",
     "matched_bill": "GROQTAAS202508116839",
     "matched_bill_id": "2050328000002917790",
+    "matched_vendor_name": "GROQ",
+    "matched_vendor_id": "2050328000002917774",
     "match_type": "normalized"
   },
   {
@@ -374,6 +444,8 @@
     "action": "skip",
     "matched_bill": "GROQTAAS202508118887",
     "matched_bill_id": "2050328000002917822",
+    "matched_vendor_name": "GROQ",
+    "matched_vendor_id": "2050328000002917774",
     "match_type": "normalized"
   },
   {
@@ -386,6 +458,8 @@
     "organized_month": "Aug 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003012286",
+    "matched_vendor_name": "ARPIT AGRAWAL",
+    "matched_vendor_id": "2050328000002998157",
     "match_type": "created_bills",
     "matched_bill": "Created: ARPIT AGRAWAL"
   },
@@ -400,6 +474,8 @@
     "action": "skip",
     "matched_bill": "INV95005231",
     "matched_bill_id": "2050328000002195490",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "exact"
   },
   {
@@ -413,6 +489,8 @@
     "action": "skip",
     "matched_bill": "AEEHRQ-00003",
     "matched_bill_id": "2050328000002917408",
+    "matched_vendor_name": "SUPABASE",
+    "matched_vendor_id": "2050328000002917312",
     "match_type": "exact"
   },
   {
@@ -425,6 +503,8 @@
     "organized_month": "Aug 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003006253",
+    "matched_vendor_name": "S2 Labs Inc.",
+    "matched_vendor_id": "2050328000002965001",
     "match_type": "created_bills",
     "matched_bill": "Created: S2 Labs Inc."
   },
@@ -439,6 +519,8 @@
     "action": "skip",
     "matched_bill": "PZLFLIEU-0004",
     "matched_bill_id": "2050328000002993149",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
     "match_type": "exact"
   },
   {
@@ -451,6 +533,8 @@
     "organized_month": "Aug 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002997364",
+    "matched_vendor_name": "BigIntent Global India Pvt Ltd",
+    "matched_vendor_id": "2050328000002982132",
     "match_type": "created_bills",
     "matched_bill": "Created: BigIntent Global India Pvt Ltd"
   },
@@ -464,6 +548,8 @@
     "organized_month": "Aug 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002993284",
+    "matched_vendor_name": "ETRADE MARKETING PVT LTD",
+    "matched_vendor_id": "2050328000000352327",
     "match_type": "created_bills",
     "matched_bill": "Created: ETRADE MARKETING PVT LTD"
   },
@@ -490,6 +576,8 @@
     "organized_month": "Aug 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003006231",
+    "matched_vendor_name": "ECONETING E-COMMERCE PRIVATE LIMITED",
+    "matched_vendor_id": "2050328000003000230",
     "match_type": "created_bills",
     "matched_bill": "Created: ECONETING E-COMMERCE PRIVATE LIMITED"
   },
@@ -503,6 +591,8 @@
     "organized_month": "Aug 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003004041",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
     "match_type": "created_bills",
     "matched_bill": "Created: Google"
   },
@@ -517,7 +607,22 @@
     "action": "skip",
     "matched_bill": "IN-004-088-291",
     "matched_bill_id": "2050328000001809202",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
     "match_type": "exact"
+  },
+  {
+    "file": "Dec 2024.pdf",
+    "invoice_number": "5142807509",
+    "vendor_name": "Google",
+    "amount": 1068.91,
+    "currency": "INR",
+    "date": "2024-12-31",
+    "organized_month": "Dec 2024",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "Your Google Play Order Receipt from Dec 16, 2024.eml",
@@ -569,6 +674,8 @@
     "action": "skip",
     "matched_bill": "IN-005-113-294",
     "matched_bill_id": "2050328000003011050",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
     "match_type": "exact"
   },
   {
@@ -634,6 +741,8 @@
     "action": "skip",
     "matched_bill": "E0100Y80IF",
     "matched_bill_id": "2050328000002920841",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -647,6 +756,8 @@
     "action": "skip",
     "matched_bill": "E0100Y80IG",
     "matched_bill_id": "2050328000002920951",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -673,7 +784,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000002888195",
     "matched_vendor_name": "COCOBLU RETAIL LIMITED",
-    "vendor_match_method": "name"
+    "vendor_match_method": "gstin"
   },
   {
     "file": "FMAB-291923_p1_FMAB-291923_p3_FMAB-379327.pdf",
@@ -699,6 +810,8 @@
     "action": "skip",
     "matched_bill": "GROQ-TAAS-202512-174643",
     "matched_bill_id": "2050328000002917918",
+    "matched_vendor_name": "GROQ",
+    "matched_vendor_id": "2050328000002917774",
     "match_type": "exact"
   },
   {
@@ -711,6 +824,8 @@
     "organized_month": "Dec 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002996054",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "created_bills",
     "matched_bill": "Created: GitHub, Inc."
   },
@@ -724,6 +839,8 @@
     "organized_month": "Dec 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003011024",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "created_bills",
     "matched_bill": "Created: GitHub, Inc."
   },
@@ -763,6 +880,8 @@
     "organized_month": "Dec 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003015027",
+    "matched_vendor_name": "Vercel",
+    "matched_vendor_id": "2050328000002996113",
     "match_type": "created_bills",
     "matched_bill": "Created: Vercel"
   },
@@ -776,6 +895,8 @@
     "organized_month": "Dec 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003009147",
+    "matched_vendor_name": "S2 Labs Inc.",
+    "matched_vendor_id": "2050328000002965001",
     "match_type": "created_bills",
     "matched_bill": "Created: S2 Labs Inc."
   },
@@ -789,6 +910,8 @@
     "organized_month": "Dec 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003012308",
+    "matched_vendor_name": "S2 Labs Inc.",
+    "matched_vendor_id": "2050328000002965001",
     "match_type": "created_bills",
     "matched_bill": "Created: S2 Labs Inc."
   },
@@ -802,6 +925,8 @@
     "organized_month": "Dec 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002991073",
+    "matched_vendor_name": "S2 Labs Inc.",
+    "matched_vendor_id": "2050328000002965001",
     "match_type": "created_bills",
     "matched_bill": "Created: S2 Labs Inc."
   },
@@ -815,6 +940,8 @@
     "organized_month": "Dec 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003000248",
+    "matched_vendor_name": "S2 Labs Inc.",
+    "matched_vendor_id": "2050328000002965001",
     "match_type": "created_bills",
     "matched_bill": "Created: S2 Labs Inc."
   },
@@ -854,6 +981,8 @@
     "organized_month": "Dec 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003008174",
+    "matched_vendor_name": "AWS",
+    "matched_vendor_id": "2050328000002211179",
     "match_type": "created_bills",
     "matched_bill": "Created: AWS"
   },
@@ -866,9 +995,9 @@
     "date": "2025-12-07",
     "organized_month": "Dec 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "MAA4-6184576_p1_MAA4-6184576_p1_MAA4-6184576.pdf",
@@ -879,9 +1008,9 @@
     "date": "2025-12-07",
     "organized_month": "Dec 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "MAA4-6415046_p1_MAA4-6415046_p1_MAA4-6415046.pdf",
@@ -892,9 +1021,9 @@
     "date": "2025-12-16",
     "organized_month": "Dec 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "Oder 21- Dec.pdf",
@@ -926,6 +1055,8 @@
     "organized_month": "Dec 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003008059",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
     "match_type": "created_bills",
     "matched_bill": "Created: Google"
   },
@@ -940,7 +1071,22 @@
     "action": "skip",
     "matched_bill": "021483140002",
     "matched_bill_id": "2050328000000349299",
+    "matched_vendor_name": "Fly.io, Inc",
+    "matched_vendor_id": "2050328000000349283",
     "match_type": "normalized"
+  },
+  {
+    "file": "Feb 2025.pdf",
+    "invoice_number": "5189048167",
+    "vendor_name": "Google",
+    "amount": 4050.09,
+    "currency": "INR",
+    "date": "2025-02-28",
+    "organized_month": "Feb 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "Medium.pdf",
@@ -1125,6 +1271,8 @@
     "organized_month": "Feb 2026",
     "action": "skip",
     "matched_bill_id": "2050328000003006066",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
     "match_type": "created_bills",
     "matched_bill": "Created: Atlassian Pty Ltd"
   },
@@ -1152,6 +1300,8 @@
     "action": "skip",
     "matched_bill": "E0100YQAML",
     "matched_bill_id": "2050328000002920929",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -1165,6 +1315,8 @@
     "action": "skip",
     "matched_bill": "E0100YQAMM",
     "matched_bill_id": "2050328000002920885",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -1191,6 +1343,8 @@
     "action": "skip",
     "matched_bill": "GROQ-TAAS-202602-214357",
     "matched_bill_id": "2050328000002917982",
+    "matched_vendor_name": "GROQ",
+    "matched_vendor_id": "2050328000002917774",
     "match_type": "exact"
   },
   {
@@ -1331,6 +1485,8 @@
     "action": "skip",
     "matched_bill": "8MEU2MRF-0005",
     "matched_bill_id": "2050328000002995087",
+    "matched_vendor_name": "Gamma",
+    "matched_vendor_id": "2050328000002996079",
     "match_type": "exact"
   },
   {
@@ -1343,6 +1499,8 @@
     "organized_month": "Feb 2026",
     "action": "skip",
     "matched_bill_id": "2050328000002991026",
+    "matched_vendor_name": "Vercel",
+    "matched_vendor_id": "2050328000002996113",
     "match_type": "created_bills",
     "matched_bill": "Created: Vercel"
   },
@@ -1356,6 +1514,8 @@
     "organized_month": "Feb 2026",
     "action": "skip",
     "matched_bill_id": "2050328000002966003",
+    "matched_vendor_name": "S2 Labs Inc.",
+    "matched_vendor_id": "2050328000002965001",
     "match_type": "created_bills",
     "matched_bill": "Created: S2 Labs Inc."
   },
@@ -1369,6 +1529,8 @@
     "organized_month": "Feb 2026",
     "action": "skip",
     "matched_bill_id": "2050328000003009173",
+    "matched_vendor_name": "S2 Labs Inc.",
+    "matched_vendor_id": "2050328000002965001",
     "match_type": "created_bills",
     "matched_bill": "Created: S2 Labs Inc."
   },
@@ -1447,6 +1609,8 @@
     "organized_month": "Feb 2026",
     "action": "skip",
     "matched_bill_id": "2050328000002984165",
+    "matched_vendor_name": "AWS",
+    "matched_vendor_id": "2050328000002211179",
     "match_type": "created_bills",
     "matched_bill": "Created: AWS"
   },
@@ -1480,6 +1644,8 @@
     "organized_month": "Feb 2026",
     "action": "skip",
     "matched_bill_id": "2050328000003005184",
+    "matched_vendor_name": "Blue Dart Express Ltd",
+    "matched_vendor_id": "2050328000002994082",
     "match_type": "created_bills",
     "matched_bill": "Created: Blue Dart Express Ltd"
   },
@@ -1494,6 +1660,8 @@
     "action": "skip",
     "matched_bill": "1024250374165",
     "matched_bill_id": "2050328000000343511",
+    "matched_vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "matched_vendor_id": "2050328000000343473",
     "match_type": "exact"
   },
   {
@@ -1508,6 +1676,19 @@
     "matched_vendor_id": "2050328000000349283",
     "matched_vendor_name": "Fly.io, Inc",
     "vendor_match_method": "name"
+  },
+  {
+    "file": "Jan 2025.pdf",
+    "invoice_number": "5169583989",
+    "vendor_name": "Google",
+    "amount": 2500.38,
+    "currency": "INR",
+    "date": "2025-01-31",
+    "organized_month": "Jan 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "Medium8.pdf",
@@ -1543,6 +1724,8 @@
     "action": "skip",
     "matched_bill": "1025260502871",
     "matched_bill_id": "2050328000002917038",
+    "matched_vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "matched_vendor_id": "2050328000000343473",
     "match_type": "exact"
   },
   {
@@ -1568,6 +1751,8 @@
     "organized_month": "Jan 2026",
     "action": "skip",
     "matched_bill_id": "2050328000002997137",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
     "match_type": "created_bills",
     "matched_bill": "Created: Atlassian Pty Ltd"
   },
@@ -1607,6 +1792,8 @@
     "organized_month": "Jan 2026",
     "action": "skip",
     "matched_bill_id": "2050328000002988046",
+    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
+    "matched_vendor_id": "2050328000003012043",
     "match_type": "created_bills",
     "matched_bill": "Created: R K WorldInfocom Pvt Ltd"
   },
@@ -1660,6 +1847,8 @@
     "action": "skip",
     "matched_bill": "E0100YH2YB",
     "matched_bill_id": "2050328000002920863",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -1686,6 +1875,8 @@
     "action": "skip",
     "matched_bill": "E0100YH8QM",
     "matched_bill_id": "2050328000002920907",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -1697,9 +1888,9 @@
     "date": "2026-01-19",
     "organized_month": "Jan 2026",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "GROQ-TAAS-202601-199788.pdf",
@@ -1712,6 +1903,8 @@
     "action": "skip",
     "matched_bill": "GROQ-TAAS-202601-199788",
     "matched_bill_id": "2050328000002917950",
+    "matched_vendor_name": "GROQ",
+    "matched_vendor_id": "2050328000002917774",
     "match_type": "exact"
   },
   {
@@ -1754,6 +1947,8 @@
     "organized_month": "Jan 2026",
     "action": "skip",
     "matched_bill_id": "2050328000003005114",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "created_bills",
     "matched_bill": "Created: GitHub, Inc."
   },
@@ -1767,6 +1962,8 @@
     "organized_month": "Jan 2026",
     "action": "skip",
     "matched_bill_id": "2050328000003010068",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "created_bills",
     "matched_bill": "Created: GitHub, Inc."
   },
@@ -1780,6 +1977,8 @@
     "organized_month": "Jan 2026",
     "action": "skip",
     "matched_bill_id": "2050328000003013003",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "created_bills",
     "matched_bill": "Created: GitHub, Inc."
   },
@@ -1806,6 +2005,8 @@
     "organized_month": "Jan 2026",
     "action": "skip",
     "matched_bill_id": "2050328000002970003",
+    "matched_vendor_name": "S2 Labs Inc.",
+    "matched_vendor_id": "2050328000002965001",
     "match_type": "created_bills",
     "matched_bill": "Created: S2 Labs Inc."
   },
@@ -1845,6 +2046,8 @@
     "organized_month": "Jan 2026",
     "action": "skip",
     "matched_bill_id": "2050328000003007110",
+    "matched_vendor_name": "AWS",
+    "matched_vendor_id": "2050328000002211179",
     "match_type": "created_bills",
     "matched_bill": "Created: AWS"
   },
@@ -1922,6 +2125,8 @@
     "action": "skip",
     "matched_bill": "1025260152757",
     "matched_bill_id": "2050328000002916926",
+    "matched_vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "matched_vendor_id": "2050328000000343473",
     "match_type": "exact"
   },
   {
@@ -1935,6 +2140,8 @@
     "action": "skip",
     "matched_bill": "IN-003-856-325",
     "matched_bill_id": "2050328000001809832",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
     "match_type": "exact"
   },
   {
@@ -2000,6 +2207,8 @@
     "action": "skip",
     "matched_bill": "E0100WTWFY",
     "matched_bill_id": "2050328000002920511",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -2013,6 +2222,8 @@
     "action": "skip",
     "matched_bill": "E0100WTWFZ",
     "matched_bill_id": "2050328000002920621",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -2061,6 +2272,8 @@
     "organized_month": "Jul 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002990007",
+    "matched_vendor_name": "Fly.io, Inc",
+    "matched_vendor_id": "2050328000000349283",
     "match_type": "created_bills",
     "matched_bill": "Created: Fly.io, Inc"
   },
@@ -2075,7 +2288,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000002888195",
     "matched_vendor_name": "COCOBLU RETAIL LIMITED",
-    "vendor_match_method": "name"
+    "vendor_match_method": "gstin"
   },
   {
     "file": "FMAB-130122_p1_FMAB-130122_p1_FMAB-130122.pdf",
@@ -2101,6 +2314,8 @@
     "action": "skip",
     "matched_bill": "INV89628732",
     "matched_bill_id": "2050328000002195568",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "exact"
   },
   {
@@ -2114,6 +2329,8 @@
     "action": "skip",
     "matched_bill": "INV94136438",
     "matched_bill_id": "2050328000002211109",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "exact"
   },
   {
@@ -2127,6 +2344,8 @@
     "action": "skip",
     "matched_bill": "AEEHRQ-00002",
     "matched_bill_id": "2050328000002917376",
+    "matched_vendor_name": "SUPABASE",
+    "matched_vendor_id": "2050328000002917312",
     "match_type": "exact"
   },
   {
@@ -2139,6 +2358,8 @@
     "organized_month": "Jul 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003006279",
+    "matched_vendor_name": "S2 Labs Inc.",
+    "matched_vendor_id": "2050328000002965001",
     "match_type": "created_bills",
     "matched_bill": "Created: S2 Labs Inc."
   },
@@ -2165,8 +2386,23 @@
     "organized_month": "Jul 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002984185",
+    "matched_vendor_name": "AWS",
+    "matched_vendor_id": "2050328000002211179",
     "match_type": "created_bills",
     "matched_bill": "Created: AWS"
+  },
+  {
+    "file": "Jul 2025.pdf",
+    "invoice_number": "5315977163",
+    "vendor_name": "Google",
+    "amount": 564.17,
+    "currency": "INR",
+    "date": "2025-07-03",
+    "organized_month": "Jul 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "MAA4-2323214.pdf",
@@ -2204,6 +2440,8 @@
     "organized_month": "Jul 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003000112",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
     "match_type": "created_bills",
     "matched_bill": "Created: Google"
   },
@@ -2217,6 +2455,8 @@
     "organized_month": "Jun 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002997426",
+    "matched_vendor_name": "AWS",
+    "matched_vendor_id": "2050328000002211179",
     "match_type": "created_bills",
     "matched_bill": "Created: AWS"
   },
@@ -2231,6 +2471,8 @@
     "action": "skip",
     "matched_bill": "IN-003-623-208",
     "matched_bill_id": "2050328000001809568",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
     "match_type": "exact"
   },
   {
@@ -2270,6 +2512,8 @@
     "action": "skip",
     "matched_bill": "E0100WJF6Q",
     "matched_bill_id": "2050328000002920555",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -2283,6 +2527,8 @@
     "action": "skip",
     "matched_bill": "E0100WJF6R",
     "matched_bill_id": "2050328000002920599",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -2333,9 +2579,9 @@
     "date": "2025-06-26",
     "organized_month": "Jun 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "IN-1362.pdf",
@@ -2423,6 +2669,8 @@
     "action": "skip",
     "matched_bill": "INV87220423",
     "matched_bill_id": "2050328000002195861",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "exact"
   },
   {
@@ -2436,6 +2684,8 @@
     "action": "skip",
     "matched_bill": "INV87612320",
     "matched_bill_id": "2050328000002195789",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "exact"
   },
   {
@@ -2449,6 +2699,8 @@
     "action": "skip",
     "matched_bill": "INV89156862",
     "matched_bill_id": "2050328000002195717",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "exact"
   },
   {
@@ -2462,6 +2714,8 @@
     "action": "skip",
     "matched_bill": "AEEHRQ-00001",
     "matched_bill_id": "2050328000002917328",
+    "matched_vendor_name": "SUPABASE",
+    "matched_vendor_id": "2050328000002917312",
     "match_type": "exact"
   },
   {
@@ -2475,6 +2729,8 @@
     "action": "skip",
     "matched_bill": "IVSLM7IE-0001",
     "matched_bill_id": "2050328000002982058",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
     "match_type": "exact"
   },
   {
@@ -2488,6 +2744,8 @@
     "action": "skip",
     "matched_bill": "PZLFLIEU-0001",
     "matched_bill_id": "2050328000003005210",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
     "match_type": "exact"
   },
   {
@@ -2501,7 +2759,22 @@
     "action": "skip",
     "matched_bill": "ZEUU3HS6-0001",
     "matched_bill_id": "2050328000003006156",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
     "match_type": "exact"
+  },
+  {
+    "file": "Jun 2025.pdf",
+    "invoice_number": "5293533925",
+    "vendor_name": "Google",
+    "amount": 5829.67,
+    "currency": "INR",
+    "date": "2025-06-30",
+    "organized_month": "Jun 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "MAA4-1088415_p1_MAA4-1088415_p1_MAA4-1088415.pdf",
@@ -2548,9 +2821,9 @@
     "date": "2025-06-26",
     "organized_month": "Jun 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "MAA4-2216157_p1_MAA4-2216157_p1_MAA4-2216157.pdf",
@@ -2561,9 +2834,9 @@
     "date": "2025-06-26",
     "organized_month": "Jun 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "VLMN-7560_p1_VLMN-7560_p1_VLMN-7560.pdf",
@@ -2585,6 +2858,8 @@
     "organized_month": "Jun 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002986078",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
     "match_type": "created_bills",
     "matched_bill": "Created: Google"
   },
@@ -2599,6 +2874,8 @@
     "action": "skip",
     "matched_bill": "1024250419098",
     "matched_bill_id": "2050328000000343533",
+    "matched_vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "matched_vendor_id": "2050328000000343473",
     "match_type": "exact"
   },
   {
@@ -2612,7 +2889,22 @@
     "action": "skip",
     "matched_bill": "021483140003",
     "matched_bill_id": "2050328000000349365",
+    "matched_vendor_name": "Fly.io, Inc",
+    "matched_vendor_id": "2050328000000349283",
     "match_type": "normalized"
+  },
+  {
+    "file": "Mar 2025.pdf",
+    "invoice_number": "5210601828",
+    "vendor_name": "Google",
+    "amount": 4526.95,
+    "currency": "INR",
+    "date": "2025-03-31",
+    "organized_month": "Mar 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "Your Google Play Order Receipt from Mar 16, 2025.eml",
@@ -2626,6 +2918,19 @@
     "matched_vendor_id": "2050328000002993047",
     "matched_vendor_name": "Google",
     "vendor_match_method": "fuzzy"
+  },
+  {
+    "file": "Dec 1–31, 2025 Transactions - Admin Console.pdf",
+    "invoice_number": null,
+    "vendor_name": "Google",
+    "amount": null,
+    "currency": "INR",
+    "date": "2026-03-08",
+    "organized_month": "Mar 2026",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "name"
   },
   {
     "file": "INV123227848_A02676131_03022026.pdf",
@@ -2646,9 +2951,22 @@
     "vendor_name": null,
     "amount": 2000.0,
     "currency": "INR",
-    "date": "2026-03-06",
+    "date": "2026-03-08",
     "organized_month": "Mar 2026",
     "action": "new_vendor_bill"
+  },
+  {
+    "file": "Jan 1–13, 2026 Transactions - Admin Console.pdf",
+    "invoice_number": null,
+    "vendor_name": "Google",
+    "amount": null,
+    "currency": "INR",
+    "date": "2026-03-08",
+    "organized_month": "Mar 2026",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "name"
   },
   {
     "file": "LNKD_INVOICE_511142624687.pdf",
@@ -2656,7 +2974,7 @@
     "vendor_name": "LinkedIn",
     "amount": 3654.0,
     "currency": "INR",
-    "date": "2026-03-06",
+    "date": "2026-03-08",
     "organized_month": "Mar 2026",
     "action": "new_bill",
     "matched_vendor_id": "2050328000000359077",
@@ -2674,12 +2992,25 @@
     "action": "new_vendor_bill"
   },
   {
+    "file": "Nov 1–30, 2025 Transactions - Admin Console.pdf",
+    "invoice_number": null,
+    "vendor_name": "Google",
+    "amount": null,
+    "currency": "INR",
+    "date": "2026-03-08",
+    "organized_month": "Mar 2026",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "name"
+  },
+  {
     "file": "Sales_13.pdf",
     "invoice_number": "Dated",
     "vendor_name": null,
     "amount": 1.0,
     "currency": "INR",
-    "date": "2026-03-06",
+    "date": "2026-03-08",
     "organized_month": "Mar 2026",
     "action": "new_vendor_bill"
   },
@@ -2720,6 +3051,8 @@
     "action": "skip",
     "matched_bill": "E0100W84MJ",
     "matched_bill_id": "2050328000002920533",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -2746,6 +3079,8 @@
     "action": "skip",
     "matched_bill": "E0100W8BO6",
     "matched_bill_id": "2050328000002920643",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -2780,9 +3115,9 @@
     "date": "2025-05-06",
     "organized_month": "May 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "IN-3035.pdf",
@@ -2826,9 +3161,22 @@
     "date": "2025-05-06",
     "organized_month": "May 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
+  },
+  {
+    "file": "May 2025.pdf",
+    "invoice_number": "5269404716",
+    "vendor_name": "Google",
+    "amount": 5829.67,
+    "currency": "INR",
+    "date": "2025-05-31",
+    "organized_month": "May 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "SIDA-1153_p1_SIDA-1153_p1_SIDA-1153.pdf",
@@ -2850,6 +3198,8 @@
     "organized_month": "May 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003006113",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
     "match_type": "created_bills",
     "matched_bill": "Created: Google"
   },
@@ -2864,6 +3214,8 @@
     "action": "skip",
     "matched_bill": "IN-003-418-066",
     "matched_bill_id": "2050328000001809444",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
     "match_type": "exact"
   },
   {
@@ -2890,6 +3242,8 @@
     "action": "skip",
     "matched_bill": "IN-004-796-545",
     "matched_bill_id": "2050328000001827156",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
     "match_type": "exact"
   },
   {
@@ -2916,6 +3270,8 @@
     "action": "skip",
     "matched_bill": "E0100XYTHP",
     "matched_bill_id": "2050328000002920753",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -2955,6 +3311,8 @@
     "action": "skip",
     "matched_bill": "E0100XYTJW",
     "matched_bill_id": "2050328000002920687",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -2979,9 +3337,9 @@
     "date": "2025-11-23",
     "organized_month": "Nov 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "GROQ-TAAS-202511-165203.pdf",
@@ -2994,6 +3352,8 @@
     "action": "skip",
     "matched_bill": "GROQ-TAAS-202511-165203",
     "matched_bill_id": "2050328000002918014",
+    "matched_vendor_name": "GROQ",
+    "matched_vendor_id": "2050328000002917774",
     "match_type": "exact"
   },
   {
@@ -3034,6 +3394,8 @@
     "action": "skip",
     "matched_bill": "INV106152420",
     "matched_bill_id": "2050328000002195252",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "exact"
   },
   {
@@ -3047,6 +3409,8 @@
     "action": "skip",
     "matched_bill": "INV108376917",
     "matched_bill_id": "2050328000002195162",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "exact"
   },
   {
@@ -3060,6 +3424,8 @@
     "action": "skip",
     "matched_bill": "INV108377000",
     "matched_bill_id": "2050328000002195031",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "exact"
   },
   {
@@ -3072,6 +3438,8 @@
     "organized_month": "Nov 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003017826",
+    "matched_vendor_name": "Vercel",
+    "matched_vendor_id": "2050328000002996113",
     "match_type": "created_bills",
     "matched_bill": "Created: Vercel"
   },
@@ -3086,6 +3454,8 @@
     "action": "skip",
     "matched_bill": "AEEHRQ-00006",
     "matched_bill_id": "2050328000002917504",
+    "matched_vendor_name": "SUPABASE",
+    "matched_vendor_id": "2050328000002917312",
     "match_type": "exact"
   },
   {
@@ -3190,6 +3560,8 @@
     "organized_month": "Nov 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002998090",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
     "match_type": "created_bills",
     "matched_bill": "Created: Google"
   },
@@ -3204,6 +3576,8 @@
     "action": "skip",
     "matched_bill": "1025260334826",
     "matched_bill_id": "2050328000002917074",
+    "matched_vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "matched_vendor_id": "2050328000000343473",
     "match_type": "exact"
   },
   {
@@ -3240,6 +3614,8 @@
     "action": "skip",
     "matched_bill": "IN-004-560-126",
     "matched_bill_id": "2050328000003017318",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
     "match_type": "exact"
   },
   {
@@ -3288,6 +3664,8 @@
     "organized_month": "Oct 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002886262",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "created_bills",
     "matched_bill": "Created: Microsoft Corporation (India) Pvt Ltd"
   },
@@ -3302,6 +3680,8 @@
     "action": "skip",
     "matched_bill": "E0100XPIP4",
     "matched_bill_id": "2050328000002920819",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -3315,6 +3695,8 @@
     "action": "skip",
     "matched_bill": "E0100XPIP5",
     "matched_bill_id": "2050328000002920775",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -3340,6 +3722,8 @@
     "organized_month": "Oct 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002893179",
+    "matched_vendor_name": "COCOBLU RETAIL LIMITED",
+    "matched_vendor_id": "2050328000002888195",
     "match_type": "created_bills",
     "matched_bill": "Created: COCOBLU RETAIL LIMITED"
   },
@@ -3353,6 +3737,8 @@
     "organized_month": "Oct 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002895289",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "matched_vendor_id": "2050328000000357128",
     "match_type": "created_bills",
     "matched_bill": "Created: R K WorldInfocom Pvt. Ltd."
   },
@@ -3366,6 +3752,8 @@
     "organized_month": "Oct 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002897167",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "matched_vendor_id": "2050328000000357128",
     "match_type": "created_bills",
     "matched_bill": "Created: R K WorldInfocom Pvt. Ltd."
   },
@@ -3380,6 +3768,8 @@
     "action": "skip",
     "matched_bill": "GROQ-TAAS-202510-143678",
     "matched_bill_id": "2050328000002917886",
+    "matched_vendor_name": "GROQ",
+    "matched_vendor_id": "2050328000002917774",
     "match_type": "exact"
   },
   {
@@ -3392,6 +3782,8 @@
     "organized_month": "Oct 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002893157",
+    "matched_vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "matched_vendor_id": "2050328000000368555",
     "match_type": "created_bills",
     "matched_bill": "Created: CLICKTECH RETAIL PRIVATE LIMITED"
   },
@@ -3436,6 +3828,8 @@
     "action": "skip",
     "matched_bill": "INV102416114",
     "matched_bill_id": "2050328000002195338",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "exact"
   },
   {
@@ -3449,6 +3843,8 @@
     "action": "skip",
     "matched_bill": "AEEHRQ-00005",
     "matched_bill_id": "2050328000002917472",
+    "matched_vendor_name": "SUPABASE",
+    "matched_vendor_id": "2050328000002917312",
     "match_type": "exact"
   },
   {
@@ -3488,6 +3884,8 @@
     "action": "skip",
     "matched_bill": "ZEUU3HS6-0002",
     "matched_bill_id": "2050328000003001073",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
     "match_type": "exact"
   },
   {
@@ -3501,7 +3899,7 @@
     "action": "new_bill",
     "matched_vendor_id": "2050328000000356826",
     "matched_vendor_name": "RETAILEZ PRIVATE LIMITED",
-    "vendor_match_method": "name"
+    "vendor_match_method": "gstin"
   },
   {
     "file": "MAA4-2433044_p1_MAA4-2433044_p1_MAA4-2433044.pdf",
@@ -3538,9 +3936,9 @@
     "date": "2025-10-14",
     "organized_month": "Oct 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "MAA4-5043359.pdf",
@@ -3551,9 +3949,9 @@
     "date": "2025-10-14",
     "organized_month": "Oct 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "MAA4-5043360_p1_MAA4-5043360_p1_MAA4-5043360.pdf",
@@ -3564,9 +3962,9 @@
     "date": "2025-10-14",
     "organized_month": "Oct 2025",
     "action": "new_bill",
-    "matched_vendor_id": "2050328000003012043",
-    "matched_vendor_name": "R K WorldInfocom Pvt Ltd",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000357128",
+    "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_match_method": "gstin"
   },
   {
     "file": "MAA4-50642_p1_MAA4-50642_p1_MAA4-50642.pdf",
@@ -3702,18 +4100,10 @@
     "organized_month": "Oct 2025",
     "action": "skip",
     "matched_bill_id": "2050328000003010096",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
     "match_type": "created_bills",
     "matched_bill": "Created: Google"
-  },
-  {
-    "file": "Equity Subscription.pdf",
-    "invoice_number": null,
-    "vendor_name": null,
-    "amount": 300.0,
-    "currency": "USD",
-    "date": "2024-09-06",
-    "organized_month": "Sep 2024",
-    "action": "new_vendor_bill"
   },
   {
     "file": "1025260282844.pdf",
@@ -3726,6 +4116,8 @@
     "action": "skip",
     "matched_bill": "1025260282844",
     "matched_bill_id": "2050328000002917002",
+    "matched_vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "matched_vendor_id": "2050328000000343473",
     "match_type": "exact"
   },
   {
@@ -3752,6 +4144,8 @@
     "action": "skip",
     "matched_bill": "IN-004-324-189",
     "matched_bill_id": "2050328000001827066",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
     "match_type": "exact"
   },
   {
@@ -3765,6 +4159,8 @@
     "action": "skip",
     "matched_bill": "E0100XFZFO",
     "matched_bill_id": "2050328000002920731",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -3817,6 +4213,8 @@
     "action": "skip",
     "matched_bill": "E0100XG6GR",
     "matched_bill_id": "2050328000002920709",
+    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "matched_vendor_id": "2050328000000342219",
     "match_type": "exact"
   },
   {
@@ -3866,6 +4264,8 @@
     "action": "skip",
     "matched_bill": "GROQTAAS202509131986",
     "matched_bill_id": "2050328000002917854",
+    "matched_vendor_name": "GROQ",
+    "matched_vendor_id": "2050328000002917774",
     "match_type": "normalized"
   },
   {
@@ -3902,6 +4302,8 @@
     "action": "skip",
     "matched_bill": "INV98806878",
     "matched_bill_id": "2050328000002195414",
+    "matched_vendor_name": "GitHub, Inc.",
+    "matched_vendor_id": "2050328000002195001",
     "match_type": "exact"
   },
   {
@@ -3915,6 +4317,8 @@
     "action": "skip",
     "matched_bill": "AEEHRQ-00004",
     "matched_bill_id": "2050328000002917440",
+    "matched_vendor_name": "SUPABASE",
+    "matched_vendor_id": "2050328000002917312",
     "match_type": "exact"
   },
   {
@@ -3941,6 +4345,8 @@
     "action": "skip",
     "matched_bill": "PZLFLIEU-0005",
     "matched_bill_id": "2050328000003005230",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
     "match_type": "exact"
   },
   {
@@ -4001,6 +4407,8 @@
     "organized_month": "Sep 2025",
     "action": "skip",
     "matched_bill_id": "2050328000002998068",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
     "match_type": "created_bills",
     "matched_bill": "Created: Google"
   }
