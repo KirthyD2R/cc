@@ -640,22 +640,1712 @@
     "attached": true
   },
   {
-    "file": "FLY IO - Augest.pdf",
-    "status": "skipped",
-    "reason": "bill 02148314-0008 exists"
-  },
-  {
-    "file": "Fly.io-Aug 26.pdf",
-    "status": "skipped",
-    "reason": "bill 02148314-0009 exists"
-  },
-  {
     "file": "92832245029",
     "status": "created",
     "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
     "vendor_id": "2050328000000342219",
     "bill_id": "2050328000002991203",
     "amount": 908.6,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "20260216_Tax Invoice_402-2904307-3394704.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Retail India Private Limited",
+    "vendor_id": "2050328000003019815",
+    "bill_id": "2050328000002990204",
+    "amount": 1344.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "UMA7-548986_p1_UMA7-548986_p1_UMA7-548986.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Retail India Private Limited",
+    "vendor_id": "2050328000003019815",
+    "bill_id": "2050328000003012355",
+    "amount": 1548.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "HYD8-1815245.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Retail India Private Limited",
+    "vendor_id": "2050328000003019815",
+    "bill_id": "2050328000003004220",
+    "amount": 444.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-551983.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Retail India Private Limited",
+    "vendor_id": "2050328000003019815",
+    "bill_id": "2050328000002982184",
+    "amount": 273.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "UMA7-343905.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Retail India Private Limited",
+    "vendor_id": "2050328000003019815",
+    "bill_id": "2050328000002986199",
+    "amount": 229.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "IN-478.pdf",
+    "status": "created",
+    "vendor_name": "A2Z SALES",
+    "vendor_id": "2050328000003012377",
+    "bill_id": "2050328000003019841",
+    "amount": 836.36,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "VLMN-7560_p1_VLMN-7560_p1_VLMN-7560.pdf",
+    "status": "created",
+    "vendor_name": "Accuprints",
+    "vendor_id": "2050328000003001165",
+    "bill_id": "2050328000002993447",
+    "amount": 197.01,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Invoice-1C11B54F-0007.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003009241",
+    "amount": 134.06,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-7CC5E2D2-0002.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002991225",
+    "amount": 126.5,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-IVSLM7IE-0002.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003012395",
+    "amount": 98.71,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-PZLFLIEU-0008.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002995233",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-1C11B54F-0009.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003012421",
+    "amount": 236.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-7CC5E2D2-0004.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003010274",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-BHEBGWUC-0002.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002998261",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-GWDVKZKR-0002.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002986243",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-OIGZ1BOY-0002.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003006327",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-VRUCOSGS-0002.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002984274",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-7CC5E2D2-0003.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002991251",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-IVSLM7IE-0003.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003010300",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-PZLFLIEU-0002.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000003001183",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-PZLFLIEU-0007.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002984300",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-ZEUU3HS6-0003.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002996151",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-PZLFLIEU-0006.pdf",
+    "status": "created",
+    "vendor_name": "Anthropic USD",
+    "vendor_id": "2050328000002997181",
+    "bill_id": "2050328000002998287",
+    "amount": 200.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_51195567355.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000003003137",
+    "amount": 1694.07,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_511129930927.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000003001209",
+    "amount": 8400.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_511132686884.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000003007228",
+    "amount": 7058.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_511117756315.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000003000479",
+    "amount": 928.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_511119256762.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000002984347",
+    "amount": 8400.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_511109459487.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000002999347",
+    "amount": 8400.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_511115460511.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000003011258",
+    "amount": 7106.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_511142624687.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000002993532",
+    "amount": 3654.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_511159612412.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000003010326",
+    "amount": 8400.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_511150750291.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000003000499",
+    "amount": 8400.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_511152667797.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000002990270",
+    "amount": 436.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_511140168715.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000003019923",
+    "amount": 8400.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "INV118377403.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000002986269",
+    "amount": 0.13,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "INV118474160.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000002993573",
+    "amount": 104.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "INV118672157.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000002995280",
+    "amount": 3.86,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "INV118823992.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000002988142",
+    "amount": 3.57,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "INV119811653.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000003000519",
+    "amount": 5.43,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "INV120386739.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000002982274",
+    "amount": 2.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "INV121408495.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000002996177",
+    "amount": 3.43,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "INV86578999.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000003006374",
+    "amount": 8.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "INV86595678.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000002994375",
+    "amount": 4.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "INV86710303.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000003007248",
+    "amount": 23.2,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "INV86710352.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000002999367",
+    "amount": 3.86,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "INV123227848_A02676131_03022026.pdf",
+    "status": "created",
+    "vendor_name": "GitHub, Inc.",
+    "vendor_id": "2050328000002195001",
+    "bill_id": "2050328000002994401",
+    "amount": 161.88,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "FMAB-291923_p1_FMAB-291923_p3_FMAB-379327.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000002990290",
+    "amount": 522.44,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "SMAB-89886_p1_SMAB-89886_p1_SMAB-89886.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000002997561",
+    "amount": 999.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "BLR7-1536989_p1_BLR7-1536989_p1_BLR7-1536989.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000003008289",
+    "amount": 1379.04,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "BLR8-1594523_p1_BLR8-1594523_p1_BLR8-1594523.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000003009288",
+    "amount": 170.52,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-130122_p1_FMAB-130122_p1_FMAB-130122.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000003008311",
+    "amount": 1998.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-1088415_p1_MAA4-1088415_p1_MAA4-1088415.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000003019984",
+    "amount": 294.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-1088537_p1_MAA4-1088537_p1_MAA4-1088537.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000003001229",
+    "amount": 225.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-348994_p1_FMAB-348994_p1_FMAB-348994.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000003021008",
+    "amount": 958.4,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-2433044_p1_MAA4-2433044_p1_MAA4-2433044.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000003011294",
+    "amount": 94.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-2496953_p1_MAA4-2496953_p1_MAA4-2496953.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000003003178",
+    "amount": 6475.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "SMAB-62796_p1_SMAB-62796_p1_SMAB-62796.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000003006432",
+    "amount": 18999.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-1775_p1_FMAB-1775_p3_FMAB-224829.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000002990314",
+    "amount": 176.58,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-224830_p1_FMAB-224830_p1_FMAB-224830.pdf",
+    "status": "created",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "vendor_id": "2050328000000368555",
+    "bill_id": "2050328000002996203",
+    "amount": 176.58,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Atlassian_Invoice_IN-005-041-698.pdf",
+    "status": "created",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "bill_id": "2050328000002999393",
+    "amount": 117.47,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "DEL4-4002106_p1_DEL4-4002106_p1_DEL4-4002106.pdf",
+    "status": "created",
+    "vendor_name": "COCOBLU RETAIL LIMITED",
+    "vendor_id": "2050328000002888195",
+    "bill_id": "2050328000003021053",
+    "amount": 125.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-291923_p1_FMAB-291923_p1_FMAB-291923.pdf",
+    "status": "created",
+    "vendor_name": "COCOBLU RETAIL LIMITED",
+    "vendor_id": "2050328000002888195",
+    "bill_id": "2050328000002986331",
+    "amount": 200.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Your Google Play Order Receipt from Feb 16, 2025.eml",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000002995364",
+    "amount": 1950.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Your Google Play Order Receipt from Jan 17, 2025.eml",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000002991340",
+    "amount": 1950.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-104573_p1_FMAB-104573_p1_FMAB-104573.pdf",
+    "status": "created",
+    "vendor_name": "COCOBLU RETAIL LIMITED",
+    "vendor_id": "2050328000002888195",
+    "bill_id": "2050328000002993599",
+    "amount": 449.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "BLR7-1062095_p1_BLR7-1062095_p1_BLR7-1062095.pdf",
+    "status": "created",
+    "vendor_name": "ETRADE MARKETING PVT LTD",
+    "vendor_id": "2050328000000352327",
+    "bill_id": "2050328000003009331",
+    "amount": 198.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Your Google Play Order Receipt from Mar 16, 2025.eml",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003015136",
+    "amount": 1950.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "BLR8-2573720_p1_BLR8-2573720_p1_BLR8-2573720.pdf",
+    "status": "created",
+    "vendor_name": "ETRADE MARKETING PVT LTD",
+    "vendor_id": "2050328000000352327",
+    "bill_id": "2050328000002988168",
+    "amount": 2999.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "UMA7-330621.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Retail India Private Limited",
+    "vendor_id": "2050328000003019815",
+    "bill_id": "2050328000003001316",
+    "amount": 229.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Apr 2025.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003001361",
+    "amount": 4874.34,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Aug 2025.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000002995384",
+    "amount": 4889.41,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Dec 2024.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003005479",
+    "amount": 1068.91,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Feb 2025.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000002997585",
+    "amount": 4050.09,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Jan 2025.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003005501",
+    "amount": 2500.38,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "5472759398.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003011318",
+    "amount": 4748.63,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Jul 2025.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000002986355",
+    "amount": 564.17,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Jun 2025.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000002991360",
+    "amount": 5829.67,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Mar 2025.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003000583",
+    "amount": 4526.95,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "May 2025.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003009353",
+    "amount": 5829.67,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "BLR7-6537963_p1_BLR7-6537963_p1_BLR7-6537963.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "vendor_id": "2050328000003012043",
+    "bill_id": "2050328000003009375",
+    "amount": 638.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100Y7X8Z_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002993644",
+    "amount": 7486.76,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100Y7ZVQ_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002999440",
+    "amount": 6390.73,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100Y80LQ_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002984425",
+    "amount": 16981.63,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-6184441_p1_MAA4-6184441_p1_MAA4-6184441.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000003004367",
+    "amount": 780.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-6184576_p1_MAA4-6184576_p1_MAA4-6184576.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002997607",
+    "amount": 403.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-6415046_p1_MAA4-6415046_p1_MAA4-6415046.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002982321",
+    "amount": 399.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100YQAMI_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002988211",
+    "amount": 7193.64,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100YQBIN_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002997631",
+    "amount": 19609.23,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-712215_p1_FMAB-712215_p1_FMAB-712215.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000003005544",
+    "amount": 294.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "UMA7-548986_p1_UMA7-548986_p2_UMA7-620985.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000003003265",
+    "amount": 134.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "DED4-2596022.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "vendor_id": "2050328000003012043",
+    "bill_id": "2050328000002997653",
+    "amount": 279.65,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100WTVPL_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002990359",
+    "amount": 5398.91,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100WTXDJ_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002991403",
+    "amount": 42116.85,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100WU2LR_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002986398",
+    "amount": 12215.38,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-2323214.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002995406",
+    "amount": 541.5,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-2323237.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002990402",
+    "amount": 267.75,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100WJEDJ_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002998392",
+    "amount": 9111.3,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100WJJ6H_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002993666",
+    "amount": 5288.36,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100WJNKS_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000003004412",
+    "amount": 11528.3,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-182420_p1_FMAB-182420_p1_FMAB-182420.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000003009439",
+    "amount": 336.3,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-2213948_p1_MAA4-2213948_p1_MAA4-2213948.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002996227",
+    "amount": 452.2,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-2216157_p1_MAA4-2216157_p1_MAA4-2216157.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000003004434",
+    "amount": 258.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100W84MG_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002984468",
+    "amount": 12286.66,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100W8BMR_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000003021117",
+    "amount": 11758.38,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-74681.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000003007316",
+    "amount": 228.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-1449907.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002993709",
+    "amount": 276.25,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-907489_p1_MAA4-907489_p1_MAA4-907489.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002990447",
+    "amount": 673.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100XYSYG_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000003021139",
+    "amount": 12447.28,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100XYTJQ_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000003009484",
+    "amount": 14375.64,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100XYTJR_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002988233",
+    "amount": 7363.27,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FMAB-556098_p1_FMAB-556098_p1_FMAB-556098.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002988255",
+    "amount": 420.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "HYD3-3357396_p1_HYD3-3357396_p1_HYD3-3357396.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "vendor_id": "2050328000003012043",
+    "bill_id": "2050328000002998414",
+    "amount": 329.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100XPIM2_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002984511",
+    "amount": 19580.64,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100XPKMI_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000003009506",
+    "amount": 8371.13,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-5043276_p1_MAA4-5043276_p1_MAA4-5043276.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002982387",
+    "amount": 356.25,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-5043359.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000003012484",
+    "amount": 232.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-5043360_p1_MAA4-5043360_p1_MAA4-5043360.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "vendor_id": "2050328000000357128",
+    "bill_id": "2050328000002988279",
+    "amount": 677.95,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100XG1YM_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002993754",
+    "amount": 8487.57,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100XG6GK_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002999504",
+    "amount": 35119.63,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "E0100XG6GL_Invoice.pdf",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002995430",
+    "amount": 5653.17,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "HYD8-5540544_p1_HYD8-5540544_p1_HYD8-5540544.pdf",
+    "status": "created",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "vendor_id": "2050328000003012043",
+    "bill_id": "2050328000003004479",
+    "amount": 299.25,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "1025260426735.pdf",
+    "status": "created",
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "vendor_id": "2050328000000343473",
+    "bill_id": "2050328000003012529",
+    "amount": 8820.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Invoice-B8ERAOBF-0006.pdf",
+    "status": "created",
+    "vendor_name": "S2 Labs Inc.",
+    "vendor_id": "2050328000002965001",
+    "bill_id": "2050328000002999526",
+    "amount": 30.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-B8ERAOBF-0005.pdf",
+    "status": "created",
+    "vendor_name": "S2 Labs Inc.",
+    "vendor_id": "2050328000002965001",
+    "bill_id": "2050328000003013269",
+    "amount": 30.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "VSDX-1323.pdf",
+    "status": "created",
+    "vendor_name": "WIDEVIEW SOLUTIONS",
+    "vendor_id": "2050328000003001093",
+    "bill_id": "2050328000002991467",
+    "amount": 2590.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Invoice-B8ERAOBF-0004.pdf",
+    "status": "created",
+    "vendor_name": "S2 Labs Inc.",
+    "vendor_id": "2050328000002965001",
+    "bill_id": "2050328000003012553",
+    "amount": 30.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "VWQP-2485.pdf",
+    "status": "created",
+    "vendor_name": "DEAL N DONE",
+    "vendor_id": "2050328000002995492",
+    "bill_id": "2050328000003005634",
+    "amount": 899.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "IN-1362.pdf",
+    "status": "created",
+    "vendor_name": "Aggarwal Enterprises",
+    "vendor_id": "2050328000003010470",
+    "bill_id": "2050328000003013331",
+    "amount": 319.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-12223_p1_MAA4-12223_p1_MAA4-12223.pdf",
+    "status": "created",
+    "vendor_name": "GLOBAL BRANDS",
+    "vendor_id": "2050328000002997683",
+    "bill_id": "2050328000003008398",
+    "amount": 327.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "EZX9-37865.pdf",
+    "status": "created",
+    "vendor_name": "APOLLO PHARMACIES LIMITED",
+    "vendor_id": "2050328000003003350",
+    "bill_id": "2050328000003006514",
+    "amount": 450.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "IN-3035.pdf",
+    "status": "created",
+    "vendor_name": "AROCKYA SANTHAI",
+    "vendor_id": "2050328000002993796",
+    "bill_id": "2050328000003004537",
+    "amount": 915.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-3241_p1_MAA4-3241_p1_MAA4-3241.pdf",
+    "status": "created",
+    "vendor_name": "CRALOFT LLP",
+    "vendor_id": "2050328000003011360",
+    "bill_id": "2050328000003013353",
+    "amount": 279.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "AMD2-1482.pdf",
+    "status": "created",
+    "vendor_name": "CPU TECH",
+    "vendor_id": "2050328000002998455",
+    "bill_id": "2050328000003007361",
+    "amount": 1209.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "IN-3563.pdf",
+    "status": "created",
+    "vendor_name": "E zone Shop",
+    "vendor_id": "2050328000002998471",
+    "bill_id": "2050328000003001404",
+    "amount": 734.02,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "PBVN-14918.pdf",
+    "status": "created",
+    "vendor_name": "AKASH RAJESHBHAI NAKRANI",
+    "vendor_id": "2050328000003012577",
+    "bill_id": "2050328000003006580",
+    "amount": 1199.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "IN-2825.pdf",
+    "status": "created",
+    "vendor_name": "Dhruti Enterprises",
+    "vendor_id": "2050328000002995529",
+    "bill_id": "2050328000003004561",
+    "amount": 245.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Medium5.pdf",
+    "status": "created",
+    "vendor_name": "Medium",
+    "vendor_id": "2050328000003005654",
+    "bill_id": "2050328000003012595",
+    "amount": 5.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "20260217_Tax Invoice_408-5265385-5379544.pdf",
+    "status": "created",
+    "vendor_name": "JIN OFFICE SOLUTIONS",
+    "vendor_id": "2050328000002999586",
+    "bill_id": "2050328000003013398",
+    "amount": 7490.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Invoice-2KMAHYKG-0001.pdf",
+    "status": "created",
+    "vendor_name": "Wispr Flow",
+    "vendor_id": "2050328000002982409",
+    "bill_id": "2050328000002998489",
+    "amount": 3840.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "IN-27876.pdf",
+    "status": "created",
+    "vendor_name": "SAJANI FASHION",
+    "vendor_id": "2050328000002994580",
+    "bill_id": "2050328000002998509",
+    "amount": 296.01,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "INV01443315.pdf",
+    "status": "created",
+    "vendor_name": "New Relic",
+    "vendor_id": "2050328000002994596",
+    "bill_id": "2050328000002990534",
+    "amount": 10.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "IN-4132.pdf",
+    "status": "created",
+    "vendor_name": "Shivam Enterprises",
+    "vendor_id": "2050328000003005668",
+    "bill_id": "2050328000002993814",
+    "amount": 149.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "NK09I0326001326.pdf",
+    "status": "created",
+    "vendor_name": "Info Edge (Naukri)",
+    "vendor_id": "2050328000003000660",
+    "bill_id": "2050328000002993836",
+    "amount": 8761.5,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "IN-755.pdf",
+    "status": "created",
+    "vendor_name": "SUBRAMANIYAN",
+    "vendor_id": "2050328000002993856",
+    "bill_id": "2050328000002993874",
+    "amount": 245.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "BLR7-68.pdf",
+    "status": "created",
+    "vendor_name": "NAYANABEN RAJESHBHAI KACHA",
+    "vendor_id": "2050328000003005684",
+    "bill_id": "2050328000002999625",
+    "amount": 499.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-50642_p1_MAA4-50642_p1_MAA4-50642.pdf",
+    "status": "created",
+    "vendor_name": "TIGER PUG COMMERCE PRIVATE LIMITED",
+    "vendor_id": "2050328000002998529",
+    "bill_id": "2050328000002986478",
+    "amount": 2020.65,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "RNPU-47304_p1_RNPU-47304_p1_RNPU-47304.pdf",
+    "status": "created",
+    "vendor_name": "RAM LAL RAM CHANDRA (INDIA) LIMITED",
+    "vendor_id": "2050328000003015176",
+    "bill_id": "2050328000002998547",
+    "amount": 1487.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "TJFF-4575.pdf",
+    "status": "created",
+    "vendor_name": "vachanamrut marketing",
+    "vendor_id": "2050328000003009547",
+    "bill_id": "2050328000003000678",
+    "amount": 650.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "20260213_Tax Invoice_402-6713984-2813929.pdf",
+    "status": "created",
+    "vendor_name": "SANDEEP AGARWAL",
+    "vendor_id": "2050328000003003408",
+    "bill_id": "2050328000003001426",
+    "amount": 539.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "file_2.pdf",
+    "status": "created",
+    "vendor_name": "Flipkart",
+    "vendor_id": "2050328000002995566",
+    "bill_id": "2050328000003003426",
+    "amount": 156.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "GROQ-TAAS-202508-118887.pdf",
+    "status": "skipped",
+    "reason": "normalized match: GROQ-TAAS-202508-118887"
+  },
+  {
+    "file": "Medium1.pdf",
+    "status": "created",
+    "vendor_name": "Medium",
+    "vendor_id": "2050328000003005654",
+    "bill_id": "2050328000003009586",
+    "amount": 5.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Medium.pdf",
+    "status": "created",
+    "vendor_name": "Medium",
+    "vendor_id": "2050328000003005654",
+    "bill_id": "2050328000002999647",
+    "amount": 5.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Medium10.pdf",
+    "status": "created",
+    "vendor_name": "Medium",
+    "vendor_id": "2050328000003005654",
+    "bill_id": "2050328000002997701",
+    "amount": 5.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Medium11.pdf",
+    "status": "created",
+    "vendor_name": "Medium",
+    "vendor_id": "2050328000003005654",
+    "bill_id": "2050328000003012621",
+    "amount": 5.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Medium2.pdf",
+    "status": "created",
+    "vendor_name": "Medium",
+    "vendor_id": "2050328000003005654",
+    "bill_id": "2050328000003010488",
+    "amount": 5.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Medium3.pdf",
+    "status": "created",
+    "vendor_name": "Medium",
+    "vendor_id": "2050328000003005654",
+    "bill_id": "2050328000003012647",
+    "amount": 5.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Medium4.pdf",
+    "status": "created",
+    "vendor_name": "Medium",
+    "vendor_id": "2050328000003005654",
+    "bill_id": "2050328000003010514",
+    "amount": 5.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Medium6.pdf",
+    "status": "created",
+    "vendor_name": "Medium",
+    "vendor_id": "2050328000003005654",
+    "bill_id": "2050328000002995605",
+    "amount": 5.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Medium7.pdf",
+    "status": "created",
+    "vendor_name": "Medium",
+    "vendor_id": "2050328000003005654",
+    "bill_id": "2050328000003010540",
+    "amount": 5.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "file_1.pdf",
+    "status": "created",
+    "vendor_name": "Flipkart",
+    "vendor_id": "2050328000002995566",
+    "bill_id": "2050328000002984575",
+    "amount": 1.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Medium8.pdf",
+    "status": "created",
+    "vendor_name": "Medium",
+    "vendor_id": "2050328000003005654",
+    "bill_id": "2050328000003013441",
+    "amount": 5.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "SIDA-1153_p1_SIDA-1153_p1_SIDA-1153.pdf",
+    "status": "failed",
+    "reason": "bill creation failed"
+  },
+  {
+    "file": "NK09I1126006982.pdf",
+    "status": "created",
+    "vendor_name": "Info Edge (Naukri)",
+    "vendor_id": "2050328000003000660",
+    "bill_id": "2050328000002995652",
+    "amount": 1947.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "NK09I1126020619.pdf",
+    "status": "created",
+    "vendor_name": "Info Edge (Naukri)",
+    "vendor_id": "2050328000003000660",
+    "bill_id": "2050328000003011378",
+    "amount": 10513.8,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "INV01386703.pdf",
+    "status": "created",
+    "vendor_name": "New Relic",
+    "vendor_id": "2050328000002994596",
+    "bill_id": "2050328000002997727",
+    "amount": 0.97,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "MAA4-1730312_p1_MAA4-1730312_p1_MAA4-1730312.pdf",
+    "status": "failed",
+    "reason": "bill creation failed"
+  },
+  {
+    "file": "MAA4-50643_p1_MAA4-50643_p1_MAA4-50643.pdf",
+    "status": "created",
+    "vendor_name": "TIGER PUG COMMERCE PRIVATE LIMITED",
+    "vendor_id": "2050328000002998529",
+    "bill_id": "2050328000003008485",
+    "amount": 1971.25,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-61528_p1_MAA4-61528_p1_MAA4-61528.pdf",
+    "status": "failed",
+    "reason": "bill creation failed"
+  },
+  {
+    "file": "FMAB-1775_p1_FMAB-1775_p1_FMAB-1775.pdf",
+    "status": "created",
+    "vendor_name": "GLOBAL BRANDS",
+    "vendor_id": "2050328000002997683",
+    "bill_id": "2050328000002993956",
+    "amount": 375.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-22967_p1_MAA4-22967_p1_MAA4-22967.pdf",
+    "status": "created",
+    "vendor_name": "GLOBAL BRANDS",
+    "vendor_id": "2050328000002997683",
+    "bill_id": "2050328000002990623",
+    "amount": 749.24,
     "currency": "INR",
     "attached": true
   }

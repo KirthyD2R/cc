@@ -511,9 +511,157 @@
             "account_id": "2050328000000000498"
         },
         "Fly.io": {
-            "account_name": "Duplicate fd amount",
-            "account_id": "2050328000000027455",
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
+        },
+        "Amazon Retail India Private Limited": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
             "category": "invoice_coa_match"
+        },
+        "A2Z SALES": {
+            "account_name": "Sales",
+            "account_id": "2050328000000027349",
+            "category": "coa_match"
+        },
+        "Accuprints": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "LinkedIn Singapore Pte Ltd": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
+        },
+        "CLICKTECH RETAIL PRIVATE LIMITED": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "ZOHO CORPORATION PRIVATE LIMITED": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "RETAILEZ PRIVATE LIMITED": {
+            "account_name": "100 7699 5572 - D2R AI LABS PRIVATE LIMITED",
+            "account_id": "2050328000000031001",
+            "category": "coa_match"
+        },
+        "DEAL N DONE": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "Aggarwal Enterprises": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "GLOBAL BRANDS": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "APOLLO PHARMACIES LIMITED": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "AROCKYA SANTHAI": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "CRALOFT LLP": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "CPU TECH": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "E zone Shop": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "AKASH RAJESHBHAI NAKRANI": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "Dhruti Enterprises": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "Medium": {
+            "account_name": "PT payment",
+            "account_id": "2050328000000027449",
+            "category": "invoice_coa_match"
+        },
+        "JIN OFFICE SOLUTIONS": {
+            "account_name": "Office Rent",
+            "account_id": "2050328000001442327",
+            "category": "coa_match"
+        },
+        "SAJANI FASHION": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "Shivam Enterprises": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "SUBRAMANIYAN": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "NAYANABEN RAJESHBHAI KACHA": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "TIGER PUG COMMERCE PRIVATE LIMITED": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "SPIGEN INDIA PRIVATE LIMITED": {
+            "account_name": "100 7699 5572 - D2R AI LABS PRIVATE LIMITED",
+            "account_id": "2050328000000031001",
+            "category": "coa_match"
+        },
+        "RAM LAL RAM CHANDRA (INDIA) LIMITED": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "vachanamrut marketing": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "SANDEEP AGARWAL": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "Flipkart": {
+            "account_name": "Income Tax",
+            "account_id": "2050328000000027411",
+            "category": "invoice_coa_match"
+        },
+        "Surajmal Tea Private Limited": {
+            "account_name": "100 7699 5572 - D2R AI LABS PRIVATE LIMITED",
+            "account_id": "2050328000000031001",
+            "category": "coa_match"
         }
     }
 }

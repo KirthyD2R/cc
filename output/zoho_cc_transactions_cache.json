@@ -217,7 +217,9 @@
     "amount": 4216.45,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000001777093"
+    "transaction_id": "2050328000001777093",
+    "forex_amount": 45.91,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-11-06",
@@ -233,7 +235,9 @@
     "amount": 459.71,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000001777089"
+    "transaction_id": "2050328000001777089",
+    "forex_amount": 5.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-10-25",
@@ -249,7 +253,9 @@
     "amount": 910.59,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000001777079"
+    "transaction_id": "2050328000001777079",
+    "forex_amount": 10.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-10-16",
@@ -305,7 +311,9 @@
     "amount": 459.86,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000001777061"
+    "transaction_id": "2050328000001777061",
+    "forex_amount": 5.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-09-25",
@@ -337,7 +345,9 @@
     "amount": 457.21,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929327"
+    "transaction_id": "2050328000000929327",
+    "forex_amount": 5.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-08-26",
@@ -345,7 +355,9 @@
     "amount": 897.02,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929325"
+    "transaction_id": "2050328000000929325",
+    "forex_amount": 9.89,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-08-25",
@@ -361,7 +373,9 @@
     "amount": 907.68,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929317"
+    "transaction_id": "2050328000000929317",
+    "forex_amount": 10.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-08-15",
@@ -385,7 +399,9 @@
     "amount": 453.73,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929307"
+    "transaction_id": "2050328000000929307",
+    "forex_amount": 5.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-08-02",
@@ -393,7 +409,9 @@
     "amount": 1156.11,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929305"
+    "transaction_id": "2050328000000929305",
+    "forex_amount": 12.74,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-07-28",
@@ -433,7 +451,9 @@
     "amount": 2112.1,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929289"
+    "transaction_id": "2050328000000929289",
+    "forex_amount": 23.6,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-07-18",
@@ -441,7 +461,9 @@
     "amount": 891.79,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929287"
+    "transaction_id": "2050328000000929287",
+    "forex_amount": 10.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-07-15",
@@ -481,7 +503,9 @@
     "amount": 443.55,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929273"
+    "transaction_id": "2050328000000929273",
+    "forex_amount": 5.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-07-02",
@@ -489,7 +513,9 @@
     "amount": 1088.47,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929271"
+    "transaction_id": "2050328000000929271",
+    "forex_amount": 12.27,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-06-27",
@@ -521,7 +547,9 @@
     "amount": 892.92,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929259"
+    "transaction_id": "2050328000000929259",
+    "forex_amount": 10.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-06-23",
@@ -529,7 +557,9 @@
     "amount": 2118.11,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929257"
+    "transaction_id": "2050328000000929257",
+    "forex_amount": 23.6,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-06-19",
@@ -537,7 +567,9 @@
     "amount": 896.24,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929255"
+    "transaction_id": "2050328000000929255",
+    "forex_amount": 10.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-06-18",
@@ -545,7 +577,9 @@
     "amount": 21077.25,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929247"
+    "transaction_id": "2050328000000929247",
+    "forex_amount": 236.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-06-15",
@@ -569,7 +603,9 @@
     "amount": 443.34,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929235"
+    "transaction_id": "2050328000000929235",
+    "forex_amount": 5.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-06-02",
@@ -577,7 +613,9 @@
     "amount": 1113.67,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929233"
+    "transaction_id": "2050328000000929233",
+    "forex_amount": 12.56,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-05-28",
@@ -585,7 +623,9 @@
     "amount": 884.75,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929231"
+    "transaction_id": "2050328000000929231",
+    "forex_amount": 10.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-05-27",
@@ -601,7 +641,9 @@
     "amount": 890.62,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929227"
+    "transaction_id": "2050328000000929227",
+    "forex_amount": 10.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-05-25",
@@ -617,7 +659,9 @@
     "amount": 2103.77,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929219"
+    "transaction_id": "2050328000000929219",
+    "forex_amount": 23.6,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-05-19",
@@ -625,7 +669,9 @@
     "amount": 887.07,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929217"
+    "transaction_id": "2050328000000929217",
+    "forex_amount": 10.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-05-18",
@@ -633,7 +679,9 @@
     "amount": 887.07,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929209"
+    "transaction_id": "2050328000000929209",
+    "forex_amount": 10.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-05-15",
@@ -649,7 +697,9 @@
     "amount": 2131.26,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929201"
+    "transaction_id": "2050328000000929201",
+    "forex_amount": 23.95,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-05-10",
@@ -681,7 +731,9 @@
     "amount": 438.7,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929191"
+    "transaction_id": "2050328000000929191",
+    "forex_amount": 5.0,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-05-02",
@@ -689,7 +741,9 @@
     "amount": 1072.17,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929189"
+    "transaction_id": "2050328000000929189",
+    "forex_amount": 12.22,
+    "forex_currency": "USD"
   },
   {
     "date": "2025-05-01",
@@ -713,7 +767,9 @@
     "amount": 2082.32,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000331007"
+    "transaction_id": "2050328000000331007",
+    "forex_amount": 23.6,
+    "forex_currency": "USD"
   },
   {
     "date": "2026-02-18",
