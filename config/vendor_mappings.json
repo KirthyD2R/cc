@@ -515,19 +515,16 @@
             "account_id": "2050328000000027421"
         },
         "Amazon Retail India Private Limited": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "A2Z SALES": {
-            "account_name": "Sales",
-            "account_id": "2050328000000027349",
-            "category": "coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "Accuprints": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "LinkedIn Singapore Pte Ltd": {
             "account_name": "Software License",
@@ -539,9 +536,8 @@
             "category": "invoice_coa_match"
         },
         "ZOHO CORPORATION PRIVATE LIMITED": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
         },
         "RETAILEZ PRIVATE LIMITED": {
             "account_name": "100 7699 5572 - D2R AI LABS PRIVATE LIMITED",
@@ -554,9 +550,8 @@
             "category": "invoice_coa_match"
         },
         "Aggarwal Enterprises": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "GLOBAL BRANDS": {
             "account_name": "CC-Charges and GST",
@@ -564,14 +559,12 @@
             "category": "invoice_coa_match"
         },
         "APOLLO PHARMACIES LIMITED": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "AROCKYA SANTHAI": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "CRALOFT LLP": {
             "account_name": "CC-Charges and GST",
@@ -589,9 +582,8 @@
             "category": "invoice_coa_match"
         },
         "AKASH RAJESHBHAI NAKRANI": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "Dhruti Enterprises": {
             "account_name": "CC-Charges and GST",
@@ -599,9 +591,8 @@
             "category": "invoice_coa_match"
         },
         "Medium": {
-            "account_name": "PT payment",
-            "account_id": "2050328000000027449",
-            "category": "invoice_coa_match"
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
         },
         "JIN OFFICE SOLUTIONS": {
             "account_name": "Office Rent",
@@ -609,19 +600,16 @@
             "category": "coa_match"
         },
         "SAJANI FASHION": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "Shivam Enterprises": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "SUBRAMANIYAN": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "NAYANABEN RAJESHBHAI KACHA": {
             "account_name": "CC-Charges and GST",
@@ -629,9 +617,8 @@
             "category": "invoice_coa_match"
         },
         "TIGER PUG COMMERCE PRIVATE LIMITED": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "SPIGEN INDIA PRIVATE LIMITED": {
             "account_name": "100 7699 5572 - D2R AI LABS PRIVATE LIMITED",
@@ -644,14 +631,12 @@
             "category": "invoice_coa_match"
         },
         "vachanamrut marketing": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "SANDEEP AGARWAL": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "Flipkart": {
             "account_name": "Income Tax",
@@ -662,6 +647,14 @@
             "account_name": "100 7699 5572 - D2R AI LABS PRIVATE LIMITED",
             "account_id": "2050328000000031001",
             "category": "coa_match"
+        },
+        "New Relic": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
+        },
+        "Wispr Flow": {
+            "account_name": "Software License",
+            "account_id": "2050328000000027421"
         }
     }
 }
