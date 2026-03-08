@@ -3544,6 +3544,8 @@ def api_bills_match_preview():
             cb = created_bills_map[fname]
             entry["action"] = "skip"
             entry["matched_bill_id"] = cb.get("bill_id", "")
+            entry["matched_vendor_name"] = cb.get("vendor_name", "")
+            entry["matched_vendor_id"] = cb.get("vendor_id", "")
             entry["match_type"] = "created_bills"
             entry["matched_bill"] = f"Created: {cb.get('vendor_name', '')}"
             preview.append(entry)
@@ -3584,6 +3586,8 @@ def api_bills_match_preview():
             entry["action"] = "skip"
             entry["matched_bill"] = matched_bill.get("bill_number", "")
             entry["matched_bill_id"] = matched_bill.get("bill_id", "")
+            entry["matched_vendor_name"] = matched_bill.get("vendor_name", "")
+            entry["matched_vendor_id"] = matched_bill.get("vendor_id", "")
             entry["match_type"] = match_type
             preview.append(entry)
             continue
@@ -5841,7 +5845,7 @@ function _applyOverridesToPreview() {
   if (!_matchPreviewData || !_matchPreviewData.preview) return;
   _matchPreviewData.preview.forEach(function(inv) {
     var vname = inv.vendor_name || '';
-    if (_vendorOverrides[vname] && inv.action === 'new_vendor_bill') {
+    if (_vendorOverrides[vname] && inv.action !== 'skip') {
       inv.action = 'new_bill';
       inv.matched_vendor_id = _vendorOverrides[vname].contact_id;
       inv.matched_vendor_name = _vendorOverrides[vname].contact_name;

@@ -3238,5 +3238,113 @@
     "raw_text_preview": "---------- Forwarded message ---------\nFrom: Google Play <googleplay-noreply@google.com>\nDate: Sat, Aug 16, 2025 at 6:00 PM\nSubject: Your Google Play Order Receipt from Aug 16, 2025\nTo: <d2railabs@gmail.com>\n\n\n[image: Google Play]\n<https://c.gle/ANiao5oLLybxxnmyGPvBJFedJSZtWXSNrVwGDJfUPIx88iMw_x6MVvNhXFoWqZ028PlWZ_hBMGXsMrVrJw_it72AHJxYg2AF7s1Xu0xQIrH0TTNy14f9rzKyrA3V6Q>\nThank you\nYour subscription from Google Ireland Limited on Google Play continues and\nyou've been charged. Manage your subscrip",
     "vendor_gstin": null,
     "organized_path": "D:\\cc-statement-automation 1\\cc-statement-automation\\organized_invoices\\Aug 2025\\Your Google Play Order Receipt from Aug 16, 2025.eml"
+  },
+  {
+    "file": "Apr 2025.pdf",
+    "path": "D:\\cc-statement-automation\\input_pdfs\\invoices\\Apr 2025.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "5237284366",
+    "date": "2025-04-30",
+    "amount": 4874.34,
+    "currency": "INR",
+    "raw_text_preview": "IRN: 341aacc0ce202f9d265795793ca14d00a8a49e2fca0ee4ce608aab2209564f90\nGoogle India Private Limited\nTower B, Unitech Signature Tower II,\nInvoice\nSector 15, Part I, Village Silokhera,\nGurugram, Haryana 122002\nInvoice number: 5237284366\nIndia\nGSTIN: 06AACCG0527D1Z8\nPAN: AACCG0527D\nBill to\nD2R AI Labs\nD2R AI Labs Private Limited\n2nd Floor 48/105 Sreela terrace 1st\nMain Road Gandhi Nagar Adyar Chennai\nChennai, Tamil Nadu 600020\nIndia\nGSTIN: 33AAICD7217K1ZK\nPAN: AAICD7217K\nPlace of Supply/State Code: ",
+    "vendor_gstin": "06AACCG0527D1Z8",
+    "organized_path": "D:\\cc-statement-automation\\organized_invoices\\Apr 2025\\Apr 2025.pdf"
+  },
+  {
+    "file": "Aug 2025.pdf",
+    "path": "D:\\cc-statement-automation\\input_pdfs\\invoices\\Aug 2025.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "5347652740",
+    "date": "2025-08-31",
+    "amount": 4889.41,
+    "currency": "INR",
+    "raw_text_preview": "IRN: a23946d9bfd4d2e44c979b6d5b59028c1b4542cb2b779749865b3f0f3061cd8a\nGoogle India Private Limited\nTower B, Unitech Signature Tower II,\nInvoice\nSector 15, Part I, Village Silokhera,\nGurugram, Haryana 122002\nInvoice number: 5347652740\nIndia\nGSTIN: 06AACCG0527D1Z8\nPAN: AACCG0527D\nBill to\nD2R AI Labs\nD2R AI Labs Private Limited\n2nd Floor 48/105 Sreela terrace 1st\nMain Road Gandhi Nagar Adyar Chennai\nChennai, Tamil Nadu 600020\nIndia\nGSTIN: 33AAICD7217K1ZK\nPAN: AAICD7217K\nPlace of Supply/State Code: ",
+    "vendor_gstin": "06AACCG0527D1Z8",
+    "organized_path": "D:\\cc-statement-automation\\organized_invoices\\Aug 2025\\Aug 2025.pdf"
+  },
+  {
+    "file": "Dec 2024.pdf",
+    "path": "D:\\cc-statement-automation\\input_pdfs\\invoices\\Dec 2024.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "5142807509",
+    "date": "2024-12-31",
+    "amount": 1068.91,
+    "currency": "INR",
+    "raw_text_preview": "Google India Private Limited\nTower B, Unitech Signature Tower II,\nInvoice Sector 15, Part I, Village Silokhera,\nGurugram, Haryana 122002\nIndia\nInvoice number: 5142807509\nGSTIN: 06AACCG0527D1Z8\nPAN: AACCG0527D\nBill to\nD2R AI Labs\n2nd floor, #105 Sreela terrace\n1st main road, Gandhinagar, Adyar\nChennai, Tamil Nadu 600020\nIndia\nPlace of Supply/State Code: 33\nDetails HSN: 998319\n.In..v.o..ic..e. .n.u..m..b..e.r........................5..1..4.2..8.0..7.5..0.9...... Google Workspace\n.In..v.o..ic..e. .",
+    "vendor_gstin": "06AACCG0527D1Z8",
+    "organized_path": "D:\\cc-statement-automation\\organized_invoices\\Dec 2024\\Dec 2024.pdf"
+  },
+  {
+    "file": "Feb 2025.pdf",
+    "path": "D:\\cc-statement-automation\\input_pdfs\\invoices\\Feb 2025.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "5189048167",
+    "date": "2025-02-28",
+    "amount": 4050.09,
+    "currency": "INR",
+    "raw_text_preview": "Google India Private Limited\nTower B, Unitech Signature Tower II,\nInvoice Sector 15, Part I, Village Silokhera,\nGurugram, Haryana 122002\nIndia\nInvoice number: 5189048167\nGSTIN: 06AACCG0527D1Z8\nPAN: AACCG0527D\nBill to\nD2R AI Labs\n2nd floor, #105 Sreela terrace\n1st main road, Gandhinagar, Adyar\nChennai, Tamil Nadu 600020\nIndia\nPlace of Supply/State Code: 33\nDetails HSN: 998319\n.In..v.o..ic..e. .n.u..m..b..e.r........................5..1..8.9..0.4..8.1..6.7...... Google Workspace\n.In..v.o..ic..e. .",
+    "vendor_gstin": "06AACCG0527D1Z8",
+    "organized_path": "D:\\cc-statement-automation\\organized_invoices\\Feb 2025\\Feb 2025.pdf"
+  },
+  {
+    "file": "Jan 2025.pdf",
+    "path": "D:\\cc-statement-automation\\input_pdfs\\invoices\\Jan 2025.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "5169583989",
+    "date": "2025-01-31",
+    "amount": 2500.38,
+    "currency": "INR",
+    "raw_text_preview": "Google India Private Limited\nTower B, Unitech Signature Tower II,\nInvoice Sector 15, Part I, Village Silokhera,\nGurugram, Haryana 122002\nIndia\nInvoice number: 5169583989\nGSTIN: 06AACCG0527D1Z8\nPAN: AACCG0527D\nBill to\nD2R AI Labs\n2nd floor, #105 Sreela terrace\n1st main road, Gandhinagar, Adyar\nChennai, Tamil Nadu 600020\nIndia\nPlace of Supply/State Code: 33\nDetails HSN: 998319\n.In..v.o..ic..e. .n.u..m..b..e.r........................5..1..6.9..5.8..3.9..8.9...... Google Workspace\n.In..v.o..ic..e. .",
+    "vendor_gstin": "06AACCG0527D1Z8",
+    "organized_path": "D:\\cc-statement-automation\\organized_invoices\\Jan 2025\\Jan 2025.pdf"
+  },
+  {
+    "file": "Jul 2025.pdf",
+    "path": "D:\\cc-statement-automation\\input_pdfs\\invoices\\Jul 2025.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "5315977163",
+    "date": "2025-07-03",
+    "amount": 564.17,
+    "currency": "INR",
+    "raw_text_preview": "IRN: baee4310cfe27078ef16fbe8898ae548eaca1da7de40fe8988fca4ffe4475821\nGoogle India Private Limited\nTower B, Unitech Signature Tower II,\nInvoice\nSector 15, Part I, Village Silokhera,\nGurugram, Haryana 122002\nInvoice number: 5315977163\nIndia\nGSTIN: 06AACCG0527D1Z8\nPAN: AACCG0527D\nBill to\nD2R AI Labs\nD2R AI Labs Private Limited\n2nd Floor 48/105 Sreela terrace 1st\nMain Road Gandhi Nagar Adyar Chennai\nChennai, Tamil Nadu 600020\nIndia\nGSTIN: 33AAICD7217K1ZK\nPAN: AAICD7217K\nPlace of Supply/State Code: ",
+    "vendor_gstin": "06AACCG0527D1Z8",
+    "organized_path": "D:\\cc-statement-automation\\organized_invoices\\Jul 2025\\Jul 2025.pdf"
+  },
+  {
+    "file": "Jun 2025.pdf",
+    "path": "D:\\cc-statement-automation\\input_pdfs\\invoices\\Jun 2025.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "5293533925",
+    "date": "2025-06-30",
+    "amount": 5829.67,
+    "currency": "INR",
+    "raw_text_preview": "IRN: 60567ce095d7a8179e303fabe6a6b95b7a75c1c9df1b627d13431b0cf2af6f94\nGoogle India Private Limited\nTower B, Unitech Signature Tower II,\nInvoice\nSector 15, Part I, Village Silokhera,\nGurugram, Haryana 122002\nInvoice number: 5293533925\nIndia\nGSTIN: 06AACCG0527D1Z8\nPAN: AACCG0527D\nBill to\nD2R AI Labs\nD2R AI Labs Private Limited\n2nd Floor 48/105 Sreela terrace 1st\nMain Road Gandhi Nagar Adyar Chennai\nChennai, Tamil Nadu 600020\nIndia\nGSTIN: 33AAICD7217K1ZK\nPAN: AAICD7217K\nPlace of Supply/State Code: ",
+    "vendor_gstin": "06AACCG0527D1Z8",
+    "organized_path": "D:\\cc-statement-automation\\organized_invoices\\Jun 2025\\Jun 2025.pdf"
+  },
+  {
+    "file": "Mar 2025.pdf",
+    "path": "D:\\cc-statement-automation\\input_pdfs\\invoices\\Mar 2025.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "5210601828",
+    "date": "2025-03-31",
+    "amount": 4526.95,
+    "currency": "INR",
+    "raw_text_preview": "Google India Private Limited\nTower B, Unitech Signature Tower II,\nInvoice Sector 15, Part I, Village Silokhera,\nGurugram, Haryana 122002\nIndia\nInvoice number: 5210601828\nGSTIN: 06AACCG0527D1Z8\nPAN: AACCG0527D\nBill to\nD2R AI Labs\n2nd floor, #105 Sreela terrace\n1st main road, Gandhinagar, Adyar\nChennai, Tamil Nadu 600020\nIndia\nPlace of Supply/State Code: 33\nDetails HSN: 998319\n.In..v.o..ic..e. .n.u..m..b..e.r........................5..2..1.0..6.0..1.8..2.8...... Google Workspace\n.In..v.o..ic..e. .",
+    "vendor_gstin": "06AACCG0527D1Z8",
+    "organized_path": "D:\\cc-statement-automation\\organized_invoices\\Mar 2025\\Mar 2025.pdf"
+  },
+  {
+    "file": "May 2025.pdf",
+    "path": "D:\\cc-statement-automation\\input_pdfs\\invoices\\May 2025.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "5269404716",
+    "date": "2025-05-31",
+    "amount": 5829.67,
+    "currency": "INR",
+    "raw_text_preview": "IRN: 0cd5182e9b6a4b1580c00b40517772e7a48ae8f0fee76ee6c9d75a829bf88232\nGoogle India Private Limited\nTower B, Unitech Signature Tower II,\nInvoice\nSector 15, Part I, Village Silokhera,\nGurugram, Haryana 122002\nInvoice number: 5269404716\nIndia\nGSTIN: 06AACCG0527D1Z8\nPAN: AACCG0527D\nBill to\nD2R AI Labs\nD2R AI Labs Private Limited\n2nd Floor 48/105 Sreela terrace 1st\nMain Road Gandhi Nagar Adyar Chennai\nChennai, Tamil Nadu 600020\nIndia\nGSTIN: 33AAICD7217K1ZK\nPAN: AAICD7217K\nPlace of Supply/State Code: ",
+    "vendor_gstin": "06AACCG0527D1Z8",
+    "organized_path": "D:\\cc-statement-automation\\organized_invoices\\May 2025\\May 2025.pdf"
   }
 ]
