@@ -685,12 +685,28 @@ def extract_amazon_india_page(page_text):
             if name and "Authorized" not in name and "Recipient" not in name:
                 vendor = name
 
+    # Extract vendor GSTIN — find all GST Registration No entries and exclude company's own
     vendor_gstin = None
-    m = re.search(r"GST\s+Registration\s+No\s*:\s*(\d{2}[A-Z0-9]{13})", page_text)
-    if m:
-        vendor_gstin = m.group(1)
+    gst_matches = re.findall(r"GST\s+Registration\s+No\s*:\s*(\d{2}[A-Z0-9]{13})", page_text)
+    for g in gst_matches:
+        if g != _COMPANY_GSTIN:
+            vendor_gstin = g
+            break
 
-    return {
+    # Extract Amazon seller entity codes (e.g., ASSPL, ARIPL) from footer disclaimer
+    amazon_entities = {}
+    entity_matches = re.findall(r"\*?([A-Z]{3,6})-([A-Za-z][A-Za-z .]+(?:Pvt|Private)[. ]+Ltd\.?)", page_text)
+    for code, full_name in entity_matches:
+        amazon_entities[code] = full_name.strip().rstrip(".,")
+
+    # Extract fulfillment center from invoice number prefix (e.g., BLR7, MAA4, PNQ2)
+    fc_code = None
+    if inv_number:
+        fc_m = re.match(r"^([A-Z]{2,4}\d?)-", inv_number)
+        if fc_m:
+            fc_code = fc_m.group(1)
+
+    result = {
         "invoice_number": inv_number,
         "date": date,
         "amount": amount,
@@ -698,6 +714,12 @@ def extract_amazon_india_page(page_text):
         "vendor_name": vendor,
         "vendor_gstin": vendor_gstin,
     }
+    if amazon_entities:
+        result["amazon_entities"] = amazon_entities
+    if fc_code:
+        result["amazon_fc_code"] = fc_code
+
+    return result
 
 
 def extract_amazon_india_multi(pdf_path, filename):

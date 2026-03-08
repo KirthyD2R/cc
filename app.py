@@ -2984,6 +2984,10 @@ def api_compare_monthly():
             "currency": inv.get("currency", "INR"),
             "date": inv.get("date", ""),
             "invoice_number": inv.get("invoice_number", ""),
+            "file": inv.get("file", ""),
+            "organized_path": inv.get("organized_path", ""),
+            "amazon_entities": inv.get("amazon_entities"),
+            "amazon_fc_code": inv.get("amazon_fc_code"),
             "in_zoho": bool(zoho_bid),
             "zoho_bill_id": zoho_bid,
             "zoho_bill_status": zoho_status,
@@ -8268,7 +8272,7 @@ function renderCatView() {
         '<td style="font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (r.cc && r.cc.card_name ? r.cc.card_name : '-') + '">' + (r.cc && r.cc.card_name ? r.cc.card_name : '-') + '</td>' +
         '<td style="font-family:monospace;font-size:11px;text-align:right">' + invAmt + '</td>' +
         '<td style="font-size:10px">' + invDate + '</td>' +
-        '<td style="font-size:10px">' + (r.matchType || '-') + '</td>' +
+        '<td style="font-size:10px">' + (r.matchType || '-') + (r.inv && r.inv.amazon_fc_code ? ' <span style="font-size:8px;padding:1px 3px;border-radius:3px;background:rgba(255,255,255,0.06);color:var(--yellow)">' + r.inv.amazon_fc_code + '</span>' : '') + '</td>' +
         '<td style="font-family:monospace;font-size:10px;text-align:right">' + diffText + '</td>' +
         '<td style="padding:3px 4px">' + confHtml + '</td>' +
         '<td style="font-size:10px;white-space:nowrap">' + statusHtml + '</td>' +
@@ -8296,6 +8300,7 @@ function renderCatView() {
             '<td colspan="5" style="font-size:10px;padding-left:24px;color:var(--text-dim)">' +
               '<span style="color:var(--accent);margin-right:4px">\u2514</span> ' +
               'Bill ' + (giIdx + 1) + ': <span style="color:var(--text)">' + (gi.invoice_number || 'N/A') + '</span>' +
+              (gi.amazon_fc_code ? ' <span style="font-size:8px;padding:1px 3px;border-radius:3px;background:rgba(255,255,255,0.06);color:var(--yellow)">' + gi.amazon_fc_code + '</span>' : '') +
             '</td>' +
             '<td style="font-family:monospace;font-size:10px;text-align:right">' + giAmt + '</td>' +
             '<td style="font-size:10px">' + (gi.date || '-') + '</td>' +
