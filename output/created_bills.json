@@ -478,5 +478,15 @@
     "amount": 284933.67,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "E0100WJEDJ_Invoice + E0100WJJ6H_Invoice + E0100WJNKS_Invoice",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002994218",
+    "amount": 25927.96,
+    "currency": "INR",
+    "attached": false
   }
 ]

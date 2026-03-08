@@ -206,7 +206,7 @@ def create_bill_for_invoice(api, invoice, vendor_id, expense_accounts, default_e
 
     # Build unique bill number
     inv_number = invoice.get("invoice_number") or re.sub(r'\.(pdf|eml)$', '', invoice["file"], flags=re.IGNORECASE)
-    bill_number = inv_number
+    bill_number = inv_number[:50] if len(inv_number) > 50 else inv_number
 
     # Determine GST treatment for bills (valid: business_gst, business_none, overseas, consumer)
     vendor_gstin = invoice.get("vendor_gstin", "")
@@ -505,7 +505,7 @@ def run(selected_files=None, vendor_overrides=None):
         if has_reliable_inv_number and fname.lower().startswith("github") and "receipt" in fname.lower():
             has_reliable_inv_number = False
         inv_number = raw_inv_number if has_reliable_inv_number else re.sub(r'\.(pdf|eml)$', '', fname, flags=re.IGNORECASE)
-        bill_number = inv_number
+        bill_number = inv_number[:50] if len(inv_number) > 50 else inv_number
 
         # 1. Exact bill number match
         if bill_number in existing_bills:

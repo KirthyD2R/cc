@@ -8,14 +8,6 @@
     "transaction_id": "2050328000002998007"
   },
   {
-    "date": "2025-11-28",
-    "description": "ATLASSIANAMSTERDAM",
-    "amount": 4847.23,
-    "card_name": "HDFC-8948",
-    "zoho_account_id": "2050328000002161003",
-    "transaction_id": "2050328000002162062"
-  },
-  {
     "date": "2026-02-12",
     "description": "GITHUB, INC.GITHUB.COM USD 5.43 [USD 5.43]",
     "amount": 492.84,
@@ -1644,14 +1636,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939447"
-  },
-  {
-    "date": "2025-06-13",
-    "description": "MICROSOFTBUS, MUMBAI",
-    "amount": 25927.96,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939445"
   },
   {
     "date": "2025-06-13",

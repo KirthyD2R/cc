@@ -1691,19 +1691,315 @@ def api_bills_create_and_record():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/api/bills/create-and-record-bulk", methods=["POST"])
+def api_bills_create_and_record_bulk():
+    """Create bills 1-by-1, record payment for each, then auto-match all payments with CC banking txn.
+    Used for grouped invoices (multiple invoices matched to 1 CC charge).
+    """
+    data = request.json or {}
+    invoices = data.get("invoices", [])
+    cc = data.get("cc", {})
+
+    cc_inr = cc.get("amount")
+    cc_date = cc.get("date")
+    cc_card = cc.get("card_name")
+    cc_txn_id = cc.get("transaction_id", "")
+    cc_vendor = cc.get("vendor_name", "")
+
+    if not invoices:
+        return jsonify({"error": "invoices array required"}), 400
+    if not cc_inr or not cc_date or not cc_card:
+        return jsonify({"error": "cc amount, date, card_name required"}), 400
+
+    try:
+        mod_03 = _import_script("03_create_vendors_bills.py")
+        from scripts.utils import load_config, load_vendor_mappings, ZohoBooksAPI, resolve_account_ids, log_action
+        import time
+
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        vendor_mappings = load_vendor_mappings()
+        currency_map = api.list_currencies()
+        cards = config.get("credit_cards", [])
+        resolve_account_ids(api, cards)
+
+        # Find CC card account
+        account_id = None
+        for card in cards:
+            if card.get("name") == cc_card:
+                account_id = card.get("zoho_account_id")
+                break
+        if not account_id:
+            return jsonify({"error": f"CC card '{cc_card}' not found"}), 400
+
+        # Load tax info once
+        expense_accounts = api.get_expense_accounts()
+        igst_tax_id = None
+        intrastate_tax_id = None
+        default_exemption_id = None
+        try:
+            taxes = api.list_taxes()
+            for t in taxes:
+                tname = t.get("tax_name", "").lower()
+                if "igst" in tname and t.get("tax_percentage") == 18:
+                    igst_tax_id = t.get("tax_id")
+                if ("cgst" in tname or "sgst" in tname) and t.get("tax_percentage") == 9:
+                    intrastate_tax_id = intrastate_tax_id or t.get("tax_id")
+            exemptions = api.list_tax_exemptions()
+            for ex in exemptions:
+                if "non" in ex.get("exemption_reason", "").lower():
+                    default_exemption_id = ex.get("tax_exemption_id")
+                    break
+        except Exception:
+            pass
+
+        default_expense = config.get("default_expense_account", "Credit Card Charges")
+        results = []
+        payment_ids = []
+
+        log_action(f"[Bulk] Creating {len(invoices)} bills for CC charge INR {cc_inr} on {cc_date}")
+
+        for idx, inv in enumerate(invoices):
+            vendor_name = inv.get("vendor_name", "")
+            amount = inv.get("amount")
+            currency = inv.get("currency", "INR")
+            inv_date = inv.get("date")
+            invoice_number = inv.get("invoice_number", "")
+            vendor_gstin = inv.get("vendor_gstin", "")
+
+            # For foreign currency, prefer CC-mapped vendor name
+            if currency != "INR" and cc_vendor and cc_vendor != vendor_name:
+                vendor_name = cc_vendor
+
+            log_action(f"  [{idx+1}/{len(invoices)}] Creating bill: {invoice_number or vendor_name} ({currency} {amount})")
+
+            # --- Step 1: Create bill ---
+            invoice_obj = {
+                "file": invoice_number or vendor_name,
+                "vendor_name": vendor_name,
+                "vendor_gstin": vendor_gstin,
+                "amount": float(amount),
+                "currency": currency,
+                "date": inv_date,
+                "invoice_number": invoice_number,
+            }
+
+            try:
+                vendor_id, resolved_name = mod_03.ensure_vendor(
+                    api, vendor_name, invoice_obj, vendor_mappings, currency_map,
+                )
+                if not vendor_id:
+                    log_action(f"  [{idx+1}] Failed: could not find/create vendor '{vendor_name}'", "ERROR")
+                    results.append({"invoice_number": invoice_number, "status": "error", "error": f"Vendor not found: {vendor_name}"})
+                    continue
+
+                result = mod_03.create_bill_for_invoice(
+                    api, invoice_obj, vendor_id, expense_accounts, default_expense, currency_map,
+                    vendor_name=resolved_name,
+                    igst_tax_id=igst_tax_id, intrastate_tax_id=intrastate_tax_id,
+                    default_exemption_id=default_exemption_id,
+                )
+
+                if not result or not result[0]:
+                    log_action(f"  [{idx+1}] Failed: could not create bill", "ERROR")
+                    results.append({"invoice_number": invoice_number, "status": "error", "error": "Failed to create bill"})
+                    continue
+
+                bill_id = result[0]
+                is_new = result[1]
+                log_action(f"  [{idx+1}] Bill {'created' if is_new else 'exists'}: {bill_id}")
+
+                # --- Step 2: Record payment for this bill ---
+                bill_data = api.get_bill(bill_id)
+                bill = bill_data.get("bill", {})
+                bill_status = bill.get("status", "")
+                bill_total = float(bill.get("total", 0))
+                bill_currency = bill.get("currency_code", "INR")
+                balance = float(bill.get("balance", bill_total))
+
+                if bill_status == "paid" or balance <= 0:
+                    log_action(f"  [{idx+1}] Already paid, skipping payment")
+                    results.append({"invoice_number": invoice_number, "status": "already_paid", "bill_id": bill_id})
+                    continue
+
+                payment_date = cc_date
+                payment_data = {
+                    "vendor_id": vendor_id,
+                    "payment_mode": "Credit Card",
+                    "date": payment_date,
+                    "amount": balance,
+                    "paid_through_account_id": account_id,
+                    "bills": [{"bill_id": bill_id, "amount_applied": balance}],
+                }
+
+                if bill_currency != "INR":
+                    actual_inr_portion = float(cc_inr) * (balance / float(inv.get("amount", balance)))
+                    if balance:
+                        exact_rate = actual_inr_portion / balance
+                        for decimals in range(6, 12):
+                            test_rate = round(exact_rate, decimals)
+                            if round(test_rate * balance, 2) == round(actual_inr_portion, 2):
+                                exact_rate = test_rate
+                                break
+                        else:
+                            exact_rate = round(exact_rate, 10)
+                    else:
+                        exact_rate = 0
+                    payment_data["currency_id"] = currency_map.get(bill_currency)
+                    payment_data["exchange_rate"] = exact_rate
+
+                pay_result = api.record_vendor_payment(payment_data)
+                payment = pay_result.get("vendorpayment", {})
+                payment_id = payment.get("payment_id")
+
+                if payment_id:
+                    log_action(f"  [{idx+1}] Payment recorded: {payment_id}")
+                    payment_ids.append(payment_id)
+                    results.append({"invoice_number": invoice_number, "status": "paid", "bill_id": bill_id, "payment_id": payment_id})
+                else:
+                    log_action(f"  [{idx+1}] Payment failed", "ERROR")
+                    results.append({"invoice_number": invoice_number, "status": "bill_created", "bill_id": bill_id, "error": "Payment failed"})
+
+            except Exception as ex:
+                error_msg = str(ex).lower()
+                if "already" in error_msg and "paid" in error_msg:
+                    results.append({"invoice_number": invoice_number, "status": "already_paid"})
+                    log_action(f"  [{idx+1}] Already paid")
+                    continue
+                log_action(f"  [{idx+1}] Error: {ex}", "ERROR")
+                results.append({"invoice_number": invoice_number, "status": "error", "error": str(ex)})
+
+        # --- Step 3: Auto-match all payments with the CC banking transaction ---
+        matched_banking = False
+        if payment_ids:
+            log_action(f"[Bulk] Auto-matching {len(payment_ids)} payments to CC banking txn")
+            time.sleep(1)  # Wait for Zoho to register all payments
+            matched_banking = _auto_match_banking_txn_multi(
+                api, cc_txn_id, payment_ids, log_action,
+                account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
+            )
+
+        created_count = sum(1 for r in results if r.get("status") in ("paid", "bill_created"))
+        paid_count = sum(1 for r in results if r.get("status") == "paid")
+        already_paid_count = sum(1 for r in results if r.get("status") == "already_paid")
+        bill_created_only = sum(1 for r in results if r.get("status") == "bill_created")
+        error_count = sum(1 for r in results if r.get("status") == "error")
+        log_action(f"[Bulk] Done: {created_count} created, {paid_count} recorded, {already_paid_count} skipped (already paid), {error_count} errors, banking_matched={matched_banking}")
+
+        overall_status = "paid" if paid_count > 0 and error_count == 0 else ("partial" if paid_count > 0 else "error")
+        return jsonify({
+            "status": overall_status,
+            "results": results,
+            "banking_matched": matched_banking,
+            "total": len(invoices),
+            "created_count": created_count,
+            "paid_count": paid_count,
+            "already_paid_count": already_paid_count,
+            "bill_created_only": bill_created_only,
+            "error_count": error_count,
+        })
+
+    except Exception as e:
+        from scripts.utils import log_action
+        log_action(f"create-and-record-bulk error: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
+def _auto_match_banking_txn_multi(api, cc_txn_id, payment_ids, log_action,
+                                   account_id=None, cc_amount=None, cc_date=None):
+    """Auto-match a CC banking transaction against multiple vendor payments."""
+    import time
+
+    # If no cc_txn_id, try to find it from uncategorized banking transactions
+    if not cc_txn_id and account_id and cc_amount:
+        try:
+            result = api.list_uncategorized(account_id)
+            txns = result.get("banktransactions", [])
+            target_amount = round(float(cc_amount), 2)
+            for t in txns:
+                t_amount = abs(round(float(t.get("amount", 0)), 2))
+                t_date = t.get("date", "")
+                if t_amount == target_amount:
+                    if not cc_date or t_date == cc_date:
+                        cc_txn_id = t.get("transaction_id")
+                        log_action(f"  Auto-match: found banking txn {cc_txn_id} by amount {target_amount}")
+                        break
+        except Exception as e:
+            log_action(f"  Auto-match: failed to search uncategorized: {e}", "WARNING")
+
+    if not cc_txn_id:
+        log_action("  Auto-match skipped: no cc_transaction_id found")
+        return False
+
+    try:
+        time.sleep(0.5)
+        match_result = api.get_matching_transactions(cc_txn_id)
+        candidates = match_result.get("matching_transactions", [])
+
+        if not candidates:
+            log_action(f"  Auto-match: no candidates found for banking txn {cc_txn_id}")
+            return False
+
+        # Find ALL vendor payments that match our payment_ids
+        match_data = []
+        for c in candidates:
+            cid = c.get("transaction_id") or c.get("payment_id", "")
+            if cid in payment_ids or c.get("payment_id", "") in payment_ids:
+                match_data.append({
+                    "transaction_id": c.get("transaction_id"),
+                    "transaction_type": c.get("transaction_type", "vendor_payment"),
+                })
+
+        # Fallback: if we couldn't match by ID, grab all vendor_payment candidates
+        if not match_data:
+            for c in candidates:
+                if c.get("transaction_type") == "vendor_payment":
+                    match_data.append({
+                        "transaction_id": c.get("transaction_id"),
+                        "transaction_type": "vendor_payment",
+                    })
+            if match_data:
+                log_action(f"  Auto-match: using {len(match_data)} vendor_payment candidates (fallback)")
+
+        if match_data:
+            api.match_transaction(cc_txn_id, match_data)
+            log_action(f"  Auto-match: banking txn {cc_txn_id} -> categorized with {len(match_data)} payments")
+            return True
+        else:
+            log_action(f"  Auto-match: payments not found in {len(candidates)} candidates")
+            return False
+
+    except Exception as e:
+        error_msg = str(e).lower()
+        if "already" in error_msg:
+            log_action(f"  Auto-match: already categorized")
+            return True
+        log_action(f"  Auto-match failed: {e}", "WARNING")
+        return False
+
+
 @app.route("/api/bills/record-only", methods=["POST"])
 def api_bills_record_only():
-    """Record payment + auto-match banking for an existing bill (skip bill creation)."""
+    """Record payment + auto-match banking for existing bill(s) (skip bill creation).
+    Supports multiple bill_ids for grouped invoices (e.g., 2 bills matched to 1 CC charge).
+    """
     data = request.json or {}
     bill_id = data.get("bill_id", "")
+    bill_ids = data.get("bill_ids", [])
     cc = data.get("cc", {})
     cc_inr = cc.get("amount")
     cc_date = cc.get("date")
     cc_card = cc.get("card_name")
     cc_txn_id = cc.get("transaction_id", "")
 
-    if not bill_id:
-        return jsonify({"error": "bill_id required"}), 400
+    # Build list of bill IDs to process
+    all_bill_ids = list(bill_ids) if bill_ids else []
+    if bill_id and bill_id not in all_bill_ids:
+        all_bill_ids.insert(0, bill_id)
+    all_bill_ids = [b for b in all_bill_ids if b]
+
+    if not all_bill_ids:
+        return jsonify({"error": "bill_id or bill_ids required"}), 400
     if not cc_inr or not cc_date or not cc_card:
         return jsonify({"error": "cc amount, date, card_name required"}), 400
 
@@ -1716,16 +2012,6 @@ def api_bills_record_only():
         resolve_account_ids(api, cards)
         currency_map = api.list_currencies()
 
-        # Get bill details from Zoho
-        bill_data = api.get_bill(bill_id)
-        bill = bill_data.get("bill", {})
-        bill_total = float(bill.get("total", 0))
-        bill_currency = bill.get("currency_code", "INR")
-        vendor_id = bill.get("vendor_id", "")
-
-        if not vendor_id:
-            return jsonify({"error": "Bill has no vendor_id"}), 500
-
         # Find CC card account
         account_id = None
         for card in cards:
@@ -1735,24 +2021,67 @@ def api_bills_record_only():
         if not account_id:
             return jsonify({"error": f"CC card '{cc_card}' not found"}), 400
 
-        # Record payment
-        payment_date = cc_date or bill.get("date", "")
+        # Fetch all bill details and build payment
+        bills_to_pay = []
+        total_amount = 0
+        bill_currency = "INR"
+        vendor_id = None
+        skipped = []
+
+        for bid in all_bill_ids:
+            try:
+                bill_data = api.get_bill(bid)
+                bill = bill_data.get("bill", {})
+                status = bill.get("status", "")
+                if status == "paid":
+                    log_action(f"  Bill {bid} already paid, skipping")
+                    skipped.append(bid)
+                    continue
+                bt = float(bill.get("total", 0))
+                # Use balance_due if available (handles partial payments)
+                balance = float(bill.get("balance", bt))
+                if balance <= 0:
+                    log_action(f"  Bill {bid} has zero balance, skipping")
+                    skipped.append(bid)
+                    continue
+                bills_to_pay.append({"bill_id": bid, "amount_applied": balance})
+                total_amount += balance
+                bill_currency = bill.get("currency_code", "INR")
+                if not vendor_id:
+                    vendor_id = bill.get("vendor_id", "")
+            except Exception as ex:
+                error_msg = str(ex).lower()
+                if "already" in error_msg and "paid" in error_msg:
+                    skipped.append(bid)
+                    continue
+                raise
+
+        if not bills_to_pay:
+            if skipped:
+                return jsonify({"status": "already_paid", "bill_id": all_bill_ids[0], "skipped": skipped})
+            return jsonify({"error": "No bills to pay"}), 400
+
+        if not vendor_id:
+            return jsonify({"error": "Bill has no vendor_id"}), 500
+
+        # Record single payment covering all bills
+        payment_date = cc_date
         payment_data = {
             "vendor_id": vendor_id,
             "payment_mode": "Credit Card",
             "date": payment_date,
-            "amount": bill_total,
+            "amount": round(total_amount, 2),
             "paid_through_account_id": account_id,
-            "bills": [{"bill_id": bill_id, "amount_applied": bill_total}],
+            "bills": bills_to_pay,
         }
 
         if bill_currency != "INR":
             actual_inr = float(cc_inr)
-            if bill_total:
-                exact_rate = actual_inr / bill_total
+            if total_amount:
+                exact_rate = actual_inr / total_amount
                 for decimals in range(6, 12):
                     test_rate = round(exact_rate, decimals)
-                    if round(test_rate * bill_total, 2) == round(actual_inr, 2):
+                    if round(test_rate * total_amount, 2) == round(actual_inr, 2):
                         exact_rate = test_rate
                         break
                 else:
@@ -1761,9 +2090,10 @@ def api_bills_record_only():
                 exact_rate = 0
             payment_data["currency_id"] = currency_map.get(bill_currency)
             payment_data["exchange_rate"] = exact_rate
-            log_action(f"  {bill_currency} {bill_total} -> INR {actual_inr} (rate: {exact_rate})")
+            log_action(f"  {bill_currency} {total_amount} -> INR {actual_inr} (rate: {exact_rate})")
 
-        log_action(f"Recording payment (existing bill): {bill_id} via {cc_card} on {payment_date}")
+        bill_count = len(bills_to_pay)
+        log_action(f"Recording payment ({bill_count} bill{'s' if bill_count > 1 else ''}): {', '.join(b['bill_id'] for b in bills_to_pay)} via {cc_card} on {payment_date}")
         pay_result = api.record_vendor_payment(payment_data)
         payment = pay_result.get("vendorpayment", {})
         payment_id = payment.get("payment_id")
@@ -1771,7 +2101,7 @@ def api_bills_record_only():
         if not payment_id:
             return jsonify({"error": "Payment failed - no payment_id"}), 500
 
-        log_action(f"  Payment recorded: {payment_id}")
+        log_action(f"  Payment recorded: {payment_id} (total: {round(total_amount, 2)})")
 
         # Auto-match banking transaction
         matched_banking = _auto_match_banking_txn(
@@ -1781,7 +2111,9 @@ def api_bills_record_only():
 
         return jsonify({
             "status": "paid",
-            "bill_id": bill_id,
+            "bill_id": all_bill_ids[0],
+            "bill_ids": [b["bill_id"] for b in bills_to_pay],
+            "skipped": skipped,
             "payment_id": payment_id,
             "banking_matched": matched_banking,
         })
@@ -1789,7 +2121,7 @@ def api_bills_record_only():
     except Exception as e:
         error_msg = str(e).lower()
         if "already been paid" in error_msg or "already paid" in error_msg:
-            return jsonify({"status": "already_paid", "bill_id": bill_id})
+            return jsonify({"status": "already_paid", "bill_id": all_bill_ids[0]})
         from scripts.utils import log_action
         log_action(f"record-only error: {e}", "ERROR")
         return jsonify({"error": str(e)}), 500
@@ -2342,7 +2674,15 @@ def api_compare_monthly():
     month_from_path_re = re.compile(r'organized_invoices[/\\](\w+ \d{4})[/\\]')
 
     def get_invoice_month(inv):
-        # Direct month field from compare_invoices.json
+        # Prefer the actual extracted date (most reliable)
+        d = inv.get("date", "")
+        if d and len(d) >= 7:
+            try:
+                dt = datetime.strptime(d[:10], "%Y-%m-%d")
+                return dt.strftime("%b %Y")
+            except Exception:
+                pass
+        # Fallback: organized_month from folder name
         om = inv.get("organized_month", "")
         if om:
             return om
@@ -2351,13 +2691,6 @@ def api_compare_monthly():
         m = month_from_path_re.search(op)
         if m:
             return m.group(1)
-        d = inv.get("date", "")
-        if d and len(d) >= 7:
-            try:
-                dt = datetime.strptime(d[:10], "%Y-%m-%d")
-                return dt.strftime("%b %Y")
-            except Exception:
-                pass
         return "Unknown"
 
     def get_cc_month(txn):
@@ -2439,29 +2772,41 @@ def api_compare_monthly():
 
     # --- Load Zoho bills cache + created_bills for "In Zoho" check ---
     bills_cache_path = os.path.join(output_dir, "zoho_bills_cache.json")
-    zoho_bill_numbers = {}   # bill_number -> bill_id
-    zoho_bill_numbers_norm = {}  # normalized -> bill_id
+    zoho_bill_numbers = {}   # bill_number -> (bill_id, status)
+    zoho_bill_numbers_norm = {}  # normalized -> (bill_id, status)
     zoho_bill_ids_set = set()  # all bill_ids from cache
-    zoho_vendor_date_amount = {}  # (vendor_lower, date, amount) -> bill_id
+    zoho_vendor_date_amount = {}  # (vendor_lower, date, amount) -> (bill_id, status)
     if os.path.exists(bills_cache_path):
         try:
             with open(bills_cache_path, "r", encoding="utf-8") as f:
                 for b in json.load(f):
                     bn = b.get("bill_number", "")
                     bid = b.get("bill_id", "")
+                    bst = b.get("status", "")
+                    bill_info = (bid, bst)
                     if bid:
                         zoho_bill_ids_set.add(bid)
                     if bn:
-                        zoho_bill_numbers[bn] = bid
+                        zoho_bill_numbers[bn] = bill_info
                         norm = _normalize_bill_number(bn)
                         if norm:
-                            zoho_bill_numbers_norm[norm] = bid
+                            zoho_bill_numbers_norm[norm] = bill_info
+                        # Index individual invoice numbers from combined bills
+                        # e.g. "INV-001 + INV-002 + INV-003" -> index each part
+                        if " + " in bn:
+                            for part in bn.split(" + "):
+                                part = part.strip()
+                                if part:
+                                    zoho_bill_numbers[part] = bill_info
+                                    pnorm = _normalize_bill_number(part)
+                                    if pnorm:
+                                        zoho_bill_numbers_norm[pnorm] = bill_info
                     # Index by vendor+date+amount for fallback matching
                     bv = (b.get("vendor_name") or "").strip().lower()
                     bd = b.get("date", "")
                     ba = round(float(b.get("total", 0)), 2)
                     if bv and bd and ba and bid:
-                        zoho_vendor_date_amount[(bv, bd, ba)] = bid
+                        zoho_vendor_date_amount[(bv, bd, ba)] = bill_info
         except Exception:
             pass
 
@@ -2499,14 +2844,15 @@ def api_compare_monthly():
     _GENERIC_INV = {"payment", "original", "invoice", "bill", "tax", "none", "n/a", ""}
 
     def _check_in_zoho(inv):
-        """Check if invoice already has a bill in Zoho."""
+        """Check if invoice already has a bill in Zoho.
+        Returns (bill_id, status) tuple or None."""
         inv_num = (inv.get("invoice_number") or "").strip()
         fname = inv.get("file", "")
         # Check created_bills.json first (includes deleted_in_zoho)
         if fname in created_bills_set:
-            return created_bills_set[fname]
+            return (created_bills_set[fname], "")
         if fname in deleted_bills_set:
-            return "deleted"  # truthy — prevents re-creation
+            return ("deleted", "")
         # Check by invoice number
         has_reliable = bool(inv_num and inv_num.lower().strip() not in _GENERIC_INV)
         if has_reliable:
@@ -2548,7 +2894,9 @@ def api_compare_monthly():
 
     inv_by_month = defaultdict(list)
     for inv in invoices:
-        zoho_bid = _check_in_zoho(inv)
+        zoho_result = _check_in_zoho(inv)
+        zoho_bid = zoho_result[0] if zoho_result else ""
+        zoho_status = zoho_result[1] if zoho_result else ""
         inv_by_month[get_invoice_month(inv)].append({
             "vendor_name": inv.get("vendor_name", "") or "",
             "vendor_gstin": inv.get("vendor_gstin"),
@@ -2557,7 +2905,8 @@ def api_compare_monthly():
             "date": inv.get("date", ""),
             "invoice_number": inv.get("invoice_number", ""),
             "in_zoho": bool(zoho_bid),
-            "zoho_bill_id": zoho_bid or "",
+            "zoho_bill_id": zoho_bid,
+            "zoho_bill_status": zoho_status,
         })
 
     # --- Build sorted month list (newest first) ---
@@ -7184,6 +7533,19 @@ function runCategorizeCheck(idx, mode) {
         var gstin5 = found5[0].inv.vendor_gstin || '';
         var mtype5 = (ccCur5 || 'INR') + ' \u2192 ' + (found5[0].inv.currency || 'INR') + ' (GSTIN:' + gstin5.substring(0, 10) + '.. x' + found5.length + ')';
 
+        var anyInZoho = found5.some(function(item) { return item.inv.in_zoho; });
+        var zohoBillIds = [];
+        var zohoBillId = '';
+        var zohoBillStatus = '';
+        found5.forEach(function(item) {
+          if (item.inv.zoho_bill_id && zohoBillIds.indexOf(item.inv.zoho_bill_id) === -1) {
+            zohoBillIds.push(item.inv.zoho_bill_id);
+          }
+          if (!zohoBillId && item.inv.zoho_bill_id) {
+            zohoBillId = item.inv.zoho_bill_id;
+            zohoBillStatus = item.inv.zoho_bill_status || '';
+          }
+        });
         rows[ccIdx] = {
           vendor: found5[0].inv.vendor_name || r.vendor,
           cc: cc5,
@@ -7194,6 +7556,10 @@ function runCategorizeCheck(idx, mode) {
             date: found5[0].inv.date,
             invoice_number: invNumbers,
             vendor_gstin: gstin5,
+            in_zoho: anyInZoho,
+            zoho_bill_id: zohoBillId,
+            zoho_bill_ids: zohoBillIds,
+            zoho_bill_status: zohoBillStatus,
             _grouped_invoices: found5.map(function(item) { return item.inv; })
           },
           matchType: mtype5,
@@ -7448,8 +7814,12 @@ function renderCatView() {
   if (!rows.length) return;
   var fmt = function(n) { return n != null ? Number(n).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2}) : '-'; };
 
-  // CC-based: only rows that have a CC entry
-  var filtered = rows.filter(function(r) { return r.cc != null; });
+  // CC-based: only rows that have a CC entry, exclude paid bills
+  var filtered = rows.filter(function(r) {
+    if (!r.cc) return false;
+    if (r.inv && r.inv.zoho_bill_status && r.inv.zoho_bill_status.toLowerCase() === 'paid') return false;
+    return true;
+  });
 
   var exactCount = filtered.filter(function(r) { return r.status === 'exact'; }).length;
   var closeCount = filtered.filter(function(r) { return r.status === 'close'; }).length;
@@ -7547,6 +7917,7 @@ function renderCatView() {
       if (r.inv.in_zoho) {
         var recPayload = JSON.stringify({
           bill_id: r.inv.zoho_bill_id || '',
+          bill_ids: r.inv.zoho_bill_ids || [],
           vendor_name: r.inv.vendor_name || r.vendor,
           amount: r.inv.amount,
           currency: r.inv.currency || 'INR',
@@ -7560,8 +7931,40 @@ function renderCatView() {
             forex_currency: r.cc && r.cc.forex_currency ? r.cc.forex_currency : null
           }
         }).replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        actionHtml = '<button class="bill-create-btn" onclick="recordPaymentOnly(this, \'' + recPayload + '\')" style="font-size:10px;padding:2px 8px;background:rgba(34,197,94,0.15);color:var(--green);border:1px solid var(--green)">Record</button>';
+        var billStatus = (r.inv.zoho_bill_status || '').toLowerCase();
+        if (billStatus === 'paid') {
+          actionHtml = '<span style="font-size:10px;padding:2px 8px;color:var(--green);font-weight:600">\u2705 Paid</span>';
+        } else {
+          var recLabel = billStatus === 'overdue' ? 'Record (Overdue)' : 'Record';
+          actionHtml = '<button class="bill-create-btn" onclick="recordPaymentOnly(this, \'' + recPayload + '\')" style="font-size:10px;padding:2px 8px;background:rgba(34,197,94,0.15);color:var(--green);border:1px solid var(--green)">' + recLabel + '</button>';
+        }
+      } else if (r.inv._grouped_invoices && r.inv._grouped_invoices.length > 1) {
+        // Bulk: multiple invoices grouped to 1 CC charge
+        var ccVendor = r.cc && r.cc.vendor_name ? r.cc.vendor_name : '';
+        var bulkPayload = JSON.stringify({
+          invoices: r.inv._grouped_invoices.map(function(gi) {
+            return {
+              vendor_name: gi.vendor_name || r.vendor,
+              amount: gi.amount,
+              currency: gi.currency || 'INR',
+              date: gi.date,
+              invoice_number: gi.invoice_number || '',
+              vendor_gstin: gi.vendor_gstin || ''
+            };
+          }),
+          cc: {
+            transaction_id: r.cc ? r.cc.transaction_id || '' : '',
+            amount: r.cc ? r.cc.amount : 0,
+            date: r.cc ? r.cc.date : '',
+            card_name: r.cc ? r.cc.card_name || '' : '',
+            forex_amount: r.cc && r.cc.forex_amount ? r.cc.forex_amount : null,
+            forex_currency: r.cc && r.cc.forex_currency ? r.cc.forex_currency : null,
+            vendor_name: ccVendor
+          }
+        }).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        actionHtml = '<button class="bill-create-btn" onclick="createBillAndRecordBulk(this, \'' + bulkPayload + '\')" style="font-size:10px;padding:2px 8px">Create & Record (' + r.inv._grouped_invoices.length + ')</button>';
       } else {
+        // Single invoice
         var ccVendor = r.cc && r.cc.vendor_name ? r.cc.vendor_name : '';
         var payload = JSON.stringify({
           invoice: {
@@ -7656,10 +8059,93 @@ function renderCatView() {
         '<td style="font-size:10px;white-space:nowrap">' + statusHtml + '</td>' +
         '<td style="padding:3px 6px">' + actionHtml + '</td>';
       tbody.appendChild(tr);
+
+      // Render individual sub-rows for grouped invoices
+      if (r.inv && r.inv._grouped_invoices && r.inv._grouped_invoices.length > 1) {
+        var catRowIdx = _catRows.indexOf(r);
+        r.inv._grouped_invoices.forEach(function(gi, giIdx) {
+          var subTr = document.createElement('tr');
+          subTr.className = 'cat-row cat-sub-row';
+          subTr.setAttribute('data-vendor', (r.vendor || '').toLowerCase());
+          subTr.setAttribute('data-date', (r.cc && r.cc.date) || '');
+          subTr.setAttribute('data-status', r.status || '');
+          subTr.style.background = 'rgba(108,140,255,0.04)';
+          var giAmt = fmt(gi.amount) + ' <span style="font-size:9px;color:var(--text-dim)">' + (gi.currency || 'INR') + '</span>';
+          var giStatus = (gi.zoho_bill_status || '').toLowerCase();
+          var giStatusHtml = '';
+          if (giStatus === 'paid') giStatusHtml = '<span style="color:var(--green);font-size:9px">\u2705 Paid</span>';
+          else if (gi.in_zoho) giStatusHtml = '<span style="color:var(--yellow);font-size:9px">\u25CF In Zoho</span>';
+          var removeBtn = '<button onclick="removeGroupedInvoice(' + catRowIdx + ',' + giIdx + ')" style="font-size:9px;padding:1px 6px;background:rgba(239,68,68,0.15);color:var(--red,#ef4444);border:1px solid rgba(239,68,68,0.3);border-radius:4px;cursor:pointer" title="Remove this invoice from group">\u2715</button>';
+          subTr.innerHTML =
+            '<td style="text-align:center">' + removeBtn + '</td>' +
+            '<td colspan="5" style="font-size:10px;padding-left:24px;color:var(--text-dim)">' +
+              '<span style="color:var(--accent);margin-right:4px">\u2514</span> ' +
+              'Bill ' + (giIdx + 1) + ': <span style="color:var(--text)">' + (gi.invoice_number || 'N/A') + '</span>' +
+            '</td>' +
+            '<td style="font-family:monospace;font-size:10px;text-align:right">' + giAmt + '</td>' +
+            '<td style="font-size:10px">' + (gi.date || '-') + '</td>' +
+            '<td colspan="3" style="font-size:9px;color:var(--text-dim)">' + (gi.zoho_bill_id || '') + '</td>' +
+            '<td style="font-size:10px">' + giStatusHtml + '</td>' +
+            '<td></td>';
+          tbody.appendChild(subTr);
+        });
+      }
   });
 
   tbl.appendChild(tbody);
   container.appendChild(tbl);
+}
+
+// --- Remove an invoice from a grouped row ---
+function removeGroupedInvoice(catRowIdx, giIdx) {
+  var r = _catRows[catRowIdx];
+  if (!r || !r.inv || !r.inv._grouped_invoices) return;
+  var gis = r.inv._grouped_invoices;
+  if (gis.length <= 1) return; // Can't remove the last one
+
+  var removed = gis.splice(giIdx, 1)[0];
+  addLogLine('[Group] Removed: ' + (removed.invoice_number || 'N/A') + ' (' + (removed.amount || 0) + ' ' + (removed.currency || 'INR') + ')');
+
+  // Recalculate parent row totals
+  var newTotal = gis.reduce(function(s, g) { return s + (parseFloat(g.amount) || 0); }, 0);
+  r.inv.amount = newTotal;
+  r.inv.invoice_number = gis.map(function(g) { return g.invoice_number || ''; }).filter(Boolean).join(' + ');
+  r.inv.vendor_gstin = gis[0].vendor_gstin || '';
+  r.inv.date = gis[0].date;
+
+  // Recalculate zoho status
+  var anyInZoho = gis.some(function(g) { return g.in_zoho; });
+  var zohoBillIds = [];
+  var zohoBillId = '';
+  var zohoBillStatus = '';
+  gis.forEach(function(g) {
+    if (g.zoho_bill_id && zohoBillIds.indexOf(g.zoho_bill_id) === -1) zohoBillIds.push(g.zoho_bill_id);
+    if (!zohoBillId && g.zoho_bill_id) { zohoBillId = g.zoho_bill_id; zohoBillStatus = g.zoho_bill_status || ''; }
+  });
+  r.inv.in_zoho = anyInZoho;
+  r.inv.zoho_bill_id = zohoBillId;
+  r.inv.zoho_bill_ids = zohoBillIds;
+  r.inv.zoho_bill_status = zohoBillStatus;
+
+  // Recalculate diff
+  var ccAmt = r.cc ? (r.cc.forex_amount && r.cc.forex_currency ? parseFloat(r.cc.forex_amount) : parseFloat(r.cc.amount)) : 0;
+  r.diff = Math.abs(newTotal - ccAmt);
+  r.status = r.diff < 0.01 ? 'exact' : 'close';
+
+  // Update match type
+  var cur = gis[0].currency || 'INR';
+  var ccCur = r.cc && r.cc.forex_currency ? r.cc.forex_currency : 'INR';
+  r.matchType = ccCur + ' \u2192 ' + cur + ' (GSTIN:' + (r.inv.vendor_gstin || '').substring(0, 10) + '.. x' + gis.length + ')';
+
+  // If only 1 left, simplify back to single invoice row
+  if (gis.length === 1) {
+    var solo = gis[0];
+    r.inv = solo;
+    r.inv._grouped_invoices = undefined;
+    r.matchType = (ccCur || 'INR') + ' \u2192 ' + (solo.currency || 'INR');
+  }
+
+  renderCatView();
 }
 
 // --- Create Bill & Record Payment from Monthly Compare ---
@@ -7710,6 +8196,102 @@ function createBillAndRecord(btn, payloadStr) {
       addLogLine('[Bill+Pay] Error: ' + err);
     });
   }, false, 'Create & Record');
+}
+
+// --- Bulk Create Bills & Record Payments (grouped invoices -> 1 CC charge) ---
+function createBillAndRecordBulk(btn, payloadStr) {
+  var payload = JSON.parse(payloadStr.replace(/&quot;/g, '"'));
+  var invoices = payload.invoices || [];
+  var count = invoices.length;
+  var totalAmt = invoices.reduce(function(s, i) { return s + (parseFloat(i.amount) || 0); }, 0);
+  var detailList = invoices.map(function(i, idx) {
+    return (idx + 1) + '. ' + (i.invoice_number || i.vendor_name) + ' (' + (i.currency || 'INR') + ' ' + Number(i.amount).toLocaleString() + ')';
+  }).join('<br>');
+  showModal('Create ' + count + ' Bills & Record?',
+    'This will:<br>1. Create each bill one by one<br>2. Record payment for each bill<br>3. Club all ' + count + ' payments and auto-match with CC<br><br>' + detailList,
+    function() {
+      btn.disabled = true;
+      btn.textContent = 'Processing 0/' + count + '...';
+      addLogLine('[Bulk] Starting: ' + count + ' bills, total ' + totalAmt.toLocaleString(undefined, {minimumFractionDigits:2}));
+
+      // Progress animation
+      var progress = 0;
+      var progressInterval = setInterval(function() {
+        if (progress < count) {
+          progress++;
+          btn.textContent = 'Processing ' + progress + '/' + count + '...';
+        }
+      }, 2000);
+
+      fetch('/api/bills/create-and-record-bulk', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload),
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        clearInterval(progressInterval);
+        var row = btn.closest('tr');
+
+        // Build summary report
+        var total = data.total || count;
+        var created = data.created_count || 0;
+        var paid = data.paid_count || 0;
+        var skipped = data.already_paid_count || 0;
+        var billOnly = data.bill_created_only || 0;
+        var errors = data.error_count || 0;
+        var matched = data.banking_matched;
+
+        // Log summary header
+        addLogLine('');
+        addLogLine('========== BULK REPORT ==========');
+        addLogLine('Total bills: ' + total);
+        addLogLine('Created:     ' + created);
+        addLogLine('Recorded:    ' + paid);
+        if (skipped > 0) addLogLine('Skipped:     ' + skipped + ' (already paid)');
+        if (billOnly > 0) addLogLine('Bill only:   ' + billOnly + ' (payment failed)');
+        if (errors > 0) addLogLine('Errors:      ' + errors);
+        addLogLine('Auto-match:  ' + (matched ? 'YES - ' + paid + ' payments matched to 1 CC' : 'NO'));
+        addLogLine('=================================');
+
+        // Log individual results
+        if (data.results) {
+          data.results.forEach(function(res, ri) {
+            var icon = res.status === 'paid' ? '[OK]' : res.status === 'already_paid' ? '[SKIP]' : '[FAIL]';
+            addLogLine('  ' + icon + ' ' + (res.invoice_number || '?') + ': ' + res.status +
+              (res.bill_id ? ' -> ' + res.bill_id : '') +
+              (res.payment_id ? ' / pay:' + res.payment_id : '') +
+              (res.error ? ' - ' + res.error : ''));
+          });
+        }
+
+        if (data.status === 'paid' || data.status === 'partial') {
+          // Replace button with summary badge
+          var badgeHtml = document.createElement('div');
+          badgeHtml.style.cssText = 'font-size:9px;line-height:1.4';
+          badgeHtml.innerHTML =
+            '<span style="color:var(--green);font-weight:600">' + paid + '/' + total + ' Paid</span>' +
+            (skipped > 0 ? '<br><span style="color:var(--yellow)">' + skipped + ' skipped</span>' : '') +
+            (errors > 0 ? '<br><span style="color:var(--red,#ef4444)">' + errors + ' errors</span>' : '') +
+            '<br><span style="color:' + (matched ? 'var(--green)' : 'var(--yellow)') + '">' +
+              (matched ? 'CC matched' : 'CC not matched') + '</span>';
+          btn.parentNode.replaceChild(badgeHtml, btn);
+          var cb = row ? row.querySelector('.cat-cb') : null;
+          if (cb) { cb.checked = false; cb.disabled = true; }
+        } else {
+          btn.textContent = 'Failed (' + errors + ' errors)';
+          btn.style.color = 'var(--red,#ef4444)';
+          btn.disabled = false;
+          addLogLine('[Bulk] Error: ' + (data.error || 'see details above'));
+        }
+      })
+      .catch(function(err) {
+        clearInterval(progressInterval);
+        btn.textContent = 'Error';
+        btn.disabled = false;
+        addLogLine('[Bulk] Error: ' + err);
+      });
+    }, false, 'Create ' + count + ' Bills');
 }
 
 // --- Record Payment Only (bill already in Zoho) ---

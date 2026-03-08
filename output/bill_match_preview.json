@@ -1433,10 +1433,10 @@
     "currency": "INR",
     "date": "2026-02-01",
     "organized_month": "Feb 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000002984165",
+    "match_type": "created_bills",
+    "matched_bill": "Created: AWS"
   },
   {
     "file": "file_1.pdf",
@@ -1831,10 +1831,10 @@
     "currency": "INR",
     "date": "2026-01-01",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003007110",
+    "match_type": "created_bills",
+    "matched_bill": "Created: AWS"
   },
   {
     "file": "NON STP-INVOICENSTP25-26918Dt5-Jan-26_Ms. D2R AI Labs Pvt Ltd-NSTP.pdf",
