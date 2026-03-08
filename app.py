@@ -5802,7 +5802,7 @@ function _applyOverridesToPreview() {
   if (!_matchPreviewData || !_matchPreviewData.preview) return;
   _matchPreviewData.preview.forEach(function(inv) {
     var vname = inv.vendor_name || '';
-    if (_vendorOverrides[vname] && inv.action === 'new_vendor') {
+    if (_vendorOverrides[vname] && inv.action === 'new_vendor_bill') {
       inv.action = 'new_bill';
       inv.matched_vendor_id = _vendorOverrides[vname].contact_id;
       inv.matched_vendor_name = _vendorOverrides[vname].contact_name;
@@ -5849,6 +5849,7 @@ function applyZohoVendorMapping() {
     });
     _sortFilteredRows();
     _renderTableRows();
+    _updateSelectionUI();
     var s = { total: 0, skip: 0, new_bill: 0, new_vendor_bill: 0 };
     _matchPreviewData.preview.forEach(function(inv) {
       s.total++;
