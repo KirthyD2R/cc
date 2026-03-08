@@ -3458,6 +3458,9 @@ def api_bills_match_preview():
     bills_norm = {}
     # (vendor_name_lower, date) -> bill info
     bills_vendor_date = {}
+    # (vendor_name_lower, date) -> list of (amount, bill_info) for duplicate detection
+    from collections import defaultdict
+    bills_vendor_date_amounts = defaultdict(list)
     for b in zoho_bills:
         bn = b.get("bill_number", "")
         bills_exact[bn] = b
@@ -3469,6 +3472,9 @@ def api_bills_match_preview():
         bd = b.get("date", "")
         if vn and bd:
             bills_vendor_date[(vn, bd)] = b
+            ba = round(float(b.get("total", 0)), 2)
+            if ba:
+                bills_vendor_date_amounts[(vn, bd)].append((ba, b))
 
     # Vendor name -> vendor info (lowercase)
     vendor_name_map = {}
@@ -3640,15 +3646,37 @@ def api_bills_match_preview():
                     vendor_match_method = "fuzzy"
 
         if vendor_found:
-            entry["action"] = "new_bill"
-            entry["matched_vendor_id"] = vendor_found.get("contact_id", "")
-            entry["matched_vendor_name"] = vendor_found.get("contact_name", "")
-            entry["vendor_match_method"] = vendor_match_method
-            # Flag if vendor matched but GSTIN missing in Zoho
-            if vendor_match_method != "gstin" and inv_gstin:
-                zoho_gst = (vendor_found.get("gst_no") or "").strip()
-                if not zoho_gst:
-                    entry["gstin_missing"] = True
+            # --- Check for possible duplicate (vendor + date + ~amount) ---
+            resolved_vn = (vendor_found.get("contact_name") or "").strip().lower()
+            inv_amount = round(float(inv.get("amount") or 0), 2)
+            dup_bill = None
+            if resolved_vn and inv_date and inv_amount:
+                candidates = bills_vendor_date_amounts.get((resolved_vn, inv_date), [])
+                best_diff = float('inf')
+                for (zoho_amt, zoho_bill) in candidates:
+                    diff = abs(inv_amount - zoho_amt)
+                    tolerance = max(1.0, zoho_amt * 0.01)
+                    if diff <= tolerance and diff < best_diff:
+                        best_diff = diff
+                        dup_bill = zoho_bill
+
+            if dup_bill:
+                entry["action"] = "possible_duplicate"
+                entry["matched_bill_number"] = dup_bill.get("bill_number", "")
+                entry["matched_bill_id"] = dup_bill.get("bill_id", "")
+                entry["matched_vendor_name"] = vendor_found.get("contact_name", "")
+                entry["matched_vendor_id"] = vendor_found.get("contact_id", "")
+                entry["vendor_match_method"] = vendor_match_method
+                entry["match_type"] = "vendor_date_amount"
+            else:
+                entry["action"] = "new_bill"
+                entry["matched_vendor_id"] = vendor_found.get("contact_id", "")
+                entry["matched_vendor_name"] = vendor_found.get("contact_name", "")
+                entry["vendor_match_method"] = vendor_match_method
+                if vendor_match_method != "gstin" and inv_gstin:
+                    zoho_gst = (vendor_found.get("gst_no") or "").strip()
+                    if not zoho_gst:
+                        entry["gstin_missing"] = True
         else:
             entry["action"] = "new_vendor_bill"
 
@@ -3662,16 +3690,18 @@ def api_bills_match_preview():
 
     # Summary counts
     skip_count = sum(1 for p in preview if p["action"] == "skip")
+    dup_count = sum(1 for p in preview if p["action"] == "possible_duplicate")
     new_bill_count = sum(1 for p in preview if p["action"] == "new_bill")
     new_vendor_bill_count = sum(1 for p in preview if p["action"] == "new_vendor_bill")
 
-    log_action(f"Match preview: {skip_count} skip, {new_bill_count} new bills, {new_vendor_bill_count} new vendor+bill")
+    log_action(f"Match preview: {skip_count} skip, {dup_count} possible duplicates, {new_bill_count} new bills, {new_vendor_bill_count} new vendor+bill")
 
     return jsonify({
         "preview": preview,
         "summary": {
             "total": len(preview),
             "skip": skip_count,
+            "possible_duplicate": dup_count,
             "new_bill": new_bill_count,
             "new_vendor_bill": new_vendor_bill_count,
         },
@@ -5630,11 +5660,13 @@ var _billSelectedFiles = new Set();
 
 function _getStatusLabel(inv) {
   if (inv.action === 'skip') return 'In Zoho';
+  if (inv.action === 'possible_duplicate') return 'Possible Duplicate';
   if (inv.action === 'new_bill') return 'New Bill + Existing Vendor';
   return 'New Bill + New Vendor';
 }
 function _getStatusKey(inv) {
   if (inv.action === 'skip') return 'skip';
+  if (inv.action === 'possible_duplicate') return 'possible_duplicate';
   if (inv.action === 'new_bill') return 'new_bill';
   return 'new_vendor';
 }
@@ -5805,10 +5837,11 @@ function _selectRowVendor(el, fileKey) {
     _sortFilteredRows();
     _renderTableRows();
     // Update summary
-    var s = { total: 0, skip: 0, new_bill: 0, new_vendor_bill: 0 };
+    var s = { total: 0, skip: 0, possible_duplicate: 0, new_bill: 0, new_vendor_bill: 0 };
     _matchPreviewData.preview.forEach(function(item) {
       s.total++;
       if (item.action === 'skip') s.skip++;
+      else if (item.action === 'possible_duplicate') s.possible_duplicate++;
       else if (item.action === 'new_bill') s.new_bill++;
       else s.new_vendor_bill++;
     });
@@ -5895,10 +5928,11 @@ function applyZohoVendorMapping() {
     _sortFilteredRows();
     _renderTableRows();
     _updateSelectionUI();
-    var s = { total: 0, skip: 0, new_bill: 0, new_vendor_bill: 0 };
+    var s = { total: 0, skip: 0, possible_duplicate: 0, new_bill: 0, new_vendor_bill: 0 };
     _matchPreviewData.preview.forEach(function(inv) {
       s.total++;
       if (inv.action === 'skip') s.skip++;
+      else if (inv.action === 'possible_duplicate') s.possible_duplicate++;
       else if (inv.action === 'new_bill') s.new_bill++;
       else s.new_vendor_bill++;
     });
@@ -5914,6 +5948,7 @@ function _renderSummaryPanel(summary, s, totalNew) {
   summary.innerHTML = ''
     + '<div class="bill-summary-stat"><span class="dot" style="background:var(--text-dim)"></span> Total <span class="count" id="bpTotal">' + s.total + '</span></div>'
     + '<div class="bill-summary-stat"><span class="dot" style="background:var(--green)"></span> In Zoho <span class="count" id="bpSkip">' + s.skip + '</span></div>'
+    + '<div class="bill-summary-stat"><span class="dot" style="background:var(--orange,#f97316)"></span> Possible Duplicate <span class="count" id="bpDup">' + s.possible_duplicate + '</span></div>'
     + '<div class="bill-summary-stat"><span class="dot" style="background:var(--accent)"></span> Existing Vendor <span class="count" id="bpNewBill">' + s.new_bill + '</span></div>'
     + '<div class="bill-summary-stat"><span class="dot" style="background:var(--yellow)"></span> New Vendor <span class="count" id="bpNewVendor">' + s.new_vendor_bill + '</span></div>'
     + '<div class="bill-summary-stat"><span class="dot" style="background:var(--accent)"></span> Upload <span class="count" id="bpWillUpload">' + totalNew + '</span></div>'
@@ -5948,7 +5983,7 @@ function _buildFilterBar(preview) {
   html += '<div class="bill-filter-group"><label>Vendor</label>' + _buildCheckboxDropdown('vendor', 'Vendor', vendorOpts) + '</div>';
   html += '<div class="bill-filter-group"><label>Min Amt</label><input type="number" id="bfMinAmt" placeholder="0" step="any"></div>';
   html += '<div class="bill-filter-group"><label>Max Amt</label><input type="number" id="bfMaxAmt" placeholder="any" step="any"></div>';
-  var statusOpts = [{value:'skip',text:'In Zoho'},{value:'new_bill',text:'New Bill + Existing Vendor'},{value:'new_vendor',text:'New Bill + New Vendor'}];
+  var statusOpts = [{value:'skip',text:'In Zoho'},{value:'possible_duplicate',text:'Possible Duplicate'},{value:'new_bill',text:'New Bill + Existing Vendor'},{value:'new_vendor',text:'New Bill + New Vendor'}];
   html += '<div class="bill-filter-group"><label>Status</label>' + _buildCheckboxDropdown('status', 'Status', statusOpts) + '</div>';
   var matchOpts = [{value:'gstin',text:'GSTIN'},{value:'name',text:'Name'},{value:'fuzzy',text:'Fuzzy'},{value:'manual',text:'Manual'}];
   html += '<div class="bill-filter-group"><label>Match Type</label>' + _buildCheckboxDropdown('matchtype', 'Match Type', matchOpts) + '</div>';
@@ -5961,11 +5996,13 @@ function _buildTable() {
   var cols = [
     {key:'check', label:'<input type="checkbox" id="bpSelectAll" onchange="toggleBillSelectAll(this)" style="cursor:pointer;accent-color:var(--accent)">', sort:false, cls:'col-checkbox'},
     {key:'vendor', label:'Vendor', sort:true},
+    {key:'invoice_num', label:'Invoice #', sort:true},
     {key:'date', label:'Date', sort:true},
     {key:'amount', label:'Amount', sort:true, cls:'col-amount'},
     {key:'status', label:'Status', sort:true},
     {key:'match', label:'Match', sort:true},
     {key:'zoho_vendor', label:'Zoho Vendor', sort:true, cls:'col-zoho-vendor'},
+    {key:'zoho_bill', label:'Zoho Bill #', sort:true},
     {key:'action', label:'', sort:false, cls:'col-action'}
   ];
   var html = '<div class="bill-table-wrap"><table class="bill-table"><thead><tr>';
@@ -5984,27 +6021,30 @@ function _buildTable() {
 }
 
 function _renderTableRows() {
+  // Note: all values rendered are from local JSON files (extracted invoices, Zoho cache), not user-supplied input
   var tbody = document.getElementById('bpTbody');
   if (!tbody) return;
   var html = '';
   _billFilteredRows.forEach(function(inv) {
-    var isSkip = inv.action === 'skip';
-    var rowCls = isSkip ? ' class="row-skip"' : '';
+    var isBlocked = inv.action === 'skip' || inv.action === 'possible_duplicate';
+    var rowCls = isBlocked ? ' class="row-skip"' : '';
     var amt = inv.amount ? Number(inv.amount).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) : '0.00';
     var fileEsc = (inv.file || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
     var vendorEsc = (inv.vendor_name || 'Unknown').replace(/"/g, '&quot;');
 
     // Checkbox
     var cb = '';
-    if (!isSkip) {
+    if (!isBlocked) {
       var checked = _billSelectedFiles.has(inv.file) ? ' checked' : '';
       cb = '<input type="checkbox" onchange="onBillCheckChange(this)" data-file="'+fileEsc+'" style="cursor:pointer;accent-color:var(--accent)"'+checked+'>';
     }
 
     // Status badge
     var statusBadge = '';
-    if (isSkip) {
+    if (inv.action === 'skip') {
       statusBadge = '<span class="bill-status-badge created">In Zoho</span>';
+    } else if (inv.action === 'possible_duplicate') {
+      statusBadge = '<span class="bill-status-badge" style="background:rgba(249,115,22,0.15);color:var(--orange,#f97316)">Possible Duplicate</span>';
     } else if (inv.action === 'new_bill') {
       var vmMethod = inv.vendor_match_method || 'name';
       var vmColor = vmMethod === 'gstin' ? 'var(--green)' : 'var(--accent)';
@@ -6022,20 +6062,23 @@ function _renderTableRows() {
 
     // Action button
     var actionBtn = '';
-    if (!isSkip) {
+    if (!isBlocked) {
       actionBtn = '<button class="bill-create-btn" onclick="createOneBillConfirm(\''+fileEsc+'\',\''+vendorEsc+'\',\''+amt+'\')">Create</button>';
     }
 
+    // Invoice # column
+    var invoiceNum = inv.invoice_number || '';
+
     // Zoho vendor column
     var zohoVendor = '';
-    if (isSkip) {
+    if (isBlocked) {
       zohoVendor = inv.matched_vendor_name || (inv.matched_bill ? inv.matched_bill.vendor_name || '' : '');
     } else if (inv.action === 'new_bill') {
       zohoVendor = inv.matched_vendor_name || '';
     }
     var zohoVendorEsc = zohoVendor.replace(/"/g,'&quot;');
     var zohoVendorCell = '';
-    if (isSkip) {
+    if (isBlocked) {
       zohoVendorCell = '<span title="'+zohoVendorEsc+'">'+zohoVendor+'</span>';
     } else {
       var editFileKey = inv.file.replace(/'/g, "\\'").replace(/"/g,'&quot;');
@@ -6045,14 +6088,24 @@ function _renderTableRows() {
         + '</div>';
     }
 
+    // Zoho Bill # column
+    var zohoBill = '';
+    if (inv.action === 'skip') {
+      zohoBill = inv.matched_bill || '';
+    } else if (inv.action === 'possible_duplicate') {
+      zohoBill = inv.matched_bill_number || '';
+    }
+
     html += '<tr'+rowCls+'>'
       + '<td class="col-checkbox">'+cb+'</td>'
       + '<td class="vendor-cell" title="'+vendorEsc+'">'+vendorEsc+'</td>'
+      + '<td>'+invoiceNum+'</td>'
       + '<td>'+(inv.date || '')+'</td>'
       + '<td class="col-amount">'+amt+' '+(inv.currency || 'INR')+'</td>'
       + '<td>'+statusBadge+'</td>'
       + '<td>'+matchBadge+'</td>'
       + '<td class="col-zoho-vendor">'+zohoVendorCell+'</td>'
+      + '<td>'+zohoBill+'</td>'
       + '<td class="col-action">'+actionBtn+'</td>'
       + '</tr>';
   });
@@ -6114,11 +6167,13 @@ function _sortFilteredRows() {
   _billFilteredRows.sort(function(a, b) {
     var va, vb;
     if (col === 'vendor') { va = (a.vendor_name||'').toLowerCase(); vb = (b.vendor_name||'').toLowerCase(); }
+    else if (col === 'invoice_num') { va = (a.invoice_number||'').toLowerCase(); vb = (b.invoice_number||'').toLowerCase(); }
     else if (col === 'date') { va = a.date || ''; vb = b.date || ''; }
     else if (col === 'amount') { va = parseFloat(a.amount)||0; vb = parseFloat(b.amount)||0; }
     else if (col === 'status') { va = _getStatusKey(a); vb = _getStatusKey(b); }
     else if (col === 'match') { va = a.action==='new_bill' ? _getMatchTypeKey(a) : 'zzz'; vb = b.action==='new_bill' ? _getMatchTypeKey(b) : 'zzz'; }
     else if (col === 'zoho_vendor') { va = (a.matched_vendor_name||'').toLowerCase(); vb = (b.matched_vendor_name||'').toLowerCase(); }
+    else if (col === 'zoho_bill') { va = (a.action==='skip' ? a.matched_bill : a.matched_bill_number) || ''; vb = (b.action==='skip' ? b.matched_bill : b.matched_bill_number) || ''; }
     else { va = ''; vb = ''; }
     if (va < vb) return -1 * asc;
     if (va > vb) return 1 * asc;
@@ -6131,7 +6186,7 @@ function sortBillTable(col) {
   else { _billSortCol = col; _billSortAsc = true; }
   // Update header arrows
   document.querySelectorAll('.bill-table th').forEach(function(th) { th.classList.remove('sorted'); });
-  var idx = {vendor:1,date:2,amount:3,status:4,match:5,zoho_vendor:6}[col];
+  var idx = {vendor:1,invoice_num:2,date:3,amount:4,status:5,match:6,zoho_vendor:7,zoho_bill:8}[col];
   if (idx !== undefined) {
     var ths = document.querySelectorAll('.bill-table th');
     if (ths[idx]) {
@@ -6274,10 +6329,11 @@ function openBillPicker() {
     _applyOverridesToPreview();
 
     // Recount after overrides
-    var s = { total: 0, skip: 0, new_bill: 0, new_vendor_bill: 0 };
+    var s = { total: 0, skip: 0, possible_duplicate: 0, new_bill: 0, new_vendor_bill: 0 };
     (data.preview || []).forEach(function(inv) {
       s.total++;
       if (inv.action === 'skip') s.skip++;
+      else if (inv.action === 'possible_duplicate') s.possible_duplicate++;
       else if (inv.action === 'new_bill') s.new_bill++;
       else s.new_vendor_bill++;
     });
