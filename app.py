@@ -940,102 +940,72 @@ def api_payments_preview():
                 "overall": overall,
             }
 
-        # --- Resolve CC vendor names for grouping ---
+        # --- Resolve CC vendor names ---
         cc_vendors = []  # parallel to cc_list: resolved vendor name or None
         for cc in cc_list:
             cc_vendors.append(_resolve_vendor(cc.get("description", "")))
 
-        # --- Phase 1: Vendor-first matching ---
-        # Group bills by normalized vendor name
-        from collections import defaultdict
-        bill_vendor_groups = defaultdict(list)  # norm_vendor -> [bill_index]
-        for bi, bill in enumerate(bills):
-            bv = _norm(bill["vendor_name"])
-            bill_vendor_groups[bv].append(bi)
-
-        # Also map via vendor_mappings: resolved CC vendor → normalized
+        # --- Single-pass matching: Date first, Amount required, Vendor fuzzy bonus ---
+        # Build all valid (bill, cc) candidate pairs with scores
         bill_matched = [False] * len(bills)
+        candidates = []  # (score, date_diff, bill_idx, cc_idx)
 
-        for ci, cc in enumerate(cc_list):
-            if ci in used_cc:
-                continue
-            rv = cc_vendors[ci]
-            if not rv:
-                continue
-            rv_norm = _norm(rv)
-
-            # Find bills whose vendor matches this CC's resolved vendor
-            candidate_bills = []
-            for bv_norm, bill_idxs in bill_vendor_groups.items():
-                if rv_norm == bv_norm:
-                    candidate_bills.extend(bill_idxs)
-                elif len(rv_norm) >= 4 and (rv_norm in bv_norm or bv_norm in rv_norm):
-                    candidate_bills.extend(bill_idxs)
-                else:
-                    # First-word match
-                    rv_first = _norm(rv.split()[0]) if rv.split() else ""
-                    if rv_first and len(rv_first) >= 4 and rv_first in bv_norm:
-                        candidate_bills.extend(bill_idxs)
-
-            # Among vendor-matched bills, find best amount match (1% tolerance)
-            # When amounts tie, prefer closest date
-            best_bi = None
-            best_diff = float("inf")
-            best_date_diff = float("inf")
-            for bi in candidate_bills:
-                if bill_matched[bi]:
-                    continue
-                diff, mtype = _amount_diff(bills[bi], cc)
+        for bi, bill in enumerate(bills):
+            for ci, cc in enumerate(cc_list):
+                # Hard requirement: amount within 1% tolerance
+                diff, mtype = _amount_diff(bill, cc)
                 if diff is None:
                     continue
-                threshold = max(1.0, bills[bi]["amount"] * 0.01)
+                threshold = max(1.0, bill["amount"] * 0.01)
                 if diff > threshold:
                     continue
-                # Date proximity as tiebreaker
+
+                # Hard requirement: date within 60 days
                 try:
-                    bd = _dt.strptime(bills[bi]["date"], "%Y-%m-%d")
+                    bd = _dt.strptime(bill["date"], "%Y-%m-%d")
                     cd = _dt.strptime(cc["date"], "%Y-%m-%d")
                     dd = abs((bd - cd).days)
                 except Exception:
                     dd = 9999
-                if diff < best_diff or (diff == best_diff and dd < best_date_diff):
-                    best_diff = diff
-                    best_date_diff = dd
-                    best_bi = bi
+                if dd > 60:
+                    continue
 
-            if best_bi is not None:
-                bill = bills[best_bi]
-                bill_matched[best_bi] = True
-                used_cc.add(ci)
-                conf = _compute_confidence(bill, cc, rv)
-                entry = {
-                    "bill_id": bill["bill_id"],
-                    "vendor_id": bill["vendor_id"],
-                    "vendor_name": bill["vendor_name"],
-                    "bill_amount": bill["amount"],
-                    "bill_currency": bill["currency"],
-                    "bill_date": bill["date"],
-                    "bill_number": bill["file"],
-                    "status": "matched",
-                    "match_score": 300,
-                    "confidence": conf,
-                    "cc_transaction_id": cc.get("transaction_id", ""),
-                    "cc_description": cc.get("description", ""),
-                    "cc_inr_amount": cc.get("amount", 0),
-                    "cc_date": cc.get("date", ""),
-                    "cc_card": cc.get("card_name", ""),
-                }
-                if cc.get("forex_amount"):
-                    entry["cc_forex_amount"] = cc["forex_amount"]
-                    entry["cc_forex_currency"] = cc["forex_currency"]
-                matched_count += 1
-                matches.append(entry)
+                # Date proximity score (primary): 0 days=100, 60 days=10
+                date_score = max(0, 100 - dd * 1.5)
 
-        # --- Phase 2: Amount+date fallback for unmatched bills ---
-        for bi, bill in enumerate(bills):
-            if bill_matched[bi]:
+                # Amount precision bonus
+                amt_score = 0
+                if bill["amount"]:
+                    pct = diff / bill["amount"]
+                    if pct < 0.001:
+                        amt_score = 30
+                    elif pct < 0.005:
+                        amt_score = 20
+                    elif pct < 0.01:
+                        amt_score = 10
+
+                # Vendor fuzzy bonus
+                vendor_bonus = 0
+                if _vendor_match(bill["vendor_name"], cc.get("description", "")):
+                    vendor_bonus = 50
+
+                total_score = date_score + amt_score + vendor_bonus
+                candidates.append((total_score, dd, bi, ci))
+
+        # Sort: highest score first, then closest date
+        candidates.sort(key=lambda x: (-x[0], x[1]))
+
+        # Greedy assignment — best scored pairs first
+        for score, dd, bi, ci in candidates:
+            if bill_matched[bi] or ci in used_cc:
                 continue
+            bill_matched[bi] = True
+            used_cc.add(ci)
 
+            bill = bills[bi]
+            cc = cc_list[ci]
+            rv = cc_vendors[ci]
+            conf = _compute_confidence(bill, cc, rv)
             entry = {
                 "bill_id": bill["bill_id"],
                 "vendor_id": bill["vendor_id"],
@@ -1044,56 +1014,36 @@ def api_payments_preview():
                 "bill_currency": bill["currency"],
                 "bill_date": bill["date"],
                 "bill_number": bill["file"],
+                "status": "matched",
+                "match_score": score,
+                "confidence": conf,
+                "cc_transaction_id": cc.get("transaction_id", ""),
+                "cc_description": cc.get("description", ""),
+                "cc_inr_amount": cc.get("amount", 0),
+                "cc_date": cc.get("date", ""),
+                "cc_card": cc.get("card_name", ""),
             }
-
-            best = None
-            best_diff = float("inf")
-            best_idx = None
-
-            for ci, cc in enumerate(cc_list):
-                if ci in used_cc:
-                    continue
-
-                # Date limit: within 30 days
-                try:
-                    bd = _dt.strptime(bill["date"], "%Y-%m-%d")
-                    cd = _dt.strptime(cc["date"], "%Y-%m-%d")
-                    if abs((bd - cd).days) > 30:
-                        continue
-                except Exception:
-                    continue
-
-                diff, mtype = _amount_diff(bill, cc)
-                if diff is None:
-                    continue
-                threshold = max(1.0, bill["amount"] * 0.01)
-                if diff <= threshold and diff < best_diff:
-                    best_diff = diff
-                    best = cc
-                    best_idx = ci
-
-            if best is not None:
-                used_cc.add(best_idx)
-                bill_matched[bi] = True
-                best_resolved = cc_vendors[best_idx] if best_idx < len(cc_vendors) else None
-                conf = _compute_confidence(bill, best, best_resolved)
-                entry["status"] = "matched"
-                entry["match_score"] = 200
-                entry["confidence"] = conf
-                entry["cc_transaction_id"] = best.get("transaction_id", "")
-                entry["cc_description"] = best.get("description", "")
-                entry["cc_inr_amount"] = best.get("amount", 0)
-                entry["cc_date"] = best.get("date", "")
-                entry["cc_card"] = best.get("card_name", "")
-                if best.get("forex_amount"):
-                    entry["cc_forex_amount"] = best["forex_amount"]
-                    entry["cc_forex_currency"] = best["forex_currency"]
-                matched_count += 1
-            else:
-                entry["status"] = "unmatched"
-                unmatched_count += 1
-
+            if cc.get("forex_amount"):
+                entry["cc_forex_amount"] = cc["forex_amount"]
+                entry["cc_forex_currency"] = cc["forex_currency"]
+            matched_count += 1
             matches.append(entry)
+
+        # Remaining unmatched bills
+        for bi, bill in enumerate(bills):
+            if bill_matched[bi]:
+                continue
+            matches.append({
+                "bill_id": bill["bill_id"],
+                "vendor_id": bill["vendor_id"],
+                "vendor_name": bill["vendor_name"],
+                "bill_amount": bill["amount"],
+                "bill_currency": bill["currency"],
+                "bill_date": bill["date"],
+                "bill_number": bill["file"],
+                "status": "unmatched",
+            })
+            unmatched_count += 1
 
         # Collect unmatched CC transactions
         unmatched_cc = [cc_list[i] for i in range(len(cc_list)) if i not in used_cc]
@@ -5164,6 +5114,12 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
 </div>
 
 <script>
+function fmtDate(d) {
+  if (!d) return '-';
+  var parts = d.split('-');
+  if (parts.length === 3) return parts[2] + '-' + parts[1] + '-' + parts[0];
+  return d;
+}
 const logBox = document.getElementById('logBox');
 let autoScroll = true;
 
@@ -6273,7 +6229,7 @@ function _renderTableRows() {
       + '<td class="col-checkbox">'+cb+'</td>'
       + '<td class="vendor-cell" title="'+vendorEsc+'">'+vendorEsc+'</td>'
       + '<td>'+invoiceNum+'</td>'
-      + '<td>'+(inv.date || '')+'</td>'
+      + '<td>'+fmtDate(inv.date)+'</td>'
       + '<td class="col-amount">'+amt+' '+(inv.currency || 'INR')+'</td>'
       + '<td>'+statusBadge+'</td>'
       + '<td>'+matchBadge+'</td>'
@@ -7086,13 +7042,13 @@ function renderPaymentPreview(data) {
       // --- CC LEFT ---
       + '<td style="text-align:left;padding:5px 8px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' + (hasCc?'':''+dimStyle) + '" title="' + ccDescFull.replace(/"/g,'&quot;') + '">' + (hasCc ? ccDesc + forexNote : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="text-align:right;padding:5px 8px;font-family:monospace;' + (hasCc?'':''+dimStyle) + '">' + (hasCc && m.cc_inr_amount ? fmt(m.cc_inr_amount) : '<span style="'+dimStyle+'">-</span>') + '</td>'
-      + '<td style="padding:5px 8px;' + (hasCc?'':''+dimStyle) + '">' + (hasCc ? (m.cc_date||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="padding:5px 8px;' + (hasCc?'':''+dimStyle) + '">' + (hasCc ? fmtDate(m.cc_date) : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="padding:5px 8px;font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (hasCc ? (m.cc_card||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
       // --- BILL RIGHT ---
       + '<td style="text-align:left;padding:5px 8px;border-left:2px solid var(--border);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (m.vendor_name||'').replace(/"/g,'&quot;') + '">' + (hasBill ? (m.vendor_name||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + (hasBill ? fmt(m.bill_amount) : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="padding:5px 4px;text-align:center">' + (hasBill ? (m.bill_currency||'INR') : '<span style="'+dimStyle+'">-</span>') + '</td>'
-      + '<td style="padding:5px 8px">' + (hasBill ? (m.bill_date||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="padding:5px 8px">' + (hasBill ? fmtDate(m.bill_date) : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="padding:5px 8px">' + confCell + '</td>'
       + '<td style="padding:5px 8px">' + actionBtn + '</td>';
 
@@ -7142,12 +7098,46 @@ function recordOnePayment(billId, previewData) {
   .then(function(r) { return r.json(); })
   .then(function(data) {
     var row = document.getElementById('pay-row-' + billId);
-    if (data.status === 'paid') {
-      if (row) row.style.background = 'rgba(80,200,120,0.15)';
-      if (btn) { btn.textContent = '\u2713 Paid'; btn.style.color = 'var(--green)'; }
-      addLogLine('[Payment] Recorded: ' + billId);
-    } else if (data.status === 'already_paid') {
-      if (btn) { btn.textContent = 'Already Paid'; btn.style.color = 'var(--text-dim)'; }
+    if (data.status === 'paid' || data.status === 'already_paid') {
+      // Update the row to "already_paid" status
+      if (row) {
+        row.setAttribute('data-status', 'already_paid');
+        row.style.background = 'rgba(150,150,150,0.04)';
+        // Remove checkbox
+        var cbCell = row.querySelector('.pay-cb');
+        if (cbCell) { cbCell.parentElement.innerHTML = ''; _paySelectedBills.delete(billId); _updatePaySelectedBtn(); }
+        // Update confidence cell to show paid
+        var cells = row.querySelectorAll('td');
+        if (cells.length >= 10) cells[9].innerHTML = '<span style="color:var(--text-dim);font-size:10px">\u2713 Paid</span>';
+      }
+      if (btn) { btn.textContent = data.status === 'already_paid' ? 'Already Paid' : '\u2713 Paid'; btn.disabled = true; btn.style.color = 'var(--text-dim)'; btn.onclick = null; }
+      // Update underlying data
+      if (_paymentPreviewData && _paymentPreviewData.matches) {
+        var mi = _paymentPreviewData.matches.find(function(x) { return x.bill_id === billId; });
+        if (mi) mi.status = 'already_paid';
+      }
+      // Move row to already_paid section
+      if (row) {
+        var tbody = row.closest('tbody');
+        if (tbody) {
+          // Find or create already_paid separator
+          var apSep = tbody.querySelector('.pay-sep-other');
+          if (!apSep) {
+            apSep = document.createElement('tr');
+            apSep.className = 'pay-section-sep pay-sep-other';
+            apSep.innerHTML = '<td colspan="11" style="padding:7px 10px;font-size:11px;font-weight:700;color:var(--text-dim);border-top:2px solid var(--border);background:rgba(150,150,150,0.06)">\u2713 Already Paid</td>';
+            tbody.appendChild(apSep);
+          }
+          apSep.style.display = '';
+          // Move row after the separator (before next section or at end)
+          var nextSib = apSep.nextSibling;
+          if (nextSib) tbody.insertBefore(row, nextSib);
+          else tbody.appendChild(row);
+        }
+      }
+      // Recount and update summary
+      filterPayments();
+      addLogLine('[Payment] ' + (data.status === 'already_paid' ? 'Already paid: ' : 'Recorded: ') + billId + (data.payment_id ? ' -> ' + data.payment_id : ''));
     } else {
       if (btn) { btn.textContent = 'Failed'; btn.disabled = false; btn.style.color = 'var(--yellow)'; }
       addLogLine('[Payment] No match for ' + billId);
@@ -7311,7 +7301,7 @@ function renderCheckPanel(data) {
         const tbody = document.createElement('tbody');
         group.bills.forEach(function(b) {
           const tr = document.createElement('tr');
-          tr.innerHTML = '<td style="font-family:monospace;font-size:11px">' + fmt(b.amount) + '</td><td>' + (b.currency||'INR') + '</td><td>' + (b.date||'-') + '</td>';
+          tr.innerHTML = '<td style="font-family:monospace;font-size:11px">' + fmt(b.amount) + '</td><td>' + (b.currency||'INR') + '</td><td>' + fmtDate(b.date) + '</td>';
           tbody.appendChild(tr);
         });
         tbl.innerHTML = thead;
@@ -7336,7 +7326,7 @@ function renderCheckPanel(data) {
           tr.innerHTML =
             '<td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px" title="' + t.description + '">' + (t.description||'-') + '</td>' +
             '<td style="font-family:monospace;font-size:11px">' + fmt(t.amount) + '</td>' +
-            '<td>' + (t.date||'-') + '</td>' +
+            '<td>' + fmtDate(t.date) + '</td>' +
             '<td style="font-size:10px;color:var(--text-dim)">' + cardShort + '</td>';
           tbody.appendChild(tr);
         });
@@ -8417,9 +8407,9 @@ function renderCatView() {
     var ccAmt = r.cc ? fmt(r.cc.amount) : '-';
     var ccForex = r.cc && r.cc.forex_currency && r.cc.forex_amount
       ? r.cc.forex_currency + ' ' + fmt(r.cc.forex_amount) : '-';
-    var ccDate = r.cc && r.cc.date ? r.cc.date : '-';
+    var ccDate = r.cc && r.cc.date ? fmtDate(r.cc.date) : '-';
     var invAmt = r.inv ? fmt(r.inv.amount) + ' <span style="font-size:9px;color:var(--text-dim)">' + (r.inv.currency || 'INR') + '</span>' : '-';
-    var invDate = r.inv && r.inv.date ? r.inv.date : '-';
+    var invDate = r.inv && r.inv.date ? fmtDate(r.inv.date) : '-';
     var diffText = r.diff != null ? fmt(r.diff) : '-';
 
     // Create Bill & Record button or Paid/In Zoho badge
@@ -8614,7 +8604,7 @@ function renderCatView() {
               entityTags + sellerLabel +
             '</td>' +
             '<td style="font-family:monospace;font-size:10px;text-align:right">' + giAmt + '</td>' +
-            '<td style="font-size:10px">' + (gi.date || '-') + '</td>' +
+            '<td style="font-size:10px">' + fmtDate(gi.date) + '</td>' +
             '<td colspan="3" style="font-size:9px;color:var(--text-dim)">' + (gi.zoho_bill_id || '') + '</td>' +
             '<td style="font-size:10px">' + giStatusHtml + '</td>' +
             '<td></td>';
