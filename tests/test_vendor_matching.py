@@ -73,3 +73,99 @@ def test_gateway_billdesk():
 def test_non_gateway_description():
     assert is_gateway_only("IND*LINKEDIN (PGSI), www.linkedin.") is False
     assert is_gateway_only("CLAUDE.AI SUBSCRIPTION") is False
+
+
+# --- Vendor-gated matching algorithm tests ---
+
+from app import _build_vendor_gated_matches
+
+
+def _make_bill(vendor, amount, currency="INR", date="2025-07-15", bill_id="B1"):
+    return {"bill_id": bill_id, "vendor_id": "V1", "vendor_name": vendor,
+            "amount": amount, "currency": currency, "date": date, "file": "INV-001"}
+
+
+def _make_cc(desc, amount, date="2025-07-16", card="Mayura Credit Card",
+             forex_amount=None, forex_currency=None):
+    cc = {"description": desc, "amount": amount, "date": date,
+          "card_name": card, "transaction_id": "T1"}
+    if forex_amount is not None:
+        cc["forex_amount"] = forex_amount
+        cc["forex_currency"] = forex_currency
+    return cc
+
+
+def test_exact_vendor_amount_match():
+    """LinkedIn CC matches LinkedIn bill when vendor and amount match."""
+    bills = [_make_bill("LinkedIn Singapore Pte Ltd", 7106.00)]
+    cc = [_make_cc("IND*LINKEDIN (PGSI), www.linkedin.", 7106.00)]
+    vendor_map = {"ind*linkedin": "LinkedIn"}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    assert len(matches) == 1
+    assert matches[0]["status"] == "matched"
+    assert matches[0]["confidence"]["vendor"] >= 60
+
+
+def test_no_vendor_signal_blocks_match():
+    """SHOE DEPT should NOT match Microsoft even if amounts are close."""
+    bills = [_make_bill("Microsoft Corporation (India) Pvt Ltd", 5288.36)]
+    cc = [_make_cc("SHOE DEPT 0378, BEAUMONT", 5318.23)]
+    matches = _build_vendor_gated_matches(bills, cc, {}, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 0
+
+
+def test_gateway_only_blocks_match():
+    """Pure gateway description without brand should not match."""
+    bills = [_make_bill("R K WorldInfocom Pvt. Ltd.", 276.25)]
+    cc = [_make_cc("CYBS SI MUMBAI IN", 276.25)]
+    matches = _build_vendor_gated_matches(bills, cc, {}, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 0
+
+
+def test_forex_strict_exact_match():
+    """USD forex amounts must match exactly (penny tolerance)."""
+    bills = [_make_bill("GitHub, Inc.", 103.12, currency="USD")]
+    cc = [_make_cc("GITHUB, INC.GITHUB.COM USD 104.00", 9551.62,
+                   forex_amount=104.00, forex_currency="USD")]
+    vendor_map = {"github": "GitHub"}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    # USD 104.00 != USD 103.12 — strict forex, should NOT match
+    assert len(matched) == 0
+
+
+def test_forex_exact_match_passes():
+    """USD forex amounts that match exactly should produce a match."""
+    bills = [_make_bill("Anthropic USD", 200.00, currency="USD")]
+    cc = [_make_cc("CLAUDE.AI SUBSCRIPTIONANTHROPIC. USD 200", 18171.91,
+                   forex_amount=200.00, forex_currency="USD")]
+    vendor_map = {"claude.ai subscription": "Anthropic USD"}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1
+    assert matched[0]["confidence"]["amount"] == 100
+
+
+def test_confidence_weights():
+    """Overall confidence = vendor*0.5 + amount*0.4 + date*0.1."""
+    bills = [_make_bill("Microsoft Corporation (India) Pvt Ltd", 12215.38)]
+    cc = [_make_cc("MICROSOFTBUS, MUMBAI", 12215.38, date="2025-07-18")]
+    vendor_map = {"microsoftbus": "Microsoft"}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1
+    conf = matched[0]["confidence"]
+    expected = int(conf["vendor"] * 0.5 + conf["amount"] * 0.4 + conf["date"] * 0.1)
+    assert conf["overall"] == expected
+
+
+def test_learned_mappings_used():
+    """Learned mappings resolve vendor when manual mappings don't."""
+    bills = [_make_bill("Acme Corp", 500.00)]
+    cc = [_make_cc("ACME PAYMENTS MUMBAI", 500.00)]
+    learned = {"ACME PAYMENTS MUMBAI": "Acme Corp"}
+    matches = _build_vendor_gated_matches(bills, cc, {}, learned)
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1
