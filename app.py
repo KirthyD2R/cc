@@ -8125,7 +8125,7 @@ function renderCatView() {
               invoice_number: gi.invoice_number || '',
               vendor_gstin: gi.vendor_gstin || '',
               file: gi.file || '',
-              organized_path: gi.organized_path || ''
+              organized_path: (gi.organized_path || '').replace(/\\/g, '/')
             };
           }),
           cc: {
@@ -8137,7 +8137,7 @@ function renderCatView() {
             forex_currency: r.cc && r.cc.forex_currency ? r.cc.forex_currency : null,
             vendor_name: ccVendor
           }
-        }).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
         actionHtml = '<button class="bill-create-btn" onclick="createBillAndRecordBulk(this, \'' + bulkPayload + '\')" style="font-size:10px;padding:2px 8px">Create & Record (' + r.inv._grouped_invoices.length + ')</button>';
       } else {
         // Single invoice
@@ -8151,7 +8151,7 @@ function renderCatView() {
             invoice_number: r.inv.invoice_number || '',
             vendor_gstin: r.inv.vendor_gstin || '',
             file: r.inv.file || '',
-            organized_path: r.inv.organized_path || ''
+            organized_path: (r.inv.organized_path || '').replace(/\\/g, '/')
           },
           cc: {
             transaction_id: r.cc ? r.cc.transaction_id || '' : '',
@@ -8162,7 +8162,7 @@ function renderCatView() {
             forex_currency: r.cc && r.cc.forex_currency ? r.cc.forex_currency : null,
             vendor_name: ccVendor
           }
-        }).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
         actionHtml = '<button class="bill-create-btn" onclick="createBillAndRecord(this, \'' + payload + '\')" style="font-size:10px;padding:2px 8px">Create & Record</button>';
       }
     }
