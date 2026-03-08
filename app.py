@@ -1061,17 +1061,113 @@ def api_payments_preview():
             cn = cc.get("card_name", "")
             card_cc_unmatched[cn] = card_cc_unmatched.get(cn, 0) + 1
 
+        # --- Amex CC matching (for exclude/reference only, not in Zoho) ---
+        amex_matches = []
+        amex_path = os.path.join(PROJECT_ROOT, "output", "amex_cc_transactions.json")
+        if os.path.exists(amex_path):
+            try:
+                with open(amex_path, "r", encoding="utf-8") as f:
+                    amex_txns = json.load(f)
+                # Filter to debits only
+                amex_list = [t for t in amex_txns if float(t.get("amount", 0)) > 0]
+                # Resolve Amex vendor names
+                amex_vendors = [_resolve_vendor(t.get("description", "")) for t in amex_list]
+
+                # Match unmatched bills against Amex CC (same scoring logic)
+                amex_candidates = []
+                for bi, bill in enumerate(bills):
+                    if bill_matched[bi]:
+                        continue
+                    for ai, acc in enumerate(amex_list):
+                        # Amount check
+                        amex_amt = float(acc.get("amount", 0))
+                        bill_amt = bill["amount"]
+                        bill_cur = bill["currency"]
+                        fx = acc.get("forex_amount")
+                        fx_cur = (acc.get("forex_currency") or "").upper()
+                        diff = None
+                        if fx and fx_cur and bill_cur.upper() == fx_cur:
+                            diff = abs(fx - bill_amt)
+                        elif bill_cur == "INR" and not fx:
+                            diff = abs(amex_amt - bill_amt)
+                        elif bill_cur == "INR" and fx:
+                            diff = abs(amex_amt - bill_amt)
+                        elif bill_cur == "USD" and not fx:
+                            est_min, est_max = bill_amt * 75, bill_amt * 100
+                            if est_min <= amex_amt <= est_max:
+                                diff = abs(amex_amt - bill_amt * 86)
+                        if diff is None:
+                            continue
+                        threshold = max(1.0, bill_amt * 0.01)
+                        if diff > threshold:
+                            continue
+                        # Date check (60 days)
+                        try:
+                            bd = _dt.strptime(bill["date"], "%Y-%m-%d")
+                            cd = _dt.strptime(acc["date"], "%Y-%m-%d")
+                            dd = abs((bd - cd).days)
+                        except Exception:
+                            dd = 9999
+                        if dd > 60:
+                            continue
+                        date_score = max(0, 100 - dd * 1.5)
+                        amt_score = 0
+                        if bill_amt:
+                            pct = diff / bill_amt
+                            if pct < 0.001: amt_score = 30
+                            elif pct < 0.005: amt_score = 20
+                            elif pct < 0.01: amt_score = 10
+                        vendor_bonus = 0
+                        if _vendor_match(bill["vendor_name"], acc.get("description", "")):
+                            vendor_bonus = 50
+                        total_score = date_score + amt_score + vendor_bonus
+                        amex_candidates.append((total_score, dd, bi, ai))
+
+                amex_candidates.sort(key=lambda x: (-x[0], x[1]))
+                amex_used_bills = set()
+                amex_used_cc = set()
+                for score, dd, bi, ai in amex_candidates:
+                    if bi in amex_used_bills or ai in amex_used_cc:
+                        continue
+                    amex_used_bills.add(bi)
+                    amex_used_cc.add(ai)
+                    bill = bills[bi]
+                    acc = amex_list[ai]
+                    rv = amex_vendors[ai]
+                    conf = _compute_confidence(bill, acc, rv)
+                    amex_matches.append({
+                        "bill_id": bill["bill_id"],
+                        "vendor_name": bill["vendor_name"],
+                        "bill_amount": bill["amount"],
+                        "bill_currency": bill["currency"],
+                        "bill_date": bill["date"],
+                        "bill_number": bill["file"],
+                        "cc_description": acc.get("description", ""),
+                        "cc_inr_amount": float(acc.get("amount", 0)),
+                        "cc_date": acc.get("date", ""),
+                        "cc_card": acc.get("card_name", ""),
+                        "cc_forex_amount": acc.get("forex_amount"),
+                        "cc_forex_currency": acc.get("forex_currency"),
+                        "confidence": conf,
+                        "match_score": score,
+                    })
+                log_action(f"Amex matching: {len(amex_matches)} bills matched to Amex CC")
+            except Exception as e:
+                log_action(f"Amex matching error: {e}", "WARNING")
+
         return jsonify({
             "matches": matches,
             "unmatched_cc": unmatched_cc,
             "card_names": card_names,
             "card_cc_total": card_cc_total,
             "card_cc_unmatched": card_cc_unmatched,
+            "amex_matches": amex_matches,
             "summary": {
                 "total_bills": len(matches),
                 "matched": matched_count,
                 "unmatched": unmatched_count,
                 "unmatched_cc_count": len(unmatched_cc),
+                "amex_matched": len(amex_matches),
             },
         })
     except Exception as e:
@@ -5033,7 +5129,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
         </div>
         <div id="paymentBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden">
           <div class="review-loading" id="paymentLoading" style="align-self:center;width:100%;text-align:center">Fetching bills &amp; CC transactions...</div>
-          <div id="paymentContent" style="display:none;flex:1;overflow-y:auto"></div>
+          <div id="paymentContent" style="display:none;flex:1;overflow:hidden;flex-direction:column"></div>
         </div>
       </div>
 
@@ -6737,6 +6833,7 @@ function openPaymentPreview() {
         return;
       }
       _paymentPreviewData = data;
+      if (_amexExcludedBills) _amexExcludedBills.clear();
       renderPaymentPreview(data);
     })
     .catch(function(err) {
@@ -6772,6 +6869,10 @@ function filterPayments() {
     var rowDate = row.getAttribute('data-date') || '';
 
     var show = true;
+
+    // Amex excluded bills
+    var rowBillId = (row.id || '').replace('pay-row-', '');
+    if (rowBillId && _amexExcludedBills && _amexExcludedBills.has(rowBillId)) show = false;
 
     // Card filter
     if (cardName) {
@@ -6887,7 +6988,7 @@ function renderPaymentPreview(data) {
 
   document.getElementById('paymentLoading').style.display = 'none';
   var content = document.getElementById('paymentContent');
-  content.style.display = 'block';
+  content.style.display = 'flex';
   content.innerHTML = '';
 
   // Merge unmatched CC transactions into matches array for unified display
@@ -7056,7 +7157,105 @@ function renderPaymentPreview(data) {
   });
 
   tbl.appendChild(tbody);
-  content.appendChild(tbl);
+
+  // Wrap main table in a scrollable container (60vh max)
+  var mainWrap = document.createElement('div');
+  mainWrap.id = 'paymentMainWrap';
+  mainWrap.style.cssText = 'max-height:50vh;overflow-y:auto;flex-shrink:1';
+  mainWrap.appendChild(tbl);
+  content.appendChild(mainWrap);
+
+  // --- Amex CC Matches table (for exclude/reference) ---
+  var amexMatches = data.amex_matches || [];
+  if (amexMatches.length > 0) {
+    var amexHeader = document.createElement('div');
+    amexHeader.style.cssText = 'padding:10px 12px;font-size:12px;font-weight:700;color:var(--yellow);display:flex;align-items:center;gap:8px;position:sticky;top:0;background:var(--bg);z-index:1';
+    amexHeader.innerHTML = '\u26A0 Amex CC Matches (' + amexMatches.length + ') &mdash; <span style="font-weight:400;color:var(--text-dim)">Bills matched to Amex (not in Zoho). Exclude to hide from main list.</span>';
+
+    var atbl = document.createElement('table');
+    atbl.className = 'match-table';
+    atbl.style.cssText = 'width:100%;font-size:11px';
+    atbl.innerHTML = '<thead><tr>'
+      + '<th style="text-align:left;padding:6px 8px">Amex CC Description</th>'
+      + '<th style="text-align:right;padding:6px 8px">CC INR</th>'
+      + '<th style="padding:6px 8px">CC Date</th>'
+      + '<th style="text-align:left;padding:6px 8px;border-left:2px solid var(--border)">Vendor / Bill</th>'
+      + '<th style="text-align:right;padding:6px 8px">Bill Amt</th>'
+      + '<th style="padding:6px 4px">Cur</th>'
+      + '<th style="padding:6px 8px">Bill Date</th>'
+      + '<th style="padding:6px 8px;text-align:center">Confidence</th>'
+      + '<th style="padding:6px 8px">Action</th>'
+      + '</tr></thead>';
+
+    var atbody = document.createElement('tbody');
+    amexMatches.forEach(function(am) {
+      var atr = document.createElement('tr');
+      atr.id = 'amex-row-' + am.bill_id;
+      atr.style.background = 'rgba(255,200,50,0.04)';
+
+      var ccDesc = am.cc_description || '-';
+      var ccDescFull = ccDesc;
+      if (ccDesc.length > 45) ccDesc = ccDesc.substring(0, 45) + '\u2026';
+      var forexNote = '';
+      if (am.cc_forex_amount) forexNote = ' (' + (am.cc_forex_currency||'') + ' ' + fmt(am.cc_forex_amount) + ')';
+
+      var c = am.confidence || {};
+      var ov = c.overall || 0;
+      var ovColor = ov >= 85 ? 'var(--green)' : ov >= 60 ? 'var(--yellow)' : 'var(--red,#ef4444)';
+      var confCell = '<div style="text-align:center;line-height:1.4">'
+        + '<div style="font-size:13px;font-weight:700;color:' + ovColor + '">' + ov + '%</div>'
+        + '<div style="font-size:9px;color:var(--text-dim)">V:' + _confDot(c.vendor||0) + ' A:' + _confDot(c.amount||0) + ' D:' + _confDot(c.date||0) + '</div>'
+        + '</div>';
+
+      atr.innerHTML = ''
+        + '<td style="text-align:left;padding:5px 8px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + ccDescFull.replace(/"/g,'&quot;') + '">' + ccDesc + forexNote + '</td>'
+        + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(am.cc_inr_amount) + '</td>'
+        + '<td style="padding:5px 8px">' + fmtDate(am.cc_date) + '</td>'
+        + '<td style="text-align:left;padding:5px 8px;border-left:2px solid var(--border);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (am.vendor_name||'').replace(/"/g,'&quot;') + '">' + (am.vendor_name||'-') + '</td>'
+        + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(am.bill_amount) + '</td>'
+        + '<td style="padding:5px 4px;text-align:center">' + (am.bill_currency||'INR') + '</td>'
+        + '<td style="padding:5px 8px">' + fmtDate(am.bill_date) + '</td>'
+        + '<td style="padding:5px 8px">' + confCell + '</td>'
+        + '<td style="padding:5px 8px"><button class="bill-create-btn" id="amex-btn-' + am.bill_id + '" onclick="toggleAmexExclude(\'' + am.bill_id + '\')" style="background:var(--yellow);color:#000;font-weight:600">Exclude</button></td>';
+
+      atbody.appendChild(atr);
+    });
+    atbl.appendChild(atbody);
+
+    // Wrap Amex section in its own scrollable container
+    var amexWrap = document.createElement('div');
+    amexWrap.id = 'paymentAmexWrap';
+    amexWrap.style.cssText = 'max-height:40vh;overflow-y:auto;flex-shrink:1;border-top:2px solid var(--border)';
+    amexWrap.appendChild(amexHeader);
+    amexWrap.appendChild(atbl);
+    content.appendChild(amexWrap);
+  }
+}
+
+// --- Amex Exclude/Include toggle ---
+var _amexExcludedBills = new Set();
+
+function toggleAmexExclude(billId) {
+  var btn = document.getElementById('amex-btn-' + billId);
+  var amexRow = document.getElementById('amex-row-' + billId);
+  // Find the bill in the main table (could be in matched or unmatched section)
+  var mainRow = document.getElementById('pay-row-' + billId);
+
+  if (_amexExcludedBills.has(billId)) {
+    // Include back
+    _amexExcludedBills.delete(billId);
+    if (btn) { btn.textContent = 'Exclude'; btn.style.background = 'var(--yellow)'; btn.style.color = '#000'; }
+    if (amexRow) amexRow.style.opacity = '1';
+    if (mainRow) { mainRow.style.display = ''; mainRow.style.opacity = '1'; }
+    filterPayments();
+  } else {
+    // Exclude
+    _amexExcludedBills.add(billId);
+    if (btn) { btn.textContent = 'Include'; btn.style.background = 'var(--border)'; btn.style.color = 'var(--text-dim)'; }
+    if (amexRow) amexRow.style.opacity = '0.5';
+    if (mainRow) { mainRow.style.display = 'none'; }
+    filterPayments();
+  }
 }
 
 function confirmRecordOne(billId) {
