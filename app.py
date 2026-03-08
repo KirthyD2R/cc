@@ -3458,6 +3458,9 @@ def api_bills_match_preview():
     bills_norm = {}
     # (vendor_name_lower, date) -> bill info
     bills_vendor_date = {}
+    # (vendor_name_lower, date) -> list of (amount, bill_info) for duplicate detection
+    from collections import defaultdict
+    bills_vendor_date_amounts = defaultdict(list)
     for b in zoho_bills:
         bn = b.get("bill_number", "")
         bills_exact[bn] = b
@@ -3469,6 +3472,9 @@ def api_bills_match_preview():
         bd = b.get("date", "")
         if vn and bd:
             bills_vendor_date[(vn, bd)] = b
+            ba = round(float(b.get("total", 0)), 2)
+            if ba:
+                bills_vendor_date_amounts[(vn, bd)].append((ba, b))
 
     # Vendor name -> vendor info (lowercase)
     vendor_name_map = {}
