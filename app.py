@@ -457,7 +457,7 @@ def _update_vendor_account_mapping(vendor_name, account_id, account_name):
 
 @app.route("/api/review/bills")
 def api_review_bills():
-    """Load created_bills.json and resolve account names from local mappings (no per-bill API calls)."""
+    """Load created bills and fetch actual account assignments from Zoho."""
     bills_path = os.path.join(PROJECT_ROOT, "output", "created_bills.json")
     if not os.path.exists(bills_path):
         return jsonify({"error": "No created_bills.json found. Run Step 3 first."}), 404
@@ -468,30 +468,81 @@ def api_review_bills():
     except Exception as e:
         return jsonify({"error": f"Failed to read bills file: {e}"}), 500
 
-    # Load account mappings from vendor_mappings.json (same source Step 3 used)
-    from utils import load_vendor_mappings
+    # Load local mappings as fallback
+    from utils import load_vendor_mappings, load_config, ZohoBooksAPI
     vendor_mappings = load_vendor_mappings()
     account_mappings = vendor_mappings.get("account_mappings", {})
     default_account = vendor_mappings.get("default_expense_account", "Credit Card Charges")
 
-    result = []
+    # Collect bill IDs to fetch
+    bills_to_show = []
     for entry in local_bills:
         if entry.get("status") != "created" or not entry.get("bill_id"):
             continue
+        bills_to_show.append(entry)
 
+    # Fetch actual account from Zoho for each bill (batched)
+    zoho_accounts = {}  # bill_id -> (account_name, account_id)
+    try:
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        from scripts.utils import log_action
+        log_action(f"[Review] Fetching account info for {len(bills_to_show)} bills from Zoho...")
+        for entry in bills_to_show:
+            bid = entry["bill_id"]
+            try:
+                bill_data = api.get_bill(bid)
+                bill = bill_data.get("bill", {})
+                line_items = bill.get("line_items", [])
+                if line_items:
+                    zoho_accounts[bid] = (
+                        line_items[0].get("account_name", ""),
+                        line_items[0].get("account_id", ""),
+                    )
+            except Exception:
+                pass  # Bill may have been deleted — use fallback
+        log_action(f"[Review] Got account info for {len(zoho_accounts)}/{len(bills_to_show)} bills")
+    except Exception as e:
+        from scripts.utils import log_action
+        log_action(f"[Review] Could not fetch from Zoho, using local mappings: {e}", "WARNING")
+
+    # Sync Zoho accounts back to vendor_mappings (so future bills use updated accounts)
+    mappings_changed = False
+    result = []
+    for entry in bills_to_show:
+        bid = entry["bill_id"]
         vendor_name = entry.get("vendor_name", "Unknown")
-        mapping = account_mappings.get(vendor_name, {})
-        account_name = mapping.get("account_name", default_account)
-        account_id = mapping.get("account_id", "")
+
+        # Prefer Zoho actual account, fall back to local mapping
+        if bid in zoho_accounts:
+            account_name, account_id = zoho_accounts[bid]
+            # Update local mapping if Zoho has a different account
+            local = account_mappings.get(vendor_name, {})
+            if account_id and local.get("account_id") != account_id:
+                account_mappings[vendor_name] = {"account_name": account_name, "account_id": account_id}
+                mappings_changed = True
+        else:
+            mapping = account_mappings.get(vendor_name, {})
+            account_name = mapping.get("account_name", default_account)
+            account_id = mapping.get("account_id", "")
 
         result.append({
-            "bill_id": entry["bill_id"],
+            "bill_id": bid,
             "vendor_name": vendor_name,
             "amount": entry.get("amount"),
             "currency": entry.get("currency", "INR"),
             "account_id": account_id,
             "account_name": account_name,
         })
+
+    if mappings_changed:
+        try:
+            vm_path = os.path.join(PROJECT_ROOT, "config", "vendor_mappings.json")
+            vendor_mappings["account_mappings"] = account_mappings
+            with open(vm_path, "w", encoding="utf-8") as f:
+                json.dump(vendor_mappings, f, indent=4, ensure_ascii=False)
+        except Exception:
+            pass
 
     return jsonify({"bills": result})
 
@@ -1184,7 +1235,14 @@ def api_payments_record_one():
         bill = bill_data.get("bill", {})
         bill_total = float(bill.get("total", 0))
         bill_currency = bill.get("currency_code", "INR")
+        bill_status = bill.get("status", "")
+        balance = float(bill.get("balance", bill_total))
         vendor_id = bill.get("vendor_id", "")
+
+        # Check if already paid
+        if bill_status == "paid" or balance <= 0:
+            log_action(f"  Bill {bill_id} already paid, skipping")
+            return jsonify({"status": "already_paid", "bill_id": bill_id})
 
         # Use CC match from preview (passed from frontend)
         cc_inr = data.get("cc_inr_amount")
@@ -1203,25 +1261,25 @@ def api_payments_record_one():
         if not account_id:
             return jsonify({"error": f"CC card '{cc_card}' not found in config"}), 400
 
-        # Build payment
+        # Build payment (use balance, not total, in case of partial payments)
         payment_date = cc_date or bill.get("date", "")
         payment_data = {
             "vendor_id": vendor_id,
             "payment_mode": "Credit Card",
             "date": payment_date,
-            "amount": bill_total,
+            "amount": balance,
             "paid_through_account_id": account_id,
-            "bills": [{"bill_id": bill_id, "amount_applied": bill_total}],
+            "bills": [{"bill_id": bill_id, "amount_applied": balance}],
         }
 
         # Handle foreign currency: calculate exchange rate from CC INR amount
         if bill_currency != "INR":
             actual_inr = float(cc_inr)
-            if bill_total:
-                exact_rate = actual_inr / bill_total
+            if balance:
+                exact_rate = actual_inr / balance
                 for decimals in range(6, 12):
                     test_rate = round(exact_rate, decimals)
-                    if round(test_rate * bill_total, 2) == round(actual_inr, 2):
+                    if round(test_rate * balance, 2) == round(actual_inr, 2):
                         exact_rate = test_rate
                         break
                 else:
@@ -1230,9 +1288,9 @@ def api_payments_record_one():
                 exact_rate = 0
             payment_data["currency_id"] = currency_map.get(bill_currency)
             payment_data["exchange_rate"] = exact_rate
-            log_action(f"  {bill_currency} {bill_total} -> INR {actual_inr} (rate: {exact_rate})")
+            log_action(f"  {bill_currency} {balance} -> INR {actual_inr} (rate: {exact_rate})")
 
-        log_action(f"Recording payment: bill {bill_id} via {cc_card} on {payment_date} ({bill_currency} {bill_total})")
+        log_action(f"Recording payment: bill {bill_id} via {cc_card} on {payment_date} ({bill_currency} {balance})")
 
         result = api.record_vendor_payment(payment_data)
         payment = result.get("vendorpayment", {})
@@ -1286,7 +1344,15 @@ def api_payments_record_selected():
                 bill = bill_data.get("bill", {})
                 bill_total = float(bill.get("total", 0))
                 bill_currency = bill.get("currency_code", "INR")
+                bill_status = bill.get("status", "")
+                balance = float(bill.get("balance", bill_total))
                 vendor_id = bill.get("vendor_id", "")
+
+                # Skip already paid bills
+                if bill_status == "paid" or balance <= 0:
+                    log_action(f"  Bill {bill_id} already paid, skipping")
+                    results.append({"bill_id": bill_id, "status": "already_paid"})
+                    continue
 
                 cc_card = item.get("cc_card", "")
                 cc_inr = item.get("cc_inr_amount")
@@ -1302,9 +1368,9 @@ def api_payments_record_selected():
                     "vendor_id": vendor_id,
                     "payment_mode": "Credit Card",
                     "date": payment_date,
-                    "amount": bill_total,
+                    "amount": balance,
                     "paid_through_account_id": account_id,
-                    "bills": [{"bill_id": bill_id, "amount_applied": bill_total}],
+                    "bills": [{"bill_id": bill_id, "amount_applied": balance}],
                 }
 
                 if bill_currency != "INR":
@@ -1636,6 +1702,11 @@ def api_bills_create_and_record():
         bill = bill_data.get("bill", {})
         bill_total = float(bill.get("total", 0))
         bill_currency = bill.get("currency_code", "INR")
+        balance = float(bill.get("balance", bill_total))
+
+        if bill.get("status") == "paid" or balance <= 0:
+            log_action(f"  Bill {bill_id} already paid, skipping payment")
+            return jsonify({"status": "already_paid", "bill_id": bill_id})
 
         account_id = None
         for card in cards:
@@ -1650,9 +1721,9 @@ def api_bills_create_and_record():
             "vendor_id": vendor_id,
             "payment_mode": "Credit Card",
             "date": payment_date,
-            "amount": bill_total,
+            "amount": balance,
             "paid_through_account_id": account_id,
-            "bills": [{"bill_id": bill_id, "amount_applied": bill_total}],
+            "bills": [{"bill_id": bill_id, "amount_applied": balance}],
         }
 
         if bill_currency != "INR":
@@ -2044,9 +2115,16 @@ def api_bills_record_only():
     all_bill_ids = [b for b in all_bill_ids if b]
 
     if not all_bill_ids:
-        return jsonify({"error": "bill_id or bill_ids required"}), 400
-    if not cc_inr or not cc_date or not cc_card:
-        return jsonify({"error": "cc amount, date, card_name required"}), 400
+        return jsonify({"error": "bill_id or bill_ids required", "received": {"bill_id": bill_id, "bill_ids": bill_ids}}), 400
+    missing = []
+    if not cc_inr and cc_inr != 0:
+        missing.append("amount")
+    if not cc_date:
+        missing.append("date")
+    if not cc_card:
+        missing.append("card_name")
+    if missing:
+        return jsonify({"error": f"cc {', '.join(missing)} required", "received_cc": cc}), 400
 
     try:
         from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids, log_action
@@ -8268,31 +8346,8 @@ function renderCatView() {
     // Create Bill & Record button or Paid/In Zoho badge
     var actionHtml = '';
     if ((r.status === 'exact' || r.status === 'close') && r.inv) {
-      if (r.inv.in_zoho) {
-        var recPayload = JSON.stringify({
-          bill_id: r.inv.zoho_bill_id || '',
-          bill_ids: r.inv.zoho_bill_ids || [],
-          vendor_name: r.inv.vendor_name || r.vendor,
-          amount: r.inv.amount,
-          currency: r.inv.currency || 'INR',
-          date: r.inv.date,
-          cc: {
-            transaction_id: r.cc ? r.cc.transaction_id || '' : '',
-            amount: r.cc ? r.cc.amount : 0,
-            date: r.cc ? r.cc.date : '',
-            card_name: r.cc ? r.cc.card_name || '' : '',
-            forex_amount: r.cc && r.cc.forex_amount ? r.cc.forex_amount : null,
-            forex_currency: r.cc && r.cc.forex_currency ? r.cc.forex_currency : null
-          }
-        }).replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        var billStatus = (r.inv.zoho_bill_status || '').toLowerCase();
-        if (billStatus === 'paid') {
-          actionHtml = '<span style="font-size:10px;padding:2px 8px;color:var(--green);font-weight:600">\u2705 Paid</span>';
-        } else {
-          var recLabel = billStatus === 'overdue' ? 'Record (Overdue)' : 'Record';
-          actionHtml = '<button class="bill-create-btn" onclick="recordPaymentOnly(this, \'' + recPayload + '\')" style="font-size:10px;padding:2px 8px;background:rgba(34,197,94,0.15);color:var(--green);border:1px solid var(--green)">' + recLabel + '</button>';
-        }
-      } else if (r.inv._grouped_invoices && r.inv._grouped_invoices.length > 1) {
+      // Grouped invoices: always use bulk flow (handles mix of existing + new bills)
+      if (r.inv._grouped_invoices && r.inv._grouped_invoices.length > 1) {
         // Bulk: multiple invoices grouped to 1 CC charge
         var ccVendor = r.cc && r.cc.vendor_name ? r.cc.vendor_name : '';
         var bulkPayload = JSON.stringify({
@@ -8321,8 +8376,36 @@ function renderCatView() {
           }
         }).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
         actionHtml = '<button class="bill-create-btn" onclick="createBillAndRecordBulk(this, \'' + bulkPayload + '\')" style="font-size:10px;padding:2px 8px">Create & Record (' + r.inv._grouped_invoices.length + ')</button>';
+      } else if (r.inv.in_zoho && r.inv.zoho_bill_id) {
+        // Single invoice already in Zoho — Record only (if CC data is complete)
+        var _hasCC = r.cc && r.cc.card_name && r.cc.amount;
+        var billStatus = (r.inv.zoho_bill_status || '').toLowerCase();
+        if (billStatus === 'paid') {
+          actionHtml = '<span style="font-size:10px;padding:2px 8px;color:var(--green);font-weight:600">\u2705 Paid</span>';
+        } else if (_hasCC) {
+          var recPayload = JSON.stringify({
+            bill_id: r.inv.zoho_bill_id || '',
+            bill_ids: r.inv.zoho_bill_ids || [],
+            vendor_name: r.inv.vendor_name || r.vendor,
+            amount: r.inv.amount,
+            currency: r.inv.currency || 'INR',
+            date: r.inv.date,
+            cc: {
+              transaction_id: r.cc.transaction_id || '',
+              amount: r.cc.amount,
+              date: r.cc.date || '',
+              card_name: r.cc.card_name || '',
+              forex_amount: r.cc.forex_amount || null,
+              forex_currency: r.cc.forex_currency || null
+            }
+          }).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+          var recLabel = billStatus === 'overdue' ? 'Record (Overdue)' : 'Record';
+          actionHtml = '<button class="bill-create-btn" onclick="recordPaymentOnly(this, \'' + recPayload + '\')" style="font-size:10px;padding:2px 8px;background:rgba(34,197,94,0.15);color:var(--green);border:1px solid var(--green)">' + recLabel + '</button>';
+        } else {
+          actionHtml = '<span style="font-size:9px;color:var(--yellow)">\u25CF In Zoho</span>';
+        }
       } else {
-        // Single invoice
+        // Single invoice — Create & Record
         var ccVendor = r.cc && r.cc.vendor_name ? r.cc.vendor_name : '';
         var payload = JSON.stringify({
           invoice: {
@@ -8677,16 +8760,16 @@ function recordPaymentOnly(btn, payloadStr) {
     })
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      if (data.status === 'paid') {
+      if (data.status === 'paid' || data.status === 'already_paid') {
         var badge = document.createElement('span');
         badge.style.cssText = 'font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(34,197,94,0.15);color:var(--green);font-weight:600';
-        badge.textContent = '\u2713 Paid';
+        badge.textContent = data.status === 'already_paid' ? '\u2705 Already Paid' : '\u2713 Paid';
         btn.parentNode.replaceChild(badge, btn);
-        addLogLine('[Record] Paid: ' + (payload.vendor_name || '') + ' -> payment_id=' + (data.payment_id || ''));
+        addLogLine('[Record] ' + (data.status === 'already_paid' ? 'Already paid' : 'Paid') + ': ' + (payload.vendor_name || '') + (data.payment_id ? ' -> payment_id=' + data.payment_id : ''));
       } else {
         btn.textContent = 'Failed';
         btn.disabled = false;
-        addLogLine('[Record] Error: ' + (data.error || 'unknown'));
+        addLogLine('[Record] Error: ' + (data.error || 'unknown') + (data.received_cc ? ' | cc=' + JSON.stringify(data.received_cc) : ''));
       }
     })
     .catch(function(err) {

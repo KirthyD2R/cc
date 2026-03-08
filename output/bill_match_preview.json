@@ -649,10 +649,12 @@
     "currency": "USD",
     "date": "2025-08-02",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003005654",
+    "action": "skip",
+    "matched_bill_id": "2050328000003009586",
     "matched_vendor_name": "Medium",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000003005654",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Medium"
   },
   {
     "file": "PNQ2-6335.pdf",
@@ -1225,10 +1227,12 @@
     "currency": "USD",
     "date": "2025-11-02",
     "organized_month": "Feb 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003005654",
+    "action": "skip",
+    "matched_bill_id": "2050328000002999647",
     "matched_vendor_name": "Medium",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000003005654",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Medium"
   },
   {
     "file": "Medium10.pdf",
@@ -1238,10 +1242,12 @@
     "currency": "USD",
     "date": "2025-10-02",
     "organized_month": "Feb 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003005654",
+    "action": "skip",
+    "matched_bill_id": "2050328000002997701",
     "matched_vendor_name": "Medium",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000003005654",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Medium"
   },
   {
     "file": "Medium11.pdf",
@@ -1251,10 +1257,12 @@
     "currency": "USD",
     "date": "2025-09-02",
     "organized_month": "Feb 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003005654",
+    "action": "skip",
+    "matched_bill_id": "2050328000003012621",
     "matched_vendor_name": "Medium",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000003005654",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Medium"
   },
   {
     "file": "Medium2.pdf",
@@ -1264,10 +1272,12 @@
     "currency": "USD",
     "date": "2025-07-02",
     "organized_month": "Feb 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003005654",
+    "action": "skip",
+    "matched_bill_id": "2050328000003010488",
     "matched_vendor_name": "Medium",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000003005654",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Medium"
   },
   {
     "file": "Medium3.pdf",
@@ -1277,10 +1287,12 @@
     "currency": "USD",
     "date": "2025-06-02",
     "organized_month": "Feb 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003005654",
+    "action": "skip",
+    "matched_bill_id": "2050328000003012647",
     "matched_vendor_name": "Medium",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000003005654",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Medium"
   },
   {
     "file": "Medium4.pdf",
@@ -1290,10 +1302,12 @@
     "currency": "USD",
     "date": "2025-05-02",
     "organized_month": "Feb 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003005654",
+    "action": "skip",
+    "matched_bill_id": "2050328000003010514",
     "matched_vendor_name": "Medium",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000003005654",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Medium"
   },
   {
     "file": "Medium6.pdf",
@@ -1303,10 +1317,12 @@
     "currency": "USD",
     "date": "2025-03-02",
     "organized_month": "Feb 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003005654",
+    "action": "skip",
+    "matched_bill_id": "2050328000002995605",
     "matched_vendor_name": "Medium",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000003005654",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Medium"
   },
   {
     "file": "Medium7.pdf",
@@ -1316,10 +1332,12 @@
     "currency": "USD",
     "date": "2025-02-02",
     "organized_month": "Feb 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003005654",
+    "action": "skip",
+    "matched_bill_id": "2050328000003010540",
     "matched_vendor_name": "Medium",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000003005654",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Medium"
   },
   {
     "file": "Your Google Play Order Receipt from Feb 16, 2025.eml",
@@ -1811,10 +1829,12 @@
     "currency": "INR",
     "date": "2026-02-25",
     "organized_month": "Feb 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002995566",
+    "action": "skip",
+    "matched_bill_id": "2050328000002984575",
     "matched_vendor_name": "Flipkart",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002995566",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Flipkart"
   },
   {
     "file": "file_2.pdf",
@@ -1897,10 +1917,12 @@
     "currency": "USD",
     "date": "2025-01-01",
     "organized_month": "Jan 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003005654",
+    "action": "skip",
+    "matched_bill_id": "2050328000003013441",
     "matched_vendor_name": "Medium",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000003005654",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Medium"
   },
   {
     "file": "Your Google Play Order Receipt from Jan 17, 2025.eml",
@@ -3998,10 +4020,12 @@
     "currency": "INR",
     "date": "2025-11-11",
     "organized_month": "Nov 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003000660",
+    "action": "skip",
+    "matched_bill_id": "2050328000002995652",
     "matched_vendor_name": "Info Edge (Naukri)",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000003000660",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Info Edge (Naukri)"
   },
   {
     "file": "NK09I1126020619.pdf",
@@ -4011,10 +4035,12 @@
     "currency": "INR",
     "date": "2025-11-28",
     "organized_month": "Nov 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003000660",
+    "action": "skip",
+    "matched_bill_id": "2050328000003011378",
     "matched_vendor_name": "Info Edge (Naukri)",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000003000660",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Info Edge (Naukri)"
   },
   {
     "file": "NON STP-INVOICENSTP25-26854Dt26-Nov-25_Ms. D2B AI Labs Pvt Ltd-NSTP.pdf",
@@ -4337,10 +4363,12 @@
     "currency": "USD",
     "date": "2025-10-31",
     "organized_month": "Oct 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002994596",
+    "action": "skip",
+    "matched_bill_id": "2050328000002997727",
     "matched_vendor_name": "New Relic",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002994596",
+    "match_type": "created_bills",
+    "matched_bill": "Created: New Relic"
   },
   {
     "file": "INV102416114.pdf",
@@ -4558,10 +4586,12 @@
     "currency": "INR",
     "date": "2025-10-05",
     "organized_month": "Oct 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002998529",
+    "action": "skip",
+    "matched_bill_id": "2050328000003008485",
     "matched_vendor_name": "TIGER PUG COMMERCE PRIVATE LIMITED",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000002998529",
+    "match_type": "created_bills",
+    "matched_bill": "Created: TIGER PUG COMMERCE PRIVATE LIMITED"
   },
   {
     "file": "MAA4-551983.pdf",
@@ -4829,10 +4859,12 @@
     "currency": "INR",
     "date": "2025-09-10",
     "organized_month": "Sep 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002997683",
+    "action": "skip",
+    "matched_bill_id": "2050328000002993956",
     "matched_vendor_name": "GLOBAL BRANDS",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000002997683",
+    "match_type": "created_bills",
+    "matched_bill": "Created: GLOBAL BRANDS"
   },
   {
     "file": "FMAB-1775_p1_FMAB-1775_p3_FMAB-224829.pdf",
@@ -4993,10 +5025,12 @@
     "currency": "INR",
     "date": "2025-09-18",
     "organized_month": "Sep 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002997683",
+    "action": "skip",
+    "matched_bill_id": "2050328000002990623",
     "matched_vendor_name": "GLOBAL BRANDS",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000002997683",
+    "match_type": "created_bills",
+    "matched_bill": "Created: GLOBAL BRANDS"
   },
   {
     "file": "UBER Sep 25.pdf",
