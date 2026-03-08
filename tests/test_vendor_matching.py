@@ -169,3 +169,20 @@ def test_learned_mappings_used():
     matches = _build_vendor_gated_matches(bills, cc, {}, learned)
     matched = [m for m in matches if m["status"] == "matched"]
     assert len(matched) == 1
+
+
+def test_record_payment_saves_learned_mapping(tmp_path):
+    """Recording a payment should save CC desc → vendor to learned mappings."""
+    path = str(tmp_path / "learned.json")
+    with open(path, "w") as f:
+        json.dump({"mappings": {}}, f)
+
+    save_learned_vendor_mapping(
+        "SOME NEW MERCHANT MUMBAI",
+        "New Merchant Pvt Ltd",
+        path=path,
+    )
+
+    data = load_learned_vendor_mappings(path)
+    assert "SOME NEW MERCHANT MUMBAI" in data["mappings"]
+    assert data["mappings"]["SOME NEW MERCHANT MUMBAI"] == "New Merchant Pvt Ltd"

@@ -1390,6 +1390,12 @@ def api_payments_record_one():
         if payment_id:
             log_action(f"  Payment recorded: {payment_id}")
 
+            # Learn CC description → vendor mapping for future matching
+            cc_desc = data.get("cc_description", "")
+            if cc_desc and bill.get("vendor_name"):
+                from scripts.utils import save_learned_vendor_mapping
+                save_learned_vendor_mapping(cc_desc, bill["vendor_name"])
+
             return jsonify({"status": "paid", "payment_id": payment_id, "bill_id": bill_id})
         else:
             return jsonify({"status": "failed", "bill_id": bill_id, "message": "No payment_id returned"})
@@ -1843,6 +1849,12 @@ def api_bills_create_and_record():
             return jsonify({"status": "bill_created", "bill_id": bill_id, "error": "Payment failed - no payment_id"})
 
         log_action(f"  Payment recorded: {payment_id}")
+
+        # Learn CC description → vendor mapping for future matching
+        cc_desc = cc.get("description", "")
+        if cc_desc and vendor_name:
+            from scripts.utils import save_learned_vendor_mapping
+            save_learned_vendor_mapping(cc_desc, vendor_name)
 
         return jsonify({
             "status": "paid",
