@@ -1596,6 +1596,30 @@ def api_bills_create_and_record():
         bill_status = "created" if is_new else "exists"
         log_action(f"Bill {bill_status}: {invoice_number or vendor_name} -> {bill_id}")
 
+        # Attach PDF
+        pdf_path = inv.get("organized_path") or ""
+        fname = inv.get("file", invoice_number or vendor_name)
+        if not pdf_path or not os.path.exists(pdf_path):
+            # Try to find in organized_invoices or input_pdfs
+            for base_dir in ("organized_invoices", "input_pdfs"):
+                candidate = os.path.join(PROJECT_ROOT, base_dir)
+                if os.path.isdir(candidate):
+                    for root_d, _dirs, files in os.walk(candidate):
+                        for f_name in files:
+                            if f_name == fname or os.path.splitext(f_name)[0] == os.path.splitext(fname)[0]:
+                                pdf_path = os.path.join(root_d, f_name)
+                                break
+                        if os.path.exists(pdf_path):
+                            break
+        attached = False
+        if pdf_path and os.path.exists(pdf_path):
+            try:
+                mod_03.attach_pdf(api, bill_id, pdf_path)
+                attached = True
+                log_action(f"  Attached PDF: {os.path.basename(pdf_path)}")
+            except Exception as e:
+                log_action(f"  Failed to attach PDF: {e}", "WARNING")
+
         # Save to created_bills.json
         bills_file = os.path.join(PROJECT_ROOT, "output", "created_bills.json")
         try:
@@ -1611,7 +1635,7 @@ def api_bills_create_and_record():
                 "bill_id": bill_id,
                 "amount": float(amount),
                 "currency": currency,
-                "attached": False,
+                "attached": attached,
             })
             with open(bills_file, "w") as f:
                 json.dump(existing, f, indent=2)
@@ -1808,6 +1832,27 @@ def api_bills_create_and_record_bulk():
                 bill_id = result[0]
                 is_new = result[1]
                 log_action(f"  [{idx+1}] Bill {'created' if is_new else 'exists'}: {bill_id}")
+
+                # --- Attach PDF ---
+                pdf_path = inv.get("organized_path") or ""
+                fname = inv.get("file", invoice_number or vendor_name)
+                if not pdf_path or not os.path.exists(pdf_path):
+                    for base_dir in ("organized_invoices", "input_pdfs"):
+                        candidate = os.path.join(PROJECT_ROOT, base_dir)
+                        if os.path.isdir(candidate):
+                            for root_d, _dirs, files in os.walk(candidate):
+                                for f_name in files:
+                                    if f_name == fname or os.path.splitext(f_name)[0] == os.path.splitext(fname)[0]:
+                                        pdf_path = os.path.join(root_d, f_name)
+                                        break
+                                if pdf_path and os.path.exists(pdf_path):
+                                    break
+                if pdf_path and os.path.exists(pdf_path):
+                    try:
+                        mod_03.attach_pdf(api, bill_id, pdf_path)
+                        log_action(f"  [{idx+1}] Attached PDF: {os.path.basename(pdf_path)}")
+                    except Exception as e:
+                        log_action(f"  [{idx+1}] Failed to attach PDF: {e}", "WARNING")
 
                 # --- Step 2: Record payment for this bill ---
                 bill_data = api.get_bill(bill_id)
@@ -8080,7 +8125,9 @@ function renderCatView() {
               currency: gi.currency || 'INR',
               date: gi.date,
               invoice_number: gi.invoice_number || '',
-              vendor_gstin: gi.vendor_gstin || ''
+              vendor_gstin: gi.vendor_gstin || '',
+              file: gi.file || '',
+              organized_path: gi.organized_path || ''
             };
           }),
           cc: {
@@ -8104,7 +8151,9 @@ function renderCatView() {
             currency: r.inv.currency || 'INR',
             date: r.inv.date,
             invoice_number: r.inv.invoice_number || '',
-            vendor_gstin: r.inv.vendor_gstin || ''
+            vendor_gstin: r.inv.vendor_gstin || '',
+            file: r.inv.file || '',
+            organized_path: r.inv.organized_path || ''
           },
           cc: {
             transaction_id: r.cc ? r.cc.transaction_id || '' : '',
