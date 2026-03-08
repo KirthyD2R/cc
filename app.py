@@ -7634,7 +7634,7 @@ function runCategorizeCheck(idx, mode) {
       var ccCur5 = cc5.forex_currency || null;
       var ccDate5 = _pd(cc5.date);
 
-      // Step 1: Find nearby unmatched invoices (±5 days), must have GSTIN
+      // Step 1: Find nearby unmatched invoices (±5 days)
       var nearby5 = [];
       sumUnmatchedInv.forEach(function(invIdx) {
         if (sumInvUsed[invIdx]) return;
@@ -7642,7 +7642,6 @@ function runCategorizeCheck(idx, mode) {
         if (!inv5) return;
         var invDate5 = _pd(inv5.date);
         if (_daysDiff(ccDate5, invDate5) > 5) return;
-        if (!inv5.vendor_gstin) return;
 
         var invCur5 = (inv5.currency || 'INR').toUpperCase();
         var compatible = false;
@@ -7656,10 +7655,10 @@ function runCategorizeCheck(idx, mode) {
 
       if (nearby5.length < 2) return;
 
-      // Step 2: Group by GSTIN
+      // Step 2: Group by GSTIN (invoices without GSTIN go into '_NO_GSTIN_' group)
       var byGstin = {};
       nearby5.forEach(function(item) {
-        var gstin = item.inv.vendor_gstin;
+        var gstin = item.inv.vendor_gstin || '_NO_GSTIN_';
         if (!byGstin[gstin]) byGstin[gstin] = [];
         byGstin[gstin].push(item);
       });
@@ -7695,6 +7694,24 @@ function runCategorizeCheck(idx, mode) {
         }
       });
 
+      // Step 4: If no GSTIN-based match, try ALL nearby invoices cross-GSTIN (date+amount only)
+      if (!found5 && nearby5.length >= 2) {
+        var fullSum5 = nearby5.reduce(function(s, item) { return s + (parseFloat(item.inv.amount) || 0); }, 0);
+        if (Math.abs(fullSum5 - targetAmt5) <= thresh5) {
+          found5 = nearby5;
+        } else if (nearby5.length <= 15) {
+          var combos5 = sumCombinations(nearby5, 2, Math.min(10, nearby5.length));
+          for (var ci5 = 0; ci5 < combos5.length; ci5++) {
+            var combo5 = combos5[ci5];
+            var sum5 = combo5.reduce(function(s, item) { return s + (parseFloat(item.inv.amount) || 0); }, 0);
+            if (Math.abs(sum5 - targetAmt5) <= thresh5) {
+              found5 = combo5;
+              break;
+            }
+          }
+        }
+      }
+
       if (found5) {
         found5.forEach(function(item) {
           sumInvUsed[item.invIdx] = true;
@@ -7705,7 +7722,10 @@ function runCategorizeCheck(idx, mode) {
         var totalDiff5 = Math.abs(totalSum - targetAmt5);
         var invNumbers = found5.map(function(item) { return item.inv.invoice_number || ''; }).filter(Boolean).join(' + ');
         var gstin5 = found5[0].inv.vendor_gstin || '';
-        var mtype5 = (ccCur5 || 'INR') + ' \u2192 ' + (found5[0].inv.currency || 'INR') + ' (GSTIN:' + gstin5.substring(0, 10) + '.. x' + found5.length + ')';
+        var uniqueGstins5 = {};
+        found5.forEach(function(item) { if (item.inv.vendor_gstin) uniqueGstins5[item.inv.vendor_gstin] = true; });
+        var gstinCount5 = Object.keys(uniqueGstins5).length;
+        var mtype5 = (ccCur5 || 'INR') + ' \u2192 ' + (found5[0].inv.currency || 'INR') + (gstinCount5 === 1 && gstin5 ? ' (GSTIN:' + gstin5.substring(0, 10) + '.. x' + found5.length + ')' : ' (Date+Amt x' + found5.length + ')');
 
         var anyInZoho = found5.some(function(item) { return item.inv.in_zoho; });
         var zohoBillIds = [];

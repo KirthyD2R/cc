@@ -766,6 +766,66 @@ def extract_amazon_india_multi(pdf_path, filename):
 
     return results
 
+def extract_linkedin(text):
+    """LinkedIn Singapore Pte Ltd invoices.
+
+    Layout (pdfplumber extracts table headers and values on separate lines):
+      Effective Date Transaction ID Invoice Number Purchaser Email
+      6/9/2025 P441245346 511109459487 daniel.john@...
+      Amount Transaction Date ...
+      ₹8,400.00 6/8/2025 ...
+    Footer: LinkedIn Singapore Pte Ltd, ... SG GST: 201109821G
+    """
+    inv_number = None
+    # Invoice number is a long numeric string on the data row after headers
+    m = re.search(r"Invoice\s+Number\s+Purchaser\s+Email\s*\n\s*(\d{1,2}/\d{1,2}/\d{4})\s+\w+\s+(\d{6,})\s+", text)
+    if m:
+        inv_number = m.group(2)
+
+    # Fallback: extract from filename LNKD_INVOICE_XXXXXXXXXXX
+    if not inv_number:
+        m2 = re.search(r"LNKD_INVOICE_(\d+)", text)
+        if not m2:
+            # Try from raw text — any 9+ digit number near "Invoice Number"
+            m2 = re.search(r"Invoice\s+Number.*?(\d{9,})", text, re.DOTALL)
+        if m2:
+            inv_number = m2.group(1)
+
+    # Date: "Effective Date" value (M/D/YYYY format)
+    date = None
+    m = re.search(r"Effective\s+Date.*?\n\s*(\d{1,2}/\d{1,2}/\d{4})", text)
+    if m:
+        date = parse_date(m.group(1), formats=["%m/%d/%Y"])
+    # Fallback: Transaction Date
+    if not date:
+        m = re.search(r"Transaction\s+Date.*?\n.*?(\d{1,2}/\d{1,2}/\d{4})", text)
+        if not m:
+            m = re.search(r"(\d{1,2}/\d{1,2}/\d{4})", text)
+        if m:
+            date = parse_date(m.group(1), formats=["%m/%d/%Y"])
+
+    # Amount: ₹X,XXX.XX or $X,XXX.XX
+    amount, currency = None, "INR"
+    m = re.search(r"Amount\s*\n\s*[\$₹]\s*([\d,]+\.?\d*)", text)
+    if m:
+        amount = float(m.group(1).replace(",", ""))
+    if not amount:
+        m = re.search(r"₹\s*([\d,]+\.?\d*)", text)
+        if m:
+            amount = float(m.group(1).replace(",", ""))
+    if not amount:
+        m = re.search(r"\$\s*([\d,]+\.?\d*)", text)
+        if m:
+            amount = float(m.group(1).replace(",", ""))
+            currency = "USD"
+
+    # Check for USD
+    if re.search(r"\bUSD\b|\$", text[:500]):
+        currency = "USD"
+
+    return inv_number, date, amount, currency
+
+
 def extract_medium(text):
     """Medium invoices: Invoice XXXX, Payment date: MM/DD/YY, Total paid $X.XX USD"""
     inv_number = None
@@ -886,6 +946,8 @@ def extract_invoice(pdf_path, filename):
         inv_number, date, amount, currency = extract_naukri(text, filename)
     elif vendor == "NSTP":
         inv_number, date, amount, currency = extract_nstp(text, filename)
+    elif vendor == "LinkedIn":
+        inv_number, date, amount, currency = extract_linkedin(text)
     elif vendor == "Medium":
         inv_number, date, amount, currency = extract_medium(text)
     else:
@@ -897,6 +959,12 @@ def extract_invoice(pdf_path, filename):
         vendor = _detect_vendor_fallback(text)
 
     vendor_gstin = _extract_vendor_gstin(text)
+
+    # LinkedIn: extract SG GST from footer (e.g., "SG GST: 201109821G")
+    if not vendor_gstin and vendor == "LinkedIn":
+        m = re.search(r"SG\s+GST:\s*(\S+)", text)
+        if m:
+            vendor_gstin = m.group(1).rstrip(".,;")
 
     # GSTIN-based vendor resolution: match against gstin_map and Zoho vendor cache
     if not vendor and vendor_gstin:
