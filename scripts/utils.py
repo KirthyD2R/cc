@@ -28,6 +28,27 @@ def load_vendor_mappings(path="config/vendor_mappings.json"):
         return json.load(f)
 
 
+def load_learned_vendor_mappings(path="config/learned_vendor_mappings.json"):
+    full_path = os.path.join(PROJECT_ROOT, path)
+    if not os.path.exists(full_path):
+        return {"mappings": {}}
+    with open(full_path, "r") as f:
+        return json.load(f)
+
+
+def save_learned_vendor_mapping(cc_description, vendor_name, path="config/learned_vendor_mappings.json"):
+    """Save a CC description → vendor name mapping learned from user confirmation."""
+    full_path = os.path.join(PROJECT_ROOT, path)
+    data = load_learned_vendor_mappings(path)
+    # Normalize key: strip, uppercase
+    key = cc_description.strip().upper()
+    if not key or not vendor_name:
+        return
+    data["mappings"][key] = vendor_name.strip()
+    with open(full_path, "w") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
+
+
 # --- Zoho OAuth2 ---
 
 class ZohoAuth:
