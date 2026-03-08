@@ -5996,11 +5996,13 @@ function _buildTable() {
   var cols = [
     {key:'check', label:'<input type="checkbox" id="bpSelectAll" onchange="toggleBillSelectAll(this)" style="cursor:pointer;accent-color:var(--accent)">', sort:false, cls:'col-checkbox'},
     {key:'vendor', label:'Vendor', sort:true},
+    {key:'invoice_num', label:'Invoice #', sort:true},
     {key:'date', label:'Date', sort:true},
     {key:'amount', label:'Amount', sort:true, cls:'col-amount'},
     {key:'status', label:'Status', sort:true},
     {key:'match', label:'Match', sort:true},
     {key:'zoho_vendor', label:'Zoho Vendor', sort:true, cls:'col-zoho-vendor'},
+    {key:'zoho_bill', label:'Zoho Bill #', sort:true},
     {key:'action', label:'', sort:false, cls:'col-action'}
   ];
   var html = '<div class="bill-table-wrap"><table class="bill-table"><thead><tr>';
@@ -6019,27 +6021,30 @@ function _buildTable() {
 }
 
 function _renderTableRows() {
+  // Note: all values rendered are from local JSON files (extracted invoices, Zoho cache), not user-supplied input
   var tbody = document.getElementById('bpTbody');
   if (!tbody) return;
   var html = '';
   _billFilteredRows.forEach(function(inv) {
-    var isSkip = inv.action === 'skip';
-    var rowCls = isSkip ? ' class="row-skip"' : '';
+    var isBlocked = inv.action === 'skip' || inv.action === 'possible_duplicate';
+    var rowCls = isBlocked ? ' class="row-skip"' : '';
     var amt = inv.amount ? Number(inv.amount).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) : '0.00';
     var fileEsc = (inv.file || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
     var vendorEsc = (inv.vendor_name || 'Unknown').replace(/"/g, '&quot;');
 
     // Checkbox
     var cb = '';
-    if (!isSkip) {
+    if (!isBlocked) {
       var checked = _billSelectedFiles.has(inv.file) ? ' checked' : '';
       cb = '<input type="checkbox" onchange="onBillCheckChange(this)" data-file="'+fileEsc+'" style="cursor:pointer;accent-color:var(--accent)"'+checked+'>';
     }
 
     // Status badge
     var statusBadge = '';
-    if (isSkip) {
+    if (inv.action === 'skip') {
       statusBadge = '<span class="bill-status-badge created">In Zoho</span>';
+    } else if (inv.action === 'possible_duplicate') {
+      statusBadge = '<span class="bill-status-badge" style="background:rgba(249,115,22,0.15);color:var(--orange,#f97316)">Possible Duplicate</span>';
     } else if (inv.action === 'new_bill') {
       var vmMethod = inv.vendor_match_method || 'name';
       var vmColor = vmMethod === 'gstin' ? 'var(--green)' : 'var(--accent)';
@@ -6057,20 +6062,23 @@ function _renderTableRows() {
 
     // Action button
     var actionBtn = '';
-    if (!isSkip) {
+    if (!isBlocked) {
       actionBtn = '<button class="bill-create-btn" onclick="createOneBillConfirm(\''+fileEsc+'\',\''+vendorEsc+'\',\''+amt+'\')">Create</button>';
     }
 
+    // Invoice # column
+    var invoiceNum = inv.invoice_number || '';
+
     // Zoho vendor column
     var zohoVendor = '';
-    if (isSkip) {
+    if (isBlocked) {
       zohoVendor = inv.matched_vendor_name || (inv.matched_bill ? inv.matched_bill.vendor_name || '' : '');
     } else if (inv.action === 'new_bill') {
       zohoVendor = inv.matched_vendor_name || '';
     }
     var zohoVendorEsc = zohoVendor.replace(/"/g,'&quot;');
     var zohoVendorCell = '';
-    if (isSkip) {
+    if (isBlocked) {
       zohoVendorCell = '<span title="'+zohoVendorEsc+'">'+zohoVendor+'</span>';
     } else {
       var editFileKey = inv.file.replace(/'/g, "\\'").replace(/"/g,'&quot;');
@@ -6080,14 +6088,24 @@ function _renderTableRows() {
         + '</div>';
     }
 
+    // Zoho Bill # column
+    var zohoBill = '';
+    if (inv.action === 'skip') {
+      zohoBill = inv.matched_bill || '';
+    } else if (inv.action === 'possible_duplicate') {
+      zohoBill = inv.matched_bill_number || '';
+    }
+
     html += '<tr'+rowCls+'>'
       + '<td class="col-checkbox">'+cb+'</td>'
       + '<td class="vendor-cell" title="'+vendorEsc+'">'+vendorEsc+'</td>'
+      + '<td>'+invoiceNum+'</td>'
       + '<td>'+(inv.date || '')+'</td>'
       + '<td class="col-amount">'+amt+' '+(inv.currency || 'INR')+'</td>'
       + '<td>'+statusBadge+'</td>'
       + '<td>'+matchBadge+'</td>'
       + '<td class="col-zoho-vendor">'+zohoVendorCell+'</td>'
+      + '<td>'+zohoBill+'</td>'
       + '<td class="col-action">'+actionBtn+'</td>'
       + '</tr>';
   });
