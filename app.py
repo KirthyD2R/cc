@@ -5696,7 +5696,7 @@ function _applyOverridesToPreview() {
   if (!_matchPreviewData || !_matchPreviewData.preview) return;
   _matchPreviewData.preview.forEach(function(inv) {
     var vname = inv.vendor_name || '';
-    if (_vendorOverrides[vname] && inv.action === 'new_vendor') {
+    if (_vendorOverrides[vname] && inv.action === 'new_vendor_bill') {
       inv.action = 'new_bill';
       inv.matched_vendor_id = _vendorOverrides[vname].contact_id;
       inv.matched_vendor_name = _vendorOverrides[vname].contact_name;
@@ -5708,7 +5708,7 @@ function applyZohoVendorMapping() {
   if (!_selectedZohoVendor) { showToast('Select a Zoho vendor first', 'warning'); return; }
   var selectedRows = [];
   _matchPreviewData.preview.forEach(function(inv) {
-    if (_billSelectedFiles.indexOf(inv.file) >= 0) selectedRows.push(inv);
+    if (_billSelectedFiles.has(inv.file)) selectedRows.push(inv);
   });
   if (!selectedRows.length) { showToast('Select at least one invoice row', 'warning'); return; }
   var overrides = {};
@@ -5723,7 +5723,7 @@ function applyZohoVendorMapping() {
   }).then(function(r) { return r.json(); }).then(function() {
     Object.assign(_vendorOverrides, overrides);
     selectedRows.forEach(function(inv) {
-      if (inv.action === 'new_vendor') inv.action = 'new_bill';
+      if (inv.action === 'new_vendor_bill') inv.action = 'new_bill';
       inv.matched_vendor_id = _selectedZohoVendor.contact_id;
       inv.matched_vendor_name = _selectedZohoVendor.contact_name;
       inv.vendor_match_method = 'manual';
@@ -5740,6 +5740,7 @@ function applyZohoVendorMapping() {
     var totalNew = s.new_bill + s.new_vendor_bill;
     var summary = document.getElementById('billPickerSummary');
     if (summary) _renderSummaryPanel(summary, s, totalNew);
+    _updateSelectionUI();
     showToast('Mapped ' + selectedRows.length + ' invoice(s) to ' + _selectedZohoVendor.contact_name, 'success');
   });
 }
