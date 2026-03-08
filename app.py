@@ -3646,15 +3646,37 @@ def api_bills_match_preview():
                     vendor_match_method = "fuzzy"
 
         if vendor_found:
-            entry["action"] = "new_bill"
-            entry["matched_vendor_id"] = vendor_found.get("contact_id", "")
-            entry["matched_vendor_name"] = vendor_found.get("contact_name", "")
-            entry["vendor_match_method"] = vendor_match_method
-            # Flag if vendor matched but GSTIN missing in Zoho
-            if vendor_match_method != "gstin" and inv_gstin:
-                zoho_gst = (vendor_found.get("gst_no") or "").strip()
-                if not zoho_gst:
-                    entry["gstin_missing"] = True
+            # --- Check for possible duplicate (vendor + date + ~amount) ---
+            resolved_vn = (vendor_found.get("contact_name") or "").strip().lower()
+            inv_amount = round(float(inv.get("amount") or 0), 2)
+            dup_bill = None
+            if resolved_vn and inv_date and inv_amount:
+                candidates = bills_vendor_date_amounts.get((resolved_vn, inv_date), [])
+                best_diff = float('inf')
+                for (zoho_amt, zoho_bill) in candidates:
+                    diff = abs(inv_amount - zoho_amt)
+                    tolerance = max(1.0, zoho_amt * 0.01)
+                    if diff <= tolerance and diff < best_diff:
+                        best_diff = diff
+                        dup_bill = zoho_bill
+
+            if dup_bill:
+                entry["action"] = "possible_duplicate"
+                entry["matched_bill_number"] = dup_bill.get("bill_number", "")
+                entry["matched_bill_id"] = dup_bill.get("bill_id", "")
+                entry["matched_vendor_name"] = vendor_found.get("contact_name", "")
+                entry["matched_vendor_id"] = vendor_found.get("contact_id", "")
+                entry["vendor_match_method"] = vendor_match_method
+                entry["match_type"] = "vendor_date_amount"
+            else:
+                entry["action"] = "new_bill"
+                entry["matched_vendor_id"] = vendor_found.get("contact_id", "")
+                entry["matched_vendor_name"] = vendor_found.get("contact_name", "")
+                entry["vendor_match_method"] = vendor_match_method
+                if vendor_match_method != "gstin" and inv_gstin:
+                    zoho_gst = (vendor_found.get("gst_no") or "").strip()
+                    if not zoho_gst:
+                        entry["gstin_missing"] = True
         else:
             entry["action"] = "new_vendor_bill"
 
@@ -3668,16 +3690,18 @@ def api_bills_match_preview():
 
     # Summary counts
     skip_count = sum(1 for p in preview if p["action"] == "skip")
+    dup_count = sum(1 for p in preview if p["action"] == "possible_duplicate")
     new_bill_count = sum(1 for p in preview if p["action"] == "new_bill")
     new_vendor_bill_count = sum(1 for p in preview if p["action"] == "new_vendor_bill")
 
-    log_action(f"Match preview: {skip_count} skip, {new_bill_count} new bills, {new_vendor_bill_count} new vendor+bill")
+    log_action(f"Match preview: {skip_count} skip, {dup_count} possible duplicates, {new_bill_count} new bills, {new_vendor_bill_count} new vendor+bill")
 
     return jsonify({
         "preview": preview,
         "summary": {
             "total": len(preview),
             "skip": skip_count,
+            "possible_duplicate": dup_count,
             "new_bill": new_bill_count,
             "new_vendor_bill": new_vendor_bill_count,
         },
