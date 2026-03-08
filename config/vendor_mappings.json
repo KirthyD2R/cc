@@ -509,6 +509,11 @@
         "ECONETING E-COMMERCE PRIVATE LIMITED": {
             "account_name": "Office Supplies",
             "account_id": "2050328000000000498"
+        },
+        "Fly.io": {
+            "account_name": "Duplicate fd amount",
+            "account_id": "2050328000000027455",
+            "category": "invoice_coa_match"
         }
     }
 }

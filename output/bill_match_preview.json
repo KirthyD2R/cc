@@ -7,10 +7,12 @@
     "currency": "INR",
     "date": "2025-04-02",
     "organized_month": "Apr 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
+    "action": "skip",
+    "matched_bill": "2107934141",
+    "matched_bill_id": "2050328000002211793",
     "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002211179",
+    "match_type": "normalized"
   },
   {
     "file": "Apr 2025.pdf",
@@ -94,11 +96,11 @@
     "date": "2025-04-01",
     "organized_month": "Apr 2025",
     "action": "skip",
-    "matched_bill_id": "2050328000003007003",
-    "matched_vendor_name": "Fly.io, Inc",
-    "matched_vendor_id": "2050328000000349283",
+    "matched_bill_id": "2050328000002984227",
+    "matched_vendor_name": "Fly.io",
+    "matched_vendor_id": "2050328000003019801",
     "match_type": "created_bills",
-    "matched_bill": "Created: Fly.io, Inc"
+    "matched_bill": "Created: Fly.io"
   },
   {
     "file": "Invoice-7CC5E2D2-0001.pdf",
@@ -131,6 +133,20 @@
     "match_type": "exact"
   },
   {
+    "file": "LNKD_INVOICE_51195567355.pdf",
+    "invoice_number": "51195567355",
+    "vendor_name": "LinkedIn",
+    "amount": 1694.07,
+    "currency": "INR",
+    "date": "2025-04-30",
+    "organized_month": "Apr 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
+  },
+  {
     "file": "MAA4-280872_p1_MAA4-280872_p1_MAA4-280872.pdf",
     "invoice_number": "MAA4-280872",
     "vendor_name": "R K WorldInfocom Pvt Ltd",
@@ -159,6 +175,16 @@
     "matched_vendor_id": "2050328000000357128",
     "match_type": "created_bills",
     "matched_bill": "Created: R K WorldInfocom Pvt. Ltd."
+  },
+  {
+    "file": "Medium5.pdf",
+    "invoice_number": "45c13e148167",
+    "vendor_name": "Medium",
+    "amount": 5.0,
+    "currency": "USD",
+    "date": "2025-04-02",
+    "organized_month": "Apr 2025",
+    "action": "new_vendor_bill"
   },
   {
     "file": "Your Google Play Order Receipt from Apr 16, 2025.eml",
@@ -239,10 +265,12 @@
     "currency": "INR",
     "date": "2025-08-01",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
+    "action": "skip",
+    "matched_bill": "2257225097",
+    "matched_bill_id": "2050328000002211725",
     "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002211179",
+    "match_type": "normalized"
   },
   {
     "file": "Aug 2025.pdf",
@@ -371,11 +399,11 @@
     "date": "2025-08-01",
     "organized_month": "Aug 2025",
     "action": "skip",
-    "matched_bill_id": "2050328000003000044",
-    "matched_vendor_name": "Fly.io, Inc",
-    "matched_vendor_id": "2050328000000349283",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Fly.io, Inc"
+    "matched_bill": "02148314-0008",
+    "matched_bill_id": "2050328000002997446",
+    "matched_vendor_name": "Fly.io",
+    "matched_vendor_id": "2050328000003019801",
+    "match_type": "exact"
   },
   {
     "file": "FMAB-317253_p1_FMAB-317253_p1_FMAB-317253.pdf",
@@ -412,11 +440,11 @@
     "date": "2025-08-26",
     "organized_month": "Aug 2025",
     "action": "skip",
-    "matched_bill_id": "2050328000002997085",
-    "matched_vendor_name": "Fly.io, Inc",
-    "matched_vendor_id": "2050328000000349283",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Fly.io, Inc"
+    "matched_bill": "02148314-0009",
+    "matched_bill_id": "2050328000002993400",
+    "matched_vendor_name": "Fly.io",
+    "matched_vendor_id": "2050328000003019801",
+    "match_type": "exact"
   },
   {
     "file": "GROQ-TAAS-202508-116839.pdf",
@@ -426,12 +454,13 @@
     "currency": "USD",
     "date": "2025-08-13",
     "organized_month": "Aug 2025",
-    "action": "skip",
-    "matched_bill": "GROQTAAS202508116839",
+    "action": "possible_duplicate",
+    "matched_bill_number": "GROQTAAS202508116839",
     "matched_bill_id": "2050328000002917790",
     "matched_vendor_name": "GROQ",
     "matched_vendor_id": "2050328000002917774",
-    "match_type": "normalized"
+    "vendor_match_method": "fuzzy",
+    "match_type": "vendor_date_amount"
   },
   {
     "file": "GROQ-TAAS-202508-118887.pdf",
@@ -441,12 +470,10 @@
     "currency": "USD",
     "date": "2025-08-29",
     "organized_month": "Aug 2025",
-    "action": "skip",
-    "matched_bill": "GROQTAAS202508118887",
-    "matched_bill_id": "2050328000002917822",
-    "matched_vendor_name": "GROQ",
+    "action": "new_bill",
     "matched_vendor_id": "2050328000002917774",
-    "match_type": "normalized"
+    "matched_vendor_name": "GROQ",
+    "vendor_match_method": "fuzzy"
   },
   {
     "file": "IN-6584.pdf",
@@ -539,6 +566,34 @@
     "matched_bill": "Created: BigIntent Global India Pvt Ltd"
   },
   {
+    "file": "LNKD_INVOICE_511129930927.pdf",
+    "invoice_number": "511129930927",
+    "vendor_name": "LinkedIn",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-08-09",
+    "organized_month": "Aug 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
+  },
+  {
+    "file": "LNKD_INVOICE_511132686884.pdf",
+    "invoice_number": "511132686884",
+    "vendor_name": "LinkedIn",
+    "amount": 7058.0,
+    "currency": "INR",
+    "date": "2025-08-18",
+    "organized_month": "Aug 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
+  },
+  {
     "file": "MAA4-1175721_p1_MAA4-1175721_p1_MAA4-1175721.pdf",
     "invoice_number": "MAA4-1175721",
     "vendor_name": "ETRADE MARKETING PRIVATE LIMITED",
@@ -565,6 +620,16 @@
     "matched_vendor_id": "2050328000000357128",
     "matched_vendor_name": "R K WorldInfocom Pvt. Ltd.",
     "vendor_match_method": "gstin"
+  },
+  {
+    "file": "Medium1.pdf",
+    "invoice_number": "794b46f3d59e",
+    "vendor_name": "Medium",
+    "amount": 5.0,
+    "currency": "USD",
+    "date": "2025-08-02",
+    "organized_month": "Aug 2025",
+    "action": "new_vendor_bill"
   },
   {
     "file": "PNQ2-6335.pdf",
@@ -1099,16 +1164,6 @@
     "action": "new_vendor_bill"
   },
   {
-    "file": "Medium1.pdf",
-    "invoice_number": "794b46f3d59e",
-    "vendor_name": "Medium",
-    "amount": 5.0,
-    "currency": "USD",
-    "date": "2025-08-02",
-    "organized_month": "Feb 2025",
-    "action": "new_vendor_bill"
-  },
-  {
     "file": "Medium10.pdf",
     "invoice_number": "6ae87c8ce29c",
     "vendor_name": "Medium",
@@ -1155,16 +1210,6 @@
     "amount": 5.0,
     "currency": "USD",
     "date": "2025-05-02",
-    "organized_month": "Feb 2025",
-    "action": "new_vendor_bill"
-  },
-  {
-    "file": "Medium5.pdf",
-    "invoice_number": "45c13e148167",
-    "vendor_name": "Medium",
-    "amount": 5.0,
-    "currency": "USD",
-    "date": "2025-04-02",
     "organized_month": "Feb 2025",
     "action": "new_vendor_bill"
   },
@@ -1243,10 +1288,13 @@
     "currency": "INR",
     "date": "2026-02-12",
     "organized_month": "Feb 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000342219",
+    "action": "possible_duplicate",
+    "matched_bill_number": "E0100YQAMM",
+    "matched_bill_id": "2050328000002920885",
     "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000000342219",
+    "vendor_match_method": "gstin",
+    "match_type": "vendor_date_amount"
   },
   {
     "file": "93094202594.pdf",
@@ -1256,10 +1304,13 @@
     "currency": "INR",
     "date": "2026-02-12",
     "organized_month": "Feb 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000342219",
+    "action": "possible_duplicate",
+    "matched_bill_number": "E0100YQAML",
+    "matched_bill_id": "2050328000002920929",
     "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000000342219",
+    "vendor_match_method": "gstin",
+    "match_type": "vendor_date_amount"
   },
   {
     "file": "Atlassian_Invoice_IN-005-589-685.pdf",
@@ -1555,10 +1606,12 @@
     "currency": "USD",
     "date": "2026-02-18",
     "organized_month": "Feb 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000364806",
-    "matched_vendor_name": "Anthropic",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill": "PZLFLIEU-0001",
+    "matched_bill_id": "2050328000003005210",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
+    "match_type": "normalized"
   },
   {
     "file": "Invoice-GWDVKZKR-0002.pdf",
@@ -1777,10 +1830,12 @@
     "currency": "USD",
     "date": "2026-01-27",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000364806",
-    "matched_vendor_name": "Anthropic",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill": "PZLFLIEU-0001",
+    "matched_bill_id": "2050328000003005210",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
+    "match_type": "normalized"
   },
   {
     "file": "DEL5-10059983_p1_DEL5-10059983_p1_DEL5-10059983.pdf",
@@ -1818,10 +1873,12 @@
     "currency": "INR",
     "date": "2026-01-12",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000342219",
+    "action": "skip",
+    "matched_bill": "E0100YH2Y5_Invoice",
+    "matched_bill_id": "2050328000002984205",
     "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000000342219",
+    "match_type": "exact"
   },
   {
     "file": "E0100YH2Y6_Invoice.pdf",
@@ -1831,10 +1888,12 @@
     "currency": "INR",
     "date": "2026-01-12",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000342219",
+    "action": "skip",
+    "matched_bill": "E0100YH2Y6_Invoice",
+    "matched_bill_id": "2050328000003019675",
     "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000000342219",
+    "match_type": "exact"
   },
   {
     "file": "E0100YH2YB.pdf",
@@ -1859,10 +1918,12 @@
     "currency": "INR",
     "date": "2026-01-12",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000342219",
+    "action": "skip",
+    "matched_bill": "E0100YH8OO_Invoice",
+    "matched_bill_id": "2050328000002993378",
     "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000000342219",
+    "match_type": "exact"
   },
   {
     "file": "E0100YH8QM.pdf",
@@ -2018,10 +2079,12 @@
     "currency": "USD",
     "date": "2026-01-27",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000364806",
-    "matched_vendor_name": "Anthropic",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill": "PZLFLIEU-0001",
+    "matched_bill_id": "2050328000003005210",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
+    "match_type": "normalized"
   },
   {
     "file": "Invoice-IVSLM7IE-0003.pdf",
@@ -2271,11 +2334,11 @@
     "date": "2025-07-01",
     "organized_month": "Jul 2025",
     "action": "skip",
-    "matched_bill_id": "2050328000002990007",
-    "matched_vendor_name": "Fly.io, Inc",
-    "matched_vendor_id": "2050328000000349283",
+    "matched_bill_id": "2050328000002997493",
+    "matched_vendor_name": "Fly.io",
+    "matched_vendor_id": "2050328000003019801",
     "match_type": "created_bills",
-    "matched_bill": "Created: Fly.io, Inc"
+    "matched_bill": "Created: Fly.io"
   },
   {
     "file": "FMAB-104573_p1_FMAB-104573_p1_FMAB-104573.pdf",
@@ -2403,6 +2466,34 @@
     "matched_vendor_id": "2050328000002993047",
     "matched_vendor_name": "Google",
     "vendor_match_method": "gstin"
+  },
+  {
+    "file": "LNKD_INVOICE_511117756315.pdf",
+    "invoice_number": "511117756315",
+    "vendor_name": "LinkedIn",
+    "amount": 928.0,
+    "currency": "INR",
+    "date": "2025-07-04",
+    "organized_month": "Jul 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
+  },
+  {
+    "file": "LNKD_INVOICE_511119256762.pdf",
+    "invoice_number": "511119256762",
+    "vendor_name": "LinkedIn",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-07-09",
+    "organized_month": "Jul 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
   },
   {
     "file": "MAA4-2323214.pdf",
@@ -2565,10 +2656,12 @@
     "currency": "USD",
     "date": "2025-06-01",
     "organized_month": "Jun 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000349283",
-    "matched_vendor_name": "Fly.io, Inc",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003011211",
+    "matched_vendor_name": "Fly.io",
+    "matched_vendor_id": "2050328000003019801",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Fly.io"
   },
   {
     "file": "FMAB-182420_p1_FMAB-182420_p1_FMAB-182420.pdf",
@@ -2777,6 +2870,34 @@
     "vendor_match_method": "gstin"
   },
   {
+    "file": "LNKD_INVOICE_511109459487.pdf",
+    "invoice_number": "511109459487",
+    "vendor_name": "LinkedIn",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-06-09",
+    "organized_month": "Jun 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
+  },
+  {
+    "file": "LNKD_INVOICE_511115460511.pdf",
+    "invoice_number": "511115460511",
+    "vendor_name": "LinkedIn",
+    "amount": 7106.0,
+    "currency": "INR",
+    "date": "2025-06-27",
+    "organized_month": "Jun 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
+  },
+  {
     "file": "MAA4-1088415_p1_MAA4-1088415_p1_MAA4-1088415.pdf",
     "invoice_number": "MAA4-1088415",
     "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
@@ -2970,16 +3091,31 @@
   },
   {
     "file": "LNKD_INVOICE_511142624687.pdf",
-    "invoice_number": "Purchaser",
+    "invoice_number": "511142624687",
     "vendor_name": "LinkedIn",
     "amount": 3654.0,
     "currency": "INR",
-    "date": "2026-03-08",
+    "date": "2025-09-16",
     "organized_month": "Mar 2026",
     "action": "new_bill",
     "matched_vendor_id": "2050328000000359077",
     "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
-    "vendor_match_method": "fuzzy"
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
+  },
+  {
+    "file": "LNKD_INVOICE_519212432510.pdf",
+    "invoice_number": "519212432510",
+    "vendor_name": "LinkedIn",
+    "amount": 0.0,
+    "currency": "INR",
+    "date": "2026-03-03",
+    "organized_month": "Mar 2026",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
   },
   {
     "file": "NK09I0326001326.pdf",
@@ -3022,10 +3158,12 @@
     "currency": "INR",
     "date": "2025-05-01",
     "organized_month": "May 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
+    "action": "skip",
+    "matched_bill": "2140007957",
+    "matched_bill_id": "2050328000002211861",
     "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002211179",
+    "match_type": "normalized"
   },
   {
     "file": "E0100W84MG_Invoice.pdf",
@@ -3101,10 +3239,12 @@
     "currency": "USD",
     "date": "2025-05-01",
     "organized_month": "May 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000349283",
-    "matched_vendor_name": "Fly.io, Inc",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000002998214",
+    "matched_vendor_name": "Fly.io",
+    "matched_vendor_id": "2050328000003019801",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Fly.io"
   },
   {
     "file": "FMAB-74681.pdf",
@@ -3226,10 +3366,12 @@
     "currency": "INR",
     "date": "2025-11-01",
     "organized_month": "Nov 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
+    "action": "skip",
+    "matched_bill": "2366505997",
+    "matched_bill_id": "2050328000002211195",
     "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002211179",
+    "match_type": "normalized"
   },
   {
     "file": "Atlassian_Invoice_IN-004-796-545.pdf",
@@ -3498,6 +3640,20 @@
     "vendor_match_method": "name"
   },
   {
+    "file": "LNKD_INVOICE_511159612412.pdf",
+    "invoice_number": "511159612412",
+    "vendor_name": "LinkedIn",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-11-09",
+    "organized_month": "Nov 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
+  },
+  {
     "file": "MAA4-3241_p1_MAA4-3241_p1_MAA4-3241.pdf",
     "invoice_number": "MAA4-3241",
     "vendor_name": "CRALOFT LLP",
@@ -3548,7 +3704,12 @@
     "currency": "INR",
     "date": "2025-11-23",
     "organized_month": "Nov 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill": "1",
+    "matched_bill_id": "2050328000002521238",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
+    "match_type": "normalized"
   },
   {
     "file": "Your Google Play Order Receipt from Nov 16, 2025.eml",
@@ -3598,10 +3759,12 @@
     "currency": "INR",
     "date": "2025-10-01",
     "organized_month": "Oct 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
+    "action": "skip",
+    "matched_bill": "2327322985",
+    "matched_bill_id": "2050328000002211263",
     "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002211179",
+    "match_type": "normalized"
   },
   {
     "file": "Atlassian_Invoice_IN-004-560-126.pdf",
@@ -3889,6 +4052,34 @@
     "match_type": "exact"
   },
   {
+    "file": "LNKD_INVOICE_511150750291.pdf",
+    "invoice_number": "511150750291",
+    "vendor_name": "LinkedIn",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-10-09",
+    "organized_month": "Oct 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
+  },
+  {
+    "file": "LNKD_INVOICE_511152667797.pdf",
+    "invoice_number": "511152667797",
+    "vendor_name": "LinkedIn",
+    "amount": 436.0,
+    "currency": "INR",
+    "date": "2025-10-15",
+    "organized_month": "Oct 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
+  },
+  {
     "file": "MAA4-1730312_p1_MAA4-1730312_p1_MAA4-1730312.pdf",
     "invoice_number": "MAA4-1730312",
     "vendor_name": "RETAILEZ PRIVATE LIMITED",
@@ -4128,10 +4319,12 @@
     "currency": "INR",
     "date": "2025-09-01",
     "organized_month": "Sep 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
+    "action": "skip",
+    "matched_bill": "2295334101",
+    "matched_bill_id": "2050328000002211657",
     "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000002211179",
+    "match_type": "normalized"
   },
   {
     "file": "Atlassian_Invoice_IN-004-324-189.pdf",
@@ -4261,12 +4454,13 @@
     "currency": "USD",
     "date": "2025-09-06",
     "organized_month": "Sep 2025",
-    "action": "skip",
-    "matched_bill": "GROQTAAS202509131986",
+    "action": "possible_duplicate",
+    "matched_bill_number": "GROQTAAS202509131986",
     "matched_bill_id": "2050328000002917854",
     "matched_vendor_name": "GROQ",
     "matched_vendor_id": "2050328000002917774",
-    "match_type": "normalized"
+    "vendor_match_method": "fuzzy",
+    "match_type": "vendor_date_amount"
   },
   {
     "file": "HYD8-5540544_p1_HYD8-5540544_p1_HYD8-5540544.pdf",
@@ -4348,6 +4542,20 @@
     "matched_vendor_name": "Anthropic USD",
     "matched_vendor_id": "2050328000002997181",
     "match_type": "exact"
+  },
+  {
+    "file": "LNKD_INVOICE_511140168715.pdf",
+    "invoice_number": "511140168715",
+    "vendor_name": "LinkedIn",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-09-09",
+    "organized_month": "Sep 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy",
+    "gstin_missing": true
   },
   {
     "file": "MAA4-22967_p1_MAA4-22967_p1_MAA4-22967.pdf",

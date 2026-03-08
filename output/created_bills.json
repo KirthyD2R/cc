@@ -100,46 +100,6 @@
     "attached": false
   },
   {
-    "file": "FLY IO - April.pdf",
-    "status": "created",
-    "vendor_name": "Fly.io, Inc",
-    "vendor_id": "2050328000000349283",
-    "bill_id": "2050328000003007003",
-    "amount": 12.67,
-    "currency": "USD",
-    "attached": true
-  },
-  {
-    "file": "FLY IO - July.pdf",
-    "status": "created",
-    "vendor_name": "Fly.io, Inc",
-    "vendor_id": "2050328000000349283",
-    "bill_id": "2050328000002990007",
-    "amount": 12.27,
-    "currency": "USD",
-    "attached": true
-  },
-  {
-    "file": "Fly.io-Aug 26.pdf",
-    "status": "created",
-    "vendor_name": "Fly.io, Inc",
-    "vendor_id": "2050328000000349283",
-    "bill_id": "2050328000002997085",
-    "amount": 9.89,
-    "currency": "USD",
-    "attached": true
-  },
-  {
-    "file": "FLY IO - Augest.pdf",
-    "status": "created",
-    "vendor_name": "Fly.io, Inc",
-    "vendor_id": "2050328000000349283",
-    "bill_id": "2050328000003000044",
-    "amount": 12.74,
-    "currency": "USD",
-    "attached": true
-  },
-  {
     "file": "MAA4-280872_p1_MAA4-280872_p1_MAA4-280872.pdf",
     "status": "created",
     "vendor_name": "R K WorldInfocom Pvt. Ltd.",
@@ -636,6 +596,66 @@
     "vendor_id": "2050328000002211179",
     "bill_id": "2050328000002997426",
     "amount": 7782.18,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "FLY IO - April.pdf",
+    "status": "created",
+    "vendor_name": "Fly.io",
+    "vendor_id": "2050328000003019801",
+    "bill_id": "2050328000002984227",
+    "amount": 12.67,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "FLY IO - July.pdf",
+    "status": "created",
+    "vendor_name": "Fly.io",
+    "vendor_id": "2050328000003019801",
+    "bill_id": "2050328000002997493",
+    "amount": 12.27,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "FLY IO - June.pdf",
+    "status": "created",
+    "vendor_name": "Fly.io",
+    "vendor_id": "2050328000003019801",
+    "bill_id": "2050328000003011211",
+    "amount": 12.56,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "FLY IO - May.pdf",
+    "status": "created",
+    "vendor_name": "Fly.io",
+    "vendor_id": "2050328000003019801",
+    "bill_id": "2050328000002998214",
+    "amount": 12.22,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "FLY IO - Augest.pdf",
+    "status": "skipped",
+    "reason": "bill 02148314-0008 exists"
+  },
+  {
+    "file": "Fly.io-Aug 26.pdf",
+    "status": "skipped",
+    "reason": "bill 02148314-0009 exists"
+  },
+  {
+    "file": "92832245029",
+    "status": "created",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "bill_id": "2050328000002991203",
+    "amount": 908.6,
     "currency": "INR",
     "attached": true
   }
