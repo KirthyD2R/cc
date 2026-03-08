@@ -5983,7 +5983,7 @@ function _buildFilterBar(preview) {
   html += '<div class="bill-filter-group"><label>Vendor</label>' + _buildCheckboxDropdown('vendor', 'Vendor', vendorOpts) + '</div>';
   html += '<div class="bill-filter-group"><label>Min Amt</label><input type="number" id="bfMinAmt" placeholder="0" step="any"></div>';
   html += '<div class="bill-filter-group"><label>Max Amt</label><input type="number" id="bfMaxAmt" placeholder="any" step="any"></div>';
-  var statusOpts = [{value:'skip',text:'In Zoho'},{value:'new_bill',text:'New Bill + Existing Vendor'},{value:'new_vendor',text:'New Bill + New Vendor'}];
+  var statusOpts = [{value:'skip',text:'In Zoho'},{value:'possible_duplicate',text:'Possible Duplicate'},{value:'new_bill',text:'New Bill + Existing Vendor'},{value:'new_vendor',text:'New Bill + New Vendor'}];
   html += '<div class="bill-filter-group"><label>Status</label>' + _buildCheckboxDropdown('status', 'Status', statusOpts) + '</div>';
   var matchOpts = [{value:'gstin',text:'GSTIN'},{value:'name',text:'Name'},{value:'fuzzy',text:'Fuzzy'},{value:'manual',text:'Manual'}];
   html += '<div class="bill-filter-group"><label>Match Type</label>' + _buildCheckboxDropdown('matchtype', 'Match Type', matchOpts) + '</div>';
@@ -6167,11 +6167,13 @@ function _sortFilteredRows() {
   _billFilteredRows.sort(function(a, b) {
     var va, vb;
     if (col === 'vendor') { va = (a.vendor_name||'').toLowerCase(); vb = (b.vendor_name||'').toLowerCase(); }
+    else if (col === 'invoice_num') { va = (a.invoice_number||'').toLowerCase(); vb = (b.invoice_number||'').toLowerCase(); }
     else if (col === 'date') { va = a.date || ''; vb = b.date || ''; }
     else if (col === 'amount') { va = parseFloat(a.amount)||0; vb = parseFloat(b.amount)||0; }
     else if (col === 'status') { va = _getStatusKey(a); vb = _getStatusKey(b); }
     else if (col === 'match') { va = a.action==='new_bill' ? _getMatchTypeKey(a) : 'zzz'; vb = b.action==='new_bill' ? _getMatchTypeKey(b) : 'zzz'; }
     else if (col === 'zoho_vendor') { va = (a.matched_vendor_name||'').toLowerCase(); vb = (b.matched_vendor_name||'').toLowerCase(); }
+    else if (col === 'zoho_bill') { va = (a.action==='skip' ? a.matched_bill : a.matched_bill_number) || ''; vb = (b.action==='skip' ? b.matched_bill : b.matched_bill_number) || ''; }
     else { va = ''; vb = ''; }
     if (va < vb) return -1 * asc;
     if (va > vb) return 1 * asc;
@@ -6184,7 +6186,7 @@ function sortBillTable(col) {
   else { _billSortCol = col; _billSortAsc = true; }
   // Update header arrows
   document.querySelectorAll('.bill-table th').forEach(function(th) { th.classList.remove('sorted'); });
-  var idx = {vendor:1,date:2,amount:3,status:4,match:5,zoho_vendor:6}[col];
+  var idx = {vendor:1,invoice_num:2,date:3,amount:4,status:5,match:6,zoho_vendor:7,zoho_bill:8}[col];
   if (idx !== undefined) {
     var ths = document.querySelectorAll('.bill-table th');
     if (ths[idx]) {
