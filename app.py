@@ -3356,7 +3356,7 @@ def api_zoho_vendors():
         return jsonify([])
     with open(cache_path, "r", encoding="utf-8") as f:
         vendors = json.load(f)
-    return jsonify([{"contact_id": v.get("contact_id", ""), "contact_name": v.get("contact_name", "")} for v in vendors])
+    return jsonify([{"contact_id": v.get("contact_id", ""), "contact_name": v.get("contact_name", ""), "currency_code": v.get("currency_code", "INR")} for v in vendors])
 
 
 @app.route("/api/vendor-overrides")
@@ -4208,7 +4208,26 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   .bill-summary-actions { margin-left: auto; display: flex; gap: 8px; }
 
   /* Zoho Vendor Column */
-  .col-zoho-vendor { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .col-zoho-vendor { max-width: 220px; white-space: nowrap; position: relative; }
+  .zoho-vendor-display { display: flex; align-items: center; gap: 4px; }
+  .zoho-vendor-display .vendor-text { overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; }
+  .zoho-vendor-edit-btn {
+    flex-shrink: 0; border: none; background: none; color: var(--text-dim); cursor: pointer;
+    font-size: 11px; padding: 1px 4px; border-radius: 4px; opacity: 0.5; line-height: 1;
+  }
+  .zoho-vendor-edit-btn:hover { opacity: 1; background: var(--surface2); color: var(--accent); }
+  .row-vendor-dropdown {
+    position: absolute; top: 100%; left: 0; z-index: 30; width: 220px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4); display: none;
+  }
+  .row-vendor-dropdown.open { display: block; }
+  .row-vendor-dropdown input {
+    width: 100%; background: var(--bg); border: none; border-bottom: 1px solid var(--border);
+    color: var(--text); font-size: 12px; padding: 6px 8px; box-sizing: border-box;
+    border-radius: 8px 8px 0 0;
+  }
+  .row-vendor-dropdown .rvd-list { max-height: 180px; overflow-y: auto; }
 
   /* Review badge */
   .review-badge {
@@ -5654,6 +5673,11 @@ function _openZohoDropdown() {
   _filterZohoDropdown();
   document.getElementById('zohoVendorList').classList.add('open');
 }
+function _currencyBadge(code) {
+  code = code || 'INR';
+  var color = code === 'INR' ? '#a3a3a3' : code === 'USD' ? '#60a5fa' : '#c084fc';
+  return ' <span style="font-size:9px;padding:1px 4px;border-radius:3px;background:rgba(255,255,255,0.08);color:'+color+';font-weight:600">'+code+'</span>';
+}
 function _filterZohoDropdown() {
   var input = document.querySelector('#zohoVendorSearch input');
   var q = (input ? input.value : '').toLowerCase();
@@ -5664,7 +5688,7 @@ function _filterZohoDropdown() {
     var v = _zohoVendors[i];
     if (q && v.contact_name.toLowerCase().indexOf(q) < 0) continue;
     var sel = _selectedZohoVendor && _selectedZohoVendor.contact_id === v.contact_id ? ' selected' : '';
-    items += '<div class="sd-item' + sel + '" onclick="_selectZohoVendor(this)" data-id="' + v.contact_id + '" data-name="' + v.contact_name.replace(/"/g, '&quot;') + '">' + v.contact_name + '</div>';
+    items += '<div class="sd-item' + sel + '" onclick="_selectZohoVendor(this)" data-id="' + v.contact_id + '" data-name="' + v.contact_name.replace(/"/g, '&quot;') + '" data-currency="' + (v.currency_code||'INR') + '">' + v.contact_name + _currencyBadge(v.currency_code) + '</div>';
     count++;
   }
   if (!items) items = '<div class="sd-item" style="color:var(--text-dim)">No matches</div>';
@@ -5677,10 +5701,92 @@ function _selectZohoVendor(el) {
   if (input) input.value = _selectedZohoVendor.contact_name;
   document.getElementById('zohoVendorList').classList.remove('open');
 }
+/* --- Per-row vendor edit --- */
+var _activeRowVendorDropdown = null;
+function _openRowVendorEdit(fileKey, event) {
+  event.stopPropagation();
+  _closeRowVendorDropdown();
+  var td = event.target.closest('.col-zoho-vendor');
+  if (!td) return;
+  var dd = document.createElement('div');
+  dd.className = 'row-vendor-dropdown open';
+  dd.setAttribute('data-file', fileKey);
+  dd.innerHTML = '<input type="text" placeholder="Search vendor..." oninput="_filterRowVendorDropdown(this)" autofocus>'
+    + '<div class="rvd-list"></div>';
+  td.appendChild(dd);
+  _activeRowVendorDropdown = dd;
+  var input = dd.querySelector('input');
+  input.focus();
+  _filterRowVendorDropdown(input);
+}
+function _filterRowVendorDropdown(input) {
+  var q = (input ? input.value : '').toLowerCase();
+  var list = input.closest('.row-vendor-dropdown').querySelector('.rvd-list');
+  var fileKey = input.closest('.row-vendor-dropdown').getAttribute('data-file');
+  var items = '';
+  var count = 0;
+  for (var i = 0; i < _zohoVendors.length && count < 50; i++) {
+    var v = _zohoVendors[i];
+    if (q && v.contact_name.toLowerCase().indexOf(q) < 0) continue;
+    items += '<div class="sd-item" onclick="_selectRowVendor(this,\'' + fileKey.replace(/'/g, "\\'") + '\')" data-id="' + v.contact_id + '" data-name="' + v.contact_name.replace(/"/g, '&quot;') + '" data-currency="' + (v.currency_code||'INR') + '">' + v.contact_name + _currencyBadge(v.currency_code) + '</div>';
+    count++;
+  }
+  if (!items) items = '<div class="sd-item" style="color:var(--text-dim)">No matches</div>';
+  list.innerHTML = items;
+}
+function _selectRowVendor(el, fileKey) {
+  var vendorId = el.getAttribute('data-id');
+  var vendorName = el.getAttribute('data-name');
+  // Find the invoice in preview data
+  var inv = null;
+  _matchPreviewData.preview.forEach(function(item) {
+    if (item.file === fileKey) inv = item;
+  });
+  if (!inv) return;
+  var vname = inv.vendor_name || inv.file;
+  var overrides = {};
+  overrides[vname] = { contact_id: vendorId, contact_name: vendorName };
+  fetch('/api/vendor-overrides', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ overrides: overrides })
+  }).then(function(r) { return r.json(); }).then(function() {
+    Object.assign(_vendorOverrides, overrides);
+    if (inv.action === 'new_vendor') inv.action = 'new_bill';
+    inv.matched_vendor_id = vendorId;
+    inv.matched_vendor_name = vendorName;
+    inv.vendor_match_method = 'manual';
+    _closeRowVendorDropdown();
+    _sortFilteredRows();
+    _renderTableRows();
+    // Update summary
+    var s = { total: 0, skip: 0, new_bill: 0, new_vendor_bill: 0 };
+    _matchPreviewData.preview.forEach(function(item) {
+      s.total++;
+      if (item.action === 'skip') s.skip++;
+      else if (item.action === 'new_bill') s.new_bill++;
+      else s.new_vendor_bill++;
+    });
+    var totalNew = s.new_bill + s.new_vendor_bill;
+    var summary = document.getElementById('billPickerSummary');
+    if (summary) _renderSummaryPanel(summary, s, totalNew);
+    showToast('Vendor changed to ' + vendorName, 'success');
+  });
+}
+function _closeRowVendorDropdown() {
+  if (_activeRowVendorDropdown) {
+    _activeRowVendorDropdown.remove();
+    _activeRowVendorDropdown = null;
+  }
+}
+
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.search-dropdown')) {
     var list = document.getElementById('zohoVendorList');
     if (list) list.classList.remove('open');
+  }
+  if (!e.target.closest('.row-vendor-dropdown') && !e.target.closest('.zoho-vendor-edit-btn')) {
+    _closeRowVendorDropdown();
   }
 });
 
@@ -5706,13 +5812,26 @@ function _applyOverridesToPreview() {
 }
 function applyZohoVendorMapping() {
   if (!_selectedZohoVendor) { showToast('Select a Zoho vendor first', 'warning'); return; }
-  var selectedRows = [];
+  // Collect target rows: selected (checked) rows, or all filtered non-skip rows
+  var targetRows = [];
+  var useSelected = false;
   _matchPreviewData.preview.forEach(function(inv) {
-    if (_billSelectedFiles.indexOf(inv.file) >= 0) selectedRows.push(inv);
+    if (_billSelectedFiles.has(inv.file) && inv.action !== 'skip') targetRows.push(inv);
   });
-  if (!selectedRows.length) { showToast('Select at least one invoice row', 'warning'); return; }
+  if (targetRows.length > 0) {
+    useSelected = true;
+  } else {
+    // Fall back to all filtered (visible) non-skip rows
+    _billFilteredRows.forEach(function(inv) {
+      if (inv.action !== 'skip') targetRows.push(inv);
+    });
+  }
+  if (!targetRows.length) { showToast('No rows to map — filter or select invoices first', 'warning'); return; }
+  var label = useSelected ? 'selected' : 'filtered';
+  var msg = 'Change vendor for ' + targetRows.length + ' ' + label + ' invoice(s) to "' + _selectedZohoVendor.contact_name + '"?\n\nThis will override any existing vendor match.';
+  if (!confirm(msg)) return;
   var overrides = {};
-  selectedRows.forEach(function(inv) {
+  targetRows.forEach(function(inv) {
     var vname = inv.vendor_name || inv.file;
     overrides[vname] = { contact_id: _selectedZohoVendor.contact_id, contact_name: _selectedZohoVendor.contact_name };
   });
@@ -5722,7 +5841,7 @@ function applyZohoVendorMapping() {
     body: JSON.stringify({ overrides: overrides })
   }).then(function(r) { return r.json(); }).then(function() {
     Object.assign(_vendorOverrides, overrides);
-    selectedRows.forEach(function(inv) {
+    targetRows.forEach(function(inv) {
       if (inv.action === 'new_vendor') inv.action = 'new_bill';
       inv.matched_vendor_id = _selectedZohoVendor.contact_id;
       inv.matched_vendor_name = _selectedZohoVendor.contact_name;
@@ -5740,7 +5859,7 @@ function applyZohoVendorMapping() {
     var totalNew = s.new_bill + s.new_vendor_bill;
     var summary = document.getElementById('billPickerSummary');
     if (summary) _renderSummaryPanel(summary, s, totalNew);
-    showToast('Mapped ' + selectedRows.length + ' invoice(s) to ' + _selectedZohoVendor.contact_name, 'success');
+    showToast('Mapped ' + targetRows.length + ' ' + label + ' invoice(s) to ' + _selectedZohoVendor.contact_name, 'success');
   });
 }
 
@@ -5868,6 +5987,17 @@ function _renderTableRows() {
     } else if (inv.action === 'new_bill') {
       zohoVendor = inv.matched_vendor_name || '';
     }
+    var zohoVendorEsc = zohoVendor.replace(/"/g,'&quot;');
+    var zohoVendorCell = '';
+    if (isSkip) {
+      zohoVendorCell = '<span title="'+zohoVendorEsc+'">'+zohoVendor+'</span>';
+    } else {
+      var editFileKey = inv.file.replace(/'/g, "\\'").replace(/"/g,'&quot;');
+      zohoVendorCell = '<div class="zoho-vendor-display">'
+        + '<span class="vendor-text" title="'+zohoVendorEsc+'">'+(zohoVendor || '<span style="color:var(--text-dim);font-style:italic">—</span>')+'</span>'
+        + '<button class="zoho-vendor-edit-btn" onclick="_openRowVendorEdit(\''+editFileKey+'\',event)" title="Change vendor">&#9998;</button>'
+        + '</div>';
+    }
 
     html += '<tr'+rowCls+'>'
       + '<td class="col-checkbox">'+cb+'</td>'
@@ -5876,7 +6006,7 @@ function _renderTableRows() {
       + '<td class="col-amount">'+amt+' '+(inv.currency || 'INR')+'</td>'
       + '<td>'+statusBadge+'</td>'
       + '<td>'+matchBadge+'</td>'
-      + '<td class="col-zoho-vendor" title="'+zohoVendor.replace(/"/g,'&quot;')+'">'+zohoVendor+'</td>'
+      + '<td class="col-zoho-vendor">'+zohoVendorCell+'</td>'
       + '<td class="col-action">'+actionBtn+'</td>'
       + '</tr>';
   });
@@ -6115,7 +6245,7 @@ function openBillPicker() {
 
     // Build: filter bar + mapping bar + table
     var mappingBar = '<div class="bill-mapping-bar">'
-      + '<label>Map selected to Zoho Vendor:</label>'
+      + '<label>Bulk change Zoho Vendor:</label>'
       + _buildSearchDropdown()
       + '<button class="modal-btn modal-btn-confirm" onclick="applyZohoVendorMapping()">Apply</button>'
       + '</div>';
