@@ -50,3 +50,26 @@ def test_save_learned_mapping_skips_empty():
     # Should not raise
     save_learned_vendor_mapping("", "Vendor", path="/tmp/test_empty.json")
     save_learned_vendor_mapping("desc", "", path="/tmp/test_empty.json")
+
+
+from scripts.utils import is_gateway_only
+
+
+def test_gateway_only_cybs():
+    """Pure gateway description with no brand prefix."""
+    assert is_gateway_only("CYBS SI MUMBAI IN") is True
+
+
+def test_gateway_with_brand_prefix():
+    """Brand + gateway is NOT gateway-only."""
+    assert is_gateway_only("AMAZON INDIA CYBS SI MUMBAI") is False
+    assert is_gateway_only("MICROSOFT INDIA CYBS") is False
+
+
+def test_gateway_billdesk():
+    assert is_gateway_only("BILLDESK BBPS") is True
+
+
+def test_non_gateway_description():
+    assert is_gateway_only("IND*LINKEDIN (PGSI), www.linkedin.") is False
+    assert is_gateway_only("CLAUDE.AI SUBSCRIPTION") is False

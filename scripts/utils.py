@@ -660,6 +660,29 @@ def strip_vendor_stop_words(name):
     return " ".join(filtered) if filtered else name.strip().upper()
 
 
+GATEWAY_KEYWORDS = {
+    "cybs", "billdesk", "payu", "razorpay", "ccavenue",
+    "paygate", "instamojo", "cashfree", "phonepe", "paytm",
+}
+
+
+def is_gateway_only(description):
+    """Check if CC description is a payment gateway with no brand prefix.
+    Returns True only when the meaningful tokens are ALL gateway keywords
+    (plus location/noise words). Returns False if a brand name is present."""
+    if not description:
+        return False
+    tokens = description.strip().upper().split()
+    # Location/noise words to ignore when checking for brand presence
+    noise = {"si", "in", "mumbai", "bangalore", "chennai", "delhi",
+             "india", "bbps", "cc", "payment", "rate"}
+    meaningful = [t.lower() for t in tokens if t.lower() not in noise]
+    if not meaningful:
+        return False
+    # If ALL meaningful tokens are gateway keywords, it's gateway-only
+    return all(t in GATEWAY_KEYWORDS for t in meaningful)
+
+
 def fuzzy_match_vendor(merchant_name, vendor_mappings, threshold=75):
     """Match a CC merchant name to a known vendor using fuzzy string matching.
 
