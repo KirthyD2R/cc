@@ -293,6 +293,178 @@ def parse_idfc_first(pdf_path, passwords=None):
     return transactions
 
 
+# === Amex CC Parser ===
+
+_AMEX_MONTHS = {
+    'january': 1, 'february': 2, 'march': 3, 'april': 4,
+    'may': 5, 'june': 6, 'july': 7, 'august': 8,
+    'september': 9, 'october': 10, 'november': 11, 'december': 12,
+}
+
+_AMEX_SKIP = [
+    "PAYMENT RECEIVED", "Total of new", "Total of other",
+    "TOTAL OVERSEAS", "New domestic transactions", "New overseas transactions",
+    "Card Number", "OTHER ACCOUNT TRANSACTIONS", "Statement of Account",
+    "Prepared for", "Page ", "Payment Information", "Payment Methods",
+    "Cardmember", "National Electronic", "Payment Advice", "Make a crossed",
+    "amount due", "Mail payment to", "AMERICAN EXPRESS", "CYBER CITY",
+    "SECTOR-", "GURGAON", "Incorporated", "Registered Trademark",
+    "americanexpress", "Please pay by",
+    "Statement includes", "Thank you for using", "Previous Balance",
+    "Details Foreign Spending", "Drop Boxes", "Discover This",
+    "UPI (Unified", "AEBC3", "direct debit", "your Bank account",
+    "total amount", "RAMESH MAHESH", "R K MUTT", "R A PURAM",
+    "CHENNAI TN", "DLF", "For any queries",
+]
+
+# Transaction line: Month Day DESCRIPTION [FOREX_AMT] INR_AMT [CR]
+_AMEX_TXN_RE = re.compile(
+    r'^(' + '|'.join(_AMEX_MONTHS.keys()) + r')\s+(\d{1,2})\s+'
+    r'(.+?)\s+'
+    r'([\d,]*\.\d{2})\s*'         # amount1 (INR for domestic, forex for overseas; handles .64)
+    r'(?:([\d,]+\.\d{2})\s*)?'    # amount2 (INR for overseas, absent for domestic)
+    r'(CR)?\s*$',
+    re.IGNORECASE,
+)
+
+# Overseas currency line (follows overseas transaction)
+_AMEX_CURRENCY_RE = re.compile(
+    r'^\s*(CR)?\s*(' + _FOREX_CURRENCIES + r'|UNITED STATES DOLLAR|EURO|BRITISH POUND'
+    r'|UAE DIRHAM|SINGAPORE DOLLAR|CANADIAN DOLLAR|AUSTRALIAN DOLLAR'
+    r'|JAPANESE YEN|SWISS FRANC|SAUDI RIYAL|QATARI RIYAL)\s*$',
+    re.IGNORECASE,
+)
+
+_AMEX_CURRENCY_MAP = {
+    'UNITED STATES DOLLAR': 'USD', 'EURO': 'EUR', 'BRITISH POUND': 'GBP',
+    'UAE DIRHAM': 'AED', 'SINGAPORE DOLLAR': 'SGD', 'CANADIAN DOLLAR': 'CAD',
+    'AUSTRALIAN DOLLAR': 'AUD', 'JAPANESE YEN': 'JPY', 'SWISS FRANC': 'CHF',
+    'SAUDI RIYAL': 'SAR', 'QATARI RIYAL': 'QAR',
+}
+
+
+def parse_amex(pdf_path, passwords=None):
+    """Parse American Express credit card statement.
+
+    Format:
+      Domestic: Month Day DESCRIPTION AMOUNT [CR]
+      Overseas: Month Day DESCRIPTION FOREX_AMT INR_AMT [CR]
+                CURRENCY_NAME (next line)
+    Statement date on page 1 gives year context for transaction dates.
+    """
+    transactions = []
+    stmt_month = None
+    stmt_year = None
+
+    with _open_pdf(pdf_path, passwords) as pdf:
+        all_lines = []
+        for page in pdf.pages:
+            text = page.extract_text() or ""
+            all_lines.extend(text.split("\n"))
+
+        # Extract statement date from header: "XXXX-XXXXXX-NNNNN DD/MM/YYYY"
+        for line in all_lines[:30]:
+            m = re.search(r'XXXX-XXXXXX-\d+\s+(\d{2})/(\d{2})/(\d{4})', line)
+            if m:
+                stmt_month = int(m.group(2))
+                stmt_year = int(m.group(3))
+                break
+
+        if not stmt_year:
+            # Fallback: try to find date from "Prepared for ... Date" line
+            stmt_year = datetime.now().year
+            stmt_month = datetime.now().month
+
+        def _resolve_year(month_num):
+            """Determine year: if txn month > statement month, it's from previous year."""
+            if month_num > stmt_month:
+                return stmt_year - 1
+            return stmt_year
+
+        i = 0
+        while i < len(all_lines):
+            line = all_lines[i].strip()
+            i += 1
+
+            if not line:
+                continue
+
+            # Skip header/footer/summary lines
+            if any(kw in line for kw in _AMEX_SKIP):
+                continue
+
+            # Skip standalone CR line (handled by previous txn or next check)
+            if line.strip() == 'CR':
+                continue
+
+            # Try transaction match
+            m = _AMEX_TXN_RE.match(line)
+            if not m:
+                continue
+
+            month_name = m.group(1).lower()
+            day = int(m.group(2))
+            desc = m.group(3).strip()
+            amount1_str = m.group(4)
+            amount2_str = m.group(5)  # None for domestic
+            is_credit = bool(m.group(6))
+
+            month_num = _AMEX_MONTHS[month_name]
+            year = _resolve_year(month_num)
+            date_str = f"{year}-{month_num:02d}-{day:02d}"
+
+            amount1 = float(amount1_str.replace(",", ""))
+            amount2 = float(amount2_str.replace(",", "")) if amount2_str else None
+
+            # Check next line for CR or currency
+            next_is_cr = False
+            forex_amt = None
+            forex_cur = None
+
+            if i < len(all_lines):
+                next_line = all_lines[i].strip()
+
+                # Check for standalone CR on next line
+                if next_line == 'CR':
+                    is_credit = True
+                    i += 1
+                    # Check line after CR for currency
+                    if i < len(all_lines):
+                        next_line = all_lines[i].strip()
+
+                # Check for currency line (overseas transaction)
+                cur_m = _AMEX_CURRENCY_RE.match(next_line)
+                if cur_m:
+                    if cur_m.group(1):  # CR before currency name
+                        is_credit = True
+                    cur_name = cur_m.group(2).upper()
+                    forex_cur = _AMEX_CURRENCY_MAP.get(cur_name, cur_name[:3])
+                    i += 1
+
+            if forex_cur and amount2 is not None:
+                # Overseas: amount1=forex, amount2=INR
+                forex_amt = amount1
+                inr_amount = amount2
+            elif amount2 is not None:
+                # Two amounts but no currency detected — treat amount2 as INR
+                forex_amt = amount1
+                inr_amount = amount2
+            else:
+                # Domestic: amount1=INR
+                inr_amount = amount1
+
+            if is_credit:
+                inr_amount = -inr_amount
+
+            txn = {"date": date_str, "description": desc, "amount": inr_amount}
+            if forex_amt and forex_cur:
+                txn["forex_amount"] = forex_amt
+                txn["forex_currency"] = forex_cur
+            transactions.append(txn)
+
+    return transactions
+
+
 # === Table-based Extraction Fallback ===
 
 def parse_tables(pdf_path, passwords=None):
@@ -379,6 +551,7 @@ PARSERS = {
     "HDFC": parse_hdfc,
     "Kotak": parse_kotak,
     "IDFC FIRST": parse_idfc_first,
+    "Amex": parse_amex,
 }
 
 

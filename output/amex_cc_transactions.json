@@ -1,0 +1,538 @@
+[
+  {
+    "date": "2025-11-24",
+    "description": "ESPY*SANGEETHA VEG REST CHENNAI",
+    "amount": 656.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-11-26",
+    "description": "PayU*ZEPTO MARKETPLACE Bangalore",
+    "amount": 610.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-11-27",
+    "description": "GAMMA.APP SAN FRANCISCO",
+    "amount": 1300.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-11-27",
+    "description": "BATA SHOE STORE CHENNAI",
+    "amount": 1299.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-11-28",
+    "description": "cca*INFO EDGE INDIA LTD Noida",
+    "amount": 10513.8,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-11-28",
+    "description": "BH*HAVEN~SAMPOORNA CHENNAI",
+    "amount": 3647.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-11-30",
+    "description": "STARBUCKS CHENNAI",
+    "amount": 294.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-02",
+    "description": "Billdesk*AMAZONAWSESC MUM",
+    "amount": 245438.75,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-09",
+    "description": "ADYAR ANANDA BH SWEETS CHENNAI",
+    "amount": 653.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-10",
+    "description": "UX PILOT AI NEW YORK",
+    "amount": 326.29,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-12",
+    "description": "RBL*ANJAPPAR CHETTINAD CHENNAI",
+    "amount": 4632.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-13",
+    "description": "FLIPKART ONLINE PG BANGALORE",
+    "amount": 64748.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-11-22",
+    "description": "UX PILOT AI NEW YORK",
+    "amount": 2710.06,
+    "card_name": "Amex - 31005",
+    "forex_amount": 29.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-11-29",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 18644.05,
+    "card_name": "Amex - 31005",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-11-30",
+    "description": "VERCEL INC. COVINA",
+    "amount": 1864.4,
+    "card_name": "Amex - 31005",
+    "forex_amount": 20.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-02",
+    "description": "GITHUB, INC. SAN FRANCISCO",
+    "amount": 8089.55,
+    "card_name": "Amex - 31005",
+    "forex_amount": 86.6,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-08",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 9258.31,
+    "card_name": "Amex - 31005",
+    "forex_amount": 98.71,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-10",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 11056.76,
+    "card_name": "Amex - 31005",
+    "forex_amount": 118.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-11",
+    "description": "GITHUB, INC. SAN FRANCISCO",
+    "amount": 532.42,
+    "card_name": "Amex - 31005",
+    "forex_amount": 5.68,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-11",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 11920.4,
+    "card_name": "Amex - 31005",
+    "forex_amount": 126.5,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-12",
+    "description": "VERCEL INC. COVINA",
+    "amount": 1884.64,
+    "card_name": "Amex - 31005",
+    "forex_amount": 20.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-13",
+    "description": "UX PILOT AI NEW YORK",
+    "amount": 330.41,
+    "card_name": "Amex - 31005",
+    "forex_amount": 3.5,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-13",
+    "description": "UX PILOT AI NEW YORK",
+    "amount": 660.81,
+    "card_name": "Amex - 31005",
+    "forex_amount": 7.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-13",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 12655.69,
+    "card_name": "Amex - 31005",
+    "forex_amount": 134.06,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-14",
+    "description": "MEMBERSHIP FEE",
+    "amount": 66000.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-14",
+    "description": "GST/IGST@18%",
+    "amount": 11880.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-19",
+    "description": "Razorpay*Zenstack Priva Bhopal",
+    "amount": 148680.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-19",
+    "description": "VOUCHER PLATFORM - REWA NEW DELHI",
+    "amount": 5088.5,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-21",
+    "description": "PayU*BLINK COMMERCE PRI Faridabad",
+    "amount": 1112.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-23",
+    "description": "PINELABS*SRI VEERAKKUMA CHENGALPET",
+    "amount": 4333.61,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-23",
+    "description": "Paytm*RelianceRetailLtd Noida",
+    "amount": 1748.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-24",
+    "description": "PayU*Airtel Payments Ba Gurgaon",
+    "amount": 1500.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-28",
+    "description": "RBL*ARUN AGENCY PERAMBA PERAMBALUR",
+    "amount": 4210.34,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-30",
+    "description": "PayU*CRED Mumbai Suburban",
+    "amount": 2.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-30",
+    "description": "PayU*CRED Mumbai Suburban",
+    "amount": 2.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-02",
+    "description": "Razorpay*INOX Gurgaon",
+    "amount": 696.28,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-06",
+    "description": "RBL*NEW WOODLANDS HOTEL CHENNAI",
+    "amount": 550.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-07",
+    "description": "RBL*JUNIOR KUPPANNA KIT CHENNAI",
+    "amount": 641.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-09",
+    "description": "RBL*SHRI ANNAPURANA FIN KALLAKURICHI",
+    "amount": 991.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-14",
+    "description": "UX PILOT AI NEW YORK",
+    "amount": 2643.28,
+    "card_name": "Amex - 31005",
+    "forex_amount": 28.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-19",
+    "description": "ANTHROPIC SAN FRANCISCO",
+    "amount": 554.44,
+    "card_name": "Amex - 31005",
+    "forex_amount": 5.9,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-21",
+    "description": "IPR* VERIFY 628703 TORONTO",
+    "amount": 690.69,
+    "card_name": "Amex - 31005",
+    "forex_amount": 7.35,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-30",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 18742.87,
+    "card_name": "Amex - 31005",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-01",
+    "description": "VERCEL INC. COVINA",
+    "amount": 1872.77,
+    "card_name": "Amex - 31005",
+    "forex_amount": 20.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-02",
+    "description": "NEW RELIC 888-643-8776",
+    "amount": 936.38,
+    "card_name": "Amex - 31005",
+    "forex_amount": 10.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-02",
+    "description": "UX PILOT AI NEW YORK",
+    "amount": 2715.53,
+    "card_name": "Amex - 31005",
+    "forex_amount": 29.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-07",
+    "description": "GITHUB, INC. SAN FRANCISCO",
+    "amount": 9662.07,
+    "card_name": "Amex - 31005",
+    "forex_amount": 103.12,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-08",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 18772.8,
+    "card_name": "Amex - 31005",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-08",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 18739.48,
+    "card_name": "Amex - 31005",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-10",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 18810.04,
+    "card_name": "Amex - 31005",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-12",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 18791.04,
+    "card_name": "Amex - 31005",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-13",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 22202.97,
+    "card_name": "Amex - 31005",
+    "forex_amount": 236.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-13",
+    "description": "ANTHROPIC SAN FRANCISCO",
+    "amount": 665.2,
+    "card_name": "Amex - 31005",
+    "forex_amount": 7.08,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2025-12-23",
+    "description": "1% CONVENIENCE FEE ON FUEL",
+    "amount": 43.33,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2025-12-23",
+    "description": "GST/IGST@18%",
+    "amount": 7.8,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-14",
+    "description": "KFC SAPPHIRE CHENNAI",
+    "amount": 836.01,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-15",
+    "description": "SKY JUMPER CHENNAI 600042",
+    "amount": 5106.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-15",
+    "description": "SKY JUMPER CHENNAI 600042",
+    "amount": 490.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-22",
+    "description": "ICICI*GAYATHRI AUTO SER CHENNAI",
+    "amount": 4565.48,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-23",
+    "description": "Paytm*AgodaCompanyPTELT Noida",
+    "amount": 32038.65,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-25",
+    "description": "ADYAR ANANDA BHAVAN SW CHENNAI",
+    "amount": 798.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-25",
+    "description": "ADYAR ANANDA BHAVAN SW CHENNAI",
+    "amount": 1821.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-25",
+    "description": "ESPY*M S WHITE PEARL RE VILUPPURAM",
+    "amount": 1911.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-26",
+    "description": "SUSEE FOODS FOOD NIRVAN BANGALORE",
+    "amount": 4216.0,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-15",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 18836.28,
+    "card_name": "Amex - 31005",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-15",
+    "description": "GITHUB, INC. SAN FRANCISCO",
+    "amount": 315.5,
+    "card_name": "Amex - 31005",
+    "forex_amount": 3.35,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-24",
+    "description": "UX PILOT AI NEW YORK",
+    "amount": 335.27,
+    "card_name": "Amex - 31005",
+    "forex_amount": 3.5,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-27",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 19117.64,
+    "card_name": "Amex - 31005",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-27",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 19117.64,
+    "card_name": "Amex - 31005",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-27",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 19117.64,
+    "card_name": "Amex - 31005",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-28",
+    "description": "GITHUB, INC. SAN FRANCISCO",
+    "amount": 61.14,
+    "card_name": "Amex - 31005",
+    "forex_amount": 0.64,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-30",
+    "description": "UX PILOT AI NEW YORK",
+    "amount": 335.43,
+    "card_name": "Amex - 31005",
+    "forex_amount": 3.5,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-02-03",
+    "description": "UX PILOT AI NEW YORK",
+    "amount": 2766.56,
+    "card_name": "Amex - 31005",
+    "forex_amount": 29.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-02-03",
+    "description": "NEW RELIC 888-643-8776",
+    "amount": 953.98,
+    "card_name": "Amex - 31005",
+    "forex_amount": 10.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-02-13",
+    "description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+    "amount": 18881.26,
+    "card_name": "Amex - 31005",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-01-22",
+    "description": "1% CONVENIENCE FEE ON FUEL",
+    "amount": 45.65,
+    "card_name": "Amex - 31005"
+  },
+  {
+    "date": "2026-01-23",
+    "description": "GST/IGST@18%",
+    "amount": 8.22,
+    "card_name": "Amex - 31005"
+  }
+]
