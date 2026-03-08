@@ -654,7 +654,10 @@ def fuzzy_match_vendor(merchant_name, vendor_mappings, threshold=75):
 
     best_match, best_score, best_key = None, 0, None
     for key, value in mappings.items():
-        score = fuzz.token_set_ratio(merchant_name.upper(), key.upper())
+        score = fuzz.token_set_ratio(
+            strip_vendor_stop_words(merchant_name),
+            strip_vendor_stop_words(key),
+        )
         if score > best_score:
             best_score, best_match, best_key = score, value, key
 
