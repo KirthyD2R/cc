@@ -104,6 +104,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000002998157",
+    "contact_name": "ARPIT AGRAWAL",
+    "company_name": "",
+    "gst_no": "08DXLPA0204B2Z9",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
     "contact_id": "2050328000001809186",
     "contact_name": "Atlassian Pty Ltd",
     "company_name": "Atlassian Pty Ltd",
@@ -117,6 +125,14 @@
     "company_name": "Amazon Web Services",
     "gst_no": "",
     "gst_treatment": "overseas",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002982132",
+    "contact_name": "BigIntent Global India Pvt Ltd",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "business_none",
     "currency_code": "INR"
   },
   {
@@ -164,6 +180,14 @@
     "contact_name": "DSIJ PVT. LTD",
     "company_name": "DSIJ PVT. LTD",
     "gst_no": "27AACCR4303G1ZP",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000003000230",
+    "contact_name": "ECONETING E-COMMERCE PRIVATE LIMITED",
+    "company_name": "",
+    "gst_no": "07AAGCE8352C1ZR",
     "gst_treatment": "business_gst",
     "currency_code": "INR"
   },
@@ -565,6 +589,14 @@
     "company_name": "WE Hydroponics",
     "gst_no": "23AURPB7696J1Z1",
     "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000003001093",
+    "contact_name": "WIDEVIEW SOLUTIONS",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "business_none",
     "currency_code": "INR"
   },
   {

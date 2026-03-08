@@ -435,9 +435,8 @@
             "account_id": "2050328000000027421"
         },
         "Blue Dart Express Ltd": {
-            "account_name": "Duplicate fd amount",
-            "account_id": "2050328000000027455",
-            "category": "invoice_coa_match"
+            "account_name": "Courier Exp",
+            "account_id": "2050328000000027461"
         },
         "Vercel": {
             "account_name": "Software License",
@@ -446,6 +445,27 @@
         "AWS": {
             "account_name": "Software License",
             "account_id": "2050328000000027421"
+        },
+        "WIDEVIEW SOLUTIONS": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "ETRADE MARKETING PVT LTD": {
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
+        },
+        "ARPIT AGRAWAL": {
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
+        },
+        "BigIntent Global India Pvt Ltd": {
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
+        },
+        "ECONETING E-COMMERCE PRIVATE LIMITED": {
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         }
     }
 }

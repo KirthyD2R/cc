@@ -215,7 +215,10 @@
     "currency": "INR",
     "date": "2025-08-23",
     "organized_month": "Aug 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003013087",
+    "match_type": "created_bills",
+    "matched_bill": "Created: WIDEVIEW SOLUTIONS"
   },
   {
     "file": "BLR8-2104995_p1_BLR8-2104995_p1_BLR8-2104995.pdf",
@@ -225,10 +228,10 @@
     "currency": "INR",
     "date": "2025-08-23",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000352327",
-    "matched_vendor_name": "ETRADE MARKETING PVT LTD",
-    "vendor_match_method": "fuzzy"
+    "action": "skip",
+    "matched_bill_id": "2050328000002982114",
+    "match_type": "created_bills",
+    "matched_bill": "Created: ETRADE MARKETING PVT LTD"
   },
   {
     "file": "E0100X581J_Invoice.pdf",
@@ -238,10 +241,10 @@
     "currency": "INR",
     "date": "2025-08-12",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000342219",
-    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-    "vendor_match_method": "gstin"
+    "action": "skip",
+    "matched_bill": "E0100X581J_Invoice",
+    "matched_bill_id": "2050328000003006305",
+    "match_type": "exact"
   },
   {
     "file": "E0100X5B1G_Invoice.pdf",
@@ -251,10 +254,10 @@
     "currency": "INR",
     "date": "2025-08-12",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000342219",
-    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-    "vendor_match_method": "gstin"
+    "action": "skip",
+    "matched_bill": "E0100X5B1G_Invoice",
+    "matched_bill_id": "2050328000002995187",
+    "match_type": "exact"
   },
   {
     "file": "E0100X5B1M.pdf",
@@ -290,10 +293,10 @@
     "currency": "INR",
     "date": "2025-08-12",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000342219",
-    "matched_vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-    "vendor_match_method": "gstin"
+    "action": "skip",
+    "matched_bill": "E0100X5F2C_Invoice",
+    "matched_bill_id": "2050328000002993335",
+    "match_type": "exact"
   },
   {
     "file": "FLY IO - Augest.pdf",
@@ -381,7 +384,10 @@
     "currency": "INR",
     "date": "2025-08-23",
     "organized_month": "Aug 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003012286",
+    "match_type": "created_bills",
+    "matched_bill": "Created: ARPIT AGRAWAL"
   },
   {
     "file": "INV95005231.pdf",
@@ -417,10 +423,10 @@
     "currency": "USD",
     "date": "2025-08-30",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002965001",
-    "matched_vendor_name": "S2 Labs Inc.",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003006253",
+    "match_type": "created_bills",
+    "matched_bill": "Created: S2 Labs Inc."
   },
   {
     "file": "Invoice-PZLFLIEU-0004.pdf",
@@ -443,7 +449,10 @@
     "currency": "INR",
     "date": "2025-08-23",
     "organized_month": "Aug 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000002997364",
+    "match_type": "created_bills",
+    "matched_bill": "Created: BigIntent Global India Pvt Ltd"
   },
   {
     "file": "MAA4-1175721_p1_MAA4-1175721_p1_MAA4-1175721.pdf",
@@ -453,10 +462,10 @@
     "currency": "INR",
     "date": "2025-08-23",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000352327",
-    "matched_vendor_name": "ETRADE MARKETING PVT LTD",
-    "vendor_match_method": "fuzzy"
+    "action": "skip",
+    "matched_bill_id": "2050328000002993284",
+    "match_type": "created_bills",
+    "matched_bill": "Created: ETRADE MARKETING PVT LTD"
   },
   {
     "file": "MAA4-3735302.pdf",
@@ -479,7 +488,10 @@
     "currency": "INR",
     "date": "2025-08-23",
     "organized_month": "Aug 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003006231",
+    "match_type": "created_bills",
+    "matched_bill": "Created: ECONETING E-COMMERCE PRIVATE LIMITED"
   },
   {
     "file": "Your Google Play Order Receipt from Aug 16, 2025.eml",
@@ -762,10 +774,10 @@
     "currency": "USD",
     "date": "2025-12-03",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002965001",
-    "matched_vendor_name": "S2 Labs Inc.",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003009147",
+    "match_type": "created_bills",
+    "matched_bill": "Created: S2 Labs Inc."
   },
   {
     "file": "Invoice-B8ERAOBF-0008.pdf",
@@ -775,10 +787,10 @@
     "currency": "USD",
     "date": "2025-12-21",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002965001",
-    "matched_vendor_name": "S2 Labs Inc.",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003012308",
+    "match_type": "created_bills",
+    "matched_bill": "Created: S2 Labs Inc."
   },
   {
     "file": "Invoice-B8ERAOBF-0009.pdf",
@@ -788,10 +800,10 @@
     "currency": "USD",
     "date": "2025-12-26",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002965001",
-    "matched_vendor_name": "S2 Labs Inc.",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000002991073",
+    "match_type": "created_bills",
+    "matched_bill": "Created: S2 Labs Inc."
   },
   {
     "file": "Invoice-B8ERAOBF-0010.pdf",
@@ -801,10 +813,10 @@
     "currency": "USD",
     "date": "2025-12-30",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002965001",
-    "matched_vendor_name": "S2 Labs Inc.",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003000248",
+    "match_type": "created_bills",
+    "matched_bill": "Created: S2 Labs Inc."
   },
   {
     "file": "Invoice-IVSLM7IE-0002.pdf",
@@ -1355,10 +1367,10 @@
     "currency": "USD",
     "date": "2026-02-22",
     "organized_month": "Feb 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002965001",
-    "matched_vendor_name": "S2 Labs Inc.",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003009173",
+    "match_type": "created_bills",
+    "matched_bill": "Created: S2 Labs Inc."
   },
   {
     "file": "Invoice-BHEBGWUC-0002.pdf",
@@ -2125,10 +2137,10 @@
     "currency": "USD",
     "date": "2025-07-30",
     "organized_month": "Jul 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002965001",
-    "matched_vendor_name": "S2 Labs Inc.",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003006279",
+    "match_type": "created_bills",
+    "matched_bill": "Created: S2 Labs Inc."
   },
   {
     "file": "Invoice-PZLFLIEU-0002.pdf",
@@ -2151,10 +2163,10 @@
     "currency": "INR",
     "date": "2025-07-01",
     "organized_month": "Jul 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000002984185",
+    "match_type": "created_bills",
+    "matched_bill": "Created: AWS"
   },
   {
     "file": "MAA4-2323214.pdf",
@@ -2203,10 +2215,10 @@
     "currency": "INR",
     "date": "2025-06-01",
     "organized_month": "Jun 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002211179",
-    "matched_vendor_name": "AWS",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000002997426",
+    "match_type": "created_bills",
+    "matched_bill": "Created: AWS"
   },
   {
     "file": "Atlassian_Invoice_IN-003-623-208.pdf",
@@ -2307,10 +2319,10 @@
     "currency": "USD",
     "date": "2025-06-01",
     "organized_month": "Jun 2025",
-    "action": "skip",
-    "matched_bill": "02148314-0006",
-    "matched_bill_id": "2050328000002898681",
-    "match_type": "exact"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000349283",
+    "matched_vendor_name": "Fly.io, Inc",
+    "vendor_match_method": "name"
   },
   {
     "file": "FMAB-182420_p1_FMAB-182420_p1_FMAB-182420.pdf",
@@ -2754,10 +2766,10 @@
     "currency": "USD",
     "date": "2025-05-01",
     "organized_month": "May 2025",
-    "action": "skip",
-    "matched_bill": "02148314-0005",
-    "matched_bill_id": "2050328000002898237",
-    "match_type": "exact"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000349283",
+    "matched_vendor_name": "Fly.io, Inc",
+    "vendor_match_method": "name"
   },
   {
     "file": "FMAB-74681.pdf",
@@ -3674,7 +3686,11 @@
     "currency": "INR",
     "date": "2025-10-05",
     "organized_month": "Oct 2025",
-    "action": "new_vendor_bill"
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000003001093",
+    "matched_vendor_name": "WIDEVIEW SOLUTIONS",
+    "vendor_match_method": "name",
+    "gstin_missing": true
   },
   {
     "file": "Your Google Play Order Receipt from Oct 16, 2025.eml",

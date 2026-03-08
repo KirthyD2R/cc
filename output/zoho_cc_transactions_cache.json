@@ -82,14 +82,6 @@
     "transaction_id": "2050328000002995067"
   },
   {
-    "date": "2026-02-02",
-    "description": "AMAZON WEB SERVICESMUMBAI",
-    "amount": 293044.46,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995029"
-  },
-  {
     "date": "2026-01-12",
     "description": "MICROSOFT INDIAMUMBAI",
     "amount": 2.0,
@@ -112,14 +104,6 @@
     "card_name": "HDFC - 7196",
     "zoho_account_id": "2050328000002898667",
     "transaction_id": "2050328000002995007"
-  },
-  {
-    "date": "2026-01-06",
-    "description": "AMAZON WEB SERVICESMUMBAI",
-    "amount": 284933.67,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002996003"
   },
   {
     "date": "2025-11-27",
@@ -620,6 +604,14 @@
     "transaction_id": "2050328000000929235"
   },
   {
+    "date": "2025-06-02",
+    "description": "FLY.IO                 FLY.IO        CA (12.56 USD)",
+    "amount": 1113.67,
+    "card_name": "Kotak bank credit card",
+    "zoho_account_id": "2050328000000232005",
+    "transaction_id": "2050328000000929233"
+  },
+  {
     "date": "2025-05-28",
     "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
     "amount": 884.75,
@@ -722,6 +714,14 @@
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929191"
+  },
+  {
+    "date": "2025-05-02",
+    "description": "FLY.IO                 FLY.IO        CA (12.22 USD)",
+    "amount": 1072.17,
+    "card_name": "Kotak bank credit card",
+    "zoho_account_id": "2050328000000232005",
+    "transaction_id": "2050328000000929189"
   },
   {
     "date": "2025-05-01",
@@ -834,16 +834,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000002999015"
-  },
-  {
-    "date": "2026-01-01",
-    "description": "HYPERBROWSER.AI, SAN FRANCISCO [USD 30.00]",
-    "amount": 2698.65,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002999013",
-    "forex_amount": 30.0,
-    "forex_currency": "USD"
   },
   {
     "date": "2025-12-26",
@@ -1268,14 +1258,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939623"
-  },
-  {
-    "date": "2025-08-22",
-    "description": "AMAZON PAY INDIA PRIVA, www.amazon.in",
-    "amount": 32270.57,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939609"
   },
   {
     "date": "2025-08-21",
@@ -1756,14 +1738,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939371"
-  },
-  {
-    "date": "2025-04-14",
-    "description": "MICROSOFTBUS, MUMBAI",
-    "amount": 51971.56,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939361"
   },
   {
     "date": "2025-04-14",

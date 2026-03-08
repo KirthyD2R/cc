@@ -1241,14 +1241,7 @@ def api_payments_record_one():
         if payment_id:
             log_action(f"  Payment recorded: {payment_id}")
 
-            # Auto-match: categorize the CC banking transaction
-            cc_txn_id = data.get("cc_transaction_id")
-            matched_banking = _auto_match_banking_txn(
-                api, cc_txn_id, payment_id, log_action,
-                account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
-            )
-
-            return jsonify({"status": "paid", "payment_id": payment_id, "bill_id": bill_id, "banking_matched": matched_banking})
+            return jsonify({"status": "paid", "payment_id": payment_id, "bill_id": bill_id})
         else:
             return jsonify({"status": "failed", "bill_id": bill_id, "message": "No payment_id returned"})
 
@@ -1336,10 +1329,6 @@ def api_payments_record_selected():
 
                 if payment_id:
                     log_action(f"  Payment recorded: {payment_id}")
-
-                    # Auto-match: categorize the CC banking transaction
-                    cc_txn_id = item.get("cc_transaction_id")
-                    _auto_match_banking_txn(api, cc_txn_id, payment_id, log_action)
 
                     results.append({"bill_id": bill_id, "status": "paid", "payment_id": payment_id})
                 else:
@@ -1693,17 +1682,10 @@ def api_bills_create_and_record():
 
         log_action(f"  Payment recorded: {payment_id}")
 
-        # --- Step 3: Auto-match banking transaction ---
-        matched_banking = _auto_match_banking_txn(
-            api, cc_txn_id, payment_id, log_action,
-            account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
-        )
-
         return jsonify({
             "status": "paid",
             "bill_id": bill_id,
             "payment_id": payment_id,
-            "banking_matched": matched_banking,
         })
 
     except Exception as e:
@@ -1916,28 +1898,17 @@ def api_bills_create_and_record_bulk():
                 log_action(f"  [{idx+1}] Error: {ex}", "ERROR")
                 results.append({"invoice_number": invoice_number, "status": "error", "error": str(ex)})
 
-        # --- Step 3: Auto-match all payments with the CC banking transaction ---
-        matched_banking = False
-        if payment_ids:
-            log_action(f"[Bulk] Auto-matching {len(payment_ids)} payments to CC banking txn")
-            time.sleep(1)  # Wait for Zoho to register all payments
-            matched_banking = _auto_match_banking_txn_multi(
-                api, cc_txn_id, payment_ids, log_action,
-                account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
-            )
-
         created_count = sum(1 for r in results if r.get("status") in ("paid", "bill_created"))
         paid_count = sum(1 for r in results if r.get("status") == "paid")
         already_paid_count = sum(1 for r in results if r.get("status") == "already_paid")
         bill_created_only = sum(1 for r in results if r.get("status") == "bill_created")
         error_count = sum(1 for r in results if r.get("status") == "error")
-        log_action(f"[Bulk] Done: {created_count} created, {paid_count} recorded, {already_paid_count} skipped (already paid), {error_count} errors, banking_matched={matched_banking}")
+        log_action(f"[Bulk] Done: {created_count} created, {paid_count} recorded, {already_paid_count} skipped (already paid), {error_count} errors")
 
         overall_status = "paid" if paid_count > 0 and error_count == 0 else ("partial" if paid_count > 0 else "error")
         return jsonify({
             "status": overall_status,
             "results": results,
-            "banking_matched": matched_banking,
             "total": len(invoices),
             "created_count": created_count,
             "paid_count": paid_count,
@@ -2173,21 +2144,6 @@ def api_bills_record_only():
         if not all_payment_ids:
             return jsonify({"error": "All payments failed"}), 500
 
-        # Auto-match banking transaction (use first payment if single, multi otherwise)
-        matched_banking = False
-        if len(all_payment_ids) == 1:
-            matched_banking = _auto_match_banking_txn(
-                api, cc_txn_id, all_payment_ids[0], log_action,
-                account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
-            )
-        elif len(all_payment_ids) > 1:
-            import time
-            time.sleep(1)
-            matched_banking = _auto_match_banking_txn_multi(
-                api, cc_txn_id, all_payment_ids, log_action,
-                account_id=account_id, cc_amount=cc_inr, cc_date=cc_date,
-            )
-
         return jsonify({
             "status": "paid",
             "bill_id": all_bill_ids[0],
@@ -2195,7 +2151,6 @@ def api_bills_record_only():
             "skipped": skipped,
             "payment_id": all_payment_ids[0] if all_payment_ids else "",
             "payment_ids": all_payment_ids,
-            "banking_matched": matched_banking,
         })
 
     except Exception as e:
