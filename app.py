@@ -1093,6 +1093,13 @@ def api_payments_preview():
         # Collect unmatched CC transactions
         unmatched_cc = [cc_list[i] for i in range(len(cc_list)) if i not in used_cc]
 
+        # Track which bills were matched for Amex pass
+        bill_matched_flags = [False] * len(bills)
+        matched_bill_ids = {m["bill_id"] for m in matches if m["status"] == "matched"}
+        for bi, bill in enumerate(bills):
+            if bill["bill_id"] in matched_bill_ids:
+                bill_matched_flags[bi] = True
+
         # Collect unique card names from config for filter dropdown
         card_names = [c.get("name", "") for c in cards if c.get("name")]
 
@@ -1113,89 +1120,12 @@ def api_payments_preview():
             try:
                 with open(amex_path, "r", encoding="utf-8") as f:
                     amex_txns = json.load(f)
-                # Filter to debits only
                 amex_list = [t for t in amex_txns if float(t.get("amount", 0)) > 0]
-                # Resolve Amex vendor names
-                amex_vendors = [_resolve_vendor(t.get("description", "")) for t in amex_list]
 
-                # Match unmatched bills against Amex CC (same scoring logic)
-                amex_candidates = []
-                for bi, bill in enumerate(bills):
-                    if bill_matched[bi]:
-                        continue
-                    for ai, acc in enumerate(amex_list):
-                        # Amount check
-                        amex_amt = float(acc.get("amount", 0))
-                        bill_amt = bill["amount"]
-                        bill_cur = bill["currency"]
-                        fx = acc.get("forex_amount")
-                        fx_cur = (acc.get("forex_currency") or "").upper()
-                        diff = None
-                        if fx and fx_cur and bill_cur.upper() == fx_cur:
-                            diff = abs(fx - bill_amt)
-                        elif bill_cur == "INR" and not fx:
-                            diff = abs(amex_amt - bill_amt)
-                        elif bill_cur == "INR" and fx:
-                            diff = abs(amex_amt - bill_amt)
-                        elif bill_cur == "USD" and not fx:
-                            est_min, est_max = bill_amt * 75, bill_amt * 100
-                            if est_min <= amex_amt <= est_max:
-                                diff = abs(amex_amt - bill_amt * 86)
-                        if diff is None:
-                            continue
-                        threshold = max(1.0, bill_amt * 0.01)
-                        if diff > threshold:
-                            continue
-                        # Date check (60 days)
-                        try:
-                            bd = _dt.strptime(bill["date"], "%Y-%m-%d")
-                            cd = _dt.strptime(acc["date"], "%Y-%m-%d")
-                            dd = abs((bd - cd).days)
-                        except Exception:
-                            dd = 9999
-                        if dd > 60:
-                            continue
-                        date_score = max(0, 100 - dd * 1.5)
-                        amt_score = 0
-                        if bill_amt:
-                            pct = diff / bill_amt
-                            if pct < 0.001: amt_score = 30
-                            elif pct < 0.005: amt_score = 20
-                            elif pct < 0.01: amt_score = 10
-                        vendor_bonus = 0
-                        if _vendor_match(bill["vendor_name"], acc.get("description", "")):
-                            vendor_bonus = 50
-                        total_score = date_score + amt_score + vendor_bonus
-                        amex_candidates.append((total_score, dd, bi, ai))
-
-                amex_candidates.sort(key=lambda x: (-x[0], x[1]))
-                amex_used_bills = set()
-                amex_used_cc = set()
-                for score, dd, bi, ai in amex_candidates:
-                    if bi in amex_used_bills or ai in amex_used_cc:
-                        continue
-                    amex_used_bills.add(bi)
-                    amex_used_cc.add(ai)
-                    bill = bills[bi]
-                    acc = amex_list[ai]
-                    rv = amex_vendors[ai]
-                    conf = _compute_confidence(bill, acc, rv)
-                    amex_matches.append({
-                        "bill_id": bill["bill_id"],
-                        "vendor_name": bill["vendor_name"],
-                        "bill_amount": bill["amount"],
-                        "bill_currency": bill["currency"],
-                        "bill_date": bill["date"],
-                        "bill_number": bill["file"],
-                        "cc_description": acc.get("description", ""),
-                        "cc_inr_amount": float(acc.get("amount", 0)),
-                        "cc_date": acc.get("date", ""),
-                        "cc_card": acc.get("card_name", ""),
-                        "cc_forex_amount": acc.get("forex_amount"),
-                        "cc_forex_currency": acc.get("forex_currency"),
-                        "confidence": conf,
-                        "match_score": score,
-                    })
+                # Only match bills that weren't matched in main pass
+                unmatched_bills = [bills[bi] for bi in range(len(bills)) if not bill_matched_flags[bi]]
+                amex_results = _build_vendor_gated_matches(unmatched_bills, amex_list, vendor_map, learned_map)
+                amex_matches = [m for m in amex_results if m["status"] == "matched"]
                 log_action(f"Amex matching: {len(amex_matches)} bills matched to Amex CC")
             except Exception as e:
                 log_action(f"Amex matching error: {e}", "WARNING")
