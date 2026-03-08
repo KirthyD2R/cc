@@ -117,6 +117,19 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\Invoice-E0BCC1DE-0005.pdf"
   },
   {
+    "file": "LNKD_INVOICE_51195567355.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\LNKD_INVOICE_51195567355.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "51195567355",
+    "date": "2025-04-30",
+    "amount": 1694.07,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 988939\nEffective Date Transaction ID Invoice Number Purchaser Email\n4/30/2025 P386109456 51195567355 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹1,694.07 4/28/2025 Monthly VISA ****9157\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nPremium Business\n1 ₹1,694.07 1 ₹1,694.07\nFrom April 28",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Apr 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\LNKD_INVOICE_51195567355.pdf"
+  },
+  {
     "file": "MAA4-280872_p1_MAA4-280872_p1_MAA4-280872.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\MAA4-280872_p1_MAA4-280872.pdf",
     "vendor_name": "R K WorldInfocom Pvt Ltd",
@@ -141,6 +154,19 @@
     "vendor_gstin": "33AAECR0564M1ZA",
     "organized_month": "Apr 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\MAA4-687526.pdf"
+  },
+  {
+    "file": "Medium5.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\Medium5.pdf",
+    "vendor_name": "Medium",
+    "invoice_number": "45c13e148167",
+    "date": "2025-04-02",
+    "amount": 5.0,
+    "currency": "USD",
+    "raw_text_preview": "03/03/2026, 17:35 Medium\nInvoice 45c13e148167\nPayment date:04/02/25 Status: Paid in full\n·\nFrom To\nA Medium Corporation Name: Daniel John\n548 Market St Email: daniel.john@d2railabs.com\nPMB 42061\nSan Francisco, CA 94104\nEIN 45-2768864\nDescription Price\nMedium Monthly Membership (04/01/25 - 05/01/25) $5.00\na86ca64678d6\nTotal $5.00 USD\nMedium does not charge VAT (or any other taxes). Total paid $5.00 USD\nhttps://medium.com/me/billing-history/receipt/45c13e148167 1/1\n",
+    "vendor_gstin": null,
+    "organized_month": "Apr 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\Medium5.pdf"
   },
   {
     "file": "Your Google Play Order Receipt from Apr 16, 2025.eml",
@@ -481,6 +507,32 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\LKO1-857.pdf"
   },
   {
+    "file": "LNKD_INVOICE_511129930927.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\LNKD_INVOICE_511129930927.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "511129930927",
+    "date": "2025-08-09",
+    "amount": 8400.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n8/9/2025 P526915056 511129930927 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 8/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400.0",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Aug 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\LNKD_INVOICE_511129930927.pdf"
+  },
+  {
+    "file": "LNKD_INVOICE_511132686884.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\LNKD_INVOICE_511132686884.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "511132686884",
+    "date": "2025-08-18",
+    "amount": 7058.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n8/18/2025 P539364186 511132686884 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹7,058.00 8/17/2025 Threshold Billing MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nLinkedIn Singapore Pte Ltd, 10 Marina Boulevard, Marina Bay Financial Centre Tower",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Aug 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\LNKD_INVOICE_511132686884.pdf"
+  },
+  {
     "file": "MAA4-1175721_p1_MAA4-1175721_p1_MAA4-1175721.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\MAA4-1175721_p1_MAA4-1175721.pdf",
     "vendor_name": "ETRADE MARKETING PRIVATE LIMITED",
@@ -505,6 +557,19 @@
     "vendor_gstin": "33AAECR0564M1ZA",
     "organized_month": "Aug 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\MAA4-3735302.pdf"
+  },
+  {
+    "file": "Medium1.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\Medium1.pdf",
+    "vendor_name": "Medium",
+    "invoice_number": "794b46f3d59e",
+    "date": "2025-08-02",
+    "amount": 5.0,
+    "currency": "USD",
+    "raw_text_preview": "03/03/2026, 17:34 Medium\nInvoice 794b46f3d59e\nPayment date:08/02/25 Status: Paid in full\n·\nFrom To\nA Medium Corporation Name: Daniel John\n548 Market St Email: daniel.john@d2railabs.com\nPMB 42061\nSan Francisco, CA 94104\nEIN 45-2768864\nDescription Price\nMedium Monthly Membership (08/01/25 - 09/01/25) $5.00\na86ca64678d6\nTotal $5.00 USD\nMedium does not charge VAT (or any other taxes). Total paid $5.00 USD\nhttps://medium.com/me/billing-history/receipt/794b46f3d59e 1/1\n",
+    "vendor_gstin": null,
+    "organized_month": "Aug 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\Medium1.pdf"
   },
   {
     "file": "PNQ2-6335.pdf",
@@ -1014,19 +1079,6 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Feb 2025\\Medium.pdf"
   },
   {
-    "file": "Medium1.pdf",
-    "path": "D:\\cc new\\cc\\organized_invoices\\Feb 2025\\Medium1.pdf",
-    "vendor_name": "Medium",
-    "invoice_number": "794b46f3d59e",
-    "date": "2025-08-02",
-    "amount": 5.0,
-    "currency": "USD",
-    "raw_text_preview": "03/03/2026, 17:34 Medium\nInvoice 794b46f3d59e\nPayment date:08/02/25 Status: Paid in full\n·\nFrom To\nA Medium Corporation Name: Daniel John\n548 Market St Email: daniel.john@d2railabs.com\nPMB 42061\nSan Francisco, CA 94104\nEIN 45-2768864\nDescription Price\nMedium Monthly Membership (08/01/25 - 09/01/25) $5.00\na86ca64678d6\nTotal $5.00 USD\nMedium does not charge VAT (or any other taxes). Total paid $5.00 USD\nhttps://medium.com/me/billing-history/receipt/794b46f3d59e 1/1\n",
-    "vendor_gstin": null,
-    "organized_month": "Feb 2025",
-    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Feb 2025\\Medium1.pdf"
-  },
-  {
     "file": "Medium10.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Feb 2025\\Medium10.pdf",
     "vendor_name": "Medium",
@@ -1090,19 +1142,6 @@
     "vendor_gstin": null,
     "organized_month": "Feb 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Feb 2025\\Medium4.pdf"
-  },
-  {
-    "file": "Medium5.pdf",
-    "path": "D:\\cc new\\cc\\organized_invoices\\Feb 2025\\Medium5.pdf",
-    "vendor_name": "Medium",
-    "invoice_number": "45c13e148167",
-    "date": "2025-04-02",
-    "amount": 5.0,
-    "currency": "USD",
-    "raw_text_preview": "03/03/2026, 17:35 Medium\nInvoice 45c13e148167\nPayment date:04/02/25 Status: Paid in full\n·\nFrom To\nA Medium Corporation Name: Daniel John\n548 Market St Email: daniel.john@d2railabs.com\nPMB 42061\nSan Francisco, CA 94104\nEIN 45-2768864\nDescription Price\nMedium Monthly Membership (04/01/25 - 05/01/25) $5.00\na86ca64678d6\nTotal $5.00 USD\nMedium does not charge VAT (or any other taxes). Total paid $5.00 USD\nhttps://medium.com/me/billing-history/receipt/45c13e148167 1/1\n",
-    "vendor_gstin": null,
-    "organized_month": "Feb 2025",
-    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Feb 2025\\Medium5.pdf"
   },
   {
     "file": "Medium6.pdf",
@@ -2314,6 +2353,32 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\Jul 2025.pdf"
   },
   {
+    "file": "LNKD_INVOICE_511117756315.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\LNKD_INVOICE_511117756315.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "511117756315",
+    "date": "2025-07-04",
+    "amount": 928.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n7/4/2025 P476492286 511117756315 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹928.00 7/3/2025 Threshold Billing MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nJob views\n• Job Title: Unidata / Unibasic",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Jul 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\LNKD_INVOICE_511117756315.pdf"
+  },
+  {
+    "file": "LNKD_INVOICE_511119256762.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\LNKD_INVOICE_511119256762.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "511119256762",
+    "date": "2025-07-09",
+    "amount": 8400.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n7/9/2025 P482859576 511119256762 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 7/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400.0",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Jul 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\LNKD_INVOICE_511119256762.pdf"
+  },
+  {
     "file": "MAA4-2323214.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\MAA4-2323214.pdf",
     "vendor_name": "R K WorldInfocom Pvt Ltd Daniel J",
@@ -2665,6 +2730,32 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\Jun 2025.pdf"
   },
   {
+    "file": "LNKD_INVOICE_511109459487.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\LNKD_INVOICE_511109459487.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "511109459487",
+    "date": "2025-06-09",
+    "amount": 8400.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 988939\nEffective Date Transaction ID Invoice Number Purchaser Email\n6/9/2025 P441245346 511109459487 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 6/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400.0",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Jun 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\LNKD_INVOICE_511109459487.pdf"
+  },
+  {
+    "file": "LNKD_INVOICE_511115460511.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\LNKD_INVOICE_511115460511.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "511115460511",
+    "date": "2025-06-27",
+    "amount": 7106.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n6/27/2025 P466559276 511115460511 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹7,106.00 6/26/2025 Threshold Billing MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nJob views\n• Job Title: Senior C# Deve",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Jun 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\LNKD_INVOICE_511115460511.pdf"
+  },
+  {
     "file": "MAA4-1088415_p1_MAA4-1088415_p1_MAA4-1088415.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\MAA4-1088415_p1_MAA4-1088415.pdf",
     "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
@@ -2860,17 +2951,30 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Jan 1–13, 2026 Transactions - Admin Console.pdf"
   },
   {
-    "file": "LNKD_INVOICE_511109459487.pdf",
-    "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\LNKD_INVOICE_511109459487.pdf",
+    "file": "LNKD_INVOICE_511142624687.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\LNKD_INVOICE_511142624687.pdf",
     "vendor_name": "LinkedIn",
-    "invoice_number": "Purchaser",
-    "date": "2026-03-08",
-    "amount": 8400.0,
+    "invoice_number": "511142624687",
+    "date": "2025-09-16",
+    "amount": 3654.0,
     "currency": "INR",
-    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 988939\nEffective Date Transaction ID Invoice Number Purchaser Email\n6/9/2025 P441245346 511109459487 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 6/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400.0",
-    "vendor_gstin": null,
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n9/16/2025 P580552306 511142624687 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹3,654.00 9/15/2025 Threshold Billing MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nJob views\n• Job Title: E-commerce Dev",
+    "vendor_gstin": "201109821G",
     "organized_month": "Mar 2026",
-    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\LNKD_INVOICE_511109459487.pdf"
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\LNKD_INVOICE_511142624687.pdf"
+  },
+  {
+    "file": "LNKD_INVOICE_519212432510.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\LNKD_INVOICE_519212432510.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "519212432510",
+    "date": "2026-03-03",
+    "amount": 0.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n3/3/2026 P832275846 519212432510 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹0.00 3/3/2026 Monthly VISA ****7196\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600020, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400.00\nFrom Mar",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Mar 2026",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\LNKD_INVOICE_519212432510.pdf"
   },
   {
     "file": "NK09I0326001326.pdf",
@@ -3380,6 +3484,19 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\Invoice-ZEUU3HS6-0003.pdf"
   },
   {
+    "file": "LNKD_INVOICE_511159612412.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\LNKD_INVOICE_511159612412.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "511159612412",
+    "date": "2025-11-09",
+    "amount": 8400.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n11/9/2025 P658626696 511159612412 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 11/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Nov 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\LNKD_INVOICE_511159612412.pdf"
+  },
+  {
     "file": "MAA4-3241_p1_MAA4-3241_p1_MAA4-3241.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\MAA4-3241_p1_MAA4-3241.pdf",
     "vendor_name": "CRALOFT LLP",
@@ -3768,6 +3885,32 @@
     "vendor_gstin": null,
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\Invoice-ZEUU3HS6-0002.pdf"
+  },
+  {
+    "file": "LNKD_INVOICE_511150750291.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\LNKD_INVOICE_511150750291.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "511150750291",
+    "date": "2025-10-09",
+    "amount": 8400.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n10/9/2025 P615232576 511150750291 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 10/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Oct 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\LNKD_INVOICE_511150750291.pdf"
+  },
+  {
+    "file": "LNKD_INVOICE_511152667797.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\LNKD_INVOICE_511152667797.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "511152667797",
+    "date": "2025-10-15",
+    "amount": 436.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n10/15/2025 P623423046 511152667797 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹436.00 10/14/2025 Threshold Billing MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nLinkedIn Singapore Pte Ltd, 10 Marina Boulevard, Marina Bay Financial Centre Tower",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Oct 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\LNKD_INVOICE_511152667797.pdf"
   },
   {
     "file": "MAA4-1730312_p1_MAA4-1730312_p1_MAA4-1730312.pdf",
@@ -4236,6 +4379,19 @@
     "vendor_gstin": null,
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\Invoice-PZLFLIEU-0005.pdf"
+  },
+  {
+    "file": "LNKD_INVOICE_511140168715.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\LNKD_INVOICE_511140168715.pdf",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "511140168715",
+    "date": "2025-09-09",
+    "amount": 8400.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice from LinkedIn Singapore Pte Ltd SAC: 998439\nEffective Date Transaction ID Invoice Number Purchaser Email\n9/9/2025 P571095056 511140168715 daniel.john@d2railabs.com\nAmount Transaction Date Billing Frequency Payment Method\n₹8,400.00 9/8/2025 Monthly MASTERCARD ****9677\nBilled To Customer Tax ID\nAdd Custom receipt details within Admin Center.\nSylvester Daniel GST: 33AAICD7217K1ZK\n600028, India\nSummary\nItem Description Rate Quantity Price\nRecruiter Lite (License 1)\n1 ₹8,400.00 1 ₹8,400.0",
+    "vendor_gstin": "201109821G",
+    "organized_month": "Sep 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\LNKD_INVOICE_511140168715.pdf"
   },
   {
     "file": "MAA4-22967_p1_MAA4-22967_p1_MAA4-22967.pdf",
