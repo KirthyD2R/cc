@@ -52,7 +52,7 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
         list of match dicts with status "matched" or "unmatched"
     """
     from datetime import datetime as _dt
-    from scripts.utils import is_gateway_only, strip_vendor_stop_words
+    from scripts.utils import is_gateway_only, strip_vendor_stop_words, VENDOR_STOP_WORDS, GATEWAY_KEYWORDS
 
     def _norm(s):
         return "".join(c for c in s.lower() if c.isalnum())
@@ -62,6 +62,19 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
     vm_norm = {_norm(k): v for k, v in manual_vendor_map.items()}
     sorted_keys = sorted(vm_lower.keys(), key=len, reverse=True)
     sorted_norm_keys = sorted(vm_norm.keys(), key=len, reverse=True)
+
+    # --- Build bill vendor lookup for fuzzy fallback ---
+    # Maps normalized first-keyword of vendor name → original vendor name
+    bill_vendors = {}
+    for b in bills:
+        vn = b.get("vendor_name", "")
+        if vn:
+            bill_vendors[vn.lower()] = vn
+            # Also index by first meaningful word (strip stop words)
+            stripped = strip_vendor_stop_words(vn)
+            first_word = stripped.split()[0].lower() if stripped.split() else ""
+            if first_word and len(first_word) >= 4:
+                bill_vendors[first_word] = vn
 
     def _resolve_vendor(desc):
         """Resolve CC description to vendor name. Returns (vendor_name, source) or (None, None)."""
@@ -91,7 +104,24 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
             if key and len(key) >= 4 and key in du:
                 return learned_vendor_map[key], "learned"
 
-        # Priority 3: Gateway check — if gateway-only, no vendor signal
+        # Priority 3: Fuzzy keyword match against bill vendor names
+        # Extract first meaningful keyword from CC description
+        _noise = {"si", "in", "mumbai", "bangalore", "chennai", "delhi",
+                  "india", "ca", "us", "www", "https", "com", "pte"}
+        desc_tokens = [t.lower() for t in desc.replace(",", " ").split()
+                       if t.lower() not in _noise
+                       and t.lower() not in VENDOR_STOP_WORDS
+                       and t.lower() not in GATEWAY_KEYWORDS
+                       and len(t) >= 4]
+        for token in desc_tokens:
+            tn = _norm(token)
+            if len(tn) < 4:
+                continue
+            for bv_key, bv_name in bill_vendors.items():
+                if tn in _norm(bv_key) or _norm(bv_key) in tn:
+                    return bv_name, "fuzzy"
+
+        # Priority 4: Gateway check — if gateway-only, no vendor signal
         if is_gateway_only(desc):
             return None, "gateway"
 

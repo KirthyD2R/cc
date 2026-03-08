@@ -246,3 +246,22 @@ def test_date_over_60_days_rejected():
     matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
     matched = [m for m in matches if m["status"] == "matched"]
     assert len(matched) == 0
+
+
+def test_fuzzy_fallback_matches_bill_vendor():
+    """CC description keyword matching bill vendor name triggers fuzzy match."""
+    bills = [_make_bill("Supabase Pte. Ltd", 500.00)]
+    cc = [_make_cc("SUPABASE PTE LTD SINGAPORE", 500.00)]
+    # No manual or learned mappings — fuzzy should find "Supabase" in bill vendor
+    matches = _build_vendor_gated_matches(bills, cc, {}, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1
+
+
+def test_fuzzy_fallback_no_false_positive():
+    """Fuzzy fallback should NOT match unrelated vendors."""
+    bills = [_make_bill("Microsoft Corporation (India) Pvt Ltd", 5000.00)]
+    cc = [_make_cc("SHOE DEPT 0378, BEAUMONT", 5000.00)]
+    matches = _build_vendor_gated_matches(bills, cc, {}, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 0
