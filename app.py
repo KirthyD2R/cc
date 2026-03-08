@@ -35,6 +35,281 @@ from utils import PROJECT_ROOT as UTILS_ROOT, log_action, _log_subscribers
 
 app = Flask(__name__)
 
+
+# --- Vendor-gated bill matching algorithm ---
+
+def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendor_map):
+    """Vendor-gated bill matching: only pairs with vendor signal are matched.
+
+    Args:
+        bills: list of dicts with keys: bill_id, vendor_id, vendor_name, amount, currency, date, file
+        cc_list: list of dicts with keys: description, amount, date, card_name, transaction_id,
+                 optional: forex_amount, forex_currency
+        manual_vendor_map: dict of lowercase CC description -> vendor name (from vendor_mappings.json)
+        learned_vendor_map: dict of uppercase CC description -> vendor name (from learned_vendor_mappings.json)
+
+    Returns:
+        list of match dicts with status "matched" or "unmatched"
+    """
+    from datetime import datetime as _dt
+    from scripts.utils import is_gateway_only, strip_vendor_stop_words
+
+    def _norm(s):
+        return "".join(c for c in s.lower() if c.isalnum())
+
+    # --- Build lookup structures for manual mappings ---
+    vm_lower = {k.lower(): v for k, v in manual_vendor_map.items()}
+    vm_norm = {_norm(k): v for k, v in manual_vendor_map.items()}
+    sorted_keys = sorted(vm_lower.keys(), key=len, reverse=True)
+    sorted_norm_keys = sorted(vm_norm.keys(), key=len, reverse=True)
+
+    def _resolve_vendor(desc):
+        """Resolve CC description to vendor name. Returns (vendor_name, source) or (None, None)."""
+        if not desc:
+            return None, None
+        dl = desc.lower()
+        dn = _norm(desc)
+        du = desc.strip().upper()
+
+        # Priority 1: Manual mappings (exact, normalized, substring)
+        if dl in vm_lower:
+            return vm_lower[dl], "manual"
+        if dn in vm_norm:
+            return vm_norm[dn], "manual"
+        for key in sorted_keys:
+            if key and len(key) >= 4 and key in dl:
+                return vm_lower[key], "manual"
+        for key in sorted_norm_keys:
+            if key and len(key) >= 4 and key in dn:
+                return vm_norm[key], "manual"
+
+        # Priority 2: Learned mappings (exact uppercase)
+        if du in learned_vendor_map:
+            return learned_vendor_map[du], "learned"
+        # Learned substring match
+        for key in sorted(learned_vendor_map.keys(), key=len, reverse=True):
+            if key and len(key) >= 4 and key in du:
+                return learned_vendor_map[key], "learned"
+
+        # Priority 3: Gateway check — if gateway-only, no vendor signal
+        if is_gateway_only(desc):
+            return None, "gateway"
+
+        return None, None
+
+    def _vendor_conf(resolved_vendor, bill_vendor):
+        """Compute vendor confidence between resolved CC vendor and bill vendor."""
+        if not resolved_vendor:
+            return 0
+        rv = _norm(resolved_vendor)
+        bv = _norm(bill_vendor)
+        # Also try with stop words stripped
+        rv_stripped = _norm(strip_vendor_stop_words(resolved_vendor))
+        bv_stripped = _norm(strip_vendor_stop_words(bill_vendor))
+
+        if rv == bv or rv_stripped == bv_stripped:
+            return 100
+        if len(rv) >= 4 and (rv in bv or bv in rv):
+            return 80
+        if len(rv_stripped) >= 4 and (rv_stripped in bv_stripped or bv_stripped in rv_stripped):
+            return 80
+        # First-word match
+        rv_first = _norm(resolved_vendor.split()[0]) if resolved_vendor.split() else ""
+        if rv_first and len(rv_first) >= 4 and rv_first in bv:
+            return 60
+        return 0
+
+    def _amount_diff(bill, cc):
+        """Return (diff, match_type) or (None, None) if not comparable."""
+        bill_amt = bill["amount"]
+        bill_cur = bill["currency"]
+        cc_inr = cc["amount"]
+        fx = cc.get("forex_amount")
+        fx_cur = (cc.get("forex_currency") or "").upper()
+
+        # Mode A: Forex exact match
+        if fx and fx_cur and bill_cur.upper() == fx_cur:
+            diff = abs(fx - bill_amt)
+            if diff >= 0.01:  # Strict: penny tolerance only
+                return None, None
+            return diff, f"{fx_cur} exact"
+
+        # Mode B: INR-to-INR
+        if bill_cur == "INR" and not fx:
+            diff = abs(cc_inr - bill_amt)
+            threshold = max(1.0, bill_amt * 0.01)
+            if diff > threshold:
+                return None, None
+            return diff, "INR direct"
+
+        # Mode C (variant): INR bill, CC has forex — compare INR amounts
+        if bill_cur == "INR" and fx:
+            diff = abs(cc_inr - bill_amt)
+            threshold = max(1.0, bill_amt * 0.01)
+            if diff > threshold:
+                return None, None
+            return diff, f"{fx_cur} → INR (forex)"
+
+        # Mode C: USD bill, no forex tag — estimate
+        if bill_cur == "USD" and not fx:
+            est_min = bill_amt * 80
+            est_max = bill_amt * 95
+            if est_min <= cc_inr <= est_max:
+                diff = abs(cc_inr - bill_amt * 87.5)  # Midpoint of 80-95
+                tolerance = bill_amt * 87.5 * 0.02
+                if diff > tolerance:
+                    return None, None
+                return diff, "USD → INR (est)"
+
+        return None, None
+
+    def _amount_conf(bill, cc):
+        """Compute amount confidence score."""
+        diff, mtype = _amount_diff(bill, cc)
+        if diff is None:
+            return 0, None, None
+        bill_amt = bill["amount"] if bill["amount"] else 1
+        pct_diff = diff / bill_amt
+        if mtype and "exact" in mtype:
+            conf = 100  # Forex exact always 100
+        elif pct_diff < 0.001:
+            conf = 100
+        elif pct_diff < 0.005:
+            conf = 95
+        elif pct_diff < 0.01:
+            conf = 90
+        elif pct_diff < 0.03:
+            conf = 75
+        elif pct_diff < 0.05:
+            conf = 60
+        else:
+            conf = 40
+        # Cap for estimated conversions
+        if mtype and "est" in mtype:
+            conf = min(conf, 70)
+        return conf, diff, mtype
+
+    def _date_conf(bill, cc):
+        """Compute date confidence score."""
+        try:
+            bd = _dt.strptime(bill["date"], "%Y-%m-%d")
+            cd = _dt.strptime(cc["date"], "%Y-%m-%d")
+            dd = abs((bd - cd).days)
+        except Exception:
+            return 0, 9999
+        if dd > 60:
+            return 0, dd
+        if dd == 0:
+            return 100, dd
+        elif dd <= 2:
+            return 90, dd
+        elif dd <= 5:
+            return 75, dd
+        elif dd <= 10:
+            return 50, dd
+        elif dd <= 30:
+            return 25, dd
+        else:
+            return 0, dd
+
+    # --- Resolve all CC vendors ---
+    cc_resolved = []  # (vendor_name, source) for each CC txn
+    for cc in cc_list:
+        cc_resolved.append(_resolve_vendor(cc.get("description", "")))
+
+    # --- Build candidates: vendor-gated ---
+    candidates = []  # (score, date_diff, bill_idx, cc_idx, v_conf, a_conf, d_conf)
+
+    for bi, bill in enumerate(bills):
+        for ci, cc in enumerate(cc_list):
+            resolved_vendor, source = cc_resolved[ci]
+
+            # GATE: No vendor signal → skip
+            if not resolved_vendor:
+                continue
+
+            # GATE: Vendor must match bill vendor
+            vc = _vendor_conf(resolved_vendor, bill["vendor_name"])
+            if vc < 60:
+                continue
+
+            # Amount must match
+            ac, diff, mtype = _amount_conf(bill, cc)
+            if ac == 0:
+                continue
+
+            # Date within 60 days
+            dc, dd = _date_conf(bill, cc)
+            if dd > 60:
+                continue
+
+            # Score: vendor*0.5 + amount*0.4 + date*0.1
+            overall = int(vc * 0.5 + ac * 0.4 + dc * 0.1)
+            candidates.append((overall, dd, bi, ci, vc, ac, dc))
+
+    # Sort: highest score first, then closest date
+    candidates.sort(key=lambda x: (-x[0], x[1]))
+
+    # Greedy assignment
+    bill_matched = [False] * len(bills)
+    used_cc = set()
+    matches = []
+
+    for overall, dd, bi, ci, vc, ac, dc in candidates:
+        if bill_matched[bi] or ci in used_cc:
+            continue
+        bill_matched[bi] = True
+        used_cc.add(ci)
+
+        bill = bills[bi]
+        cc = cc_list[ci]
+        resolved_vendor, _ = cc_resolved[ci]
+
+        entry = {
+            "bill_id": bill["bill_id"],
+            "vendor_id": bill["vendor_id"],
+            "vendor_name": bill["vendor_name"],
+            "bill_amount": bill["amount"],
+            "bill_currency": bill["currency"],
+            "bill_date": bill["date"],
+            "bill_number": bill["file"],
+            "status": "matched",
+            "match_score": overall,
+            "confidence": {
+                "vendor": vc,
+                "amount": ac,
+                "date": dc,
+                "overall": overall,
+            },
+            "cc_transaction_id": cc.get("transaction_id", ""),
+            "cc_description": cc.get("description", ""),
+            "cc_inr_amount": cc.get("amount", 0),
+            "cc_date": cc.get("date", ""),
+            "cc_card": cc.get("card_name", ""),
+        }
+        if cc.get("forex_amount"):
+            entry["cc_forex_amount"] = cc["forex_amount"]
+            entry["cc_forex_currency"] = cc["forex_currency"]
+        matches.append(entry)
+
+    # Unmatched bills
+    for bi, bill in enumerate(bills):
+        if bill_matched[bi]:
+            continue
+        matches.append({
+            "bill_id": bill["bill_id"],
+            "vendor_id": bill["vendor_id"],
+            "vendor_name": bill["vendor_name"],
+            "bill_amount": bill["amount"],
+            "bill_currency": bill["currency"],
+            "bill_date": bill["date"],
+            "bill_number": bill["file"],
+            "status": "unmatched",
+        })
+
+    return matches
+
+
 # --- Script registry ---
 STEPS = {
     "1": {
@@ -787,263 +1062,33 @@ def api_payments_preview():
                 cc_entry["forex_currency"] = t["forex_currency"]
             cc_list.append(cc_entry)
 
-        # 3. Build vendor_mappings resolver for fuzzy vendor bonus
+        # 3. Build vendor_mappings resolver
         vm_path = os.path.join(PROJECT_ROOT, "config", "vendor_mappings.json")
         vendor_map = {}
-        vendor_map_norm = {}
-        def _norm(s):
-            return re.sub(r'[\s.\-,*()]+', '', s.lower())
         try:
             with open(vm_path, "r", encoding="utf-8") as f:
                 vm = json.load(f)
             for k, v in vm.get("mappings", {}).items():
                 vendor_map[k.lower()] = v
-                vendor_map_norm[_norm(k)] = v
         except Exception:
             pass
-        _sorted_keys = sorted(vendor_map.keys(), key=len, reverse=True)
-        _sorted_norm_keys = sorted(vendor_map_norm.keys(), key=len, reverse=True)
 
-        def _resolve_vendor(desc):
-            if not desc:
-                return None
-            dl = desc.lower()
-            dn = _norm(desc)
-            if dl in vendor_map:
-                return vendor_map[dl]
-            if dn in vendor_map_norm:
-                return vendor_map_norm[dn]
-            for key in _sorted_keys:
-                if key and len(key) >= 4 and key in dl:
-                    return vendor_map[key]
-            for key in _sorted_norm_keys:
-                if key and len(key) >= 4 and key in dn:
-                    return vendor_map_norm[key]
-            return None
+        # --- Load learned vendor mappings ---
+        from scripts.utils import load_learned_vendor_mappings
+        learned = load_learned_vendor_mappings()
+        learned_map = learned.get("mappings", {})
 
-        def _vendor_match(bill_vendor, cc_desc):
-            """Fuzzy vendor match: resolved CC vendor vs bill vendor name."""
-            resolved = _resolve_vendor(cc_desc)
-            if not resolved:
-                return False
-            rv = _norm(resolved)
-            bv = _norm(bill_vendor)
-            # Exact normalized match
-            if rv == bv:
-                return True
-            # Substring match (either direction)
-            if len(rv) >= 4 and (rv in bv or bv in rv):
-                return True
-            # First-word match (e.g. "microsoft" in "microsoftcorporationindiapvtltd")
-            rv_first = _norm(resolved.split()[0]) if resolved.split() else ""
-            if rv_first and len(rv_first) >= 4 and rv_first in bv:
-                return True
-            return False
-
-        # 4. Two-phase matching (same logic as Monthly Compare categorize step):
-        #    Phase 1: Vendor-first — group by resolved vendor, match by amount within vendor
-        #    Phase 2: Amount fallback — unmatched bills try amount+date across all CC (tight tolerance)
-        used_cc = set()  # indices of CC transactions already matched
-        matches = []
-        matched_count = 0
-        unmatched_count = 0
-
-        # --- Helper: amount-match a bill against a CC transaction ---
-        def _amount_diff(bill, cc):
-            """Return (diff, match_type) or (None, None) if not comparable."""
-            bill_amt = bill["amount"]
-            bill_cur = bill["currency"]
-            cc_inr = cc["amount"]
-            fx = cc.get("forex_amount")
-            fx_cur = (cc.get("forex_currency") or "").upper()
-
-            # Case 1: Same forex currency (e.g. USD bill, USD forex on CC)
-            if fx and fx_cur and bill_cur.upper() == fx_cur:
-                return abs(fx - bill_amt), f"{fx_cur} → {bill_cur}"
-            # Case 2: INR bill, INR CC (no forex)
-            if bill_cur == "INR" and not fx:
-                return abs(cc_inr - bill_amt), "INR → INR"
-            # Case 3: INR bill, CC has forex (compare INR amounts)
-            if bill_cur == "INR" and fx:
-                return abs(cc_inr - bill_amt), f"{fx_cur} → INR (forex)"
-            # Case 4: USD bill, no forex tag — estimate INR range (75-100)
-            if bill_cur == "USD" and not fx:
-                est_min = bill_amt * 75
-                est_max = bill_amt * 100
-                if est_min <= cc_inr <= est_max:
-                    return abs(cc_inr - bill_amt * 86), "USD → INR (est)"
-            return None, None
-
-        # --- Confidence scoring helper ---
-        def _compute_confidence(bill, cc, cc_resolved_vendor):
-            """Compute vendor/amount/date confidence (0-100 each) for a bill-CC match."""
-            # Vendor confidence
-            vendor_conf = 0
-            if cc_resolved_vendor:
-                rv = _norm(cc_resolved_vendor)
-                bv = _norm(bill["vendor_name"])
-                if rv == bv:
-                    vendor_conf = 100
-                elif len(rv) >= 4 and (rv in bv or bv in rv):
-                    vendor_conf = 80
-                else:
-                    rv_first = _norm(cc_resolved_vendor.split()[0]) if cc_resolved_vendor.split() else ""
-                    if rv_first and len(rv_first) >= 4 and rv_first in bv:
-                        vendor_conf = 60
-
-            # Amount confidence
-            amount_conf = 0
-            diff, mtype = _amount_diff(bill, cc)
-            if diff is not None:
-                bill_amt = bill["amount"] if bill["amount"] else 1
-                pct_diff = diff / bill_amt
-                if pct_diff < 0.001:
-                    amount_conf = 100
-                elif pct_diff < 0.005:
-                    amount_conf = 95
-                elif pct_diff < 0.01:
-                    amount_conf = 90
-                elif pct_diff < 0.03:
-                    amount_conf = 75
-                elif pct_diff < 0.05:
-                    amount_conf = 60
-                else:
-                    amount_conf = 40
-                # Forex exact match gets bonus
-                if mtype and "est" in mtype:
-                    amount_conf = min(amount_conf, 70)
-
-            # Date confidence
-            date_conf = 0
-            try:
-                bd = _dt.strptime(bill["date"], "%Y-%m-%d")
-                cd = _dt.strptime(cc["date"], "%Y-%m-%d")
-                day_diff = abs((bd - cd).days)
-                if day_diff == 0:
-                    date_conf = 100
-                elif day_diff <= 2:
-                    date_conf = 90
-                elif day_diff <= 5:
-                    date_conf = 75
-                elif day_diff <= 10:
-                    date_conf = 50
-                elif day_diff <= 30:
-                    date_conf = 25
-            except Exception:
-                pass
-
-            overall = int(vendor_conf * 0.4 + amount_conf * 0.4 + date_conf * 0.2)
-            return {
-                "vendor": vendor_conf,
-                "amount": amount_conf,
-                "date": date_conf,
-                "overall": overall,
-            }
-
-        # --- Resolve CC vendor names ---
-        cc_vendors = []  # parallel to cc_list: resolved vendor name or None
-        for cc in cc_list:
-            cc_vendors.append(_resolve_vendor(cc.get("description", "")))
-
-        # --- Single-pass matching: Date first, Amount required, Vendor fuzzy bonus ---
-        # Build all valid (bill, cc) candidate pairs with scores
-        bill_matched = [False] * len(bills)
-        candidates = []  # (score, date_diff, bill_idx, cc_idx)
-
-        for bi, bill in enumerate(bills):
-            for ci, cc in enumerate(cc_list):
-                # Hard requirement: amount within 1% tolerance
-                diff, mtype = _amount_diff(bill, cc)
-                if diff is None:
-                    continue
-                threshold = max(1.0, bill["amount"] * 0.01)
-                if diff > threshold:
-                    continue
-
-                # Hard requirement: date within 60 days
-                try:
-                    bd = _dt.strptime(bill["date"], "%Y-%m-%d")
-                    cd = _dt.strptime(cc["date"], "%Y-%m-%d")
-                    dd = abs((bd - cd).days)
-                except Exception:
-                    dd = 9999
-                if dd > 60:
-                    continue
-
-                # Date proximity score (primary): 0 days=100, 60 days=10
-                date_score = max(0, 100 - dd * 1.5)
-
-                # Amount precision bonus
-                amt_score = 0
-                if bill["amount"]:
-                    pct = diff / bill["amount"]
-                    if pct < 0.001:
-                        amt_score = 30
-                    elif pct < 0.005:
-                        amt_score = 20
-                    elif pct < 0.01:
-                        amt_score = 10
-
-                # Vendor fuzzy bonus
-                vendor_bonus = 0
-                if _vendor_match(bill["vendor_name"], cc.get("description", "")):
-                    vendor_bonus = 50
-
-                total_score = date_score + amt_score + vendor_bonus
-                candidates.append((total_score, dd, bi, ci))
-
-        # Sort: highest score first, then closest date
-        candidates.sort(key=lambda x: (-x[0], x[1]))
-
-        # Greedy assignment — best scored pairs first
-        for score, dd, bi, ci in candidates:
-            if bill_matched[bi] or ci in used_cc:
-                continue
-            bill_matched[bi] = True
-            used_cc.add(ci)
-
-            bill = bills[bi]
-            cc = cc_list[ci]
-            rv = cc_vendors[ci]
-            conf = _compute_confidence(bill, cc, rv)
-            entry = {
-                "bill_id": bill["bill_id"],
-                "vendor_id": bill["vendor_id"],
-                "vendor_name": bill["vendor_name"],
-                "bill_amount": bill["amount"],
-                "bill_currency": bill["currency"],
-                "bill_date": bill["date"],
-                "bill_number": bill["file"],
-                "status": "matched",
-                "match_score": score,
-                "confidence": conf,
-                "cc_transaction_id": cc.get("transaction_id", ""),
-                "cc_description": cc.get("description", ""),
-                "cc_inr_amount": cc.get("amount", 0),
-                "cc_date": cc.get("date", ""),
-                "cc_card": cc.get("card_name", ""),
-            }
-            if cc.get("forex_amount"):
-                entry["cc_forex_amount"] = cc["forex_amount"]
-                entry["cc_forex_currency"] = cc["forex_currency"]
-            matched_count += 1
-            matches.append(entry)
-
-        # Remaining unmatched bills
-        for bi, bill in enumerate(bills):
-            if bill_matched[bi]:
-                continue
-            matches.append({
-                "bill_id": bill["bill_id"],
-                "vendor_id": bill["vendor_id"],
-                "vendor_name": bill["vendor_name"],
-                "bill_amount": bill["amount"],
-                "bill_currency": bill["currency"],
-                "bill_date": bill["date"],
-                "bill_number": bill["file"],
-                "status": "unmatched",
-            })
-            unmatched_count += 1
+        # --- Vendor-gated matching ---
+        matches = _build_vendor_gated_matches(bills, cc_list, vendor_map, learned_map)
+        matched_count = sum(1 for m in matches if m["status"] == "matched")
+        unmatched_count = sum(1 for m in matches if m["status"] == "unmatched")
+        used_cc = set()
+        for m in matches:
+            if m["status"] == "matched":
+                for ci, cc in enumerate(cc_list):
+                    if cc.get("transaction_id") == m.get("cc_transaction_id") and cc.get("date") == m.get("cc_date"):
+                        used_cc.add(ci)
+                        break
 
         # Collect unmatched CC transactions
         unmatched_cc = [cc_list[i] for i in range(len(cc_list)) if i not in used_cc]
