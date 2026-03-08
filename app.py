@@ -2530,7 +2530,7 @@ def api_compare_monthly():
         # Fallback: match by vendor + date + amount (for bills created manually in Zoho)
         inv_vendor = (inv.get("vendor_name") or "").strip().lower()
         inv_date = inv.get("date", "")
-        inv_amount = round(float(inv.get("amount", 0)), 2)
+        inv_amount = round(float(inv.get("amount") or 0), 2)
         if inv_vendor and inv_date and inv_amount:
             # Build set of vendor name variants to check
             names_to_check = {inv_vendor}
