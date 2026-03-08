@@ -5660,11 +5660,13 @@ var _billSelectedFiles = new Set();
 
 function _getStatusLabel(inv) {
   if (inv.action === 'skip') return 'In Zoho';
+  if (inv.action === 'possible_duplicate') return 'Possible Duplicate';
   if (inv.action === 'new_bill') return 'New Bill + Existing Vendor';
   return 'New Bill + New Vendor';
 }
 function _getStatusKey(inv) {
   if (inv.action === 'skip') return 'skip';
+  if (inv.action === 'possible_duplicate') return 'possible_duplicate';
   if (inv.action === 'new_bill') return 'new_bill';
   return 'new_vendor';
 }
@@ -5835,10 +5837,11 @@ function _selectRowVendor(el, fileKey) {
     _sortFilteredRows();
     _renderTableRows();
     // Update summary
-    var s = { total: 0, skip: 0, new_bill: 0, new_vendor_bill: 0 };
+    var s = { total: 0, skip: 0, possible_duplicate: 0, new_bill: 0, new_vendor_bill: 0 };
     _matchPreviewData.preview.forEach(function(item) {
       s.total++;
       if (item.action === 'skip') s.skip++;
+      else if (item.action === 'possible_duplicate') s.possible_duplicate++;
       else if (item.action === 'new_bill') s.new_bill++;
       else s.new_vendor_bill++;
     });
@@ -5925,10 +5928,11 @@ function applyZohoVendorMapping() {
     _sortFilteredRows();
     _renderTableRows();
     _updateSelectionUI();
-    var s = { total: 0, skip: 0, new_bill: 0, new_vendor_bill: 0 };
+    var s = { total: 0, skip: 0, possible_duplicate: 0, new_bill: 0, new_vendor_bill: 0 };
     _matchPreviewData.preview.forEach(function(inv) {
       s.total++;
       if (inv.action === 'skip') s.skip++;
+      else if (inv.action === 'possible_duplicate') s.possible_duplicate++;
       else if (inv.action === 'new_bill') s.new_bill++;
       else s.new_vendor_bill++;
     });
@@ -6304,10 +6308,11 @@ function openBillPicker() {
     _applyOverridesToPreview();
 
     // Recount after overrides
-    var s = { total: 0, skip: 0, new_bill: 0, new_vendor_bill: 0 };
+    var s = { total: 0, skip: 0, possible_duplicate: 0, new_bill: 0, new_vendor_bill: 0 };
     (data.preview || []).forEach(function(inv) {
       s.total++;
       if (inv.action === 'skip') s.skip++;
+      else if (inv.action === 'possible_duplicate') s.possible_duplicate++;
       else if (inv.action === 'new_bill') s.new_bill++;
       else s.new_vendor_bill++;
     });
