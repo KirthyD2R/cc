@@ -3636,9 +3636,13 @@ def api_bills_match_preview():
             # Fuzzy match against Zoho vendor names (catches "Microsoft" ≈ "Microsoft Pvt Ltd")
             if not vendor_found:
                 from thefuzz import fuzz
+                from scripts.utils import strip_vendor_stop_words
                 best_score, best_vendor = 0, None
                 for vkey, vinfo in vendor_name_map.items():
-                    score = fuzz.token_set_ratio(vn_lower, vkey)
+                    score = fuzz.token_set_ratio(
+                        strip_vendor_stop_words(vn_lower),
+                        strip_vendor_stop_words(vkey),
+                    )
                     if score > best_score:
                         best_score, best_vendor = score, vinfo
                 if best_score >= 85:
