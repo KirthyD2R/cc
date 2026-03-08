@@ -2794,14 +2794,36 @@ def api_compare_monthly():
     for t in cc_source:
         if float(t.get("amount", 0)) <= 0:
             continue  # Skip credits (refunds, payments, waivers)
+        # Use forex fields if present, otherwise parse from description
+        fx_amt = t.get("forex_amount")
+        fx_cur = t.get("forex_currency")
+        if not fx_amt:
+            desc = t.get("description", "")
+            fx_m = re.search(r'\[([A-Z]{3})\s+([\d,.]+)\]', desc)
+            if not fx_m:
+                fx_m2 = re.search(r'\(([\d,.]+)\s+([A-Z]{3})\)', desc)
+                if fx_m2:
+                    try:
+                        fx_amt = float(fx_m2.group(1).replace(',', ''))
+                        fx_cur = fx_m2.group(2)
+                    except ValueError:
+                        pass
+                else:
+                    fx_m = re.search(r'\(([A-Z]{3})\s+([\d,.]+)\)', desc)
+            if fx_m:
+                try:
+                    fx_amt = float(fx_m.group(2).replace(',', ''))
+                    fx_cur = fx_m.group(1)
+                except ValueError:
+                    pass
         cc_by_month[get_cc_month(t)].append({
             "transaction_id": t.get("transaction_id", ""),
             "date": t.get("date", ""),
             "description": t.get("description", ""),
             "amount": t.get("amount", 0),
             "card_name": t.get("card_name", ""),
-            "forex_amount": t.get("forex_amount"),
-            "forex_currency": t.get("forex_currency"),
+            "forex_amount": fx_amt,
+            "forex_currency": fx_cur,
             "vendor_name": _resolve_vendor(t.get("description", "")),
         })
 
@@ -3317,9 +3339,22 @@ def _sync_zoho_thread():
                         "zoho_account_id": account_id,
                         "transaction_id": t.get("transaction_id", ""),
                     }
-                    # Parse forex from '[USD 359.90]' in description
+                    # Parse forex from description:
+                    #   '[USD 359.90]' or '(12.74 USD)' or '(USD 12.74)'
                     import re as _re
                     fx_m = _re.search(r'\[([A-Z]{3})\s+([\d,.]+)\]', desc)
+                    if not fx_m:
+                        # Try '(12.74 USD)' format (amount before currency)
+                        fx_m2 = _re.search(r'\(([\d,.]+)\s+([A-Z]{3})\)', desc)
+                        if fx_m2:
+                            try:
+                                entry["forex_amount"] = float(fx_m2.group(1).replace(',', ''))
+                                entry["forex_currency"] = fx_m2.group(2)
+                            except ValueError:
+                                pass
+                        else:
+                            # Try '(USD 12.74)' format
+                            fx_m = _re.search(r'\(([A-Z]{3})\s+([\d,.]+)\)', desc)
                     if fx_m:
                         try:
                             entry["forex_amount"] = float(fx_m.group(2).replace(',', ''))
@@ -4190,6 +4225,11 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
     color: var(--accent); cursor: pointer; text-decoration: none;
   }
   .cb-dropdown-actions a:hover { text-decoration: underline; }
+  .cb-dropdown-search {
+    margin: 6px 8px 4px; padding: 4px 8px; font-size: 12px; border: 1px solid var(--border);
+    border-radius: 4px; background: var(--bg); color: var(--text); outline: none;
+  }
+  .cb-dropdown-search:focus { border-color: var(--accent); }
   .cb-dropdown-list { overflow-y: auto; padding: 4px 0; flex: 1; }
   .cb-dropdown-list label {
     display: flex; align-items: center; gap: 6px; padding: 3px 10px; font-size: 12px;
@@ -5688,6 +5728,7 @@ function _buildCheckboxDropdown(id, label, options) {
     + '<div class="cb-dropdown-actions">'
     + '<a onclick="_cbSelectAll(\'' + id + '\')">Select All</a>'
     + '<a onclick="_cbClearAll(\'' + id + '\')">Clear</a></div>'
+    + '<input type="text" class="cb-dropdown-search" id="cbd_search_' + id + '" placeholder="Search..." oninput="_filterCbDropdown(\'' + id + '\')">'
     + '<div class="cb-dropdown-list">';
   options.forEach(function(o) {
     html += '<label><input type="checkbox" checked value="' + o.value + '" onchange="_onCbChange(\'' + id + '\')">' + o.text + '</label>';
@@ -5725,6 +5766,12 @@ function _getCbValues(id) {
   var vals = [];
   document.querySelectorAll('#cbd_panel_' + id + ' input[type="checkbox"]:checked').forEach(function(cb) { vals.push(cb.value); });
   return vals;
+}
+function _filterCbDropdown(id) {
+  var query = document.getElementById('cbd_search_' + id).value.toLowerCase();
+  document.querySelectorAll('#cbd_panel_' + id + ' .cb-dropdown-list label').forEach(function(lbl) {
+    lbl.style.display = lbl.textContent.toLowerCase().indexOf(query) !== -1 ? '' : 'none';
+  });
 }
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.cb-dropdown')) {
@@ -7402,6 +7449,7 @@ function renderCompareMonth(idx) {
 
 function _vendorMatch(rowVendor, filterVal) {
   // Bidirectional: "github" matches "github, inc." and vice versa
+  if (!rowVendor) return false;
   return rowVendor.indexOf(filterVal) !== -1 || filterVal.indexOf(rowVendor) !== -1;
 }
 
@@ -7416,7 +7464,7 @@ function applyCompareFilters() {
       var rv = tr.getAttribute('data-vendor') || '';
       var rd = tr.getAttribute('data-date') || '';
       var show = true;
-      if (vendorVal && rv && !_vendorMatch(rv, vendorVal)) show = false;
+      if (vendorVal && !_vendorMatch(rv, vendorVal)) show = false;
       if (dateFrom && rd && rd < dateFrom) show = false;
       if (dateTo && rd && rd > dateTo) show = false;
       tr.style.display = show ? '' : 'none';
@@ -7437,7 +7485,7 @@ function applyCompareFilters() {
     var rd = tr.getAttribute('data-date') || '';
     var rs = tr.getAttribute('data-status') || '';
     var show = true;
-    if (vendorVal && rv && !_vendorMatch(rv, vendorVal)) show = false;
+    if (vendorVal && !_vendorMatch(rv, vendorVal)) show = false;
     if (dateFrom && rd && rd < dateFrom) show = false;
     if (dateTo && rd && rd > dateTo) show = false;
     if (catStatusVal && rs !== catStatusVal) show = false;
@@ -7521,6 +7569,28 @@ function runCategorizeCheck(idx, mode) {
     if (!v) return;
     if (!invByVendor[v]) invByVendor[v] = [];
     invByVendor[v].push(Object.assign({_matched: false}, inv));
+  });
+
+  // Merge vendor groups where one name is a substring of another
+  // e.g., "Fly.io" and "Fly.io, Inc" should be the same vendor
+  var ccVendors = Object.keys(ccByVendor);
+  var invVendors = Object.keys(invByVendor);
+  ccVendors.forEach(function(cv) {
+    var cvl = cv.toLowerCase();
+    invVendors.forEach(function(iv) {
+      if (cv === iv) return;
+      var ivl = iv.toLowerCase();
+      // Bidirectional substring match (at least 4 chars overlap)
+      if ((cvl.length >= 4 && ivl.indexOf(cvl) !== -1) || (ivl.length >= 4 && cvl.indexOf(ivl) !== -1)) {
+        // Merge invoice group into cc vendor name (cc has resolved names)
+        if (!ccByVendor[cv]) ccByVendor[cv] = [];
+        ccByVendor[cv] = ccByVendor[cv].concat(invByVendor[iv] || []);
+        // Also keep under inv vendor name for display, but mark as merged
+        if (!invByVendor[cv]) invByVendor[cv] = [];
+        invByVendor[cv] = invByVendor[cv].concat(invByVendor[iv] || []);
+        delete invByVendor[iv];
+      }
+    });
   });
 
   // All vendors from both sides

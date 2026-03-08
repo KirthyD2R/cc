@@ -224,6 +224,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000003019801",
+    "contact_name": "Fly.io",
+    "company_name": "Fly.io, Inc - USD",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
     "contact_id": "2050328000000349283",
     "contact_name": "Fly.io, Inc",
     "company_name": "Fly.io, Inc",
@@ -341,6 +349,14 @@
     "company_name": "L&L CONSULTANTS",
     "gst_no": "29AOKPL0335D1Z5",
     "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000002991187",
+    "contact_name": "LinkedIn",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "business_none",
     "currency_code": "INR"
   },
   {

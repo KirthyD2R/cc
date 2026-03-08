@@ -752,7 +752,7 @@ def extract_amazon_india_multi(pdf_path, filename):
         else:
             display_file = filename
 
-        results.append({
+        entry = {
             "file": display_file,
             "path": pdf_path,
             "vendor_name": data["vendor_name"],
@@ -762,7 +762,12 @@ def extract_amazon_india_multi(pdf_path, filename):
             "currency": data["currency"],
             "raw_text_preview": page_text[:500],
             "vendor_gstin": data["vendor_gstin"],
-        })
+        }
+        if data.get("amazon_entities"):
+            entry["amazon_entities"] = data["amazon_entities"]
+        if data.get("amazon_fc_code"):
+            entry["amazon_fc_code"] = data["amazon_fc_code"]
+        results.append(entry)
 
     return results
 

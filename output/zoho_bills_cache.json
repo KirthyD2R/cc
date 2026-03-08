@@ -1,12 +1,111 @@
 [
   {
+    "bill_id": "2050328000002991203",
+    "bill_number": "92832245029",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2025-08-12",
+    "total": 908.6,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002998214",
+    "bill_number": "02148314-0005",
+    "vendor_name": "Fly.io",
+    "vendor_id": "2050328000003019801",
+    "date": "2025-05-01",
+    "total": 12.22,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000003011211",
+    "bill_number": "02148314-0006",
+    "vendor_name": "Fly.io",
+    "vendor_id": "2050328000003019801",
+    "date": "2025-06-01",
+    "total": 12.56,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002997493",
+    "bill_number": "02148314-0007",
+    "vendor_name": "Fly.io",
+    "vendor_id": "2050328000003019801",
+    "date": "2025-07-01",
+    "total": 12.27,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002993400",
+    "bill_number": "02148314-0009",
+    "vendor_name": "Fly.io",
+    "vendor_id": "2050328000003019801",
+    "date": "2025-08-26",
+    "total": 9.89,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002997446",
+    "bill_number": "02148314-0008",
+    "vendor_name": "Fly.io",
+    "vendor_id": "2050328000003019801",
+    "date": "2025-08-01",
+    "total": 12.74,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002984227",
+    "bill_number": "02148314-0004",
+    "vendor_name": "Fly.io",
+    "vendor_id": "2050328000003019801",
+    "date": "2025-04-01",
+    "total": 12.67,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000003019725",
+    "bill_number": "I0133P2602046883",
+    "vendor_name": "Hathway Broadband Internet",
+    "vendor_id": "2050328000000356512",
+    "date": "2026-02-08",
+    "total": 11151.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002993378",
+    "bill_number": "E0100YH8OO_Invoice",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2026-01-12",
+    "total": 19793.27,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000003019675",
+    "bill_number": "E0100YH2Y6_Invoice",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2026-01-12",
+    "total": 6625.13,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002984205",
+    "bill_number": "E0100YH2Y5_Invoice",
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "vendor_id": "2050328000000342219",
+    "date": "2026-01-12",
+    "total": 1713.32,
+    "status": "paid"
+  },
+  {
     "bill_id": "2050328000002984185",
     "bill_number": "AWS-2219628753",
     "vendor_name": "AWS",
     "vendor_id": "2050328000002211179",
     "date": "2025-07-01",
     "total": 7282.99,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002993335",
@@ -483,7 +582,7 @@
     "vendor_id": "2050328000003012043",
     "date": "2026-01-19",
     "total": 236.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003006005",
