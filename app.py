@@ -3375,13 +3375,15 @@ def api_zoho_sync():
 # --- Match Preview (bill dedup analysis) ---
 
 def _normalize_bill_number(num):
-    """Normalize bill number for fuzzy matching: strip INV- prefix, lowercase, remove non-alphanumeric."""
+    """Normalize bill number for fuzzy matching: strip prefixes, lowercase, remove non-alphanumeric."""
     import re
     if not num:
         return ""
     s = num.strip()
-    # Strip common prefixes
+    # Strip common prefixes (INV-, AWS-, vendor-name prefixes like "ABC-")
     s = re.sub(r'^(INV[-_]?)', '', s, flags=re.IGNORECASE)
+    # Strip any remaining leading alpha prefix followed by separator (e.g. AWS-1234 -> 1234)
+    s = re.sub(r'^[A-Za-z]+[-_]', '', s)
     # Lowercase and remove non-alphanumeric
     s = re.sub(r'[^a-z0-9]', '', s.lower())
     return s
@@ -6093,7 +6095,8 @@ function applyBillFilters() {
     if (!isNaN(minAmt) && amt < minAmt) return false;
     if (!isNaN(maxAmt) && amt > maxAmt) return false;
     if (statuses.length && statuses.indexOf(_getStatusKey(inv)) < 0) return false;
-    if (matchTypes.length) {
+    var allMatchCount = document.querySelectorAll('#cbd_panel_matchtype input[type="checkbox"]').length;
+    if (matchTypes.length && matchTypes.length < allMatchCount) {
       if (inv.action !== 'new_bill') return false;
       if (matchTypes.indexOf(_getMatchTypeKey(inv)) < 0) return false;
     }
