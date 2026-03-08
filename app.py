@@ -3977,8 +3977,8 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
 
   /* Left panel — phases (20%) */
   .left-panel {
-    width: 20%;
-    min-width: 200px;
+    width: 14%;
+    min-width: 180px;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -3991,14 +3991,14 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
     overflow-x: visible;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     max-height: calc(100vh - 60px);
     padding-right: 4px;
   }
 
-  /* Right panel — logs (80%) */
+  /* Right panel — logs (86%) */
   .right-panel {
-    width: 80%;
+    width: 86%;
     display: flex;
     flex-direction: column;
     min-height: 0;
@@ -5056,13 +5056,30 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
         <div class="review-header">
           <span>Record Payments &mdash; CC &harr; Bill Match</span>
           <div style="display:flex;gap:12px;align-items:center">
-            <select id="paymentCardFilter" onchange="filterPaymentsByCard(this.value)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px;display:none">
+            <select id="paymentCardFilter" onchange="filterPayments()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px;display:none">
               <option value="">All Cards</option>
             </select>
             <span id="paymentSummaryText" style="font-size:12px;font-weight:400;color:var(--text-dim)"></span>
             <button id="recordSelectedBtn" onclick="confirmRecordSelected()" style="background:var(--accent);color:#fff;border:none;border-radius:6px;padding:5px 14px;font-size:11px;cursor:pointer;font-weight:600;display:none">Record Selected (0)</button>
             <button class="review-close-btn" onclick="closePaymentPanel()">&#10005; Close</button>
           </div>
+        </div>
+        <div id="paymentFilterBar" style="display:none;padding:6px 12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);gap:12px;align-items:center;flex-shrink:0;flex-wrap:wrap;font-size:12px">
+          <label style="color:var(--text-dim)">Vendor:</label>
+          <select id="paymentVendorFilter" onchange="filterPayments()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 8px;font-size:11px;max-width:200px"><option value="">All Vendors</option></select>
+          <label style="color:var(--text-dim);margin-left:12px">From:</label>
+          <input type="date" id="paymentDateFrom" onchange="filterPayments()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 6px;font-size:11px;color-scheme:dark">
+          <label style="color:var(--text-dim)">To:</label>
+          <input type="date" id="paymentDateTo" onchange="filterPayments()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 6px;font-size:11px;color-scheme:dark">
+          <label style="color:var(--text-dim);margin-left:12px">Status:</label>
+          <select id="paymentStatusFilter" onchange="filterPayments()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 8px;font-size:11px">
+            <option value="">All Statuses</option>
+            <option value="matched">Matched</option>
+            <option value="unmatched">No CC Match</option>
+            <option value="cc_only">CC Only</option>
+            <option value="already_paid">Already Paid</option>
+          </select>
+          <button onclick="clearPaymentFilters()" style="background:transparent;color:var(--accent);border:1px dashed var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Clear</button>
         </div>
         <div id="paymentBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden">
           <div class="review-loading" id="paymentLoading" style="align-self:center;width:100%;text-align:center">Fetching bills &amp; CC transactions...</div>
@@ -6776,12 +6793,17 @@ function closePaymentPanel() {
   document.getElementById('logPanel').style.display = 'flex';
 }
 
-function filterPaymentsByCard(cardName) {
+function filterPayments() {
   if (!_paymentPreviewData) return;
   var matches = _paymentPreviewData.matches || [];
   var content = document.getElementById('paymentContent');
-  // Data rows have data-status attribute; separator rows have pay-section-sep class
   var dataRows = content.querySelectorAll('tbody tr[data-status]');
+
+  var cardName = document.getElementById('paymentCardFilter').value;
+  var vendorFilter = (document.getElementById('paymentVendorFilter').value || '').toLowerCase();
+  var dateFrom = document.getElementById('paymentDateFrom').value || '';
+  var dateTo = document.getElementById('paymentDateTo').value || '';
+  var statusFilter = document.getElementById('paymentStatusFilter').value || '';
 
   var visibleMatched = 0, visibleUnmatched = 0, visiblePaid = 0, visibleCcOnly = 0;
 
@@ -6790,9 +6812,36 @@ function filterPaymentsByCard(cardName) {
     if (!m) return;
     var rowCard = row.getAttribute('data-card') || '';
     var status = row.getAttribute('data-status') || '';
-    var show = !cardName || rowCard === cardName;
-    // For unmatched bills (no card on CC side), show only when "All Cards"
-    if (cardName && status === 'unmatched' && !rowCard) show = false;
+    var rowVendor = (row.getAttribute('data-vendor') || '').toLowerCase();
+    var rowDate = row.getAttribute('data-date') || '';
+
+    var show = true;
+
+    // Card filter
+    if (cardName) {
+      if (!rowCard || rowCard !== cardName) show = false;
+    }
+
+    // Vendor filter (bidirectional substring)
+    if (show && vendorFilter) {
+      if (!rowVendor) { show = false; }
+      else { show = rowVendor.indexOf(vendorFilter) >= 0 || vendorFilter.indexOf(rowVendor) >= 0; }
+    }
+
+    // Date range filter (uses bill_date for bills, cc_date for cc_only)
+    if (show && dateFrom && rowDate) {
+      if (rowDate < dateFrom) show = false;
+    }
+    if (show && dateTo && rowDate) {
+      if (rowDate > dateTo) show = false;
+    }
+    // If date filter is set but row has no date, hide it
+    if (show && (dateFrom || dateTo) && !rowDate) show = false;
+
+    // Status filter
+    if (show && statusFilter) {
+      if (status !== statusFilter) show = false;
+    }
 
     row.style.display = show ? '' : 'none';
     if (show) {
@@ -6803,14 +6852,13 @@ function filterPaymentsByCard(cardName) {
     }
   });
 
-  // Show/hide section separators based on whether any rows in that section are visible
+  // Show/hide section separators
   var seps = {matched: visibleMatched, cc_only: visibleCcOnly, unmatched: visibleUnmatched, other: visiblePaid};
   ['matched','cc_only','unmatched','other'].forEach(function(sec) {
     var sep = content.querySelector('.pay-sep-' + sec);
     if (sep) sep.style.display = seps[sec] > 0 ? '' : 'none';
   });
 
-  // Update summary text with filtered counts
   var billCount = visibleMatched + visibleUnmatched + visiblePaid;
   document.getElementById('paymentSummaryText').textContent =
     billCount + ' bills \u00B7 ' + visibleMatched + ' matched \u00B7 ' + visibleUnmatched + ' no CC \u00B7 ' + visiblePaid + ' already paid \u00B7 ' + visibleCcOnly + ' no invoice';
@@ -6821,6 +6869,15 @@ function filterPaymentsByCard(cardName) {
   if (selAll) selAll.checked = false;
   document.querySelectorAll('.pay-cb').forEach(function(c) { c.checked = false; });
   _updatePaySelectedBtn();
+}
+
+function clearPaymentFilters() {
+  document.getElementById('paymentCardFilter').value = '';
+  document.getElementById('paymentVendorFilter').value = '';
+  document.getElementById('paymentDateFrom').value = '';
+  document.getElementById('paymentDateTo').value = '';
+  document.getElementById('paymentStatusFilter').value = '';
+  filterPayments();
 }
 
 function renderPaymentPreview(data) {
@@ -6851,6 +6908,26 @@ function renderPaymentPreview(data) {
 
   document.getElementById('paymentSummaryText').textContent =
     s.total_bills + ' bills \u00B7 ' + s.matched + ' matched \u00B7 ' + s.unmatched + ' no CC \u00B7 ' + (s.already_paid || 0) + ' already paid \u00B7 ' + totalUncatCount + ' no invoice';
+
+  // Populate vendor filter dropdown
+  var vendorSet = {};
+  (matches || []).forEach(function(m) { if (m.vendor_name) vendorSet[m.vendor_name] = 1; });
+  var vendorNames = Object.keys(vendorSet).sort();
+  var vendorSel = document.getElementById('paymentVendorFilter');
+  vendorSel.innerHTML = '<option value="">All Vendors</option>';
+  vendorNames.forEach(function(v) {
+    var opt = document.createElement('option');
+    opt.value = v; opt.textContent = v;
+    vendorSel.appendChild(opt);
+  });
+
+  // Show filter bar
+  document.getElementById('paymentFilterBar').style.display = 'flex';
+
+  // Reset filters
+  document.getElementById('paymentDateFrom').value = '';
+  document.getElementById('paymentDateTo').value = '';
+  document.getElementById('paymentStatusFilter').value = '';
 
   document.getElementById('paymentLoading').style.display = 'none';
   var content = document.getElementById('paymentContent');
@@ -6955,6 +7032,8 @@ function renderPaymentPreview(data) {
     tr.id = 'pay-row-' + (m.bill_id || 'cc-' + idx);
     tr.setAttribute('data-card', m.cc_card || '');
     tr.setAttribute('data-status', m.status || '');
+    tr.setAttribute('data-vendor', m.vendor_name || '');
+    tr.setAttribute('data-date', m.bill_date || m.cc_date || '');
 
     var bgColor = 'transparent';
     if (m.status === 'matched') bgColor = 'rgba(80,200,120,0.04)';
