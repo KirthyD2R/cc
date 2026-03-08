@@ -621,6 +621,24 @@ def _save_card_ids_to_config(cards):
 
 # --- Fuzzy Matching ---
 
+VENDOR_STOP_WORDS = {
+    "enterprises", "enterprise", "pvt", "private", "limited", "ltd",
+    "inc", "incorporated", "llp", "india", "corporation", "corp",
+    "co", "company", "services", "solutions", "technologies",
+    "technology", "tech", "marketing", "international", "global",
+    "group", "associates", "consultants", "consulting", "traders",
+    "trading", "industries", "industrial",
+}
+
+
+def strip_vendor_stop_words(name):
+    """Remove common business suffixes for better fuzzy comparison.
+    Falls back to original name if stripping would leave it empty."""
+    tokens = name.strip().upper().split()
+    filtered = [t for t in tokens if t.lower() not in VENDOR_STOP_WORDS]
+    return " ".join(filtered) if filtered else name.strip().upper()
+
+
 def fuzzy_match_vendor(merchant_name, vendor_mappings, threshold=75):
     """Match a CC merchant name to a known vendor using fuzzy string matching.
 
@@ -636,7 +654,10 @@ def fuzzy_match_vendor(merchant_name, vendor_mappings, threshold=75):
 
     best_match, best_score, best_key = None, 0, None
     for key, value in mappings.items():
-        score = fuzz.token_set_ratio(merchant_name.upper(), key.upper())
+        score = fuzz.token_set_ratio(
+            strip_vendor_stop_words(merchant_name),
+            strip_vendor_stop_words(key),
+        )
         if score > best_score:
             best_score, best_match, best_key = score, value, key
 
