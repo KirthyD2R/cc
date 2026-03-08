@@ -186,3 +186,63 @@ def test_record_payment_saves_learned_mapping(tmp_path):
     data = load_learned_vendor_mappings(path)
     assert "SOME NEW MERCHANT MUMBAI" in data["mappings"]
     assert data["mappings"]["SOME NEW MERCHANT MUMBAI"] == "New Merchant Pvt Ltd"
+
+
+# --- Edge case tests ---
+
+
+def test_inr_amount_tolerance():
+    """INR amounts within 1% should match."""
+    bills = [_make_bill("Google", 564.17)]
+    cc = [_make_cc("GOOGLEWORKSP, MUMBAI", 564.17)]
+    vendor_map = {"googleworksp": "Google"}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1
+
+
+def test_usd_estimate_range_80_95():
+    """USD bill without forex tag: INR must be within bill*80 to bill*95."""
+    bills = [_make_bill("Atlassian", 64.07, currency="USD")]
+
+    # INR = 64.07 * 87 = 5574.09 (within 80-95 range)
+    cc_good = [_make_cc("ATLASSIAN AMSTERDAM", 5574.09)]
+    vendor_map = {"atlassian amsterdam": "Atlassian"}
+    matches = _build_vendor_gated_matches(bills, cc_good, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1
+
+    # INR = 64.07 * 100 = 6407.00 (outside 80-95 range)
+    cc_bad = [_make_cc("ATLASSIAN AMSTERDAM", 6407.00)]
+    matches2 = _build_vendor_gated_matches(bills, cc_bad, vendor_map, {})
+    matched2 = [m for m in matches2 if m["status"] == "matched"]
+    assert len(matched2) == 0
+
+
+def test_multiple_bills_best_match_wins():
+    """When multiple bills match same vendor, best amount match wins."""
+    bills = [
+        _make_bill("Microsoft Corporation (India) Pvt Ltd", 12215.38, bill_id="B1"),
+        _make_bill("Microsoft Corporation (India) Pvt Ltd", 42116.85, bill_id="B2"),
+    ]
+    cc = [
+        _make_cc("MICROSOFTBUS, MUMBAI", 12215.38, date="2025-07-18"),
+        _make_cc("MICROSOFTBUS, MUMBAI", 42116.85, date="2025-07-18"),
+    ]
+    vendor_map = {"microsoftbus": "Microsoft"}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 2
+    # Each bill matched to its correct CC amount
+    for m in matched:
+        assert abs(m["bill_amount"] - m["cc_inr_amount"]) < 1.0
+
+
+def test_date_over_60_days_rejected():
+    """Matches beyond 60 days should be rejected even with vendor+amount match."""
+    bills = [_make_bill("LinkedIn Singapore Pte Ltd", 7106.00, date="2025-01-01")]
+    cc = [_make_cc("IND*LINKEDIN (PGSI)", 7106.00, date="2025-04-01")]
+    vendor_map = {"ind*linkedin": "LinkedIn"}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 0
