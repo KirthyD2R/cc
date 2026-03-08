@@ -1862,10 +1862,7 @@
     "currency": "INR",
     "date": "2026-01-19",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000360692",
-    "matched_vendor_name": "Aarav Enterprises",
-    "vendor_match_method": "fuzzy"
+    "action": "new_vendor_bill"
   },
   {
     "file": "E0100YH2Y5_Invoice.pdf",
@@ -2686,10 +2683,7 @@
     "currency": "INR",
     "date": "2025-06-26",
     "organized_month": "Jun 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000360692",
-    "matched_vendor_name": "Aarav Enterprises",
-    "vendor_match_method": "fuzzy"
+    "action": "new_vendor_bill"
   },
   {
     "file": "IN-4132.pdf",
@@ -4201,10 +4195,7 @@
     "currency": "INR",
     "date": "2025-10-07",
     "organized_month": "Oct 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
-    "matched_vendor_name": "Google",
-    "vendor_match_method": "fuzzy"
+    "action": "new_vendor_bill"
   },
   {
     "file": "PBVN-14918.pdf",
