@@ -1147,9 +1147,81 @@ def api_payments_preview():
         # Collect unmatched CC transactions
         unmatched_cc = [cc_list[i] for i in range(len(cc_list)) if i not in used_cc]
 
+        # Track which bills were matched
+        matched_bill_ids = {m["bill_id"] for m in matches if m["status"] == "matched"}
+
+        # --- Diagnostic: explain why unmatched CC txns didn't match ---
+        from datetime import datetime as _dt_diag
+        _norm_d = lambda s: "".join(c for c in s.lower() if c.isalnum())
+        vm_lower_d = {k.lower(): v for k, v in vendor_map.items()}
+        vm_norm_d = {_norm_d(k): v for k, v in vendor_map.items()}
+        sorted_keys_d = sorted(vm_lower_d.keys(), key=len, reverse=True)
+
+        def _diag_resolve(desc):
+            if not desc:
+                return None
+            dl = desc.lower()
+            dn = _norm_d(desc)
+            dl_c = "".join(c for c in dl if c.isalnum() or c == ' ')
+            if dl in vm_lower_d:
+                return vm_lower_d[dl]
+            if dn in vm_norm_d:
+                return vm_norm_d[dn]
+            for key in sorted_keys_d:
+                if key and len(key) >= 4 and (key in dl or key in dl_c):
+                    return vm_lower_d[key]
+            du = desc.strip().upper()
+            if du in learned_map:
+                return learned_map[du]
+            for key in sorted(learned_map.keys(), key=len, reverse=True):
+                if key and len(key) >= 4 and key in du:
+                    return learned_map[key]
+            return None
+
+        unmatched_bill_list = [bills[bi] for bi in range(len(bills))
+                               if bills[bi]["bill_id"] not in matched_bill_ids]
+        for cc_item in unmatched_cc:
+            resolved = _diag_resolve(cc_item.get("description", ""))
+            if not resolved:
+                cc_item["unmatched_reason"] = "No vendor signal"
+                continue
+            cc_item["resolved_vendor"] = resolved
+            cc_inr = float(cc_item.get("amount", 0))
+            best = None
+            for ub in unmatched_bill_list:
+                rv, bv = _norm_d(resolved), _norm_d(ub.get("vendor_name", ""))
+                if not (rv in bv or bv in rv or rv == bv):
+                    continue
+                try:
+                    bd = _dt_diag.strptime(ub["date"], "%Y-%m-%d")
+                    cd = _dt_diag.strptime(cc_item["date"], "%Y-%m-%d")
+                    dd = abs((bd - cd).days)
+                except Exception:
+                    dd = 9999
+                if dd > 60:
+                    if not best:
+                        best = f"Date: {dd}d apart"
+                    continue
+                bill_amt = float(ub.get("amount", 0))
+                bill_cur = ub.get("currency", "INR")
+                if bill_cur == "INR":
+                    diff_pct = abs(cc_inr - bill_amt) / max(bill_amt, 1) * 100
+                    if diff_pct > 1:
+                        best = f"Amt: CC {cc_inr:,.0f} vs Bill {bill_amt:,.0f}"
+                    else:
+                        best = "Greedy: used by better match"
+                        break
+                elif bill_cur == "USD":
+                    implied = cc_inr / max(bill_amt, 0.01)
+                    if implied < 70 or implied > 100:
+                        best = f"Amt: CC {cc_inr:,.0f} vs ${bill_amt:,.2f} (rate {implied:.0f})"
+                    else:
+                        best = "Greedy: used by better match"
+                        break
+            cc_item["unmatched_reason"] = best or f"No {resolved} bills"
+
         # Track which bills were matched for Amex pass
         bill_matched_flags = [False] * len(bills)
-        matched_bill_ids = {m["bill_id"] for m in matches if m["status"] == "matched"}
         for bi, bill in enumerate(bills):
             if bill["bill_id"] in matched_bill_ids:
                 bill_matched_flags[bi] = True
@@ -7153,7 +7225,13 @@ function renderPaymentPreview(data) {
         + '<div style="font-size:9px;color:var(--text-dim)">Vendor:' + _confDot(c.vendor||0) + ' Amt:' + _confDot(c.amount||0) + ' Date:' + _confDot(c.date||0) + '</div>'
         + '</div>';
     } else if (m.status === 'cc_only') {
-      confCell = '<span style="color:var(--accent);font-size:10px">No Invoice</span>';
+      var reason = m.unmatched_reason || 'No Invoice';
+      var rVendor = m.resolved_vendor || '';
+      confCell = '<div style="text-align:center;line-height:1.3">'
+        + '<span style="color:var(--accent);font-size:10px">No Invoice</span>'
+        + (rVendor ? '<div style="font-size:8px;color:var(--text-dim)" title="Resolved to: ' + rVendor + '">\u2192 ' + rVendor + '</div>' : '')
+        + '<div style="font-size:8px;color:var(--yellow);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + reason + '">' + reason + '</div>'
+        + '</div>';
     } else if (m.status === 'unmatched') {
       confCell = '<span style="color:var(--yellow);font-size:10px">No CC</span>';
     } else if (m.status === 'already_paid') {
