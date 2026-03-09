@@ -2952,6 +2952,56 @@ def api_banking_delete_transactions():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
+@app.route("/api/invoices/browse")
+def api_invoices_browse():
+    """Return all extracted invoices for browse view, grouped by month."""
+    invoices_path = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
+    if not os.path.exists(invoices_path):
+        return jsonify({"error": "No extracted_invoices.json found. Run Step 2 first."}), 404
+
+    try:
+        with open(invoices_path, "r", encoding="utf-8") as f:
+            invoices = json.load(f)
+    except Exception as e:
+        return jsonify({"error": f"Failed to read invoices: {e}"}), 500
+
+    # Build month-grouped data
+    months = {}
+    for inv in invoices:
+        date = inv.get("date", "")
+        month_key = date[:7] if date and len(date) >= 7 else "Unknown"
+        if month_key not in months:
+            months[month_key] = []
+
+        # Build line items description summary
+        line_items_desc = ""
+        if inv.get("line_items"):
+            descs = [it.get("description", "")[:100] for it in inv["line_items"][:5]]
+            line_items_desc = " | ".join(descs)
+
+        months[month_key].append({
+            "date": date,
+            "vendor_name": inv.get("vendor_name") or "Unknown",
+            "invoice_number": inv.get("invoice_number") or "-",
+            "amount": inv.get("amount"),
+            "currency": inv.get("currency", "INR"),
+            "line_items_desc": line_items_desc,
+            "line_items_count": len(inv.get("line_items", [])),
+            "file": inv.get("file", ""),
+        })
+
+    # Sort months descending, invoices by date
+    sorted_months = sorted(months.keys(), reverse=True)
+    for m in sorted_months:
+        months[m].sort(key=lambda x: x.get("date") or "")
+
+    return jsonify({
+        "months": sorted_months,
+        "data": months,
+        "total": len(invoices),
+    })
+
+
 @app.route("/api/invoices/list")
 def api_invoices_list():
     """List extracted invoices grouped by month, with bill creation status."""
@@ -5706,6 +5756,45 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
         </div>
       </div>
 
+      <!-- Invoice Browse panel (hidden by default, overlays log panel) -->
+      <div class="review-panel" id="invoiceBrowsePanel" style="display:none">
+        <div class="review-header">
+          <span>Browse Invoices</span>
+          <div style="display:flex;gap:12px;align-items:center">
+            <span id="invBrowseSummary" style="font-size:12px;font-weight:400;color:var(--text-dim)"></span>
+            <button class="review-close-btn" onclick="closeInvoiceBrowse()">&#10005; Close</button>
+          </div>
+        </div>
+        <div id="invBrowseFilterBar" style="display:none;padding:6px 12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);gap:12px;align-items:center;flex-shrink:0;flex-wrap:wrap;font-size:12px">
+          <label style="color:var(--text-dim)">Month:</label>
+          <select id="invBrowseMonthSelect" onchange="applyInvBrowseFilters()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 8px;font-size:11px"></select>
+          <label style="color:var(--text-dim);margin-left:12px">Vendor:</label>
+          <select id="invBrowseVendorSelect" onchange="applyInvBrowseFilters()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 8px;font-size:11px;max-width:220px"></select>
+          <label style="color:var(--text-dim);margin-left:12px">From:</label>
+          <input type="date" id="invBrowseDateFrom" onchange="applyInvBrowseFilters()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 6px;font-size:11px;color-scheme:dark">
+          <label style="color:var(--text-dim)">To:</label>
+          <input type="date" id="invBrowseDateTo" onchange="applyInvBrowseFilters()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 6px;font-size:11px;color-scheme:dark">
+          <button onclick="clearInvBrowseFilters()" style="background:transparent;color:var(--accent);border:1px dashed var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Clear</button>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+          <div class="review-loading" id="invBrowseLoading" style="align-self:center;width:100%;text-align:center">Loading invoices...</div>
+          <div id="invBrowseContent" style="display:none;flex:1;overflow-y:auto">
+            <table class="match-table" id="invBrowseTable">
+              <thead>
+                <tr>
+                  <th style="width:90px">Date</th>
+                  <th>Vendor</th>
+                  <th>Invoice #</th>
+                  <th style="text-align:right;width:110px">Amount</th>
+                  <th>Line Items</th>
+                </tr>
+              </thead>
+              <tbody id="invBrowseBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <!-- Import Picker modal -->
       <div id="importPickerModal" class="modal-overlay" style="display:none">
         <div class="modal-box">
@@ -5959,6 +6048,7 @@ function openReviewPanel() {
   document.getElementById('checkPanel').style.display = 'none';
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
+  document.getElementById('invoiceBrowsePanel').style.display = 'none';
   document.getElementById('reviewPanel').style.display = 'flex';
   document.getElementById('reviewLoading').style.display = 'block';
   document.getElementById('reviewTable').style.display = 'none';
@@ -7233,6 +7323,7 @@ function openMatchPanel() {
   document.getElementById('checkPanel').style.display = 'none';
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
+  document.getElementById('invoiceBrowsePanel').style.display = 'none';
   document.getElementById('matchPanel').style.display = 'flex';
   document.getElementById('matchLoading').style.display = 'block';
   document.getElementById('matchContent').style.display = 'none';
@@ -7335,6 +7426,7 @@ function openCheckPanel() {
   document.getElementById('matchPanel').style.display = 'none';
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
+  document.getElementById('invoiceBrowsePanel').style.display = 'none';
   document.getElementById('checkPanel').style.display = 'flex';
   document.getElementById('checkLoading').style.display = 'block';
   document.getElementById('checkContent').style.display = 'none';
@@ -7367,6 +7459,7 @@ function openPaymentPreview() {
   document.getElementById('matchPanel').style.display = 'none';
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('checkPanel').style.display = 'none';
+  document.getElementById('invoiceBrowsePanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'flex';
   document.getElementById('paymentLoading').style.display = 'block';
   document.getElementById('paymentContent').style.display = 'none';
@@ -8748,6 +8841,7 @@ function openComparePanel() {
   document.getElementById('matchPanel').style.display = 'none';
   document.getElementById('checkPanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
+  document.getElementById('invoiceBrowsePanel').style.display = 'none';
   document.getElementById('comparePanel').style.display = 'flex';
   document.getElementById('compareLoading').style.display = 'block';
   document.getElementById('compareContent').style.display = 'none';
@@ -8770,6 +8864,158 @@ function openComparePanel() {
 function closeComparePanel() {
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('logPanel').style.display = 'flex';
+}
+
+// --- Invoice Browse Panel ---
+var _invBrowseData = null;
+var _invBrowseAllRows = [];
+
+function openInvoiceBrowse() {
+  document.getElementById('logPanel').style.display = 'none';
+  document.getElementById('reviewPanel').style.display = 'none';
+  document.getElementById('matchPanel').style.display = 'none';
+  document.getElementById('checkPanel').style.display = 'none';
+  document.getElementById('paymentPanel').style.display = 'none';
+  document.getElementById('comparePanel').style.display = 'none';
+  document.getElementById('invoiceBrowsePanel').style.display = 'flex';
+  document.getElementById('invBrowseLoading').style.display = 'block';
+  document.getElementById('invBrowseContent').style.display = 'none';
+  document.getElementById('invBrowseFilterBar').style.display = 'none';
+
+  fetch('/api/invoices/browse')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) {
+        document.getElementById('invBrowseLoading').textContent = data.error;
+        return;
+      }
+      _invBrowseData = data;
+
+      // Flatten all rows
+      _invBrowseAllRows = [];
+      data.months.forEach(function(m) {
+        _invBrowseAllRows = _invBrowseAllRows.concat(data.data[m]);
+      });
+
+      // Populate month dropdown
+      var sel = document.getElementById('invBrowseMonthSelect');
+      sel.innerHTML = '<option value="all">All Months</option>';
+      data.months.forEach(function(m) {
+        var count = data.data[m].length;
+        sel.innerHTML += '<option value="' + m + '">' + m + ' (' + count + ')</option>';
+      });
+
+      // Populate vendor dropdown (sorted unique vendors)
+      var vendors = {};
+      _invBrowseAllRows.forEach(function(r) { vendors[r.vendor_name] = (vendors[r.vendor_name] || 0) + 1; });
+      var vendorList = Object.keys(vendors).sort(function(a, b) { return a.toLowerCase().localeCompare(b.toLowerCase()); });
+      var vsel = document.getElementById('invBrowseVendorSelect');
+      vsel.innerHTML = '<option value="all">All Vendors (' + vendorList.length + ')</option>';
+      vendorList.forEach(function(v) {
+        vsel.innerHTML += '<option value="' + escHtml(v) + '">' + escHtml(v) + ' (' + vendors[v] + ')</option>';
+      });
+
+      document.getElementById('invBrowseFilterBar').style.display = 'flex';
+      applyInvBrowseFilters();
+    })
+    .catch(function(err) {
+      document.getElementById('invBrowseLoading').textContent = 'Failed to load: ' + err;
+    });
+}
+
+function closeInvoiceBrowse() {
+  document.getElementById('invoiceBrowsePanel').style.display = 'none';
+  document.getElementById('logPanel').style.display = 'flex';
+}
+
+function clearInvBrowseFilters() {
+  document.getElementById('invBrowseMonthSelect').value = 'all';
+  document.getElementById('invBrowseVendorSelect').value = 'all';
+  document.getElementById('invBrowseDateFrom').value = '';
+  document.getElementById('invBrowseDateTo').value = '';
+  applyInvBrowseFilters();
+}
+
+function applyInvBrowseFilters() {
+  if (!_invBrowseData) return;
+
+  var month = document.getElementById('invBrowseMonthSelect').value;
+  var vendor = document.getElementById('invBrowseVendorSelect').value;
+  var dateFrom = document.getElementById('invBrowseDateFrom').value;
+  var dateTo = document.getElementById('invBrowseDateTo').value;
+
+  // Start with month filter
+  var rows;
+  if (month === 'all') {
+    rows = _invBrowseAllRows.slice();
+  } else {
+    rows = (_invBrowseData.data[month] || []).slice();
+  }
+
+  // Vendor filter
+  if (vendor !== 'all') {
+    rows = rows.filter(function(r) { return r.vendor_name === vendor; });
+  }
+
+  // Date range filter
+  if (dateFrom) {
+    rows = rows.filter(function(r) { return (r.date || '') >= dateFrom; });
+  }
+  if (dateTo) {
+    rows = rows.filter(function(r) { return (r.date || '') <= dateTo; });
+  }
+
+  renderInvBrowseRows(rows);
+}
+
+function renderInvBrowseRows(rows) {
+  // Sort by date
+  rows.sort(function(a, b) { return (a.date || '').localeCompare(b.date || ''); });
+
+  var tbody = document.getElementById('invBrowseBody');
+  tbody.innerHTML = '';
+
+  var inrTotal = 0;
+  var usdTotal = 0;
+
+  rows.forEach(function(inv) {
+    var tr = document.createElement('tr');
+    var amt = inv.amount != null ? inv.amount : 0;
+    if (inv.currency === 'USD') usdTotal += amt;
+    else inrTotal += amt;
+
+    var fmtAmt = inv.amount != null
+      ? (inv.currency === 'USD' ? '$' : '\u20B9') + Number(inv.amount).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+      : '-';
+
+    var lineDesc = inv.line_items_desc || '<span style="color:var(--text-dim);font-style:italic">no line items</span>';
+    if (inv.line_items_count > 0) {
+      lineDesc = '<span style="color:var(--accent);font-weight:600;margin-right:4px">' + inv.line_items_count + '&times;</span>' + escHtml(inv.line_items_desc);
+    }
+
+    tr.innerHTML = '<td>' + (inv.date || '-') + '</td>'
+      + '<td>' + escHtml(inv.vendor_name) + '</td>'
+      + '<td style="font-family:monospace;font-size:11px">' + escHtml(inv.invoice_number) + '</td>'
+      + '<td style="text-align:right;font-weight:600;white-space:nowrap">' + fmtAmt + '</td>'
+      + '<td style="font-size:11px;color:var(--text-dim);max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + lineDesc + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  // Summary
+  var parts = [rows.length + ' invoices'];
+  if (inrTotal > 0) parts.push('\u20B9' + inrTotal.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+  if (usdTotal > 0) parts.push('$' + usdTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+  document.getElementById('invBrowseSummary').textContent = parts.join(' \u2022 ');
+
+  document.getElementById('invBrowseLoading').style.display = 'none';
+  document.getElementById('invBrowseContent').style.display = 'block';
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
 }
 
 function parseAllForCompare(step, btnId, label) {
