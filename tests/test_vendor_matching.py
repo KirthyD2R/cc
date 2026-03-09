@@ -276,3 +276,48 @@ def test_special_chars_in_description_still_match():
     matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
     matched = [m for m in matches if m["status"] == "matched"]
     assert len(matched) == 1
+
+
+def test_parse_usd_from_description_boosts_confidence():
+    """CC description with embedded USD amount should use forex exact matching."""
+    bills = [_make_bill("Medium", 5.00, currency="USD")]
+    cc = [_make_cc("MEDIUM MONTHLY MEDIUM.COM CA USD 5.00", 438.70)]
+    vendor_map = {"medium": "Medium"}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1
+    assert matched[0]["confidence"]["amount"] == 100
+
+
+def test_parse_usd_brackets():
+    """USD in square brackets: [USD 5.43]."""
+    bills = [_make_bill("GitHub, Inc.", 5.43, currency="USD")]
+    cc = [_make_cc("GITHUB, INC.GITHUB.COM USD 5.43 [USD 5.43]", 492.84)]
+    vendor_map = {"github": "GitHub, Inc."}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1
+    assert matched[0]["confidence"]["amount"] == 100
+
+
+def test_parse_usd_parentheses():
+    """USD in parentheses: (USD 200.00)."""
+    bills = [_make_bill("Anthropic USD", 200.00, currency="USD")]
+    cc = [_make_cc("CLAUDE.AI SUBSCRIPTION SAN FRANCISCO (USD 200.00)", 18171.91)]
+    vendor_map = {"claude.ai subscription": "Anthropic USD"}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1
+    assert matched[0]["confidence"]["amount"] == 100
+
+
+def test_parse_usd_no_override_existing_forex():
+    """If forex_amount already set by bank, don't override with parsed value."""
+    bills = [_make_bill("GitHub, Inc.", 104.00, currency="USD")]
+    cc = [_make_cc("GITHUB, INC. USD 104.00", 9551.62,
+                   forex_amount=104.00, forex_currency="USD")]
+    vendor_map = {"github": "GitHub, Inc."}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1
+    assert matched[0]["confidence"]["amount"] == 100

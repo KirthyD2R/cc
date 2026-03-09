@@ -51,8 +51,27 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
     Returns:
         list of match dicts with status "matched" or "unmatched"
     """
+    import re as _re
     from datetime import datetime as _dt
     from scripts.utils import is_gateway_only, strip_vendor_stop_words, VENDOR_STOP_WORDS, GATEWAY_KEYWORDS
+
+    _USD_RE = _re.compile(r'USD\s*([\d,]+\.?\d*)')
+
+    def _enrich_forex(cc):
+        """If CC has no forex_amount, try to parse USD from description."""
+        if cc.get("forex_amount"):
+            return
+        desc = cc.get("description", "")
+        m = _USD_RE.search(desc)
+        if m:
+            try:
+                amt = float(m.group(1).replace(",", ""))
+                if amt > 0:
+                    cc["forex_amount"] = amt
+                    cc["forex_currency"] = "USD"
+                    cc["forex_parsed"] = True
+            except (ValueError, TypeError):
+                pass
 
     def _norm(s):
         return "".join(c for c in s.lower() if c.isalnum())
@@ -242,6 +261,10 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
             return 25, dd
         else:
             return 0, dd
+
+    # --- Enrich CC entries with parsed forex amounts ---
+    for cc in cc_list:
+        _enrich_forex(cc)
 
     # --- Resolve all CC vendors ---
     cc_resolved = []  # (vendor_name, source) for each CC txn
