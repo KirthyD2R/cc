@@ -427,8 +427,14 @@ def _find_candidates_for_unmatched(unmatched_bills, cc_only_list, forex_rates=No
                 diff_pct = abs(cc_inr - bill_amt) / max(bill_amt, 0.01) * 100
             elif bill_cur == "USD" and not cc_forex:
                 mid_rate = 87.0
-                if forex_rates and bill_date_str in forex_rates:
-                    mid_rate = forex_rates[bill_date_str].get("USD_INR", 87.0)
+                if forex_rates:
+                    if bill_date_str in forex_rates:
+                        mid_rate = forex_rates[bill_date_str].get("USD_INR", 87.0)
+                    elif forex_rates:
+                        # Nearest-date fallback: find closest cached rate
+                        nearest = min(forex_rates.keys(),
+                                      key=lambda d: abs(int(d.replace("-", "")) - int(bill_date_str.replace("-", ""))))
+                        mid_rate = forex_rates[nearest].get("USD_INR", 87.0)
                 estimated_inr = bill_amt * mid_rate
                 diff_pct = abs(cc_inr - estimated_inr) / max(estimated_inr, 0.01) * 100
             else:
@@ -438,10 +444,16 @@ def _find_candidates_for_unmatched(unmatched_bills, cc_only_list, forex_rates=No
                 continue
             elif diff_pct <= 0.01:
                 amount_score = 100
+            elif diff_pct <= 0.5:
+                amount_score = 95
             elif diff_pct <= 1:
-                amount_score = 80
+                amount_score = 85
+            elif diff_pct <= 2:
+                amount_score = 70
+            elif diff_pct <= 3:
+                amount_score = 55
             else:
-                amount_score = 50
+                amount_score = 40
 
             # --- Date scoring ---
             try:
@@ -510,7 +522,7 @@ def _find_candidates_for_unmatched(unmatched_bills, cc_only_list, forex_rates=No
         for cand in candidates:
             b = cand["breakdown"]
             cand["candidate_score"] = int(
-                b["amount"] * 0.4 + b["date"] * 0.2 + b["vendor"] * 0.3 + b["uniqueness"] * 0.1
+                b["amount"] * 0.5 + b["date"] * 0.25 + b["vendor"] * 0.15 + b["uniqueness"] * 0.1
             )
 
         candidates.sort(key=lambda c: c["candidate_score"], reverse=True)
@@ -7607,7 +7619,7 @@ function renderPaymentPreview(data) {
         if (withCand > 0) {
           sepLabel += ' <span style="font-weight:400;font-size:10px;margin-left:12px">'
             + 'Score \u2265 <select id="candScoreThreshold" onchange="filterCandidatesByScore()" style="background:var(--bg-secondary);color:var(--text);border:1px solid var(--border);font-size:10px;padding:1px 4px;border-radius:3px">'
-            + '<option value="0">All</option><option value="50">50</option><option value="60">60</option><option value="70" selected>70</option><option value="80">80</option><option value="90">90</option>'
+            + '<option value="0" selected>All</option><option value="50">50</option><option value="60">60</option><option value="70">70</option><option value="80">80</option><option value="90">90</option>'
             + '</select>'
             + ' <button onclick="selectAllCandidates()" style="font-size:10px;padding:2px 8px;margin-left:8px;background:var(--bg-secondary);color:var(--text);border:1px solid var(--border);border-radius:3px;cursor:pointer">Select Visible</button>'
             + ' <button id="confirmCandidatesBtn" onclick="confirmSelectedCandidates()" style="font-size:10px;padding:2px 8px;margin-left:4px;background:var(--green);color:#000;border:none;border-radius:3px;cursor:pointer;display:none">Confirm Selected (0)</button>'
