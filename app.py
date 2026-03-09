@@ -391,6 +391,147 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
     return matches
 
 
+def _find_candidates_for_unmatched(unmatched_bills, cc_only_list, forex_rates=None):
+    """Find candidate CC transactions for unmatched bills using amount+date scoring.
+
+    Runs AFTER vendor-gated matching as a fallback for bills with no vendor match.
+    Scores each (bill, cc) pair by amount proximity, date proximity, vendor name
+    overlap, and uniqueness. Returns list with 'candidates' array (top 5) per bill.
+    """
+    from datetime import datetime as _dt
+
+    results = []
+    for bill in unmatched_bills:
+        bill_amt = float(bill.get("amount", 0) or bill.get("bill_amount", 0))
+        bill_cur = bill.get("currency", "INR") or bill.get("bill_currency", "INR")
+        bill_date_str = bill.get("date", "") or bill.get("bill_date", "")
+        bill_vendor = bill.get("vendor_name", "")
+
+        try:
+            bill_date = _dt.strptime(bill_date_str, "%Y-%m-%d")
+        except Exception:
+            bill_date = None
+
+        candidates = []
+        for cc in cc_only_list:
+            cc_inr = float(cc.get("amount", 0))
+            cc_date_str = cc.get("date", "")
+            cc_desc = cc.get("description", "")
+            cc_forex = cc.get("forex_amount")
+            cc_forex_cur = cc.get("forex_currency")
+
+            # --- Amount scoring ---
+            if bill_cur != "INR" and cc_forex and cc_forex_cur == bill_cur:
+                diff_pct = abs(float(cc_forex) - bill_amt) / max(bill_amt, 0.01) * 100
+            elif bill_cur == "INR":
+                diff_pct = abs(cc_inr - bill_amt) / max(bill_amt, 0.01) * 100
+            elif bill_cur == "USD" and not cc_forex:
+                mid_rate = 87.0
+                if forex_rates and bill_date_str in forex_rates:
+                    mid_rate = forex_rates[bill_date_str].get("USD_INR", 87.0)
+                estimated_inr = bill_amt * mid_rate
+                diff_pct = abs(cc_inr - estimated_inr) / max(estimated_inr, 0.01) * 100
+            else:
+                continue
+
+            if diff_pct > 5:
+                continue
+            elif diff_pct <= 0.01:
+                amount_score = 100
+            elif diff_pct <= 1:
+                amount_score = 80
+            else:
+                amount_score = 50
+
+            # --- Date scoring ---
+            try:
+                cc_date = _dt.strptime(cc_date_str, "%Y-%m-%d")
+            except Exception:
+                continue
+            if not bill_date:
+                continue
+            days_apart = abs((bill_date - cc_date).days)
+            if days_apart > 60:
+                continue
+            elif days_apart <= 2:
+                date_score = 100
+            elif days_apart <= 5:
+                date_score = 80
+            elif days_apart <= 10:
+                date_score = 60
+            elif days_apart <= 30:
+                date_score = 30
+            else:
+                date_score = 10
+
+            # --- Vendor signal scoring ---
+            vendor_score = 0
+            if bill_vendor and cc_desc:
+                bv_lower = bill_vendor.lower()
+                cd_lower = cc_desc.lower()
+                bv_words = [w for w in bv_lower.split() if len(w) >= 4]
+                for word in bv_words:
+                    if word in cd_lower:
+                        vendor_score = 80
+                        break
+                if vendor_score == 0:
+                    bv_first = bv_lower.split()[0] if bv_lower.split() else ""
+                    cd_first = cd_lower.split()[0] if cd_lower.split() else ""
+                    if bv_first and cd_first and (bv_first == cd_first or bv_first in cd_first or cd_first in bv_first):
+                        vendor_score = 50
+
+            candidates.append({
+                "cc_transaction_id": cc.get("transaction_id", ""),
+                "cc_description": cc_desc,
+                "cc_inr_amount": cc_inr,
+                "cc_date": cc_date_str,
+                "cc_card": cc.get("card_name", ""),
+                "cc_forex_amount": cc_forex,
+                "cc_forex_currency": cc_forex_cur,
+                "breakdown": {
+                    "amount": amount_score,
+                    "date": date_score,
+                    "vendor": vendor_score,
+                    "uniqueness": 0,
+                },
+            })
+
+        # --- Uniqueness scoring ---
+        count = len(candidates)
+        for cand in candidates:
+            if count == 1:
+                cand["breakdown"]["uniqueness"] = 15
+            elif count <= 3:
+                cand["breakdown"]["uniqueness"] = 0
+            else:
+                cand["breakdown"]["uniqueness"] = -10
+
+        # --- Overall score ---
+        for cand in candidates:
+            b = cand["breakdown"]
+            cand["candidate_score"] = int(
+                b["amount"] * 0.4 + b["date"] * 0.2 + b["vendor"] * 0.3 + b["uniqueness"] * 0.1
+            )
+
+        candidates.sort(key=lambda c: c["candidate_score"], reverse=True)
+        candidates = candidates[:5]
+
+        entry = {
+            "bill_id": bill.get("bill_id", ""),
+            "vendor_id": bill.get("vendor_id", ""),
+            "vendor_name": bill_vendor,
+            "bill_amount": bill_amt,
+            "bill_currency": bill_cur,
+            "bill_date": bill_date_str,
+            "bill_number": bill.get("file", "") or bill.get("bill_number", ""),
+            "status": "unmatched",
+            "candidates": candidates,
+        }
+        results.append(entry)
+
+    return results
+
+
 def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
                          multi_bill_vendors, forex_rates=None,
                          used_bill_ids=None, used_cc_ids=None):
