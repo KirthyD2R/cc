@@ -1167,18 +1167,19 @@ def api_review_bills():
             desc = bill.get("notes", "") or bill.get("reference_number", "") or ""
             if not desc and line_items:
                 desc = line_items[0].get("description", "") or line_items[0].get("name", "")
+            li_names = [li.get("name", "") or li.get("description", "") for li in line_items]
             if line_items:
-                return bid, line_items[0].get("account_name", ""), line_items[0].get("account_id", ""), desc
-            return bid, None, None, desc
+                return bid, line_items[0].get("account_name", ""), line_items[0].get("account_id", ""), desc, li_names
+            return bid, None, None, desc, li_names
         with ThreadPoolExecutor(max_workers=10) as pool:
             futures = {pool.submit(_fetch_one, e["bill_id"]): e["bill_id"] for e in bills_to_show}
             for fut in as_completed(futures):
                 try:
-                    bid, acct_name, acct_id, desc = fut.result()
+                    bid, acct_name, acct_id, desc, li_names = fut.result()
                     if acct_name:
-                        zoho_accounts[bid] = (acct_name, acct_id, desc)
-                    elif desc:
-                        zoho_accounts[bid] = (None, None, desc)
+                        zoho_accounts[bid] = (acct_name, acct_id, desc, li_names)
+                    elif desc or li_names:
+                        zoho_accounts[bid] = (None, None, desc, li_names)
                 except Exception:
                     pass
         log_action(f"[Review] Got account info for {len(zoho_accounts)}/{len(bills_to_show)} bills")
@@ -1195,11 +1196,13 @@ def api_review_bills():
 
         # Prefer Zoho actual account, fall back to local mapping
         description = ""
+        li_names = []
         if bid in zoho_accounts:
             acct_data = zoho_accounts[bid]
             account_name = acct_data[0]
             account_id = acct_data[1]
             description = acct_data[2] if len(acct_data) > 2 else ""
+            li_names = acct_data[3] if len(acct_data) > 3 else []
             if account_name:
                 # Update local mapping if Zoho has a different account
                 local = account_mappings.get(vendor_name, {})
@@ -1223,6 +1226,7 @@ def api_review_bills():
             "account_id": account_id,
             "account_name": account_name,
             "description": description or entry.get("file", ""),
+            "line_items": [n for n in li_names if n],
         })
 
     if mappings_changed:
@@ -1239,14 +1243,19 @@ def api_review_bills():
 
 @app.route("/api/review/accounts")
 def api_review_accounts():
-    """Return sorted list of expense accounts for dropdowns."""
+    """Return sorted list of accounts (expense, other expense, income, fixed asset, other current asset) for dropdowns."""
     from utils import load_config, ZohoBooksAPI
     config = load_config()
     api = ZohoBooksAPI(config)
     try:
-        accounts = api.get_expense_accounts()
+        all_accounts = api.get_all_accounts()
+        allowed_types = {"expense", "other_expense", "income", "other_income", "fixed_asset", "other_current_asset"}
         sorted_accounts = sorted(
-            [{"account_id": aid, "account_name": aname} for aname, aid in accounts.items()],
+            [
+                {"account_id": info["account_id"], "account_name": aname, "account_type": info["account_type"]}
+                for aname, info in all_accounts.items()
+                if info.get("account_type", "") in allowed_types
+            ],
             key=lambda x: x["account_name"],
         )
         return jsonify({"accounts": sorted_accounts})
@@ -5730,6 +5739,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
               <tr>
                 <th>Vendor</th>
                 <th>Description</th>
+                <th>Line Items</th>
                 <th>Amount</th>
                 <th>Currency</th>
                 <th>Current Account</th>
@@ -6205,7 +6215,7 @@ function renderReviewTable(bills) {
     const headerTr = document.createElement('tr');
     headerTr.className = 'vendor-group-header';
     const headerTd = document.createElement('td');
-    headerTd.colSpan = 7;
+    headerTd.colSpan = 8;
 
     const bulkRow = document.createElement('div');
     bulkRow.className = 'vendor-bulk-row';
@@ -6269,6 +6279,14 @@ function renderReviewTable(bills) {
       tdDesc.style.whiteSpace = 'nowrap';
       tdDesc.title = bill.description || '';
       tr.appendChild(tdDesc);
+
+      // Line Items
+      const tdLineItems = document.createElement('td');
+      const liArr = bill.line_items || [];
+      tdLineItems.style.cssText = 'color:var(--text-dim);font-size:10px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+      tdLineItems.textContent = liArr.length > 0 ? liArr.join(', ') : '-';
+      tdLineItems.title = liArr.join('\n');
+      tr.appendChild(tdLineItems);
 
       // Amount
       const tdAmount = document.createElement('td');
