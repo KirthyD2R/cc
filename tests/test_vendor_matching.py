@@ -321,3 +321,36 @@ def test_parse_usd_no_override_existing_forex():
     matched = [m for m in matches if m["status"] == "matched"]
     assert len(matched) == 1
     assert matched[0]["confidence"]["amount"] == 100
+
+
+# --- Forex cache tests ---
+
+
+def test_forex_cache_roundtrip(tmp_path):
+    from scripts.utils import load_forex_cache, save_forex_cache
+    path = str(tmp_path / "forex.json")
+    cache = {"2025-10-18": {"USD_INR": 87.52}}
+    save_forex_cache(cache, path=path)
+    loaded = load_forex_cache(path=path)
+    assert loaded["2025-10-18"]["USD_INR"] == 87.52
+
+
+def test_forex_cache_missing_file(tmp_path):
+    from scripts.utils import load_forex_cache
+    assert load_forex_cache(path=str(tmp_path / "nope.json")) == {}
+
+
+# --- Forex-based matching tests ---
+
+
+def test_forex_rate_mode_c_with_actual_rate():
+    """USD bill + INR CC without forex tag: use actual forex rate for confidence."""
+    bills = [_make_bill("Medium", 5.00, currency="USD", date="2025-05-02")]
+    # INR 438.70 / $5.00 = rate 87.74. No forex metadata, no USD in description.
+    cc = [_make_cc("MEDIUM MONTHLY MEDIUM.COM CA", 438.70, date="2025-05-02")]
+    vendor_map = {"medium": "Medium"}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {},
+                                          forex_rates={"2025-05-02": {"USD_INR": 87.74}})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1
+    assert matched[0]["confidence"]["amount"] >= 95

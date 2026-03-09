@@ -49,6 +49,56 @@ def save_learned_vendor_mapping(cc_description, vendor_name, path="config/learne
         json.dump(data, f, indent=4, ensure_ascii=False)
 
 
+# --- Forex rate utilities ---
+
+def load_forex_cache(path="config/forex_cache.json"):
+    full_path = path if os.path.isabs(path) else os.path.join(PROJECT_ROOT, path)
+    if not os.path.exists(full_path):
+        return {}
+    try:
+        with open(full_path, "r") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def save_forex_cache(cache, path="config/forex_cache.json"):
+    full_path = path if os.path.isabs(path) else os.path.join(PROJECT_ROOT, path)
+    with open(full_path, "w") as f:
+        json.dump(cache, f, indent=2, sort_keys=True)
+
+
+def fetch_forex_rate(date_str, from_cur="USD", to_cur="INR", cache=None):
+    cache_key = f"{from_cur}_{to_cur}"
+    if cache and date_str in cache and cache_key in cache[date_str]:
+        return cache[date_str][cache_key]
+    try:
+        import urllib.request
+        url = f"https://api.frankfurter.app/{date_str}?from={from_cur}&to={to_cur}"
+        req = urllib.request.Request(url, headers={"User-Agent": "cc-automation/1.0"})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode())
+        rate = data.get("rates", {}).get(to_cur)
+        if rate and cache is not None:
+            if date_str not in cache:
+                cache[date_str] = {}
+            cache[date_str][cache_key] = rate
+        return rate
+    except Exception:
+        return None
+
+
+def prefetch_forex_rates(dates, from_cur="USD", to_cur="INR"):
+    cache = load_forex_cache()
+    cache_key = f"{from_cur}_{to_cur}"
+    missing = [d for d in set(dates) if d and (d not in cache or cache_key not in cache.get(d, {}))]
+    if missing:
+        for date_str in sorted(missing):
+            fetch_forex_rate(date_str, from_cur, to_cur, cache)
+        save_forex_cache(cache)
+    return cache
+
+
 # --- Zoho OAuth2 ---
 
 class ZohoAuth:

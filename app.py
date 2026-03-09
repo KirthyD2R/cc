@@ -38,7 +38,7 @@ app = Flask(__name__)
 
 # --- Vendor-gated bill matching algorithm ---
 
-def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendor_map):
+def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendor_map, forex_rates=None):
     """Vendor-gated bill matching: only pairs with vendor signal are matched.
 
     Args:
@@ -200,16 +200,30 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
                 return None, None
             return diff, f"{fx_cur} → INR (forex)"
 
-        # Mode C: USD bill, no forex tag — estimate
-        if bill_cur == "USD" and not fx:
-            est_min = bill_amt * 80
-            est_max = bill_amt * 95
-            if est_min <= cc_inr <= est_max:
-                diff = abs(cc_inr - bill_amt * 87.5)  # Midpoint of 80-95
-                tolerance = bill_amt * 87.5 * 0.02
-                if diff > tolerance:
+        # Mode C: Foreign currency bill, no forex tag — use actual rate or estimate
+        if bill_cur != "INR" and not fx:
+            if bill_amt <= 0:
+                return None, None
+            implied_rate = cc_inr / bill_amt
+            cc_date = cc.get("date", "")
+            rate_key = f"{bill_cur}_INR"
+            actual_rate = None
+            if forex_rates and cc_date in forex_rates:
+                actual_rate = forex_rates[cc_date].get(rate_key)
+
+            if actual_rate:
+                deviation = abs(implied_rate - actual_rate) / actual_rate
+                if deviation > 0.05:
                     return None, None
-                return diff, "USD → INR (est)"
+                diff = deviation * bill_amt
+                return diff, f"{bill_cur} rate:{implied_rate:.2f} actual:{actual_rate:.2f}"
+            else:
+                # Fallback: no actual rate — estimate for USD only
+                if bill_cur == "USD":
+                    if bill_amt * 80 <= cc_inr <= bill_amt * 95:
+                        diff = abs(cc_inr - bill_amt * 87.5)
+                        return diff, f"{bill_cur} \u2192 INR (est)"
+                return None, None
 
         return None, None
 
@@ -219,9 +233,18 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
         if diff is None:
             return 0, None, None
         bill_amt = bill["amount"] if bill["amount"] else 1
+        if mtype and "actual:" in mtype:
+            pct_dev = diff / bill_amt if bill_amt else 0
+            if pct_dev < 0.005: conf = 100
+            elif pct_dev < 0.01: conf = 95
+            elif pct_dev < 0.02: conf = 90
+            elif pct_dev < 0.03: conf = 75
+            elif pct_dev < 0.05: conf = 60
+            else: conf = 40
+            return conf, diff, mtype
         pct_diff = diff / bill_amt
         if mtype and "exact" in mtype:
-            conf = 100  # Forex exact always 100
+            conf = 100
         elif pct_diff < 0.001:
             conf = 100
         elif pct_diff < 0.005:
@@ -234,7 +257,6 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
             conf = 60
         else:
             conf = 40
-        # Cap for estimated conversions
         if mtype and "est" in mtype:
             conf = min(conf, 70)
         return conf, diff, mtype
@@ -344,6 +366,11 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
         if cc.get("forex_amount"):
             entry["cc_forex_amount"] = cc["forex_amount"]
             entry["cc_forex_currency"] = cc["forex_currency"]
+        _, _, mtype_display = _amount_conf(bill, cc)
+        if mtype_display:
+            entry["match_type"] = mtype_display
+        if cc.get("forex_parsed"):
+            entry["forex_parsed"] = True
         matches.append(entry)
 
     # Unmatched bills
@@ -1132,8 +1159,13 @@ def api_payments_preview():
         learned = load_learned_vendor_mappings()
         learned_map = learned.get("mappings", {})
 
+        # --- Prefetch forex rates for CC dates ---
+        from scripts.utils import prefetch_forex_rates
+        cc_dates = list(set(cc.get("date", "") for cc in cc_list if cc.get("date")))
+        forex_cache = prefetch_forex_rates(cc_dates)
+
         # --- Vendor-gated matching ---
-        matches = _build_vendor_gated_matches(bills, cc_list, vendor_map, learned_map)
+        matches = _build_vendor_gated_matches(bills, cc_list, vendor_map, learned_map, forex_rates=forex_cache)
         matched_count = sum(1 for m in matches if m["status"] == "matched")
         unmatched_count = sum(1 for m in matches if m["status"] == "unmatched")
         used_cc = set()
@@ -1250,7 +1282,7 @@ def api_payments_preview():
 
                 # Only match bills that weren't matched in main pass
                 unmatched_bills = [bills[bi] for bi in range(len(bills)) if not bill_matched_flags[bi]]
-                amex_results = _build_vendor_gated_matches(unmatched_bills, amex_list, vendor_map, learned_map)
+                amex_results = _build_vendor_gated_matches(unmatched_bills, amex_list, vendor_map, learned_map, forex_rates=forex_cache)
                 amex_matches = [m for m in amex_results if m["status"] == "matched"]
                 log_action(f"Amex matching: {len(amex_matches)} bills matched to Amex CC")
             except Exception as e:
@@ -7223,6 +7255,12 @@ function renderPaymentPreview(data) {
       confCell = '<div style="text-align:center;line-height:1.4">'
         + '<div style="font-size:13px;font-weight:700;color:' + ovColor + '">' + ov + '%</div>'
         + '<div style="font-size:9px;color:var(--text-dim)">Vendor:' + _confDot(c.vendor||0) + ' Amt:' + _confDot(c.amount||0) + ' Date:' + _confDot(c.date||0) + '</div>'
+        + (m.match_type && m.match_type.indexOf('rate:') >= 0
+           ? '<div style="font-size:8px;color:var(--text-dim)">'
+             + m.match_type.replace(/.*rate:([\d.]+)\s*actual:([\d.]+).*/, 'Rate: \u20B9$1/$ (actual: \u20B9$2)')
+             + '</div>' : '')
+        + (m.match_type && m.match_type.indexOf('est') >= 0
+           ? '<div style="font-size:8px;color:var(--yellow)">\u26A0 Est. rate</div>' : '')
         + '</div>';
     } else if (m.status === 'cc_only') {
       var reason = m.unmatched_reason || 'No Invoice';
