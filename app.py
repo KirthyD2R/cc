@@ -7328,6 +7328,8 @@ function renderPaymentPreview(data) {
       cc_card: cc.card_name || '',
       cc_forex_amount: cc.forex_amount || null,
       cc_forex_currency: cc.forex_currency || null,
+      unmatched_reason: cc.unmatched_reason || null,
+      resolved_vendor: cc.resolved_vendor || null,
     });
   });
 
