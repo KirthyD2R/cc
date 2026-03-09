@@ -40,6 +40,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000003010744",
+    "contact_name": "Adobe",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "business_none",
+    "currency_code": "INR"
+  },
+  {
     "contact_id": "2050328000003010470",
     "contact_name": "Aggarwal Enterprises",
     "company_name": "",
@@ -582,6 +590,14 @@
     "gst_no": "",
     "gst_treatment": "overseas",
     "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000003023543",
+    "contact_name": "OpenAI-USD",
+    "company_name": "OpenAI-USD",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
   },
   {
     "contact_id": "2050328000002211995",

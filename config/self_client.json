@@ -1,1 +1,10 @@
-{"scope":["ZohoBooks.fullaccess.all"],"expiry_time":1773042624252,"client_id":"1000.XC5DHQY1VQRTVVSZB20GVTU5HRXA7Y","client_secret":"0e904c34a72e8f9161b2c41a459521239f99828894","code":"1000.eb4193c079a1603c3f701834a304c724.e1f08e73dd4cd3275ead1acce55050fe","grant_type":"authorization_code"}
+{
+    "scope": [
+        "ZohoBooks.fullaccess.all"
+    ],
+    "expiry_time": 1773042624252,
+    "client_id": "1000.XC5DHQY1VQRTVVSZB20GVTU5HRXA7Y",
+    "client_secret": "0e904c34a72e8f9161b2c41a459521239f99828894",
+    "code": "1000.eb4193c079a1603c3f701834a304c724.e1f08e73dd4cd3275ead1acce55050fe",
+    "grant_type": "authorization_code"
+}

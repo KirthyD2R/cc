@@ -127,10 +127,12 @@
     "currency": "USD",
     "date": "2025-04-22",
     "organized_month": "Apr 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000366001",
+    "action": "skip",
+    "matched_bill": "B6466F68-0009",
+    "matched_bill_id": "2050328000002995719",
     "matched_vendor_name": "OpenAI, LLC",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000366001",
+    "match_type": "exact"
   },
   {
     "file": "Invoice-E0BCC1DE-0005.pdf",
@@ -2663,10 +2665,12 @@
     "currency": "USD",
     "date": "2025-07-22",
     "organized_month": "Jul 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000366001",
+    "action": "skip",
+    "matched_bill": "B6466F68-0012",
+    "matched_bill_id": "2050328000003001581",
     "matched_vendor_name": "OpenAI, LLC",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000366001",
+    "match_type": "exact"
   },
   {
     "file": "Invoice-B8ERAOBF-0002.pdf",
@@ -3111,10 +3115,12 @@
     "currency": "USD",
     "date": "2025-06-22",
     "organized_month": "Jun 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000366001",
+    "action": "skip",
+    "matched_bill": "B6466F68-0011",
+    "matched_bill_id": "2050328000002996449",
     "matched_vendor_name": "OpenAI, LLC",
-    "vendor_match_method": "name"
+    "matched_vendor_id": "2050328000000366001",
+    "match_type": "exact"
   },
   {
     "file": "Invoice-IVSLM7IE-0001.pdf",
@@ -3524,7 +3530,12 @@
     "currency": "INR",
     "date": "2025-05-28",
     "organized_month": "May 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000002991618",
+    "matched_vendor_name": "Adobe",
+    "matched_vendor_id": "2050328000003010744",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Adobe"
   },
   {
     "file": "E0100W84MG_Invoice.pdf",

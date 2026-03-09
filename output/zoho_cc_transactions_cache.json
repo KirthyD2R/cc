@@ -793,14 +793,6 @@
   },
   {
     "date": "2025-08-20",
-    "description": "RAZ*TATA AIG GENERAL I, Mumbai",
-    "amount": 8906.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939605"
-  },
-  {
-    "date": "2025-08-20",
     "description": "Surcharge waiver for fuel txn",
     "amount": 6.0,
     "card_name": "Mayura Credit Card",
@@ -822,14 +814,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939599"
-  },
-  {
-    "date": "2025-08-18",
-    "description": "RSP*TATA AIG GENERAL I, MUMBAI",
-    "amount": 127858.5,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939595"
   },
   {
     "date": "2025-08-16",

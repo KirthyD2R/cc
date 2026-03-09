@@ -1,5 +1,41 @@
 [
   {
+    "bill_id": "2050328000002991618",
+    "bill_number": "3114048162",
+    "vendor_name": "Adobe",
+    "vendor_id": "2050328000003010744",
+    "date": "2025-05-28",
+    "total": 9600.0,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000002996449",
+    "bill_number": "B6466F68-0011",
+    "vendor_name": "OpenAI, LLC",
+    "vendor_id": "2050328000000366001",
+    "date": "2025-06-22",
+    "total": 23.6,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000003001581",
+    "bill_number": "B6466F68-0012",
+    "vendor_name": "OpenAI, LLC",
+    "vendor_id": "2050328000000366001",
+    "date": "2025-07-22",
+    "total": 23.6,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000002995719",
+    "bill_number": "B6466F68-0009",
+    "vendor_name": "OpenAI, LLC",
+    "vendor_id": "2050328000000366001",
+    "date": "2025-04-22",
+    "total": 23.6,
+    "status": "overdue"
+  },
+  {
     "bill_id": "2050328000003023089",
     "bill_number": "ECRTI/2526/540",
     "vendor_name": "Aptronix",

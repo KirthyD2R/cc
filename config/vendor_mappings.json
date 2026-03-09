@@ -683,6 +683,16 @@
         "Info Edge (Naukri)": {
             "account_name": "Credit Card Charges",
             "account_id": "2050328000000000510"
+        },
+        "OpenAI, LLC": {
+            "account_name": "Subscription",
+            "account_id": "2050328000000137160",
+            "category": "invoice_coa_match"
+        },
+        "Adobe": {
+            "account_name": "PT payment",
+            "account_id": "2050328000000027449",
+            "category": "invoice_coa_match"
         }
     }
 }
