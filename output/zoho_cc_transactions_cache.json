@@ -1,71 +1,5 @@
 [
   {
-    "date": "2026-02-12",
-    "description": "GITHUB, INC.GITHUB.COM USD 5.43 [USD 5.43]",
-    "amount": 492.84,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995081",
-    "forex_amount": 5.43,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2026-02-12",
-    "description": "GITHUB, INC.GITHUB.COM USD 3.57 [USD 3.57]",
-    "amount": 324.02,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995079",
-    "forex_amount": 3.57,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2026-02-09",
-    "description": "CLAUDE.AI SUBSCRIPTIONANTHROPIC. USD 200.00 [USD 200.00]",
-    "amount": 18171.91,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995075",
-    "forex_amount": 200.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2026-02-05",
-    "description": "GITHUB, INC.GITHUB.COM USD 3.86 [USD 3.86]",
-    "amount": 349.48,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995073",
-    "forex_amount": 3.86,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2026-02-03",
-    "description": "GITHUB, INC.GITHUB.COM USD 104.00 [USD 104.00]",
-    "amount": 9551.62,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995071",
-    "forex_amount": 104.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2026-02-03",
-    "description": "WISPRWISPRFLOW.",
-    "amount": 3840.0,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995031"
-  },
-  {
-    "date": "2026-02-02",
-    "description": "GITHUB, INC.GITHUB.COM USD .13",
-    "amount": 11.97,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002995067"
-  },
-  {
     "date": "2025-11-27",
     "description": "BPPY CC PAYMENT DP015331081048LMFf3",
     "amount": 34426.0,
@@ -522,14 +456,6 @@
     "transaction_id": "2050328000002960023"
   },
   {
-    "date": "2026-02-16",
-    "description": "MICROSOFTBUS, MUMBAI",
-    "amount": 26802.87,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002960021"
-  },
-  {
     "date": "2026-02-14",
     "description": "GOOGLEPLAY, MUMBAI",
     "amount": 1950.0,
@@ -560,14 +486,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000002960007"
-  },
-  {
-    "date": "2026-01-14",
-    "description": "PVR LIMITED, CHENNAI",
-    "amount": 1629.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002999029"
   },
   {
     "date": "2026-01-14",
@@ -610,14 +528,6 @@
     "transaction_id": "2050328000002999009"
   },
   {
-    "date": "2025-12-23",
-    "description": "GOOGLEPLAY, MUMBAI",
-    "amount": 2.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002999005"
-  },
-  {
     "date": "2025-12-21",
     "description": "HYPERBROWSER.AI, SAN FRANCISCO",
     "amount": 931.19,
@@ -632,14 +542,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000002324097"
-  },
-  {
-    "date": "2025-12-14",
-    "description": "GOOGLEPLAY, MUMBAI",
-    "amount": 2.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002324095"
   },
   {
     "date": "2025-12-10",
@@ -754,28 +656,12 @@
     "transaction_id": "2050328000001812285"
   },
   {
-    "date": "2025-11-10",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 8400.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812283"
-  },
-  {
     "date": "2025-11-04",
     "description": "GOOGLECLOUD, MUMBAI",
     "amount": 1041.37,
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000001812279"
-  },
-  {
-    "date": "2025-11-03",
-    "description": "NRI*NEW RELIC, SAN FRANCISCO",
-    "amount": 86.08,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812275"
   },
   {
     "date": "2025-11-01",
@@ -858,14 +744,6 @@
     "transaction_id": "2050328000001812233"
   },
   {
-    "date": "2025-10-16",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 436.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812231"
-  },
-  {
     "date": "2025-10-11",
     "description": "LA QUINTA MOTOR INNS, DURHAM",
     "amount": 382.07,
@@ -906,14 +784,6 @@
     "transaction_id": "2050328000001812199"
   },
   {
-    "date": "2025-10-10",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 8400.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812197"
-  },
-  {
     "date": "2025-10-05",
     "description": "Surcharge waiver for fuel txn",
     "amount": 6.0,
@@ -946,28 +816,12 @@
     "transaction_id": "2050328000001812175"
   },
   {
-    "date": "2025-09-17",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 3654.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812161"
-  },
-  {
     "date": "2025-09-10",
     "description": "AMAZON PAY INDIA PRIVA, Bangalore",
     "amount": 728.16,
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939657"
-  },
-  {
-    "date": "2025-09-10",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 8400.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939655"
   },
   {
     "date": "2025-09-10",
@@ -1066,14 +920,6 @@
     "transaction_id": "2050328000000939599"
   },
   {
-    "date": "2025-08-19",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 7058.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939597"
-  },
-  {
     "date": "2025-08-18",
     "description": "RSP*TATA AIG GENERAL I, MUMBAI",
     "amount": 127858.5,
@@ -1112,14 +958,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000001812195"
-  },
-  {
-    "date": "2025-08-10",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 8400.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939573"
   },
   {
     "date": "2025-08-09",
@@ -1242,14 +1080,6 @@
     "transaction_id": "2050328000000939523"
   },
   {
-    "date": "2025-07-10",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 8400.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939511"
-  },
-  {
     "date": "2025-07-08",
     "description": "AMAZON PAY INDIA PRIVA, www.amazon.in",
     "amount": 3996.56,
@@ -1264,22 +1094,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939505"
-  },
-  {
-    "date": "2025-07-05",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 928.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939501"
-  },
-  {
-    "date": "2025-06-28",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 7106.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939493"
   },
   {
     "date": "2025-06-26",
@@ -1392,14 +1206,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939443"
-  },
-  {
-    "date": "2025-06-10",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 8400.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939431"
   },
   {
     "date": "2025-06-07",

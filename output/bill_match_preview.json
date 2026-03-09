@@ -2545,7 +2545,12 @@
     "currency": "INR",
     "date": "2025-07-27",
     "organized_month": "Jul 2025",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill": "ECRTI/2526/540",
+    "matched_bill_id": "2050328000003023089",
+    "matched_vendor_name": "Aptronix",
+    "matched_vendor_id": "2050328000003023073",
+    "match_type": "exact"
   },
   {
     "file": "FLY IO - July.pdf",

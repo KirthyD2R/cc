@@ -1,4 +1,8 @@
 {
     "_comment": "Auto-populated from confirmed recordings and bill creation. Do not edit manually.",
-    "mappings": {}
+    "mappings": {
+        "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO": "Anthropic USD",
+        "GITHUB, INC.GITHUB.COM USD .13": "GitHub, Inc.",
+        "NRI*NEW RELIC, SAN FRANCISCO": "New Relic"
+    }
 }

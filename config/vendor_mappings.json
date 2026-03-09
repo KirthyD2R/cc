@@ -501,9 +501,8 @@
             "account_id": "2050328000000027421"
         },
         "WIDEVIEW SOLUTIONS": {
-            "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         },
         "ETRADE MARKETING PVT LTD": {
             "account_name": "Office Supplies",
@@ -543,8 +542,7 @@
         },
         "CLICKTECH RETAIL PRIVATE LIMITED": {
             "account_name": "CC-Charges and GST",
-            "account_id": "2050328000002992496",
-            "category": "invoice_coa_match"
+            "account_id": "2050328000002992496"
         },
         "ZOHO CORPORATION PRIVATE LIMITED": {
             "account_name": "Software License",
@@ -666,6 +664,10 @@
         "Wispr Flow": {
             "account_name": "Software License",
             "account_id": "2050328000000027421"
+        },
+        "Info Edge (Naukri)": {
+            "account_name": "Credit Card Charges",
+            "account_id": "2050328000000000510"
         }
     }
 }

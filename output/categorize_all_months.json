@@ -1,12 +1,77 @@
 {
   "month": "All Months",
-  "rows": [],
+  "rows": [
+    {
+      "vendor": "New Relic",
+      "cc_amount_inr": null,
+      "cc_forex_amount": null,
+      "cc_forex_currency": null,
+      "cc_date": null,
+      "cc_description": null,
+      "inv_amount": 0.97,
+      "inv_currency": "USD",
+      "inv_date": "2025-10-31",
+      "inv_invoice_number": "INV01386703",
+      "inv_vendor_gstin": null,
+      "match_type": null,
+      "diff": null,
+      "status": "no_cc"
+    },
+    {
+      "vendor": "New Relic",
+      "cc_amount_inr": null,
+      "cc_forex_amount": null,
+      "cc_forex_currency": null,
+      "cc_date": null,
+      "cc_description": null,
+      "inv_amount": 10,
+      "inv_currency": "USD",
+      "inv_date": "2026-01-31",
+      "inv_invoice_number": "INV01443315",
+      "inv_vendor_gstin": null,
+      "match_type": null,
+      "diff": null,
+      "status": "no_cc"
+    },
+    {
+      "vendor": "New Relic",
+      "cc_amount_inr": 86.08,
+      "cc_forex_amount": null,
+      "cc_forex_currency": null,
+      "cc_date": "2025-11-03",
+      "cc_description": "NRI*NEW RELIC, SAN FRANCISCO",
+      "inv_amount": null,
+      "inv_currency": null,
+      "inv_date": null,
+      "inv_invoice_number": null,
+      "inv_vendor_gstin": null,
+      "match_type": null,
+      "diff": null,
+      "status": "no_invoice"
+    },
+    {
+      "vendor": "New Relic",
+      "cc_amount_inr": 897.39,
+      "cc_forex_amount": null,
+      "cc_forex_currency": null,
+      "cc_date": "2025-12-01",
+      "cc_description": "NRI*NEW RELIC, SAN FRANCISCO",
+      "inv_amount": null,
+      "inv_currency": null,
+      "inv_date": null,
+      "inv_invoice_number": null,
+      "inv_vendor_gstin": null,
+      "match_type": null,
+      "diff": null,
+      "status": "no_invoice"
+    }
+  ],
   "summary": {
     "matched": 0,
     "cross_matched": 0,
-    "no_invoice": 0,
-    "no_cc": 0,
+    "no_invoice": 2,
+    "no_cc": 2,
     "unmapped": 0
   },
-  "saved_at": "2026-03-08 23:51:28"
+  "saved_at": "2026-03-09 11:52:33"
 }
