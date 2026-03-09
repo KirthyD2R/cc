@@ -5694,6 +5694,7 @@ function fmtDate(d) {
   if (parts.length === 3) return parts[2] + '-' + parts[1] + '-' + parts[0];
   return d;
 }
+function fmt(n) { return n != null ? Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) : '-'; }
 const logBox = document.getElementById('logBox');
 let autoScroll = true;
 
