@@ -265,3 +265,14 @@ def test_fuzzy_fallback_no_false_positive():
     matches = _build_vendor_gated_matches(bills, cc, {}, {})
     matched = [m for m in matches if m["status"] == "matched"]
     assert len(matched) == 0
+
+
+def test_special_chars_in_description_still_match():
+    """Kotak descriptions with non-printable chars should match via normalization."""
+    bills = [_make_bill("Anthropic USD", 4216.45)]
+    # \ufffd simulates the replacement chars in Kotak card descriptions
+    cc = [_make_cc("CLAUDE.AI\ufffdSUBSCRIPTION\ufffdANTHROPIC.COM\ufffdCA", 4216.45)]
+    vendor_map = {"claude.ai subscription": "Anthropic USD"}
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    assert len(matched) == 1

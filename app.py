@@ -83,6 +83,7 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
         dl = desc.lower()
         dn = _norm(desc)
         du = desc.strip().upper()
+        dl_clean = "".join(c for c in dl if c.isalnum() or c == ' ')
 
         # Priority 1: Manual mappings (exact, normalized, substring)
         if dl in vm_lower:
@@ -90,7 +91,7 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
         if dn in vm_norm:
             return vm_norm[dn], "manual"
         for key in sorted_keys:
-            if key and len(key) >= 4 and key in dl:
+            if key and len(key) >= 4 and (key in dl or key in dl_clean):
                 return vm_lower[key], "manual"
         for key in sorted_norm_keys:
             if key and len(key) >= 4 and key in dn:
