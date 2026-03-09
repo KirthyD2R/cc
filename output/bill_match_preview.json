@@ -3520,9 +3520,9 @@
     "file": "Adobe_Transaction_No_3114048162_20250528.pdf",
     "invoice_number": "3114048162",
     "vendor_name": "Adobe Systems Software Ireland Ltd",
-    "amount": 30011815.0,
+    "amount": 9600.0,
     "currency": "INR",
-    "date": "2026-03-09",
+    "date": "2025-05-28",
     "organized_month": "May 2025",
     "action": "new_vendor_bill"
   },
