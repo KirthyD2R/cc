@@ -1150,26 +1150,32 @@ def api_review_bills():
             continue
         bills_to_show.append(entry)
 
-    # Fetch actual account from Zoho for each bill (batched)
+    # Fetch actual account from Zoho using concurrent requests
     zoho_accounts = {}  # bill_id -> (account_name, account_id)
     try:
         config = load_config()
         api = ZohoBooksAPI(config)
         from scripts.utils import log_action
-        log_action(f"[Review] Fetching account info for {len(bills_to_show)} bills from Zoho...")
-        for entry in bills_to_show:
-            bid = entry["bill_id"]
-            try:
-                bill_data = api.get_bill(bid)
-                bill = bill_data.get("bill", {})
-                line_items = bill.get("line_items", [])
-                if line_items:
-                    zoho_accounts[bid] = (
-                        line_items[0].get("account_name", ""),
-                        line_items[0].get("account_id", ""),
-                    )
-            except Exception:
-                pass  # Bill may have been deleted — use fallback
+        # Warm up token before concurrent requests to avoid race condition
+        api.list_bills(page=1)
+        log_action(f"[Review] Fetching account info for {len(bills_to_show)} bills from Zoho (concurrent)...")
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        def _fetch_one(bid):
+            bill_data = api.get_bill(bid)
+            bill = bill_data.get("bill", {})
+            line_items = bill.get("line_items", [])
+            if line_items:
+                return bid, line_items[0].get("account_name", ""), line_items[0].get("account_id", "")
+            return bid, None, None
+        with ThreadPoolExecutor(max_workers=10) as pool:
+            futures = {pool.submit(_fetch_one, e["bill_id"]): e["bill_id"] for e in bills_to_show}
+            for fut in as_completed(futures):
+                try:
+                    bid, acct_name, acct_id = fut.result()
+                    if acct_name:
+                        zoho_accounts[bid] = (acct_name, acct_id)
+                except Exception:
+                    pass
         log_action(f"[Review] Got account info for {len(zoho_accounts)}/{len(bills_to_show)} bills")
     except Exception as e:
         from scripts.utils import log_action
@@ -5410,6 +5416,12 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             </span>
             <span class="step-indicator ind-idle" id="ind-2"></span>
             <span class="step-msg" id="msg-2"></span>
+          </button>
+          <button class="step-btn" onclick="openInvoiceBrowse()" style="border:1.5px dashed var(--orange);background:rgba(251,146,60,0.05)">
+            <span class="step-num" style="background:var(--orange);color:#000;font-size:10px">B</span> Browse Invoices
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Browse all extracted invoices with month-wise filtering. Shows date, vendor, invoice number, amount and line item descriptions.</span>
+            </span>
           </button>
           <button class="step-btn compare-btn" onclick="openComparePanel()">
             <span class="step-num" style="background:var(--green, #4ade80);color:#000;font-size:10px">$</span> Monthly Compare

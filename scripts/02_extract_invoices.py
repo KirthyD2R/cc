@@ -20,6 +20,310 @@ from utils import PROJECT_ROOT, log_action, parse_date
 INPUT_DIR = os.path.join(PROJECT_ROOT, "input_pdfs", "invoices")
 OUTPUT_FILE = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
 
+
+# --- Line Item Extraction (regex-based) ---
+
+def _parse_currency_amount(s):
+    """Parse a currency string like '₹1,209.00' or '$200.00' into a float."""
+    if not s:
+        return None
+    s = re.sub(r'[₹$,\s]', '', s.strip())
+    try:
+        return float(s)
+    except ValueError:
+        return None
+
+
+def _extract_line_items_from_tables(pdf_path):
+    """Extract line items using pdfplumber table extraction.
+
+    Works well for Amazon India invoices and other structured table formats.
+    Returns list of dicts with 'description' and 'amount' keys.
+    """
+    items = []
+    try:
+        with pdfplumber.open(pdf_path) as pdf:
+            for page in pdf.pages:
+                tables = page.extract_tables()
+                for table in tables:
+                    if not table or len(table) < 2:
+                        continue
+                    # Find header row
+                    header = None
+                    header_idx = -1
+                    for ri, row in enumerate(table):
+                        row_text = ' '.join((c or '').lower() for c in row)
+                        if 'description' in row_text and ('amount' in row_text or 'total' in row_text or 'price' in row_text):
+                            header = row
+                            header_idx = ri
+                            break
+                    if header is None or header_idx < 0:
+                        continue
+
+                    # Map column indices
+                    col_map = {}
+                    for ci, cell in enumerate(header):
+                        cell_lower = (cell or '').lower().replace('\n', ' ')
+                        if 'description' in cell_lower or 'item' in cell_lower or 'particulars' in cell_lower:
+                            col_map['desc'] = ci
+                        if 'total' in cell_lower and 'amount' in cell_lower:
+                            col_map['amount'] = ci
+                        elif 'amount' in cell_lower and 'net' not in cell_lower and 'tax' not in cell_lower and 'amount' not in col_map:
+                            col_map['amount'] = ci
+                        if 'qty' in cell_lower or 'quantity' in cell_lower:
+                            col_map['qty'] = ci
+                        if 'unit' in cell_lower and 'price' in cell_lower:
+                            col_map['unit_price'] = ci
+
+                    if 'desc' not in col_map:
+                        continue
+
+                    # If no 'total amount' found, use last column as amount
+                    if 'amount' not in col_map:
+                        col_map['amount'] = len(header) - 1
+
+                    # Parse data rows
+                    for row in table[header_idx + 1:]:
+                        if not row or len(row) <= col_map.get('desc', 0):
+                            continue
+                        desc = (row[col_map['desc']] or '').strip()
+                        if not desc:
+                            continue
+                        # Skip total/subtotal/footer rows
+                        desc_lower = desc.lower()
+                        if any(kw in desc_lower for kw in ['total:', 'amount in words', 'authorized sign', 'sub total', 'subtotal']):
+                            continue
+
+                        # Clean description: remove newlines, HSN/SAC codes, ASIN codes
+                        desc = re.sub(r'\n', ' ', desc)
+                        desc = re.sub(r'\s*\|\s*B[A-Z0-9]{9,}\s*', '', desc)  # ASIN
+                        desc = re.sub(r'\s*\([A-Z0-9_-]{5,}\s*\)', '', desc)  # SKU in parens
+                        desc = re.sub(r'\s*HSN:\s*\d+', '', desc)
+                        desc = re.sub(r'\s*SAC:\s*\d+', '', desc)
+                        # Clean Zoho-style multi-line: extract service/plan info
+                        svc_match = re.search(r'Service\s*:\s*(.+?)(?:\s+Plan\s*:\s*(\S+))?(?:\s+Payment|\s*$)', desc)
+                        if svc_match:
+                            svc_name = svc_match.group(1).strip()
+                            plan = svc_match.group(2)
+                            desc = f"{svc_name} - {plan}" if plan else svc_name
+                        desc = re.sub(r'\s{2,}', ' ', desc).strip()
+
+                        amt_idx = col_map.get('amount', len(row) - 1)
+                        raw_amt = row[amt_idx] if amt_idx < len(row) else None
+                        amount = _parse_currency_amount(raw_amt)
+                        if amount is None:
+                            continue
+
+                        qty = 1
+                        if 'qty' in col_map and col_map['qty'] < len(row):
+                            try:
+                                qty = int(float((row[col_map['qty']] or '1').strip()))
+                            except (ValueError, TypeError):
+                                qty = 1
+
+                        unit_price = None
+                        if 'unit_price' in col_map and col_map['unit_price'] < len(row):
+                            unit_price = _parse_currency_amount(row[col_map['unit_price']])
+
+                        if desc and amount is not None:
+                            items.append({
+                                "description": desc,
+                                "quantity": qty,
+                                "unit_price": unit_price,
+                                "amount": amount,
+                            })
+    except Exception:
+        pass
+    return items
+
+
+def _extract_line_items_regex(text):
+    """Fallback: extract line items from invoice text using regex patterns.
+
+    Handles formats like:
+      - GitHub: description on one line, 'qty $rate $amount' on next line
+      - LinkedIn: description on one line, 'qty ₹rate qty ₹amount' on next line
+      - Anthropic: 'Description  qty  $price  $amount' on one line
+      - Groq: 'model, in/out  units  $unit_price  tax%  $amount'
+      - Flipkart GTA: product description in 'DETAILS OF GOODS TRANSPORTED' section
+    """
+    items = []
+    lines = text.split('\n')
+    skip_words = ['sub total', 'subtotal', 'total in words', 'amount in words',
+                  'authorized sign', 'balance due', 'payment made', 'cgst', 'sgst',
+                  'igst', 'tax rate', 'amount due', 'applied transaction',
+                  'quantity', 'description', 'invoice total', 'grand total']
+
+    # --- Groq: "model_name, in/out  units  $price  tax%  $amount" ---
+    groq_pattern = re.compile(
+        r'^(.+?),\s+(in|out)\s+(\d+)\s+\$([\d.]+)\s+[\d.]+%\s+\$([\d.]+)$')
+    groq_items = {}
+    for line in lines:
+        m = groq_pattern.match(line.strip())
+        if m:
+            model = m.group(1).strip()
+            amount = float(m.group(5))
+            if model in groq_items:
+                groq_items[model]["amount"] += amount
+            else:
+                groq_items[model] = {"description": model, "quantity": 1,
+                                     "unit_price": None, "amount": amount}
+    if groq_items:
+        return [{"description": v["description"], "quantity": 1,
+                 "unit_price": None, "amount": round(v["amount"], 2)}
+                for v in groq_items.values()]
+
+    # --- AWS: "Service Name $amount" lines in "Detail for Consolidated Bill" section ---
+    if 'Detail for Consolidated Bill' in text:
+        in_detail = False
+        aws_svc = re.compile(r'^(Amazon\s+\S.*?|AWS\s+\S.*?)\s+\$([\d,.]+)$')
+        for line in lines:
+            if 'Detail for Consolidated Bill' in line:
+                in_detail = True
+                continue
+            if in_detail:
+                m = aws_svc.match(line.strip())
+                if m:
+                    svc = m.group(1).strip()
+                    amt = float(m.group(2).replace(',', ''))
+                    if amt > 0:
+                        items.append({"description": svc, "quantity": 1,
+                                      "unit_price": None, "amount": amt})
+        if items:
+            return items
+
+    # --- Flipkart GTA: extract product from "DETAILS OF GOODS TRANSPORTED" section ---
+    if 'DETAILS OF GOODS TRANSPORTED' in text:
+        gta_section = text.split('DETAILS OF GOODS TRANSPORTED')[1]
+        gta_lines = gta_section.split('\n')
+        in_items = False
+        desc_parts = []
+        for gl in gta_lines:
+            gl = gl.strip()
+            # Skip the header line "Description of Goods  Qty  Gross Weight  Value"
+            if 'description of' in gl.lower() and 'goods' in gl.lower():
+                in_items = True
+                continue
+            if in_items:
+                if not gl or gl.startswith('Consign') or gl.startswith('Registration'):
+                    break
+                desc_parts.append(gl)
+        if desc_parts:
+            full_desc = ' '.join(desc_parts)
+            # Pattern: "Product Name  qty  weight_num grams/kg  value"
+            m = re.match(r'^(.+?)\s+([\d.]+)\s+([\d.]+)\s+(?:grams|kg)\s+([\d.]+)', full_desc)
+            if m:
+                desc = m.group(1).strip()
+                # Remove "Goods Consignment" prefix from header bleed
+                desc = re.sub(r'^(?:Goods\s+)?Consignment\s+', '', desc).strip()
+                items.append({
+                    "description": desc,
+                    "quantity": int(float(m.group(2))),
+                    "unit_price": None,
+                    "amount": float(m.group(4)),
+                })
+                return items
+
+    # --- Flipkart seller (CIGFIL style): "SAC: code Description qty amount ..." ---
+    flipkart_seller = re.compile(
+        r'SAC:\s*\d+\s+(.+?)\s+(\d+)\s+([\d,.]+)\s+[\d,.]+\s+([\d,.]+)')
+    for line in lines:
+        m = flipkart_seller.search(line.strip())
+        if m:
+            desc = m.group(1).strip()
+            qty = int(m.group(2))
+            amount = float(m.group(4).replace(',', ''))
+            items.append({"description": desc, "quantity": qty,
+                          "unit_price": None, "amount": amount})
+    if items:
+        return items
+
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        i += 1
+        if not line:
+            continue
+
+        line_lower = line.lower()
+        if any(kw in line_lower for kw in skip_words):
+            continue
+
+        # Pattern 1: "qty [$₹]rate qty [$₹]amount" on current line — description is previous line
+        # GitHub: "14 $4.00 $56.00"  LinkedIn: "1 ₹8,400.00 1 ₹8,400.00"
+        amt_match = re.match(r'^([\d.]+)\s+[$₹]?([\d,]+\.?\d*)\s+(?:[\d.]+\s+)?[$₹]?([\d,]+\.?\d*)$', line)
+        if amt_match:
+            desc = None
+            for j in range(i - 2, max(i - 4, -1), -1):
+                if j >= 0 and lines[j].strip() and not re.match(r'^[\d$₹,.\s]+$', lines[j].strip()):
+                    candidate = lines[j].strip()
+                    cand_lower = candidate.lower()
+                    if not any(kw in cand_lower for kw in skip_words):
+                        desc = candidate
+                        break
+            if desc:
+                try:
+                    qty = int(float(amt_match.group(1)))
+                except ValueError:
+                    qty = 1
+                amount = float(amt_match.group(3).replace(',', ''))
+                unit_price_str = amt_match.group(2).replace(',', '')
+                unit_price = float(unit_price_str) if unit_price_str else None
+                items.append({
+                    "description": desc,
+                    "quantity": qty,
+                    "unit_price": unit_price,
+                    "amount": amount,
+                })
+                # Skip date line after amount (e.g., "Oct 02, 2025 - Nov 01, 2025")
+                if i < len(lines) and re.match(r'^[A-Z][a-z]{2}\s+\d{1,2},?\s+\d{4}|^From\s', lines[i].strip()):
+                    i += 1
+                continue
+
+        # Pattern 2: "Description  qty  $price  $amount" all on one line
+        amt_match2 = re.match(
+            r'^(.+?)\s+(\d+)\s+[$₹]?([\d,]+\.\d{2})\s+[$₹]?([\d,]+\.\d{2})$', line)
+        if amt_match2:
+            desc = amt_match2.group(1).strip()
+            if desc and not any(kw in desc.lower() for kw in skip_words):
+                qty = int(amt_match2.group(2))
+                unit_price = float(amt_match2.group(3).replace(',', ''))
+                amount = float(amt_match2.group(4).replace(',', ''))
+                items.append({
+                    "description": desc,
+                    "quantity": qty,
+                    "unit_price": unit_price,
+                    "amount": amount,
+                })
+                continue
+
+    return items
+
+
+def extract_line_items(pdf_path, text=None):
+    """Extract line items from an invoice PDF.
+
+    Tries table extraction first (best for structured invoices),
+    falls back to regex on text.
+    Returns list of dicts: [{"description": str, "quantity": int, "unit_price": float|None, "amount": float}, ...]
+    """
+    # Try table extraction first (works for Amazon, Zoho, Flipkart, etc.)
+    items = _extract_line_items_from_tables(pdf_path)
+    if items:
+        return items
+
+    # Fallback to regex
+    if text is None:
+        try:
+            with pdfplumber.open(pdf_path) as pdf:
+                text = '\n'.join(p.extract_text() or '' for p in pdf.pages)
+        except Exception:
+            return []
+
+    items = _extract_line_items_regex(text)
+    return items
+
+
 # Company's own GSTIN — filtered out when extracting vendor GSTIN
 _COMPANY_GSTIN = "33AAICD7217K1ZK"
 
@@ -767,6 +1071,15 @@ def extract_amazon_india_multi(pdf_path, filename):
             entry["amazon_entities"] = data["amazon_entities"]
         if data.get("amazon_fc_code"):
             entry["amazon_fc_code"] = data["amazon_fc_code"]
+
+        # Extract line items from this page
+        line_items = _extract_line_items_from_tables(pdf_path)
+        # Filter to items matching this page's amount if multi-page
+        if not line_items:
+            line_items = _extract_line_items_regex(page_text)
+        if line_items:
+            entry["line_items"] = line_items
+
         results.append(entry)
 
     return results
@@ -995,6 +1308,13 @@ def extract_invoice(pdf_path, filename):
     }
     if vendor_tax_id:
         result["vendor_tax_id"] = vendor_tax_id
+
+    # Extract line items
+    if not filename.lower().endswith('.eml'):
+        line_items = extract_line_items(pdf_path, text)
+        if line_items:
+            result["line_items"] = line_items
+
     return result
 
 

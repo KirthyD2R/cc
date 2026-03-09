@@ -1,0 +1,5 @@
+{
+    "provider": "gemini",
+    "gemini_api_key": "AIzaSyDZLKcT5PI31zFiO2gE2d-4ZQfeJq77Quw",
+    "model": "gemini-2.0-flash"
+}
