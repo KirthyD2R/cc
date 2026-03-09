@@ -7554,7 +7554,17 @@ function renderPaymentPreview(data) {
         sepColor = 'var(--accent)'; sepBg = 'rgba(100,150,255,0.06)';
       } else if (section === 'unmatched') {
         var umCount = matches.filter(function(x){return x.status==='unmatched'}).length;
+        var withCand = matches.filter(function(x){return x.status==='unmatched' && x.candidates && x.candidates.length > 0}).length;
         sepLabel = '\u26A0 No CC Match \u2014 Bills Only (' + umCount + ')';
+        if (withCand > 0) {
+          sepLabel += ' <span style="font-weight:400;font-size:10px;margin-left:12px">'
+            + 'Score \u2265 <select id="candScoreThreshold" onchange="filterCandidatesByScore()" style="background:var(--bg-secondary);color:var(--text);border:1px solid var(--border);font-size:10px;padding:1px 4px;border-radius:3px">'
+            + '<option value="0">All</option><option value="50">50</option><option value="60">60</option><option value="70" selected>70</option><option value="80">80</option><option value="90">90</option>'
+            + '</select>'
+            + ' <button onclick="selectAllCandidates()" style="font-size:10px;padding:2px 8px;margin-left:8px;background:var(--bg-secondary);color:var(--text);border:1px solid var(--border);border-radius:3px;cursor:pointer">Select Visible</button>'
+            + ' <button id="confirmCandidatesBtn" onclick="confirmSelectedCandidates()" style="font-size:10px;padding:2px 8px;margin-left:4px;background:var(--green);color:#000;border:none;border-radius:3px;cursor:pointer;display:none">Confirm Selected (0)</button>'
+            + '</span>';
+        }
         sepColor = 'var(--yellow)'; sepBg = 'rgba(255,200,50,0.06)';
       } else {
         var apCount = matches.filter(function(x){return x.status==='already_paid'}).length;
@@ -7949,6 +7959,7 @@ function togglePayCheckbox(cb) {
   if (cb.checked) _paySelectedBills.add(billId);
   else _paySelectedBills.delete(billId);
   _updatePaySelectedBtn();
+  _updateCandidateSelectedBtn();
 }
 
 function togglePaySelectAll(cb) {
@@ -8306,6 +8317,125 @@ function dismissUnmatchedBill(billId) {
   var detail = document.getElementById('cand-detail-' + billId);
   if (row) row.style.display = 'none';
   if (detail) detail.style.display = 'none';
+}
+
+// --- Bulk candidate approval ---
+
+function filterCandidatesByScore() {
+  var threshold = parseInt(document.getElementById('candScoreThreshold').value) || 0;
+  var matches = _paymentPreviewData.matches || [];
+  matches.forEach(function(m) {
+    if (m.status !== 'unmatched') return;
+    var row = document.getElementById('pay-row-' + m.bill_id);
+    if (!row) return;
+    var topScore = (m.candidates && m.candidates.length > 0) ? m.candidates[0].candidate_score : 0;
+    if (threshold > 0 && topScore < threshold) {
+      row.style.display = 'none';
+      var cb = row.querySelector('.pay-cb');
+      if (cb && cb.checked) { cb.checked = false; togglePayCheckbox(cb); }
+    } else {
+      row.style.display = '';
+    }
+  });
+}
+
+function selectAllCandidates() {
+  var threshold = parseInt(document.getElementById('candScoreThreshold').value) || 0;
+  var matches = _paymentPreviewData.matches || [];
+  matches.forEach(function(m) {
+    if (m.status !== 'unmatched' || !m.candidates || m.candidates.length === 0) return;
+    var topScore = m.candidates[0].candidate_score;
+    if (threshold > 0 && topScore < threshold) return;
+    var row = document.getElementById('pay-row-' + m.bill_id);
+    if (!row || row.style.display === 'none') return;
+    var cb = row.querySelector('.pay-cb');
+    if (cb && !cb.checked) { cb.checked = true; togglePayCheckbox(cb); }
+  });
+  _updateCandidateSelectedBtn();
+}
+
+function _updateCandidateSelectedBtn() {
+  var btn = document.getElementById('confirmCandidatesBtn');
+  if (!btn) return;
+  var count = 0;
+  _paySelectedBills.forEach(function(billId) {
+    var m = _paymentPreviewData.matches.find(function(x) { return x.bill_id === billId && x.status === 'unmatched'; });
+    if (m && m.candidates && m.candidates.length > 0) count++;
+  });
+  if (count > 0) {
+    btn.style.display = 'inline-block';
+    btn.textContent = 'Confirm Selected (' + count + ')';
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+function confirmSelectedCandidates() {
+  var items = [];
+  var score90 = 0, score70 = 0, scoreLow = 0;
+  var newMappings = new Set();
+  _paySelectedBills.forEach(function(billId) {
+    var m = _paymentPreviewData.matches.find(function(x) { return x.bill_id === billId && x.status === 'unmatched'; });
+    if (!m || !m.candidates || m.candidates.length === 0) return;
+    var cand = m.candidates[0];
+    items.push({
+      bill_id: billId,
+      cc_transaction_id: cand.cc_transaction_id,
+      cc_inr_amount: cand.cc_inr_amount,
+      cc_date: cand.cc_date,
+      cc_card: cand.cc_card,
+      cc_description: cand.cc_description,
+      cc_forex_amount: cand.cc_forex_amount,
+      cc_forex_currency: cand.cc_forex_currency,
+    });
+    if (cand.candidate_score >= 90) score90++;
+    else if (cand.candidate_score >= 70) score70++;
+    else scoreLow++;
+    newMappings.add(cand.cc_description);
+  });
+  if (!items.length) return;
+
+  var summary = 'Score 90+: ' + score90 + ' bills\nScore 70-89: ' + score70 + ' bills';
+  if (scoreLow > 0) summary += '\nScore <70: ' + scoreLow + ' bills';
+  summary += '\n\nNew vendor mappings to learn: ' + newMappings.size;
+
+  showModal('Confirm ' + items.length + ' Candidate Matches?', summary, function() {
+    var btn = document.getElementById('confirmCandidatesBtn');
+    btn.disabled = true;
+    btn.textContent = 'Recording ' + items.length + '...';
+
+    fetch('/api/payments/record-selected', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({items: items}),
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var results = data.results || [];
+      var paidCount = 0;
+      results.forEach(function(r) {
+        var row = document.getElementById('pay-row-' + r.bill_id);
+        if (r.status === 'paid') {
+          if (row) row.style.background = 'rgba(80,200,120,0.15)';
+          var cb = row ? row.querySelector('.pay-cb') : null;
+          if (cb) { cb.checked = false; cb.disabled = true; }
+          _paySelectedBills.delete(r.bill_id);
+          paidCount++;
+          var detail = document.getElementById('cand-detail-' + r.bill_id);
+          if (detail) detail.style.display = 'none';
+        }
+      });
+      btn.textContent = paidCount + '/' + items.length + ' Confirmed';
+      _updatePaySelectedBtn();
+      _updateCandidateSelectedBtn();
+      addLogLine('[Payment] Bulk candidate confirm: ' + paidCount + '/' + items.length + ' paid');
+    })
+    .catch(function(err) {
+      btn.textContent = 'Error';
+      btn.disabled = false;
+      addLogLine('[Payment] Bulk candidate error: ' + err);
+    });
+  }, true, 'Confirm All');
 }
 
 function renderCheckPanel(data) {
