@@ -1164,16 +1164,21 @@ def api_review_bills():
             bill_data = api.get_bill(bid)
             bill = bill_data.get("bill", {})
             line_items = bill.get("line_items", [])
+            desc = bill.get("notes", "") or bill.get("reference_number", "") or ""
+            if not desc and line_items:
+                desc = line_items[0].get("description", "") or line_items[0].get("name", "")
             if line_items:
-                return bid, line_items[0].get("account_name", ""), line_items[0].get("account_id", "")
-            return bid, None, None
+                return bid, line_items[0].get("account_name", ""), line_items[0].get("account_id", ""), desc
+            return bid, None, None, desc
         with ThreadPoolExecutor(max_workers=10) as pool:
             futures = {pool.submit(_fetch_one, e["bill_id"]): e["bill_id"] for e in bills_to_show}
             for fut in as_completed(futures):
                 try:
-                    bid, acct_name, acct_id = fut.result()
+                    bid, acct_name, acct_id, desc = fut.result()
                     if acct_name:
-                        zoho_accounts[bid] = (acct_name, acct_id)
+                        zoho_accounts[bid] = (acct_name, acct_id, desc)
+                    elif desc:
+                        zoho_accounts[bid] = (None, None, desc)
                 except Exception:
                     pass
         log_action(f"[Review] Got account info for {len(zoho_accounts)}/{len(bills_to_show)} bills")
@@ -1189,13 +1194,22 @@ def api_review_bills():
         vendor_name = entry.get("vendor_name", "Unknown")
 
         # Prefer Zoho actual account, fall back to local mapping
+        description = ""
         if bid in zoho_accounts:
-            account_name, account_id = zoho_accounts[bid]
-            # Update local mapping if Zoho has a different account
-            local = account_mappings.get(vendor_name, {})
-            if account_id and local.get("account_id") != account_id:
-                account_mappings[vendor_name] = {"account_name": account_name, "account_id": account_id}
-                mappings_changed = True
+            acct_data = zoho_accounts[bid]
+            account_name = acct_data[0]
+            account_id = acct_data[1]
+            description = acct_data[2] if len(acct_data) > 2 else ""
+            if account_name:
+                # Update local mapping if Zoho has a different account
+                local = account_mappings.get(vendor_name, {})
+                if account_id and local.get("account_id") != account_id:
+                    account_mappings[vendor_name] = {"account_name": account_name, "account_id": account_id}
+                    mappings_changed = True
+            else:
+                mapping = account_mappings.get(vendor_name, {})
+                account_name = mapping.get("account_name", default_account)
+                account_id = mapping.get("account_id", "")
         else:
             mapping = account_mappings.get(vendor_name, {})
             account_name = mapping.get("account_name", default_account)
@@ -1208,6 +1222,7 @@ def api_review_bills():
             "currency": entry.get("currency", "INR"),
             "account_id": account_id,
             "account_name": account_name,
+            "description": description or entry.get("file", ""),
         })
 
     if mappings_changed:
@@ -1890,6 +1905,89 @@ def api_payments_record_one():
             return jsonify({"status": "already_paid", "bill_id": bill_id})
         from scripts.utils import log_action
         log_action(f"record-one error for {bill_id}: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/payments/record-group", methods=["POST"])
+def api_payments_record_group():
+    """Record payment for grouped bills (multiple bills → 1 CC transaction)."""
+    data = request.json or {}
+    bill_ids = data.get("bill_ids", [])
+    cc_inr = data.get("cc_inr_amount")
+    cc_date = data.get("cc_date")
+    cc_card = data.get("cc_card")
+    cc_desc = data.get("cc_description", "")
+
+    if not bill_ids or len(bill_ids) < 2:
+        return jsonify({"error": "At least 2 bill_ids required for group payment"}), 400
+    if not cc_inr or not cc_date or not cc_card:
+        return jsonify({"error": "cc_inr_amount, cc_date, cc_card required"}), 400
+
+    try:
+        from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids, log_action
+
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        cards = config.get("credit_cards", [])
+        resolve_account_ids(api, cards)
+
+        # Resolve CC card -> zoho_account_id
+        account_id = None
+        for card in cards:
+            if card.get("name") == cc_card:
+                account_id = card.get("zoho_account_id")
+                break
+        if not account_id:
+            return jsonify({"error": f"CC card '{cc_card}' not found in config"}), 400
+
+        # Fetch each bill and build the bills array
+        bills_list = []
+        total_balance = 0
+        vendor_id = None
+        for bid in bill_ids:
+            bill_data = api.get_bill(bid)
+            bill = bill_data.get("bill", {})
+            balance = float(bill.get("balance", bill.get("total", 0)))
+            if not vendor_id:
+                vendor_id = bill.get("vendor_id", "")
+            if balance > 0:
+                bills_list.append({"bill_id": bid, "amount_applied": balance})
+                total_balance += balance
+
+        if not bills_list:
+            return jsonify({"error": "All bills already paid"}), 400
+
+        payment_data = {
+            "vendor_id": vendor_id,
+            "payment_mode": "Credit Card",
+            "date": cc_date,
+            "amount": total_balance,
+            "paid_through_account_id": account_id,
+            "bills": bills_list,
+        }
+
+        log_action(f"Recording GROUP payment: {len(bills_list)} bills via {cc_card} on {cc_date} (INR {total_balance})")
+
+        result = api.record_vendor_payment(payment_data)
+        payment = result.get("vendorpayment", {})
+        payment_id = payment.get("payment_id")
+
+        if payment_id:
+            log_action(f"  Group payment recorded: {payment_id}")
+            # Learn vendor mapping
+            if cc_desc and vendor_id:
+                bill_data = api.get_bill(bill_ids[0])
+                vname = bill_data.get("bill", {}).get("vendor_name", "")
+                if vname:
+                    from scripts.utils import save_learned_vendor_mapping
+                    save_learned_vendor_mapping(cc_desc, vname)
+            return jsonify({"status": "paid", "payment_id": payment_id, "bill_ids": bill_ids})
+        else:
+            return jsonify({"status": "failed", "message": "No payment_id returned"})
+
+    except Exception as e:
+        from scripts.utils import log_action
+        log_action(f"record-group error: {e}", "ERROR")
         return jsonify({"error": str(e)}), 500
 
 
@@ -5631,6 +5729,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <thead>
               <tr>
                 <th>Vendor</th>
+                <th>Description</th>
                 <th>Amount</th>
                 <th>Currency</th>
                 <th>Current Account</th>
@@ -5717,6 +5816,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
           <select id="paymentStatusFilter" onchange="filterPayments()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 8px;font-size:11px">
             <option value="">All Statuses</option>
             <option value="matched">Matched</option>
+            <option value="group_matched">Group Matched</option>
             <option value="unmatched">No CC Match</option>
             <option value="cc_only">CC Only</option>
             <option value="already_paid">Already Paid</option>
@@ -6105,7 +6205,7 @@ function renderReviewTable(bills) {
     const headerTr = document.createElement('tr');
     headerTr.className = 'vendor-group-header';
     const headerTd = document.createElement('td');
-    headerTd.colSpan = 6;
+    headerTd.colSpan = 7;
 
     const bulkRow = document.createElement('div');
     bulkRow.className = 'vendor-bulk-row';
@@ -6157,6 +6257,18 @@ function renderReviewTable(bills) {
       tdVendor.style.color = 'var(--text-dim)';
       tdVendor.style.paddingLeft = '20px';
       tr.appendChild(tdVendor);
+
+      // Description
+      const tdDesc = document.createElement('td');
+      tdDesc.textContent = bill.description || '-';
+      tdDesc.style.color = 'var(--text-dim)';
+      tdDesc.style.fontSize = '11px';
+      tdDesc.style.maxWidth = '250px';
+      tdDesc.style.overflow = 'hidden';
+      tdDesc.style.textOverflow = 'ellipsis';
+      tdDesc.style.whiteSpace = 'nowrap';
+      tdDesc.title = bill.description || '';
+      tr.appendChild(tdDesc);
 
       // Amount
       const tdAmount = document.createElement('td');
@@ -7501,7 +7613,7 @@ function filterPayments() {
   var dateTo = document.getElementById('paymentDateTo').value || '';
   var statusFilter = document.getElementById('paymentStatusFilter').value || '';
 
-  var visibleMatched = 0, visibleUnmatched = 0, visiblePaid = 0, visibleCcOnly = 0;
+  var visibleMatched = 0, visibleGrouped = 0, visibleUnmatched = 0, visiblePaid = 0, visibleCcOnly = 0;
 
   dataRows.forEach(function(row, i) {
     var m = matches[i];
@@ -7546,6 +7658,7 @@ function filterPayments() {
     row.style.display = show ? '' : 'none';
     if (show) {
       if (status === 'matched') visibleMatched++;
+      else if (status === 'group_matched') visibleGrouped++;
       else if (status === 'unmatched') visibleUnmatched++;
       else if (status === 'already_paid') visiblePaid++;
       else if (status === 'cc_only') visibleCcOnly++;
@@ -7553,15 +7666,15 @@ function filterPayments() {
   });
 
   // Show/hide section separators
-  var seps = {matched: visibleMatched, cc_only: visibleCcOnly, unmatched: visibleUnmatched, other: visiblePaid};
-  ['matched','cc_only','unmatched','other'].forEach(function(sec) {
+  var seps = {matched: visibleMatched, group_matched: visibleGrouped, cc_only: visibleCcOnly, unmatched: visibleUnmatched, other: visiblePaid};
+  ['matched','group_matched','cc_only','unmatched','other'].forEach(function(sec) {
     var sep = content.querySelector('.pay-sep-' + sec);
     if (sep) sep.style.display = seps[sec] > 0 ? '' : 'none';
   });
 
-  var billCount = visibleMatched + visibleUnmatched + visiblePaid;
+  var billCount = visibleMatched + visibleGrouped + visibleUnmatched + visiblePaid;
   document.getElementById('paymentSummaryText').textContent =
-    billCount + ' bills \u00B7 ' + visibleMatched + ' matched \u00B7 ' + visibleUnmatched + ' no CC \u00B7 ' + visiblePaid + ' already paid \u00B7 ' + visibleCcOnly + ' no invoice';
+    billCount + ' bills \u00B7 ' + visibleMatched + ' matched \u00B7 ' + visibleGrouped + ' grouped \u00B7 ' + visibleUnmatched + ' no CC \u00B7 ' + visiblePaid + ' already paid \u00B7 ' + visibleCcOnly + ' no invoice';
 
   // Reset checkboxes on filter change
   _paySelectedBills.clear();
@@ -7607,7 +7720,7 @@ function renderPaymentPreview(data) {
   }
 
   document.getElementById('paymentSummaryText').textContent =
-    s.total_bills + ' bills \u00B7 ' + s.matched + ' matched \u00B7 ' + s.unmatched + ' no CC \u00B7 ' + (s.already_paid || 0) + ' already paid \u00B7 ' + totalUncatCount + ' no invoice';
+    s.total_bills + ' bills \u00B7 ' + s.matched + ' matched \u00B7 ' + (s.group_matched || 0) + ' grouped \u00B7 ' + s.unmatched + ' no CC \u00B7 ' + (s.already_paid || 0) + ' already paid \u00B7 ' + totalUncatCount + ' no invoice';
 
   // Populate vendor filter dropdown
   var vendorSet = {};
@@ -7651,13 +7764,31 @@ function renderPaymentPreview(data) {
     });
   });
 
+  // Merge group matches into main array
+  var gm = data.group_matches || [];
+  gm.forEach(function(g) {
+    matches.push({
+      status: 'group_matched',
+      cc_transaction_id: g.cc_transaction_id || '',
+      cc_description: g.cc_description || '',
+      cc_inr_amount: g.cc_inr_amount || 0,
+      cc_date: g.cc_date || '',
+      cc_card: g.cc_card || '',
+      vendor_name: g.vendor_name || '',
+      grouped_bills: g.grouped_bills || [],
+      group_sum: g.group_sum || 0,
+      confidence: g.confidence || {},
+      match_score: g.match_score || 0,
+    });
+  });
+
   if (!matches.length) {
     content.innerHTML = '<div style="text-align:center;color:var(--text-dim);padding:40px">No unpaid bills or CC transactions found</div>';
     return;
   }
 
-  // Sort: matched first (by confidence desc), then no CC, then no invoice, then already_paid
-  var order = {matched: 0, unmatched: 1, cc_only: 2, already_paid: 3};
+  // Sort: matched first (by confidence desc), then group_matched, then no CC, then no invoice, then already_paid
+  var order = {matched: 0, group_matched: 1, unmatched: 2, cc_only: 3, already_paid: 4};
   matches.sort(function(a, b) {
     var oa = order.hasOwnProperty(a.status) ? order[a.status] : 9;
     var ob = order.hasOwnProperty(b.status) ? order[b.status] : 9;
@@ -7703,7 +7834,7 @@ function renderPaymentPreview(data) {
 
   matches.forEach(function(m, idx) {
     // Add section separator rows
-    var section = m.status === 'matched' ? 'matched' : (m.status === 'cc_only' ? 'cc_only' : (m.status === 'unmatched' ? 'unmatched' : 'other'));
+    var section = m.status === 'matched' ? 'matched' : (m.status === 'group_matched' ? 'group_matched' : (m.status === 'cc_only' ? 'cc_only' : (m.status === 'unmatched' ? 'unmatched' : 'other')));
     if (section !== _lastSection) {
       _lastSection = section;
       var sepTr = document.createElement('tr');
@@ -7713,6 +7844,10 @@ function renderPaymentPreview(data) {
         var mCount = matches.filter(function(x){return x.status==='matched'}).length;
         sepLabel = '\u2714 Matched (' + mCount + ')';
         sepColor = 'var(--green)'; sepBg = 'rgba(80,200,120,0.08)';
+      } else if (section === 'group_matched') {
+        var gmCount = matches.filter(function(x){return x.status==='group_matched'}).length;
+        sepLabel = '\u2795 Group Matched \u2014 1 CC = N Bills (' + gmCount + ' groups)';
+        sepColor = 'var(--accent)'; sepBg = 'rgba(100,100,255,0.08)';
       } else if (section === 'cc_only') {
         var ccCount = matches.filter(function(x){return x.status==='cc_only'}).length;
         sepLabel = '\u26A0 No Invoice \u2014 CC Only (' + ccCount + ')';
@@ -7723,7 +7858,7 @@ function renderPaymentPreview(data) {
         sepLabel = '\u26A0 No CC Match \u2014 Bills Only (' + umCount + ')';
         if (withCand > 0) {
           sepLabel += ' <span style="font-weight:400;font-size:10px;margin-left:12px">'
-            + 'Score \u2265 <select id="candScoreThreshold" onchange="filterCandidatesByScore()" style="background:var(--bg-secondary);color:var(--text);border:1px solid var(--border);font-size:10px;padding:1px 4px;border-radius:3px">'
+            + 'Score \u2265 <select id="candScoreThreshold" onchange="filterCandidatesByScore()" style="background:var(--bg);color:var(--text);border:1px solid var(--border);font-size:10px;padding:1px 4px;border-radius:3px;color-scheme:dark">'
             + '<option value="0" selected>All</option><option value="50">50</option><option value="60">60</option><option value="70">70</option><option value="80">80</option><option value="90">90</option>'
             + '</select>'
             + ' <button onclick="selectAllCandidates()" style="font-size:10px;padding:2px 8px;margin-left:8px;background:var(--bg-secondary);color:var(--text);border:1px solid var(--border);border-radius:3px;cursor:pointer">Select Visible</button>'
@@ -7749,6 +7884,7 @@ function renderPaymentPreview(data) {
 
     var bgColor = 'transparent';
     if (m.status === 'matched') bgColor = 'rgba(80,200,120,0.04)';
+    else if (m.status === 'group_matched') bgColor = 'rgba(100,100,255,0.04)';
     else if (m.status === 'cc_only') bgColor = 'rgba(100,150,255,0.04)';
     else if (m.status === 'unmatched') bgColor = 'rgba(255,200,50,0.04)';
     else if (m.status === 'already_paid') bgColor = 'rgba(150,150,150,0.04)';
@@ -7793,8 +7929,51 @@ function renderPaymentPreview(data) {
       } else {
         confCell = '<span style="color:var(--yellow);font-size:10px">No CC</span>';
       }
+    } else if (m.status === 'group_matched') {
+      var c = m.confidence || {};
+      var ov = c.overall || 0;
+      var ovColor = ov >= 85 ? 'var(--green)' : ov >= 60 ? 'var(--yellow)' : 'var(--red,#ef4444)';
+      confCell = '<div style="text-align:center;line-height:1.4">'
+        + '<div style="font-size:13px;font-weight:700;color:' + ovColor + '">' + ov + '%</div>'
+        + '<div style="font-size:9px;color:var(--text-dim)">V:' + _confDot(c.vendor||0) + ' A:' + _confDot(c.amount||0) + ' D:' + _confDot(c.date||0) + '</div>'
+        + '</div>';
     } else if (m.status === 'already_paid') {
       confCell = '<span style="color:var(--text-dim);font-size:10px">\u2713 Paid</span>';
+    }
+
+    // --- Special rendering for group_matched ---
+    if (m.status === 'group_matched') {
+      var gBills = m.grouped_bills || [];
+      var billsSummary = gBills.map(function(b) {
+        return b.vendor_name + ' \u20B9' + Number(b.amount).toLocaleString('en-IN') + ' (' + b.date + ')';
+      }).join('<br>');
+      var gDesc = m.cc_description || '-';
+      var gDescFull = gDesc;
+      if (gDesc.length > 40) gDesc = gDesc.substring(0, 40) + '\u2026';
+      tr.innerHTML = '<td style="padding:5px 4px"></td>'
+        + '<td style="text-align:left;padding:5px 8px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + gDescFull.replace(/"/g,'&quot;') + '">' + gDesc + '</td>'
+        + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(m.cc_inr_amount) + '</td>'
+        + '<td style="padding:5px 8px">' + fmtDate(m.cc_date) + '</td>'
+        + '<td style="padding:5px 8px;font-size:10px">' + (m.cc_card||'-') + '</td>'
+        + '<td style="text-align:left;padding:5px 8px;border-left:2px solid var(--border);font-size:10px;line-height:1.6" title="' + gBills.length + ' bills">'
+          + '<span style="color:var(--accent);font-weight:600">' + gBills.length + ' bills</span><br>' + billsSummary + '</td>'
+        + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(m.group_sum) + '</td>'
+        + '<td style="padding:5px 4px;text-align:center">INR</td>'
+        + '<td style="padding:5px 8px">' + (gBills.length > 0 ? fmtDate(gBills[0].date) : '-') + '</td>'
+        + '<td style="padding:5px 8px">' + confCell + '</td>'
+        + '<td style="padding:5px 8px"><button class="bill-create-btn" id="pay-grp-btn-' + idx + '" style="white-space:nowrap">Record Group</button></td>';
+      tbody.appendChild(tr);
+      // Attach group record handler with confirmation
+      (function(groupData, btnId) {
+        var btn = document.getElementById(btnId);
+        if (btn) btn.onclick = function() {
+          var billList = groupData.grouped_bills.map(function(b) { return '  ' + b.vendor_name + ' \u20B9' + Number(b.amount).toLocaleString('en-IN'); }).join('\n');
+          var msg = 'Record GROUP payment?\n\nCC: ' + groupData.cc_description + '\nCC Amount: \u20B9' + Number(groupData.cc_inr_amount).toLocaleString('en-IN') + '\nDate: ' + groupData.cc_date + '\n\n' + groupData.grouped_bills.length + ' bills:\n' + billList + '\n\nGroup Sum: \u20B9' + Number(groupData.group_sum).toLocaleString('en-IN') + '\nConfidence: ' + (groupData.confidence.overall || 0) + '%';
+          if (!confirm(msg)) return;
+          recordGroupPayment(groupData, btn);
+        };
+      })(m, 'pay-grp-btn-' + idx);
+      return; // skip normal row rendering
     }
 
     // CC columns (left side) — empty for unmatched/already_paid, candidate for unmatched+candidates
@@ -7937,81 +8116,41 @@ function renderPaymentPreview(data) {
     });
   }
 
-  // --- Group Matches section ---
-  var gm = data.group_matches || [];
-  if (gm.length > 0) {
-    var gmHeader = document.createElement('div');
-    gmHeader.style.cssText = 'padding:10px 16px;font-weight:700;font-size:13px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:8px';
-    gmHeader.textContent = '\u2795 Group Matches (' + gm.length + ' groups)';
-    gmHeader.onclick = function() {
-      var w = document.getElementById('paymentGroupWrap');
-      if (w) w.style.display = w.style.display === 'none' ? '' : 'none';
-    };
+  // Group matches now rendered inline in main table (see group_matched status handling above)
+}
 
-    var gtbl = document.createElement('table');
-    gtbl.className = 'bill-table';
-    var gthead = document.createElement('thead');
-    var gthRow = document.createElement('tr');
-    ['CC Description','CC Amount','CC Date','Grouped Bills','Group Sum','Confidence'].forEach(function(h) {
-      var th = document.createElement('th'); th.textContent = h; gthRow.appendChild(th);
-    });
-    gthead.appendChild(gthRow);
-    gtbl.appendChild(gthead);
-    var gtbody = document.createElement('tbody');
-    gm.forEach(function(g) {
-      var tr = document.createElement('tr');
-
-      var tdDesc = document.createElement('td');
-      tdDesc.style.cssText = 'max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
-      tdDesc.title = g.cc_description || '';
-      tdDesc.textContent = g.cc_description || '';
-      tr.appendChild(tdDesc);
-
-      var tdAmt = document.createElement('td');
-      tdAmt.style.textAlign = 'right';
-      tdAmt.textContent = '\u20B9' + Number(g.cc_inr_amount).toLocaleString('en-IN');
-      tr.appendChild(tdAmt);
-
-      var tdDate = document.createElement('td');
-      tdDate.textContent = g.cc_date || '';
-      tr.appendChild(tdDate);
-
-      var tdBills = document.createElement('td');
-      g.grouped_bills.forEach(function(b) {
-        var div = document.createElement('div');
-        div.style.cssText = 'font-size:10px;padding:1px 0';
-        div.textContent = b.vendor_name + ' \u20B9' + Number(b.amount).toLocaleString('en-IN') + ' (' + b.date + ')';
-        tdBills.appendChild(div);
-      });
-      tr.appendChild(tdBills);
-
-      var tdSum = document.createElement('td');
-      tdSum.style.textAlign = 'right';
-      tdSum.textContent = '\u20B9' + Number(g.group_sum).toLocaleString('en-IN');
-      tr.appendChild(tdSum);
-
-      var tdConf = document.createElement('td');
-      tdConf.style.textAlign = 'center';
-      var c = g.confidence || {};
-      var ov = c.overall || 0;
-      var ovColor = ov >= 85 ? 'var(--green)' : ov >= 60 ? 'var(--yellow)' : 'var(--red,#ef4444)';
-      var confSpan = document.createElement('span');
-      confSpan.style.cssText = 'font-weight:700;color:' + ovColor;
-      confSpan.textContent = ov + '%';
-      tdConf.appendChild(confSpan);
-      tr.appendChild(tdConf);
-
-      gtbody.appendChild(tr);
-    });
-    gtbl.appendChild(gtbody);
-
-    var groupWrap = document.createElement('div');
-    groupWrap.id = 'paymentGroupWrap';
-    groupWrap.style.cssText = 'flex-shrink:0;border-top:2px solid var(--border)';
-    groupWrap.appendChild(gmHeader);
-    groupWrap.appendChild(gtbl);
-    content.appendChild(groupWrap);
-  }
+// --- Record Group Payment ---
+function recordGroupPayment(groupData, btn) {
+  btn.disabled = true;
+  btn.textContent = 'Recording...';
+  var payload = {
+    bill_ids: groupData.grouped_bills.map(function(b) { return b.bill_id; }),
+    cc_inr_amount: groupData.cc_inr_amount,
+    cc_date: groupData.cc_date,
+    cc_card: groupData.cc_card,
+    cc_description: groupData.cc_description
+  };
+  fetch('/api/payments/record-group', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r) { return r.json(); })
+  .then(function(res) {
+    if (res.status === 'paid') {
+      btn.textContent = '\u2713 Paid';
+      btn.style.background = 'rgba(34,197,94,0.3)';
+      btn.style.cursor = 'default';
+      btn.parentElement.parentElement.style.opacity = '0.5';
+    } else {
+      btn.textContent = res.error || res.message || 'Failed';
+      btn.style.color = 'var(--red,#ef4444)';
+      btn.disabled = false;
+    }
+  }).catch(function(err) {
+    btn.textContent = 'Error';
+    btn.style.color = 'var(--red,#ef4444)';
+    btn.disabled = false;
+  });
 }
 
 // --- Amex Exclude/Include toggle ---
@@ -8635,6 +8774,8 @@ function filterCandidatesByScore() {
 function selectAllCandidates() {
   var threshold = parseInt(document.getElementById('candScoreThreshold').value) || 0;
   var matches = _paymentPreviewData.matches || [];
+  // Check if all visible are already selected — if so, deselect all
+  var allSelected = true;
   matches.forEach(function(m) {
     if (m.status !== 'unmatched' || !m.candidates || m.candidates.length === 0) return;
     var topScore = m.candidates[0].candidate_score;
@@ -8642,7 +8783,20 @@ function selectAllCandidates() {
     var row = document.getElementById('pay-row-' + m.bill_id);
     if (!row || row.style.display === 'none') return;
     var cb = row.querySelector('.pay-cb');
-    if (cb && !cb.checked) { cb.checked = true; togglePayCheckbox(cb); }
+    if (cb && !cb.checked) allSelected = false;
+  });
+  matches.forEach(function(m) {
+    if (m.status !== 'unmatched' || !m.candidates || m.candidates.length === 0) return;
+    var topScore = m.candidates[0].candidate_score;
+    if (threshold > 0 && topScore < threshold) return;
+    var row = document.getElementById('pay-row-' + m.bill_id);
+    if (!row || row.style.display === 'none') return;
+    var cb = row.querySelector('.pay-cb');
+    if (allSelected) {
+      if (cb && cb.checked) { cb.checked = false; togglePayCheckbox(cb); }
+    } else {
+      if (cb && !cb.checked) { cb.checked = true; togglePayCheckbox(cb); }
+    }
   });
   _updateCandidateSelectedBtn();
 }
