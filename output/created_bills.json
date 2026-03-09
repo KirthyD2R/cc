@@ -2160,11 +2160,6 @@
     "attached": true
   },
   {
-    "file": "GROQ-TAAS-202508-118887.pdf",
-    "status": "skipped",
-    "reason": "normalized match: GROQ-TAAS-202508-118887"
-  },
-  {
     "file": "Medium1.pdf",
     "status": "created",
     "vendor_name": "Medium",
@@ -2275,11 +2270,6 @@
     "attached": true
   },
   {
-    "file": "SIDA-1153_p1_SIDA-1153_p1_SIDA-1153.pdf",
-    "status": "failed",
-    "reason": "bill creation failed"
-  },
-  {
     "file": "NK09I1126006982.pdf",
     "status": "created",
     "vendor_name": "Info Edge (Naukri)",
@@ -2310,11 +2300,6 @@
     "attached": true
   },
   {
-    "file": "MAA4-1730312_p1_MAA4-1730312_p1_MAA4-1730312.pdf",
-    "status": "failed",
-    "reason": "bill creation failed"
-  },
-  {
     "file": "MAA4-50643_p1_MAA4-50643_p1_MAA4-50643.pdf",
     "status": "created",
     "vendor_name": "TIGER PUG COMMERCE PRIVATE LIMITED",
@@ -2323,11 +2308,6 @@
     "amount": 1971.25,
     "currency": "INR",
     "attached": true
-  },
-  {
-    "file": "MAA4-61528_p1_MAA4-61528_p1_MAA4-61528.pdf",
-    "status": "failed",
-    "reason": "bill creation failed"
   },
   {
     "file": "FMAB-1775_p1_FMAB-1775_p1_FMAB-1775.pdf",
@@ -2348,5 +2328,10 @@
     "amount": 749.24,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "GROQ-TAAS-202508-118887.pdf",
+    "status": "skipped",
+    "reason": "normalized match: GROQ-TAAS-202508-118887"
   }
 ]
