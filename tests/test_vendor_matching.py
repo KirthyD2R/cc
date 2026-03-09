@@ -522,6 +522,41 @@ def test_candidate_forex_direct_comparison():
     assert cand["breakdown"]["amount"] == 100
 
 
+def test_candidate_nearest_forex_rate_fallback():
+    """USD bill without forex tag uses nearest cached rate, not stale 87.0 fallback."""
+    # Bill date 2025-09-29 is NOT in cache; nearest is 2025-09-25 (88.69)
+    # 30 USD × 88.69 = 2660.70 INR; CC is 2661.00 → diff ~0.01% → amount >= 95
+    unmatched_bills = [_make_bill("S2 Labs Inc.", 30.00, currency="USD", date="2025-09-29")]
+    cc_only = [_make_cc("HYPERBROWSER.AI, SAN FRANCISCO", 2661.00, date="2025-09-28")]
+    forex_rates = {"2025-09-25": {"USD_INR": 88.69}}
+    results = _find_candidates_for_unmatched(unmatched_bills, cc_only, forex_rates=forex_rates)
+    assert len(results[0]["candidates"]) == 1
+    cand = results[0]["candidates"][0]
+    # With nearest rate, amount should score high (95+), not the old 50
+    assert cand["breakdown"]["amount"] >= 95
+
+
+def test_candidate_smooth_amount_gradient():
+    """Amount score uses smooth gradient: 2% diff scores 70, not the old 50."""
+    # 500 INR bill, CC at 510 = 2% diff → should score 70
+    unmatched_bills = [_make_bill("SomeVendor", 500.00, date="2025-07-15")]
+    cc_only = [_make_cc("TXN", 510.00, date="2025-07-15")]
+    results = _find_candidates_for_unmatched(unmatched_bills, cc_only)
+    cand = results[0]["candidates"][0]
+    assert cand["breakdown"]["amount"] == 70
+
+
+def test_candidate_rebalanced_weights():
+    """Rebalanced weights: amount 50%, date 25%, vendor 15%, uniqueness 10%."""
+    # Exact amount + close date + no vendor + single candidate
+    unmatched_bills = [_make_bill("Unknown", 1000.00, date="2025-07-15")]
+    cc_only = [_make_cc("RANDOM TXN", 1000.00, date="2025-07-15")]
+    results = _find_candidates_for_unmatched(unmatched_bills, cc_only)
+    cand = results[0]["candidates"][0]
+    # amount=100×0.5 + date=100×0.25 + vendor=0×0.15 + uniqueness=15×0.1 = 76
+    assert cand["candidate_score"] == 76
+
+
 def test_candidate_integrates_with_vendor_gated():
     """Vendor-gated matching runs first; candidates only for leftovers."""
     bills = [
