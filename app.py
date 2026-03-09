@@ -1553,6 +1553,18 @@ def api_payments_preview():
                         break
             cc_item["unmatched_reason"] = best or f"No {resolved} bills"
 
+        # --- Candidate matching for unmatched bills ---
+        unmatched_bill_objs = [m for m in matches if m["status"] == "unmatched"]
+        if unmatched_bill_objs and unmatched_cc:
+            candidate_results = _find_candidates_for_unmatched(
+                unmatched_bill_objs, unmatched_cc, forex_rates=forex_cache
+            )
+            # Replace unmatched entries with candidate-enriched versions
+            candidate_by_bill = {r["bill_id"]: r for r in candidate_results}
+            for i, m in enumerate(matches):
+                if m["status"] == "unmatched" and m["bill_id"] in candidate_by_bill:
+                    matches[i] = candidate_by_bill[m["bill_id"]]
+
         # Track which bills were matched for Amex pass
         bill_matched_flags = [False] * len(bills)
         for bi, bill in enumerate(bills):
