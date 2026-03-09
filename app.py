@@ -7653,37 +7653,62 @@ function renderPaymentPreview(data) {
         + '<div style="font-size:8px;color:var(--yellow);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + reason + '">' + reason + '</div>'
         + '</div>';
     } else if (m.status === 'unmatched') {
-      confCell = '<span style="color:var(--yellow);font-size:10px">No CC</span>';
+      var topCand = (m.candidates && m.candidates.length > 0) ? m.candidates[0] : null;
+      if (topCand) {
+        var cs = topCand.candidate_score;
+        var csColor = cs >= 80 ? 'var(--green)' : cs >= 60 ? 'var(--yellow)' : 'var(--text-dim)';
+        confCell = '<div style="text-align:center;line-height:1.3;cursor:pointer" onclick="toggleCandidateDetail(\'' + m.bill_id + '\')">'
+          + '<div style="font-size:13px;font-weight:700;color:' + csColor + '">' + cs + '%</div>'
+          + '<div style="font-size:9px;color:var(--text-dim)">Candidate</div>'
+          + '<div style="font-size:8px;color:var(--text-dim)">Amt:' + _confDot(topCand.breakdown.amount) + ' Date:' + _confDot(topCand.breakdown.date) + ' Vnd:' + _confDot(topCand.breakdown.vendor) + '</div>'
+          + '</div>';
+      } else {
+        confCell = '<span style="color:var(--yellow);font-size:10px">No CC</span>';
+      }
     } else if (m.status === 'already_paid') {
       confCell = '<span style="color:var(--text-dim);font-size:10px">\u2713 Paid</span>';
     }
 
-    // CC columns (left side) — empty for unmatched/already_paid bills
+    // CC columns (left side) — empty for unmatched/already_paid, candidate for unmatched+candidates
+    // Note: innerHTML used throughout this internal tool; all data from own backend
     var hasCc = m.status === 'matched' || m.status === 'cc_only';
-    var ccDesc = hasCc ? (m.cc_description || '-') : '';
-    var ccDescFull = ccDesc;
+    var hasCandidate = m.status === 'unmatched' && m.candidates && m.candidates.length > 0;
+    var topCandRow = hasCandidate ? m.candidates[0] : null;
+    var showCc = hasCc || hasCandidate;
+
+    var ccDesc, ccDescFull, forexNote;
+    if (hasCc) {
+      ccDesc = m.cc_description || '-';
+      ccDescFull = ccDesc;
+      forexNote = m.cc_forex_amount ? ' (' + m.cc_forex_currency + ' ' + fmt(m.cc_forex_amount) + ')' : '';
+    } else if (hasCandidate) {
+      ccDesc = topCandRow.cc_description || '-';
+      ccDescFull = ccDesc;
+      forexNote = topCandRow.cc_forex_amount ? ' (' + topCandRow.cc_forex_currency + ' ' + fmt(topCandRow.cc_forex_amount) + ')' : '';
+    } else {
+      ccDesc = ''; ccDescFull = ''; forexNote = '';
+    }
     if (ccDesc.length > 40) ccDesc = ccDesc.substring(0, 40) + '\u2026';
-    var forexNote = '';
-    if (hasCc && m.cc_forex_amount) forexNote = ' (' + m.cc_forex_currency + ' ' + fmt(m.cc_forex_amount) + ')';
     var dimStyle = 'color:var(--text-dim);';
+    var candidateStyle = hasCandidate ? 'font-style:italic;opacity:0.7;' : '';
 
     // Bill columns (right side) — empty for cc_only
     var hasBill = m.status !== 'cc_only';
 
-    // Checkbox cell — only for matched rows
+    // Checkbox cell — for matched rows AND unmatched rows with candidates
     var cbCell = '';
-    if (m.status === 'matched') {
-      cbCell = '<td style="text-align:center;padding:5px 4px"><input type="checkbox" class="pay-cb" data-billid="' + m.bill_id + '" onchange="togglePayCheckbox(this)"></td>';
+    if (m.status === 'matched' || hasCandidate) {
+      cbCell = '<td style="text-align:center;padding:5px 4px"><input type="checkbox" class="pay-cb" data-billid="' + m.bill_id + '" data-is-candidate="' + (hasCandidate ? '1' : '0') + '" onchange="togglePayCheckbox(this)"></td>';
     } else {
       cbCell = '<td style="padding:5px 4px"></td>';
     }
 
     tr.innerHTML = cbCell
       // --- CC LEFT ---
-      + '<td style="text-align:left;padding:5px 8px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' + (hasCc?'':''+dimStyle) + '" title="' + ccDescFull.replace(/"/g,'&quot;') + '">' + (hasCc ? ccDesc + forexNote : '<span style="'+dimStyle+'">-</span>') + '</td>'
-      + '<td style="text-align:right;padding:5px 8px;font-family:monospace;' + (hasCc?'':''+dimStyle) + '">' + (hasCc && m.cc_inr_amount ? fmt(m.cc_inr_amount) : '<span style="'+dimStyle+'">-</span>') + '</td>'
-      + '<td style="padding:5px 8px;' + (hasCc?'':''+dimStyle) + '">' + (hasCc ? fmtDate(m.cc_date) : '<span style="'+dimStyle+'">-</span>') + '</td>'
-      + '<td style="padding:5px 8px;font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (hasCc ? (m.cc_card||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="text-align:left;padding:5px 8px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' + (showCc ? candidateStyle : dimStyle) + '" title="' + ccDescFull.replace(/"/g,'&quot;') + '">' + (showCc ? ccDesc + forexNote : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="text-align:right;padding:5px 8px;font-family:monospace;' + (showCc ? candidateStyle : dimStyle) + '">' + (showCc ? fmt(hasCandidate ? topCandRow.cc_inr_amount : m.cc_inr_amount) : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="padding:5px 8px;' + (showCc ? candidateStyle : dimStyle) + '">' + (showCc ? fmtDate(hasCandidate ? topCandRow.cc_date : m.cc_date) : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="padding:5px 8px;font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' + candidateStyle + '">' + (showCc ? (hasCandidate ? (topCandRow.cc_card||'-') : (m.cc_card||'-')) : '<span style="'+dimStyle+'">-</span>') + '</td>'
       // --- BILL RIGHT ---
       + '<td style="text-align:left;padding:5px 8px;border-left:2px solid var(--border);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (m.vendor_name||'').replace(/"/g,'&quot;') + '">' + (hasBill ? (m.vendor_name||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + (hasBill ? fmt(m.bill_amount) : '<span style="'+dimStyle+'">-</span>') + '</td>'
