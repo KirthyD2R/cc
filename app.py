@@ -8040,6 +8040,274 @@ function recordSelectedPayments() {
   });
 }
 
+// --- Candidate detail expansion ---
+
+function toggleCandidateDetail(billId) {
+  var detailRow = document.getElementById('cand-detail-' + billId);
+  if (detailRow) {
+    detailRow.style.display = detailRow.style.display === 'none' ? '' : 'none';
+    return;
+  }
+  var m = _paymentPreviewData.matches.find(function(x) { return x.bill_id === billId; });
+  if (!m || !m.candidates) return;
+  var parentRow = document.getElementById('pay-row-' + billId);
+  if (!parentRow) return;
+
+  var tr = document.createElement('tr');
+  tr.id = 'cand-detail-' + billId;
+  tr.style.background = 'rgba(255,200,50,0.03)';
+
+  var td = document.createElement('td');
+  td.colSpan = 11;
+  td.style.padding = '10px 16px';
+
+  // Header
+  var header = document.createElement('div');
+  header.style.cssText = 'font-size:11px;font-weight:700;color:var(--yellow);margin-bottom:8px';
+  header.textContent = 'Suggested matches for: ' + (m.vendor_name||'') + ' ' + (m.bill_currency||'INR') + ' ' + fmt(m.bill_amount) + ' (' + fmtDate(m.bill_date) + ')';
+  td.appendChild(header);
+
+  // Candidate list
+  m.candidates.forEach(function(c, ci) {
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:12px;padding:4px 0;border-bottom:1px solid var(--border)';
+    var sc = c.candidate_score;
+    var scColor = sc >= 80 ? 'var(--green)' : sc >= 60 ? 'var(--yellow)' : 'var(--text-dim)';
+
+    var scoreSpan = document.createElement('span');
+    scoreSpan.style.cssText = 'font-size:11px;min-width:30px;font-weight:700;color:' + scColor;
+    scoreSpan.textContent = sc + '%';
+    row.appendChild(scoreSpan);
+
+    var descSpan = document.createElement('span');
+    descSpan.style.cssText = 'font-size:11px;flex:1';
+    descSpan.textContent = c.cc_description;
+    row.appendChild(descSpan);
+
+    var amtSpan = document.createElement('span');
+    amtSpan.style.cssText = 'font-size:11px;font-family:monospace';
+    amtSpan.textContent = fmt(c.cc_inr_amount);
+    row.appendChild(amtSpan);
+
+    if (c.cc_forex_amount) {
+      var fxSpan = document.createElement('span');
+      fxSpan.style.cssText = 'font-size:10px;color:var(--text-dim)';
+      fxSpan.textContent = '(' + c.cc_forex_currency + ' ' + fmt(c.cc_forex_amount) + ')';
+      row.appendChild(fxSpan);
+    }
+
+    var dateSpan = document.createElement('span');
+    dateSpan.style.cssText = 'font-size:11px';
+    dateSpan.textContent = fmtDate(c.cc_date);
+    row.appendChild(dateSpan);
+
+    var cardSpan = document.createElement('span');
+    cardSpan.style.cssText = 'font-size:10px;color:var(--text-dim)';
+    cardSpan.textContent = c.cc_card;
+    row.appendChild(cardSpan);
+
+    var brkSpan = document.createElement('span');
+    brkSpan.style.cssText = 'font-size:8px;color:var(--text-dim)';
+    brkSpan.textContent = 'Amt:' + c.breakdown.amount + ' Date:' + c.breakdown.date + ' Vnd:' + c.breakdown.vendor;
+    row.appendChild(brkSpan);
+
+    var confirmBtn = document.createElement('button');
+    confirmBtn.className = 'bill-create-btn';
+    confirmBtn.style.cssText = 'font-size:10px;padding:2px 8px';
+    confirmBtn.textContent = 'Confirm';
+    confirmBtn.setAttribute('data-billid', billId);
+    confirmBtn.setAttribute('data-cidx', ci);
+    confirmBtn.onclick = function() { confirmCandidateMatch(billId, ci); };
+    row.appendChild(confirmBtn);
+
+    td.appendChild(row);
+  });
+
+  // Search box
+  var searchRow = document.createElement('div');
+  searchRow.style.cssText = 'margin-top:10px;display:flex;gap:8px;align-items:center';
+  var searchInput = document.createElement('input');
+  searchInput.type = 'text';
+  searchInput.id = 'cand-search-' + billId;
+  searchInput.placeholder = 'Search CC descriptions...';
+  searchInput.style.cssText = 'flex:1;padding:4px 8px;font-size:11px;background:var(--bg-secondary);color:var(--text);border:1px solid var(--border);border-radius:4px';
+  searchInput.onkeyup = function() { searchCandidates(billId); };
+  searchRow.appendChild(searchInput);
+  var hintSpan = document.createElement('span');
+  hintSpan.style.cssText = 'font-size:10px;color:var(--text-dim)';
+  hintSpan.textContent = 'Amt \u00b15%  Date \u00b130d';
+  searchRow.appendChild(hintSpan);
+  td.appendChild(searchRow);
+
+  var searchResults = document.createElement('div');
+  searchResults.id = 'cand-search-results-' + billId;
+  searchResults.style.marginTop = '6px';
+  td.appendChild(searchResults);
+
+  // Not CC Paid link
+  var dismissDiv = document.createElement('div');
+  dismissDiv.style.cssText = 'margin-top:8px;text-align:right';
+  var dismissLink = document.createElement('a');
+  dismissLink.href = '#';
+  dismissLink.style.cssText = 'font-size:10px;color:var(--text-dim)';
+  dismissLink.textContent = 'Not CC Paid';
+  dismissLink.onclick = function(e) { e.preventDefault(); dismissUnmatchedBill(billId); };
+  dismissDiv.appendChild(dismissLink);
+  td.appendChild(dismissDiv);
+
+  tr.appendChild(td);
+  parentRow.parentNode.insertBefore(tr, parentRow.nextSibling);
+}
+
+function searchCandidates(billId) {
+  var input = document.getElementById('cand-search-' + billId);
+  var resultsDiv = document.getElementById('cand-search-results-' + billId);
+  if (!input || !resultsDiv) return;
+  var query = input.value.trim().toLowerCase();
+  if (query.length < 2) { resultsDiv.textContent = ''; return; }
+
+  var m = _paymentPreviewData.matches.find(function(x) { return x.bill_id === billId; });
+  if (!m) return;
+
+  var allCc = (_paymentPreviewData.unmatched_cc || []);
+  var hits = allCc.filter(function(cc) {
+    if (!cc.description || cc.description.toLowerCase().indexOf(query) < 0) return false;
+    return true;
+  }).slice(0, 10);
+
+  resultsDiv.textContent = '';
+  if (hits.length === 0) {
+    var noResult = document.createElement('div');
+    noResult.style.cssText = 'font-size:10px;color:var(--text-dim);padding:4px 0';
+    noResult.textContent = 'No CC transactions matching "' + query + '"';
+    resultsDiv.appendChild(noResult);
+    return;
+  }
+
+  hits.forEach(function(cc) {
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:12px;padding:3px 0;font-size:11px';
+
+    var descSpan = document.createElement('span');
+    descSpan.style.flex = '1';
+    descSpan.textContent = cc.description;
+    row.appendChild(descSpan);
+
+    var amtSpan = document.createElement('span');
+    amtSpan.style.fontFamily = 'monospace';
+    amtSpan.textContent = fmt(cc.amount);
+    row.appendChild(amtSpan);
+
+    if (cc.forex_amount) {
+      var fxSpan = document.createElement('span');
+      fxSpan.style.cssText = 'font-size:10px;color:var(--text-dim)';
+      fxSpan.textContent = '(' + cc.forex_currency + ' ' + fmt(cc.forex_amount) + ')';
+      row.appendChild(fxSpan);
+    }
+
+    var dateSpan = document.createElement('span');
+    dateSpan.textContent = fmtDate(cc.date);
+    row.appendChild(dateSpan);
+
+    var cardSpan = document.createElement('span');
+    cardSpan.style.cssText = 'font-size:10px;color:var(--text-dim)';
+    cardSpan.textContent = cc.card_name || '';
+    row.appendChild(cardSpan);
+
+    var btn = document.createElement('button');
+    btn.className = 'bill-create-btn';
+    btn.style.cssText = 'font-size:10px;padding:2px 8px';
+    btn.textContent = 'Confirm';
+    btn.onclick = function() { confirmSearchMatch(billId, cc.transaction_id); };
+    row.appendChild(btn);
+
+    resultsDiv.appendChild(row);
+  });
+}
+
+function confirmCandidateMatch(billId, candidateIdx) {
+  var m = _paymentPreviewData.matches.find(function(x) { return x.bill_id === billId; });
+  if (!m || !m.candidates || !m.candidates[candidateIdx]) return;
+  var cand = m.candidates[candidateIdx];
+
+  showModal('Confirm Candidate Match?',
+    'Match bill ' + (m.vendor_name||'') + ' (' + (m.bill_currency||'INR') + ' ' + fmt(m.bill_amount) + ') with CC: ' + cand.cc_description + ' (' + fmt(cand.cc_inr_amount) + ')?',
+    function() {
+      fetch('/api/payments/record-one', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          bill_id: billId,
+          cc_transaction_id: cand.cc_transaction_id,
+          cc_inr_amount: cand.cc_inr_amount,
+          cc_date: cand.cc_date,
+          cc_card: cand.cc_card,
+          cc_description: cand.cc_description,
+          cc_forex_amount: cand.cc_forex_amount,
+          cc_forex_currency: cand.cc_forex_currency,
+        }),
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var row = document.getElementById('pay-row-' + billId);
+        if (data.status === 'paid') {
+          if (row) row.style.background = 'rgba(80,200,120,0.15)';
+          addLogLine('[Payment] Candidate confirmed: ' + (m.vendor_name||'') + ' -> ' + cand.cc_description);
+          var detail = document.getElementById('cand-detail-' + billId);
+          if (detail) detail.style.display = 'none';
+        } else {
+          addLogLine('[Payment] Error: ' + (data.message || data.error || data.status));
+        }
+      });
+    }, true, 'Confirm Match');
+}
+
+function confirmSearchMatch(billId, ccTxnId) {
+  var m = _paymentPreviewData.matches.find(function(x) { return x.bill_id === billId; });
+  if (!m) return;
+  var allCc = (_paymentPreviewData.unmatched_cc || []);
+  var cc = allCc.find(function(c) { return c.transaction_id === ccTxnId; });
+  if (!cc) return;
+
+  showModal('Confirm Search Match?',
+    'Match bill ' + (m.vendor_name||'') + ' (' + (m.bill_currency||'INR') + ' ' + fmt(m.bill_amount) + ') with CC: ' + cc.description + ' (' + fmt(cc.amount) + ')?',
+    function() {
+      fetch('/api/payments/record-one', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          bill_id: billId,
+          cc_transaction_id: cc.transaction_id,
+          cc_inr_amount: cc.amount,
+          cc_date: cc.date,
+          cc_card: cc.card_name,
+          cc_description: cc.description,
+          cc_forex_amount: cc.forex_amount,
+          cc_forex_currency: cc.forex_currency,
+        }),
+      })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var row = document.getElementById('pay-row-' + billId);
+        if (data.status === 'paid') {
+          if (row) row.style.background = 'rgba(80,200,120,0.15)';
+          addLogLine('[Payment] Search match confirmed: ' + (m.vendor_name||'') + ' -> ' + cc.description);
+          var detail = document.getElementById('cand-detail-' + billId);
+          if (detail) detail.style.display = 'none';
+        } else {
+          addLogLine('[Payment] Error: ' + (data.message || data.error || data.status));
+        }
+      });
+    }, true, 'Confirm Match');
+}
+
+function dismissUnmatchedBill(billId) {
+  var row = document.getElementById('pay-row-' + billId);
+  var detail = document.getElementById('cand-detail-' + billId);
+  if (row) row.style.display = 'none';
+  if (detail) detail.style.display = 'none';
+}
+
 function renderCheckPanel(data) {
   const grouped = data.grouped || [];
   const summary = data.summary || {};
