@@ -426,3 +426,97 @@ def test_group_match_max_5_bills():
     results = _build_group_matches(bills, cc, vendor_map, {}, ["Amazon India"])
     assert len(results) == 1
     assert len(results[0]["grouped_bills"]) == 5
+
+
+# --- Candidate matching tests ---
+
+from app import _find_candidates_for_unmatched
+
+
+def test_candidate_exact_amount_date():
+    """Unmatched bill finds CC with exact amount and close date."""
+    unmatched_bills = [_make_bill("Medium", 5.00, currency="USD", date="2025-02-02")]
+    cc_only = [_make_cc("MEDIUM, SAN FRANCISCO", 435.00, date="2025-02-01",
+                        forex_amount=5.00, forex_currency="USD")]
+    results = _find_candidates_for_unmatched(unmatched_bills, cc_only)
+    assert len(results) == 1
+    assert len(results[0]["candidates"]) == 1
+    cand = results[0]["candidates"][0]
+    assert cand["cc_description"] == "MEDIUM, SAN FRANCISCO"
+    assert cand["candidate_score"] >= 70
+
+
+def test_candidate_no_match_beyond_5pct():
+    """CC amount >5% off should not appear as candidate."""
+    unmatched_bills = [_make_bill("SomeVendor", 1000.00, date="2025-07-15")]
+    cc_only = [_make_cc("RANDOM TXN", 1200.00, date="2025-07-16")]
+    results = _find_candidates_for_unmatched(unmatched_bills, cc_only)
+    assert len(results) == 1
+    assert len(results[0]["candidates"]) == 0
+
+
+def test_candidate_no_match_beyond_60_days():
+    """CC >60 days from bill should not appear as candidate."""
+    unmatched_bills = [_make_bill("SomeVendor", 500.00, date="2025-01-01")]
+    cc_only = [_make_cc("SOMEVENDOR TXN", 500.00, date="2025-04-01")]
+    results = _find_candidates_for_unmatched(unmatched_bills, cc_only)
+    assert len(results) == 1
+    assert len(results[0]["candidates"]) == 0
+
+
+def test_candidate_vendor_signal_boosts_score():
+    """Candidate with vendor name in CC description scores higher."""
+    unmatched_bills = [_make_bill("New Relic", 10.00, currency="USD", date="2025-01-31")]
+    cc_with_signal = _make_cc("NRI*NEW RELIC INC", 870.00, date="2025-01-30",
+                              forex_amount=10.00, forex_currency="USD")
+    cc_without_signal = _make_cc("RANDOM MERCHANT", 870.00, date="2025-01-30",
+                                 forex_amount=10.00, forex_currency="USD")
+    cc_without_signal["transaction_id"] = "T2"
+    results = _find_candidates_for_unmatched(unmatched_bills, [cc_with_signal, cc_without_signal])
+    assert len(results[0]["candidates"]) == 2
+    # Candidate with vendor signal should rank first
+    assert "NEW RELIC" in results[0]["candidates"][0]["cc_description"].upper()
+
+
+def test_candidate_uniqueness_bonus():
+    """Single candidate at matching amount gets uniqueness bonus."""
+    unmatched_bills = [_make_bill("InfoEdge", 8761.50, date="2025-03-03")]
+    cc_only = [_make_cc("INFO EDGE NOWCREE", 8761.50, date="2025-03-02")]
+    results = _find_candidates_for_unmatched(unmatched_bills, cc_only)
+    cand = results[0]["candidates"][0]
+    assert cand["breakdown"]["uniqueness"] == 15
+
+
+def test_candidate_multiple_candidates_no_bonus():
+    """Multiple candidates at similar amount get no uniqueness bonus."""
+    unmatched_bills = [_make_bill("SomeVendor", 500.00, date="2025-07-15")]
+    cc1 = _make_cc("VENDOR A", 500.00, date="2025-07-15")
+    cc2 = _make_cc("VENDOR B", 502.00, date="2025-07-14")
+    cc2["transaction_id"] = "T2"
+    cc3 = _make_cc("VENDOR C", 498.00, date="2025-07-16")
+    cc3["transaction_id"] = "T3"
+    results = _find_candidates_for_unmatched(unmatched_bills, [cc1, cc2, cc3])
+    for cand in results[0]["candidates"]:
+        assert cand["breakdown"]["uniqueness"] <= 0
+
+
+def test_candidate_top5_limit():
+    """At most 5 candidates returned per bill."""
+    unmatched_bills = [_make_bill("SomeVendor", 100.00, date="2025-07-15")]
+    cc_list = []
+    for i in range(10):
+        cc = _make_cc(f"TXN {i}", 100.00 + i * 0.5, date="2025-07-15")
+        cc["transaction_id"] = f"T{i}"
+        cc_list.append(cc)
+    results = _find_candidates_for_unmatched(unmatched_bills, cc_list)
+    assert len(results[0]["candidates"]) <= 5
+
+
+def test_candidate_forex_direct_comparison():
+    """USD bill matches CC with forex_amount directly for higher confidence."""
+    unmatched_bills = [_make_bill("S2 Labs Inc.", 30.00, currency="USD", date="2025-09-29")]
+    cc_only = [_make_cc("WINDSURF.COM", 2610.00, date="2025-09-28",
+                        forex_amount=30.00, forex_currency="USD")]
+    results = _find_candidates_for_unmatched(unmatched_bills, cc_only)
+    cand = results[0]["candidates"][0]
+    assert cand["breakdown"]["amount"] == 100
