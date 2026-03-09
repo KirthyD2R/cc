@@ -402,9 +402,9 @@ def _find_candidates_for_unmatched(unmatched_bills, cc_only_list, forex_rates=No
 
     results = []
     for bill in unmatched_bills:
-        bill_amt = float(bill.get("amount", 0) or bill.get("bill_amount", 0))
-        bill_cur = bill.get("currency", "INR") or bill.get("bill_currency", "INR")
-        bill_date_str = bill.get("date", "") or bill.get("bill_date", "")
+        bill_amt = float(bill.get("bill_amount") or bill.get("amount") or 0)
+        bill_cur = bill.get("bill_currency") or bill.get("currency") or "INR"
+        bill_date_str = bill.get("bill_date") or bill.get("date") or ""
         bill_vendor = bill.get("vendor_name", "")
 
         try:

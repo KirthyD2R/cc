@@ -520,3 +520,34 @@ def test_candidate_forex_direct_comparison():
     results = _find_candidates_for_unmatched(unmatched_bills, cc_only)
     cand = results[0]["candidates"][0]
     assert cand["breakdown"]["amount"] == 100
+
+
+def test_candidate_integrates_with_vendor_gated():
+    """Vendor-gated matching runs first; candidates only for leftovers."""
+    bills = [
+        _make_bill("Microsoft Corporation (India) Pvt Ltd", 12215.38, bill_id="B1"),
+        _make_bill("S2 Labs Inc.", 30.00, currency="USD", date="2025-02-02", bill_id="B2"),
+    ]
+    cc = [
+        _make_cc("MICROSOFTBUS, MUMBAI", 12215.38),
+        _make_cc("WINDSURF.COM", 2610.00, date="2025-02-01",
+                 forex_amount=30.00, forex_currency="USD"),
+    ]
+    cc[1]["transaction_id"] = "T2"
+    vendor_map = {"microsoftbus": "Microsoft"}
+
+    matches = _build_vendor_gated_matches(bills, cc, vendor_map, {})
+    matched = [m for m in matches if m["status"] == "matched"]
+    unmatched = [m for m in matches if m["status"] == "unmatched"]
+    assert len(matched) == 1
+    assert matched[0]["bill_id"] == "B1"
+    assert len(unmatched) == 1
+    assert unmatched[0]["bill_id"] == "B2"
+
+    cc_only = [cc[1]]
+    results = _find_candidates_for_unmatched(unmatched, cc_only)
+    assert len(results) == 1
+    assert results[0]["bill_id"] == "B2"
+    assert len(results[0]["candidates"]) == 1
+    assert results[0]["candidates"][0]["cc_description"] == "WINDSURF.COM"
+    assert results[0]["candidates"][0]["candidate_score"] >= 50
