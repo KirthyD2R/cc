@@ -5466,8 +5466,8 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
         </div>
       </div>
 
-      <!-- Payment Preview panel -->
-      <div class="review-panel" id="paymentPanel" style="display:none">
+      <!-- Payment Preview panel (full-height overlay, keeps sidebar visible) -->
+      <div class="review-panel" id="paymentPanel" style="display:none;position:fixed;top:0;right:0;bottom:0;left:calc(14% + 16px);z-index:1000;border-radius:0;border:none">
         <div class="review-header">
           <span>Record Payments &mdash; CC &harr; Bill Match</span>
           <div style="display:flex;gap:12px;align-items:center">
@@ -5496,9 +5496,9 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
           </select>
           <button onclick="clearPaymentFilters()" style="background:transparent;color:var(--accent);border:1px dashed var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Clear</button>
         </div>
-        <div id="paymentBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+        <div id="paymentBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto">
           <div class="review-loading" id="paymentLoading" style="align-self:center;width:100%;text-align:center">Fetching bills &amp; CC transactions...</div>
-          <div id="paymentContent" style="display:none;flex:1;overflow:hidden;flex-direction:column"></div>
+          <div id="paymentContent" style="display:none;flex-direction:column"></div>
         </div>
       </div>
 
@@ -7547,7 +7547,7 @@ function renderPaymentPreview(data) {
   // Wrap main table in a scrollable container (60vh max)
   var mainWrap = document.createElement('div');
   mainWrap.id = 'paymentMainWrap';
-  mainWrap.style.cssText = 'max-height:35vh;overflow-y:auto;flex-shrink:1';
+  mainWrap.style.cssText = 'max-height:50vh;overflow-y:auto;flex-shrink:0';
   mainWrap.appendChild(tbl);
   content.appendChild(mainWrap);
 
@@ -7618,7 +7618,7 @@ function renderPaymentPreview(data) {
     // Wrap Amex section in its own scrollable container
     var amexWrap = document.createElement('div');
     amexWrap.id = 'paymentAmexWrap';
-    amexWrap.style.cssText = 'max-height:30vh;overflow-y:auto;flex-shrink:1;border-top:2px solid var(--border)';
+    amexWrap.style.cssText = 'flex-shrink:0;border-top:2px solid var(--border)';
     amexWrap.appendChild(amexHeader);
     amexWrap.appendChild(atbl);
     content.appendChild(amexWrap);
@@ -7701,7 +7701,7 @@ function renderPaymentPreview(data) {
 
     var groupWrap = document.createElement('div');
     groupWrap.id = 'paymentGroupWrap';
-    groupWrap.style.cssText = 'max-height:35vh;overflow-y:auto;flex-shrink:1;border-top:2px solid var(--border)';
+    groupWrap.style.cssText = 'flex-shrink:0;border-top:2px solid var(--border)';
     groupWrap.appendChild(gmHeader);
     groupWrap.appendChild(gtbl);
     content.appendChild(groupWrap);
