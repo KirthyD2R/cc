@@ -27,7 +27,7 @@
         "WINDSURF WINDSURF.COM": "S2 Labs Inc.",
         "WINDSURF": "S2 Labs Inc.",
         "GST": "HDFC Bank - GST",
-        "HYPERBROWSER.AI": "Hyperbrowser AI",
+        "HYPERBROWSER.AI": "S2 Labs Inc.",
         "NRI*NEW RELIC": "New Relic",
         "CLAUDE.AI SUBSCRIPTION": "Anthropic USD",
         "CLAUDE.AISUBSCRIPTION": "Anthropic USD",
@@ -66,7 +66,7 @@
         "GROQ INC, MOUNTAIN VIEW": "Groq Inc",
         "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO": "Anthropic USD",
         "CLAUDE.AISUBSCRIPTIONANTHROPIC.COMCA": "Anthropic USD",
-        "HYPERBROWSER.AI, SAN FRANCISCO": "Hyperbrowser AI",
+        "HYPERBROWSER.AI, SAN FRANCISCO": "S2 Labs Inc.",
         "NRI*NEW RELIC, SAN FRANCISCO": "New Relic",
         "KRISHNAMACHARI SRIKKAN, CHENNAI": "Krishnamachari Srikkan",
         "BILLDESK BBPS CC PAYMENT": "BillDesk - CC Payment",
@@ -267,7 +267,7 @@
             "website": "https://groq.com"
         },
         "Hyperbrowser AI": {
-            "company_name": "Hyperbrowser AI",
+            "company_name": "S2 Labs Inc.",
             "gst_treatment": "overseas",
             "currency_code": "USD",
             "billing_address": {
