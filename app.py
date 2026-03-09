@@ -1124,6 +1124,25 @@ def _update_vendor_account_mapping(vendor_name, account_id, account_name):
         log_action(f"Failed to update vendor mappings: {e}", "WARNING")
 
 
+def _invalidate_bill_cache(bill_id, account_name=None, account_id=None):
+    """Update bill detail cache entry after account change (avoids stale data on next Review load)."""
+    cache_path = os.path.join(PROJECT_ROOT, "output", "bill_detail_cache.json")
+    try:
+        if not os.path.exists(cache_path):
+            return
+        with open(cache_path, "r", encoding="utf-8") as f:
+            cache = json.load(f)
+        if bill_id in cache:
+            if account_name is not None:
+                cache[bill_id]["account_name"] = account_name
+            if account_id is not None:
+                cache[bill_id]["account_id"] = account_id
+            with open(cache_path, "w", encoding="utf-8") as f:
+                json.dump(cache, f, indent=2, ensure_ascii=False)
+    except Exception:
+        pass
+
+
 @app.route("/api/review/bills")
 def api_review_bills():
     """Load created bills and fetch actual account assignments from Zoho."""
@@ -1150,42 +1169,72 @@ def api_review_bills():
             continue
         bills_to_show.append(entry)
 
-    # Fetch actual account from Zoho using concurrent requests
-    zoho_accounts = {}  # bill_id -> (account_name, account_id)
+    # Load bill detail cache
+    bill_cache_path = os.path.join(PROJECT_ROOT, "output", "bill_detail_cache.json")
+    bill_cache = {}
     try:
-        config = load_config()
-        api = ZohoBooksAPI(config)
-        from scripts.utils import log_action
-        # Warm up token before concurrent requests to avoid race condition
-        api.list_bills(page=1)
-        log_action(f"[Review] Fetching account info for {len(bills_to_show)} bills from Zoho (concurrent)...")
-        from concurrent.futures import ThreadPoolExecutor, as_completed
-        def _fetch_one(bid):
-            bill_data = api.get_bill(bid)
-            bill = bill_data.get("bill", {})
-            line_items = bill.get("line_items", [])
-            desc = bill.get("notes", "") or bill.get("reference_number", "") or ""
-            if not desc and line_items:
-                desc = line_items[0].get("description", "") or line_items[0].get("name", "")
-            li_names = [li.get("name", "") or li.get("description", "") for li in line_items]
-            if line_items:
-                return bid, line_items[0].get("account_name", ""), line_items[0].get("account_id", ""), desc, li_names
-            return bid, None, None, desc, li_names
-        with ThreadPoolExecutor(max_workers=10) as pool:
-            futures = {pool.submit(_fetch_one, e["bill_id"]): e["bill_id"] for e in bills_to_show}
-            for fut in as_completed(futures):
-                try:
-                    bid, acct_name, acct_id, desc, li_names = fut.result()
-                    if acct_name:
-                        zoho_accounts[bid] = (acct_name, acct_id, desc, li_names)
-                    elif desc or li_names:
-                        zoho_accounts[bid] = (None, None, desc, li_names)
-                except Exception:
-                    pass
-        log_action(f"[Review] Got account info for {len(zoho_accounts)}/{len(bills_to_show)} bills")
-    except Exception as e:
-        from scripts.utils import log_action
-        log_action(f"[Review] Could not fetch from Zoho, using local mappings: {e}", "WARNING")
+        if os.path.exists(bill_cache_path):
+            with open(bill_cache_path, "r", encoding="utf-8") as f:
+                bill_cache = json.load(f)
+    except Exception:
+        bill_cache = {}
+
+    # Split bills into cached vs needs-fetch
+    zoho_accounts = {}  # bill_id -> (account_name, account_id, desc, li_names)
+    bills_to_fetch = []
+    for e in bills_to_show:
+        bid = e["bill_id"]
+        if bid in bill_cache:
+            c = bill_cache[bid]
+            zoho_accounts[bid] = (c.get("account_name"), c.get("account_id"), c.get("description", ""), c.get("line_items", []))
+        else:
+            bills_to_fetch.append(e)
+
+    from scripts.utils import log_action
+    # Fetch only uncached bills from Zoho
+    if bills_to_fetch:
+        try:
+            config = load_config()
+            api = ZohoBooksAPI(config)
+            # Warm up token before concurrent requests to avoid race condition
+            api.list_bills(page=1)
+            log_action(f"[Review] Fetching account info for {len(bills_to_fetch)} bills from Zoho (concurrent)... ({len(bills_to_show) - len(bills_to_fetch)} cached)")
+            from concurrent.futures import ThreadPoolExecutor, as_completed
+            def _fetch_one(bid):
+                bill_data = api.get_bill(bid)
+                bill = bill_data.get("bill", {})
+                line_items = bill.get("line_items", [])
+                desc = bill.get("notes", "") or bill.get("reference_number", "") or ""
+                if not desc and line_items:
+                    desc = line_items[0].get("description", "") or line_items[0].get("name", "")
+                li_names = [li.get("name", "") or li.get("description", "") for li in line_items]
+                if line_items:
+                    return bid, line_items[0].get("account_name", ""), line_items[0].get("account_id", ""), desc, li_names
+                return bid, None, None, desc, li_names
+            with ThreadPoolExecutor(max_workers=10) as pool:
+                futures = {pool.submit(_fetch_one, e["bill_id"]): e["bill_id"] for e in bills_to_fetch}
+                for fut in as_completed(futures):
+                    try:
+                        bid, acct_name, acct_id, desc, li_names = fut.result()
+                        if acct_name:
+                            zoho_accounts[bid] = (acct_name, acct_id, desc, li_names)
+                        elif desc or li_names:
+                            zoho_accounts[bid] = (None, None, desc, li_names)
+                        # Cache the fetched result
+                        bill_cache[bid] = {"account_name": acct_name, "account_id": acct_id, "description": desc, "line_items": li_names}
+                    except Exception:
+                        pass
+            log_action(f"[Review] Got account info for {len(zoho_accounts)}/{len(bills_to_show)} bills ({len(bills_to_fetch)} fetched, {len(bills_to_show) - len(bills_to_fetch)} cached)")
+            # Save updated cache
+            try:
+                with open(bill_cache_path, "w", encoding="utf-8") as f:
+                    json.dump(bill_cache, f, indent=2, ensure_ascii=False)
+            except Exception:
+                pass
+        except Exception as e:
+            log_action(f"[Review] Could not fetch from Zoho, using local mappings: {e}", "WARNING")
+    else:
+        log_action(f"[Review] All {len(bills_to_show)} bills served from cache (0 API calls)")
 
     # Sync Zoho accounts back to vendor_mappings (so future bills use updated accounts)
     mappings_changed = False
@@ -1313,6 +1362,9 @@ def api_review_update_account():
         if vendor_name and vendor_name != "Unknown":
             _update_vendor_account_mapping(vendor_name, account_id, account_name)
 
+        # Invalidate bill detail cache for this bill
+        _invalidate_bill_cache(bill_id, account_name, account_id)
+
         return jsonify({"ok": True})
     except Exception as e:
         log_action(f"Failed to update bill account: {e}", "ERROR")
@@ -1373,6 +1425,10 @@ def api_review_bulk_update_account():
     # Update vendor mapping once for all bills
     if vendor_name and vendor_name != "Unknown" and succeeded:
         _update_vendor_account_mapping(vendor_name, account_id, account_name)
+
+    # Invalidate bill detail cache for updated bills
+    for bid in succeeded:
+        _invalidate_bill_cache(bid, account_name, account_id)
 
     log_action(f"Bulk updated {len(succeeded)}/{len(bill_ids)} bills for {vendor_name} -> {account_name}")
     return jsonify({"ok": True, "succeeded": succeeded, "failed": failed})
