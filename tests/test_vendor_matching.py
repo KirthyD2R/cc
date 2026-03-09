@@ -354,3 +354,75 @@ def test_forex_rate_mode_c_with_actual_rate():
     matched = [m for m in matches if m["status"] == "matched"]
     assert len(matched) == 1
     assert matched[0]["confidence"]["amount"] >= 95
+
+
+# --- Group matching tests ---
+
+
+def test_group_match_exact_sum():
+    """Three Amazon bills summing to one CC transaction should group-match."""
+    from app import _build_group_matches
+    bills = [
+        _make_bill("Amazon India", 4200.00, date="2025-10-13", bill_id="B1"),
+        _make_bill("Amazon India", 3544.10, date="2025-10-14", bill_id="B2"),
+        _make_bill("Amazon India", 2000.00, date="2025-10-14", bill_id="B3"),
+    ]
+    cc = [_make_cc("AMAZON PAY INDIA PRIVA, Bangalore", 9744.10, date="2025-10-14")]
+    vendor_map = {"amazon pay india priva": "Amazon India"}
+    results = _build_group_matches(bills, cc, vendor_map, {}, ["Amazon India"])
+    assert len(results) == 1
+    assert results[0]["status"] == "group_matched"
+    assert len(results[0]["grouped_bills"]) == 3
+    assert abs(sum(b["amount"] for b in results[0]["grouped_bills"]) - 9744.10) < 1.0
+
+
+def test_group_match_partial_sum():
+    """If only 2 of 3 bills sum to CC amount, use the 2-bill group."""
+    from app import _build_group_matches
+    bills = [
+        _make_bill("Amazon India", 5000.00, date="2025-10-14", bill_id="B1"),
+        _make_bill("Amazon India", 4744.10, date="2025-10-14", bill_id="B2"),
+        _make_bill("Amazon India", 9000.00, date="2025-10-14", bill_id="B3"),
+    ]
+    cc = [_make_cc("AMAZON PAY INDIA PRIVA, Bangalore", 9744.10, date="2025-10-14")]
+    vendor_map = {"amazon pay india priva": "Amazon India"}
+    results = _build_group_matches(bills, cc, vendor_map, {}, ["Amazon India"])
+    assert len(results) == 1
+    assert len(results[0]["grouped_bills"]) == 2
+
+
+def test_group_match_non_eligible_vendor_skipped():
+    """Vendors not in multi_bill_vendors should not be group-matched."""
+    from app import _build_group_matches
+    bills = [
+        _make_bill("Medium", 200.00, date="2025-10-14", bill_id="B1"),
+        _make_bill("Medium", 238.70, date="2025-10-14", bill_id="B2"),
+    ]
+    cc = [_make_cc("MEDIUM MONTHLY", 438.70, date="2025-10-14")]
+    vendor_map = {"medium": "Medium"}
+    results = _build_group_matches(bills, cc, vendor_map, {}, ["Amazon India"])
+    assert len(results) == 0
+
+
+def test_group_match_date_window():
+    """Bills outside +/-5 day window excluded from groups."""
+    from app import _build_group_matches
+    bills = [
+        _make_bill("Amazon India", 5000.00, date="2025-10-14", bill_id="B1"),
+        _make_bill("Amazon India", 4744.10, date="2025-10-25", bill_id="B2"),
+    ]
+    cc = [_make_cc("AMAZON PAY INDIA PRIVA, Bangalore", 9744.10, date="2025-10-14")]
+    vendor_map = {"amazon pay india priva": "Amazon India"}
+    results = _build_group_matches(bills, cc, vendor_map, {}, ["Amazon India"])
+    assert len(results) == 0
+
+
+def test_group_match_max_5_bills():
+    """Group should contain at most 5 bills."""
+    from app import _build_group_matches
+    bills = [_make_bill("Amazon India", 100.00, date="2025-10-14", bill_id=f"B{i}") for i in range(8)]
+    cc = [_make_cc("AMAZON PAY INDIA PRIVA, Bangalore", 500.00, date="2025-10-14")]
+    vendor_map = {"amazon pay india priva": "Amazon India"}
+    results = _build_group_matches(bills, cc, vendor_map, {}, ["Amazon India"])
+    assert len(results) == 1
+    assert len(results[0]["grouped_bills"]) == 5

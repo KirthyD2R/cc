@@ -109,6 +109,17 @@
         "WISPRWISPRFLOW.": "Wispr Flow",
         "GAMMA.APPGAMMA.APP": "Gamma"
     },
+    "multi_bill_vendors": [
+        "Amazon India",
+        "Amazon Retail India Private Limited",
+        "Amazon Web Services",
+        "Microsoft Corporation (India) Pvt Ltd",
+        "Flipkart",
+        "R K WorldInfocom Pvt. Ltd.",
+        "R K WorldInfocom Pvt Ltd",
+        "CLICKTECH RETAIL PRIVATE LIMITED",
+        "COCOBLU RETAIL LIMITED"
+    ],
     "default_expense_account": "Credit Card Charges",
     "default_tax_treatment": "out_of_scope",
     "vendor_details": {

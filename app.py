@@ -391,6 +391,166 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
     return matches
 
 
+def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
+                         multi_bill_vendors, forex_rates=None,
+                         used_bill_ids=None, used_cc_ids=None):
+    """Second-pass: group multiple bills to one CC transaction for eligible vendors."""
+    from datetime import datetime as _dt
+    from scripts.utils import strip_vendor_stop_words
+
+    if not multi_bill_vendors:
+        return []
+
+    def _norm(s):
+        return "".join(c for c in s.lower() if c.isalnum())
+
+    vm_lower = {k.lower(): v for k, v in manual_vendor_map.items()}
+    vm_norm = {_norm(k): v for k, v in manual_vendor_map.items()}
+    sorted_keys = sorted(vm_lower.keys(), key=len, reverse=True)
+
+    def _resolve_quick(desc):
+        if not desc:
+            return None
+        dl = desc.lower()
+        dn = _norm(desc)
+        dl_c = "".join(c for c in dl if c.isalnum() or c == ' ')
+        if dl in vm_lower: return vm_lower[dl]
+        if dn in vm_norm: return vm_norm[dn]
+        for key in sorted_keys:
+            if key and len(key) >= 4 and (key in dl or key in dl_c):
+                return vm_lower[key]
+        du = desc.strip().upper()
+        if du in learned_vendor_map: return learned_vendor_map[du]
+        for key in sorted(learned_vendor_map.keys(), key=len, reverse=True):
+            if key and len(key) >= 4 and key in du:
+                return learned_vendor_map[key]
+        return None
+
+    def _vendor_match(resolved, bill_vendor):
+        rv, bv = _norm(resolved), _norm(bill_vendor)
+        rv_s = _norm(strip_vendor_stop_words(resolved))
+        bv_s = _norm(strip_vendor_stop_words(bill_vendor))
+        if rv == bv or rv_s == bv_s: return 100
+        if len(rv) >= 4 and (rv in bv or bv in rv): return 80
+        if len(rv_s) >= 4 and (rv_s in bv_s or bv_s in rv_s): return 80
+        rv_f = _norm(resolved.split()[0]) if resolved.split() else ""
+        if rv_f and len(rv_f) >= 4 and rv_f in bv: return 60
+        return 0
+
+    multi_norm = set(_norm(v) for v in multi_bill_vendors)
+    used_bill_ids = used_bill_ids or set()
+    used_cc_ids = used_cc_ids or set()
+
+    avail_bills = [b for b in bills if b["bill_id"] not in used_bill_ids]
+    avail_cc = [c for c in cc_list if c.get("transaction_id", "") not in used_cc_ids]
+
+    results = []
+    claimed_bills = set()
+    claimed_cc = set()
+
+    for cc in avail_cc:
+        cc_tid = cc.get("transaction_id", "")
+        if cc_tid in claimed_cc:
+            continue
+        resolved = _resolve_quick(cc.get("description", ""))
+        if not resolved:
+            continue
+
+        # Check eligibility: resolved vendor must match a multi_bill_vendor
+        eligible = _norm(resolved) in multi_norm
+        if not eligible:
+            for mv in multi_bill_vendors:
+                if _vendor_match(resolved, mv) >= 60:
+                    eligible = True
+                    break
+        if not eligible:
+            continue
+
+        cc_inr = float(cc.get("amount", 0))
+        if cc_inr <= 0:
+            continue
+        try:
+            cc_date = _dt.strptime(cc.get("date", ""), "%Y-%m-%d")
+        except Exception:
+            continue
+
+        # Find candidate INR bills: same vendor, within +/-5 days
+        cands = []
+        for b in avail_bills:
+            if b["bill_id"] in claimed_bills:
+                continue
+            if b.get("currency", "INR") != "INR":
+                continue
+            vc = _vendor_match(resolved, b.get("vendor_name", ""))
+            if vc < 60:
+                continue
+            try:
+                bd = _dt.strptime(b.get("date", ""), "%Y-%m-%d")
+                dd = abs((bd - cc_date).days)
+            except Exception:
+                continue
+            if dd > 5:
+                continue
+            cands.append((b, dd, vc))
+
+        if len(cands) < 2:
+            continue
+
+        # Subset-sum: try all combinations of 2..5 bills within tolerance
+        from itertools import combinations
+        tol = max(1.0, cc_inr * 0.01)
+        best_group = None
+        for size in range(2, min(6, len(cands) + 1)):
+            for combo in combinations(cands, size):
+                total = sum(b["amount"] for b, _, _ in combo)
+                if abs(total - cc_inr) <= tol:
+                    if best_group is None or len(combo) < len(best_group):
+                        best_group = list(combo)
+                    break  # Found a match at this size, prefer smaller groups
+            if best_group:
+                break
+        group = best_group
+
+        if not group:
+            continue
+
+        running = sum(b["amount"] for b, _, _ in group)
+        max_dd = max(dd for _, dd, _ in group)
+        avg_vc = sum(vc for _, _, vc in group) // len(group)
+        sum_diff = abs(running - cc_inr)
+        sum_pct = sum_diff / cc_inr if cc_inr else 0
+        ac = 100 if sum_pct < 0.001 else 95 if sum_pct < 0.005 else 90 if sum_pct < 0.01 else 75
+        dc = 100 if max_dd == 0 else 90 if max_dd <= 2 else 75 if max_dd <= 5 else 50
+        overall = max(0, int(avg_vc * 0.5 + ac * 0.4 + dc * 0.1) - 5)
+
+        entry = {
+            "status": "group_matched",
+            "match_score": overall,
+            "confidence": {"vendor": avg_vc, "amount": ac, "date": dc, "overall": overall},
+            "cc_transaction_id": cc_tid,
+            "cc_description": cc.get("description", ""),
+            "cc_inr_amount": cc_inr,
+            "cc_date": cc.get("date", ""),
+            "cc_card": cc.get("card_name", ""),
+            "grouped_bills": [
+                {"bill_id": b["bill_id"], "vendor_id": b.get("vendor_id", ""),
+                 "vendor_name": b.get("vendor_name", ""), "amount": b["amount"],
+                 "currency": b.get("currency", "INR"), "date": b.get("date", ""),
+                 "file": b.get("file", "")}
+                for b, _, _ in group
+            ],
+            "group_sum": running,
+            "vendor_name": group[0][0].get("vendor_name", ""),
+            "vendor_id": group[0][0].get("vendor_id", ""),
+        }
+        results.append(entry)
+        claimed_cc.add(cc_tid)
+        for b, _, _ in group:
+            claimed_bills.add(b["bill_id"])
+
+    return results
+
+
 # --- Script registry ---
 STEPS = {
     "1": {
@@ -1288,6 +1448,24 @@ def api_payments_preview():
             except Exception as e:
                 log_action(f"Amex matching error: {e}", "WARNING")
 
+        # Multi-bill group matching (second pass)
+        multi_vendors = []
+        try:
+            with open(vm_path, "r", encoding="utf-8") as f:
+                vm_full = json.load(f)
+            multi_vendors = vm_full.get("multi_bill_vendors", [])
+        except Exception:
+            pass
+
+        group_matches = []
+        if multi_vendors:
+            group_matches = _build_group_matches(
+                bills, cc_list, vendor_map, learned_map, multi_vendors,
+                forex_rates=forex_cache,
+                used_bill_ids=matched_bill_ids,
+                used_cc_ids={m.get("cc_transaction_id") for m in matches if m["status"] == "matched"},
+            )
+
         return jsonify({
             "matches": matches,
             "unmatched_cc": unmatched_cc,
@@ -1295,12 +1473,14 @@ def api_payments_preview():
             "card_cc_total": card_cc_total,
             "card_cc_unmatched": card_cc_unmatched,
             "amex_matches": amex_matches,
+            "group_matches": group_matches,
             "summary": {
                 "total_bills": len(matches),
                 "matched": matched_count,
                 "unmatched": unmatched_count,
                 "unmatched_cc_count": len(unmatched_cc),
                 "amex_matched": len(amex_matches),
+                "group_matched": len(group_matches),
             },
         })
     except Exception as e:
@@ -7386,6 +7566,82 @@ function renderPaymentPreview(data) {
     amexWrap.appendChild(amexHeader);
     amexWrap.appendChild(atbl);
     content.appendChild(amexWrap);
+  }
+
+  // --- Group Matches section ---
+  var gm = data.group_matches || [];
+  if (gm.length > 0) {
+    var gmHeader = document.createElement('div');
+    gmHeader.style.cssText = 'padding:10px 16px;font-weight:700;font-size:13px;color:var(--accent);cursor:pointer;display:flex;align-items:center;gap:8px';
+    gmHeader.textContent = '\u2795 Group Matches (' + gm.length + ' groups)';
+    gmHeader.onclick = function() {
+      var w = document.getElementById('paymentGroupWrap');
+      if (w) w.style.display = w.style.display === 'none' ? '' : 'none';
+    };
+
+    var gtbl = document.createElement('table');
+    gtbl.className = 'bill-table';
+    var gthead = document.createElement('thead');
+    var gthRow = document.createElement('tr');
+    ['CC Description','CC Amount','CC Date','Grouped Bills','Group Sum','Confidence'].forEach(function(h) {
+      var th = document.createElement('th'); th.textContent = h; gthRow.appendChild(th);
+    });
+    gthead.appendChild(gthRow);
+    gtbl.appendChild(gthead);
+    var gtbody = document.createElement('tbody');
+    gm.forEach(function(g) {
+      var tr = document.createElement('tr');
+
+      var tdDesc = document.createElement('td');
+      tdDesc.style.cssText = 'max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+      tdDesc.title = g.cc_description || '';
+      tdDesc.textContent = g.cc_description || '';
+      tr.appendChild(tdDesc);
+
+      var tdAmt = document.createElement('td');
+      tdAmt.style.textAlign = 'right';
+      tdAmt.textContent = '\u20B9' + Number(g.cc_inr_amount).toLocaleString('en-IN');
+      tr.appendChild(tdAmt);
+
+      var tdDate = document.createElement('td');
+      tdDate.textContent = g.cc_date || '';
+      tr.appendChild(tdDate);
+
+      var tdBills = document.createElement('td');
+      g.grouped_bills.forEach(function(b) {
+        var div = document.createElement('div');
+        div.style.cssText = 'font-size:10px;padding:1px 0';
+        div.textContent = b.vendor_name + ' \u20B9' + Number(b.amount).toLocaleString('en-IN') + ' (' + b.date + ')';
+        tdBills.appendChild(div);
+      });
+      tr.appendChild(tdBills);
+
+      var tdSum = document.createElement('td');
+      tdSum.style.textAlign = 'right';
+      tdSum.textContent = '\u20B9' + Number(g.group_sum).toLocaleString('en-IN');
+      tr.appendChild(tdSum);
+
+      var tdConf = document.createElement('td');
+      tdConf.style.textAlign = 'center';
+      var c = g.confidence || {};
+      var ov = c.overall || 0;
+      var ovColor = ov >= 85 ? 'var(--green)' : ov >= 60 ? 'var(--yellow)' : 'var(--red,#ef4444)';
+      var confSpan = document.createElement('span');
+      confSpan.style.cssText = 'font-weight:700;color:' + ovColor;
+      confSpan.textContent = ov + '%';
+      tdConf.appendChild(confSpan);
+      tr.appendChild(tdConf);
+
+      gtbody.appendChild(tr);
+    });
+    gtbl.appendChild(gtbody);
+
+    var groupWrap = document.createElement('div');
+    groupWrap.id = 'paymentGroupWrap';
+    groupWrap.style.cssText = 'max-height:40vh;overflow-y:auto;flex-shrink:1;border-top:2px solid var(--border)';
+    groupWrap.appendChild(gmHeader);
+    groupWrap.appendChild(gtbl);
+    content.appendChild(groupWrap);
   }
 }
 
