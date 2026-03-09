@@ -1473,6 +1473,7 @@ def api_payments_preview():
             "card_cc_total": card_cc_total,
             "card_cc_unmatched": card_cc_unmatched,
             "amex_matches": amex_matches,
+            "amex_excluded": sorted(_load_amex_excluded()),
             "group_matches": group_matches,
             "summary": {
                 "total_bills": len(matches),
@@ -1487,6 +1488,49 @@ def api_payments_preview():
         from scripts.utils import log_action
         log_action(f"payments/preview error: {e}", "ERROR")
         return jsonify({"error": str(e)}), 500
+
+
+_AMEX_EXCLUDED_PATH = os.path.join(PROJECT_ROOT, "output", "amex_excluded_bills.json")
+
+
+def _load_amex_excluded():
+    """Load excluded bill IDs from JSON file."""
+    if os.path.exists(_AMEX_EXCLUDED_PATH):
+        try:
+            with open(_AMEX_EXCLUDED_PATH, "r", encoding="utf-8") as f:
+                return set(json.load(f))
+        except Exception:
+            pass
+    return set()
+
+
+def _save_amex_excluded(excluded_set):
+    """Save excluded bill IDs to JSON file."""
+    os.makedirs(os.path.dirname(_AMEX_EXCLUDED_PATH), exist_ok=True)
+    with open(_AMEX_EXCLUDED_PATH, "w", encoding="utf-8") as f:
+        json.dump(sorted(excluded_set), f, indent=2)
+
+
+@app.route("/api/amex-exclude", methods=["POST"])
+def api_amex_exclude():
+    """Toggle bill ID(s) in the Amex excluded list. Supports single or bulk."""
+    data = request.json or {}
+    bill_ids = data.get("bill_ids", [])
+    bill_id = data.get("bill_id", "")
+    if bill_id:
+        bill_ids.append(bill_id)
+    action = data.get("action", "exclude")  # "exclude" or "include"
+    if not bill_ids:
+        return jsonify({"error": "bill_id or bill_ids required"}), 400
+
+    excluded = _load_amex_excluded()
+    for bid in bill_ids:
+        if action == "exclude":
+            excluded.add(bid)
+        else:
+            excluded.discard(bid)
+    _save_amex_excluded(excluded)
+    return jsonify({"ok": True, "excluded": sorted(excluded)})
 
 
 def _auto_match_banking_txn(api, cc_txn_id, payment_id, log_action,
@@ -7158,8 +7202,11 @@ function openPaymentPreview() {
         return;
       }
       _paymentPreviewData = data;
-      if (_amexExcludedBills) _amexExcludedBills.clear();
+      // Load persisted Amex exclusions
+      _amexExcludedBills = new Set(data.amex_excluded || []);
       renderPaymentPreview(data);
+      // Apply initial filters (includes amex exclusions)
+      filterPayments();
     })
     .catch(function(err) {
       document.getElementById('paymentLoading').textContent = 'Failed: ' + err;
@@ -7500,7 +7547,7 @@ function renderPaymentPreview(data) {
   // Wrap main table in a scrollable container (60vh max)
   var mainWrap = document.createElement('div');
   mainWrap.id = 'paymentMainWrap';
-  mainWrap.style.cssText = 'max-height:50vh;overflow-y:auto;flex-shrink:1';
+  mainWrap.style.cssText = 'max-height:35vh;overflow-y:auto;flex-shrink:1';
   mainWrap.appendChild(tbl);
   content.appendChild(mainWrap);
 
@@ -7509,12 +7556,18 @@ function renderPaymentPreview(data) {
   if (amexMatches.length > 0) {
     var amexHeader = document.createElement('div');
     amexHeader.style.cssText = 'padding:10px 12px;font-size:12px;font-weight:700;color:var(--yellow);display:flex;align-items:center;gap:8px;position:sticky;top:0;background:var(--bg);z-index:1';
-    amexHeader.innerHTML = '\u26A0 Amex CC Matches (' + amexMatches.length + ') &mdash; <span style="font-weight:400;color:var(--text-dim)">Bills matched to Amex (not in Zoho). Exclude to hide from main list.</span>';
+    var _amexNotExcluded = amexMatches.filter(function(am) { return !_amexExcludedBills.has(am.bill_id); }).length;
+    amexHeader.innerHTML = '\u26A0 Amex CC Matches (' + amexMatches.length + ') &mdash; <span style="font-weight:400;color:var(--text-dim)">Bills matched to Amex (not in Zoho).</span>'
+      + ' <span style="margin-left:auto;display:flex;gap:8px">'
+      + '<button id="amexExcludeSelectedBtn" onclick="excludeSelectedAmex()" style="background:var(--accent);color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600;display:none">Exclude Selected (0)</button>'
+      + '<button id="amexBulkExcludeBtn" onclick="bulkAmexExclude()" style="background:var(--yellow);color:#000;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600">Exclude All (' + _amexNotExcluded + ')</button>'
+      + '</span>';
 
     var atbl = document.createElement('table');
     atbl.className = 'match-table';
     atbl.style.cssText = 'width:100%;font-size:11px';
     atbl.innerHTML = '<thead><tr>'
+      + '<th style="padding:6px 4px;text-align:center;width:28px"><input type="checkbox" id="amexSelectAll" onchange="toggleAmexSelectAll(this)"></th>'
       + '<th style="text-align:left;padding:6px 8px">Amex CC Description</th>'
       + '<th style="text-align:right;padding:6px 8px">CC INR</th>'
       + '<th style="padding:6px 8px">CC Date</th>'
@@ -7547,6 +7600,7 @@ function renderPaymentPreview(data) {
         + '</div>';
 
       atr.innerHTML = ''
+        + '<td style="text-align:center;padding:5px 4px"><input type="checkbox" class="amex-cb" data-billid="' + am.bill_id + '" onchange="updateAmexSelectedBtn()"></td>'
         + '<td style="text-align:left;padding:5px 8px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + ccDescFull.replace(/"/g,'&quot;') + '">' + ccDesc + forexNote + '</td>'
         + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(am.cc_inr_amount) + '</td>'
         + '<td style="padding:5px 8px">' + fmtDate(am.cc_date) + '</td>'
@@ -7564,10 +7618,17 @@ function renderPaymentPreview(data) {
     // Wrap Amex section in its own scrollable container
     var amexWrap = document.createElement('div');
     amexWrap.id = 'paymentAmexWrap';
-    amexWrap.style.cssText = 'max-height:40vh;overflow-y:auto;flex-shrink:1;border-top:2px solid var(--border)';
+    amexWrap.style.cssText = 'max-height:30vh;overflow-y:auto;flex-shrink:1;border-top:2px solid var(--border)';
     amexWrap.appendChild(amexHeader);
     amexWrap.appendChild(atbl);
     content.appendChild(amexWrap);
+
+    // Apply persisted excluded state to Amex rows
+    amexMatches.forEach(function(am) {
+      if (_amexExcludedBills.has(am.bill_id)) {
+        _applyAmexExcludeUI(am.bill_id);
+      }
+    });
   }
 
   // --- Group Matches section ---
@@ -7640,7 +7701,7 @@ function renderPaymentPreview(data) {
 
     var groupWrap = document.createElement('div');
     groupWrap.id = 'paymentGroupWrap';
-    groupWrap.style.cssText = 'max-height:40vh;overflow-y:auto;flex-shrink:1;border-top:2px solid var(--border)';
+    groupWrap.style.cssText = 'max-height:35vh;overflow-y:auto;flex-shrink:1;border-top:2px solid var(--border)';
     groupWrap.appendChild(gmHeader);
     groupWrap.appendChild(gtbl);
     content.appendChild(groupWrap);
@@ -7652,25 +7713,139 @@ var _amexExcludedBills = new Set();
 
 function toggleAmexExclude(billId) {
   var btn = document.getElementById('amex-btn-' + billId);
-  var amexRow = document.getElementById('amex-row-' + billId);
-  // Find the bill in the main table (could be in matched or unmatched section)
-  var mainRow = document.getElementById('pay-row-' + billId);
+  if (btn) { btn.disabled = true; btn.textContent = '...'; }
+  var isExcluded = _amexExcludedBills.has(billId);
+  var action = isExcluded ? 'include' : 'exclude';
 
+  fetch('/api/amex-exclude', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({bill_id: billId, action: action}),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.ok) {
+      if (action === 'exclude') {
+        _amexExcludedBills.add(billId);
+      } else {
+        _amexExcludedBills.delete(billId);
+      }
+      _applyAmexExcludeUI(billId);
+      _updateAmexBulkBtn();
+      filterPayments();
+    }
+    if (btn) btn.disabled = false;
+  })
+  .catch(function() { if (btn) { btn.disabled = false; btn.textContent = 'Error'; } });
+}
+
+function _applyAmexExcludeUI(billId) {
+  var btn = document.getElementById('amex-btn-' + billId);
+  var amexRow = document.getElementById('amex-row-' + billId);
   if (_amexExcludedBills.has(billId)) {
-    // Include back
-    _amexExcludedBills.delete(billId);
-    if (btn) { btn.textContent = 'Exclude'; btn.style.background = 'var(--yellow)'; btn.style.color = '#000'; }
-    if (amexRow) amexRow.style.opacity = '1';
-    if (mainRow) { mainRow.style.display = ''; mainRow.style.opacity = '1'; }
-    filterPayments();
-  } else {
-    // Exclude
-    _amexExcludedBills.add(billId);
     if (btn) { btn.textContent = 'Include'; btn.style.background = 'var(--border)'; btn.style.color = 'var(--text-dim)'; }
     if (amexRow) amexRow.style.opacity = '0.5';
-    if (mainRow) { mainRow.style.display = 'none'; }
-    filterPayments();
+  } else {
+    if (btn) { btn.textContent = 'Exclude'; btn.style.background = 'var(--yellow)'; btn.style.color = '#000'; }
+    if (amexRow) amexRow.style.opacity = '1';
   }
+}
+
+function toggleAmexSelectAll(cb) {
+  document.querySelectorAll('.amex-cb').forEach(function(c) {
+    var row = c.closest('tr');
+    if (row && row.style.opacity !== '0.5') c.checked = cb.checked;  // skip already excluded
+  });
+  updateAmexSelectedBtn();
+}
+
+function updateAmexSelectedBtn() {
+  var checked = document.querySelectorAll('.amex-cb:checked');
+  var btn = document.getElementById('amexExcludeSelectedBtn');
+  if (btn) {
+    if (checked.length > 0) {
+      btn.style.display = '';
+      btn.textContent = 'Exclude Selected (' + checked.length + ')';
+    } else {
+      btn.style.display = 'none';
+    }
+  }
+}
+
+function excludeSelectedAmex() {
+  var checked = document.querySelectorAll('.amex-cb:checked');
+  var ids = [];
+  checked.forEach(function(c) { ids.push(c.getAttribute('data-billid')); });
+  if (!ids.length) return;
+
+  var btn = document.getElementById('amexExcludeSelectedBtn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Excluding...'; }
+
+  fetch('/api/amex-exclude', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({bill_ids: ids, action: 'exclude'}),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.ok) {
+      ids.forEach(function(id) {
+        _amexExcludedBills.add(id);
+        _applyAmexExcludeUI(id);
+      });
+      // Uncheck all and update
+      document.querySelectorAll('.amex-cb').forEach(function(c) { c.checked = false; });
+      var selAll = document.getElementById('amexSelectAll');
+      if (selAll) selAll.checked = false;
+      updateAmexSelectedBtn();
+      _updateAmexBulkBtn();
+      filterPayments();
+    }
+    if (btn) btn.disabled = false;
+  })
+  .catch(function() { if (btn) { btn.disabled = false; btn.textContent = 'Error'; } });
+}
+
+function _updateAmexBulkBtn() {
+  var amexMatches = (_paymentPreviewData && _paymentPreviewData.amex_matches) || [];
+  var remaining = amexMatches.filter(function(am) { return !_amexExcludedBills.has(am.bill_id); }).length;
+  var btn = document.getElementById('amexBulkExcludeBtn');
+  if (btn) {
+    btn.textContent = 'Exclude All (' + remaining + ')';
+    if (remaining === 0) { btn.disabled = true; btn.style.background = 'var(--border)'; btn.style.color = 'var(--text-dim)'; }
+  }
+}
+
+function bulkAmexExclude() {
+  var amexMatches = (_paymentPreviewData && _paymentPreviewData.amex_matches) || [];
+  // Collect bill IDs not yet excluded
+  var toExclude = [];
+  amexMatches.forEach(function(am) {
+    if (!_amexExcludedBills.has(am.bill_id)) toExclude.push(am.bill_id);
+  });
+  if (!toExclude.length) return;
+
+  var btn = document.getElementById('amexBulkExcludeBtn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Excluding...'; }
+
+  // Send all at once
+  fetch('/api/amex-exclude', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({bill_ids: toExclude, action: 'exclude'}),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.ok) {
+      toExclude.forEach(function(id) {
+        _amexExcludedBills.add(id);
+        _applyAmexExcludeUI(id);
+      });
+      filterPayments();
+      _updateAmexBulkBtn();
+    }
+  })
+  .catch(function() { if (btn) { btn.disabled = false; btn.textContent = 'Error'; } });
 }
 
 function confirmRecordOne(billId) {
