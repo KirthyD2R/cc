@@ -222,32 +222,12 @@
     "transaction_id": "2050328000001777091"
   },
   {
-    "date": "2025-11-02",
-    "description": "MEDIUM MONTHLY         MEDIUM.COM    CA (5.00 USD)",
-    "amount": 459.71,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000001777089",
-    "forex_amount": 5.0,
-    "forex_currency": "USD"
-  },
-  {
     "date": "2025-10-25",
     "description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
     "amount": 299.0,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000001777087"
-  },
-  {
-    "date": "2025-10-18",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 910.59,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000001777079",
-    "forex_amount": 10.0,
-    "forex_currency": "USD"
   },
   {
     "date": "2025-10-16",
@@ -298,16 +278,6 @@
     "transaction_id": "2050328000001777063"
   },
   {
-    "date": "2025-10-02",
-    "description": "MEDIUM MONTHLY         MEDIUM.COM    CA (5.00 USD)",
-    "amount": 459.86,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000001777061",
-    "forex_amount": 5.0,
-    "forex_currency": "USD"
-  },
-  {
     "date": "2025-09-25",
     "description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
     "amount": 299.0,
@@ -332,26 +302,6 @@
     "transaction_id": "2050328000000929333"
   },
   {
-    "date": "2025-09-02",
-    "description": "MEDIUM MONTHLY         MEDIUM.COM    CA (5.00 USD)",
-    "amount": 457.21,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929327",
-    "forex_amount": 5.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-08-26",
-    "description": "FLY.IO                 FLY.IO        CA (9.89 USD)",
-    "amount": 897.02,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929325",
-    "forex_amount": 9.89,
-    "forex_currency": "USD"
-  },
-  {
     "date": "2025-08-25",
     "description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
     "amount": 299.0,
@@ -360,50 +310,12 @@
     "transaction_id": "2050328000000929323"
   },
   {
-    "date": "2025-08-18",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 907.68,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929317",
-    "forex_amount": 10.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-08-15",
-    "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
-    "amount": 908.6,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929311"
-  },
-  {
     "date": "2025-08-06",
     "description": "AMAZON PRIME           MUMBAI        IN",
     "amount": 199.0,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929309"
-  },
-  {
-    "date": "2025-08-02",
-    "description": "MEDIUM MONTHLY         MEDIUM.COM    CA (5.00 USD)",
-    "amount": 453.73,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929307",
-    "forex_amount": 5.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-08-02",
-    "description": "FLY.IO                 FLY.IO        CA (12.74 USD)",
-    "amount": 1156.11,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929305",
-    "forex_amount": 12.74,
-    "forex_currency": "USD"
   },
   {
     "date": "2025-07-28",
@@ -448,16 +360,6 @@
     "forex_currency": "USD"
   },
   {
-    "date": "2025-07-18",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 891.79,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929287",
-    "forex_amount": 10.0,
-    "forex_currency": "USD"
-  },
-  {
     "date": "2025-07-15",
     "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
     "amount": 908.6,
@@ -480,34 +382,6 @@
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929277"
-  },
-  {
-    "date": "2025-07-03",
-    "description": "AMAZON�WEBSERVICES�C���BANGALORE�����IN�(*Convert�to�EMI)",
-    "amount": 7282.99,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929275"
-  },
-  {
-    "date": "2025-07-02",
-    "description": "MEDIUM MONTHLY         MEDIUM.COM    CA (5.00 USD)",
-    "amount": 443.55,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929273",
-    "forex_amount": 5.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-07-02",
-    "description": "FLY.IO                 FLY.IO        CA (12.27 USD)",
-    "amount": 1088.47,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929271",
-    "forex_amount": 12.27,
-    "forex_currency": "USD"
   },
   {
     "date": "2025-06-27",
@@ -534,16 +408,6 @@
     "transaction_id": "2050328000000929265"
   },
   {
-    "date": "2025-06-25",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 892.92,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929259",
-    "forex_amount": 10.0,
-    "forex_currency": "USD"
-  },
-  {
     "date": "2025-06-23",
     "description": "OPENAI *CHATGPT SUBSCR OPENAI.COM    CA (23.60 USD)",
     "amount": 2118.11,
@@ -551,16 +415,6 @@
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929257",
     "forex_amount": 23.6,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-06-19",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 896.24,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929255",
-    "forex_amount": 10.0,
     "forex_currency": "USD"
   },
   {
@@ -590,52 +444,12 @@
     "transaction_id": "2050328000000929239"
   },
   {
-    "date": "2025-06-02",
-    "description": "MEDIUM MONTHLY         MEDIUM.COM    CA (5.00 USD)",
-    "amount": 443.34,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929235",
-    "forex_amount": 5.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-06-02",
-    "description": "FLY.IO                 FLY.IO        CA (12.56 USD)",
-    "amount": 1113.67,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929233",
-    "forex_amount": 12.56,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-05-28",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 884.75,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929231",
-    "forex_amount": 10.0,
-    "forex_currency": "USD"
-  },
-  {
     "date": "2025-05-27",
     "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
     "amount": 276.25,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929229"
-  },
-  {
-    "date": "2025-05-25",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 890.62,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929227",
-    "forex_amount": 10.0,
-    "forex_currency": "USD"
   },
   {
     "date": "2025-05-25",
@@ -653,26 +467,6 @@
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929219",
     "forex_amount": 23.6,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-05-19",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 887.07,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929217",
-    "forex_amount": 10.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-05-18",
-    "description": "WINDSURF               WINDSURF.COM  CA (10.00 USD)",
-    "amount": 887.07,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929209",
-    "forex_amount": 10.0,
     "forex_currency": "USD"
   },
   {
@@ -694,56 +488,12 @@
     "forex_currency": "USD"
   },
   {
-    "date": "2025-05-10",
-    "description": "HOTSTAR CYBS SI        MUMBAI        IN",
-    "amount": 1499.0,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929199"
-  },
-  {
     "date": "2025-05-08",
     "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
     "amount": 199.0,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929197"
-  },
-  {
-    "date": "2025-05-03",
-    "description": "GOOGLE�WORKSPACE�CYBS��MUMBAI��������IN�(*Convert�to�EMI)",
-    "amount": 4874.34,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929193"
-  },
-  {
-    "date": "2025-05-02",
-    "description": "MEDIUM MONTHLY         MEDIUM.COM    CA (5.00 USD)",
-    "amount": 438.7,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929191",
-    "forex_amount": 5.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-05-02",
-    "description": "FLY.IO                 FLY.IO        CA (12.22 USD)",
-    "amount": 1072.17,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929189",
-    "forex_amount": 12.22,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-05-01",
-    "description": "IND*LINKEDIN (PGSI)    WWW.LINKEDIN. IN",
-    "amount": 1694.07,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929187"
   },
   {
     "date": "2025-04-25",
