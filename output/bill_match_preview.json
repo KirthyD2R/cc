@@ -120,6 +120,19 @@
     "match_type": "exact"
   },
   {
+    "file": "Invoice-B6466F68-0009.pdf",
+    "invoice_number": "B6466F68-0009",
+    "vendor_name": "OpenAI, LLC",
+    "amount": 23.6,
+    "currency": "INR",
+    "date": "2025-04-22",
+    "organized_month": "Apr 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000366001",
+    "matched_vendor_name": "OpenAI, LLC",
+    "vendor_match_method": "name"
+  },
+  {
     "file": "Invoice-E0BCC1DE-0005.pdf",
     "invoice_number": "E0BCC1DE-0005",
     "vendor_name": "Anthropic",
@@ -2540,7 +2553,7 @@
   {
     "file": "ECRTI2526540-Mac.pdf",
     "invoice_number": "ECRTI/2526/540",
-    "vendor_name": null,
+    "vendor_name": "Aptronix",
     "amount": 221707.0,
     "currency": "INR",
     "date": "2025-07-27",
@@ -2641,6 +2654,19 @@
     "matched_vendor_name": "SUPABASE",
     "matched_vendor_id": "2050328000002917312",
     "match_type": "exact"
+  },
+  {
+    "file": "Invoice-B6466F68-0012.pdf",
+    "invoice_number": "B6466F68-0012",
+    "vendor_name": "OpenAI, LLC",
+    "amount": 23.6,
+    "currency": "INR",
+    "date": "2025-07-22",
+    "organized_month": "Jul 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000366001",
+    "matched_vendor_name": "OpenAI, LLC",
+    "vendor_match_method": "name"
   },
   {
     "file": "Invoice-B8ERAOBF-0002.pdf",
@@ -3078,6 +3104,19 @@
     "match_type": "exact"
   },
   {
+    "file": "Invoice-B6466F68-0011.pdf",
+    "invoice_number": "B6466F68-0011",
+    "vendor_name": "OpenAI, LLC",
+    "amount": 23.6,
+    "currency": "INR",
+    "date": "2025-06-22",
+    "organized_month": "Jun 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000366001",
+    "matched_vendor_name": "OpenAI, LLC",
+    "vendor_match_method": "name"
+  },
+  {
     "file": "Invoice-IVSLM7IE-0001.pdf",
     "invoice_number": "IVSLM7IE-0001",
     "vendor_name": "Anthropic",
@@ -3303,6 +3342,19 @@
     "match_type": "normalized"
   },
   {
+    "file": "LNKD_INVOICE_51186091157.pdf",
+    "invoice_number": "51186091157",
+    "vendor_name": "LinkedIn",
+    "amount": 1694.07,
+    "currency": "INR",
+    "date": "2025-03-30",
+    "organized_month": "Mar 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000359077",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_match_method": "fuzzy"
+  },
+  {
     "file": "Mar 2025.pdf",
     "invoice_number": "5210601828",
     "vendor_name": "Google",
@@ -3338,7 +3390,7 @@
     "vendor_name": "Google",
     "amount": null,
     "currency": "INR",
-    "date": "2026-03-08",
+    "date": "2026-03-09",
     "organized_month": "Mar 2026",
     "action": "new_bill",
     "matched_vendor_id": "2050328000002993047",
@@ -3366,7 +3418,7 @@
     "vendor_name": null,
     "amount": 2000.0,
     "currency": "INR",
-    "date": "2026-03-08",
+    "date": "2026-03-09",
     "organized_month": "Mar 2026",
     "action": "new_vendor_bill"
   },
@@ -3376,7 +3428,7 @@
     "vendor_name": "Google",
     "amount": null,
     "currency": "INR",
-    "date": "2026-03-08",
+    "date": "2026-03-09",
     "organized_month": "Mar 2026",
     "action": "new_bill",
     "matched_vendor_id": "2050328000002993047",
@@ -3432,7 +3484,7 @@
     "vendor_name": "Google",
     "amount": null,
     "currency": "INR",
-    "date": "2026-03-08",
+    "date": "2026-03-09",
     "organized_month": "Mar 2026",
     "action": "new_bill",
     "matched_vendor_id": "2050328000002993047",
@@ -3445,7 +3497,7 @@
     "vendor_name": null,
     "amount": 1.0,
     "currency": "INR",
-    "date": "2026-03-08",
+    "date": "2026-03-09",
     "organized_month": "Mar 2026",
     "action": "new_vendor_bill"
   },
@@ -3463,6 +3515,16 @@
     "matched_vendor_name": "AWS",
     "matched_vendor_id": "2050328000002211179",
     "match_type": "normalized"
+  },
+  {
+    "file": "Adobe_Transaction_No_3114048162_20250528.pdf",
+    "invoice_number": "3114048162",
+    "vendor_name": "Adobe Systems Software Ireland Ltd",
+    "amount": 30011815.0,
+    "currency": "INR",
+    "date": "2026-03-09",
+    "organized_month": "May 2025",
+    "action": "new_vendor_bill"
   },
   {
     "file": "E0100W84MG_Invoice.pdf",
@@ -3598,6 +3660,34 @@
     "matched_vendor_id": "2050328000002993856",
     "match_type": "created_bills",
     "matched_bill": "Created: SUBRAMANIYAN"
+  },
+  {
+    "file": "Invoice-B6466F68-0010.pdf",
+    "invoice_number": "B6466F68-0010",
+    "vendor_name": "OpenAI, LLC",
+    "amount": 23.6,
+    "currency": "INR",
+    "date": "2025-05-22",
+    "organized_month": "May 2025",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000000366001",
+    "matched_vendor_name": "OpenAI, LLC",
+    "vendor_match_method": "name"
+  },
+  {
+    "file": "LNKD_INVOICE_51998567905.pdf",
+    "invoice_number": "51998567905",
+    "vendor_name": "LinkedIn",
+    "amount": 7270.62,
+    "currency": "INR",
+    "date": "2025-05-08",
+    "organized_month": "May 2025",
+    "action": "skip",
+    "matched_bill": "51998567905",
+    "matched_bill_id": "2050328000000360003",
+    "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
+    "matched_vendor_id": "2050328000000359077",
+    "match_type": "exact"
   },
   {
     "file": "MAA4-1449907.pdf",
