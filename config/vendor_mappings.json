@@ -728,6 +728,10 @@
             "account_name": "CC-Charges and GST",
             "account_id": "2050328000002992496",
             "category": "invoice_coa_match"
+        },
+        "GoDaddy": {
+            "account_name": "Software Subscription",
+            "account_id": "2050328000002195023"
         }
     }
 }

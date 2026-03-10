@@ -11219,5 +11219,43 @@
         "amount": 2000.0
       }
     ]
+  },
+  {
+    "file": "GoDaddy_Payment.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\GoDaddy_Payment.pdf",
+    "vendor_name": "GoDaddy",
+    "invoice_number": "3878401822",
+    "date": "2025-09-04",
+    "amount": 3439.7,
+    "currency": "INR",
+    "raw_text_preview": "GoDaddy Payment Receipt #3878401822. Date: 4/9/2025. Customer: D2R AI Labs Private Limited. .COM Domain Renewal D2RAILABS.com 1yr Rs.1499, Full Domain Privacy Rs.1399, ICANN Fee Rs.17, IGST 18% Rs.524.70. Total: Rs.3,439.70 INR.",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917USA29016OS6",
+    "line_items": [
+      {
+        "description": ".COM Domain Renewal - D2RAILABS.com (1 yr)",
+        "quantity": 1,
+        "unit_price": 1499.0,
+        "amount": 1499.0
+      },
+      {
+        "description": "Full Domain Privacy and Protection - Renewal - D2RAILABS.com (1 yr)",
+        "quantity": 1,
+        "unit_price": 1399.0,
+        "amount": 1399.0
+      },
+      {
+        "description": "ICANN Fee - D2RAILABS.com",
+        "quantity": 1,
+        "unit_price": 17.0,
+        "amount": 17.0
+      },
+      {
+        "description": "IGST 18%",
+        "quantity": 1,
+        "unit_price": 524.7,
+        "amount": 524.7
+      }
+    ]
   }
 ]

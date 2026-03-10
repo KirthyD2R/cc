@@ -2518,5 +2518,15 @@
     "amount": 32793.0,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "GoDaddy_Payment.pdf",
+    "status": "created",
+    "vendor_name": "GoDaddy",
+    "vendor_id": "2050328000003054001",
+    "bill_id": "2050328000003043078",
+    "amount": 3439.7,
+    "currency": "INR",
+    "attached": true
   }
 ]

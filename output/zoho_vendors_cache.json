@@ -400,6 +400,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000003054001",
+    "contact_name": "GoDaddy",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "business_none",
+    "currency_code": "INR"
+  },
+  {
     "contact_id": "2050328000002993047",
     "contact_name": "Google",
     "company_name": "Google India Private Limited",

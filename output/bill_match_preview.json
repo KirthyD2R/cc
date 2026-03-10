@@ -6343,5 +6343,18 @@
     "matched_vendor_id": "2050328000001691483",
     "match_type": "created_bills",
     "matched_bill": "Created: KUN AUTO PVT LTD COMPANY"
+  },
+  {
+    "file": "GoDaddy_Payment.pdf",
+    "invoice_number": "3878401822",
+    "vendor_name": "GoDaddy",
+    "amount": 3439.7,
+    "currency": "INR",
+    "date": "2025-09-04",
+    "organized_month": "",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000003054001",
+    "matched_vendor_name": "GoDaddy",
+    "vendor_match_method": "name"
   }
 ]
