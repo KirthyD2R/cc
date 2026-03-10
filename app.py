@@ -1491,6 +1491,91 @@ def api_review_create_account():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/api/bills/list-all")
+def api_bills_list_all():
+    """List all bills from Zoho for the delete panel."""
+    from utils import load_config, ZohoBooksAPI
+    config = load_config()
+    api = ZohoBooksAPI(config)
+    try:
+        all_bills = []
+        page = 1
+        while True:
+            resp = api.list_bills(page=page)
+            bills = resp.get("bills", [])
+            if not bills:
+                break
+            for b in bills:
+                all_bills.append({
+                    "bill_id": b.get("bill_id"),
+                    "vendor_name": b.get("vendor_name", ""),
+                    "bill_number": b.get("bill_number", ""),
+                    "date": b.get("date", ""),
+                    "total": b.get("total", 0),
+                    "currency_code": b.get("currency_code", "INR"),
+                    "status": b.get("status", ""),
+                })
+            if not resp.get("page_context", {}).get("has_more_page"):
+                break
+            page += 1
+        log_action(f"[Delete] Listed {len(all_bills)} bills from Zoho")
+        return jsonify({"bills": all_bills})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/bills/delete", methods=["POST"])
+def api_bills_delete():
+    """Delete one or more bills from Zoho."""
+    data = request.json
+    bill_ids = data.get("bill_ids", [])
+    if not bill_ids:
+        return jsonify({"error": "No bill_ids provided"}), 400
+
+    from utils import load_config, ZohoBooksAPI
+    config = load_config()
+    api = ZohoBooksAPI(config)
+
+    succeeded = []
+    failed = []
+    for bid in bill_ids:
+        try:
+            api.delete_bill(bid)
+            succeeded.append(bid)
+        except Exception as e:
+            failed.append({"bill_id": bid, "error": str(e)})
+            log_action(f"[Delete] Failed to delete bill {bid}: {e}", "ERROR")
+
+    # Also remove from created_bills.json
+    if succeeded:
+        bills_path = os.path.join(PROJECT_ROOT, "output", "created_bills.json")
+        try:
+            if os.path.exists(bills_path):
+                with open(bills_path, "r", encoding="utf-8") as f:
+                    local_bills = json.load(f)
+                deleted_set = set(succeeded)
+                local_bills = [b for b in local_bills if b.get("bill_id") not in deleted_set]
+                with open(bills_path, "w", encoding="utf-8") as f:
+                    json.dump(local_bills, f, indent=2, ensure_ascii=False)
+        except Exception:
+            pass
+        # Also remove from bill_detail_cache
+        cache_path = os.path.join(PROJECT_ROOT, "output", "bill_detail_cache.json")
+        try:
+            if os.path.exists(cache_path):
+                with open(cache_path, "r", encoding="utf-8") as f:
+                    cache = json.load(f)
+                for bid in succeeded:
+                    cache.pop(bid, None)
+                with open(cache_path, "w", encoding="utf-8") as f:
+                    json.dump(cache, f, indent=2, ensure_ascii=False)
+        except Exception:
+            pass
+
+    log_action(f"[Delete] Deleted {len(succeeded)}/{len(bill_ids)} bills from Zoho")
+    return jsonify({"ok": True, "succeeded": succeeded, "failed": failed})
+
+
 @app.route("/api/review/available-csvs")
 def api_available_csvs():
     """List parsed CC transaction CSVs available for import."""
@@ -5712,6 +5797,12 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
               <span class="info-tooltip">Review and fix expense account assignments on bills created in Step 3. You can change accounts and create new ones. This is optional &mdash; skipped during Run All.</span>
             </span>
           </button>
+          <button class="step-btn" onclick="openDeleteBillsPanel()" style="border:1.5px dashed #ef4444;background:rgba(239,68,68,0.05)">
+            <span class="step-num" style="background:#ef4444">D</span> Delete Bills
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Delete bills from Zoho grouped by vendor. Removes from Zoho and local cache.</span>
+            </span>
+          </button>
         </div>
       </div>
 
@@ -5848,6 +5939,40 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
         </div>
       </div>
 
+      <!-- Delete Bills panel -->
+      <div class="review-panel" id="deleteBillsPanel" style="display:none">
+        <div class="review-header" style="border-bottom-color:#ef4444">
+          <span style="color:#ef4444">Delete Bills from Zoho</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button id="deleteSelectedBtn" onclick="confirmDeleteSelected()" style="background:#ef4444;color:#fff;border:none;border-radius:6px;padding:5px 14px;font-size:11px;cursor:pointer;font-weight:600;display:none">Delete Selected (0)</button>
+            <button class="review-close-btn" onclick="closeDeleteBillsPanel()">&#10005; Close</button>
+          </div>
+        </div>
+        <div style="padding:8px 16px 0;display:flex;gap:12px;align-items:center">
+          <select id="deleteVendorFilter" onchange="filterDeleteBills()" style="padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;min-width:250px;color-scheme:dark">
+            <option value="">All Vendors</option>
+          </select>
+          <span id="deleteCountLabel" style="color:var(--text-dim);font-size:12px"></span>
+        </div>
+        <div class="review-body" id="deleteBillsBody">
+          <div class="review-loading" id="deleteBillsLoading">Loading bills from Zoho...</div>
+          <table class="review-table" id="deleteBillsTable" style="display:none">
+            <thead>
+              <tr>
+                <th style="width:30px"><input type="checkbox" id="deleteSelectAll" onchange="toggleDeleteSelectAll(this)"></th>
+                <th>Vendor</th>
+                <th>Bill #</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="deleteBillsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Match Status panel (hidden by default, overlays log panel) -->
       <div class="review-panel" id="matchPanel" style="display:none">
         <div class="review-header">
@@ -5912,13 +6037,15 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
           </div>
         </div>
         <div id="paymentFilterBar" style="display:none;padding:6px 12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);gap:12px;align-items:center;flex-shrink:0;flex-wrap:wrap;font-size:12px">
-          <label style="color:var(--text-dim)">Vendor:</label>
+          <label style="color:var(--text-dim)">Month:</label>
+          <select id="paymentMonthFilter" onchange="applyMonthFilter()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 8px;font-size:11px;min-width:220px;color-scheme:dark"><option value="">All Months</option></select>
+          <label style="color:var(--text-dim);margin-left:8px">Vendor:</label>
           <select id="paymentVendorFilter" onchange="filterPayments()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 8px;font-size:11px;max-width:200px"><option value="">All Vendors</option></select>
-          <label style="color:var(--text-dim);margin-left:12px">From:</label>
+          <label style="color:var(--text-dim);margin-left:8px">From:</label>
           <input type="date" id="paymentDateFrom" onchange="filterPayments()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 6px;font-size:11px;color-scheme:dark">
           <label style="color:var(--text-dim)">To:</label>
           <input type="date" id="paymentDateTo" onchange="filterPayments()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 6px;font-size:11px;color-scheme:dark">
-          <label style="color:var(--text-dim);margin-left:12px">Status:</label>
+          <label style="color:var(--text-dim);margin-left:8px">Status:</label>
           <select id="paymentStatusFilter" onchange="filterPayments()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 8px;font-size:11px">
             <option value="">All Statuses</option>
             <option value="matched">Matched</option>
@@ -5927,6 +6054,8 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <option value="cc_only">CC Only</option>
             <option value="already_paid">Already Paid</option>
           </select>
+          <label style="color:var(--text-dim);margin-left:8px">Amt:</label>
+          <input type="text" id="paymentAmountFilter" oninput="filterPayments()" placeholder="e.g. 30000" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 6px;font-size:11px;width:90px">
           <button onclick="clearPaymentFilters()" style="background:transparent;color:var(--accent);border:1px dashed var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Clear</button>
         </div>
         <div id="paymentBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto">
@@ -6319,6 +6448,219 @@ function openReviewPanel() {
 function closeReviewPanel() {
   document.getElementById('reviewPanel').style.display = 'none';
   document.getElementById('logPanel').style.display = 'flex';
+}
+
+// ========== Delete Bills Panel ==========
+var _deleteBillsData = [];
+var _deleteSelectedIds = new Set();
+
+function openDeleteBillsPanel() {
+  document.getElementById('logPanel').style.display = 'none';
+  document.getElementById('deleteBillsPanel').style.display = 'flex';
+  document.getElementById('deleteBillsLoading').style.display = 'block';
+  document.getElementById('deleteBillsTable').style.display = 'none';
+  _deleteBillsData = [];
+  _deleteSelectedIds.clear();
+  _updateDeleteBtn();
+
+  fetch('/api/bills/list-all')
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        document.getElementById('deleteBillsLoading').textContent = 'Error: ' + data.error;
+        return;
+      }
+      _deleteBillsData = data.bills || [];
+      renderDeleteBillsTable(_deleteBillsData);
+    })
+    .catch(err => {
+      document.getElementById('deleteBillsLoading').textContent = 'Failed: ' + err;
+    });
+}
+
+function closeDeleteBillsPanel() {
+  document.getElementById('deleteBillsPanel').style.display = 'none';
+  document.getElementById('logPanel').style.display = 'flex';
+}
+
+function renderDeleteBillsTable(bills) {
+  var tbody = document.getElementById('deleteBillsTableBody');
+  tbody.innerHTML = '';
+  if (!bills.length) {
+    document.getElementById('deleteBillsLoading').textContent = 'No bills found in Zoho.';
+    document.getElementById('deleteBillsLoading').style.display = 'block';
+    document.getElementById('deleteBillsTable').style.display = 'none';
+    return;
+  }
+
+  // Group by vendor
+  var groups = {};
+  bills.forEach(function(b) {
+    var v = b.vendor_name || 'Unknown';
+    if (!groups[v]) groups[v] = [];
+    groups[v].push(b);
+  });
+  var sortedVendors = Object.keys(groups).sort();
+
+  // Populate vendor filter
+  var filterSel = document.getElementById('deleteVendorFilter');
+  var prevVal = filterSel.value;
+  filterSel.innerHTML = '<option value="">All Vendors (' + bills.length + ')</option>';
+  sortedVendors.forEach(function(v) {
+    var opt = document.createElement('option');
+    opt.value = v;
+    opt.textContent = v + ' (' + groups[v].length + ')';
+    filterSel.appendChild(opt);
+  });
+  filterSel.value = prevVal;
+  document.getElementById('deleteCountLabel').textContent = sortedVendors.length + ' vendors, ' + bills.length + ' bills';
+
+  sortedVendors.forEach(function(vendorName) {
+    var group = groups[vendorName];
+    // Vendor header
+    var headerTr = document.createElement('tr');
+    headerTr.className = 'vendor-group-header';
+    headerTr.setAttribute('data-vendor', vendorName);
+    var headerTd = document.createElement('td');
+    headerTd.colSpan = 7;
+    headerTd.innerHTML = '<span class="vendor-name-label">' + vendorName + ' <span class="vendor-bill-count">(' + group.length + ' bill' + (group.length > 1 ? 's' : '') + ')</span></span>';
+    headerTr.appendChild(headerTd);
+    tbody.appendChild(headerTr);
+
+    group.forEach(function(b) {
+      var tr = document.createElement('tr');
+      tr.setAttribute('data-vendor', vendorName);
+      tr.setAttribute('data-billid', b.bill_id);
+
+      // Checkbox
+      var tdCb = document.createElement('td');
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.className = 'delete-cb';
+      cb.value = b.bill_id;
+      cb.onchange = function() {
+        if (this.checked) _deleteSelectedIds.add(b.bill_id);
+        else _deleteSelectedIds.delete(b.bill_id);
+        _updateDeleteBtn();
+      };
+      tdCb.appendChild(cb);
+      tr.appendChild(tdCb);
+
+      // Vendor
+      var tdV = document.createElement('td');
+      tdV.textContent = b.vendor_name;
+      tdV.style.cssText = 'color:var(--text-dim);padding-left:20px';
+      tr.appendChild(tdV);
+
+      // Bill #
+      var tdNum = document.createElement('td');
+      tdNum.textContent = b.bill_number || '-';
+      tdNum.style.fontSize = '11px';
+      tr.appendChild(tdNum);
+
+      // Date
+      var tdDate = document.createElement('td');
+      tdDate.textContent = b.date || '-';
+      tr.appendChild(tdDate);
+
+      // Amount
+      var tdAmt = document.createElement('td');
+      tdAmt.textContent = b.total != null ? Number(b.total).toLocaleString() : '-';
+      tdAmt.style.fontWeight = '600';
+      tr.appendChild(tdAmt);
+
+      // Currency
+      var tdCur = document.createElement('td');
+      tdCur.textContent = b.currency_code || 'INR';
+      tr.appendChild(tdCur);
+
+      // Status
+      var tdStatus = document.createElement('td');
+      tdStatus.textContent = b.status || '-';
+      tdStatus.style.cssText = 'font-size:10px;text-transform:uppercase;color:var(--text-dim)';
+      tr.appendChild(tdStatus);
+
+      tbody.appendChild(tr);
+    });
+  });
+
+  document.getElementById('deleteBillsLoading').style.display = 'none';
+  document.getElementById('deleteBillsTable').style.display = 'table';
+}
+
+function filterDeleteBills() {
+  var vendor = document.getElementById('deleteVendorFilter').value;
+  var rows = document.querySelectorAll('#deleteBillsTableBody tr');
+  var shown = 0;
+  rows.forEach(function(r) {
+    var rv = r.getAttribute('data-vendor');
+    if (!rv) return;
+    if (!vendor || rv === vendor) { r.style.display = ''; shown++; }
+    else { r.style.display = 'none'; }
+  });
+  document.getElementById('deleteCountLabel').textContent = vendor ? shown + ' bills shown' : '';
+}
+
+function toggleDeleteSelectAll(masterCb) {
+  var rows = document.querySelectorAll('#deleteBillsTableBody tr:not([style*="display: none"]):not(.vendor-group-header)');
+  rows.forEach(function(r) {
+    var cb = r.querySelector('.delete-cb');
+    if (cb) {
+      cb.checked = masterCb.checked;
+      if (masterCb.checked) _deleteSelectedIds.add(cb.value);
+      else _deleteSelectedIds.delete(cb.value);
+    }
+  });
+  _updateDeleteBtn();
+}
+
+function _updateDeleteBtn() {
+  var btn = document.getElementById('deleteSelectedBtn');
+  if (_deleteSelectedIds.size > 0) {
+    btn.style.display = '';
+    btn.textContent = 'Delete Selected (' + _deleteSelectedIds.size + ')';
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+function confirmDeleteSelected() {
+  var count = _deleteSelectedIds.size;
+  if (!count) return;
+  if (!confirm('Are you sure you want to permanently delete ' + count + ' bill(s) from Zoho? This cannot be undone.')) return;
+  var ids = Array.from(_deleteSelectedIds);
+  var btn = document.getElementById('deleteSelectedBtn');
+  btn.textContent = 'Deleting...';
+  btn.disabled = true;
+
+  fetch('/api/bills/delete', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({bill_ids: ids})
+  })
+  .then(r => r.json())
+  .then(data => {
+    btn.disabled = false;
+    if (data.error) { alert('Error: ' + data.error); _updateDeleteBtn(); return; }
+    var ok = (data.succeeded || []).length;
+    var fail = (data.failed || []).length;
+    alert('Deleted ' + ok + ' bill(s)' + (fail ? ', ' + fail + ' failed' : ''));
+    // Remove deleted rows from table
+    (data.succeeded || []).forEach(function(bid) {
+      _deleteSelectedIds.delete(bid);
+      var row = document.querySelector('#deleteBillsTableBody tr[data-billid="' + bid + '"]');
+      if (row) row.remove();
+    });
+    _updateDeleteBtn();
+    // Update counts
+    _deleteBillsData = _deleteBillsData.filter(function(b) { return !(data.succeeded || []).includes(b.bill_id); });
+    document.getElementById('deleteCountLabel').textContent = _deleteBillsData.length + ' bills remaining';
+  })
+  .catch(function(err) {
+    btn.disabled = false;
+    alert('Failed: ' + err);
+    _updateDeleteBtn();
+  });
 }
 
 function filterReviewTable() {
@@ -7756,6 +8098,7 @@ function openPaymentPreview() {
       // Load persisted Amex exclusions
       _amexExcludedBills = new Set(data.amex_excluded || []);
       renderPaymentPreview(data);
+      populateMonthFilter();
       // Apply initial filters (includes amex exclusions)
       filterPayments();
     })
@@ -7780,6 +8123,8 @@ function filterPayments() {
   var dateFrom = document.getElementById('paymentDateFrom').value || '';
   var dateTo = document.getElementById('paymentDateTo').value || '';
   var statusFilter = document.getElementById('paymentStatusFilter').value || '';
+  var amtRaw = (document.getElementById('paymentAmountFilter').value || '').replace(/,/g, '').trim();
+  var amtFilter = amtRaw ? parseFloat(amtRaw) : 0;
 
   var visibleMatched = 0, visibleGrouped = 0, visibleUnmatched = 0, visiblePaid = 0, visibleCcOnly = 0;
 
@@ -7823,6 +8168,21 @@ function filterPayments() {
       if (status !== statusFilter) show = false;
     }
 
+    // Amount filter — matches if bill amount or CC amount contains the number
+    if (show && amtFilter) {
+      var billAmt = parseFloat(row.getAttribute('data-billamount') || 0);
+      var ccAmt = parseFloat(row.getAttribute('data-ccamount') || 0);
+      // Match if either amount rounds to within 1 of the filter value
+      var matched = Math.abs(billAmt - amtFilter) < 1 || Math.abs(ccAmt - amtFilter) < 1;
+      // Also match partial: e.g. typing "300" matches 300, 3000, 30000 etc — check if string contains
+      if (!matched) {
+        var billStr = String(Math.round(billAmt));
+        var ccStr = String(Math.round(ccAmt));
+        matched = billStr.indexOf(amtRaw) >= 0 || ccStr.indexOf(amtRaw) >= 0;
+      }
+      if (!matched) show = false;
+    }
+
     row.style.display = show ? '' : 'none';
     if (show) {
       if (status === 'matched') visibleMatched++;
@@ -7852,12 +8212,68 @@ function filterPayments() {
   _updatePaySelectedBtn();
 }
 
+function applyMonthFilter() {
+  var sel = document.getElementById('paymentMonthFilter');
+  var val = sel.value;
+  if (!val) {
+    document.getElementById('paymentDateFrom').value = '';
+    document.getElementById('paymentDateTo').value = '';
+  } else {
+    // val is "YYYY-MM"
+    var parts = val.split('-');
+    var y = parseInt(parts[0]), m = parseInt(parts[1]);
+    var firstDay = val + '-01';
+    var lastDay = new Date(y, m, 0).getDate();
+    document.getElementById('paymentDateFrom').value = firstDay;
+    document.getElementById('paymentDateTo').value = val + '-' + String(lastDay).padStart(2, '0');
+  }
+  filterPayments();
+}
+
+function populateMonthFilter() {
+  if (!_paymentPreviewData) return;
+  var matches = _paymentPreviewData.matches || [];
+  var monthBills = {}, monthCC = {};
+  matches.forEach(function(m) {
+    var billDate = m.bill_date || '';
+    var ccDate = m.cc_date || '';
+    var status = m.status || '';
+    if (billDate) {
+      var bm = billDate.substring(0, 7);
+      if (!monthBills[bm]) monthBills[bm] = 0;
+      monthBills[bm]++;
+    }
+    if (ccDate && status !== 'unmatched' && status !== 'already_paid') {
+      var cm = ccDate.substring(0, 7);
+      if (!monthCC[cm]) monthCC[cm] = 0;
+      monthCC[cm]++;
+    }
+  });
+  var allMonths = {};
+  Object.keys(monthBills).forEach(function(k) { allMonths[k] = true; });
+  Object.keys(monthCC).forEach(function(k) { allMonths[k] = true; });
+  var sorted = Object.keys(allMonths).sort().reverse();
+  var sel = document.getElementById('paymentMonthFilter');
+  sel.innerHTML = '<option value="">All Months</option>';
+  sorted.forEach(function(ym) {
+    var opt = document.createElement('option');
+    opt.value = ym;
+    var label = new Date(ym + '-15').toLocaleString('default', {month: 'short', year: 'numeric'});
+    var bc = monthBills[ym] || 0;
+    var cc = monthCC[ym] || 0;
+    opt.textContent = label + '  \u2014  ' + bc + ' bills, ' + cc + ' CC';
+    sel.appendChild(opt);
+  });
+}
+
 function clearPaymentFilters() {
   document.getElementById('paymentCardFilter').value = '';
+  document.getElementById('paymentMonthFilter').value = '';
   document.getElementById('paymentVendorFilter').value = '';
   document.getElementById('paymentDateFrom').value = '';
   document.getElementById('paymentDateTo').value = '';
   document.getElementById('paymentStatusFilter').value = '';
+  document.getElementById('paymentAmountFilter').value = '';
   filterPayments();
 }
 
@@ -8049,6 +8465,8 @@ function renderPaymentPreview(data) {
     tr.setAttribute('data-status', m.status || '');
     tr.setAttribute('data-vendor', m.vendor_name || '');
     tr.setAttribute('data-date', m.bill_date || m.cc_date || '');
+    tr.setAttribute('data-billamount', m.bill_amount || 0);
+    tr.setAttribute('data-ccamount', m.cc_inr_amount || 0);
 
     var bgColor = 'transparent';
     if (m.status === 'matched') bgColor = 'rgba(80,200,120,0.04)';

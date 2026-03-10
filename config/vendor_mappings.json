@@ -108,7 +108,8 @@
         "APPLEBEES 7675 - POS, ORLANDO": "Apple",
         "WISPRWISPRFLOW.": "Wispr Flow",
         "GAMMA.APPGAMMA.APP": "Gamma",
-        "APTRONIX CHENNAI IN(*ConverttoEMI) Telecom": "Aptronix"
+        "APTRONIX CHENNAI IN(*ConverttoEMI) Telecom": "Aptronix",
+        "MACFOS LIMITED, MUMBAI": "MACFOS LIMITED"
     },
     "multi_bill_vendors": [
         "Amazon India",
@@ -447,7 +448,8 @@
         "07AAFFW0573P1ZM": "WIDEVIEW SOLUTIONS",
         "06DMWPR6067P1ZQ": "DEAL N DONE",
         "201109821G": "LinkedIn",
-        "33AAICP1675P1ZW": "Aptronix"
+        "33AAICP1675P1ZW": "Aptronix",
+        "27AALCM3536H1ZA": "MACFOS LIMITED"
     },
     "account_mappings": {
         "Microsoft Corporation (India) Pvt Ltd": {
@@ -697,6 +699,10 @@
             "account_name": "CC-Charges and GST",
             "account_id": "2050328000002992496",
             "category": "invoice_coa_match"
+        },
+        "MACFOS LIMITED": {
+            "account_name": "Office Supplies",
+            "account_id": "2050328000000000498"
         }
     }
 }

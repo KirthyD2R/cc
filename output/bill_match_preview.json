@@ -717,6 +717,21 @@
     "match_type": "exact"
   },
   {
+    "file": "invoice_2926496.pdf",
+    "invoice_number": "INV2526/167912",
+    "vendor_name": "MACFOS LIMITED",
+    "amount": 29999.0,
+    "currency": "INR",
+    "date": "2025-08-10",
+    "organized_month": "Aug 2025",
+    "action": "skip",
+    "matched_bill_id": "2050328000002984673",
+    "matched_vendor_name": "MACFOS LIMITED",
+    "matched_vendor_id": "2050328000003012866",
+    "match_type": "created_bills",
+    "matched_bill": "Created: MACFOS LIMITED"
+  },
+  {
     "file": "Dec 2024.pdf",
     "invoice_number": "5142807509",
     "vendor_name": "Google",

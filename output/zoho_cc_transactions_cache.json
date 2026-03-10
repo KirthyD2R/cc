@@ -252,14 +252,6 @@
     "transaction_id": "2050328000000929309"
   },
   {
-    "date": "2025-07-28",
-    "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
-    "amount": 279.65,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929303"
-  },
-  {
     "date": "2025-07-27",
     "description": "APTRONIX��������������CHENNAI�������IN�(*Convert�to�EMI)",
     "amount": 216707.0,
@@ -282,16 +274,6 @@
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929291"
-  },
-  {
-    "date": "2025-07-23",
-    "description": "OPENAI *CHATGPT SUBSCR OPENAI.COM    CA (23.60 USD)",
-    "amount": 2112.1,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929289",
-    "forex_amount": 23.6,
-    "forex_currency": "USD"
   },
   {
     "date": "2025-07-15",
@@ -320,14 +302,6 @@
   {
     "date": "2025-06-27",
     "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
-    "amount": 267.75,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929269"
-  },
-  {
-    "date": "2025-06-27",
-    "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
     "amount": 541.5,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
@@ -340,16 +314,6 @@
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929265"
-  },
-  {
-    "date": "2025-06-23",
-    "description": "OPENAI *CHATGPT SUBSCR OPENAI.COM    CA (23.60 USD)",
-    "amount": 2118.11,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929257",
-    "forex_amount": 23.6,
-    "forex_currency": "USD"
   },
   {
     "date": "2025-06-18",
@@ -378,30 +342,12 @@
     "transaction_id": "2050328000000929239"
   },
   {
-    "date": "2025-05-27",
-    "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
-    "amount": 276.25,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929229"
-  },
-  {
     "date": "2025-05-25",
     "description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
     "amount": 299.0,
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929225"
-  },
-  {
-    "date": "2025-05-23",
-    "description": "OPENAI *CHATGPT SUBSCR OPENAI.COM    CA (23.60 USD)",
-    "amount": 2103.77,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929219",
-    "forex_amount": 23.6,
-    "forex_currency": "USD"
   },
   {
     "date": "2025-05-15",
@@ -436,16 +382,6 @@
     "card_name": "Kotak bank credit card",
     "zoho_account_id": "2050328000000232005",
     "transaction_id": "2050328000000929181"
-  },
-  {
-    "date": "2025-04-23",
-    "description": "OPENAI *CHATGPT SUBSCR OPENAI.COM CA Computer (23.60 USD)",
-    "amount": 2082.32,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000331007",
-    "forex_amount": 23.6,
-    "forex_currency": "USD"
   },
   {
     "date": "2026-02-14",

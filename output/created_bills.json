@@ -2408,5 +2408,15 @@
     "amount": 1623.55,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "invoice_2926496.pdf",
+    "status": "created",
+    "vendor_name": "MACFOS LIMITED",
+    "vendor_id": "2050328000003012866",
+    "bill_id": "2050328000002984673",
+    "amount": 29999.0,
+    "currency": "INR",
+    "attached": true
   }
 ]

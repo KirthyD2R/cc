@@ -1426,6 +1426,33 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\invoice-0cf94175-74a4-4471-ba26-d41a7c5ca0e0 1.pdf"
   },
   {
+    "file": "invoice_2926496.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\invoice_2926496.pdf",
+    "vendor_name": "MACFOS LIMITED",
+    "invoice_number": "INV2526/167912",
+    "date": "2025-08-10",
+    "amount": 29999.0,
+    "currency": "INR",
+    "raw_text_preview": "TAX INVOICE (Original for Recipient)\nMACFOS LIMITED\n(Formerly known as MACFOS PVT LTD)\nSumant Building, Dynamic Logistics Trade Park\nSurvey No. 78/1 Dighi, Bhosari Alandi Road Pune 411015\nMaharashtra MH\nIndia\n https://www.facebook.com/robulabs   02068197600\nhttps://plus.google.com/+RobuInlabs  CIN: L29309PN2017PLC172718\nIRN No: 78b0c79f8afa3ed92ff6c1d58ef8afa7b16f272de18bd889d8569248d0a89a8b  info@robu.in\nGSTIN: 27AALCM3536H1ZA\n Customer  Shipping Address\nD2R AI LABS PRIVATE D2R AI LABS ",
+    "vendor_gstin": "27AALCM3536H1ZA",
+    "line_items": [
+      {
+        "description": "[R132781] Bambu Lab A1 3D Printer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 25422.88
+      },
+      {
+        "description": "[std_shipping] STANDARD SHIPPING",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.0
+      }
+    ],
+    "organized_month": "Aug 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\invoice_2926496.pdf"
+  },
+  {
     "file": "Dec 2024.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Dec 2024\\Dec 2024.pdf",
     "vendor_name": "Google",
