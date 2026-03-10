@@ -1162,6 +1162,40 @@ def api_review_bills():
     account_mappings = vendor_mappings.get("account_mappings", {})
     default_account = vendor_mappings.get("default_expense_account", "Credit Card Charges")
 
+    # Load extracted invoices for real line item descriptions
+    # Build multiple lookup keys for fuzzy matching (handles filename variations)
+    extracted_by_file = {}
+    inv_path = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
+    try:
+        if os.path.exists(inv_path):
+            with open(inv_path, "r", encoding="utf-8") as f:
+                for inv in json.load(f):
+                    fname = inv.get("file", "")
+                    extracted_by_file[fname] = inv
+                    base = fname.rsplit(".pdf", 1)[0] if fname.endswith(".pdf") else fname
+                    # Index without Invoice- prefix (e.g. PZLFLIEU-0005 -> Invoice-PZLFLIEU-0005.pdf)
+                    if base.startswith("Invoice-"):
+                        extracted_by_file[base[8:]] = inv
+                        extracted_by_file[base[8:] + ".pdf"] = inv
+                    # Index by first segment for multi-page files (e.g. BLR7-1536989_p1_BLR7-1536989.pdf)
+                    # so that XXX_p1_XXX_p1_XXX.pdf in created_bills also matches
+                    parts = base.split("_p")
+                    if len(parts) >= 2:
+                        extracted_by_file[parts[0]] = inv
+    except Exception:
+        pass
+
+    def _find_extracted(file_name):
+        """Fuzzy lookup for extracted invoice by filename."""
+        if file_name in extracted_by_file:
+            return extracted_by_file[file_name]
+        # Try first segment before _p for multi-page files
+        base = file_name.rsplit(".pdf", 1)[0] if file_name.endswith(".pdf") else file_name
+        parts = base.split("_p")
+        if len(parts) >= 2 and parts[0] in extracted_by_file:
+            return extracted_by_file[parts[0]]
+        return {}
+
     # Collect bill IDs to fetch
     bills_to_show = []
     for entry in local_bills:
@@ -1180,13 +1214,13 @@ def api_review_bills():
         bill_cache = {}
 
     # Split bills into cached vs needs-fetch
-    zoho_accounts = {}  # bill_id -> (account_name, account_id, desc, li_names)
+    zoho_accounts = {}  # bill_id -> (account_name, account_id)
     bills_to_fetch = []
     for e in bills_to_show:
         bid = e["bill_id"]
         if bid in bill_cache:
             c = bill_cache[bid]
-            zoho_accounts[bid] = (c.get("account_name"), c.get("account_id"), c.get("description", ""), c.get("line_items", []))
+            zoho_accounts[bid] = (c.get("account_name"), c.get("account_id"))
         else:
             bills_to_fetch.append(e)
 
@@ -1204,24 +1238,18 @@ def api_review_bills():
                 bill_data = api.get_bill(bid)
                 bill = bill_data.get("bill", {})
                 line_items = bill.get("line_items", [])
-                desc = bill.get("notes", "") or bill.get("reference_number", "") or ""
-                if not desc and line_items:
-                    desc = line_items[0].get("description", "") or line_items[0].get("name", "")
-                li_names = [li.get("name", "") or li.get("description", "") for li in line_items]
                 if line_items:
-                    return bid, line_items[0].get("account_name", ""), line_items[0].get("account_id", ""), desc, li_names
-                return bid, None, None, desc, li_names
+                    return bid, line_items[0].get("account_name", ""), line_items[0].get("account_id", "")
+                return bid, None, None
             with ThreadPoolExecutor(max_workers=10) as pool:
                 futures = {pool.submit(_fetch_one, e["bill_id"]): e["bill_id"] for e in bills_to_fetch}
                 for fut in as_completed(futures):
                     try:
-                        bid, acct_name, acct_id, desc, li_names = fut.result()
+                        bid, acct_name, acct_id = fut.result()
                         if acct_name:
-                            zoho_accounts[bid] = (acct_name, acct_id, desc, li_names)
-                        elif desc or li_names:
-                            zoho_accounts[bid] = (None, None, desc, li_names)
+                            zoho_accounts[bid] = (acct_name, acct_id)
                         # Cache the fetched result
-                        bill_cache[bid] = {"account_name": acct_name, "account_id": acct_id, "description": desc, "line_items": li_names}
+                        bill_cache[bid] = {"account_name": acct_name, "account_id": acct_id}
                     except Exception:
                         pass
             log_action(f"[Review] Got account info for {len(zoho_accounts)}/{len(bills_to_show)} bills ({len(bills_to_fetch)} fetched, {len(bills_to_show) - len(bills_to_fetch)} cached)")
@@ -1244,14 +1272,10 @@ def api_review_bills():
         vendor_name = entry.get("vendor_name", "Unknown")
 
         # Prefer Zoho actual account, fall back to local mapping
-        description = ""
-        li_names = []
         if bid in zoho_accounts:
             acct_data = zoho_accounts[bid]
             account_name = acct_data[0]
             account_id = acct_data[1]
-            description = acct_data[2] if len(acct_data) > 2 else ""
-            li_names = acct_data[3] if len(acct_data) > 3 else []
             if account_name:
                 # Update local mapping if Zoho has a different account
                 local = account_mappings.get(vendor_name, {})
@@ -1267,6 +1291,12 @@ def api_review_bills():
             account_name = mapping.get("account_name", default_account)
             account_id = mapping.get("account_id", "")
 
+        # Line items from extracted invoices (real product/service names)
+        file_name = entry.get("file", "")
+        extracted = _find_extracted(file_name)
+        extracted_li = extracted.get("line_items", [])
+        extracted_li_descs = [li.get("description", "") for li in extracted_li if li.get("description")]
+
         result.append({
             "bill_id": bid,
             "vendor_name": vendor_name,
@@ -1274,8 +1304,8 @@ def api_review_bills():
             "currency": entry.get("currency", "INR"),
             "account_id": account_id,
             "account_name": account_name,
-            "description": description or entry.get("file", ""),
-            "line_items": [n for n in li_names if n],
+            "description": file_name,
+            "line_items": extracted_li_descs,
         })
 
     if mappings_changed:
@@ -5312,7 +5342,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   .review-create-btn:hover { background: rgba(108,140,255,0.2); }
   .review-body {
     flex: 1;
-    overflow-y: auto;
+    overflow: auto;
     padding: 12px 16px;
   }
   .review-loading {
@@ -5322,6 +5352,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
     font-size: 13px;
   }
   .review-table {
+    min-width: 900px;
     width: 100%;
     border-collapse: collapse;
     font-size: 12px;
@@ -5335,11 +5366,13 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    white-space: nowrap;
   }
   .review-table td {
     padding: 8px 10px;
     border-bottom: 1px solid rgba(46,51,69,0.5);
     vertical-align: middle;
+    white-space: nowrap;
   }
   .review-table select {
     background: var(--bg);
@@ -5788,13 +5821,19 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <button class="review-close-btn" onclick="closeReviewPanel()">&#10005; Close</button>
           </div>
         </div>
+        <div style="padding:8px 16px 0;display:none" id="reviewFilterBar">
+          <select id="reviewVendorFilter" onchange="filterReviewTable()" style="padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;min-width:250px;color-scheme:dark">
+            <option value="">All Vendors</option>
+          </select>
+          <span id="reviewCountLabel" style="margin-left:12px;color:var(--text-dim);font-size:12px"></span>
+        </div>
         <div class="review-body" id="reviewBody">
           <div class="review-loading" id="reviewLoading">Loading bills...</div>
           <table class="review-table" id="reviewTable" style="display:none">
             <thead>
               <tr>
                 <th>Vendor</th>
-                <th>Description</th>
+                <th>File name</th>
                 <th>Line Items</th>
                 <th>Amount</th>
                 <th>Currency</th>
@@ -6240,6 +6279,24 @@ function closeReviewPanel() {
   document.getElementById('logPanel').style.display = 'flex';
 }
 
+function filterReviewTable() {
+  const vendor = document.getElementById('reviewVendorFilter').value;
+  const rows = document.querySelectorAll('#reviewTableBody tr');
+  let shown = 0, bills = 0;
+  rows.forEach(r => {
+    const rv = r.getAttribute('data-vendor');
+    if (!rv) return;
+    if (!vendor || rv === vendor) {
+      r.style.display = '';
+      if (!r.classList.contains('vendor-group-header')) bills++;
+      shown++;
+    } else {
+      r.style.display = 'none';
+    }
+  });
+  document.getElementById('reviewCountLabel').textContent = vendor ? bills + ' bills shown' : '';
+}
+
 function renderReviewTable(bills) {
   const tbody = document.getElementById('reviewTableBody');
   tbody.innerHTML = '';
@@ -6263,6 +6320,20 @@ function renderReviewTable(bills) {
   // Sort vendor names alphabetically
   const sortedVendors = Object.keys(vendorGroups).sort();
 
+  // Populate vendor filter dropdown
+  const filterSel = document.getElementById('reviewVendorFilter');
+  const prevVal = filterSel.value;
+  filterSel.innerHTML = '<option value="">All Vendors (' + bills.length + ')</option>';
+  sortedVendors.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v;
+    opt.textContent = v + ' (' + vendorGroups[v].length + ')';
+    filterSel.appendChild(opt);
+  });
+  filterSel.value = prevVal;
+  document.getElementById('reviewFilterBar').style.display = 'flex';
+  document.getElementById('reviewCountLabel').textContent = sortedVendors.length + ' vendors, ' + bills.length + ' bills';
+
   let globalIdx = 0;
   sortedVendors.forEach(vendorName => {
     const group = vendorGroups[vendorName];
@@ -6270,6 +6341,7 @@ function renderReviewTable(bills) {
     // --- Vendor group header row with Apply All ---
     const headerTr = document.createElement('tr');
     headerTr.className = 'vendor-group-header';
+    headerTr.setAttribute('data-vendor', vendorName);
     const headerTd = document.createElement('td');
     headerTd.colSpan = 8;
 
@@ -6339,7 +6411,7 @@ function renderReviewTable(bills) {
       // Line Items
       const tdLineItems = document.createElement('td');
       const liArr = bill.line_items || [];
-      tdLineItems.style.cssText = 'color:var(--text-dim);font-size:10px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+      tdLineItems.style.cssText = 'color:var(--text-dim);font-size:10px;white-space:normal;min-width:200px';
       tdLineItems.textContent = liArr.length > 0 ? liArr.join(', ') : '-';
       tdLineItems.title = liArr.join('\n');
       tr.appendChild(tdLineItems);
@@ -8116,7 +8188,7 @@ function renderPaymentPreview(data) {
     var amexHeader = document.createElement('div');
     amexHeader.style.cssText = 'padding:10px 12px;font-size:12px;font-weight:700;color:var(--yellow);display:flex;align-items:center;gap:8px;position:sticky;top:0;background:var(--bg);z-index:1';
     var _amexNotExcluded = amexMatches.filter(function(am) { return !_amexExcludedBills.has(am.bill_id); }).length;
-    amexHeader.innerHTML = '\u26A0 Amex CC Matches (' + amexMatches.length + ') &mdash; <span style="font-weight:400;color:var(--text-dim)">Bills matched to Amex (not in Zoho).</span>'
+    amexHeader.innerHTML = '\u26A0 Amex CC Matches (' + amexMatches.length + ') &mdash; <span style="font-weight:400;color:var(--text-dim)">Bills matched to Amex.</span>'
       + ' <span style="margin-left:auto;display:flex;gap:8px">'
       + '<button id="amexExcludeSelectedBtn" onclick="excludeSelectedAmex()" style="background:var(--accent);color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600;display:none">Exclude Selected (0)</button>'
       + '<button id="amexBulkExcludeBtn" onclick="bulkAmexExclude()" style="background:var(--yellow);color:#000;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600">Exclude All (' + _amexNotExcluded + ')</button>'
