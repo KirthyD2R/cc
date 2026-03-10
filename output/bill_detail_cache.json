@@ -974,5 +974,33 @@
   "2050328000003034003": {
     "account_name": "Software Subscription",
     "account_id": "2050328000002195023"
+  },
+  "2050328000003030024": {
+    "account_name": "Software License",
+    "account_id": "2050328000000027421"
+  },
+  "2050328000003047003": {
+    "account_name": "Meals and Entertainment",
+    "account_id": "2050328000000000546"
+  },
+  "2050328000003037050": {
+    "account_name": "Govt and Tax Paid",
+    "account_id": "2050328000000068233"
+  },
+  "2050328000003049003": {
+    "account_name": "CC-Charges and GST",
+    "account_id": "2050328000002992496"
+  },
+  "2050328000003043052": {
+    "account_name": "Car Expenses",
+    "account_id": "2050328000002358023"
+  },
+  "2050328000003037024": {
+    "account_name": "Meals and Entertainment",
+    "account_id": "2050328000000000546"
+  },
+  "2050328000003046003": {
+    "account_name": "Meals and Entertainment",
+    "account_id": "2050328000000000546"
   }
 }

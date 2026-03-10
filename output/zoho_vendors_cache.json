@@ -152,6 +152,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000003040001",
+    "contact_name": "Applebee's",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
     "contact_id": "2050328000003023073",
     "contact_name": "Aptronix",
     "company_name": "Aptronix",
@@ -496,6 +504,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000003048024",
+    "contact_name": "La Buena Vida Durham",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
     "contact_id": "2050328000000359077",
     "contact_name": "LinkedIn Singapore Pte Ltd",
     "company_name": "LinkedIn Singapore Pte Ltd",
@@ -603,6 +619,14 @@
     "contact_id": "2050328000003023543",
     "contact_name": "OpenAI-USD",
     "company_name": "OpenAI-USD",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
+    "contact_id": "2050328000003041014",
+    "contact_name": "Panda Express",
+    "company_name": "",
     "gst_no": "",
     "gst_treatment": "overseas",
     "currency_code": "USD"

@@ -2513,17 +2513,22 @@ def api_bills_create_and_record():
         pdf_path = inv.get("organized_path") or ""
         fname = inv.get("file", invoice_number or vendor_name)
         if not pdf_path or not os.path.exists(pdf_path):
-            # Try to find in organized_invoices or input_pdfs
-            for base_dir in ("organized_invoices", "input_pdfs"):
-                candidate = os.path.join(PROJECT_ROOT, base_dir)
-                if os.path.isdir(candidate):
-                    for root_d, _dirs, files in os.walk(candidate):
-                        for f_name in files:
-                            if f_name == fname or os.path.splitext(f_name)[0] == os.path.splitext(fname)[0]:
-                                pdf_path = os.path.join(root_d, f_name)
+            # Check the direct path field from invoice entry
+            direct_path = inv.get("path", "")
+            if direct_path and os.path.exists(direct_path):
+                pdf_path = direct_path
+            else:
+                # Try to find in organized_invoices, input_pdfs, or new image invoices
+                for base_dir in ("organized_invoices", "input_pdfs", "new image invoices"):
+                    candidate = os.path.join(PROJECT_ROOT, base_dir)
+                    if os.path.isdir(candidate):
+                        for root_d, _dirs, files in os.walk(candidate):
+                            for f_name in files:
+                                if f_name == fname or os.path.splitext(f_name)[0] == os.path.splitext(fname)[0]:
+                                    pdf_path = os.path.join(root_d, f_name)
+                                    break
+                            if pdf_path and os.path.exists(pdf_path):
                                 break
-                        if os.path.exists(pdf_path):
-                            break
         attached = False
         if pdf_path and os.path.exists(pdf_path):
             try:
@@ -2765,16 +2770,21 @@ def api_bills_create_and_record_bulk():
                 pdf_path = inv.get("organized_path") or ""
                 fname = inv.get("file", invoice_number or vendor_name)
                 if not pdf_path or not os.path.exists(pdf_path):
-                    for base_dir in ("organized_invoices", "input_pdfs"):
-                        candidate = os.path.join(PROJECT_ROOT, base_dir)
-                        if os.path.isdir(candidate):
-                            for root_d, _dirs, files in os.walk(candidate):
-                                for f_name in files:
-                                    if f_name == fname or os.path.splitext(f_name)[0] == os.path.splitext(fname)[0]:
-                                        pdf_path = os.path.join(root_d, f_name)
+                    # Check the direct path field from invoice entry
+                    direct_path = inv.get("path", "")
+                    if direct_path and os.path.exists(direct_path):
+                        pdf_path = direct_path
+                    else:
+                        for base_dir in ("organized_invoices", "input_pdfs", "new image invoices"):
+                            candidate = os.path.join(PROJECT_ROOT, base_dir)
+                            if os.path.isdir(candidate):
+                                for root_d, _dirs, files in os.walk(candidate):
+                                    for f_name in files:
+                                        if f_name == fname or os.path.splitext(f_name)[0] == os.path.splitext(fname)[0]:
+                                            pdf_path = os.path.join(root_d, f_name)
+                                            break
+                                    if pdf_path and os.path.exists(pdf_path):
                                         break
-                                if pdf_path and os.path.exists(pdf_path):
-                                    break
                 if pdf_path and os.path.exists(pdf_path):
                     try:
                         mod_03.attach_pdf(api, bill_id, pdf_path)
@@ -3228,6 +3238,155 @@ def api_banking_delete_transactions():
         return jsonify({"status": "ok", "message": f"Deleted {deleted} transactions for {card_name}", "deleted": deleted})
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route("/api/banking/auto-match-preview")
+def api_banking_auto_match_preview():
+    """Fetch uncategorized CC transactions and their best matching suggestions."""
+    try:
+        from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids, log_action
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        cards = config.get("credit_cards", [])
+        resolve_account_ids(api, cards)
+
+        # Fetch uncategorized transactions from all cards (paginated)
+        all_txns = []
+        for card in cards:
+            account_id = card.get("zoho_account_id")
+            card_name = card.get("name", "")
+            if not account_id:
+                continue
+            page = 1
+            while True:
+                result = api.list_uncategorized(account_id, page=page)
+                txns = result.get("banktransactions", [])
+                for t in txns:
+                    t["_card_name"] = card_name
+                    t["_account_id"] = account_id
+                all_txns.extend(txns)
+                if not result.get("page_context", {}).get("has_more_page", False):
+                    break
+                page += 1
+
+        log_action(f"Auto-match preview: {len(all_txns)} uncategorized transactions")
+
+        # Build response (no match fetching — lazy loaded per row)
+        items = []
+        card_counts = {}
+        for t in all_txns:
+            card_name = t.get("_card_name", "")
+            card_counts[card_name] = card_counts.get(card_name, 0) + 1
+            items.append({
+                "transaction_id": t.get("transaction_id", ""),
+                "account_id": t.get("_account_id", ""),
+                "card_name": card_name,
+                "description": t.get("description", "") or t.get("reference_number", ""),
+                "amount": abs(float(t.get("amount", 0))),
+                "date": t.get("date", ""),
+                "debit_or_credit": t.get("debit_or_credit", ""),
+            })
+
+        return jsonify({
+            "items": items,
+            "card_names": [c.get("name", "") for c in cards],
+            "card_counts": card_counts,
+            "total": len(items),
+        })
+
+    except Exception as e:
+        from scripts.utils import log_action
+        log_action(f"Auto-match preview error: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/banking/get-matches/<transaction_id>")
+def api_banking_get_matches(transaction_id):
+    """Fetch matching suggestions for a single uncategorized transaction."""
+    try:
+        from scripts.utils import load_config, ZohoBooksAPI
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        result = api.get_matching_transactions(transaction_id)
+        candidates = result.get("matching_transactions", [])
+        items = []
+        for c in candidates:
+            items.append({
+                "transaction_id": c.get("transaction_id", ""),
+                "transaction_type": c.get("transaction_type", ""),
+                "vendor_name": c.get("vendor_name") or c.get("payee_name") or "",
+                "amount": float(c.get("amount", 0)),
+                "date": c.get("date", ""),
+                "reference": c.get("reference_number") or c.get("bill_number") or "",
+            })
+        return jsonify({"matches": items})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/banking/confirm-match", methods=["POST"])
+def api_banking_confirm_match():
+    """Confirm a match: categorize a banking transaction."""
+    data = request.json or {}
+    txn_id = data.get("transaction_id")
+    match_txn_id = data.get("match_transaction_id")
+    match_txn_type = data.get("match_transaction_type")
+
+    if not txn_id or not match_txn_id:
+        return jsonify({"error": "transaction_id and match_transaction_id required"}), 400
+
+    try:
+        from scripts.utils import load_config, ZohoBooksAPI, log_action
+        config = load_config()
+        api = ZohoBooksAPI(config)
+
+        match_data = [{
+            "transaction_id": match_txn_id,
+            "transaction_type": match_txn_type or "vendor_payment",
+        }]
+        api.match_transaction(txn_id, match_data)
+        log_action(f"Auto-match confirmed: {txn_id} -> {match_txn_id} ({match_txn_type})")
+        return jsonify({"status": "matched", "transaction_id": txn_id})
+
+    except Exception as e:
+        from scripts.utils import log_action
+        log_action(f"Auto-match confirm error: {e}", "ERROR")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/banking/confirm-match-bulk", methods=["POST"])
+def api_banking_confirm_match_bulk():
+    """Confirm multiple matches at once."""
+    data = request.json or {}
+    matches = data.get("matches", [])
+    if not matches:
+        return jsonify({"error": "matches array required"}), 400
+
+    try:
+        from scripts.utils import load_config, ZohoBooksAPI, log_action
+        config = load_config()
+        api = ZohoBooksAPI(config)
+
+        results = []
+        for m in matches:
+            txn_id = m.get("transaction_id")
+            match_txn_id = m.get("match_transaction_id")
+            match_txn_type = m.get("match_transaction_type", "vendor_payment")
+            try:
+                api.match_transaction(txn_id, [{
+                    "transaction_id": match_txn_id,
+                    "transaction_type": match_txn_type,
+                }])
+                results.append({"transaction_id": txn_id, "status": "matched"})
+                log_action(f"Auto-match confirmed: {txn_id} -> {match_txn_id}")
+            except Exception as e:
+                results.append({"transaction_id": txn_id, "status": "error", "message": str(e)})
+
+        ok = sum(1 for r in results if r["status"] == "matched")
+        return jsonify({"status": "ok", "matched": ok, "total": len(matches), "results": results})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/api/invoices/browse")
@@ -5863,6 +6022,13 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
               <button class="upload-btn" onclick="clearImportCache()" style="width:100%">Clear Cache</button>
             </div>
           </div>
+          <button class="step-btn" onclick="openAutoMatchPanel()" style="width:100%;border:1.5px solid var(--accent);background:rgba(99,102,241,0.08)">
+            <span class="step-num" style="background:var(--accent)">A</span> Auto Match
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Match uncategorized CC banking transactions to vendor payments in Zoho. Shows best match suggestions per card.</span>
+            </span>
+            <span class="step-indicator ind-idle" id="ind-automatch"></span>
+          </button>
         </div>
       </div>
 
@@ -5970,6 +6136,40 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             </thead>
             <tbody id="deleteBillsTableBody"></tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- Auto Match Banking panel -->
+      <div class="review-panel" id="autoMatchPanel" style="display:none;position:fixed;top:0;right:0;bottom:0;left:calc(14% + 16px);z-index:1000;border-radius:0;border:none">
+        <div class="review-header">
+          <span>Auto Match &mdash; Banking Transactions</span>
+          <div style="display:flex;gap:12px;align-items:center">
+            <button id="matchSelectedBtn" onclick="confirmMatchSelected()" style="background:var(--accent);color:#fff;border:none;border-radius:6px;padding:5px 14px;font-size:11px;cursor:pointer;font-weight:600;display:none">Match Selected (0)</button>
+            <span id="autoMatchSummary" style="font-size:12px;color:var(--text-dim)"></span>
+            <button class="review-close-btn" onclick="closeAutoMatchPanel()">&#10005; Close</button>
+          </div>
+        </div>
+        <div style="padding:6px 12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);display:flex;gap:12px;align-items:center;flex-shrink:0;font-size:12px">
+          <label style="color:var(--text-dim)">Card:</label>
+          <select id="amCardFilter" onchange="filterAutoMatch()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px">
+            <option value="">All Cards</option>
+          </select>
+          <label style="color:var(--text-dim);margin-left:8px">Vendor:</label>
+          <select id="amVendorFilter" onchange="filterAutoMatch()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px;max-width:200px">
+            <option value="">All Vendors</option>
+          </select>
+          <label style="color:var(--text-dim);margin-left:8px">Status:</label>
+          <select id="amStatusFilter" onchange="filterAutoMatch()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px">
+            <option value="">All</option>
+            <option value="has_match">Has Match</option>
+            <option value="no_match">No Match</option>
+          </select>
+          <button onclick="document.getElementById('amCardFilter').value='';document.getElementById('amVendorFilter').value='';document.getElementById('amStatusFilter').value='';filterAutoMatch()" style="background:transparent;color:var(--accent);border:1px dashed var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Clear</button>
+          <button onclick="fetchAllMatches()" style="background:var(--accent);color:#fff;border:none;border-radius:4px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600;margin-left:auto">Find All Matches</button>
+        </div>
+        <div id="autoMatchBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto">
+          <div class="review-loading" id="autoMatchLoading">Fetching uncategorized transactions...</div>
+          <div id="autoMatchContent" style="display:none;flex-direction:column"></div>
         </div>
       </div>
 
@@ -7059,6 +7259,341 @@ function clearImportCache() {
     .catch(e => appendLog('[ERROR] ' + e));
 }
 
+// --- Auto Match Banking ---
+var _autoMatchData = null;
+var _amSelectedMatches = new Set();
+
+function openAutoMatchPanel() {
+  // Hide other panels
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('autoMatchPanel').style.display = 'flex';
+  document.getElementById('autoMatchLoading').style.display = 'block';
+  document.getElementById('autoMatchContent').style.display = 'none';
+  document.getElementById('matchSelectedBtn').style.display = 'none';
+  _amSelectedMatches.clear();
+
+  fetch('/api/banking/auto-match-preview')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) {
+        document.getElementById('autoMatchLoading').textContent = data.error;
+        return;
+      }
+      _autoMatchData = data;
+      renderAutoMatch(data);
+      filterAutoMatch();
+    })
+    .catch(function(err) {
+      document.getElementById('autoMatchLoading').textContent = 'Failed: ' + err;
+    });
+}
+
+function closeAutoMatchPanel() {
+  document.getElementById('autoMatchPanel').style.display = 'none';
+}
+
+function renderAutoMatch(data) {
+  var items = data.items || [];
+  var fmt = function(n) { return n != null ? Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) : '-'; };
+
+  // Populate card filter
+  var cardSel = document.getElementById('amCardFilter');
+  cardSel.innerHTML = '<option value="">All Cards (' + data.total + ')</option>';
+  (data.card_names || []).forEach(function(name) {
+    var cnt = (data.card_counts || {})[name] || 0;
+    var opt = document.createElement('option');
+    opt.value = name;
+    opt.textContent = name + ' (' + cnt + ')';
+    cardSel.appendChild(opt);
+  });
+
+  // Summary
+  document.getElementById('autoMatchSummary').textContent = data.total + ' uncategorized';
+
+  document.getElementById('autoMatchLoading').style.display = 'none';
+  var content = document.getElementById('autoMatchContent');
+  content.style.display = 'flex';
+  content.innerHTML = '';
+
+  if (!items.length) {
+    content.innerHTML = '<div style="text-align:center;color:var(--text-dim);padding:40px">No uncategorized transactions found</div>';
+    return;
+  }
+
+  // Build table
+  var tbl = document.createElement('table');
+  tbl.className = 'match-table';
+  tbl.style.cssText = 'width:100%;font-size:11px';
+  tbl.innerHTML = '<thead><tr>'
+    + '<th style="padding:6px 4px;text-align:center;width:28px"><input type="checkbox" id="amSelectAll" onchange="toggleAmSelectAll(this)"></th>'
+    + '<th style="text-align:left;padding:6px 8px">CC Description</th>'
+    + '<th style="text-align:right;padding:6px 8px">Amount</th>'
+    + '<th style="padding:6px 8px">Date</th>'
+    + '<th style="padding:6px 8px">Card</th>'
+    + '<th style="text-align:left;padding:6px 8px;border-left:2px solid var(--border)">Best Match</th>'
+    + '<th style="padding:6px 8px">Type</th>'
+    + '<th style="text-align:right;padding:6px 8px">Match Amt</th>'
+    + '<th style="padding:6px 8px">Match Date</th>'
+    + '<th style="padding:6px 8px">Action</th>'
+    + '</tr></thead>';
+
+  var tbody = document.createElement('tbody');
+
+  items.forEach(function(item, idx) {
+    var tr = document.createElement('tr');
+    tr.id = 'am-row-' + idx;
+    tr.setAttribute('data-card', item.card_name || '');
+    tr.setAttribute('data-vendor', '');
+    tr.setAttribute('data-has-match', '0');
+
+    var desc = item.description || '-';
+    var descFull = desc;
+    if (desc.length > 45) desc = desc.substring(0, 45) + '\u2026';
+
+    tr.innerHTML = '<td style="padding:5px 4px"></td>'
+      + '<td style="text-align:left;padding:5px 8px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + descFull.replace(/"/g,'&quot;') + '">' + desc + '</td>'
+      + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(item.amount) + '</td>'
+      + '<td style="padding:5px 8px">' + fmtDate(item.date) + '</td>'
+      + '<td style="padding:5px 8px;font-size:10px;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (item.card_name || '-') + '</td>'
+      + '<td id="am-match-' + idx + '" style="text-align:left;padding:5px 8px;border-left:2px solid var(--border);color:var(--text-dim);font-size:10px" colspan="4">'
+      + '<button class="bill-create-btn" id="am-btn-' + idx + '" onclick="fetchMatchForRow(' + idx + ')" style="font-size:10px;padding:3px 10px">Find Match</button>'
+      + '</td>';
+
+    tbody.appendChild(tr);
+  });
+
+  tbl.appendChild(tbody);
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'flex:1;overflow-y:auto';
+  wrap.appendChild(tbl);
+  content.appendChild(wrap);
+}
+
+function fetchMatchForRow(idx) {
+  var item = _autoMatchData.items[idx];
+  if (!item) return;
+  var btn = document.getElementById('am-btn-' + idx);
+  if (btn) { btn.disabled = true; btn.textContent = '...'; }
+
+  fetch('/api/banking/get-matches/' + item.transaction_id)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var matches = data.matches || [];
+      var cell = document.getElementById('am-match-' + idx);
+      var row = document.getElementById('am-row-' + idx);
+      var fmt = function(n) { return Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}); };
+
+      if (!matches.length) {
+        cell.removeAttribute('colspan');
+        cell.innerHTML = '<span style="color:var(--yellow)">No match found</span>';
+        // Add empty cells for remaining columns
+        var parent = cell.parentElement;
+        for (var c = 0; c < 3; c++) {
+          var td = document.createElement('td');
+          td.style.cssText = 'padding:5px 8px';
+          td.textContent = '-';
+          parent.appendChild(td);
+        }
+        return;
+      }
+
+      // Store best match on item for later confirmation
+      item.best_match = matches[0];
+      item.match_count = matches.length;
+      row.setAttribute('data-has-match', '1');
+      row.setAttribute('data-vendor', matches[0].vendor_name || '');
+      row.style.background = 'rgba(80,200,120,0.04)';
+
+      // Update checkbox cell
+      var cbCell = row.querySelector('td:first-child');
+      cbCell.innerHTML = '<input type="checkbox" class="am-cb" data-idx="' + idx + '" onchange="toggleAmCb(this)">';
+
+      // Replace match cell — remove colspan, add proper cells
+      cell.removeAttribute('colspan');
+      var best = matches[0];
+      var ref = best.reference ? '<div style="font-size:9px;color:var(--text-dim)">' + best.reference + '</div>' : '';
+      cell.innerHTML = '<span title="' + (best.vendor_name||'').replace(/"/g,'&quot;') + '">' + (best.vendor_name || '-') + '</span>' + ref;
+      cell.style.cssText = 'text-align:left;padding:5px 8px;border-left:2px solid var(--border);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;color:var(--text)';
+
+      var parent = cell.parentElement;
+      // Type cell
+      var tdType = document.createElement('td');
+      tdType.style.cssText = 'padding:5px 8px;font-size:10px';
+      tdType.textContent = (best.transaction_type || '-').replace(/_/g, ' ');
+      parent.appendChild(tdType);
+      // Amount cell
+      var tdAmt = document.createElement('td');
+      tdAmt.style.cssText = 'text-align:right;padding:5px 8px;font-family:monospace;font-size:11px';
+      tdAmt.textContent = fmt(best.amount);
+      parent.appendChild(tdAmt);
+      // Date cell
+      var tdDate = document.createElement('td');
+      tdDate.style.cssText = 'padding:5px 8px;font-size:11px';
+      tdDate.textContent = fmtDate(best.date);
+      parent.appendChild(tdDate);
+      // Action cell — replace with Match button
+      var tdAction = document.createElement('td');
+      tdAction.style.cssText = 'padding:5px 8px';
+      tdAction.innerHTML = '<button class="bill-create-btn" id="am-btn-' + idx + '" onclick="confirmAutoMatchOne(' + idx + ')">'
+        + 'Match' + (matches.length > 1 ? ' <span style="font-size:9px;color:var(--text-dim)">+' + (matches.length-1) + '</span>' : '')
+        + '</button>';
+      parent.appendChild(tdAction);
+    })
+    .catch(function(err) {
+      if (btn) { btn.textContent = 'Error'; btn.disabled = false; }
+    });
+}
+
+function fetchAllMatches() {
+  var items = _autoMatchData.items || [];
+  var content = document.getElementById('autoMatchContent');
+  var rows = content.querySelectorAll('tbody tr');
+  rows.forEach(function(row, idx) {
+    if (row.style.display === 'none') return;
+    if (row.getAttribute('data-has-match') === '1') return;
+    fetchMatchForRow(idx);
+  });
+}
+
+function filterAutoMatch() {
+  if (!_autoMatchData) return;
+  var items = _autoMatchData.items || [];
+  var content = document.getElementById('autoMatchContent');
+  var rows = content.querySelectorAll('tbody tr');
+  var cardFilter = document.getElementById('amCardFilter').value;
+  var vendorFilter = (document.getElementById('amVendorFilter').value || '').toLowerCase();
+  var statusFilter = document.getElementById('amStatusFilter').value;
+  var visible = 0, visibleMatched = 0;
+
+  rows.forEach(function(row, idx) {
+    var show = true;
+    var rowCard = row.getAttribute('data-card') || '';
+    var rowVendor = (row.getAttribute('data-vendor') || '').toLowerCase();
+    var hasMatch = row.getAttribute('data-has-match') === '1';
+
+    if (cardFilter && rowCard !== cardFilter) show = false;
+    if (show && vendorFilter && rowVendor.indexOf(vendorFilter) < 0) show = false;
+    if (show && statusFilter === 'has_match' && !hasMatch) show = false;
+    if (show && statusFilter === 'no_match' && hasMatch) show = false;
+
+    row.style.display = show ? '' : 'none';
+    if (show) { visible++; if (hasMatch) visibleMatched++; }
+  });
+
+  document.getElementById('autoMatchSummary').textContent =
+    visible + ' shown \u00B7 ' + visibleMatched + ' with match';
+}
+
+function toggleAmCb(cb) {
+  var idx = cb.getAttribute('data-idx');
+  if (cb.checked) _amSelectedMatches.add(idx);
+  else _amSelectedMatches.delete(idx);
+  _updateMatchSelectedBtn();
+}
+
+function toggleAmSelectAll(cb) {
+  var rows = document.querySelectorAll('#autoMatchContent tbody tr');
+  rows.forEach(function(row) {
+    if (row.style.display === 'none') return;
+    var c = row.querySelector('.am-cb');
+    if (c) { c.checked = cb.checked; toggleAmCb(c); }
+  });
+}
+
+function _updateMatchSelectedBtn() {
+  var btn = document.getElementById('matchSelectedBtn');
+  var count = _amSelectedMatches.size;
+  if (count > 0) {
+    btn.style.display = 'inline-block';
+    btn.textContent = 'Match Selected (' + count + ')';
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+function confirmAutoMatchOne(idx) {
+  var item = _autoMatchData.items[idx];
+  if (!item || !item.best_match) return;
+  var msg = 'Match this transaction?\n\nCC: ' + item.description + '\nAmount: ' + Number(item.amount).toLocaleString('en-IN') + '\nDate: ' + item.date
+    + '\n\nTo: ' + item.best_match.vendor_name + ' (' + item.best_match.transaction_type + ')'
+    + '\nAmount: ' + Number(item.best_match.amount).toLocaleString('en-IN');
+  if (!confirm(msg)) return;
+
+  var btn = document.getElementById('am-btn-' + idx);
+  if (btn) { btn.disabled = true; btn.textContent = '...'; }
+
+  fetch('/api/banking/confirm-match', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      transaction_id: item.transaction_id,
+      match_transaction_id: item.best_match.transaction_id,
+      match_transaction_type: item.best_match.transaction_type,
+    }),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var row = document.getElementById('am-row-' + idx);
+    if (data.status === 'matched') {
+      if (btn) { btn.textContent = '\u2713 Done'; btn.style.background = 'rgba(34,197,94,0.3)'; }
+      if (row) { row.style.opacity = '0.5'; }
+    } else {
+      if (btn) { btn.textContent = 'Error'; btn.disabled = false; }
+    }
+  })
+  .catch(function() { if (btn) { btn.textContent = 'Error'; btn.disabled = false; } });
+}
+
+function confirmMatchSelected() {
+  var count = _amSelectedMatches.size;
+  if (!count) return;
+  if (!confirm('Match ' + count + ' transactions?')) return;
+
+  var matches = [];
+  _amSelectedMatches.forEach(function(idx) {
+    var item = _autoMatchData.items[parseInt(idx)];
+    if (item && item.best_match) {
+      matches.push({
+        transaction_id: item.transaction_id,
+        match_transaction_id: item.best_match.transaction_id,
+        match_transaction_type: item.best_match.transaction_type,
+      });
+    }
+  });
+
+  document.getElementById('matchSelectedBtn').disabled = true;
+  document.getElementById('matchSelectedBtn').textContent = 'Matching...';
+
+  fetch('/api/banking/confirm-match-bulk', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({matches: matches}),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.status === 'ok') {
+      // Mark matched rows
+      _amSelectedMatches.forEach(function(idx) {
+        var row = document.getElementById('am-row-' + idx);
+        var btn = document.getElementById('am-btn-' + idx);
+        if (row) row.style.opacity = '0.5';
+        if (btn) { btn.textContent = '\u2713 Done'; btn.style.background = 'rgba(34,197,94,0.3)'; btn.disabled = true; }
+      });
+      _amSelectedMatches.clear();
+      _updateMatchSelectedBtn();
+      document.getElementById('matchSelectedBtn').disabled = false;
+      alert('Matched ' + data.matched + '/' + data.total + ' transactions');
+    }
+  })
+  .catch(function(err) {
+    document.getElementById('matchSelectedBtn').textContent = 'Error';
+    document.getElementById('matchSelectedBtn').disabled = false;
+  });
+}
+
 function openImportPicker() {
   document.getElementById('importPickerModal').style.display = 'flex';
   const body = document.getElementById('importPickerBody');
@@ -8095,11 +8630,9 @@ function openPaymentPreview() {
         return;
       }
       _paymentPreviewData = data;
-      // Load persisted Amex exclusions
       _amexExcludedBills = new Set(data.amex_excluded || []);
       renderPaymentPreview(data);
       populateMonthFilter();
-      // Apply initial filters (includes amex exclusions)
       filterPayments();
     })
     .catch(function(err) {
@@ -8630,7 +9163,6 @@ function renderPaymentPreview(data) {
     var _amexNotExcluded = amexMatches.filter(function(am) { return !_amexExcludedBills.has(am.bill_id); }).length;
     amexHeader.innerHTML = '\u26A0 Amex CC Matches (' + amexMatches.length + ') &mdash; <span style="font-weight:400;color:var(--text-dim)">Bills matched to Amex.</span>'
       + ' <span style="margin-left:auto;display:flex;gap:8px">'
-      + '<button id="amexExcludeSelectedBtn" onclick="excludeSelectedAmex()" style="background:var(--accent);color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600;display:none">Exclude Selected (0)</button>'
       + '<button id="amexBulkExcludeBtn" onclick="bulkAmexExclude()" style="background:var(--yellow);color:#000;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600">Exclude All (' + _amexNotExcluded + ')</button>'
       + '</span>';
 
@@ -8655,13 +9187,10 @@ function renderPaymentPreview(data) {
       var atr = document.createElement('tr');
       atr.id = 'amex-row-' + am.bill_id;
       atr.style.background = 'rgba(255,200,50,0.04)';
-
       var ccDesc = am.cc_description || '-';
       var ccDescFull = ccDesc;
       if (ccDesc.length > 45) ccDesc = ccDesc.substring(0, 45) + '\u2026';
-      var forexNote = '';
-      if (am.cc_forex_amount) forexNote = ' (' + (am.cc_forex_currency||'') + ' ' + fmt(am.cc_forex_amount) + ')';
-
+      var forexNote = am.cc_forex_amount ? ' (' + (am.cc_forex_currency||'') + ' ' + fmt(am.cc_forex_amount) + ')' : '';
       var c = am.confidence || {};
       var ov = c.overall || 0;
       var ovColor = ov >= 85 ? 'var(--green)' : ov >= 60 ? 'var(--yellow)' : 'var(--red,#ef4444)';
@@ -8669,7 +9198,6 @@ function renderPaymentPreview(data) {
         + '<div style="font-size:13px;font-weight:700;color:' + ovColor + '">' + ov + '%</div>'
         + '<div style="font-size:9px;color:var(--text-dim)">V:' + _confDot(c.vendor||0) + ' A:' + _confDot(c.amount||0) + ' D:' + _confDot(c.date||0) + '</div>'
         + '</div>';
-
       atr.innerHTML = ''
         + '<td style="text-align:center;padding:5px 4px"><input type="checkbox" class="amex-cb" data-billid="' + am.bill_id + '" onchange="updateAmexSelectedBtn()"></td>'
         + '<td style="text-align:left;padding:5px 8px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + ccDescFull.replace(/"/g,'&quot;') + '">' + ccDesc + forexNote + '</td>'
@@ -8681,28 +9209,19 @@ function renderPaymentPreview(data) {
         + '<td style="padding:5px 8px">' + fmtDate(am.bill_date) + '</td>'
         + '<td style="padding:5px 8px">' + confCell + '</td>'
         + '<td style="padding:5px 8px"><button class="bill-create-btn" id="amex-btn-' + am.bill_id + '" onclick="toggleAmexExclude(\'' + am.bill_id + '\')" style="background:var(--yellow);color:#000;font-weight:600">Exclude</button></td>';
-
       atbody.appendChild(atr);
     });
     atbl.appendChild(atbody);
-
-    // Wrap Amex section in its own scrollable container
     var amexWrap = document.createElement('div');
     amexWrap.id = 'paymentAmexWrap';
     amexWrap.style.cssText = 'flex-shrink:0;border-top:2px solid var(--border)';
     amexWrap.appendChild(amexHeader);
     amexWrap.appendChild(atbl);
     content.appendChild(amexWrap);
-
-    // Apply persisted excluded state to Amex rows
     amexMatches.forEach(function(am) {
-      if (_amexExcludedBills.has(am.bill_id)) {
-        _applyAmexExcludeUI(am.bill_id);
-      }
+      if (_amexExcludedBills.has(am.bill_id)) _applyAmexExcludeUI(am.bill_id);
     });
   }
-
-  // Group matches now rendered inline in main table (see group_matched status handling above)
 }
 
 // --- Record Group Payment ---

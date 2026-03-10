@@ -2458,5 +2458,65 @@
     "amount": 68.82,
     "currency": "USD",
     "attached": true
+  },
+  {
+    "file": "Media.jpg",
+    "status": "created",
+    "vendor_name": "Applebee's",
+    "vendor_id": "2050328000003040001",
+    "bill_id": "2050328000003046003",
+    "amount": 31.6,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Media (2).jpg",
+    "status": "created",
+    "vendor_name": "Applebee's",
+    "vendor_id": "2050328000003040001",
+    "bill_id": "2050328000003047003",
+    "amount": 36.22,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Media (3).jpg",
+    "status": "created",
+    "vendor_name": "Applebee's",
+    "vendor_id": "2050328000003040001",
+    "bill_id": "2050328000003037024",
+    "amount": 30.33,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Media (1).jpg",
+    "status": "created",
+    "vendor_name": "Panda Express",
+    "vendor_id": "2050328000003041014",
+    "bill_id": "2050328000003037050",
+    "amount": 10.61,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Media (4).jpg",
+    "status": "created",
+    "vendor_name": "La Buena Vida Durham",
+    "vendor_id": "2050328000003048024",
+    "bill_id": "2050328000003043052",
+    "amount": 63.41,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Media (5).pdf",
+    "status": "created",
+    "vendor_name": "KUN AUTO PVT LTD COMPANY",
+    "vendor_id": "2050328000001691483",
+    "bill_id": "2050328000003049003",
+    "amount": 32793.0,
+    "currency": "INR",
+    "attached": true
   }
 ]

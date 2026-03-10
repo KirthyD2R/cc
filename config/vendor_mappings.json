@@ -105,7 +105,7 @@
         "Adobe Systems Software": "Adobe",
         "PPSL*SWIGGY": "Swiggy",
         "Swiggy IN": "Swiggy",
-        "APPLEBEES 7675 - POS, ORLANDO": "Apple",
+        "APPLEBEES": "Applebee's",
         "WISPRWISPRFLOW.": "Wispr Flow",
         "GAMMA.APPGAMMA.APP": "Gamma",
         "APTRONIX CHENNAI IN(*ConverttoEMI) Telecom": "Aptronix",
@@ -449,7 +449,9 @@
         "06DMWPR6067P1ZQ": "DEAL N DONE",
         "201109821G": "LinkedIn",
         "33AAICP1675P1ZW": "Aptronix",
-        "27AALCM3536H1ZA": "MACFOS LIMITED"
+        "27AALCM3536H1ZA": "MACFOS LIMITED",
+        "33AAACC6814B1ZB": "Hathway Broadband Internet",
+        "33AAACK8991K1Z2": "Kun Auto Company Pvt. Ltd. (Hyundai)"
     },
     "account_mappings": {
         "Microsoft Corporation (India) Pvt Ltd": {
@@ -707,6 +709,25 @@
         "Hathway Broadband Internet": {
             "account_name": "Software Subscription",
             "account_id": "2050328000002195023"
+        },
+        "Applebee's": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
+        },
+        "Panda Express": {
+            "account_name": "Govt and Tax Paid",
+            "account_id": "2050328000000068233",
+            "category": "invoice_coa_match"
+        },
+        "La Buena Vida Durham": {
+            "account_name": "Car Expenses",
+            "account_id": "2050328000002358023",
+            "category": "invoice_coa_match"
+        },
+        "KUN AUTO PVT LTD COMPANY": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
         }
     }
 }

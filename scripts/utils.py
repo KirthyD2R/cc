@@ -324,7 +324,9 @@ class ZohoBooksAPI:
 
         for attempt in range(self._RETRY_MAX):
             with open(file_path, "rb") as f:
-                files = {file_field: (os.path.basename(file_path), f, "application/pdf")}
+                import mimetypes
+                mime_type = mimetypes.guess_type(file_path)[0] or "application/octet-stream"
+                files = {file_field: (os.path.basename(file_path), f, mime_type)}
                 resp = requests.post(
                     url, headers=headers, params=params,
                     files=files, data=extra_data or {},

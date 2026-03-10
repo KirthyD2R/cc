@@ -8263,5 +8263,203 @@
         "amount": 100.0
       }
     ]
+  },
+  {
+    "file": "Media.jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media.jpg",
+    "vendor_name": "Applebee's",
+    "invoice_number": "7675-1860343",
+    "date": "2025-10-22",
+    "amount": 31.6,
+    "currency": "USD",
+    "raw_text_preview": "APPLEBEE'S NEIGHBORHOOD GRILL & BAR, 13351 State Rd. 535, Suite 100, Orlando, FL 32821. Check #7675-1860343. Server: Michelle G. Amount: 26.60, Tip: 5.00, Total: 31.60. Visa Credit Contactless.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Food & Beverage",
+        "quantity": 1,
+        "unit_price": 26.6,
+        "amount": 26.6
+      },
+      {
+        "description": "Tip",
+        "quantity": 1,
+        "unit_price": 5.0,
+        "amount": 5.0
+      }
+    ]
+  },
+  {
+    "file": "Media (1).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (1).jpg",
+    "vendor_name": "Panda Express",
+    "invoice_number": "397",
+    "date": "2025-10-22",
+    "amount": 10.61,
+    "currency": "USD",
+    "raw_text_preview": "Panda Express IAH (Terminal A), 2800 N Terminal Road- Terminal A, Houston, TX 77032. Server: Kevin R. Check #397. 1 Bowl - Fried Rice, Black Pepper Chicken $9.80. Subtotal: $9.80, Tax: $0.81, Total: $10.61. Paid by Credit.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "1 Bowl - Fried Rice (R1), Black Pepper Chicken (C7)",
+        "quantity": 1,
+        "unit_price": 9.8,
+        "amount": 9.8
+      },
+      {
+        "description": "Tax",
+        "quantity": 1,
+        "unit_price": 0.81,
+        "amount": 0.81
+      }
+    ]
+  },
+  {
+    "file": "Media (2).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (2).jpg",
+    "vendor_name": "Applebee's",
+    "invoice_number": "7675-859329",
+    "date": "2025-10-15",
+    "amount": 36.22,
+    "currency": "USD",
+    "raw_text_preview": "APPLEBEE'S NEIGHBORHOOD GRILL & BAR, 13351 State Rd 535, Suite 100, Orlando, FL 32821. Server: Victor S. Check #7675-859329. 1 TG WTMLN RUSH $7.00, 1 2 FOR $2X $27.00 (ONION RINGS, CHX TNDR BSKT, CHX PARM FETT). Check Total: 34.00, Tax: 2.22. MASTERCARD: 36.22. Merchant Copy.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "TG WTMLN RUSH",
+        "quantity": 1,
+        "unit_price": 7.0,
+        "amount": 7.0
+      },
+      {
+        "description": "2 FOR $2X (ONION RINGS, CHX TNDR BSKT, CHX PARM FETT)",
+        "quantity": 1,
+        "unit_price": 27.0,
+        "amount": 27.0
+      },
+      {
+        "description": "Tax",
+        "quantity": 1,
+        "unit_price": 2.22,
+        "amount": 2.22
+      }
+    ]
+  },
+  {
+    "file": "Media (3).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (3).jpg",
+    "vendor_name": "Applebee's",
+    "invoice_number": "7675-1859894",
+    "date": "2025-10-19",
+    "amount": 30.33,
+    "currency": "USD",
+    "raw_text_preview": "APPLEBEE'S NEIGHBORHOOD GRILL & BAR, 13351 State Rd 535, Suite 100, Orlando, FL 32821. Server: Kevin D. Check #7675-1859894. Card: Mastercard ****9677. Amount: 30.33. Tip/Total not filled. Guest Copy.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Food & Beverage",
+        "quantity": 1,
+        "unit_price": 30.33,
+        "amount": 30.33
+      }
+    ]
+  },
+  {
+    "file": "Media (4).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (4).jpg",
+    "vendor_name": "La Buena Vida Durham",
+    "invoice_number": "117",
+    "date": "2025-10-11",
+    "amount": 63.41,
+    "currency": "USD",
+    "raw_text_preview": "La Buena Vida Durham, 4139 Durham Chapel Hill Boulevard, Durham, NC 27707. Server: Kelsy L. Check #117. Guest Count: 2. 1 Parrillada (Well Done, Harina). Subtotal: $58.99, Tax: $4.42, Total: $63.41. Mastercard ****9677. Cardholder: Sylvester Daniel J. Merchant Copy.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Parrillada (Well Done, Harina)",
+        "quantity": 1,
+        "unit_price": 58.99,
+        "amount": 58.99
+      },
+      {
+        "description": "Tax",
+        "quantity": 1,
+        "unit_price": 4.42,
+        "amount": 4.42
+      }
+    ]
+  },
+  {
+    "file": "Media (5).pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (5).pdf",
+    "vendor_name": "Kun Auto Company Pvt. Ltd. (Hyundai)",
+    "invoice_number": "B202507533",
+    "date": "2025-10-09",
+    "amount": 32793.0,
+    "currency": "INR",
+    "raw_text_preview": "Hyundai Invoice Summary. Dealer: Kun Auto Company Pvt. Ltd., Arunachalapuram No:5, Adyar, Chennai. GSTIN: 33AAACK8991K1Z2. Customer: Sylvester Daniel J. Vehicle: SU**B Creta 1.5 MPi IVT SX(O) SE, Reg: TN07DM1609. Part Invoice S1405G2025150445, Labour Invoice S1405G2025150044. Grand Total: Rs.32793 (Rounded).",
+    "vendor_gstin": "33AAACK8991K1Z2",
+    "line_items": [
+      {
+        "description": "3D Boot Mat",
+        "quantity": 1,
+        "unit_price": 1694.92,
+        "amount": 1694.92
+      },
+      {
+        "description": "Door Edge Guard",
+        "quantity": 1,
+        "unit_price": 350.0,
+        "amount": 350.0
+      },
+      {
+        "description": "Door Visor",
+        "quantity": 1,
+        "unit_price": 1411.86,
+        "amount": 1411.86
+      },
+      {
+        "description": "Full Floor Mat",
+        "quantity": 1,
+        "unit_price": 3844.06,
+        "amount": 3844.07
+      },
+      {
+        "description": "Rear Sill Guard",
+        "quantity": 1,
+        "unit_price": 1294.06,
+        "amount": 1294.06
+      },
+      {
+        "description": "Screen Protector (Integrated)",
+        "quantity": 1,
+        "unit_price": 846.62,
+        "amount": 846.62
+      },
+      {
+        "description": "Side Step-Black",
+        "quantity": 1,
+        "unit_price": 14587.28,
+        "amount": 14587.28
+      },
+      {
+        "description": "Window Beading - Chrome",
+        "quantity": 1,
+        "unit_price": 1761.86,
+        "amount": 1761.86
+      },
+      {
+        "description": "1st Free Service (Labour)",
+        "quantity": 1,
+        "unit_price": 0.0,
+        "amount": 0.0
+      },
+      {
+        "description": "Floor Carpet Fitment (Labour)",
+        "quantity": 1,
+        "unit_price": 2000.0,
+        "amount": 2000.0
+      }
+    ]
   }
 ]

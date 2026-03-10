@@ -117,9 +117,9 @@ def fetch_cc_transactions_from_zoho(api, cards):
 
 
 def fetch_unpaid_bills_from_zoho(api):
-    """Fetch all unpaid and overdue bills from Zoho (paginated), deduplicated."""
+    """Fetch all non-paid bills from Zoho (paginated), deduplicated."""
     all_bills = []
-    for status in ("unpaid", "overdue"):
+    for status in ("unpaid", "overdue", "open", "draft"):
         page = 1
         while True:
             result = api.list_bills(status=status, page=page)

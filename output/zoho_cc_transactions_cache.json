@@ -824,22 +824,6 @@
     "transaction_id": "2050328000000939535"
   },
   {
-    "date": "2025-07-18",
-    "description": "MICROSOFTBUS, MUMBAI",
-    "amount": 12215.38,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939529"
-  },
-  {
-    "date": "2025-07-18",
-    "description": "MICROSOFTBUS, MUMBAI",
-    "amount": 5398.91,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939525"
-  },
-  {
     "date": "2025-07-08",
     "description": "AMAZON PAY INDIA PRIVA, www.amazon.in",
     "amount": 3996.56,

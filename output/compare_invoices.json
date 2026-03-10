@@ -8603,5 +8603,2621 @@
     "vendor_gstin": null,
     "organized_month": "Sep 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\Your Google Play Order Receipt from Sep 16, 2025.eml"
+  },
+  {
+    "file": "BLR7-1062095_p1_BLR7-1062095.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\BLR7-1062095.pdf",
+    "vendor_name": "ETRADE MARKETING PRIVATE LIMITED",
+    "invoice_number": "BLR7-1062095",
+    "date": "2025-06-26",
+    "amount": 198.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nETRADE MARKETING PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Sy No. 524/1,2,3,4,6, 525/1,2,3,4,5,6, Sreela Terrace, 2nd Floor, #105, First Main Road,,\n526/3,4,5,6,527 of madivala village, and Sy Gandhi Nagar, Adyar,\nno.51/1 of thatanahalli village, kasaba hobli, CHENNAI, TN, 600020\nanekal taluk, Bangalore urban district IN\nBangalore, Karnataka, 562107 GST Registration No: 33AAICD7217K1ZK\nIN S",
+    "vendor_gstin": "29AADCV4254H1Z4",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR7",
+    "line_items": [
+      {
+        "description": "Kuber Industries 3-Compartment Pen Holder For Study Table | Marker/Pencil Stand & Desk Organizer for Student | Office Table Accessory for Stationary Item | Sandy Brown( B0DL5P69NJ )",
+        "quantity": 1,
+        "unit_price": 167.8,
+        "amount": 198.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\BLR7-1062095_p1_BLR7-1062095.pdf"
+  },
+  {
+    "file": "BLR7-1536989_p1_BLR7-1536989.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\BLR7-1536989.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "BLR7-1536989",
+    "date": "2025-07-08",
+    "amount": 1379.04,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Sy No. 524/1,2,3,4,6, 525/1,2,3,4,5,6, Sreela Terrace, 2nd Floor, #105, First Main Road,,\n526/3,4,5,6,527 of madivala village, and Sy Gandhi Nagar, Adyar,\nno.51/1 of thatanahalli village, kasaba hobli, CHENNAI, TN, 600020\nanekal taluk, Bangalore urban district IN\nBangalore, Karnataka, 562107 GST Registration No: 33AAICD7217K1ZK\nIN S",
+    "vendor_gstin": "29AAJCC9783E1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR7",
+    "line_items": [
+      {
+        "description": "GM G-Hoop 5+1 Spike Guard | Extension Board with USB Type-A & Type-C Master Switch| LED Indicator|1.8 Meter Cord |Surge & Overcurrent Protection| 4 International Sockets| Perfect for Homes and Offices( B0BZD2BPZB )",
+        "quantity": 1,
+        "unit_price": 761.02,
+        "amount": 880.04
+      },
+      {
+        "description": "GM G+ Flash PD 100W Grey Magnetic Cable | Type-C to Type-C |1.2M Length| Premium Braided Copper Wire | Durable & Wear-Resistant for Seamless Charging and Data Transmission( B0DP7GVSJ3 )",
+        "quantity": 1,
+        "unit_price": 422.88,
+        "amount": 499.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\BLR7-1536989_p1_BLR7-1536989.pdf"
+  },
+  {
+    "file": "BLR7-6537963_p1_BLR7-6537963.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\BLR7-6537963.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "BLR7-6537963",
+    "date": "2025-12-16",
+    "amount": 638.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n61aa2e7b374cd9940b1b6257fcb41c981ddacf41bae37aca721c6e735b07c6d4\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* Sy No. 524/1,2,3,4,6, 525/1,2,3,4,5,6, Sreela Terrace, 2nd Floor, #105, First Main Road,,\n526/3,4,5,6,527 of madivala village, and Sy Gandhi Nagar, Adyar,\nno.51/1 of thatanahalli village, kasaba hobli, CHENNAI, TN, 600020\nanekal taluk, Bangalore urban district IN\nBangalor",
+    "vendor_gstin": "29AAECR0564M2ZY",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR7",
+    "line_items": [
+      {
+        "description": "Amazon Brand - Presto! Garbage Bags | Large | 90 Count | 15 Bags X 6 Rolls | 24 X 32 Inches | For Dry & Wet Waste | Black( B0821PYKVK )",
+        "quantity": 2,
+        "unit_price": 270.34,
+        "amount": 638.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\BLR7-6537963_p1_BLR7-6537963.pdf"
+  },
+  {
+    "file": "BLR8-1594523_p1_BLR8-1594523.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\BLR8-1594523.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "BLR8-1594523",
+    "date": "2025-07-09",
+    "amount": 170.52,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Building 2 ( Wh 2), Plot no. 12/P2 (IT Sector), Sreela Terrace, 2nd Floor, #105, First Main Road,,\nHitech, Defence and Aerospace Park, Devanahalli Gandhi Nagar, Adyar,\nBengaluru, Karnataka, 562149 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 29AAJCC9783E1Z3\n",
+    "vendor_gstin": "29AAJCC9783E1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR8",
+    "line_items": [
+      {
+        "description": "GM 6AMP 3-Pin Multi Plug Adaptor | Universal Travel Adaptor | Supports 2-Pin & 3-Pin Plugs | Multiple Charging Ports | Charge Smartphones, Laptops & Other Devices | Compact & Reliable | White( B008LQOZ42 )",
+        "quantity": 1,
+        "unit_price": 147.46,
+        "amount": 170.52
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\BLR8-1594523_p1_BLR8-1594523.pdf"
+  },
+  {
+    "file": "BLR8-2104995_p1_BLR8-2104995.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\BLR8-2104995.pdf",
+    "vendor_name": "ETRADE MARKETING PRIVATE LIMITED",
+    "invoice_number": "BLR8-2104995",
+    "date": "2025-08-23",
+    "amount": 331.55,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nETRADE MARKETING PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Building 2 ( Wh 2), Plot no. 12/P2 (IT Sector), Sreela Terrace, 2nd Floor, #105, First Main Road,,\nHitech, Defence and Aerospace Park, Devanahalli Gandhi Nagar, Adyar,\nBengaluru, Karnataka, 562149 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AADCV4254H\nGST Registration No: 29AADCV4254H1Z4\n",
+    "vendor_gstin": "29AADCV4254H1Z4",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR8",
+    "line_items": [
+      {
+        "description": "amazon basics Emergency Seat Belt Cutter and Window Hammer( B073J92G1J )",
+        "quantity": 1,
+        "unit_price": 295.76,
+        "amount": 331.55
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\BLR8-2104995_p1_BLR8-2104995.pdf"
+  },
+  {
+    "file": "BLR8-2573720_p1_BLR8-2573720.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\BLR8-2573720.pdf",
+    "vendor_name": "ETRADE MARKETING PRIVATE LIMITED",
+    "invoice_number": "BLR8-2573720",
+    "date": "2025-10-02",
+    "amount": 2999.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nETRADE MARKETING PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Building 2 ( Wh 2), Plot no. 12/P2 (IT Sector), Sreela Terrace, 2nd Floor, #105, First Main Road,,\nHitech, Defence and Aerospace Park, Devanahalli Gandhi Nagar, Adyar,\nBengaluru, Karnataka, 562149 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AADCV4254H\nGST Registration No: 29AADCV4254H1Z4\n",
+    "vendor_gstin": "29AADCV4254H1Z4",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR8",
+    "line_items": [
+      {
+        "description": "GoMechanic Cordless Pressure Washer | 2X Power Wireless High Pressure Car Washer | 80 Bar Pressure, Rechargeable 48V Battery| Premium Build |6-in-1 Nozzle & 5M Hose Pipe |No Tap Needed| with Cloth( B0D7QD2JRP )",
+        "quantity": 1,
+        "unit_price": 2541.53,
+        "amount": 2999.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\BLR8-2573720_p1_BLR8-2573720.pdf"
+  },
+  {
+    "file": "BLR8-3508287_p1_BLR8-3508287.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\BLR8-3508287.pdf",
+    "vendor_name": "RETAILEZ PRIVATE LIMITED",
+    "invoice_number": "BLR8-3508287",
+    "date": "2026-01-19",
+    "amount": 1792.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n0eb4014a819b432e541fdc1ca39d2e9fb74a24478f1f51ae89414d360e61d7b9\nIRN/QR Code:\nSold By : Billing Address :\nRETAILEZ PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nBuilding 2 ( Wh 2), Plot no. 12/P2 (IT Sector), Gandhi Nagar, Adyar,\nHitech, Defence and Aerospace Park, Devanahalli CHENNAI, TN, 600020\nBengaluru, Karnataka, 562149 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Cod",
+    "vendor_gstin": "29AALCR3173P1ZJ",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "BLR8",
+    "line_items": [
+      {
+        "description": "Femora Kitchen Storage Jars Borosilicate Glass with Steel Lid Air Tight Kitchen Jar and Container, 1600 ML, Pack of 6,Transparent( B08YK8XG95 )",
+        "quantity": 1,
+        "unit_price": 1518.64,
+        "amount": 1792.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\BLR8-3508287_p1_BLR8-3508287.pdf"
+  },
+  {
+    "file": "DEL4-4002106_p1_DEL4-4002106.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\DEL4-4002106.pdf",
+    "vendor_name": "COCOBLU RETAIL LIMITED",
+    "invoice_number": "DEL4-4002106",
+    "date": "2025-12-16",
+    "amount": 125.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n4ce2bf354f24c6ec50b41c20f257773aba838df2026ba9c9077443a5863d2f96\nIRN/QR Code:\nSold By : Billing Address :\nCOCOBLU RETAIL LIMITED D2R AI LABS PRIVATE LIMITED\n* Kh No 18//21, 19//25, 34//5, 6, 7/1 min, 14/2/2 Sreela Terrace, 2nd Floor, #105, First Main Road,,\nmin, 15/1 min, 27, 35//1, 7, 8, 9/1, 9/2, 10/1, 10/2, Gandhi Nagar, Adyar,\n11 min, 12, 13, 14, Village - Jamalpur CHENNAI, TN, 600020\nGurgaon, Haryana, 122503 IN\nIN GST Regist",
+    "vendor_gstin": "06AAJCC8517E1ZP",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "DEL4",
+    "line_items": [
+      {
+        "description": "JK Paper JK Excel Bond Paper of size A4, 100 Sheets Pack, 90 GSM( B0CRPJP63L )",
+        "quantity": 1,
+        "unit_price": 105.93,
+        "amount": 125.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\DEL4-4002106_p1_DEL4-4002106.pdf"
+  },
+  {
+    "file": "DEL5-10059983_p1_DEL5-10059983.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\DEL5-10059983.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "DEL5-10059983",
+    "date": "2026-01-19",
+    "amount": 236.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\na7f56183d364fb3009168c1ca13a6cd3d2164bda178479e934271c781f7b7c84\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nRect/Killa Nos. 38//8/2 min, 192//22/1,196//2/1/1, Gandhi Nagar, Adyar,\n37//15/1, 15/2,, Adjacent to Starex School, Village CHENNAI, TN, 600020\n- Binola, National Highway -8, Tehsil - Manesar IN\nGurgaon, Haryana, 122413 G",
+    "vendor_gstin": "06AAECR0564M1Z7",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "DEL5",
+    "line_items": [
+      {
+        "description": "Amazon Brand - Presto! 2 Ply Kitchen Tissue Rolls | 360 Pulls | 60 Kitchen Towels X 6 Rolls | Soft And Highly Absorbent | 100% Natural Virgin Cellulose Fiber( B07GVVCQY6 )",
+        "quantity": 1,
+        "unit_price": 200.0,
+        "amount": 236.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\DEL5-10059983_p1_DEL5-10059983.pdf"
+  },
+  {
+    "file": "DEX3-832_p1_DEX3-832.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\DEX3-832.pdf",
+    "vendor_name": "MS ENTERPRISES",
+    "invoice_number": "DEX3-832",
+    "date": "2026-01-19",
+    "amount": 2808.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n064c5e89866d2e65d5f09679b571fca54b5d685904bd1c4f1331c5240650a2dd\nIRN/QR Code:\nSold By : Billing Address :\nMS ENTERPRISES D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nPlot no 28, Block A, Mohan Co-operative Industrial Gandhi Nagar, Adyar,\nEstate CHENNAI, TN, 600020\nNEW DELHI, DELHI, 110044 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AKFPG2127D\nGST Registration No: 07AKFP",
+    "vendor_gstin": "07AKFPG2127D1ZR",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "DEX3",
+    "line_items": [
+      {
+        "description": "Mintage Water Container With Tap 23 Liters | Water Container For Kitchen | Stainless Steel Water Tank/Pot For Drinking Water Dispenser | Steel Matka For Water Storage Containers | Water Pots Drinking( FBA_wp25 )",
+        "quantity": 1,
+        "unit_price": 2674.29,
+        "amount": 2808.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\DEX3-832_p1_DEX3-832.pdf"
+  },
+  {
+    "file": "FMAB-104573_p1_FMAB-104573.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-104573.pdf",
+    "vendor_name": "COCOBLU RETAIL LIMITED",
+    "invoice_number": "FMAB-104573",
+    "date": "2025-07-08",
+    "amount": 449.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCOCOBLU RETAIL LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC8517E State/UT Code: 33\nGST Registration No: 33AAJCC8517E1ZS\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Labs Pvt Ltd\n",
+    "vendor_gstin": "33AAJCC8517E1ZS",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Portronics Snapcase 2 60W Multifunctional Fast Charging Data Cable Kit With Retractable Cable, Conversion Set USB A & Type C to Male Micro/Lightning,Sim Storage,Sim Eject Pin( B0DPX6M4L5 )",
+        "quantity": 1,
+        "unit_price": 380.5,
+        "amount": 449.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\FMAB-104573_p1_FMAB-104573.pdf"
+  },
+  {
+    "file": "FMAB-130122_p1_FMAB-130122.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-130122.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "FMAB-130122",
+    "date": "2025-07-08",
+    "amount": 1998.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC9783E State/UT Code: 33\nGST Registration No: 33AAJCC9783E1ZE\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Lab",
+    "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Wipro 16A Wi-Fi Smart Plug with Energy Monitoring- Suitable for Large Appliances like Geysers, Microwave Ovens, Air Conditioners (Works with Alexa and Google Assistant)- White( B08HN9Q2SZ )",
+        "quantity": 2,
+        "unit_price": 846.62,
+        "amount": 1998.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jul 2025\\FMAB-130122_p1_FMAB-130122.pdf"
+  },
+  {
+    "file": "FMAB-1775_p1_FMAB-1775.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-1775.pdf",
+    "vendor_name": "GLOBAL BRANDS",
+    "invoice_number": "FMAB-1775",
+    "date": "2025-09-10",
+    "amount": 375.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nGLOBAL BRANDS D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AYWPA0131C State/UT Code: 33\nGST Registration No: 33AYWPA0131C1Z3\nFSSAI License No. Shipping Address :\n10017047000782 D2R AI LABS PRIVATE LIMI",
+    "vendor_gstin": "33AYWPA0131C1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Mr Muscle Mr. Muscle Platinum Kitchen Cleaner, 750Ml( Mr Muscle Platinum Kitchen, 750ml )",
+        "quantity": 1,
+        "unit_price": 317.8,
+        "amount": 375.0
+      },
+      {
+        "description": "Beco Eco-Friendly Garbage Bags | 45 Pcs | Large- 24 x 32 Inches | 15 Bags x 3 Rolls | Green | Dustbin/Trash Bags with Detachable Drawstrings | For Dry & Wet waste( B0C23JWWD2 )",
+        "quantity": 1,
+        "unit_price": 149.64,
+        "amount": 176.58
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\FMAB-1775_p1_FMAB-1775.pdf"
+  },
+  {
+    "file": "FMAB-1775_p3_FMAB-224829.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-1775.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "FMAB-224829",
+    "date": "2025-09-10",
+    "amount": 176.58,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC9783E State/UT Code: 33\nGST Registration No: 33AAJCC9783E1ZE\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Lab",
+    "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Mr Muscle Mr. Muscle Platinum Kitchen Cleaner, 750Ml( Mr Muscle Platinum Kitchen, 750ml )",
+        "quantity": 1,
+        "unit_price": 317.8,
+        "amount": 375.0
+      },
+      {
+        "description": "Beco Eco-Friendly Garbage Bags | 45 Pcs | Large- 24 x 32 Inches | 15 Bags x 3 Rolls | Green | Dustbin/Trash Bags with Detachable Drawstrings | For Dry & Wet waste( B0C23JWWD2 )",
+        "quantity": 1,
+        "unit_price": 149.64,
+        "amount": 176.58
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\FMAB-1775_p3_FMAB-224829.pdf"
+  },
+  {
+    "file": "FMAB-182420_p1_FMAB-182420.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-182420.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "FMAB-182420",
+    "date": "2025-06-26",
+    "amount": 336.3,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Dettol Germ Protection Wet Wipes for Skin & Surfaces, Original - 40 Count (Pack of 3)|| Moisture-Lock Lid( B08KWVBGTW )",
+        "quantity": 1,
+        "unit_price": 300.0,
+        "amount": 336.3
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\FMAB-182420_p1_FMAB-182420.pdf"
+  },
+  {
+    "file": "FMAB-213926_p1_FMAB-213926.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-213926.pdf",
+    "vendor_name": "COCOBLU RETAIL LIMITED",
+    "invoice_number": "FMAB-213926",
+    "date": "2025-10-08",
+    "amount": 273.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCOCOBLU RETAIL LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC8517E State/UT Code: 33\nGST Registration No: 33AAJCC8517E1ZS\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Labs Pvt Ltd\n",
+    "vendor_gstin": "33AAJCC8517E1ZS",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "JK Easy Copier Paper | A4 Size | 70 GSM | 500 Sheets | White Paper, 1 Ream | For Laserjet & Inkjet Printer | Fast Drying | Both Side Print | Eco Friendly | ColorLok (Pack of 1) | One Ream( B00MVV9NUY )",
+        "quantity": 1,
+        "unit_price": 231.36,
+        "amount": 273.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\FMAB-213926_p1_FMAB-213926.pdf"
+  },
+  {
+    "file": "FMAB-224830_p1_FMAB-224830.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-224830.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "FMAB-224830",
+    "date": "2025-09-10",
+    "amount": 176.58,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC9783E State/UT Code: 33\nGST Registration No: 33AAJCC9783E1ZE\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Lab",
+    "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Beco Eco-Friendly Garbage Bags | 45 Pcs | Large- 24 x 32 Inches | 15 Bags x 3 Rolls | Green | Dustbin/Trash Bags with Detachable Drawstrings | For Dry & Wet waste( B0C23JWWD2 )",
+        "quantity": 1,
+        "unit_price": 149.64,
+        "amount": 176.58
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\FMAB-224830_p1_FMAB-224830.pdf"
+  },
+  {
+    "file": "FMAB-291923_p1_FMAB-291923.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-291923.pdf",
+    "vendor_name": "COCOBLU RETAIL LIMITED",
+    "invoice_number": "FMAB-291923",
+    "date": "2025-12-16",
+    "amount": 200.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n6e5adf73c220d2a06e2bec4c5214f3db295e07b0039d9a95c226fe3a6a5451e7\nIRN/QR Code:\nSold By : Billing Address :\nCOCOBLU RETAIL LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC8517E State/UT Code: 33\nGST Registration No: 33AAJCC8517E1",
+    "vendor_gstin": "33AAJCC8517E1ZS",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Hauser XO RT Retractable Ball Pen | Sleek Body & Minimalistic Design | Matt Finish & Solid Body Type | Low Viscosity Ink With Ultra Durable Tip | Blue Ink, Set Of 10( B0D534FGC1 )",
+        "quantity": 2,
+        "unit_price": 84.74,
+        "amount": 200.0
+      },
+      {
+        "description": "Dell MS116 Wired Optical Mouse - High Precision 1000DPI Sensor, USB Connectivity, Ergonomic Ambidextrous Design, Smooth Scrolling, Ideal for Office & Home Use - Black( B01HJI0FS2 )",
+        "quantity": 2,
+        "unit_price": 221.38,
+        "amount": 522.44
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\FMAB-291923_p1_FMAB-291923.pdf"
+  },
+  {
+    "file": "FMAB-291923_p3_FMAB-379327.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-291923.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "FMAB-379327",
+    "date": "2025-12-16",
+    "amount": 522.44,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\nfd3c731fb6d890cdf1e553d787933125cfc164cdfb08df5276d9e115ade06d29\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC9783E State/UT Code: 33\nGST Registration No: 33A",
+    "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Hauser XO RT Retractable Ball Pen | Sleek Body & Minimalistic Design | Matt Finish & Solid Body Type | Low Viscosity Ink With Ultra Durable Tip | Blue Ink, Set Of 10( B0D534FGC1 )",
+        "quantity": 2,
+        "unit_price": 84.74,
+        "amount": 200.0
+      },
+      {
+        "description": "Dell MS116 Wired Optical Mouse - High Precision 1000DPI Sensor, USB Connectivity, Ergonomic Ambidextrous Design, Smooth Scrolling, Ideal for Office & Home Use - Black( B01HJI0FS2 )",
+        "quantity": 2,
+        "unit_price": 221.38,
+        "amount": 522.44
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\FMAB-291923_p3_FMAB-379327.pdf"
+  },
+  {
+    "file": "FMAB-317253_p1_FMAB-317253.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-317253.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "FMAB-317253",
+    "date": "2025-08-25",
+    "amount": 226.1,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Beco Natural Dishwasher Liquid Refill | 2L Pack | Anti-Bacterial Formula | Orange Citrus Freshness | Ecofriendly Dish Washing Liquid Gel | Tough Grease Removal | Leaves No Residue on Utensils( B0D879F3LR )",
+        "quantity": 1,
+        "unit_price": 201.7,
+        "amount": 226.1
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\FMAB-317253_p1_FMAB-317253.pdf"
+  },
+  {
+    "file": "FMAB-324269_p1_FMAB-324269.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-324269.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "FMAB-324269",
+    "date": "2025-08-28",
+    "amount": 226.1,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Beco Natural Dishwasher Liquid Refill | 2L Pack | Anti-Bacterial Formula | Orange Citrus Freshness | Ecofriendly Dish Washing Liquid Gel | Tough Grease Removal | Leaves No Residue on Utensils( B0D879F3LR )",
+        "quantity": 1,
+        "unit_price": 201.7,
+        "amount": 226.1
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\FMAB-324269_p1_FMAB-324269.pdf"
+  },
+  {
+    "file": "FMAB-348994_p1_FMAB-348994.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-348994.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "FMAB-348994",
+    "date": "2025-11-23",
+    "amount": 958.4,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAJCC9783E State/UT Code: 33\nGST Registration No: 33AAJCC9783E1ZE\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Lab",
+    "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Logitech M186 Wireless Mouse, 2.4GHz with USB Mini Receiver, 12-Month Battery Life, 1000 DPI Optical Tracking, Ambidextrous, Compatible with PC, Mac, Laptop( B0D18192T2 )",
+        "quantity": 2,
+        "unit_price": 507.62,
+        "amount": 958.4
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\FMAB-348994_p1_FMAB-348994.pdf"
+  },
+  {
+    "file": "FMAB-451439_p1_FMAB-451439.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-451439.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "FMAB-451439",
+    "date": "2025-10-14",
+    "amount": 189.05,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Beco Natural Dishwasher Liquid Refill | 2L Pack | Anti-Bacterial Formula | Orange Citrus Freshness | Ecofriendly Dish Washing Liquid Gel | Tough Grease Removal | Leaves No Residue on Utensils( B0D879F3LR )",
+        "quantity": 1,
+        "unit_price": 168.64,
+        "amount": 189.05
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\FMAB-451439_p1_FMAB-451439.pdf"
+  },
+  {
+    "file": "FMAB-451441_p1_FMAB-451441.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-451441.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "FMAB-451441",
+    "date": "2025-10-14",
+    "amount": 382.85,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Lizol Disinfectant Surface & Floor Cleaner Liquid, Floral - 2 Litre | Suitable for All Floor Cleaner Mops | Kills 99.9% Germs| India's #1 Floor Cleaner( B00NWFY6GE )",
+        "quantity": 1,
+        "unit_price": 341.52,
+        "amount": 382.85
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\FMAB-451441_p1_FMAB-451441.pdf"
+  },
+  {
+    "file": "FMAB-556098_p1_FMAB-556098.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-556098.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "FMAB-556098",
+    "date": "2025-11-23",
+    "amount": 420.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* 12-1, Professor colony,, East Tambaram, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nCHENNAI, TAMIL NADU, 600059 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAECR0564M State/UT Code: 33\nGST Registration No: 33AAECR0564M1ZA\nFSSAI License No. Shipping Address :\n11222999000045 D2R AI LABS P",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Beco Natural Dishwasher Liquid Refill | 4L - 2 x 2L Pack | Anti-Bacterial Formula | Orange Citrus Freshness | Ecofriendly Dish Washing Liquid Gel | Tough Grease Removal | Leaves No Residue on Utensils( B0F4DPWXL5 )",
+        "quantity": 1,
+        "unit_price": 355.94,
+        "amount": 420.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\FMAB-556098_p1_FMAB-556098.pdf"
+  },
+  {
+    "file": "FMAB-712215_p1_FMAB-712215.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\FMAB-712215.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "FMAB-712215",
+    "date": "2026-01-19",
+    "amount": 294.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\nde7d5824896cbc1dc1fe2fe040096bbad7870c28c8a4bc3ff4451814fab381d8\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\n12-1, Professor colony,, East Tambaram, Gandhi Nagar, Adyar,\nCHENNAI, TAMIL NADU, 600059 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "FMAB",
+    "line_items": [
+      {
+        "description": "Amazon Brand - Presto! Garbage Bags | Large | 90 Count | 15 Bags X 6 Rolls | 24 X 32 Inches | For Dry & Wet Waste | Black( B0821PYKVK )",
+        "quantity": 1,
+        "unit_price": 249.16,
+        "amount": 294.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\FMAB-712215_p1_FMAB-712215.pdf"
+  },
+  {
+    "file": "HYD3-3357396_p1_HYD3-3357396.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\HYD3-3357396.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "HYD3-3357396",
+    "date": "2025-11-23",
+    "amount": 329.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* Survey Number 99/1, Mamidipally Village, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nShamshabad Gandhi Nagar, Adyar,\nHYDERABAD, TELANGANA, 500108 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 36AAECR0564M3Z2\nShipping Address :\nFSSAI License No. D2R AI LABS PRI",
+    "vendor_gstin": "36AAECR0564M3Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "HYD3",
+    "line_items": [
+      {
+        "description": "Amazon Brand - Presto! 2 Ply Kitchen Tissue Rolls | 360 Pulls | 60 Kitchen Towels X 6 Rolls | Soft And Highly Absorbent | 100% Natural Virgin Cellulose Fiber( B07GVVCQY6 )",
+        "quantity": 1,
+        "unit_price": 278.81,
+        "amount": 329.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\HYD3-3357396_p1_HYD3-3357396.pdf"
+  },
+  {
+    "file": "HYD8-3820556_p1_HYD8-3820556.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\HYD8-3820556.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "HYD8-3820556",
+    "date": "2025-10-18",
+    "amount": 6475.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* GMR Airport City, Survey No. 99/1, Mamidipally Sreela Terrace, 2nd Floor, #105, First Main Road,,\nVillage, Shamshabad Gandhi Nagar, Adyar,\nHyderabad, Telangana, 500108 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 36AAJCC9783E1Z8\nShipping Address :\nD2R AI LAB",
+    "vendor_gstin": "36AAJCC9783E1Z8",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "HYD8",
+    "line_items": [
+      {
+        "description": "Logitech MK270r Wireless Keyboard and Mouse Combo for Windows, 2.4 GHz Wireless, Spill-resistant Design, 8 Multimedia & Shortcut Keys, 2-Year Battery Life, PC/Laptop- Black( B00CEQEGPI )",
+        "quantity": 5,
+        "unit_price": 1097.46,
+        "amount": 6475.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\HYD8-3820556_p1_HYD8-3820556.pdf"
+  },
+  {
+    "file": "HYD8-5540544_p1_HYD8-5540544.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\HYD8-5540544.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "HYD8-5540544",
+    "date": "2025-09-17",
+    "amount": 299.25,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* GMR Airport City, Survey No. 99/1, Mamidipally Sreela Terrace, 2nd Floor, #105, First Main Road,,\nVillage, Shamshabad Gandhi Nagar, Adyar,\nHyderabad, Telangana, 500108 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 36AAECR0564M3Z2\nShipping Address :\nFSSAI License No. ",
+    "vendor_gstin": "36AAECR0564M3Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "HYD8",
+    "line_items": [
+      {
+        "description": "Amazon Brand - Presto! 3 Ply Toilet Paper Roll | 1920 Pulls | 160 Pulls x 12 Rolls | Soft and Highly Absorbent | OBA-Free | Smooth Feel | 100% Natural Virgin Cellulose Fiber( B097PTGNTF )",
+        "quantity": 1,
+        "unit_price": 266.95,
+        "amount": 299.25
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\HYD8-5540544_p1_HYD8-5540544.pdf"
+  },
+  {
+    "file": "Invoice_2140007957.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Invoice_2140007957.pdf",
+    "vendor_name": "Amazon Web Services",
+    "invoice_number": "AWS-2140007957",
+    "date": "2025-05-01",
+    "amount": 1824.36,
+    "currency": "INR",
+    "raw_text_preview": "Amazon Web Services Statement\nAccount number:\nEmail or talk to us about your AWS account or bill, visit aws.amazon.com/contact-us/\n676206907275\nStatement Summary\nStatement Number: 2140007957\nBill to Address:\nStatement Date: May 1 , 2025\nD2R AI Labs Pvt Ltd\nTOTAL AMOUNT DUE BY May 1 , 2025 INR 1,824.36\nATTN: Gayatri V\n17/85 Karpagam Avenue, 3rd St\nRA Puram\nChennai, Tamil Nadu, 600028, IN\nThis Account Summary is for the billing period April 1 - April 30 , 2025\nGreetings from Amazon Web Services In",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.01
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 3.29
+      },
+      {
+        "description": "Amazon SageMaker",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.04
+      },
+      {
+        "description": "Amazon Cognito",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.08
+      },
+      {
+        "description": "Amazon Route 53",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.59
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 8.23
+      },
+      {
+        "description": "AWS Key Management Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.18
+      },
+      {
+        "description": "Amazon SageMaker",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.04
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 8.19
+      },
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.01
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 3.29
+      },
+      {
+        "description": "Amazon Cognito",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.08
+      },
+      {
+        "description": "Amazon Route 53",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.59
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.04
+      },
+      {
+        "description": "AWS Key Management Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.18
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\Invoice_2140007957.pdf"
+  },
+  {
+    "file": "Invoice_2176831657.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Invoice_2176831657.pdf",
+    "vendor_name": "Amazon Web Services",
+    "invoice_number": "AWS-2176831657",
+    "date": "2025-06-01",
+    "amount": 7782.18,
+    "currency": "INR",
+    "raw_text_preview": "Amazon Web Services Statement\nAccount number:\nEmail or talk to us about your AWS account or bill, visit aws.amazon.com/contact-us/\n676206907275\nSubmit feedback on your Invoice Experience here.\nStatement Summary\nBill to Address: Statement Number: 2176831657\nD2R AI Labs Pvt Ltd\nStatement Date: June 1 , 2025\nATTN: Gayatri V\nTOTAL AMOUNT DUE BY June 1 , 2025 INR 7,782.18\n17/85 Karpagam Avenue, 3rd St\nRA Puram\nChennai, Tamil Nadu, 600028, IN\nThis Account Summary is for the billing period May 1 - May ",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.08
+      },
+      {
+        "description": "AWS App Runner",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 2.69
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 3.3
+      },
+      {
+        "description": "Amazon Cognito",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.08
+      },
+      {
+        "description": "Amazon Bedrock",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.04
+      },
+      {
+        "description": "Amazon Elastic Compute Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.07
+      },
+      {
+        "description": "Amazon Route 53",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.59
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 67.88
+      },
+      {
+        "description": "AWS Key Management Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.18
+      },
+      {
+        "description": "Amazon Virtual Private Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.03
+      },
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.04
+      },
+      {
+        "description": "AWS App Runner",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 2.69
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 57.01
+      },
+      {
+        "description": "Amazon Virtual Private Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.03
+      },
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.04
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 3.3
+      },
+      {
+        "description": "Amazon Cognito",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.08
+      },
+      {
+        "description": "Amazon Bedrock",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.04
+      },
+      {
+        "description": "Amazon Elastic Compute Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.07
+      },
+      {
+        "description": "Amazon Route 53",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.59
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 10.87
+      },
+      {
+        "description": "AWS Key Management Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.18
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\Invoice_2176831657.pdf"
+  },
+  {
+    "file": "Invoice_2257225097.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Invoice_2257225097.pdf",
+    "vendor_name": "Amazon Web Services",
+    "invoice_number": "AWS-2257225097",
+    "date": "2025-08-01",
+    "amount": 79963.46,
+    "currency": "INR",
+    "raw_text_preview": "Amazon Web Services Statement\nAccount number:\nEmail or talk to us about your AWS account or bill, visit aws.amazon.com/contact-us/\n676206907275\nSubmit feedback on your Invoice Experience here.\nStatement Summary\nBill to Address: Statement Number: 2257225097\nD2R AI Labs Pvt Ltd\nStatement Date: August 1 , 2025\nATTN: Gayatri V\nTOTAL AMOUNT DUE BY August 1 , 2025 INR 79,963.46\n17/85 Karpagam Avenue, 3rd St\nRA Puram\nChennai, Tamil Nadu, 600028, IN\nThis Account Summary is for the billing period July 1 ",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Amazon Simple Storage Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.17
+      },
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 37.66
+      },
+      {
+        "description": "Amazon Relational Database Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 76.67
+      },
+      {
+        "description": "AWS App Runner",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 94.94
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 12.7
+      },
+      {
+        "description": "Amazon Elastic Container Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 2.45
+      },
+      {
+        "description": "Amazon Cognito",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.08
+      },
+      {
+        "description": "Amazon Elastic Compute Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 85.77
+      },
+      {
+        "description": "Amazon EC2 Container Registry (ECR)",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 5.54
+      },
+      {
+        "description": "Amazon Route 53",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.59
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 497.89
+      },
+      {
+        "description": "Amazon ElastiCache",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 69.79
+      },
+      {
+        "description": "AWS Key Management Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.17
+      },
+      {
+        "description": "Amazon Virtual Private Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 18.67
+      },
+      {
+        "description": "Amazon Simple Storage Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.05
+      },
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.59
+      },
+      {
+        "description": "AWS App Runner",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 37.2
+      },
+      {
+        "description": "Amazon Relational Database Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 72.95
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.79
+      },
+      {
+        "description": "Amazon Elastic Compute Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 73.16
+      },
+      {
+        "description": "Amazon EC2 Container Registry (ECR)",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.3
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 363.62
+      },
+      {
+        "description": "Amazon ElastiCache",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 3.18
+      },
+      {
+        "description": "Amazon Virtual Private Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 5.69
+      },
+      {
+        "description": "Amazon Simple Storage Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.1
+      },
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 37.05
+      },
+      {
+        "description": "AWS App Runner",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 57.74
+      },
+      {
+        "description": "Amazon Relational Database Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 3.72
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 4.65
+      },
+      {
+        "description": "Amazon Elastic Container Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 2.45
+      },
+      {
+        "description": "Amazon Elastic Compute Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.23
+      },
+      {
+        "description": "Amazon EC2 Container Registry (ECR)",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 5.19
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 134.27
+      },
+      {
+        "description": "Amazon ElastiCache",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 66.61
+      },
+      {
+        "description": "Amazon Virtual Private Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 12.98
+      },
+      {
+        "description": "Amazon Simple Storage Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.02
+      },
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.02
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 6.26
+      },
+      {
+        "description": "Amazon Cognito",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.08
+      },
+      {
+        "description": "Amazon Elastic Compute Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 5.38
+      },
+      {
+        "description": "Amazon EC2 Container Registry (ECR)",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.05
+      },
+      {
+        "description": "Amazon Route 53",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.59
+      },
+      {
+        "description": "AWS Key Management Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.17
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\Invoice_2257225097.pdf"
+  },
+  {
+    "file": "Invoice_2295334101.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Invoice_2295334101.pdf",
+    "vendor_name": "Amazon Web Services",
+    "invoice_number": "AWS-2295334101",
+    "date": "2025-09-01",
+    "amount": 213669.28,
+    "currency": "INR",
+    "raw_text_preview": "Amazon Web Services Statement\nAccount number:\nEmail or talk to us about your AWS account or bill, visit aws.amazon.com/contact-us/\n676206907275\nSubmit feedback on your Invoice Experience here.\nStatement Summary\nBill to Address: Statement Number: 2295334101\nD2R AI Labs Pvt Ltd\nStatement Date: September 1 , 2025\nATTN: Gayatri V\nTOTAL AMOUNT DUE BY September 1 , 2025 INR 213,669.28\n17/85 Karpagam Avenue, 3rd St\nRA Puram\nChennai, Tamil Nadu, 600028, IN\nThis Account Summary is for the billing period ",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Amazon Simple Storage Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.24
+      },
+      {
+        "description": "Amazon Relational Database Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 234.02
+      },
+      {
+        "description": "AWS App Runner",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 186.72
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 19.21
+      },
+      {
+        "description": "Amazon Elastic Compute Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 205.38
+      },
+      {
+        "description": "AWS End User Messaging",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.9
+      },
+      {
+        "description": "Amazon ElastiCache",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 16.3
+      },
+      {
+        "description": "Amazon Virtual Private Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 251.04
+      },
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.69
+      },
+      {
+        "description": "Amazon Cognito",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.08
+      },
+      {
+        "description": "Amazon Elastic Container Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 54.85
+      },
+      {
+        "description": "Amazon EC2 Container Registry (ECR)",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 15.68
+      },
+      {
+        "description": "Amazon Route 53",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.59
+      },
+      {
+        "description": "AWS WAF",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.04
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1413.26
+      },
+      {
+        "description": "AWS Key Management Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.73
+      },
+      {
+        "description": "Amazon Simple Storage Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.3
+      },
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 2.06
+      },
+      {
+        "description": "Amazon Relational Database Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 76.28
+      },
+      {
+        "description": "AWS App Runner",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 84.62
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.32
+      },
+      {
+        "description": "Amazon Elastic Container Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 14.0
+      },
+      {
+        "description": "Amazon Elastic Compute Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 67.77
+      },
+      {
+        "description": "Amazon EC2 Container Registry (ECR)",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.51
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 362.59
+      },
+      {
+        "description": "Amazon ElastiCache",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 3.41
+      },
+      {
+        "description": "Amazon Virtual Private Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 64.9
+      },
+      {
+        "description": "Amazon Simple Storage Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.97
+      },
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.19
+      },
+      {
+        "description": "AWS App Runner",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 79.37
+      },
+      {
+        "description": "Amazon Relational Database Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 154.44
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 3.79
+      },
+      {
+        "description": "Amazon Elastic Container Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 12.65
+      },
+      {
+        "description": "Amazon Elastic Compute Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 130.84
+      },
+      {
+        "description": "Amazon EC2 Container Registry (ECR)",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.06
+      },
+      {
+        "description": "AWS WAF",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.04
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 781.44
+      },
+      {
+        "description": "Amazon ElastiCache",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.2
+      },
+      {
+        "description": "AWS Key Management Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.55
+      },
+      {
+        "description": "Amazon Virtual Private Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 89.96
+      },
+      {
+        "description": "Amazon Simple Storage Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 4.94
+      },
+      {
+        "description": "AWS Data Transfer",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 4.44
+      },
+      {
+        "description": "AWS App Runner",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 22.73
+      },
+      {
+        "description": "Amazon Relational Database Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 3.3
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 5.12
+      },
+      {
+        "description": "Amazon Elastic Container Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 28.2
+      },
+      {
+        "description": "Amazon Elastic Compute Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.39
+      },
+      {
+        "description": "Amazon EC2 Container Registry (ECR)",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 14.06
+      },
+      {
+        "description": "Amazon OpenSearch Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 269.23
+      },
+      {
+        "description": "AWS End User Messaging",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.9
+      },
+      {
+        "description": "Amazon ElastiCache",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 5.69
+      },
+      {
+        "description": "Amazon Virtual Private Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 96.18
+      },
+      {
+        "description": "Amazon Simple Storage Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.03
+      },
+      {
+        "description": "AWS Secrets Manager",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 8.98
+      },
+      {
+        "description": "Amazon Cognito",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 7.08
+      },
+      {
+        "description": "Amazon EC2 Container Registry (ECR)",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.05
+      },
+      {
+        "description": "Amazon Elastic Compute Cloud",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 5.38
+      },
+      {
+        "description": "Amazon Route 53",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.59
+      },
+      {
+        "description": "AWS Key Management Service",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1.18
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\Invoice_2295334101.pdf"
+  },
+  {
+    "file": "Invoice_2327322985.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Invoice_2327322985.pdf",
+    "vendor_name": "Amazon Web Services",
+    "invoice_number": "AWS-2327322985",
+    "date": "2025-10-01",
+    "amount": 300039.59,
+    "currency": "INR",
+    "raw_text_preview": "Amazon Web Services Statement\nAccount number:\nEmail or talk to us about your AWS account or bill, visit aws.amazon.com/contact-us/\n676206907275\nSubmit feedback on your Invoice Experience here.\nStatement Summary\nBill to Address: Statement Number: 2327322985\nD2R AI Labs Pvt Ltd\nStatement Date: October 1 , 2025\nATTN: Gayatri V\nTOTAL AMOUNT DUE BY October 1 , 2025 INR 300,039.59\n17/85 Karpagam Avenue, 3rd St\nRA Puram\nChennai, Tamil Nadu, 600028, IN\nThis Account Summary is for the billing period Sept",
+    "vendor_gstin": null,
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\Invoice_2327322985.pdf"
+  },
+  {
+    "file": "Invoice_2366505997.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Invoice_2366505997.pdf",
+    "vendor_name": "Amazon Web Services",
+    "invoice_number": "AWS-2366505997",
+    "date": "2025-11-01",
+    "amount": 380319.73,
+    "currency": "INR",
+    "raw_text_preview": "Amazon Web Services Statement\nAccount number:\nEmail or talk to us about your AWS account or bill, visit aws.amazon.com/contact-us/\n676206907275\nSubmit feedback on your Invoice Experience here.\nStatement Summary\nBill to Address: Statement Number: 2366505997\nD2R AI Labs Pvt Ltd\nStatement Date: November 1 , 2025\nATTN: D2R AI Labs\nTOTAL AMOUNT DUE BY November 1 , 2025 INR 380,319.73\n2nd floor, 105 Sreelac terrace\n1st main road, Gandhinagar, Adyar\nChennai, Tamil nadu, 600020, IN\nThis Account Summary ",
+    "vendor_gstin": null,
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\Invoice_2366505997.pdf"
+  },
+  {
+    "file": "MAA4-1088415_p1_MAA4-1088415.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-1088415.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "MAA4-1088415",
+    "date": "2025-06-26",
+    "amount": 294.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 33AAJCC9783E1ZE\nShipping A",
+    "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "AIPL BOPP Packaging Clear Tape - 48MM x 50 Meter| Pack of 2 | for Packaging, Decorating and DIY works( B0BX9XHGNJ )",
+        "quantity": 3,
+        "unit_price": 83.06,
+        "amount": 294.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\MAA4-1088415_p1_MAA4-1088415.pdf"
+  },
+  {
+    "file": "MAA4-1088537_p1_MAA4-1088537.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-1088537.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "MAA4-1088537",
+    "date": "2025-06-26",
+    "amount": 225.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 33AAJCC9783E1ZE\nShipping A",
+    "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "CHAND SURAJ® Stella Natural Grass Broom Stick for Home Cleaning with Stainless Steel Handle (Pack of 1)( B0787YSTXN )",
+        "quantity": 1,
+        "unit_price": 190.68,
+        "amount": 225.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\MAA4-1088537_p1_MAA4-1088537.pdf"
+  },
+  {
+    "file": "MAA4-1175721_p1_MAA4-1175721.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-1175721.pdf",
+    "vendor_name": "ETRADE MARKETING PRIVATE LIMITED",
+    "invoice_number": "MAA4-1175721",
+    "date": "2025-08-23",
+    "amount": 279.3,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nETRADE MARKETING PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AADCV4254H\nGST Registration No: 33AADCV4254H1ZF\nShipping A",
+    "vendor_gstin": "33AADCV4254H1ZF",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "FOVERA Car Seat Belt Shoulder Pads (Pack of 2) Car Safety Belt Soft Pad Cover for Comfortable Driving, Universal Fit for All Cars and Backpack (Black Color, 12 Inch Length)( B0CK4LFSSR )",
+        "quantity": 1,
+        "unit_price": 249.16,
+        "amount": 279.3
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Aug 2025\\MAA4-1175721_p1_MAA4-1175721.pdf"
+  },
+  {
+    "file": "MAA4-12223_p1_MAA4-12223.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-12223.pdf",
+    "vendor_name": "GLOBAL BRANDS",
+    "invoice_number": "MAA4-12223",
+    "date": "2025-06-26",
+    "amount": 327.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nGLOBAL BRANDS D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AYWPA0131C\nGST Registration No: 33AYWPA0131C1Z3\nShipping Address :\nFSSAI Lice",
+    "vendor_gstin": "33AYWPA0131C1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Mr Muscle Mr. Muscle Platinum Kitchen Cleaner, 750Ml( Mr Muscle Platinum Kitchen, 750ml )",
+        "quantity": 1,
+        "unit_price": 277.12,
+        "amount": 327.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\MAA4-12223_p1_MAA4-12223.pdf"
+  },
+  {
+    "file": "MAA4-1730312_p1_MAA4-1730312.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-1730312.pdf",
+    "vendor_name": "RETAILEZ PRIVATE LIMITED",
+    "invoice_number": "MAA4-1730312",
+    "date": "2025-10-14",
+    "amount": 659.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nRETAILEZ PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AALCR3173P\nGST Registration No: 33AALCR3173P1ZU\nShipping Address :",
+    "vendor_gstin": "33AALCR3173P1ZU",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "AGARO Elite Glass Carafe with Strainer Lid, 1200ml, Glass Kettle, Borosilicate Glass, Microwave Safe, Low Flame Proof, Transparent.( B0CPYHMDXJ )",
+        "quantity": 1,
+        "unit_price": 558.48,
+        "amount": 659.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-1730312_p1_MAA4-1730312.pdf"
+  },
+  {
+    "file": "MAA4-2213948_p1_MAA4-2213948.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-2213948.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "MAA4-2213948",
+    "date": "2025-06-26",
+    "amount": 452.2,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Beco Natural Dishwash Liquid-2Litres Refill Pack |Orange Citrus Freshness| 100% Ecofriendly-Tough Grease removal Antibac formula| Leaves No residue, Baby & Pet Safe( B0D879F3LR )",
+        "quantity": 2,
+        "unit_price": 201.7,
+        "amount": 452.2
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\MAA4-2213948_p1_MAA4-2213948.pdf"
+  },
+  {
+    "file": "MAA4-2216157_p1_MAA4-2216157.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-2216157.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "MAA4-2216157",
+    "date": "2025-06-26",
+    "amount": 258.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Harpic Powerplus Disinfectant Toilet Cleaner Liquid, Original - 500 ml (Pack of 3)( B078S68LYG )",
+        "quantity": 1,
+        "unit_price": 218.64,
+        "amount": 258.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\MAA4-2216157_p1_MAA4-2216157.pdf"
+  },
+  {
+    "file": "MAA4-22967_p1_MAA4-22967.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-22967.pdf",
+    "vendor_name": "GLOBAL BRANDS",
+    "invoice_number": "MAA4-22967",
+    "date": "2025-09-18",
+    "amount": 749.24,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nGLOBAL BRANDS D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AYWPA0131C\nGST Registration No: 33AYWPA0131C1Z3\nShipping Address :\nFSSAI Lice",
+    "vendor_gstin": "33AYWPA0131C1Z3",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Mr Muscle Mr. Muscle Platinum Kitchen Cleaner, 750Ml( Mr Muscle Platinum Kitchen, 750ml )",
+        "quantity": 2,
+        "unit_price": 317.48,
+        "amount": 749.24
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\MAA4-22967_p1_MAA4-22967.pdf"
+  },
+  {
+    "file": "MAA4-2433044_p1_MAA4-2433044.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-2433044.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "MAA4-2433044",
+    "date": "2025-10-01",
+    "amount": 94.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 33AAJCC9783E1ZE\nShipping A",
+    "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Sounce 25 Pcs Spiral Cable Protectors & Wire Protectors Spring Wire for All Wired Accessories for USB Charger, Data Cable, Headphones, MacBook, Laptop, Elastic Cord Saver (Multi-Color)( B0CK7X2W4P )",
+        "quantity": 1,
+        "unit_price": 79.66,
+        "amount": 94.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-2433044_p1_MAA4-2433044.pdf"
+  },
+  {
+    "file": "MAA4-2496953_p1_MAA4-2496953.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-2496953.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "MAA4-2496953",
+    "date": "2025-10-06",
+    "amount": 6475.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAJCC9783E\nGST Registration No: 33AAJCC9783E1ZE\nShipping A",
+    "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Logitech MK270r Wireless Keyboard and Mouse Combo for Windows, 2.4 GHz Wireless, Spill-resistant Design, 8 Multimedia & Shortcut Keys, 2-Year Battery Life, PC/Laptop- Black( B00CEQEGPI )",
+        "quantity": 5,
+        "unit_price": 1097.46,
+        "amount": 6475.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-2496953_p1_MAA4-2496953.pdf"
+  },
+  {
+    "file": "MAA4-280872_p1_MAA4-280872.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-280872.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "MAA4-280872",
+    "date": "2025-04-11",
+    "amount": 541.5,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Amazon Brand - Presto! Glass & Household Cleaner | 5 Litre | Multipurpose Glass, Car, Pantry, Tables and Household Cleaner( B0D6Z1QBVC )",
+        "quantity": 1,
+        "unit_price": 483.06,
+        "amount": 541.5
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Apr 2025\\MAA4-280872_p1_MAA4-280872.pdf"
+  },
+  {
+    "file": "MAA4-3241_p1_MAA4-3241.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-3241.pdf",
+    "vendor_name": "CRALOFT LLP",
+    "invoice_number": "MAA4-3241",
+    "date": "2025-11-23",
+    "amount": 279.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCRALOFT LLP D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AARFC5965H\nGST Registration No: 33AARFC5965H1Z2\nShipping Address :\nD2R AI LABS ",
+    "vendor_gstin": "33AARFC5965H1Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Alifiya Dust Proof Washable Printer Cover for Canon Pixma G4780 All-in-one Inktank Printer - Blue( Blue-G4780 )",
+        "quantity": 1,
+        "unit_price": 265.72,
+        "amount": 279.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\MAA4-3241_p1_MAA4-3241.pdf"
+  },
+  {
+    "file": "MAA4-5043276_p1_MAA4-5043276.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-5043276.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "MAA4-5043276",
+    "date": "2025-10-14",
+    "amount": 356.25,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Amazon Brand - Presto! Glass & Household Cleaner | 5 Litre | Multipurpose Glass, Car, Pantry, Tables and Household Cleaner( B0D6Z1QBVC )",
+        "quantity": 1,
+        "unit_price": 317.8,
+        "amount": 356.25
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-5043276_p1_MAA4-5043276.pdf"
+  },
+  {
+    "file": "MAA4-5043360_p1_MAA4-5043360.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-5043360.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "MAA4-5043360",
+    "date": "2025-10-14",
+    "amount": 677.95,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Amazon Brand - Presto! Garbage Bags | Small | 180 Count | 30 Bags X 6 Rolls | 17 X 19 Inches | For Dry & Wet Waste | Black( B0821PKWBW )",
+        "quantity": 1,
+        "unit_price": 204.24,
+        "amount": 228.95
+      },
+      {
+        "description": "Air Wick 250 ml - Lemon & Orange Blossom, Refill + Automatic Spray| Freshmatic Air Freshener Kit | 2600 Sprays Guaranteed | Automatic Room Freshener, Bathroom Freshener and Room Spray( B079RDJGJ9 )",
+        "quantity": 1,
+        "unit_price": 380.5,
+        "amount": 449.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-5043360_p1_MAA4-5043360.pdf"
+  },
+  {
+    "file": "MAA4-50642_p1_MAA4-50642.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-50642.pdf",
+    "vendor_name": "TIGER PUG COMMERCE PRIVATE LIMITED",
+    "invoice_number": "MAA4-50642",
+    "date": "2025-10-05",
+    "amount": 2020.65,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nTIGER PUG COMMERCE PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AACCN8253B\nGST Registration No: 33AACCN8253B1ZT\nShipping",
+    "vendor_gstin": "33AACCN8253B1ZT",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "ESR For iPhone 15 Pro Max Case, Full-Body Shockproof Case Magsafe Case, Exceeds Military-Grade Protection, Magnetic TPU Phone Case For iPhone 15 Pro Max, 2-Part Tough Case With Stand, Clear Black( ip15pm_qdcx_bclear_intpg )",
+        "quantity": 1,
+        "unit_price": 1802.54,
+        "amount": 2020.65
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-50642_p1_MAA4-50642.pdf"
+  },
+  {
+    "file": "MAA4-50643_p1_MAA4-50643.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-50643.pdf",
+    "vendor_name": "TIGER PUG COMMERCE PRIVATE LIMITED",
+    "invoice_number": "MAA4-50643",
+    "date": "2025-10-05",
+    "amount": 1971.25,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nTIGER PUG COMMERCE PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AACCN8253B\nGST Registration No: 33AACCN8253B1ZT\nShipping",
+    "vendor_gstin": "33AACCN8253B1ZT",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "ESR Upgraded for MagSafe Wallet,5 Card Holder with Adjustable Stand,Secure Grip Finger,Magnetic Wallet for iPhone 17/16/15/14/13/12,Google Pixel 10/Pro/Pro XL,Not for Mini,Not Find My Compatible,Brown( 2k_24b3_in_chs )",
+        "quantity": 1,
+        "unit_price": 1758.48,
+        "amount": 1971.25
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-50643_p1_MAA4-50643.pdf"
+  },
+  {
+    "file": "MAA4-61528_p1_MAA4-61528.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-61528.pdf",
+    "vendor_name": "SPIGEN INDIA PRIVATE LIMITED",
+    "invoice_number": "MAA4-61528",
+    "date": "2025-10-07",
+    "amount": 1623.55,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nSPIGEN INDIA PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: ABACS5056L\nGST Registration No: 33ABACS5056L1Z8\nShipping Addre",
+    "vendor_gstin": "33ABACS5056L1Z8",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Spigen Ultra Hybrid MagFit Back Cover Case Compatible with iPhone 15 Pro Max (TPU + Poly Carbonate | Frost Black)( ACS06581INP )",
+        "quantity": 1,
+        "unit_price": 1448.3,
+        "amount": 1623.55
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\MAA4-61528_p1_MAA4-61528.pdf"
+  },
+  {
+    "file": "MAA4-6184441_p1_MAA4-6184441.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-6184441.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "MAA4-6184441",
+    "date": "2025-12-07",
+    "amount": 780.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Harpic Bathroom Cleaner Liquid, Floral - 1 Litre | New Thicker Bathroom Floor Cleaner | Red Harpic Bottle( B07W36HP5S )",
+        "quantity": 4,
+        "unit_price": 165.26,
+        "amount": 780.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\MAA4-6184441_p1_MAA4-6184441.pdf"
+  },
+  {
+    "file": "MAA4-6184576_p1_MAA4-6184576.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-6184576.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "MAA4-6184576",
+    "date": "2025-12-07",
+    "amount": 403.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Amazon Brand - Presto! Disinfectant Surface & Floor Cleaner | Jasmine | 5 Litre | Kills 99.9% Germs | Suitable For Bathroom & Floor Surfaces Like Ceramic, Marble, Granite, Mosaic( B08HHXKJY3 )",
+        "quantity": 1,
+        "unit_price": 341.52,
+        "amount": 403.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\MAA4-6184576_p1_MAA4-6184576.pdf"
+  },
+  {
+    "file": "MAA4-6415046_p1_MAA4-6415046.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-6415046.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "MAA4-6415046",
+    "date": "2025-12-16",
+    "amount": 399.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\n37be5ba67052873c4404490048608920a1fb449ba3015eb62139204908ce0317\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN ",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Amazon Brand - Presto! Garbage Bags | Extra Large XL | 30 x 37 in | 60 Count | 10 Bags x 6 Rolls | For Dry & Wet Waste | Black( B0821QGBDY )",
+        "quantity": 1,
+        "unit_price": 338.14,
+        "amount": 399.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\MAA4-6415046_p1_MAA4-6415046.pdf"
+  },
+  {
+    "file": "MAA4-907489_p1_MAA4-907489.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\MAA4-907489.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "MAA4-907489",
+    "date": "2025-05-06",
+    "amount": 673.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI LABS PRIVATE LIMITED\n* No. 1/B, IndoSpace Logistics Park, Puduvoyal, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nDurainallur Village, Ponneri Taluk Gandhi Nagar, Adyar,\nThiruvalluvar, Tamil Nadu, 601206 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAECR0564M\nGST Registration No: 33AAECR0564M1ZA\nShipping Address :",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "MAA4",
+    "line_items": [
+      {
+        "description": "Harpic Bathroom Cleaner Liquid, Lemon - 1 Litre (Pack of 2) | New Thicker Bathroom Floor Cleaner | Red Harpic Bottle( B071HGVPSJ )",
+        "quantity": 1,
+        "unit_price": 279.62,
+        "amount": 329.94
+      },
+      {
+        "description": "Harpic Disinfectant Toilet Cleaner Liquid, Original - 1 L (Pack of 2) | India's # 1 Toilet Cleaner( B016D3J92M )",
+        "quantity": 1,
+        "unit_price": 290.72,
+        "amount": 343.06
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\MAA4-907489_p1_MAA4-907489.pdf"
+  },
+  {
+    "file": "QEA1-10628_p1_QEA1-10628.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\QEA1-10628.pdf",
+    "vendor_name": "MAGMA CARE PVT LTD",
+    "invoice_number": "QEA1-10628",
+    "date": "2026-01-19",
+    "amount": 299.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\nc2415869f235e5424777b9ce4ab49385a152eac536d584a0dfe1d0b46135c0b2\nIRN/QR Code:\nSold By : Billing Address :\nMAGMA CARE PVT LTD D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\n5/51, JAGATIPOTA KISAN MARKET NEAR Gandhi Nagar, Adyar,\nDULICHAND MOTOR GARAGE, NA CHENNAI, TN, 600020\nKolkata, West Bengal, 700152 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAKCM3750E\nGST Registratio",
+    "vendor_gstin": "19AAKCM3750E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "QEA1",
+    "line_items": [
+      {
+        "description": "Glider Multipurpose Skin and Surface Wipes with Flip-Top | Gentle & Effective Cleaning for Hands & Surfaces | (Pack of 3 – 216 Wipes)( 2W-JHHY-HGZQ )",
+        "quantity": 1,
+        "unit_price": 253.39,
+        "amount": 299.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\QEA1-10628_p1_QEA1-10628.pdf"
+  },
+  {
+    "file": "RNPU-47304_p1_RNPU-47304.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\RNPU-47304.pdf",
+    "vendor_name": "RAM LAL RAM CHANDRA (INDIA) LIMITED",
+    "invoice_number": "RNPU-47304",
+    "date": "2025-10-02",
+    "amount": 1487.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nRAM LAL RAM CHANDRA (INDIA) LIMITED D2R AI LABS PRIVATE LIMITED\n* A-8, Sector A-3, Tronica City Industrial Area, Sreela Terrace, 2nd Floor, #105, First Main Road,,\nGhaziabad, Uttar Pradesh, 201103 Gandhi Nagar, Adyar,\nIN CHENNAI, TN, 600020\nIN\nGST Registration No: 33AAICD7217K1ZK\nPAN No: AAACR6529A State/UT Code: 33\nGST Registration No: 09AAACR6529A1ZL\nShipping Address :\nD2R AI LABS PRIVATE LIM",
+    "vendor_gstin": "09AAACR6529A1ZL",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "RNPU",
+    "line_items": [
+      {
+        "description": "DOUBLE R BAGS Collapsible Car Trunk Organizer with 4 Compartments & 7 Pockets | Heavy Duty Polyester Storage Bag for SUV, Sedan, Minivan, Boot & Garage (Black, 32x60x37 cm)( Car-trunk_Black )",
+        "quantity": 1,
+        "unit_price": 1416.19,
+        "amount": 1487.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\RNPU-47304_p1_RNPU-47304.pdf"
+  },
+  {
+    "file": "SIDA-1153_p1_SIDA-1153.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\SIDA-1153.pdf",
+    "vendor_name": "Surajmal Tea Private Limited",
+    "invoice_number": "SIDA-1153",
+    "date": "2025-05-06",
+    "amount": 1282.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nSurajmal Tea Private Limited D2R AI LABS PRIVATE LIMITED\n* C/o Yusen Logistics, Survey no 2(part), Ring Sreela Terrace, 2nd Floor, #105, First Main Road,,\nRoad, MR-11,, Village Pipliya Kumhar, Near Gandhi Nagar, Adyar,\nMETRO CASH & CARRY Store, CHENNAI, TN, 600020\nIndore, Madhya Pradesh, 453771 IN\nIN GST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AAYCS1664F\nGST Registration No: ",
+    "vendor_gstin": "23AAYCS1664F1Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "SIDA",
+    "line_items": [
+      {
+        "description": "APSARA Detoxifying Kahwa Green Tea - 100 Tea Bags, Spiced Kashmiri Desi Kahwa Green Tea, Immunity Booster, Blended with Rock Salt, Tulsi, Cardamom, Cinnamon, Black Pepper, Ashwagandha Tea( 7P-XHR1-OMVL )",
+        "quantity": 2,
+        "unit_price": 610.48,
+        "amount": 1282.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\SIDA-1153_p1_SIDA-1153.pdf"
+  },
+  {
+    "file": "SMAB-62796_p1_SMAB-62796.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\SMAB-62796.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "SMAB-62796",
+    "date": "2025-10-08",
+    "amount": 18999.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Survey No: 77/2A3, Siruvapuri Murugan Sreela Terrace, 2nd Floor, #105, First Main Road,,\nIndustrial and Logistics Parks Pvt Ltd,, Gandhi Nagar, Adyar,\nThamaripakkam, Agaram and Settupakkam CHENNAI, TN, 600020\nVillage, Thiruvallur Taluk, Thiruvallur Dist, IN\nChennai, Tamil Nadu, 601103 GST Registration No: 33AAICD7217K1ZK\nIN State/UT",
+    "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "SMAB",
+    "line_items": [
+      {
+        "description": "Canon PIXMA MegaTank G4780 All-in-one Inktank Colour Printer with Duplex and ADF with 2 Years Standard Warranty( B0DVC7MC39 )",
+        "quantity": 1,
+        "unit_price": 16100.84,
+        "amount": 18999.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\SMAB-62796_p1_SMAB-62796.pdf"
+  },
+  {
+    "file": "SMAB-89886_p1_SMAB-89886.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\SMAB-89886.pdf",
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "invoice_number": "SMAB-89886",
+    "date": "2026-01-21",
+    "amount": 999.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN:\naf116aa36ad8ffe6aa322f5fa5dd30ff6d52e636c4617e410a4a9cf6e47888c6\nIRN/QR Code:\nSold By : Billing Address :\nCLICKTECH RETAIL PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\n* Sreela Terrace, 2nd Floor, #105, First Main Road,,\nSurvey No: 77/2A3, Siruvapuri Murugan Industrial Gandhi Nagar, Adyar,\nand Logistics Parks Pvt Ltd,, Thamaripakkam, CHENNAI, TN, 600020\nAgaram and Settupakkam Village, Thiruvallur IN\nTaluk, Thiruvallur Dist, GST Re",
+    "vendor_gstin": "33AAJCC9783E1ZE",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "SMAB",
+    "line_items": [
+      {
+        "description": "ARISTO Plastic Biomedical Waste Plastic dustbin with Step-On Pedal (Black, 25 LTR)( B07JNSQN9B )",
+        "quantity": 1,
+        "unit_price": 846.62,
+        "amount": 999.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\SMAB-89886_p1_SMAB-89886.pdf"
+  },
+  {
+    "file": "UMA7-548986_p1_UMA7-548986.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\UMA7-548986.pdf",
+    "vendor_name": "Amazon Retail India Private Limited",
+    "invoice_number": "UMA7-548986",
+    "date": "2026-01-20",
+    "amount": 1548.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nAmazon Retail India Private Limited D2R AI Labs Pvt Ltd\n* Sreela terrace, 2nd floor, #105, 1st main road,\nAmazon Seller Services Private Limited Gandhi nagar, Adyar\nWarehouse,, Permalkoil St, Ayyavupuram, CHENNAI, TAMIL NADU, 600020\nVirugambakkam IN\nCHENNAI, TAMIL NADU, 600093 State/UT Code: 33\nIN\nShipping Address :\nPAN No: AAPCA6346P D2R AI Labs Pvt Ltd\nGST Registration No: 33AAPCA6346P1Z2 D2R AI Labs Pvt ",
+    "vendor_gstin": "33AAPCA6346P1Z2",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "UMA7",
+    "line_items": [
+      {
+        "description": "Levista Filter Coffee (500 GMS) (80% Coffee 20% Chicory)( B07WMFL5Z3 )",
+        "quantity": 4,
+        "unit_price": 368.58,
+        "amount": 1548.0
+      },
+      {
+        "description": "Mr Muscle Kitchen Cleaner - 425 Ml Pouch (Lemon)( B09LD36SBH )",
+        "quantity": 1,
+        "unit_price": 113.56,
+        "amount": 134.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\UMA7-548986_p1_UMA7-548986.pdf"
+  },
+  {
+    "file": "UMA7-548986_p2_UMA7-620985.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\UMA7-548986.pdf",
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "invoice_number": "UMA7-620985",
+    "date": "2026-01-20",
+    "amount": 134.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By : Billing Address :\nR K WorldInfocom Pvt Ltd D2R AI Labs Pvt Ltd\n* Sreela terrace, 2nd floor, #105, 1st main road,\nAmazon Seller Services Private Limited Gandhi nagar, Adyar\nWarehouse,, Permalkoil St, Ayyavupuram, CHENNAI, TAMIL NADU, 600020\nVirugambakkam IN\nCHENNAI, TAMIL NADU, 600093 State/UT Code: 33\nIN\nShipping Address :\nPAN No: AAECR0564M D2R AI Labs Pvt Ltd\nGST Registration No: 33AAECR0564M1ZA D2R AI Labs Pvt Ltd\nSreela ",
+    "vendor_gstin": "33AAECR0564M1ZA",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "UMA7",
+    "line_items": [
+      {
+        "description": "Levista Filter Coffee (500 GMS) (80% Coffee 20% Chicory)( B07WMFL5Z3 )",
+        "quantity": 4,
+        "unit_price": 368.58,
+        "amount": 1548.0
+      },
+      {
+        "description": "Mr Muscle Kitchen Cleaner - 425 Ml Pouch (Lemon)( B09LD36SBH )",
+        "quantity": 1,
+        "unit_price": 113.56,
+        "amount": 134.0
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\UMA7-548986_p2_UMA7-620985.pdf"
+  },
+  {
+    "file": "VLMN-7560_p1_VLMN-7560.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\VLMN-7560.pdf",
+    "vendor_name": "Accuprints",
+    "invoice_number": "VLMN-7560",
+    "date": "2025-06-26",
+    "amount": 197.01,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nIRN/QR Code:\nSold By : Billing Address :\nAccuprints D2R AI LABS PRIVATE LIMITED\n* Plot No.- 798, Islampur Village Sector -38 near Sreela Terrace, 2nd Floor, #105, First Main Road,,\nsubhash chowk Gandhi Nagar, Adyar,\nGURUGRAM, HARYANA, 122018 CHENNAI, TN, 600020\nIN IN\nGST Registration No: 33AAICD7217K1ZK\nState/UT Code: 33\nPAN No: AURPS1867J\nGST Registration No: 06AURPS1867J1ZV\nShipping Address :\nD2R AI LABS PRIVATE LIMITED\nD2R AI Labs ",
+    "vendor_gstin": "06AURPS1867J1ZV",
+    "amazon_entities": {
+      "ASSPL": "Amazon Seller Services Pvt. Ltd",
+      "ARIPL": "Amazon Retail India Pvt. Ltd"
+    },
+    "amazon_fc_code": "VLMN",
+    "line_items": [
+      {
+        "description": "AccuPrints Branded Premium Envelope White Cheque Size envelope | Thickness - 100 gsm | Size 4.5 by 10 inch (50)( 50 white envelope )",
+        "quantity": 1,
+        "unit_price": 166.96,
+        "amount": 197.01
+      }
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jun 2025\\VLMN-7560_p1_VLMN-7560.pdf"
+  },
+  {
+    "file": "Media.jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media.jpg",
+    "vendor_name": "Applebee's",
+    "invoice_number": "7675-1860343",
+    "date": "2025-10-22",
+    "amount": 31.6,
+    "currency": "USD",
+    "raw_text_preview": "APPLEBEE'S NEIGHBORHOOD GRILL & BAR, 13351 State Rd. 535, Suite 100, Orlando, FL 32821. Check #7675-1860343. Server: Michelle G. Amount: 26.60, Tip: 5.00, Total: 31.60. Visa Credit Contactless.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Food & Beverage",
+        "quantity": 1,
+        "unit_price": 26.6,
+        "amount": 26.6
+      },
+      {
+        "description": "Tip",
+        "quantity": 1,
+        "unit_price": 5.0,
+        "amount": 5.0
+      }
+    ]
+  },
+  {
+    "file": "Media (1).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (1).jpg",
+    "vendor_name": "Panda Express",
+    "invoice_number": "397",
+    "date": "2025-10-22",
+    "amount": 10.61,
+    "currency": "USD",
+    "raw_text_preview": "Panda Express IAH (Terminal A), 2800 N Terminal Road- Terminal A, Houston, TX 77032. Server: Kevin R. Check #397. 1 Bowl - Fried Rice, Black Pepper Chicken $9.80. Subtotal: $9.80, Tax: $0.81, Total: $10.61. Paid by Credit.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "1 Bowl - Fried Rice (R1), Black Pepper Chicken (C7)",
+        "quantity": 1,
+        "unit_price": 9.8,
+        "amount": 9.8
+      },
+      {
+        "description": "Tax",
+        "quantity": 1,
+        "unit_price": 0.81,
+        "amount": 0.81
+      }
+    ]
+  },
+  {
+    "file": "Media (2).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (2).jpg",
+    "vendor_name": "Applebee's",
+    "invoice_number": "7675-859329",
+    "date": "2025-10-15",
+    "amount": 36.22,
+    "currency": "USD",
+    "raw_text_preview": "APPLEBEE'S NEIGHBORHOOD GRILL & BAR, 13351 State Rd 535, Suite 100, Orlando, FL 32821. Server: Victor S. Check #7675-859329. 1 TG WTMLN RUSH $7.00, 1 2 FOR $2X $27.00 (ONION RINGS, CHX TNDR BSKT, CHX PARM FETT). Check Total: 34.00, Tax: 2.22. MASTERCARD: 36.22. Merchant Copy.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "TG WTMLN RUSH",
+        "quantity": 1,
+        "unit_price": 7.0,
+        "amount": 7.0
+      },
+      {
+        "description": "2 FOR $2X (ONION RINGS, CHX TNDR BSKT, CHX PARM FETT)",
+        "quantity": 1,
+        "unit_price": 27.0,
+        "amount": 27.0
+      },
+      {
+        "description": "Tax",
+        "quantity": 1,
+        "unit_price": 2.22,
+        "amount": 2.22
+      }
+    ]
+  },
+  {
+    "file": "Media (3).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (3).jpg",
+    "vendor_name": "Applebee's",
+    "invoice_number": "7675-1859894",
+    "date": "2025-10-19",
+    "amount": 30.33,
+    "currency": "USD",
+    "raw_text_preview": "APPLEBEE'S NEIGHBORHOOD GRILL & BAR, 13351 State Rd 535, Suite 100, Orlando, FL 32821. Server: Kevin D. Check #7675-1859894. Card: Mastercard ****9677. Amount: 30.33. Tip/Total not filled. Guest Copy.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Food & Beverage",
+        "quantity": 1,
+        "unit_price": 30.33,
+        "amount": 30.33
+      }
+    ]
+  },
+  {
+    "file": "Media (4).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (4).jpg",
+    "vendor_name": "La Buena Vida Durham",
+    "invoice_number": "117",
+    "date": "2025-10-11",
+    "amount": 63.41,
+    "currency": "USD",
+    "raw_text_preview": "La Buena Vida Durham, 4139 Durham Chapel Hill Boulevard, Durham, NC 27707. Server: Kelsy L. Check #117. Guest Count: 2. 1 Parrillada (Well Done, Harina). Subtotal: $58.99, Tax: $4.42, Total: $63.41. Mastercard ****9677. Cardholder: Sylvester Daniel J. Merchant Copy.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Parrillada (Well Done, Harina)",
+        "quantity": 1,
+        "unit_price": 58.99,
+        "amount": 58.99
+      },
+      {
+        "description": "Tax",
+        "quantity": 1,
+        "unit_price": 4.42,
+        "amount": 4.42
+      }
+    ]
+  },
+  {
+    "file": "Media (5).pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (5).pdf",
+    "vendor_name": "Kun Auto Company Pvt. Ltd. (Hyundai)",
+    "invoice_number": "B202507533",
+    "date": "2025-10-09",
+    "amount": 32793.0,
+    "currency": "INR",
+    "raw_text_preview": "Hyundai Invoice Summary. Dealer: Kun Auto Company Pvt. Ltd., Arunachalapuram No:5, Adyar, Chennai. GSTIN: 33AAACK8991K1Z2. Customer: Sylvester Daniel J. Vehicle: SU**B Creta 1.5 MPi IVT SX(O) SE, Reg: TN07DM1609. Part Invoice S1405G2025150445, Labour Invoice S1405G2025150044. Grand Total: Rs.32793 (Rounded).",
+    "vendor_gstin": "33AAACK8991K1Z2",
+    "line_items": [
+      {
+        "description": "3D Boot Mat",
+        "quantity": 1,
+        "unit_price": 1694.92,
+        "amount": 1694.92
+      },
+      {
+        "description": "Door Edge Guard",
+        "quantity": 1,
+        "unit_price": 350.0,
+        "amount": 350.0
+      },
+      {
+        "description": "Door Visor",
+        "quantity": 1,
+        "unit_price": 1411.86,
+        "amount": 1411.86
+      },
+      {
+        "description": "Full Floor Mat",
+        "quantity": 1,
+        "unit_price": 3844.06,
+        "amount": 3844.07
+      },
+      {
+        "description": "Rear Sill Guard",
+        "quantity": 1,
+        "unit_price": 1294.06,
+        "amount": 1294.06
+      },
+      {
+        "description": "Screen Protector (Integrated)",
+        "quantity": 1,
+        "unit_price": 846.62,
+        "amount": 846.62
+      },
+      {
+        "description": "Side Step-Black",
+        "quantity": 1,
+        "unit_price": 14587.28,
+        "amount": 14587.28
+      },
+      {
+        "description": "Window Beading - Chrome",
+        "quantity": 1,
+        "unit_price": 1761.86,
+        "amount": 1761.86
+      },
+      {
+        "description": "1st Free Service (Labour)",
+        "quantity": 1,
+        "unit_price": 0.0,
+        "amount": 0.0
+      },
+      {
+        "description": "Floor Carpet Fitment (Labour)",
+        "quantity": 1,
+        "unit_price": 2000.0,
+        "amount": 2000.0
+      }
+    ]
   }
 ]
