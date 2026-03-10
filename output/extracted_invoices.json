@@ -624,13 +624,13 @@
     "file": "Dec 1–31, 2025 Transactions - Admin Console.pdf",
     "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Dec 1–31, 2025 Transactions - Admin Console.pdf",
     "vendor_name": "Google",
-    "invoice_number": null,
-    "date": "2026-03-09",
-    "amount": null,
+    "invoice_number": "4721-0013-5543",
+    "date": "2025-12-31",
+    "amount": 9169.47,
     "currency": "INR",
     "raw_text_preview": "Payments profile ID\n4721-0013-5543\nOrganization name\nD2R AI Labs Private Limited\nPayments account nickname\nd2railabs.com\nSummary created\nJan 13, 2026\nDec 1 – 31, 2025\nEnding balance: ₹9,169.47\nDate Description Amount\n(INR)\nDec 22 – 31, Google Workspace Business Starter: Usage of 32 seats ₹2,849.03\n2025\nDec 1 – 22, 2025 Integrated GST ₹1,398.73\nDec 2 – 21, 2025 Google Workspace Business Starter: Usage of 31 seats ₹4,726.73\nDec 3, 2025 Automatic payment: Mastercard • • • • 9677 −₹3,078.76\nDec 1, 2",
     "vendor_gstin": null,
-    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Dec 1–31, 2025 Transactions - Admin Console.pdf"
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\Dec 1–31, 2025 Transactions - Admin Console.pdf"
   },
   {
     "file": "Dec 2024.pdf",
@@ -5184,13 +5184,13 @@
     "file": "Jan 1–13, 2026 Transactions - Admin Console.pdf",
     "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Jan 1–13, 2026 Transactions - Admin Console.pdf",
     "vendor_name": "Google",
-    "invoice_number": null,
-    "date": "2026-03-09",
-    "amount": null,
+    "invoice_number": "4721-0013-5543",
+    "date": "2026-01-13",
+    "amount": 4370.41,
     "currency": "INR",
     "raw_text_preview": "Payments profile ID\n4721-0013-5543\nOrganization name\nD2R AI Labs Private Limited\nPayments account nickname\nd2railabs.com\nSummary created\nJan 13, 2026\nJan 1 – 13, 2026\nEnding balance: ₹4,370.41\nDate Description Amount\n(INR)\nJan 1 – 13, 2026 Google Workspace Business Starter: Usage of 32 seats ₹3,703.74\nJan 1, 2026 Integrated GST ₹666.67\nJan 1, 2026 Manual payment: Mastercard • • • • 9677 −₹9,169.47\nJan 1, 2026 Automatic payment failed: Mastercard • • • • 9677 for ₹9,169.47. ₹0.00\nManual payment r",
     "vendor_gstin": null,
-    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Jan 1–13, 2026 Transactions - Admin Console.pdf"
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\Jan 1–13, 2026 Transactions - Admin Console.pdf"
   },
   {
     "file": "Jan 2025.pdf",
@@ -6381,13 +6381,13 @@
     "file": "Nov 1–30, 2025 Transactions - Admin Console.pdf",
     "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Nov 1–30, 2025 Transactions - Admin Console.pdf",
     "vendor_name": "Google",
-    "invoice_number": null,
-    "date": "2026-03-09",
-    "amount": null,
+    "invoice_number": "4721-0013-5543",
+    "date": "2025-11-30",
+    "amount": 3078.76,
     "currency": "INR",
     "raw_text_preview": "Payments profile ID\n4721-0013-5543\nOrganization name\nD2R AI Labs Private Limited\nPayments account nickname\nd2railabs.com\nSummary created\nJan 13, 2026\nNov 1 – 30, 2025\nEnding balance: ₹3,078.76\nDate Description Amount\n(INR)\nNov 25 – 30, Google Workspace Business Starter: Usage of 30 seats ₹1,208.88\n2025\nNov 1 – 25, 2025 Integrated GST ₹469.64\nNov 24, 2025 Google Workspace Business Starter: Usage of 28 seats ₹183.08\nNov 21 – 23, Google Workspace Business Starter: Usage of 27 seats ₹521.64\n2025\nNov",
     "vendor_gstin": null,
-    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Nov 1–30, 2025 Transactions - Admin Console.pdf"
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\Nov 1–30, 2025 Transactions - Admin Console.pdf"
   },
   {
     "file": "PBVN-14918.pdf",
@@ -8225,5 +8225,43 @@
     "raw_text_preview": "Tax Invoice AWB No. 58162357610\n*ORIGINAL FOR RECIPIENT / DUPLICATE\nBilling Address : Blue Dart Express Ltd. Invoice No. : 260233RT25613\n11, STATUS QUO, (OLD NO 38) STERLING ROAD Invoice Date : 26/02/2026\nNUNGABAKKAM CHENNAI Pin:600034\nDescription of : Courier Service\nService\nGST No : 33AAACB0446L1ZZ SAC : 996812\nCustomer Address : D2R AI LABS PVT LTD\nPlace of Supply : 33-TAMIL NADU\nKEERTHANA V\n2ND FLOOR, #105,FRIST MAIN RD GANDHI Taxable Amount : 2780\nNAGAR ADYAR Pin:600020\nCGST @ 9% : 250.2\nGS",
     "vendor_gstin": "33AAACB0446L1ZZ",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Feb 2026\\logsLiveEinvoicePDFINV260233RT256132026-02-26.pdf"
+  },
+  {
+    "file": "invoice-d4eb5f89-efb1-4466-9b9e-b1b5ee0d6ec3.pdf",
+    "path": "organized_invoices/Oct 2025/invoice-d4eb5f89-efb1-4466-9b9e-b1b5ee0d6ec3.pdf",
+    "vendor_name": "Atlassian",
+    "invoice_number": "IN-004-654-585",
+    "date": "2025-10-23",
+    "amount": 68.82,
+    "currency": "USD",
+    "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-004-654-585\nSydney NSW 2000, Australia Invoice date: Oct 23, 2025",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
+    "line_items": []
+  },
+  {
+    "file": "Invoice_1374670947_I0133P2503155832.pdf",
+    "path": "organized_invoices/Mar 2025/Invoice_1374670947_I0133P2503155832.pdf",
+    "vendor_name": "Hathway Broadband Internet",
+    "invoice_number": "I0133P2503155832",
+    "date": "2025-03-29",
+    "amount": 11151.0,
+    "currency": "INR",
+    "raw_text_preview": "TAX INVOICE - Hathway Broadband Internet",
+    "vendor_gstin": "33AAACC6814B1ZB",
+    "line_items": [
+      {
+        "description": "CC 300MBPS CHE GPON_11 Plus 1MFree - Subscription Charges",
+        "quantity": 1,
+        "unit_price": 9350.0,
+        "amount": 9350.0
+      },
+      {
+        "description": "PREPAID ANNUAL AMC PLAN FOR DCM - CPE Charges",
+        "quantity": 1,
+        "unit_price": 100.0,
+        "amount": 100.0
+      }
+    ]
   }
 ]

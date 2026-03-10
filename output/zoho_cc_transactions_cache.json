@@ -432,14 +432,6 @@
     "transaction_id": "2050328000002999017"
   },
   {
-    "date": "2026-01-01",
-    "description": "GOOGLEWORKSP, MUMBAI",
-    "amount": 9169.47,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002999015"
-  },
-  {
     "date": "2025-12-16",
     "description": "GOOGLEPLAY, MUMBAI",
     "amount": 251.47,
@@ -838,14 +830,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939529"
-  },
-  {
-    "date": "2025-07-18",
-    "description": "MICROSOFTBUS, MUMBAI",
-    "amount": 42116.85,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939527"
   },
   {
     "date": "2025-07-18",

@@ -2418,5 +2418,45 @@
     "amount": 29999.0,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "Invoice-97E328AA-0007.pdf",
+    "status": "created",
+    "vendor_name": "Vercel",
+    "vendor_id": "2050328000002996113",
+    "bill_id": "2050328000003028003",
+    "amount": 73.35,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Dec 1–31, 2025 Transactions - Admin Console.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003031003",
+    "amount": 9169.47,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Invoice_1374670947_I0133P2503155832.pdf",
+    "status": "created",
+    "vendor_name": "Hathway Broadband Internet",
+    "vendor_id": "2050328000000356512",
+    "bill_id": "2050328000003034003",
+    "amount": 11151.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "invoice-d4eb5f89-efb1-4466-9b9e-b1b5ee0d6ec3.pdf",
+    "status": "created",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "bill_id": "2050328000003030024",
+    "amount": 68.82,
+    "currency": "USD",
+    "attached": true
   }
 ]

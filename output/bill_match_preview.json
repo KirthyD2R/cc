@@ -835,6 +835,21 @@
     "matched_bill": "Created: COCOBLU RETAIL LIMITED"
   },
   {
+    "file": "Dec 1–31, 2025 Transactions - Admin Console.pdf",
+    "invoice_number": "4721-0013-5543",
+    "vendor_name": "Google",
+    "amount": 9169.47,
+    "currency": "INR",
+    "date": "2025-12-31",
+    "organized_month": "",
+    "action": "skip",
+    "matched_bill_id": "2050328000003031003",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
+  },
+  {
     "file": "E0100Y7X8Z_Invoice.pdf",
     "invoice_number": "E0100Y7X8Z_Invoice",
     "vendor_name": "Microsoft",
@@ -2345,6 +2360,21 @@
     "matched_bill": "Created: AWS"
   },
   {
+    "file": "Jan 1–13, 2026 Transactions - Admin Console.pdf",
+    "invoice_number": "4721-0013-5543",
+    "vendor_name": "Google",
+    "amount": 4370.41,
+    "currency": "INR",
+    "date": "2026-01-13",
+    "organized_month": "",
+    "action": "skip",
+    "matched_bill": "4721-0013-5543",
+    "matched_bill_id": "2050328000003031003",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "exact"
+  },
+  {
     "file": "NON STP-INVOICENSTP25-26918Dt5-Jan-26_Ms. D2R AI Labs Pvt Ltd-NSTP.pdf",
     "invoice_number": "NSTP-918",
     "vendor_name": "NSTP",
@@ -2677,7 +2707,7 @@
     "invoice_number": "B6466F68-0012",
     "vendor_name": "OpenAI, LLC",
     "amount": 23.6,
-    "currency": "USD",
+    "currency": "INR",
     "date": "2025-07-22",
     "organized_month": "Jul 2025",
     "action": "skip",
@@ -3127,7 +3157,7 @@
     "invoice_number": "B6466F68-0011",
     "vendor_name": "OpenAI, LLC",
     "amount": 23.6,
-    "currency": "USD",
+    "currency": "INR",
     "date": "2025-06-22",
     "organized_month": "Jun 2025",
     "action": "skip",
@@ -3363,6 +3393,21 @@
     "match_type": "normalized"
   },
   {
+    "file": "Invoice_1374670947_I0133P2503155832.pdf",
+    "invoice_number": "I0133P2503155832",
+    "vendor_name": "Hathway Broadband Internet",
+    "amount": 11151.0,
+    "currency": "INR",
+    "date": "2026-03-10",
+    "organized_month": "Mar 2025",
+    "action": "skip",
+    "matched_bill_id": "2050328000003034003",
+    "matched_vendor_name": "Hathway Broadband Internet",
+    "matched_vendor_id": "2050328000000356512",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Hathway Broadband Internet"
+  },
+  {
     "file": "LNKD_INVOICE_51186091157.pdf",
     "invoice_number": "51186091157",
     "vendor_name": "LinkedIn",
@@ -3408,19 +3453,6 @@
     "matched_bill": "Created: Google"
   },
   {
-    "file": "Dec 1–31, 2025 Transactions - Admin Console.pdf",
-    "invoice_number": null,
-    "vendor_name": "Google",
-    "amount": null,
-    "currency": "INR",
-    "date": "2026-03-09",
-    "organized_month": "Mar 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
-    "matched_vendor_name": "Google",
-    "vendor_match_method": "name"
-  },
-  {
     "file": "INV123227848_A02676131_03022026.pdf",
     "invoice_number": "INV123227848",
     "vendor_name": "GitHub",
@@ -3441,22 +3473,39 @@
     "vendor_name": null,
     "amount": 2000.0,
     "currency": "INR",
-    "date": "2026-03-09",
+    "date": "2026-03-10",
     "organized_month": "Mar 2026",
     "action": "new_vendor_bill"
   },
   {
-    "file": "Jan 1–13, 2026 Transactions - Admin Console.pdf",
-    "invoice_number": null,
-    "vendor_name": "Google",
-    "amount": null,
-    "currency": "INR",
-    "date": "2026-03-09",
+    "file": "Invoice-97E328AA-0007.pdf",
+    "invoice_number": "97E328AA-0007",
+    "vendor_name": "Vercel",
+    "amount": 73.35,
+    "currency": "USD",
+    "date": "2026-03-01",
     "organized_month": "Mar 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
-    "matched_vendor_name": "Google",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003028003",
+    "matched_vendor_name": "Vercel",
+    "matched_vendor_id": "2050328000002996113",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Vercel"
+  },
+  {
+    "file": "Invoice-VRUCOSGS-0004.pdf",
+    "invoice_number": "VRUCOSGS-0004",
+    "vendor_name": "Anthropic",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2026-03-08",
+    "organized_month": "Mar 2026",
+    "action": "skip",
+    "matched_bill": "PZLFLIEU-0004",
+    "matched_bill_id": "2050328000002993149",
+    "matched_vendor_name": "Anthropic USD",
+    "matched_vendor_id": "2050328000002997181",
+    "match_type": "normalized"
   },
   {
     "file": "LNKD_INVOICE_511142624687.pdf",
@@ -3502,25 +3551,12 @@
     "matched_bill": "Created: Info Edge (Naukri)"
   },
   {
-    "file": "Nov 1–30, 2025 Transactions - Admin Console.pdf",
-    "invoice_number": null,
-    "vendor_name": "Google",
-    "amount": null,
-    "currency": "INR",
-    "date": "2026-03-09",
-    "organized_month": "Mar 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
-    "matched_vendor_name": "Google",
-    "vendor_match_method": "name"
-  },
-  {
     "file": "Sales_13.pdf",
     "invoice_number": "Dated",
     "vendor_name": null,
     "amount": 1.0,
     "currency": "INR",
-    "date": "2026-03-09",
+    "date": "2026-03-10",
     "organized_month": "Mar 2026",
     "action": "new_vendor_bill"
   },
@@ -3542,10 +3578,10 @@
   {
     "file": "Adobe_Transaction_No_3114048162_20250528.pdf",
     "invoice_number": "3114048162",
-    "vendor_name": "Adobe Systems Software Ireland Ltd",
-    "amount": 9600.0,
+    "vendor_name": null,
+    "amount": 30011815.0,
     "currency": "INR",
-    "date": "2025-05-28",
+    "date": "2026-03-10",
     "organized_month": "May 2025",
     "action": "skip",
     "matched_bill": "3114048162",
@@ -3694,7 +3730,7 @@
     "invoice_number": "B6466F68-0010",
     "vendor_name": "OpenAI, LLC",
     "amount": 23.6,
-    "currency": "USD",
+    "currency": "INR",
     "date": "2025-05-22",
     "organized_month": "May 2025",
     "action": "skip",
@@ -4181,6 +4217,21 @@
     "matched_vendor_id": "2050328000002894623",
     "matched_vendor_name": "SOFTWARE TECHNOLOGY PARKS OF INDIA",
     "vendor_match_method": "gstin"
+  },
+  {
+    "file": "Nov 1–30, 2025 Transactions - Admin Console.pdf",
+    "invoice_number": "4721-0013-5543",
+    "vendor_name": "Google",
+    "amount": 3078.76,
+    "currency": "INR",
+    "date": "2025-11-30",
+    "organized_month": "",
+    "action": "skip",
+    "matched_bill": "4721-0013-5543",
+    "matched_bill_id": "2050328000003031003",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "exact"
   },
   {
     "file": "SCJB-1.pdf",
@@ -4861,6 +4912,31 @@
     "matched_vendor_id": "2050328000002993047",
     "match_type": "created_bills",
     "matched_bill": "Created: Google"
+  },
+  {
+    "file": "invoice-d4eb5f89-efb1-4466-9b9e-b1b5ee0d6ec3.pdf",
+    "invoice_number": "IN-004-654-585",
+    "vendor_name": "Atlassian",
+    "amount": 68.82,
+    "currency": "USD",
+    "date": "2025-10-23",
+    "organized_month": "Oct 2025",
+    "action": "skip",
+    "matched_bill_id": "2050328000003030024",
+    "matched_vendor_name": "Atlassian Pty Ltd",
+    "matched_vendor_id": "2050328000001809186",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Atlassian Pty Ltd"
+  },
+  {
+    "file": "Equity Subscription.pdf",
+    "invoice_number": null,
+    "vendor_name": null,
+    "amount": 300.0,
+    "currency": "USD",
+    "date": "2024-09-06",
+    "organized_month": "Sep 2024",
+    "action": "new_vendor_bill"
   },
   {
     "file": "1025260282844.pdf",
