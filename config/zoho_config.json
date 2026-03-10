@@ -4,7 +4,7 @@
         "organization_id": "60032826109",
         "client_id": "1000.XC5DHQY1VQRTVVSZB20GVTU5HRXA7Y",
         "client_secret": "0e904c34a72e8f9161b2c41a459521239f99828894",
-        "refresh_token": "1000.99f36c415e816ddc8e2ae20a215910fe.72a9171a414624512bae5a83489242e4",
+        "refresh_token": "1000.6030d2f983c9aa42217795ded6697040.21f23acd978c4a38fcd95eeaef9d3c4e",
         "redirect_uri": "http://localhost:8080/callback"
     },
     "invoice_email": {
