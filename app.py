@@ -220,8 +220,8 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
             else:
                 # Fallback: no actual rate — estimate for USD only
                 if bill_cur == "USD":
-                    if bill_amt * 80 <= cc_inr <= bill_amt * 95:
-                        diff = abs(cc_inr - bill_amt * 87.5)
+                    if bill_amt * 80 <= cc_inr <= bill_amt * 100:
+                        diff = abs(cc_inr - bill_amt * 90)
                         return diff, f"{bill_cur} \u2192 INR (est)"
                 return None, None
 
@@ -9567,11 +9567,19 @@ function recordSelectedPayments() {
       var row = document.getElementById('pay-row-' + r.bill_id);
       var btn = document.getElementById('pay-btn-' + r.bill_id);
       var cb = document.querySelector('.pay-cb[data-billid="' + r.bill_id + '"]');
-      if (r.status === 'paid') {
-        if (row) row.style.background = 'rgba(80,200,120,0.15)';
-        if (btn) { btn.textContent = '\u2713 Paid'; btn.style.color = 'var(--green)'; }
-        if (cb) { cb.checked = false; cb.disabled = true; }
+      if (r.status === 'paid' || r.status === 'already_paid') {
+        if (row) {
+          row.setAttribute('data-status', 'already_paid');
+          row.style.background = 'rgba(150,150,150,0.04)';
+        }
+        if (btn) { btn.textContent = '\u2713 Paid'; btn.style.color = 'var(--green)'; btn.disabled = true; btn.onclick = null; }
+        if (cb) { cb.checked = false; cb.parentElement.innerHTML = ''; }
         _paySelectedBills.delete(r.bill_id);
+        // Update underlying data
+        if (_paymentPreviewData && _paymentPreviewData.matches) {
+          var mi = _paymentPreviewData.matches.find(function(x) { return x.bill_id === r.bill_id; });
+          if (mi) mi.status = 'already_paid';
+        }
         paidCount++;
       } else {
         if (btn) { btn.textContent = r.status; btn.disabled = false; }
@@ -9580,6 +9588,7 @@ function recordSelectedPayments() {
     selBtn.textContent = paidCount + '/' + selectedItems.length + ' Recorded';
     _updatePaySelectedBtn();
     addLogLine('[Payment] Selected record: ' + paidCount + '/' + selectedItems.length + ' paid');
+    filterPayments();
   })
   .catch(function(err) {
     selBtn.textContent = 'Error';

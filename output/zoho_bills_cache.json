@@ -15,7 +15,7 @@
     "vendor_id": "2050328000003048024",
     "date": "2025-10-11",
     "total": 63.41,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003037050",
@@ -24,7 +24,7 @@
     "vendor_id": "2050328000003041014",
     "date": "2025-10-22",
     "total": 10.61,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003037024",
@@ -33,7 +33,7 @@
     "vendor_id": "2050328000003040001",
     "date": "2025-10-19",
     "total": 30.33,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003047003",

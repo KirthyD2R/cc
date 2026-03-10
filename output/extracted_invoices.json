@@ -8237,7 +8237,8 @@
     "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-004-654-585\nSydney NSW 2000, Australia Invoice date: Oct 23, 2025",
     "vendor_gstin": null,
     "vendor_tax_id": "9917AUS29001OSF",
-    "line_items": []
+    "line_items": [],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\invoice-d4eb5f89-efb1-4466-9b9e-b1b5ee0d6ec3.pdf"
   },
   {
     "file": "Invoice_1374670947_I0133P2503155832.pdf",
@@ -8262,7 +8263,8 @@
         "unit_price": 100.0,
         "amount": 100.0
       }
-    ]
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2025\\Invoice_1374670947_I0133P2503155832.pdf"
   },
   {
     "file": "Media.jpg",
@@ -8287,7 +8289,8 @@
         "unit_price": 5.0,
         "amount": 5.0
       }
-    ]
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\Media.jpg"
   },
   {
     "file": "Media (1).jpg",
@@ -8312,7 +8315,8 @@
         "unit_price": 0.81,
         "amount": 0.81
       }
-    ]
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\Media (1).jpg"
   },
   {
     "file": "Media (2).jpg",
@@ -8343,7 +8347,8 @@
         "unit_price": 2.22,
         "amount": 2.22
       }
-    ]
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\Media (2).jpg"
   },
   {
     "file": "Media (3).jpg",
@@ -8362,7 +8367,8 @@
         "unit_price": 30.33,
         "amount": 30.33
       }
-    ]
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\Media (3).jpg"
   },
   {
     "file": "Media (4).jpg",
@@ -8387,7 +8393,8 @@
         "unit_price": 4.42,
         "amount": 4.42
       }
-    ]
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\Media (4).jpg"
   },
   {
     "file": "Media (5).pdf",
@@ -8460,6 +8467,20 @@
         "unit_price": 2000.0,
         "amount": 2000.0
       }
-    ]
+    ],
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\Media (5).pdf"
+  },
+  {
+    "file": "GoDaddy_Payment.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\GoDaddy_Payment.pdf",
+    "vendor_name": null,
+    "invoice_number": null,
+    "date": "2025-09-04",
+    "amount": 2898.0,
+    "currency": "INR",
+    "raw_text_preview": "10/03/2026, 19:42 My Account | Billing\nCONTACT US 040-67607600\nReceipt\n№ 3878401822\nDATE:\n4/9/2025\nCUSTOMER #:\n435023214\nBILL TO:\nGayatri Venkataraman\nPlot 15, R K P Nest,,\nJeyachandran Nagar, Pallikaranai,\nChennai, Tamil Nadu 600100,\nIndia\nD2R AI Labs Private Limited\n+91.9790130244\nPAYMENT:\nMasterCard •••• ₹3,439.70\nPrevious Balance ₹3,439.70\nReceived Payment (₹3,439.70)\nBalance Due (INR) ₹0.00\nTerm Product Amount\n1 yr .COM Domain Renewal ₹1,499.00\nD2RAILABS.com 1\n1 yr Full Domain Privacy and P",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917USA29016OS6",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2025\\GoDaddy_Payment.pdf"
   }
 ]
