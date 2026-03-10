@@ -926,5 +926,21 @@
   "2050328000002990623": {
     "account_name": "CC-Charges and GST",
     "account_id": "2050328000002992496"
+  },
+  "2050328000003007507": {
+    "account_name": "Software Subscription",
+    "account_id": "2050328000002195023"
+  },
+  "2050328000003005793": {
+    "account_name": "Software Subscription",
+    "account_id": "2050328000002195023"
+  },
+  "2050328000003005819": {
+    "account_name": "Software Subscription",
+    "account_id": "2050328000002195023"
+  },
+  "2050328000003005845": {
+    "account_name": "Software Subscription",
+    "account_id": "2050328000002195023"
   }
 }

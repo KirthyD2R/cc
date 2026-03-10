@@ -1081,9 +1081,12 @@ class VendorCategorizer:
                     log_action(f"  COA keyword match: '{vendor_name}' contains '{kw}' -> {acct_name}")
                     return coa[acct_name]["account_id"], acct_name
 
-        # Second: fuzzy match vendor name against each COA account name
+        # Second: fuzzy match vendor name against expense-type COA account names only
+        valid_bill_types = {"expense", "other_expense", "cost_of_goods_sold", "other_current_liability", "fixed_asset", "other_current_asset"}
         best_score, best_name = 0, None
-        for acct_name in coa:
+        for acct_name, info in coa.items():
+            if info.get("account_type", "") not in valid_bill_types:
+                continue
             score = fuzz.token_set_ratio(vendor_lower, acct_name.lower())
             if score > best_score:
                 best_score = score
@@ -1210,11 +1213,18 @@ class VendorCategorizer:
             account_name = cached.get("account_name")
             if account_id and account_name:
                 coa = self._get_coa()
-                # Verify the cached account_id actually exists in this org
-                coa_ids = {v["account_id"] for v in coa.values()}
-                if account_id in coa_ids:
-                    log_action(f"  Account (cached): {vendor_name} -> {account_name}")
-                    return account_id, account_name
+                # Verify the cached account_id actually exists in this org AND is a valid bill account type
+                coa_by_id = {v["account_id"]: v for v in coa.values()}
+                valid_bill_types = {"expense", "other_expense", "cost_of_goods_sold", "other_current_liability", "fixed_asset", "other_current_asset"}
+                if account_id in coa_by_id:
+                    acct_type = coa_by_id[account_id].get("account_type", "")
+                    if acct_type not in valid_bill_types:
+                        log_action(f"  Cached account '{account_name}' is type '{acct_type}' (not valid for bills), skipping")
+                        del self._account_mappings[vendor_name]
+                        self._save_account_mappings()
+                    else:
+                        log_action(f"  Account (cached): {vendor_name} -> {account_name}")
+                        return account_id, account_name
                 else:
                     # Cached ID is stale (wrong org) — try to find by name in current org
                     log_action(f"  Cached account_id {account_id} not in current org, re-resolving '{account_name}'")

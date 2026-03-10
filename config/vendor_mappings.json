@@ -563,11 +563,6 @@
             "account_name": "Software License",
             "account_id": "2050328000000027421"
         },
-        "RETAILEZ PRIVATE LIMITED": {
-            "account_name": "100 7699 5572 - D2R AI LABS PRIVATE LIMITED",
-            "account_id": "2050328000000031001",
-            "category": "coa_match"
-        },
         "DEAL N DONE": {
             "account_name": "CC-Charges and GST",
             "account_id": "2050328000002992496",
@@ -644,11 +639,6 @@
             "account_name": "Office Supplies",
             "account_id": "2050328000000000498"
         },
-        "SPIGEN INDIA PRIVATE LIMITED": {
-            "account_name": "100 7699 5572 - D2R AI LABS PRIVATE LIMITED",
-            "account_id": "2050328000000031001",
-            "category": "coa_match"
-        },
         "RAM LAL RAM CHANDRA (INDIA) LIMITED": {
             "account_name": "CC-Charges and GST",
             "account_id": "2050328000002992496",
@@ -666,11 +656,6 @@
             "account_name": "Income Tax",
             "account_id": "2050328000000027411",
             "category": "invoice_coa_match"
-        },
-        "Surajmal Tea Private Limited": {
-            "account_name": "100 7699 5572 - D2R AI LABS PRIVATE LIMITED",
-            "account_id": "2050328000000031001",
-            "category": "coa_match"
         },
         "New Relic": {
             "account_name": "Software License",
@@ -692,6 +677,25 @@
         "Adobe": {
             "account_name": "PT payment",
             "account_id": "2050328000000027449",
+            "category": "invoice_coa_match"
+        },
+        "OpenAI-USD": {
+            "account_name": "Software Subscription",
+            "account_id": "2050328000002195023"
+        },
+        "Surajmal Tea Private Limited": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "RETAILEZ PRIVATE LIMITED": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
+            "category": "invoice_coa_match"
+        },
+        "SPIGEN INDIA PRIVATE LIMITED": {
+            "account_name": "CC-Charges and GST",
+            "account_id": "2050328000002992496",
             "category": "invoice_coa_match"
         }
     }

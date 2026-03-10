@@ -2330,8 +2330,83 @@
     "attached": true
   },
   {
-    "file": "GROQ-TAAS-202508-118887.pdf",
-    "status": "skipped",
-    "reason": "normalized match: GROQ-TAAS-202508-118887"
+    "file": "Invoice-B6466F68-0009.pdf",
+    "status": "created",
+    "vendor_name": "OpenAI-USD",
+    "vendor_id": "2050328000003023543",
+    "bill_id": "2050328000003007507",
+    "amount": 23.6,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-B6466F68-0012.pdf",
+    "status": "created",
+    "vendor_name": "OpenAI-USD",
+    "vendor_id": "2050328000003023543",
+    "bill_id": "2050328000003005793",
+    "amount": 23.6,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-B6466F68-0011.pdf",
+    "status": "created",
+    "vendor_name": "OpenAI-USD",
+    "vendor_id": "2050328000003023543",
+    "bill_id": "2050328000003005819",
+    "amount": 23.6,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Invoice-B6466F68-0010.pdf",
+    "status": "created",
+    "vendor_name": "OpenAI-USD",
+    "vendor_id": "2050328000003023543",
+    "bill_id": "2050328000003005845",
+    "amount": 23.6,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "LNKD_INVOICE_51186091157.pdf",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000002988454",
+    "amount": 1694.07,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "SIDA-1153_p1_SIDA-1153_p1_SIDA-1153.pdf",
+    "status": "created",
+    "vendor_name": "Surajmal Tea Private Limited",
+    "vendor_id": "2050328000002991545",
+    "bill_id": "2050328000002998657",
+    "amount": 1282.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-1730312_p1_MAA4-1730312_p1_MAA4-1730312.pdf",
+    "status": "created",
+    "vendor_name": "RETAILEZ PRIVATE LIMITED",
+    "vendor_id": "2050328000000356826",
+    "bill_id": "2050328000003008577",
+    "amount": 659.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "MAA4-61528_p1_MAA4-61528_p1_MAA4-61528.pdf",
+    "status": "created",
+    "vendor_name": "SPIGEN INDIA PRIVATE LIMITED",
+    "vendor_id": "2050328000002993896",
+    "bill_id": "2050328000003005871",
+    "amount": 1623.55,
+    "currency": "INR",
+    "attached": true
   }
 ]

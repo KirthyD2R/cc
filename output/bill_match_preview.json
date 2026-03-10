@@ -128,11 +128,11 @@
     "date": "2025-04-22",
     "organized_month": "Apr 2025",
     "action": "skip",
-    "matched_bill": "B6466F68-0009",
-    "matched_bill_id": "2050328000002995719",
-    "matched_vendor_name": "OpenAI, LLC",
-    "matched_vendor_id": "2050328000000366001",
-    "match_type": "exact"
+    "matched_bill_id": "2050328000003007507",
+    "matched_vendor_name": "OpenAI-USD",
+    "matched_vendor_id": "2050328000003023543",
+    "match_type": "created_bills",
+    "matched_bill": "Created: OpenAI-USD"
   },
   {
     "file": "Invoice-E0BCC1DE-0005.pdf",
@@ -2666,11 +2666,11 @@
     "date": "2025-07-22",
     "organized_month": "Jul 2025",
     "action": "skip",
-    "matched_bill": "B6466F68-0012",
-    "matched_bill_id": "2050328000003001581",
-    "matched_vendor_name": "OpenAI, LLC",
-    "matched_vendor_id": "2050328000000366001",
-    "match_type": "exact"
+    "matched_bill_id": "2050328000003005793",
+    "matched_vendor_name": "OpenAI-USD",
+    "matched_vendor_id": "2050328000003023543",
+    "match_type": "created_bills",
+    "matched_bill": "Created: OpenAI-USD"
   },
   {
     "file": "Invoice-B8ERAOBF-0002.pdf",
@@ -3116,11 +3116,11 @@
     "date": "2025-06-22",
     "organized_month": "Jun 2025",
     "action": "skip",
-    "matched_bill": "B6466F68-0011",
-    "matched_bill_id": "2050328000002996449",
-    "matched_vendor_name": "OpenAI, LLC",
-    "matched_vendor_id": "2050328000000366001",
-    "match_type": "exact"
+    "matched_bill_id": "2050328000003005819",
+    "matched_vendor_name": "OpenAI-USD",
+    "matched_vendor_id": "2050328000003023543",
+    "match_type": "created_bills",
+    "matched_bill": "Created: OpenAI-USD"
   },
   {
     "file": "Invoice-IVSLM7IE-0001.pdf",
@@ -3355,10 +3355,12 @@
     "currency": "INR",
     "date": "2025-03-30",
     "organized_month": "Mar 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000359077",
+    "action": "skip",
+    "matched_bill_id": "2050328000002988454",
     "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
-    "vendor_match_method": "fuzzy"
+    "matched_vendor_id": "2050328000000359077",
+    "match_type": "created_bills",
+    "matched_bill": "Created: LinkedIn Singapore Pte Ltd"
   },
   {
     "file": "Mar 2025.pdf",
@@ -3531,11 +3533,11 @@
     "date": "2025-05-28",
     "organized_month": "May 2025",
     "action": "skip",
+    "matched_bill": "3114048162",
     "matched_bill_id": "2050328000002991618",
     "matched_vendor_name": "Adobe",
     "matched_vendor_id": "2050328000003010744",
-    "match_type": "created_bills",
-    "matched_bill": "Created: Adobe"
+    "match_type": "exact"
   },
   {
     "file": "E0100W84MG_Invoice.pdf",
@@ -3680,10 +3682,12 @@
     "currency": "USD",
     "date": "2025-05-22",
     "organized_month": "May 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000366001",
-    "matched_vendor_name": "OpenAI, LLC",
-    "vendor_match_method": "name"
+    "action": "skip",
+    "matched_bill_id": "2050328000003005845",
+    "matched_vendor_name": "OpenAI-USD",
+    "matched_vendor_id": "2050328000003023543",
+    "match_type": "created_bills",
+    "matched_bill": "Created: OpenAI-USD"
   },
   {
     "file": "LNKD_INVOICE_51998567905.pdf",
@@ -3753,10 +3757,12 @@
     "currency": "INR",
     "date": "2025-05-06",
     "organized_month": "May 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002991545",
+    "action": "skip",
+    "matched_bill_id": "2050328000002998657",
     "matched_vendor_name": "Surajmal Tea Private Limited",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000002991545",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Surajmal Tea Private Limited"
   },
   {
     "file": "Your Google Play Order Receipt from May 16, 2025.eml",
@@ -4589,10 +4595,12 @@
     "currency": "INR",
     "date": "2025-10-14",
     "organized_month": "Oct 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000356826",
+    "action": "skip",
+    "matched_bill_id": "2050328000003008577",
     "matched_vendor_name": "RETAILEZ PRIVATE LIMITED",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000000356826",
+    "match_type": "created_bills",
+    "matched_bill": "Created: RETAILEZ PRIVATE LIMITED"
   },
   {
     "file": "MAA4-2433044_p1_MAA4-2433044_p1_MAA4-2433044.pdf",
@@ -4722,10 +4730,12 @@
     "currency": "INR",
     "date": "2025-10-07",
     "organized_month": "Oct 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993896",
+    "action": "skip",
+    "matched_bill_id": "2050328000003005871",
     "matched_vendor_name": "SPIGEN INDIA PRIVATE LIMITED",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000002993896",
+    "match_type": "created_bills",
+    "matched_bill": "Created: SPIGEN INDIA PRIVATE LIMITED"
   },
   {
     "file": "PBVN-14918.pdf",

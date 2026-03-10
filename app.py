@@ -1328,7 +1328,7 @@ def api_review_accounts():
     api = ZohoBooksAPI(config)
     try:
         all_accounts = api.get_all_accounts()
-        allowed_types = {"expense", "other_expense", "income", "other_income", "fixed_asset", "other_current_asset"}
+        allowed_types = {"expense", "other_expense", "cost_of_goods_sold", "income", "other_income", "fixed_asset", "other_asset", "other_current_asset", "other_current_liability"}
         sorted_accounts = sorted(
             [
                 {"account_id": info["account_id"], "account_name": aname, "account_type": info["account_type"]}
@@ -5825,6 +5825,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
           <select id="reviewVendorFilter" onchange="filterReviewTable()" style="padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;min-width:250px;color-scheme:dark">
             <option value="">All Vendors</option>
           </select>
+          <button onclick="document.getElementById('reviewVendorFilter').value='';filterReviewTable()" style="background:transparent;color:var(--accent);border:1px dashed var(--accent);border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer;margin-left:8px">Clear</button>
           <span id="reviewCountLabel" style="margin-left:12px;color:var(--text-dim);font-size:12px"></span>
         </div>
         <div class="review-body" id="reviewBody">
@@ -6247,6 +6248,47 @@ pollStatus();
 // --- Review Panel ---
 let _reviewAccounts = []; // cached accounts list
 
+const _accountTypeLabels = {
+  'expense': 'Expense',
+  'other_expense': 'Other Expense',
+  'cost_of_goods_sold': 'Cost of Goods Sold',
+  'income': 'Income',
+  'other_income': 'Other Income',
+  'fixed_asset': 'Fixed Asset',
+  'other_asset': 'Other Asset',
+  'other_current_asset': 'Other Current Asset',
+  'other_current_liability': 'Other Current Liability',
+};
+
+function populateAccountSelect(selectEl, defaultText) {
+  selectEl.innerHTML = '';
+  const defOpt = document.createElement('option');
+  defOpt.value = '';
+  defOpt.textContent = defaultText || '-- select account --';
+  selectEl.appendChild(defOpt);
+  // Group by account_type
+  const groups = {};
+  _reviewAccounts.forEach(a => {
+    const t = a.account_type || 'expense';
+    if (!groups[t]) groups[t] = [];
+    groups[t].push(a);
+  });
+  const typeOrder = Object.keys(_accountTypeLabels);
+  typeOrder.forEach(t => {
+    if (!groups[t] || !groups[t].length) return;
+    const og = document.createElement('optgroup');
+    og.label = _accountTypeLabels[t] || t;
+    groups[t].forEach(a => {
+      const opt = document.createElement('option');
+      opt.value = a.account_id;
+      opt.textContent = a.account_name;
+      opt.setAttribute('data-name', a.account_name);
+      og.appendChild(opt);
+    });
+    selectEl.appendChild(og);
+  });
+}
+
 function openReviewPanel() {
   document.getElementById('logPanel').style.display = 'none';
   document.getElementById('matchPanel').style.display = 'none';
@@ -6358,17 +6400,7 @@ function renderReviewTable(bills) {
       const bulkSelect = document.createElement('select');
       bulkSelect.className = 'vendor-bulk-select';
       bulkSelect.id = 'bulkSelect-' + vendorName.replace(/[^a-zA-Z0-9]/g, '_');
-      const defOpt = document.createElement('option');
-      defOpt.value = '';
-      defOpt.textContent = '-- select account --';
-      bulkSelect.appendChild(defOpt);
-      _reviewAccounts.forEach(a => {
-        const opt = document.createElement('option');
-        opt.value = a.account_id;
-        opt.textContent = a.account_name;
-        opt.setAttribute('data-name', a.account_name);
-        bulkSelect.appendChild(opt);
-      });
+      populateAccountSelect(bulkSelect, '-- select account --');
       bulkRow.appendChild(bulkSelect);
 
       const applyBtn = document.createElement('button');
@@ -6437,17 +6469,7 @@ function renderReviewTable(bills) {
       const tdChange = document.createElement('td');
       const select = document.createElement('select');
       select.id = 'selectAcct-' + idx;
-      const defaultOpt = document.createElement('option');
-      defaultOpt.value = '';
-      defaultOpt.textContent = '-- keep current --';
-      select.appendChild(defaultOpt);
-      _reviewAccounts.forEach(a => {
-        const opt = document.createElement('option');
-        opt.value = a.account_id;
-        opt.textContent = a.account_name;
-        opt.setAttribute('data-name', a.account_name);
-        select.appendChild(opt);
-      });
+      populateAccountSelect(select, '-- keep current --');
       tdChange.appendChild(select);
       tr.appendChild(tdChange);
 
