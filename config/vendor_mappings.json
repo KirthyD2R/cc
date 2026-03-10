@@ -703,6 +703,10 @@
         "MACFOS LIMITED": {
             "account_name": "Office Supplies",
             "account_id": "2050328000000000498"
+        },
+        "Hathway Broadband Internet": {
+            "account_name": "Software Subscription",
+            "account_id": "2050328000002195023"
         }
     }
 }

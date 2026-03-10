@@ -3,6 +3,7 @@
     "mappings": {
         "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO": "Anthropic USD",
         "GITHUB, INC.GITHUB.COM USD .13": "GitHub, Inc.",
-        "NRI*NEW RELIC, SAN FRANCISCO": "New Relic"
+        "NRI*NEW RELIC, SAN FRANCISCO": "New Relic",
+        "ATLASSIAN, AMSTERDAM": "Atlassian Pty Ltd"
     }
 }

@@ -20,6 +20,22 @@ from utils import PROJECT_ROOT, log_action, parse_date
 INPUT_DIR = os.path.join(PROJECT_ROOT, "input_pdfs", "invoices")
 OUTPUT_FILE = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
 
+# Passwords to try for encrypted PDFs
+PDF_PASSWORDS = ["d2r 7749"]
+
+
+def _open_pdf(pdf_path):
+    """Open a PDF, trying passwords if needed."""
+    try:
+        return pdfplumber.open(pdf_path)
+    except Exception:
+        for pwd in PDF_PASSWORDS:
+            try:
+                return pdfplumber.open(pdf_path, password=pwd)
+            except Exception:
+                continue
+        raise
+
 
 # --- Line Item Extraction (regex-based) ---
 
@@ -42,7 +58,7 @@ def _extract_line_items_from_tables(pdf_path):
     """
     items = []
     try:
-        with pdfplumber.open(pdf_path) as pdf:
+        with _open_pdf(pdf_path) as pdf:
             for page in pdf.pages:
                 tables = page.extract_tables()
                 for table in tables:
@@ -315,7 +331,7 @@ def extract_line_items(pdf_path, text=None):
     # Fallback to regex
     if text is None:
         try:
-            with pdfplumber.open(pdf_path) as pdf:
+            with _open_pdf(pdf_path) as pdf:
                 text = '\n'.join(p.extract_text() or '' for p in pdf.pages)
         except Exception:
             return []
@@ -430,7 +446,7 @@ def extract_text(pdf_path):
     """Extract text from all pages of a PDF."""
     text = ""
     try:
-        with pdfplumber.open(pdf_path) as pdf:
+        with _open_pdf(pdf_path) as pdf:
             for page in pdf.pages:
                 page_text = page.extract_text() or ""
                 text += page_text + "\n"
@@ -1030,7 +1046,7 @@ def extract_amazon_india_multi(pdf_path, filename):
     """Extract multiple invoices from an Amazon India PDF (one per page)."""
     pages = []
     try:
-        with pdfplumber.open(pdf_path) as pdf:
+        with _open_pdf(pdf_path) as pdf:
             for page in pdf.pages:
                 page_text = page.extract_text() or ""
                 if page_text.strip():

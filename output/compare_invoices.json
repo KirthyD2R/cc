@@ -1586,6 +1586,18 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\DEL4-4002106_p1_DEL4-4002106.pdf"
   },
   {
+    "file": "Dec 1–31, 2025 Transactions - Admin Console.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Dec 1–31, 2025 Transactions - Admin Console.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "4721-0013-5543",
+    "date": "2025-12-31",
+    "amount": 9169.47,
+    "currency": "INR",
+    "raw_text_preview": "Payments profile ID\n4721-0013-5543\nOrganization name\nD2R AI Labs Private Limited\nPayments account nickname\nd2railabs.com\nSummary created\nJan 13, 2026\nDec 1 – 31, 2025\nEnding balance: ₹9,169.47\nDate Description Amount\n(INR)\nDec 22 – 31, Google Workspace Business Starter: Usage of 32 seats ₹2,849.03\n2025\nDec 1 – 22, 2025 Integrated GST ₹1,398.73\nDec 2 – 21, 2025 Google Workspace Business Starter: Usage of 31 seats ₹4,726.73\nDec 3, 2025 Automatic payment: Mastercard • • • • 9677 −₹3,078.76\nDec 1, 2",
+    "vendor_gstin": null,
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\Dec 1–31, 2025 Transactions - Admin Console.pdf"
+  },
+  {
     "file": "E0100Y7X8Z_Invoice.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Dec 2025\\E0100Y7X8Z_Invoice.pdf",
     "vendor_name": "Microsoft",
@@ -3646,6 +3658,18 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\Invoice_2443583665.pdf"
   },
   {
+    "file": "Jan 1–13, 2026 Transactions - Admin Console.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Jan 1–13, 2026 Transactions - Admin Console.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "4721-0013-5543",
+    "date": "2026-01-13",
+    "amount": 4370.41,
+    "currency": "INR",
+    "raw_text_preview": "Payments profile ID\n4721-0013-5543\nOrganization name\nD2R AI Labs Private Limited\nPayments account nickname\nd2railabs.com\nSummary created\nJan 13, 2026\nJan 1 – 13, 2026\nEnding balance: ₹4,370.41\nDate Description Amount\n(INR)\nJan 1 – 13, 2026 Google Workspace Business Starter: Usage of 32 seats ₹3,703.74\nJan 1, 2026 Integrated GST ₹666.67\nJan 1, 2026 Manual payment: Mastercard • • • • 9677 −₹9,169.47\nJan 1, 2026 Automatic payment failed: Mastercard • • • • 9677 for ₹9,169.47. ₹0.00\nManual payment r",
+    "vendor_gstin": null,
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\Jan 1–13, 2026 Transactions - Admin Console.pdf"
+  },
+  {
     "file": "NON STP-INVOICENSTP25-26918Dt5-Jan-26_Ms. D2R AI Labs Pvt Ltd-NSTP.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Jan 2026\\NON STP-INVOICENSTP25-26918Dt5-Jan-26_Ms. D2R AI Labs Pvt Ltd-NSTP.pdf",
     "vendor_name": "NSTP",
@@ -4162,7 +4186,7 @@
     "invoice_number": "B6466F68-0012",
     "date": "2025-07-22",
     "amount": 23.6,
-    "currency": "USD",
+    "currency": "INR",
     "raw_text_preview": "Invoice\nInvoice number B6466F68-0012\nDate of issue July 22, 2025\nDate due July 22, 2025\nOpenAI, LLC Bill to\n1455 3rd Street GAYATRI\nSan Francisco, California 94158 17/85, Karpagam Avenue 3rd Street\nUnited States Raja Annamalai Puram\nar@openai.com Chennai 600028\nTamil Nadu\nIN GST 9921USA29044OSI\nIndia\ngayatri.v.personal@gmail.com\n$23.60 USD due July 22, 2025\nPay online\nDescription Qty Unit price Tax Amount\nChatGPT Plus Subscription 1 $20.00 18% $20.00\nJul 22-Aug 22, 2025\nSubtotal $20.00\nTotal exc",
     "vendor_gstin": null,
     "organized_month": "Jul 2025",
@@ -5089,7 +5113,7 @@
     "invoice_number": "B6466F68-0011",
     "date": "2025-06-22",
     "amount": 23.6,
-    "currency": "USD",
+    "currency": "INR",
     "raw_text_preview": "Invoice\nInvoice number B6466F68-0011\nDate of issue June 22, 2025\nDate due June 22, 2025\nOpenAI, LLC Bill to\n1455 3rd Street GAYATRI\nSan Francisco, California 94158 17/85, Karpagam Avenue 3rd Street\nUnited States Raja Annamalai Puram\nar@openai.com Chennai 600028\nTamil Nadu\nIN GST 9921USA29044OSI\nIndia\ngayatri.v.personal@gmail.com\n$23.60 USD due June 22, 2025\nPay online\nDescription Qty Unit price Tax Amount\nChatGPT Plus Subscription 1 $20.00 18% $20.00\nJun 22-Jul 22, 2025\nSubtotal $20.00\nTotal exc",
     "vendor_gstin": null,
     "organized_month": "Jun 2025",
@@ -5419,6 +5443,19 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2025\\FLY IO - March.pdf"
   },
   {
+    "file": "Invoice_1374670947_I0133P2503155832.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2025\\Invoice_1374670947_I0133P2503155832.pdf",
+    "vendor_name": "Hathway Broadband Internet",
+    "invoice_number": "I0133P2503155832",
+    "date": "2026-03-10",
+    "amount": 11151.0,
+    "currency": "INR",
+    "raw_text_preview": "TAX INVOICE\nScan & Pay via any UPI APPS\n(Under Rule 46 of the CGST Rules 2017)\n(ORIGINAL FOR RECIPIENT / DUPLICATE FOR SUPPLIER)\nPAN:AAACC6814B GSTIN:33AAACC6814B1ZB\nSent Payment to\nCIN:L64204MH1959PLC011421 Hathwayfibermax.1374670947@hdfcbank\nBILLING ADDRESS INSTALLATION ADDRESS INVOICE DETAILS\nD2R AI LABS PRIVATE LIMITED D2R AI LABS PRIVATE LIMITED\nACCOUNT NOs. : 1374670947\n105, 2ND FLOOR SHEELA TERRACE, 1ST MAIN ROAD GANDHI 105, D2A AI LABS 2ND FLOOR SHEELA TERRACE, 1ST MAIN ROAD\nNAGAR, ADYAR",
+    "vendor_gstin": "33AAACC6814B1ZB",
+    "organized_month": "Mar 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2025\\Invoice_1374670947_I0133P2503155832.pdf"
+  },
+  {
     "file": "LNKD_INVOICE_51186091157.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2025\\LNKD_INVOICE_51186091157.pdf",
     "vendor_name": "LinkedIn",
@@ -5467,19 +5504,6 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2025\\Your Google Play Order Receipt from Mar 16, 2025.eml"
   },
   {
-    "file": "Dec 1–31, 2025 Transactions - Admin Console.pdf",
-    "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Dec 1–31, 2025 Transactions - Admin Console.pdf",
-    "vendor_name": "Google",
-    "invoice_number": null,
-    "date": "2026-03-09",
-    "amount": null,
-    "currency": "INR",
-    "raw_text_preview": "Payments profile ID\n4721-0013-5543\nOrganization name\nD2R AI Labs Private Limited\nPayments account nickname\nd2railabs.com\nSummary created\nJan 13, 2026\nDec 1 – 31, 2025\nEnding balance: ₹9,169.47\nDate Description Amount\n(INR)\nDec 22 – 31, Google Workspace Business Starter: Usage of 32 seats ₹2,849.03\n2025\nDec 1 – 22, 2025 Integrated GST ₹1,398.73\nDec 2 – 21, 2025 Google Workspace Business Starter: Usage of 31 seats ₹4,726.73\nDec 3, 2025 Automatic payment: Mastercard • • • • 9677 −₹3,078.76\nDec 1, 2",
-    "vendor_gstin": null,
-    "organized_month": "Mar 2026",
-    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Dec 1–31, 2025 Transactions - Admin Console.pdf"
-  },
-  {
     "file": "INV123227848_A02676131_03022026.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\INV123227848_A02676131_03022026.pdf",
     "vendor_name": "GitHub",
@@ -5517,7 +5541,7 @@
     "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Invoice-866677-vakil search.pdf",
     "vendor_name": null,
     "invoice_number": "T",
-    "date": "2026-03-09",
+    "date": "2026-03-10",
     "amount": 2000.0,
     "currency": "INR",
     "raw_text_preview": "IImmppoorrtteerr--EExxppoorrtteerr CCooddee TTaaxx IInnvvooiiccee\nUUBBEERR99 BBUUSSIINNEESSSS PPRROOCCEESSSS SSEERRVVIICCEESS PPRRIIVVAATTEE LLIIMMIITTEEDD\nPrince Info Park, 81B, 2nd Main road, Block A, 5th Floor,\nIInnvvooiiccee NNoo..\nAmbattur Industrial Estate, Ambattur, Chennai - 600 058.\nVS/25-26/866677\nCCoorrppoorraattee IIddeennttiittyy ## - UU7744990000TTNN22001144PPTTCC009988441144 IInnvvooiiccee ddaattee\nGGSSTTIINN ## - 3333AAAABBCCUU77665500CC11ZZMM 25, September 2025\n,, PPAANN ## -- A",
@@ -5526,17 +5550,82 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Invoice-866677-vakil search.pdf"
   },
   {
-    "file": "Jan 1–13, 2026 Transactions - Admin Console.pdf",
-    "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Jan 1–13, 2026 Transactions - Admin Console.pdf",
-    "vendor_name": "Google",
-    "invoice_number": null,
-    "date": "2026-03-09",
-    "amount": null,
-    "currency": "INR",
-    "raw_text_preview": "Payments profile ID\n4721-0013-5543\nOrganization name\nD2R AI Labs Private Limited\nPayments account nickname\nd2railabs.com\nSummary created\nJan 13, 2026\nJan 1 – 13, 2026\nEnding balance: ₹4,370.41\nDate Description Amount\n(INR)\nJan 1 – 13, 2026 Google Workspace Business Starter: Usage of 32 seats ₹3,703.74\nJan 1, 2026 Integrated GST ₹666.67\nJan 1, 2026 Manual payment: Mastercard • • • • 9677 −₹9,169.47\nJan 1, 2026 Automatic payment failed: Mastercard • • • • 9677 for ₹9,169.47. ₹0.00\nManual payment r",
+    "file": "Invoice-97E328AA-0007.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Invoice-97E328AA-0007.pdf",
+    "vendor_name": "Vercel",
+    "invoice_number": "97E328AA-0007",
+    "date": "2026-03-01",
+    "amount": 73.35,
+    "currency": "USD",
+    "raw_text_preview": "Invoice\nInvoice number 97E328AA-0007\nDate of issue March 1, 2026\nDate due March 1, 2026\nVercel Inc. Bill to\n440 N Barranca Ave #4133 danieljohn-d2railabsco's projects\nCovina, California 91723 D2R AI Labs, 2nd floor, 105 sreela terrace,\nUnited States 1st main road, Gandhinagar, Adyar,\nar@vercel.com Chennai 600020\nTamil Nadu\nIndia\ndaniel.john@d2railabs.com\n$73.35 USD due March 1, 2026\nPay online\nDescription Qty Unit price Amount\nBuild Minutes -Qty. 1839- 1 $46.42 $46.42\nFeb 1-Feb 28, 2026\nFluid Ac",
     "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Build Minutes -Qty. 1839-",
+        "quantity": 1,
+        "unit_price": 46.42,
+        "amount": 46.42
+      },
+      {
+        "description": "Fluid Active CPU -Qty. 10.55-",
+        "quantity": 1,
+        "unit_price": 1.04,
+        "amount": 1.04
+      },
+      {
+        "description": "Fast Origin Transfer -Qty. 9.33-",
+        "quantity": 1,
+        "unit_price": 1.46,
+        "amount": 1.46
+      },
+      {
+        "description": "Edge Requests - Additional CPU Duration -Qty. 0.023-",
+        "quantity": 1,
+        "unit_price": 0.01,
+        "amount": 0.01
+      },
+      {
+        "description": "Fluid Provisioned Memory -Qty. 497.04-",
+        "quantity": 1,
+        "unit_price": 4.42,
+        "amount": 4.42
+      },
+      {
+        "description": "Function Invocations -Qty. 917122-",
+        "quantity": 1,
+        "unit_price": 0.0,
+        "amount": 0.0
+      },
+      {
+        "description": "Pro",
+        "quantity": 1,
+        "unit_price": 20.0,
+        "amount": 20.0
+      }
+    ],
     "organized_month": "Mar 2026",
-    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Jan 1–13, 2026 Transactions - Admin Console.pdf"
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Invoice-97E328AA-0007.pdf"
+  },
+  {
+    "file": "Invoice-VRUCOSGS-0004.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Invoice-VRUCOSGS-0004.pdf",
+    "vendor_name": "Anthropic",
+    "invoice_number": "VRUCOSGS-0004",
+    "date": "2026-03-08",
+    "amount": 200.0,
+    "currency": "USD",
+    "raw_text_preview": "Invoice\nInvoice number VRUCOSGS-0004\nDate of issue March 8, 2026\nDate due March 8, 2026\nAnthropic, PBC Bill to\n548 Market Street D2R AI Labs\nPMB 90375 Gandhi Nagar 1st Main Road\nSan Francisco, California 94104 48/105 sreela terrace\nUnited States Chennai 600020\nsupport@anthropic.com Tamil Nadu\nIndia\ndream.products@d2railabs.com\nIN GST 33AAICD7217K1ZK\n$200.00 USD due March 8, 2026\nPay online\nWhile we prefer electronic payment methods,\nany checks must be sent to the address below, NOT to our San Fr",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Max plan - 20x",
+        "quantity": 1,
+        "unit_price": 200.0,
+        "amount": 200.0
+      }
+    ],
+    "organized_month": "Mar 2026",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Invoice-VRUCOSGS-0004.pdf"
   },
   {
     "file": "LNKD_INVOICE_511142624687.pdf",
@@ -5588,24 +5677,11 @@
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\NK09I0326001326.pdf"
   },
   {
-    "file": "Nov 1–30, 2025 Transactions - Admin Console.pdf",
-    "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Nov 1–30, 2025 Transactions - Admin Console.pdf",
-    "vendor_name": "Google",
-    "invoice_number": null,
-    "date": "2026-03-09",
-    "amount": null,
-    "currency": "INR",
-    "raw_text_preview": "Payments profile ID\n4721-0013-5543\nOrganization name\nD2R AI Labs Private Limited\nPayments account nickname\nd2railabs.com\nSummary created\nJan 13, 2026\nNov 1 – 30, 2025\nEnding balance: ₹3,078.76\nDate Description Amount\n(INR)\nNov 25 – 30, Google Workspace Business Starter: Usage of 30 seats ₹1,208.88\n2025\nNov 1 – 25, 2025 Integrated GST ₹469.64\nNov 24, 2025 Google Workspace Business Starter: Usage of 28 seats ₹183.08\nNov 21 – 23, Google Workspace Business Starter: Usage of 27 seats ₹521.64\n2025\nNov",
-    "vendor_gstin": null,
-    "organized_month": "Mar 2026",
-    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Nov 1–30, 2025 Transactions - Admin Console.pdf"
-  },
-  {
     "file": "Sales_13.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\Mar 2026\\Sales_13.pdf",
     "vendor_name": null,
     "invoice_number": "Dated",
-    "date": "2026-03-09",
+    "date": "2026-03-10",
     "amount": 1.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice\nUnleash Badminton Academy Invoice No. Dated\n##2/778, Kazura garden 1st main road, 3rd cross street 13 18-Dec-25\nPalavakkam,Chennai-600041 Delivery Note Mode/Terms of Payment\nContact no:96006 51696\nState Name : Tamil Nadu, Code : 33 Buyer’s Order No. Dated\nBuyer (Bill to)\nDispatch Doc No. Delivery Note Date\nSaravanan\nState Name :Tamil Nadu, Code : 33\nDispatched through Destination\nVessel/Flight No. Place of receipt by shipper:\nCity/Port of Loading City/Port of Discharge\nTerms of Deliv",
@@ -5729,10 +5805,10 @@
   {
     "file": "Adobe_Transaction_No_3114048162_20250528.pdf",
     "path": "D:\\cc new\\cc\\organized_invoices\\May 2025\\Adobe_Transaction_No_3114048162_20250528.pdf",
-    "vendor_name": "Adobe Systems Software Ireland Ltd",
+    "vendor_name": null,
     "invoice_number": "3114048162",
-    "date": "2025-05-28",
-    "amount": 9600.0,
+    "date": "2026-03-10",
+    "amount": 30011815.0,
     "currency": "INR",
     "raw_text_preview": "Adobe Systems Software Ireland Ltd ORIGINAL Invoice Information\n4-6 Riverwalk\nCitywest Business Campus Invoice Number 3114048162\nDublin 24 Invoice Date 28-MAY-2025\nIreland Payment Terms Credit Card\nGST No: IE6364992H Purchase Order AB05389001706CIN\nOrder Number 7209697778\nCustomer Number 1320574857\nCurrency INR\nBill To\nSylvester Daniel\n600020 CHENNAI\nINDIA\nCustomer GST No: 33AAICD7217K1ZK\nINVOICE\nItem Details\nService Term: 28-MAY-2025 to 27-MAY-2026\nPRODUCT NUMBER PRODUCT DESCRIPTION QUANTITY UN",
     "vendor_gstin": null,
@@ -5931,7 +6007,7 @@
     "invoice_number": "B6466F68-0010",
     "date": "2025-05-22",
     "amount": 23.6,
-    "currency": "USD",
+    "currency": "INR",
     "raw_text_preview": "Invoice\nInvoice number B6466F68-0010\nDate of issue May 22, 2025\nDate due May 22, 2025\nOpenAI, LLC Bill to\n1455 3rd Street GAYATRI\nSan Francisco, California 94158 17/85, Karpagam Avenue 3rd Street\nUnited States Raja Annamalai Puram\nar@openai.com Chennai 600028\nTamil Nadu\nIN GST 9921USA29044OSI\nIndia\ngayatri.v.personal@gmail.com\n$23.60 USD due May 22, 2025\nPay online\nDescription Qty Unit price Tax Amount\nChatGPT Plus Subscription 1 $20.00 18% $20.00\nMay 22-Jun 22, 2025\nSubtotal $20.00\nTotal exclud",
     "vendor_gstin": null,
     "organized_month": "May 2025",
@@ -6594,6 +6670,18 @@
     "vendor_gstin": "33AAATS2468J1ZD",
     "organized_month": "Nov 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\NON STP-INVOICENSTP25-26854Dt26-Nov-25_Ms. D2B AI Labs Pvt Ltd-NSTP.pdf"
+  },
+  {
+    "file": "Nov 1–30, 2025 Transactions - Admin Console.pdf",
+    "path": "D:\\cc new\\cc\\input_pdfs\\invoices\\Nov 1–30, 2025 Transactions - Admin Console.pdf",
+    "vendor_name": "Google",
+    "invoice_number": "4721-0013-5543",
+    "date": "2025-11-30",
+    "amount": 3078.76,
+    "currency": "INR",
+    "raw_text_preview": "Payments profile ID\n4721-0013-5543\nOrganization name\nD2R AI Labs Private Limited\nPayments account nickname\nd2railabs.com\nSummary created\nJan 13, 2026\nNov 1 – 30, 2025\nEnding balance: ₹3,078.76\nDate Description Amount\n(INR)\nNov 25 – 30, Google Workspace Business Starter: Usage of 30 seats ₹1,208.88\n2025\nNov 1 – 25, 2025 Integrated GST ₹469.64\nNov 24, 2025 Google Workspace Business Starter: Usage of 28 seats ₹183.08\nNov 21 – 23, Google Workspace Business Starter: Usage of 27 seats ₹521.64\n2025\nNov",
+    "vendor_gstin": null,
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Nov 2025\\Nov 1–30, 2025 Transactions - Admin Console.pdf"
   },
   {
     "file": "SCJB-1.pdf",
@@ -7616,6 +7704,33 @@
     "vendor_gstin": null,
     "organized_month": "Oct 2025",
     "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\Your Google Play Order Receipt from Oct 16, 2025.eml"
+  },
+  {
+    "file": "invoice-d4eb5f89-efb1-4466-9b9e-b1b5ee0d6ec3.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\invoice-d4eb5f89-efb1-4466-9b9e-b1b5ee0d6ec3.pdf",
+    "vendor_name": "Atlassian",
+    "invoice_number": "IN-004-654-585",
+    "date": "2025-10-23",
+    "amount": 68.82,
+    "currency": "USD",
+    "raw_text_preview": "Invoice\nAtlassian Pty Ltd,\nLevel 6, 341 George St, Invoice number: IN-004-654-585\nSydney NSW 2000, Australia Invoice date: Oct 23, 2025\nGSTIN: 9917AUS29001OSF\nBill to: Sold to:\ngayatri@d2railabs.com gayatri@d2railabs.com\n17/85, Karpagam Avenue 3rd Street TN\nRaja Annamalai Puram India\nChennai TN 600028\nIndia\nGST IN: 33AAICD7217K1ZK\nRECEIPT\nInvoice Total: USD 68.82\nAmount paid via credit card: USD 68.82\nPayment due: USD 0.00\nCredit Card Number: xxxxxxxxxxxx9677\nCardholder's Name: SYLVESTER DANIEL ",
+    "vendor_gstin": null,
+    "vendor_tax_id": "9917AUS29001OSF",
+    "organized_month": "Oct 2025",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Oct 2025\\invoice-d4eb5f89-efb1-4466-9b9e-b1b5ee0d6ec3.pdf"
+  },
+  {
+    "file": "Equity Subscription.pdf",
+    "path": "D:\\cc new\\cc\\organized_invoices\\Sep 2024\\Equity Subscription.pdf",
+    "vendor_name": null,
+    "invoice_number": null,
+    "date": "2024-09-06",
+    "amount": 300.0,
+    "currency": "USD",
+    "raw_text_preview": "12/20/25, 5:16 PM Inbox - Keerthana - Outlook\n\n2 Outlook\n\nFW: US Equity subscription\n\nFrom Daniel John <daniel john@d2railabs.com>\nDate Mon 2025-05-26 14:17\nTo _Keerthana <keerthana.vadivelan@d2railabs.com>\n\nFrom: Rudhradevi R <rudhradevi.r@aioniongroup.com>\nDate: Friday, 6 September 2024 at 6:24 PM\n\nTo: Daniel John <daniel.john@d2railabs.com>\n\nSubject: Re: US Equity subscription\n\nDear sir,\n\nthank you for your payment sir\n\nThanks & Regards\nRudhra Devi R\n91503 09919\n\n», Va\nle Whatsapp\n\nOn Fri, Se",
+    "vendor_gstin": null,
+    "organized_month": "Sep 2024",
+    "organized_path": "D:\\cc new\\cc\\organized_invoices\\Sep 2024\\Equity Subscription.pdf"
   },
   {
     "file": "1025260282844.pdf",

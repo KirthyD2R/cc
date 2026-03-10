@@ -1,12 +1,48 @@
 [
   {
+    "bill_id": "2050328000003030024",
+    "bill_number": "IN-004-654-585",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "date": "2025-10-23",
+    "total": 68.82,
+    "status": "overdue"
+  },
+  {
+    "bill_id": "2050328000003034003",
+    "bill_number": "I0133P2503155832",
+    "vendor_name": "Hathway Broadband Internet",
+    "vendor_id": "2050328000000356512",
+    "date": "2026-03-10",
+    "total": 11151.0,
+    "status": "open"
+  },
+  {
+    "bill_id": "2050328000003031003",
+    "bill_number": "4721-0013-5543",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "date": "2025-12-31",
+    "total": 9169.47,
+    "status": "paid"
+  },
+  {
+    "bill_id": "2050328000003028003",
+    "bill_number": "97E328AA-0007",
+    "vendor_name": "Vercel",
+    "vendor_id": "2050328000002996113",
+    "date": "2026-03-01",
+    "total": 73.35,
+    "status": "overdue"
+  },
+  {
     "bill_id": "2050328000002984673",
     "bill_number": "INV2526/167912",
     "vendor_name": "MACFOS LIMITED",
     "vendor_id": "2050328000003012866",
     "date": "2025-08-10",
     "total": 29999.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003005871",

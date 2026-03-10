@@ -958,5 +958,21 @@
   "2050328000002988454": {
     "account_name": "Software License",
     "account_id": "2050328000000027421"
+  },
+  "2050328000003028003": {
+    "account_name": "Software License",
+    "account_id": "2050328000000027421"
+  },
+  "2050328000002984673": {
+    "account_name": "Office Supplies",
+    "account_id": "2050328000000000498"
+  },
+  "2050328000003031003": {
+    "account_name": "Software License",
+    "account_id": "2050328000000027421"
+  },
+  "2050328000003034003": {
+    "account_name": "Software Subscription",
+    "account_id": "2050328000002195023"
   }
 }
