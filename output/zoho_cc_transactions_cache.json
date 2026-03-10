@@ -512,36 +512,12 @@
     "transaction_id": "2050328000002324059"
   },
   {
-    "date": "2025-11-16",
-    "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
-    "amount": 17742.6,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812297"
-  },
-  {
-    "date": "2025-11-11",
-    "description": "WWW NAUKRI COM, GURGAON",
-    "amount": 1947.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812285"
-  },
-  {
     "date": "2025-11-04",
     "description": "GOOGLECLOUD, MUMBAI",
     "amount": 1041.37,
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000001812279"
-  },
-  {
-    "date": "2025-10-29",
-    "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
-    "amount": 17655.6,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812263"
   },
   {
     "date": "2025-10-29",
@@ -784,14 +760,6 @@
     "transaction_id": "2050328000001812195"
   },
   {
-    "date": "2025-08-09",
-    "description": "MACFOS LIMITED, MUMBAI",
-    "amount": 29999.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939569"
-  },
-  {
     "date": "2025-08-08",
     "description": "RAZ*TATA AIG GENERAL I, Mumbai",
     "amount": 10433.0,
@@ -886,14 +854,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939525"
-  },
-  {
-    "date": "2025-07-16",
-    "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
-    "amount": 17200.83,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939523"
   },
   {
     "date": "2025-07-08",
