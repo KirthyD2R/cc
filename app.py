@@ -3985,8 +3985,17 @@ def _banking_summary_from_api():
 
 
 def _banking_summary_build(all_raw):
-    """Build month-wise summary from raw transaction list."""
+    """Build month-wise summary from raw transaction list. Only current financial year (Apr-Mar)."""
     from collections import defaultdict
+
+    # Current Indian financial year: Apr YYYY to Mar YYYY+1
+    today = datetime.now()
+    if today.month >= 4:
+        fy_start = f"{today.year}-04"
+        fy_end = f"{today.year + 1}-03"
+    else:
+        fy_start = f"{today.year - 1}-04"
+        fy_end = f"{today.year}-03"
 
     STATUSES = ["matched", "manually_added", "categorized", "uncategorized"]
     amt_keys = [s + "_amount" for s in STATUSES]
@@ -3997,6 +4006,9 @@ def _banking_summary_build(all_raw):
     for t in all_raw:
         date_str = t.get("date", "")
         month_key = date_str[:7] if len(date_str) >= 7 else "Unknown"
+        # Filter to current financial year only
+        if month_key != "Unknown" and (month_key < fy_start or month_key > fy_end):
+            continue
         card_name = t.get("card", "Unknown")
         status = t.get("status", "uncategorized")
         amount = float(t.get("amount", 0))
@@ -7033,6 +7045,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
           <select id="bsCardFilter" onchange="filterBankingSummary()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px">
             <option value="">All Cards</option>
           </select>
+          <button onclick="document.getElementById('bsCardFilter').value='';filterBankingSummary()" style="background:transparent;color:var(--accent);border:1px dashed var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Clear</button>
           <span id="bsCacheInfo" style="font-size:10px;color:var(--text-dim);margin-left:auto"></span>
           <button onclick="openBankingSummary(true)" style="background:var(--accent);color:#fff;border:none;border-radius:4px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600">Refresh from Zoho</button>
         </div>
@@ -8246,12 +8259,21 @@ function openBankingSummary(forceRefresh) {
         return;
       }
       _bsData = data;
+      // Build card-wise uncategorized counts for filter dropdown
+      var cardUncat = {};
+      (data.months || []).forEach(function(m) {
+        (m.cards || []).forEach(function(c) {
+          cardUncat[c.card] = (cardUncat[c.card] || 0) + (c.uncategorized || 0);
+        });
+      });
       var sel = document.getElementById('bsCardFilter');
       sel.innerHTML = '<option value="">All Cards</option>';
       (data.card_names || []).forEach(function(name) {
         var opt = document.createElement('option');
         opt.value = name;
-        opt.textContent = name;
+        var uc = cardUncat[name] || 0;
+        opt.textContent = name + (uc > 0 ? ' (' + uc + ')' : '');
+        if (uc > 0) opt.style.color = '#f87171';
         sel.appendChild(opt);
       });
       renderBankingSummary(data);
@@ -8371,7 +8393,13 @@ function renderBankingSummary(data) {
       var bdr = (idx === rows.length - 1) ? 'border-bottom:1px solid var(--border);' : '';
 
       html += '<tr style="' + bold + bg + bdr + '">';
-      html += '<td style="padding:6px">' + (idx === 0 ? _bsFormatMonth(m.month) : '') + '</td>';
+      var monthLabel = '';
+      if (idx === 0) {
+        monthLabel = _bsFormatMonth(m.month);
+        var mUncat = cardFilter ? (rows.length > 0 ? (rows[0].d.uncategorized || 0) : 0) : (m.totals.uncategorized || 0);
+        if (mUncat > 0) monthLabel += ' <span style="color:var(--red);font-weight:700;font-size:11px">(' + mUncat + ')</span>';
+      }
+      html += '<td style="padding:6px">' + monthLabel + '</td>';
       if (!cardFilter) html += '<td style="padding:6px;color:' + (row.isTotal ? 'var(--text)' : 'var(--text-dim)') + '">' + (row.card || 'All Cards') + '</td>';
       html += '<td style="padding:6px;text-align:right">' + d.total + '</td>';
       html += '<td style="padding:6px;text-align:right;color:#60a5fa">' + (d.matched || 0) + '</td>';
