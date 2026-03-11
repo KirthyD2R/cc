@@ -11257,5 +11257,225 @@
         "amount": 524.7
       }
     ]
+  },
+  {
+    "file": "3722951293174426_20250430.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250430.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-04",
+    "date": "2025-04-30",
+    "amount": 8.83,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-04-30 - New activity: INR 8.83 - Payments received: INR 13.39 - Ending balance: INR 8.83",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google Cloud Platform Services - New Activity",
+        "quantity": 1,
+        "unit_price": 8.83,
+        "amount": 8.83
+      }
+    ],
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20250531.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250531.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-05",
+    "date": "2025-05-31",
+    "amount": 22.22,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-05-31 - New activity: INR 22.22 - Payments received: INR 8.83 - Ending balance: INR 22.22",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google Cloud Platform Services - New Activity",
+        "quantity": 1,
+        "unit_price": 22.22,
+        "amount": 22.22
+      }
+    ],
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20250630.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250630.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-06",
+    "date": "2025-06-30",
+    "amount": 0.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-06-30 - New activity: INR 0.0 - Payments received: INR 22.22 - Ending balance: INR 0.0",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google Cloud Platform Services - New Activity",
+        "quantity": 1,
+        "unit_price": 0.0,
+        "amount": 0.0
+      }
+    ],
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20250731.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250731.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-07",
+    "date": "2025-07-31",
+    "amount": 947.35,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-07-31 - New activity: INR 947.35 - Payments received: INR 0.0 - Ending balance: INR 947.35",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google Cloud Platform Services - New Activity",
+        "quantity": 1,
+        "unit_price": 947.35,
+        "amount": 947.35
+      }
+    ],
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20250831.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250831.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-08",
+    "date": "2025-08-31",
+    "amount": 1084.7,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-08-31 - New activity: INR 1084.7 - Payments received: INR 947.35 - Ending balance: INR 1084.7",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google Cloud Platform Services - New Activity",
+        "quantity": 1,
+        "unit_price": 1084.7,
+        "amount": 1084.7
+      }
+    ],
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20250930.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250930.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-09",
+    "date": "2025-09-30",
+    "amount": 0.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-09-30 - New activity: INR 0.0 - Payments received: INR 1084.7 - Ending balance: INR 0.0",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google Cloud Platform Services - New Activity",
+        "quantity": 1,
+        "unit_price": 0.0,
+        "amount": 0.0
+      }
+    ],
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20251031.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20251031.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-10",
+    "date": "2025-10-31",
+    "amount": 1041.37,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-10-31 - New activity: INR 1041.37 - Payments received: INR 0.0 - Ending balance: INR 1041.37",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google Cloud Platform Services - New Activity",
+        "quantity": 1,
+        "unit_price": 1041.37,
+        "amount": 1041.37
+      }
+    ],
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20251130.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20251130.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-11",
+    "date": "2025-11-30",
+    "amount": 0.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-11-30 - New activity: INR 0.0 - Payments received: INR 1041.37 - Ending balance: INR 0.0",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google Cloud Platform Services - New Activity",
+        "quantity": 1,
+        "unit_price": 0.0,
+        "amount": 0.0
+      }
+    ],
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20251231.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20251231.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-12",
+    "date": "2025-12-31",
+    "amount": 1054.33,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-12-31 - New activity: INR 1054.33 - Payments received: INR 0.0 - Ending balance: INR 1054.33",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google Cloud Platform Services - New Activity",
+        "quantity": 1,
+        "unit_price": 1054.33,
+        "amount": 1054.33
+      }
+    ],
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20260131.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20260131.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2026-01",
+    "date": "2026-01-31",
+    "amount": 1084.7,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2026-01-31 - New activity: INR 1084.7 - Payments received: INR 1054.33 - Ending balance: INR 1084.7",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google Cloud Platform Services - New Activity",
+        "quantity": 1,
+        "unit_price": 1084.7,
+        "amount": 1084.7
+      }
+    ],
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20260228.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20260228.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2026-02",
+    "date": "2026-02-28",
+    "amount": 3755.05,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2026-02-28 - New activity: INR 3755.05 - Payments received: INR 3084.7 - Ending balance: INR 1755.05",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google Cloud Platform Services - New Activity",
+        "quantity": 1,
+        "unit_price": 3755.05,
+        "amount": 3755.05
+      }
+    ],
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
   }
 ]

@@ -1,6 +1,29 @@
 {
   "matches": [
     {
+      "bill_id": "2050328000003067003",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 22.22,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-31",
+      "bill_number": "GC-STMT-2025-05",
+      "status": "matched",
+      "match_score": 91,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 75,
+        "overall": 91
+      },
+      "cc_transaction_id": "2050328000000939419",
+      "cc_description": "GOOGLECLOUD, MUMBAI",
+      "cc_inr_amount": 22.22,
+      "cc_date": "2025-06-03",
+      "cc_card": "Mayura Credit Card",
+      "match_type": "INR direct"
+    },
+    {
       "bill_id": "2050328000002984300",
       "vendor_id": "2050328000002997181",
       "vendor_name": "Anthropic USD",
@@ -24,27 +47,15 @@
       "match_type": "USD rate:90.02 actual:89.94"
     },
     {
-      "bill_id": "2050328000002986355",
+      "bill_id": "2050328000003076003",
       "vendor_id": "2050328000002993047",
       "vendor_name": "Google",
-      "bill_amount": 564.17,
+      "bill_amount": 3755.05,
       "bill_currency": "INR",
-      "bill_date": "2025-07-03",
-      "bill_number": "5315977163",
-      "status": "matched",
-      "match_score": 65,
-      "confidence": {
-        "vendor": 100,
-        "amount": 100,
-        "date": 0,
-        "overall": 65
-      },
-      "cc_transaction_id": "2050328000000939565",
-      "cc_description": "GOOGLEWORKSP, MUMBAI",
-      "cc_inr_amount": 564.17,
-      "cc_date": "2025-08-08",
-      "cc_card": "Mayura Credit Card",
-      "match_type": "INR direct"
+      "bill_date": "2026-02-28",
+      "bill_number": "GC-STMT-2026-02",
+      "status": "unmatched",
+      "candidates": []
     },
     {
       "bill_id": "2050328000003047003",
@@ -1048,24 +1059,7 @@
       "bill_date": "2025-12-07",
       "bill_number": "MAA4-6184576",
       "status": "unmatched",
-      "candidates": [
-        {
-          "cc_transaction_id": "2050328000001777075",
-          "cc_description": "AMAZON PAY INDIA PRIVA Bangalore     IN",
-          "cc_inr_amount": 382.85,
-          "cc_date": "2025-10-16",
-          "cc_card": "Kotak bank credit card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 40,
-            "date": 10,
-            "vendor": 0,
-            "uniqueness": 15
-          },
-          "candidate_score": 24
-        }
-      ]
+      "candidates": []
     },
     {
       "bill_id": "2050328000003004367",
@@ -2315,22 +2309,6 @@
       "status": "unmatched",
       "candidates": [
         {
-          "cc_transaction_id": "2050328000001777077",
-          "cc_description": "AMAZON PAY INDIA PRIVA Bangalore     IN",
-          "cc_inr_amount": 186.14,
-          "cc_date": "2025-10-16",
-          "cc_card": "Kotak bank credit card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 70,
-            "date": 100,
-            "vendor": 0,
-            "uniqueness": 0
-          },
-          "candidate_score": 60
-        },
-        {
           "cc_transaction_id": "2050328000000939599",
           "cc_description": "RELIANCEJIO, MUMBAI",
           "cc_inr_amount": 195.0,
@@ -2342,9 +2320,9 @@
             "amount": 40,
             "date": 10,
             "vendor": 50,
-            "uniqueness": 0
+            "uniqueness": 15
           },
-          "candidate_score": 30
+          "candidate_score": 31
         }
       ]
     },
@@ -2714,7 +2692,7 @@
       "card_name": "Kotak bank credit card",
       "zoho_account_id": "2050328000000232005",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 178d apart"
+      "unmatched_reason": "Date: 95d apart"
     },
     {
       "transaction_id": "2050328000001777099",
@@ -2753,27 +2731,7 @@
       "card_name": "Kotak bank credit card",
       "zoho_account_id": "2050328000000232005",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 147d apart"
-    },
-    {
-      "transaction_id": "2050328000001777077",
-      "description": "AMAZON PAY INDIA PRIVA Bangalore     IN",
-      "amount": 186.14,
-      "date": "2025-10-16",
-      "card_name": "Kotak bank credit card",
-      "zoho_account_id": "2050328000000232005",
-      "resolved_vendor": "Amazon India",
-      "unmatched_reason": "No Amazon India bills"
-    },
-    {
-      "transaction_id": "2050328000001777075",
-      "description": "AMAZON PAY INDIA PRIVA Bangalore     IN",
-      "amount": 382.85,
-      "date": "2025-10-16",
-      "card_name": "Kotak bank credit card",
-      "zoho_account_id": "2050328000000232005",
-      "resolved_vendor": "Amazon India",
-      "unmatched_reason": "No Amazon India bills"
+      "unmatched_reason": "Date: 126d apart"
     },
     {
       "transaction_id": "2050328000001777069",
@@ -2822,7 +2780,7 @@
       "card_name": "Kotak bank credit card",
       "zoho_account_id": "2050328000000232005",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 117d apart"
+      "unmatched_reason": "Date: 156d apart"
     },
     {
       "transaction_id": "2050328000000929341",
@@ -3014,7 +2972,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 259d apart"
+      "unmatched_reason": "Amt: CC 1,950 vs Bill 3,755"
     },
     {
       "transaction_id": "2050328000002960009",
@@ -3024,17 +2982,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 248d apart"
-    },
-    {
-      "transaction_id": "2050328000002960007",
-      "description": "GOOGLECLOUD, MUMBAI",
-      "amount": 1084.7,
-      "date": "2026-02-03",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 248d apart"
+      "unmatched_reason": "Amt: CC 12 vs Bill 3,755"
     },
     {
       "transaction_id": "2050328000002999027",
@@ -3044,7 +2992,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 228d apart"
+      "unmatched_reason": "Amt: CC 1,950 vs Bill 3,755"
     },
     {
       "transaction_id": "2050328000002999019",
@@ -3054,17 +3002,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 217d apart"
-    },
-    {
-      "transaction_id": "2050328000002999017",
-      "description": "GOOGLECLOUD, MUMBAI",
-      "amount": 1054.33,
-      "date": "2026-01-03",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 217d apart"
+      "unmatched_reason": "Amt: CC 15 vs Bill 3,755"
     },
     {
       "transaction_id": "2050328000002324097",
@@ -3074,7 +3012,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 199d apart"
+      "unmatched_reason": "Date: 74d apart"
     },
     {
       "transaction_id": "2050328000002324091",
@@ -3104,7 +3042,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 187d apart"
+      "unmatched_reason": "Date: 86d apart"
     },
     {
       "transaction_id": "2050328000002324071",
@@ -3114,7 +3052,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 186d apart"
+      "unmatched_reason": "Date: 87d apart"
     },
     {
       "transaction_id": "2050328000002324069",
@@ -3144,17 +3082,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 174d apart"
-    },
-    {
-      "transaction_id": "2050328000001812279",
-      "description": "GOOGLECLOUD, MUMBAI",
-      "amount": 1041.37,
-      "date": "2025-11-04",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 157d apart"
+      "unmatched_reason": "Date: 99d apart"
     },
     {
       "transaction_id": "2050328000001812261",
@@ -3225,16 +3153,6 @@
       "unmatched_reason": "No vendor signal"
     },
     {
-      "transaction_id": "2050328000001812205",
-      "description": "RSP*TATA AIG GENERAL, MUMBAI",
-      "amount": 4402.4,
-      "date": "2025-10-10",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Tata AIG",
-      "unmatched_reason": "No Tata AIG bills"
-    },
-    {
       "transaction_id": "2050328000001812203",
       "description": "RELIANCEJIO, MUMBAI",
       "amount": 2555.0,
@@ -3285,16 +3203,6 @@
       "unmatched_reason": "No Fuel Surcharge Waiver bills"
     },
     {
-      "transaction_id": "2050328000000939643",
-      "description": "GOOGLEWORKSP, MUMBAI",
-      "amount": 4889.41,
-      "date": "2025-09-03",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 95d apart"
-    },
-    {
       "transaction_id": "2050328000000939641",
       "description": "GOOGLEPLAY, MUMBAI",
       "amount": 349.0,
@@ -3302,17 +3210,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 95d apart"
-    },
-    {
-      "transaction_id": "2050328000000939639",
-      "description": "GOOGLECLOUD, MUMBAI",
-      "amount": 1084.7,
-      "date": "2025-09-03",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Google",
-      "unmatched_reason": "Date: 95d apart"
+      "unmatched_reason": "Date: 178d apart"
     },
     {
       "transaction_id": "2050328000000939623",
@@ -3440,16 +3338,6 @@
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Google",
       "unmatched_reason": "Amt: CC 2 vs Bill 5,830"
-    },
-    {
-      "transaction_id": "2050328000000939555",
-      "description": "GOOGLECLOUD, MUMBAI",
-      "amount": 947.35,
-      "date": "2025-08-03",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Google",
-      "unmatched_reason": "Amt: CC 947 vs Bill 5,830"
     },
     {
       "transaction_id": "2050328000000939549",
@@ -3646,16 +3534,6 @@
       "unmatched_reason": "Date: 218d apart"
     },
     {
-      "transaction_id": "2050328000000939419",
-      "description": "GOOGLECLOUD, MUMBAI",
-      "amount": 22.22,
-      "date": "2025-06-03",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Google",
-      "unmatched_reason": "Amt: CC 22 vs Bill 1,950"
-    },
-    {
       "transaction_id": "2050328000000939411",
       "description": "OPENAI *CHATGPT SUBSCR, SAN FRANCISCO",
       "amount": 5139.68,
@@ -3753,13 +3631,13 @@
   ],
   "card_cc_total": {
     "HDFC - 7196": 9,
-    "Kotak bank credit card": 33,
-    "Mayura Credit Card": 78
+    "Kotak bank credit card": 31,
+    "Mayura Credit Card": 70
   },
   "card_cc_unmatched": {
     "HDFC - 7196": 9,
-    "Kotak bank credit card": 32,
-    "Mayura Credit Card": 75
+    "Kotak bank credit card": 30,
+    "Mayura Credit Card": 67
   },
   "amex_matches": [
     {
@@ -4306,11 +4184,11 @@
     }
   ],
   "summary": {
-    "total_bills": 139,
+    "total_bills": 140,
     "matched": 2,
-    "unmatched": 137,
+    "unmatched": 138,
     "already_paid": 0,
-    "unmatched_cc_count": 116,
+    "unmatched_cc_count": 106,
     "amex_matched": 18,
     "group_matched": 2
   }

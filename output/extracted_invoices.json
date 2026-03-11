@@ -8500,5 +8500,302 @@
         "amount": 524.7
       }
     ]
+  },
+  {
+    "file": "3722951293174426_20250430.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250430.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-04",
+    "date": "2025-04-30",
+    "amount": 8.83,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-04-30 - Cloud account 012CE2-8A427D-9024C2 - Payments account 3722-9512-9317-4426 - New activity: INR 8.83 - Payments received: INR 13.39 - Ending balance: INR 8.83 - Card: Visa ****9157 - This is not a bill.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "New Activity",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 8.83
+      },
+      {
+        "description": "Payments Received",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": -13.39
+      }
+    ],
+    "organized_path": null,
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20250531.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250531.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-05",
+    "date": "2025-05-31",
+    "amount": 22.22,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-05-31 - Cloud account 012CE2-8A427D-9024C2 - Payments account 3722-9512-9317-4426 - New activity: INR 22.22 - Payments received: INR 8.83 - Ending balance: INR 22.22 - Card: Mastercard ****9677 - This is not a bill.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "New Activity",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 22.22
+      },
+      {
+        "description": "Payments Received",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": -8.83
+      }
+    ],
+    "organized_path": null,
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20250630.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250630.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-06",
+    "date": "2025-06-30",
+    "amount": 0.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-06-30 - Cloud account 012CE2-8A427D-9024C2 - Payments account 3722-9512-9317-4426 - New activity: INR 0.0 - Payments received: INR 22.22 - Ending balance: INR 0.0 - Card: Mastercard ****9677 - This is not a bill.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "New Activity",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.0
+      },
+      {
+        "description": "Payments Received",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": -22.22
+      }
+    ],
+    "organized_path": null,
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20250731.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250731.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-07",
+    "date": "2025-07-31",
+    "amount": 947.35,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-07-31 - Cloud account 012CE2-8A427D-9024C2 - Payments account 3722-9512-9317-4426 - New activity: INR 947.35 - Payments received: INR 0.0 - Ending balance: INR 947.35 - Card: Mastercard ****9677 - This is not a bill.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "New Activity",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 947.35
+      },
+      {
+        "description": "Payments Received",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": -0.0
+      }
+    ],
+    "organized_path": null,
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20250831.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250831.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-08",
+    "date": "2025-08-31",
+    "amount": 1084.7,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-08-31 - Cloud account 012CE2-8A427D-9024C2 - Payments account 3722-9512-9317-4426 - New activity: INR 1084.7 - Payments received: INR 947.35 - Ending balance: INR 1084.7 - Card: Mastercard ****9677 - This is not a bill.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "New Activity",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1084.7
+      },
+      {
+        "description": "Payments Received",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": -947.35
+      }
+    ],
+    "organized_path": null,
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20250930.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20250930.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-09",
+    "date": "2025-09-30",
+    "amount": 0.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-09-30 - Cloud account 012CE2-8A427D-9024C2 - Payments account 3722-9512-9317-4426 - New activity: INR 0.0 - Payments received: INR 1084.7 - Ending balance: INR 0.0 - Card: Mastercard ****9677 - This is not a bill.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "New Activity",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.0
+      },
+      {
+        "description": "Payments Received",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": -1084.7
+      }
+    ],
+    "organized_path": null,
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20251031.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20251031.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-10",
+    "date": "2025-10-31",
+    "amount": 1041.37,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-10-31 - Cloud account 012CE2-8A427D-9024C2 - Payments account 3722-9512-9317-4426 - New activity: INR 1041.37 - Payments received: INR 0.0 - Ending balance: INR 1041.37 - Card: Mastercard ****9677 - This is not a bill.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "New Activity",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1041.37
+      },
+      {
+        "description": "Payments Received",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": -0.0
+      }
+    ],
+    "organized_path": null,
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20251130.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20251130.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-11",
+    "date": "2025-11-30",
+    "amount": 0.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-11-30 - Cloud account 012CE2-8A427D-9024C2 - Payments account 3722-9512-9317-4426 - New activity: INR 0.0 - Payments received: INR 1041.37 - Ending balance: INR 0.0 - Card: Mastercard ****9677 - This is not a bill.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "New Activity",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 0.0
+      },
+      {
+        "description": "Payments Received",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": -1041.37
+      }
+    ],
+    "organized_path": null,
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20251231.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20251231.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2025-12",
+    "date": "2025-12-31",
+    "amount": 1054.33,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2025-12-31 - Cloud account 012CE2-8A427D-9024C2 - Payments account 3722-9512-9317-4426 - New activity: INR 1054.33 - Payments received: INR 0.0 - Ending balance: INR 1054.33 - Card: Mastercard ****9677 - This is not a bill.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "New Activity",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1054.33
+      },
+      {
+        "description": "Payments Received",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": -0.0
+      }
+    ],
+    "organized_path": null,
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20260131.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20260131.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2026-01",
+    "date": "2026-01-31",
+    "amount": 1084.7,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2026-01-31 - Cloud account 012CE2-8A427D-9024C2 - Payments account 3722-9512-9317-4426 - New activity: INR 1084.7 - Payments received: INR 1054.33 - Ending balance: INR 1084.7 - Card: Mastercard ****9677 - This is not a bill.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "New Activity",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 1084.7
+      },
+      {
+        "description": "Payments Received",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": -1054.33
+      }
+    ],
+    "organized_path": null,
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "3722951293174426_20260228.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\3722951293174426_20260228.pdf",
+    "vendor_name": "Google Cloud",
+    "invoice_number": "GC-STMT-2026-02",
+    "date": "2026-02-28",
+    "amount": 1755.05,
+    "currency": "INR",
+    "raw_text_preview": "Google Cloud Statement - 2026-02-28 - Cloud account 012CE2-8A427D-9024C2 - Payments account 3722-9512-9317-4426 - New activity: INR 3755.05 - Payments received: INR 3084.7 - Ending balance: INR 1755.05 - Card: Mastercard ****9677 - This is not a bill.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "New Activity",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 3755.05
+      },
+      {
+        "description": "Payments Received",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": -3084.7
+      }
+    ],
+    "organized_path": null,
+    "note": "Google Cloud monthly statement (not a bill/invoice)"
   }
 ]
