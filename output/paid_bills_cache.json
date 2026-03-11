@@ -1,4 +1,32 @@
 {
+  "2050328000003083027": {
+    "vendor_name": "Charley's Philly Steaks",
+    "amount": 8.22,
+    "currency": "USD",
+    "date": "2025-06-21",
+    "bill_number": "CPS-02249-007614"
+  },
+  "2050328000003088003": {
+    "vendor_name": "Best Buy",
+    "amount": 21.64,
+    "currency": "USD",
+    "date": "2025-06-15",
+    "bill_number": "BB-238-061525"
+  },
+  "2050328000003069037": {
+    "vendor_name": "Walmart",
+    "amount": 173.03,
+    "currency": "USD",
+    "date": "2025-06-21",
+    "bill_number": "WM-5959-02837"
+  },
+  "2050328000003064048": {
+    "vendor_name": "Residence Inn by Marriott",
+    "amount": 890.12,
+    "currency": "USD",
+    "date": "2025-06-14",
+    "bill_number": "Folio-90452"
+  },
   "2050328000003079003": {
     "vendor_name": "Wendy's",
     "amount": 13.73,

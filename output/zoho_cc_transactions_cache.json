@@ -27,16 +27,6 @@
   },
   {
     "date": "2025-10-23",
-    "description": "WM SUPERCENTER #2517SANTA ANA USD 209.17 [USD 209.17]",
-    "amount": 18400.22,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994055",
-    "forex_amount": 209.17,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-10-23",
     "description": "AMERICAN 0010277737919919PHOENIX USD 40.00 [USD 40.00]",
     "amount": 3520.32,
     "card_name": "HDFC - 7196",
@@ -73,16 +63,6 @@
     "zoho_account_id": "2050328000002898667",
     "transaction_id": "2050328000002994043",
     "forex_amount": 9.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-10-17",
-    "description": "WENDYS #5799ORLANDO USD 13.73 [USD 13.73]",
-    "amount": 1207.97,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994041",
-    "forex_amount": 13.73,
     "forex_currency": "USD"
   },
   {

@@ -2628,5 +2628,125 @@
     "amount": 13.73,
     "currency": "USD",
     "attached": true
+  },
+  {
+    "file": "june exp.pdf - Page 1",
+    "status": "created",
+    "vendor_name": "Residence Inn by Marriott",
+    "vendor_id": "2050328000003069021",
+    "bill_id": "2050328000003064048",
+    "amount": 890.12,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "june exp.pdf - Page 2",
+    "status": "created",
+    "vendor_name": "Munveedu",
+    "vendor_id": "2050328000003077022",
+    "bill_id": "2050328000003082003",
+    "amount": 512.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "june exp.pdf - Page 4",
+    "status": "created",
+    "vendor_name": "Star Briyani",
+    "vendor_id": "2050328000003071078",
+    "bill_id": "2050328000003083003",
+    "amount": 961.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "june exp.pdf - Page 5",
+    "status": "created",
+    "vendor_name": "McDonald's",
+    "vendor_id": "2050328000003068042",
+    "bill_id": "2050328000003067046",
+    "amount": 13.17,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "june exp.pdf - Page 8",
+    "status": "created",
+    "vendor_name": "Walmart",
+    "vendor_id": "2050328000003071041",
+    "bill_id": "2050328000003069037",
+    "amount": 173.03,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "june exp.pdf - Page 9",
+    "status": "created",
+    "vendor_name": "Popeyes",
+    "vendor_id": "2050328000003064072",
+    "bill_id": "2050328000003077061",
+    "amount": 8.62,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "june exp.pdf - Page 3",
+    "status": "created",
+    "vendor_name": "Al-Arab Family Restaurant",
+    "vendor_id": "2050328000003066003",
+    "bill_id": "2050328000003070061",
+    "amount": 390.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "june exp.pdf - Page 6",
+    "status": "created",
+    "vendor_name": "Best Buy",
+    "vendor_id": "2050328000003064086",
+    "bill_id": "2050328000003088003",
+    "amount": 21.64,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "june exp.pdf - Page 7",
+    "status": "created",
+    "vendor_name": "Charley's Philly Steaks",
+    "vendor_id": "2050328000003062002",
+    "bill_id": "2050328000003083027",
+    "amount": 8.22,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Media (9).jpg",
+    "status": "created",
+    "vendor_name": "Chick-fil-A",
+    "vendor_id": "2050328000003074068",
+    "bill_id": "2050328000003085024",
+    "amount": 11.34,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "june exp.pdf - Page 11",
+    "status": "created",
+    "vendor_name": "Sanmith Pure Veg Restaurant",
+    "vendor_id": "2050328000003070043",
+    "bill_id": "2050328000003070139",
+    "amount": 620.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "june exp.pdf - Page 10",
+    "status": "created",
+    "vendor_name": "QDF F and B (HIA Airport)",
+    "vendor_id": "2050328000003071094",
+    "bill_id": "2050328000003080025",
+    "amount": 29.0,
+    "currency": "QAR",
+    "attached": true
   }
 ]

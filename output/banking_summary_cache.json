@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-03-11 15:53:03",
+  "fetched_at": "2026-03-11 17:06:28",
   "transactions": [
     {
       "card": "HDFC-8948",
@@ -6471,6 +6471,38 @@
       "transaction_id": "2050328000003000329",
       "date": "2025-08-15",
       "amount": 15669.88,
+      "description": ""
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "manually_added",
+      "transaction_id": "2050328000003086027",
+      "date": "2025-06-21",
+      "amount": 712.73,
+      "description": ""
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "manually_added",
+      "transaction_id": "2050328000003082047",
+      "date": "2025-06-21",
+      "amount": 76748.82,
+      "description": ""
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "manually_added",
+      "transaction_id": "2050328000003066019",
+      "date": "2025-06-21",
+      "amount": 15002.91,
+      "description": ""
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "manually_added",
+      "transaction_id": "2050328000003068078",
+      "date": "2025-06-15",
+      "amount": 1865.87,
       "description": ""
     },
     {

@@ -779,6 +779,51 @@
             "account_name": "Income Tax",
             "account_id": "2050328000000027411",
             "category": "invoice_coa_match"
+        },
+        "Residence Inn by Marriott": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
+        },
+        "Munveedu": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
+        },
+        "Star Briyani": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
+        },
+        "McDonald's": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
+        },
+        "Popeyes": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
+        },
+        "QDF F and B (HIA Airport)": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
+        },
+        "Sanmith Pure Veg Restaurant": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
+        },
+        "Al-Arab Family Restaurant": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
+        },
+        "Best Buy": {
+            "account_name": "Travel Expense",
+            "account_id": "2050328000000000516",
+            "category": "invoice_coa_match"
+        },
+        "Charley's Philly Steaks": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
+        },
+        "Chick-fil-A": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
         }
     }
 }

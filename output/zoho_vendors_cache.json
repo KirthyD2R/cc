@@ -64,6 +64,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000003066003",
+    "contact_name": "Al-Arab Family Restaurant",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "business_none",
+    "currency_code": "INR"
+  },
+  {
     "contact_id": "2050328000000140001",
     "contact_name": "Amazon",
     "company_name": "Amazon",
@@ -208,6 +216,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000003064086",
+    "contact_name": "Best Buy",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
     "contact_id": "2050328000002982132",
     "contact_name": "BigIntent Global India Pvt Ltd",
     "company_name": "",
@@ -230,6 +246,22 @@
     "gst_no": "29AAVFB3612J1Z3",
     "gst_treatment": "business_gst",
     "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000003062002",
+    "contact_name": "Charley's Philly Steaks",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
+    "contact_id": "2050328000003074068",
+    "contact_name": "Chick-fil-A",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
   },
   {
     "contact_id": "2050328000000368555",
@@ -560,6 +592,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000003068042",
+    "contact_name": "McDonald's",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
     "contact_id": "2050328000003005654",
     "contact_name": "Medium",
     "company_name": "",
@@ -596,6 +636,14 @@
     "contact_name": "MS ENTERPRISES",
     "company_name": "",
     "gst_no": "07AKFPG2127D1ZR",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000003077022",
+    "contact_name": "Munveedu",
+    "company_name": "",
+    "gst_no": "33AFVPN5438F1Z4",
     "gst_treatment": "business_gst",
     "currency_code": "INR"
   },
@@ -640,11 +688,27 @@
     "currency_code": "USD"
   },
   {
+    "contact_id": "2050328000003064072",
+    "contact_name": "Popeyes",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
     "contact_id": "2050328000002211995",
     "contact_name": "Power House",
     "company_name": "Power House",
     "gst_no": "33ACPPJ8218A2ZT",
     "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000003071094",
+    "contact_name": "QDF F and B (HIA Airport)",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
     "currency_code": "INR"
   },
   {
@@ -686,6 +750,14 @@
     "gst_no": "27EKTPK7364G1ZG",
     "gst_treatment": "business_gst",
     "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000003069021",
+    "contact_name": "Residence Inn by Marriott",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
   },
   {
     "contact_id": "2050328000000356826",
@@ -732,6 +804,14 @@
     "contact_name": "SANDEEP AGARWAL",
     "company_name": "",
     "gst_no": "08ASGPA7843P1Z8",
+    "gst_treatment": "business_gst",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000003070043",
+    "contact_name": "Sanmith Pure Veg Restaurant",
+    "company_name": "",
+    "gst_no": "33ANUPP0505C2Z9",
     "gst_treatment": "business_gst",
     "currency_code": "INR"
   },
@@ -805,6 +885,14 @@
     "company_name": "Srinivasan Ganesan",
     "gst_no": "",
     "gst_treatment": "business_none",
+    "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000003071078",
+    "contact_name": "Star Briyani",
+    "company_name": "",
+    "gst_no": "33ABMFA5215A1Z2",
+    "gst_treatment": "business_gst",
     "currency_code": "INR"
   },
   {

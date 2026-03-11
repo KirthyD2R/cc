@@ -47,6 +47,128 @@
       "match_type": "USD rate:90.02 actual:89.94"
     },
     {
+      "bill_id": "2050328000003080025",
+      "vendor_id": "2050328000003071094",
+      "vendor_name": "QDF F and B (HIA Airport)",
+      "bill_amount": 29.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-23",
+      "bill_number": "014387",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003070139",
+      "vendor_id": "2050328000003070043",
+      "vendor_name": "Sanmith Pure Veg Restaurant",
+      "bill_amount": 620.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-29",
+      "bill_number": "21713",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003085024",
+      "vendor_id": "2050328000003074068",
+      "vendor_name": "Chick-fil-A",
+      "bill_amount": 11.34,
+      "bill_currency": "USD",
+      "bill_date": "2025-10-10",
+      "bill_number": "1589167",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003070061",
+      "vendor_id": "2050328000003066003",
+      "vendor_name": "Al-Arab Family Restaurant",
+      "bill_amount": 390.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-30",
+      "bill_number": "41",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000929279",
+          "cc_description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+          "cc_inr_amount": 399.0,
+          "cc_date": "2025-07-10",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 55,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 31
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003077061",
+      "vendor_id": "2050328000003064072",
+      "vendor_name": "Popeyes",
+      "bill_amount": 8.62,
+      "bill_currency": "USD",
+      "bill_date": "2025-06-22",
+      "bill_number": "POP-828",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939473",
+          "cc_description": "CHARLEYS PHILLY STEAKS, HOUSTON",
+          "cc_inr_amount": 712.73,
+          "cc_date": "2025-06-21",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 100,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 46
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003067046",
+      "vendor_id": "2050328000003068042",
+      "vendor_name": "McDonald's",
+      "bill_amount": 13.17,
+      "bill_currency": "USD",
+      "bill_date": "2025-06-15",
+      "bill_number": "MCD-4237-045",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003083003",
+      "vendor_id": "2050328000003071078",
+      "vendor_name": "Star Briyani",
+      "bill_amount": 961.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-28",
+      "bill_number": "22932",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003082003",
+      "vendor_id": "2050328000003077022",
+      "vendor_name": "Munveedu",
+      "bill_amount": 512.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-05",
+      "bill_number": "4940",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
       "bill_id": "2050328000003076003",
       "vendor_id": "2050328000002993047",
       "vendor_name": "Google",
@@ -409,24 +531,7 @@
       "bill_date": "2025-10-02",
       "bill_number": "PBVN-14918",
       "status": "unmatched",
-      "candidates": [
-        {
-          "cc_transaction_id": "2050328000002994041",
-          "cc_description": "WENDYS #5799ORLANDO USD 13.73 [USD 13.73]",
-          "cc_inr_amount": 1207.97,
-          "cc_date": "2025-10-17",
-          "cc_card": "HDFC - 7196",
-          "cc_forex_amount": 13.73,
-          "cc_forex_currency": "USD",
-          "breakdown": {
-            "amount": 85,
-            "date": 30,
-            "vendor": 0,
-            "uniqueness": 15
-          },
-          "candidate_score": 51
-        }
-      ]
+      "candidates": []
     },
     {
       "bill_id": "2050328000003001404",
@@ -448,24 +553,7 @@
       "bill_date": "2025-10-08",
       "bill_number": "AMD2-1482",
       "status": "unmatched",
-      "candidates": [
-        {
-          "cc_transaction_id": "2050328000002994041",
-          "cc_description": "WENDYS #5799ORLANDO USD 13.73 [USD 13.73]",
-          "cc_inr_amount": 1207.97,
-          "cc_date": "2025-10-17",
-          "cc_card": "HDFC - 7196",
-          "cc_forex_amount": 13.73,
-          "cc_forex_currency": "USD",
-          "breakdown": {
-            "amount": 95,
-            "date": 60,
-            "vendor": 0,
-            "uniqueness": 15
-          },
-          "candidate_score": 64
-        }
-      ]
+      "candidates": []
     },
     {
       "bill_id": "2050328000003013353",
@@ -1451,25 +1539,9 @@
             "amount": 70,
             "date": 10,
             "vendor": 0,
-            "uniqueness": 0
+            "uniqueness": 15
           },
-          "candidate_score": 37
-        },
-        {
-          "cc_transaction_id": "2050328000002994055",
-          "cc_description": "WM SUPERCENTER #2517SANTA ANA USD 209.17 [USD 209.17]",
-          "cc_inr_amount": 18400.22,
-          "cc_date": "2025-10-23",
-          "cc_card": "HDFC - 7196",
-          "cc_forex_amount": 209.17,
-          "cc_forex_currency": "USD",
-          "breakdown": {
-            "amount": 40,
-            "date": 30,
-            "vendor": 0,
-            "uniqueness": 0
-          },
-          "candidate_score": 27
+          "candidate_score": 39
         }
       ]
     },
@@ -2610,18 +2682,6 @@
       "unmatched_reason": "No Walmart bills"
     },
     {
-      "transaction_id": "2050328000002994055",
-      "description": "WM SUPERCENTER #2517SANTA ANA USD 209.17 [USD 209.17]",
-      "amount": 18400.22,
-      "date": "2025-10-23",
-      "card_name": "HDFC - 7196",
-      "zoho_account_id": "2050328000002898667",
-      "forex_amount": 209.17,
-      "forex_currency": "USD",
-      "resolved_vendor": "Walmart",
-      "unmatched_reason": "No Walmart bills"
-    },
-    {
       "transaction_id": "2050328000002994051",
       "description": "AMERICAN 0010277737919919PHOENIX USD 40.00 [USD 40.00]",
       "amount": 3520.32,
@@ -2664,18 +2724,6 @@
       "forex_amount": 9.0,
       "forex_currency": "USD",
       "unmatched_reason": "No vendor signal"
-    },
-    {
-      "transaction_id": "2050328000002994041",
-      "description": "WENDYS #5799ORLANDO USD 13.73 [USD 13.73]",
-      "amount": 1207.97,
-      "date": "2025-10-17",
-      "card_name": "HDFC - 7196",
-      "zoho_account_id": "2050328000002898667",
-      "forex_amount": 13.73,
-      "forex_currency": "USD",
-      "resolved_vendor": "Wendy's",
-      "unmatched_reason": "No Wendy's bills"
     },
     {
       "transaction_id": "2050328000002162092",
@@ -3428,7 +3476,8 @@
       "date": "2025-06-21",
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
-      "unmatched_reason": "No vendor signal"
+      "resolved_vendor": "Residence Inn by Marriott",
+      "unmatched_reason": "No Residence Inn by Marriott bills"
     },
     {
       "transaction_id": "2050328000000939473",
@@ -3437,7 +3486,8 @@
       "date": "2025-06-21",
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
-      "unmatched_reason": "No vendor signal"
+      "resolved_vendor": "Charley's Philly Steaks",
+      "unmatched_reason": "No Charley's Philly Steaks bills"
     },
     {
       "transaction_id": "2050328000000939471",
@@ -3495,7 +3545,8 @@
       "date": "2025-06-15",
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
-      "unmatched_reason": "No vendor signal"
+      "resolved_vendor": "Best Buy",
+      "unmatched_reason": "No Best Buy bills"
     },
     {
       "transaction_id": "2050328000000939447",
@@ -3634,12 +3685,12 @@
     "Mayura Credit Card"
   ],
   "card_cc_total": {
-    "HDFC - 7196": 9,
+    "HDFC - 7196": 7,
     "Kotak bank credit card": 31,
     "Mayura Credit Card": 70
   },
   "card_cc_unmatched": {
-    "HDFC - 7196": 9,
+    "HDFC - 7196": 7,
     "Kotak bank credit card": 30,
     "Mayura Credit Card": 67
   },
@@ -4182,17 +4233,17 @@
         }
       ],
       "group_sum": 544.0,
-      "vendor_name": "Amazon → CLICKTECH RETAIL PRIVATE LIMITED, Aggarwal Enterprises",
+      "vendor_name": "Amazon → Aggarwal Enterprises, CLICKTECH RETAIL PRIVATE LIMITED",
       "vendor_id": "2050328000003010470",
       "match_type": "amazon_marketplace"
     }
   ],
   "summary": {
-    "total_bills": 140,
+    "total_bills": 148,
     "matched": 2,
-    "unmatched": 138,
+    "unmatched": 146,
     "already_paid": 0,
-    "unmatched_cc_count": 106,
+    "unmatched_cc_count": 104,
     "amex_matched": 18,
     "group_matched": 2
   }
