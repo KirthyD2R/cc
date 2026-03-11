@@ -1,0 +1,347 @@
+Delivered-To: sylvester.daniel@gmail.com
+Received: by 2002:a17:907:1c2a:b0:b70:b7cb:3c8f with SMTP id nc42csp2397444ejc;
+        Wed, 31 Dec 2025 14:30:03 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG6O3PVNHDglpqGffNhqPjdH5dQXwGRK7cCHzh4Mk6xt59YI0vqwcCLk0PxqjM5n04rj80L
+X-Received: by 2002:a05:6000:2dc7:b0:430:f449:5f18 with SMTP id ffacd0b85a97d-4324e50b88emr45275844f8f.46.1767220203564;
+        Wed, 31 Dec 2025 14:30:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1767220203; cv=none;
+        d=google.com; s=arc-20240605;
+        b=F8/OJDPKqvnhSRgOZPI/ctxf++9gIu/T+owNAVDW05l+/suLI0DlixvjcZkcU4206y
+         L4TH6MGMCLn2auo58RjDL/ebS8W0cHmVY7T/+xOj3mw6NHSyoHTrL/k9vZPWuy2+1s5b
+         tPPI+JPTabBq2ugG0UO7SnRGKcIlMtOjK1liIuNzHPAfT6/nW4ieqtu1zS2ne7ohvM90
+         jCcP1+67fTSOQBZxqGp1iWCUVquABpi+eB3ikopFhsUeXiBv6Hj4ji8BActWVwQCWNOZ
+         XDGbeL1IRBPtlPeV+ZIYaQ9jZP/5N8IAJjys0PAQ0oyJXRZH9YBSw0ynVG+E1no8nbjL
+         uO1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:subject:message-id:to:from:date:dkim-signature;
+        bh=285MsOi1YL+Ip21QsqqVk02oGGKvxNfQPw1M5CT6550=;
+        fh=Olb1JnE4dBZiUwVvfwTqQlx8F6wOx5U1TXWp5mvfxUU=;
+        b=IHO8dVkLXVAoG5iAG5rcTDo4I9144+r7U8L+TmGsDEyEbQ3HQ51dvFC/KQ/W0qINkq
+         bd1OquJ183CNaOLERQ9oEluKqcLITzBk8rXZYZ8fLmZvQ8eMKSXN8/12oJj1v/4LXZJK
+         un9mR4gkwiG2jb/ne+QIYz00D+P3FgnbOS3I8c09rMsqHsmtCYrKaAij/ErxI/Wryka0
+         2klOzQz7ummModMt4fGhJ9LPi03IJ8P4gUgz9HM0INejWvqlwU69mWQS81iYP2qL4pi1
+         MxIFL1OmT0Lm0O6j0CJ11NImktccR5WmScyHiLwEfO8/4Cm4zKWlVCf5BiSYR/2CUheZ
+         1j8Q==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@email.apple.com header.s=email0517 header.b=eKOpzhyq;
+       spf=pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.56 as permitted sender) smtp.mailfrom=no_reply@email.apple.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=email.apple.com
+Return-Path: <no_reply@email.apple.com>
+Received: from rn2-txn-msbadger02105.apple.com (rn2-txn-msbadger02105.apple.com. [17.111.110.56])
+        by mx.google.com with ESMTPS id ffacd0b85a97d-4324eac1448si53888221f8f.317.2025.12.31.14.30.03
+        for <sylvester.daniel@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 31 Dec 2025 14:30:03 -0800 (PST)
+Received-SPF: pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.56 as permitted sender) client-ip=17.111.110.56;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@email.apple.com header.s=email0517 header.b=eKOpzhyq;
+       spf=pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.56 as permitted sender) smtp.mailfrom=no_reply@email.apple.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=email.apple.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.apple.com;
+	s=email0517; t=1767220202;
+	bh=285MsOi1YL+Ip21QsqqVk02oGGKvxNfQPw1M5CT6550=;
+	h=Date:From:To:Message-ID:Subject:Content-Type;
+	b=eKOpzhyqmNZqMajevOWKQpAN22BTG7Qvd9Iy54RfsPvCxqsC16NvK+dgfIdWiLCZ4
+	 msPpj1TtL3JGkXuf0F/pHieWgzKYoENU30LLTHPyYI2kJJ3jogYelOOoiZR9QWAJCk
+	 DAlW79+LpUv+f1as0r1iLOu0h2N7yYRcJ2QgTDx+44maOpvhl1zWsfBJ+HI+wlnSuo
+	 YSl5oyxqhakBX8V0fF7gQUe0hYR5wcprxV+JMKSMJlRBHnN1yYkV9HbiqgIVAjkrxW
+	 vgvbUSJVr1YqPU257GrxfladkmpZjZ4E6lojyuV9VcLjL78+xKy143oXmkaZS2fE8q
+	 LNX7XnJ2JRyJw==
+Date: Wed, 31 Dec 2025 22:30:02 +0000 (GMT)
+From: Apple <no_reply@email.apple.com>
+To: sylvester.daniel@gmail.com
+Message-ID: <489587884.365872055.1767220202790@email.apple.com>
+Subject: Your Subscription Renewal
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_365872053_935056543.1767220202790"
+X-Broadcast-Id: 10631
+X-Attach-Flag: N
+X-COMMS-C: false
+X-Sent-To: sylvester.daniel@gmail.com,2,GGZCD1sv%2F%2FndWBQ7iaJwxnxCl8mP712eYMB0Lxk9u1BkyXJUnAIbeIpFUZKopOOYnLpsWUqbQ4%2BK9IixjwUR8hoc9G%2FyhUriFufFykx8NoVms9RENhujFt9tVwx3bbNa0qkW6K5cLA1MXsAMX9hdWw3VdbkuEC0EOVQtcK3YSuZrKPmVhKIgCYtnksIWQ9Bz7wfOVlZwmRf%2FDQcvsa0K3iQ%2Banfu4GYLBXw0di4sUpFGntlU1UPMpuhEIY3e%2FJ8BXZHmncIwFXs8TSVXLbIbpuU4rconKaVHohWfPYIzI2553hcdptp1aRJ41AAOJXnwwmM7v%2FPM16WcrmTe%2BmOos12Q6YBnQgQmmZYgiPQAdPKZ3xrTaNKU9vSB1cB%2BOpuKp9%2FGchNy3RuqVWEYytsIbgr%2BttIoWhMWFFnC2IWkk6XxcOsn19bXB1Bn8daCnGEdYm0Ma9vpvdAabpVQ4NASrA%3D%3D
+X-TXN_ID: e4a516a6-2336-4b6b-84b7-61674e2bd2e7
+X-DKIM_SIGN_REQUIRED: YES
+X-EmailType-Id: 10631
+X-Business-Group: iTunes
+X-Country: US
+MIME-Version: 1.0
+
+------=_Part_365872053_935056543.1767220202790
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Disposition: inline
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
+w3.org/TR/html4/loose.dtd"><html lang=3D"en-GB"><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+    <meta name=3D"format-detection" content=3D"telephone=3Dno">
+    <title></title>
+    <style type=3D"text/css" id=3D"contentStyles">
+.left-gutter { width: 20px !important; }
+.right-gutter { width: 20px !important; }
+a.footer-link:hover, a.highlight-link:hover, a.undecorated:hover { text-dec=
+oration: underline !important; }
+button.action {font-size: 17px;line-height: 1.47059;font-weight: 400;letter=
+-spacing: -0.022em;font-family:system-ui, -apple-system, BlinkMacSystemFont=
+, Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif;background-color: =
+#0070c9;border-color: #07c;border-width: 1px;border-style: solid;border-rad=
+ius: 4px;color: white;cursor: pointer;display: inline-block;min-width: 30px=
+;padding-left: 15px;padding-right: 15px;padding-top: 4px;padding-bottom: 4p=
+x;text-align: center;white-space: nowrap;}
+button.action:hover { background-color: #147bcd;border-color: #1482d0;text-=
+decoration: none; }
+button.action:focus { box-shadow: 0 0 0 3px rgba(131, 192, 253, 0.5);outlin=
+e: none; }
+button.action:focus[data-focus-method=3D"mouse"]:not(input):not(textarea):n=
+ot(select), button.action:focus[data-focus-method=3D"touch"]:not(input):not=
+(textarea):not(select) {box-shadow: none;}
+button.action:active { background-color: #0067b9;border-color: #006dbc;outl=
+ine: none; }
+button.action:disabled { background-color: #0070c9;border-color: #07c;color=
+: white;cursor: default;opacity: 0.3; }
+sup {font-weight: 300;}
+.gradient { background-color: #0070c9;background-image: -webkit-gradient(li=
+near, top, bottom, from(#42a1ec), to(#0070c9));background-image: -webkit-li=
+near-gradient(top, #42a1ec, #0070c9);background-image: -moz-linear-gradient=
+(top, #42a1ec, #0070c9);background-image: -o-linear-gradient(top, #42a1ec, =
+#0070c9);background-image: linear-gradient(#42a1ec, #0070c9); }
+.gradient:hover { background-color: #147bcd;background-image: -webkit-gradi=
+ent(linear, top, bottom, from(#51a9ee), to(#147bcd));background-image: -web=
+kit-linear-gradient(top, #51a9ee, #147bcd);background-image: -moz-linear-gr=
+adient(top, #51a9ee, #147bcd);background-image: -o-linear-gradient(top, #51=
+a9ee, #147bcd);background-image: linear-gradient(#51a9ee, #147bcd); }
+.gradient:active { background-color: #0067b9;background-image: -webkit-grad=
+ient(linear, top, bottom, from(#3d94d9), to(#0067b9));background-image: -we=
+bkit-linear-gradient(top, #3d94d9, #0067b9);background-image: -moz-linear-g=
+radient(top, #3d94d9, #0067b9);background-image: -o-linear-gradient(top, #3=
+d94d9, #0067b9);background-image: linear-gradient(#3d94d9, #0067b9); }
+.gradient:disabled, .gradient.disabled { background-color: #0070c9;backgrou=
+nd-image: -webkit-gradient(linear, top, bottom, from(#42a1ec), to(#0070c9))=
+;background-image: -webkit-linear-gradient(top, #42a1ec, #0070c9);backgroun=
+d-image: -moz-linear-gradient(top, #42a1ec, #0070c9);background-image: -o-l=
+inear-gradient(top, #42a1ec, #0070c9);background-image: linear-gradient(#42=
+a1ec, #0070c9); }
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {}
+@media (max-width: 768px) {
+  .aapl-desktop-tbl, #content-tbl { width: 742px !important; }
+}
+@media (max-width: 736px) {
+  .small-artwork { display: inline !important; }
+  .large-artwork { display: none !important; }
+  .large-header-logo { display: none !important; }
+  .small-header-logo { display: inline !important; }
+  .large-footer-logo { display: none !important; }
+  .small-footer-logo { display: inline !important; }
+  .paragraph-spacer { height: 15px !important; }
+  .aapl-desktop-tbl, #content-tbl { width: 480px !important; }
+  .left-gutter, .right-gutter { width: 15px !important; }
+  .wrd-break { display: block !important; }
+  .lockup-art-spacer { width: 15px !important; }
+  .footer-spacer { height: 15px !important; }
+  #agree-link { width: 350px !important; }
+}
+a[x-apple-data-detectors] {
+  color: inherit !important;
+  text-decoration: none !important;
+  font-size: inherit !important;
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+}
+    </style>
+</head>
+<body bgcolor=3D"#FFFFFF" link=3D"#1187FF" vlink=3D"#1187FF" alink=3D"#1187=
+FF" leftmargin=3D"0" marginheight=3D"0" marginwidth=3D"0" topmargin=3D"0">
+     <br><br>
+<div class=3D"aapl-desktop-div" style=3D"display:block;padding:0;margin:0;h=
+eight:100%;max-height:none;min-height:none;line-height:normal;overflow:visi=
+ble;">
+<table class=3D"aapl-desktop-tbl" border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" align=3D"center" style=3D"border-collapse:collapse;border-spacing:0=
+;width:742px;">
+  <tr>
+    <td class=3D"left-gutter" style=3D"width:50px;"></td>
+    <td>
+<img width=3D"42" height=3D"42" alt=3D"Apple" src=3D"https://s.mzstatic.com=
+/email/images_shared/logo_apple_d-2x.png" border=3D"0" style=3D"border:none=
+;padding:0;margin:0;-ms-interpolation-mode:bicubic;">
+    </td>
+    <td en-GB=3D"" false=3D"" align=3D"right" style=3D"font-size:32px; font=
+-weight:300; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; c=
+olor: rgb(136,136,136)">Subscription Renewal</td>
+    <td class=3D"right-gutter" style=3D"width:50px;"></td>
+  </tr>
+  <tr height=3D"20"><td colspan=3D"4">&nbsp;</td><tr>
+  <tr>
+    <td colspan=3D"4" align=3D"center">
+    <table id=3D"content-tbl" border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" style=3D"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;fo=
+nt-size:13px;width:742px;">
+        <tr height=3D"10"><td class=3D"content-lockup" bgcolor=3D"#f5f5f5" =
+colspan=3D"3" style=3D"border-top-left-raidus:2px;border-top-right-radius:2=
+px;">&nbsp;</td></tr>
+        <tr>
+            <td class=3D"content-lockup" bgcolor=3D"#f5f5f5" class=3D"left-=
+gutter" style=3D"width:20px">&nbsp;</td>
+            <td class=3D"content-lockup" bgcolor=3D"#f5f5f5" align=3D"left"=
+>
+<table class=3D"content-lockup" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" valign=3D"middle" style=3D"border-collapse:collapse;border-spacing:0=
+;background-color: rgb(245,245,245);border-radius:3px;font-size:12px;font-f=
+amily:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+    <tr>
+        <td class=3D"artwork-cell" valign=3D"top" align=3D"center" style=3D=
+"padding:0;margin:0;">
+            <img class=3D"large-artwork" src=3D"https://is1-ssl.mzstatic.co=
+m/image/thumb/Purple221/v4/84/1c/09/841c0916-aa8e-e576-b981-cab0a0d9eaac/Ap=
+pIcon-0-0-85-220-0-0-6-0-2x.png/280x280bb.jpg" width=3D"140" height=3D"140"=
+ border=3D"0" alt=3D"Monthly TickTick Premium" style=3D"padding:0;margin:0;=
+-ms-interpolation-mode: bicubic;border-radius:32px;border:1px solid rgba(12=
+8,128,128,0.2);">
+            <img class=3D"small-artwork" src=3D"https://is1-ssl.mzstatic.co=
+m/image/thumb/Purple221/v4/84/1c/09/841c0916-aa8e-e576-b981-cab0a0d9eaac/Ap=
+pIcon-0-0-85-220-0-0-6-0-2x.png/280x280bb.jpg" width=3D"100" height=3D"100"=
+ border=3D"0" alt=3D"Monthly TickTick Premium" style=3D"display:none;paddin=
+g:0;margin:0;-ms-interpolation-mode: bicubic;border-radius:22px;border:1px =
+solid rgba(128,128,128,0.2);">
+        </td>
+        <td class=3D"lockup-art-spacer" style=3D"width:20px;"></td>
+        <td>
+            <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=
+=3D"font-size:13px;line-height:22px;letter-spacing:0.4px; color:rgb(51,51,5=
+1);">
+                    <tr><td><span style=3D"font-size:18px;">TickTick:To-Do =
+List, Calendar</span></td></tr>
+                    <tr><td><span style=3D"color:rgb(170,170,170);">TickTic=
+k</span></td></tr>
+                    <tr><td><span style=3D"color:rgb(170,170,170);"></span>=
+</td></tr>
+                    <tr><td style=3D"padding-top: 3px;">
+                        <span style=3D"color:rgb(170,170,170);">
+Monthly TickTick Premium (1&nbsp;month)                        </span>
+                    </td></tr>
+                    <tr><td>
+                          <span style=3D"color:rgb(170,170,170);">
+                              =E2=82=B9&nbsp;269.00/month
+                          </span>
+                    </td></tr>
+            </table>
+        </td>
+    </tr>
+</table>
+            </td>
+            <td class=3D"content-lockup" bgcolor=3D"#f5f5f5" class=3D"right=
+-gutter" style=3D"width:20px">&nbsp;</td>
+        </tr>
+        <tr height=3D"10"><td class=3D"content-lockup" bgcolor=3D"#f5f5f5" =
+colspan=3D"3" style=3D"border-bottom-left-raidus:2px;border-bottom-right-ra=
+dius:2px;">&nbsp;</td></tr>
+        <tr class=3D"paragraph-spacer" style=3D"height:20px;"><td>&nbsp;</t=
+d></tr>
+        <tr>
+            <td class=3D"left-gutter" style=3D"width:20px"></td>
+            <td>Dear Sylvester,</td>
+            <td class=3D"right-gutter" style=3D"width:20px"></td>
+        </tr>
+        <tr class=3D"paragraph-spacer" style=3D"height:20px;"><td>&nbsp;</t=
+d></tr>
+        <tr data=3D"intro-single">
+            <td class=3D"left-gutter" style=3D"width:20px"></td>
+            <td>We hope you are enjoying your subscription, which will rene=
+w soon.</td>
+            <td class=3D"right-gutter" style=3D"width:20px"></td>
+        </tr>
+        <tr class=3D"paragraph-spacer" style=3D"height:20px;"><td>&nbsp;</t=
+d></tr>
+        <tr data=3D"auto-renews-single">
+            <td class=3D"left-gutter" style=3D"width:20px"></td>
+            <td>
+                    Starting from 06 January 2026, your subscription automa=
+tically renews for =E2=82=B9&nbsp;269.00/month. To avoid being charged, you=
+ must cancel at least one day before each renewal date. To learn more or ca=
+ncel, <a href=3D"https://apps.apple.com/account/subscriptions?mt=3D8&amp;fa=
+milyId=3D20416389" target=3D"_blank" rel=3D"noopener nofollow">review your =
+subscription</a>.
+            </td>
+            <td class=3D"right-gutter" style=3D"width:20px"></td>
+        </tr>
+        <tr class=3D"paragraph-spacer" style=3D"height:20px;"><td>&nbsp;</t=
+d></tr>
+        <tr data=3D"keep-single">
+            <td class=3D"left-gutter" style=3D"width:20px"></td>
+            <td>
+                    To keep your subscription, no further action is needed.
+            </td>
+            <td class=3D"right-gutter" style=3D"width:20px"></td>
+        </tr>
+        <tr class=3D"paragraph-spacer" style=3D"height:20px;"><td>&nbsp;</t=
+d></tr>
+        <tr>
+            <td class=3D"left-gutter" style=3D"width:20px"></td>
+            <td>Sincerely,<br>Apple</td>
+            <td class=3D"right-gutter" style=3D"width:20px"></td>
+        </tr>
+        <tr class=3D"paragraph-spacer" style=3D"height:20px;"><td>&nbsp;</t=
+d></tr>
+        <tr>
+            <td class=3D"left-gutter" style=3D"width:20px"></td>
+            <td align=3D"center" style=3D"font-size:12px;color:rgb(102,102,=
+102);line-height:18px;">For help with subscriptions and purchases, visit <a=
+ href=3D"https://support.apple.com/en-gb/billing" target=3D"_blank" rel=3D"=
+noopener nofollow">Apple Support</a></td>
+            <td class=3D"right-gutter" style=3D"width:20px"></td>
+        </tr>
+    </table>
+  </td>
+</tr>
+<tr class=3D"footer-spacer" style=3D"height:50px"><td colspan=3D"4">&nbsp;<=
+/td></tr>
+<tr>
+  <td></td>
+  <td class=3D"" colspan=3D"2" align=3D"center" style=3D"font-size:12px; fo=
+nt-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: rgb(102,102,=
+102)">
+    <img class=3D"large-footer-logo" width=3D"26" height=3D"26" border=3D"0=
+" alt=3D"Apple" src=3D"https://s.mzstatic.com/email/images_shared/logo_appl=
+e_small_d-2x.png" style=3D"border:none;padding:0;margin:0;-ms-interpolation=
+-mode: bicubic;">
+    <img class=3D"small-footer-logo" width=3D"14" height=3D"14" border=3D"0=
+" alt=3D"Apple" src=3D"https://s.mzstatic.com/email/images_shared/logo_appl=
+e_small_m-3x.png" style=3D"display:none;border:none;padding:0;margin:0;-ms-=
+interpolation-mode: bicubic;">
+  </td>
+  <td></td>
+</tr>
+<tr height=3D"8"><td colspan=3D"4">&nbsp;</td></tr>
+<tr>
+  <td></td>
+  <td colspan=3D"2" align=3D"center" style=3D"font-size:12px; font-family: =
+'Helvetica Neue',Helvetica,Arial,sans-serif; color: rgb(102,102,102)">
+<a href=3D"https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/account=
+Summary?mt=3D8" style=3D"color:#0073ff;">Apple&nbsp;Account</a>&nbsp;=E2=80=
+=A2&nbsp;<a href=3D"https://www.apple.com/legal/internet-services/itunes/uk=
+/terms.html" style=3D"color:#0073ff;">Terms of Sale</a>&nbsp;=E2=80=A2&nbsp=
+;<a href=3D"https://www.apple.com/legal/privacy/" style=3D"color:#0073ff;">=
+Privacy Policy</a>
+  </td>
+  <td></td>
+</tr>
+<tr height=3D"25"><td colspan=3D"4">&nbsp;</td></tr>
+<tr>
+  <td></td>
+  <td colspan=3D"2" align=3D"center" dir=3D"auto" style=3D"font-size:12px;f=
+ont-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:rgb(102,102,10=
+2)">
+      Copyright =C2=A9 2025 Apple Distribution International Ltd. <br>
+      <a href=3D"https://www.apple.com/uk/legal/" style=3D"color:#1187FF">A=
+ll rights reserved</a>
+  </td>
+  <td></td>
+</tr>
+<tr height=3D"25"><td colspan=3D"4" height=3D"30">&nbsp;</td></tr>
+</table>
+</div>
+</body>
+</html>=
+
+------=_Part_365872053_935056543.1767220202790--

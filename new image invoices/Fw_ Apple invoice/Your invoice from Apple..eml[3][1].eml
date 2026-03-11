@@ -1,0 +1,244 @@
+Delivered-To: sylvester.daniel@gmail.com
+Received: by 2002:a17:906:c105:b0:b8d:e8f5:19c9 with SMTP id do5csp1744658ejc;
+        Fri, 6 Feb 2026 01:25:03 -0800 (PST)
+X-Received: by 2002:a17:902:e945:b0:2a3:ec72:f462 with SMTP id d9443c01a7336-2a9516f13a3mr26041645ad.25.1770369903275;
+        Fri, 06 Feb 2026 01:25:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770369903; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WvtzLRm9P22PHq4XzBjW1GytT3PNEJI2fjEFO6csbD37XuHItf8l+KkKtO8/JeA9ti
+         I1oL2PUWfoMKNEEwUwrtwk2NhezCTFGpE8ylBFGL/dfPcsX5ev/jT2gAeUV+nFiqFchI
+         rB0p8wf+rcNtwqVxaTrRgBqYPjxaeRj1xBLo3/S2WRwcDybH1sWSGJ5W5NR+IP6Ez374
+         wEUBM3I1eB1DkdaltJG5gcsTput11SdM0QY905yURGURI88L5qd0PTxOCZ/ygBqZ997t
+         kwh/oLba9U87QhEj7tqO9cW0qqkKZaLEBpNtjW9R6LD/6dmsP7JrkPPiu06tNDwi0Iau
+         onOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:subject:message-id:to:from:date:dkim-signature;
+        bh=apiy5ZEiOa53zyp8Pfxo14+4P5C2Be5uywrN9CjWB7I=;
+        fh=Olb1JnE4dBZiUwVvfwTqQlx8F6wOx5U1TXWp5mvfxUU=;
+        b=UlxI7CNTEvbFyVC6aRWycASw1aGK826fQ7qpgmmeWwMEsG/ZTnYyYk107sLJLmIy00
+         A7FxpZsUocSM8eKbONpW+TGFxBKxvjc+rkZiNBP/0fCzgB/BG/CuKTHtRURCazXKtQPb
+         ybmZ0E6TAM+TpbsdSZOYucM0knFP3K5qZKHalm+ugJsiIyALZ2b8IWQesYKvoW+ihoTR
+         JUPW3nklta//8TEZeXuiFrOESybO7nYt2Yj0IqNktE/vxQGYmbXnSkV7IAPzcGBtp4qM
+         7KXTNVJZJe7dvaFoeJLtvcVGHwHqHJUUF6fKGjDium2ovabyvIsqkfeWZtS1JCMMe8Mo
+         0myQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@email.apple.com header.s=email0517 header.b=gK5O6P6w;
+       spf=pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.90 as permitted sender) smtp.mailfrom=no_reply@email.apple.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=email.apple.com
+Return-Path: <no_reply@email.apple.com>
+Received: from rn2-txn-msbadger05106.apple.com (rn2-txn-msbadger05106.apple.com. [17.111.110.90])
+        by mx.google.com with ESMTPS id d9443c01a7336-2a951c91634si28667885ad.67.2026.02.06.01.25.01
+        for <sylvester.daniel@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 06 Feb 2026 01:25:03 -0800 (PST)
+Received-SPF: pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.90 as permitted sender) client-ip=17.111.110.90;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@email.apple.com header.s=email0517 header.b=gK5O6P6w;
+       spf=pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.90 as permitted sender) smtp.mailfrom=no_reply@email.apple.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=email.apple.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.apple.com;
+	s=email0517; t=1770369899;
+	bh=apiy5ZEiOa53zyp8Pfxo14+4P5C2Be5uywrN9CjWB7I=;
+	h=Date:From:To:Message-ID:Subject:Content-Type;
+	b=gK5O6P6w00VX4dt6QM/n4LvfYU2d5SdlinQyD9HwtKLNx7D2oyKgmKSJ9zCd5WtiW
+	 MtME5imn+WlzvnEC74WdRqOw+W2Afbsqirtfr6HhPTkbbiNDR9eJgQ5dmqRcme5TjG
+	 lKmIPc7ApsfXKWz9viLQfvGI98q20VnLa+LX4XSxvh/MylIHrESqot0Wc/5A7syiBe
+	 DGWa3aEOORPX5PmSXQr8YISSKDL6qDQ7A2AeiNzr8D5GiYF+FmoMqcZwtPgbdGZuTW
+	 XyLMMx+fMR5DuBaiH3siXrbBEZbTOJxQnwbWU5KNvtYg17EujN62D0MIMkzDbCE9OV
+	 KI1CfaiLYlYzg==
+Date: Fri, 6 Feb 2026 09:24:59 +0000 (GMT)
+From: Apple <no_reply@email.apple.com>
+To: sylvester.daniel@gmail.com
+Message-ID: <1008553385.115858856.1770369899187@email.apple.com>
+Subject: Your invoice from Apple.
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_115858854_1056855919.1770369899187"
+X-Broadcast-Id: 10631
+X-Attach-Flag: N
+X-COMMS-C: false
+X-Sent-To: sylvester.daniel@gmail.com,2,zDKD2K5Msqh42s0dTyhSaySmo6oQUPV1z2eICvQgAXpkyXJUnAIbeIpFUZKopOOYnLpsWUqbQ4%2BK9IixjwUR8kR2m1nKyACLCplEIONq43yTEtooX76vBiWQa7Dten6%2Bj1c%2BwWZkt%2F1qvu2sQ4JvBcvP92e5q6%2BbcjLx5SIJaWmQudN%2Fm7JKJ7Kjm3nsOXDrv3kOgT4ZJgFXgHLfDCMm7SQ%2Banfu4GYLBXw0di4sUpFGntlU1UPMpuhEIY3e%2FJ8BXZHmncIwFXs8TSVXLbIbpuU4rconKaVHohWfPYIzI2553hcdptp1aRJ41AAOJXnwwmM7v%2FPM16WcrmTe%2BmOos12Q6YBnQgQmmZYgiPQAdPKZ3xrTaNKU9vSB1cB%2BOpuKp9%2FGchNy3RuqVWEYytsIbgr%2BttIoWhMWFFnC2IWkk6XxcOsn19bXB1Bn8daCnGEdYm0Ma9vpvdAabpVQ4NASrA%3D%3D
+X-TXN_ID: a5dd667e-6f24-45fa-9f6c-325b8e27bad0
+X-DKIM_SIGN_REQUIRED: YES
+X-EmailType-Id: 10631
+X-Business-Group: iTunes
+X-Country: US
+MIME-Version: 1.0
+
+------=_Part_115858854_1056855919.1770369899187
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Disposition: inline
+
+<html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"><s=
+tyle data-emotion=3D"custom hzv07h qrj5ky 1ago99h 1p2cbqg m31y3a gqemx3 6ff=
+xnu 18w16cf f41j3e zresjj rgm23z omvd4k 1skwja4 vc9uxc gzadzy wogfc8 i8xbl3=
+ 137u684 1y6quhx 178jbzr 9urhlu 1d5xd7o 1deqyu 4tra68 68yyeh 1s7arqf pko50u=
+ 15zbox7 jhluqm 1cfbe7l ytumd6 161t2u8 1sstyyn 1q234kp 4cxybv 1d15tds 1q2yo=
+q2 9smyh7 9ro87k 1p74tef bc7j6f 1eduvzf vr1cqx 1nn7g7i 4anrg1 s25aja d54uh7=
+ xi606m">.custom-hzv07h{margin:20px;font-family:system-ui,-apple-system,Bli=
+nkMacSystemFont,SF Pro,Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif;c=
+olor:rgb(51, 51, 51);line-height:23px;padding:20px;}.custom-hzv07h .action{=
+background-color:#027eff;color:#fff;}.custom-hzv07h .body-link{text-decorat=
+ion:none;color:#027eff;}.custom-qrj5ky{max-width:750px;margin:0 auto;}.cust=
+om-1ago99h{width:100%;}.custom-1p2cbqg{margin-bottom:50px;}.custom-m31y3a{p=
+adding-bottom:40px;}.custom-gqemx3{display:inline-block;font-weight:600;lin=
+e-height:32px;margin:0;font-size:32px;color:#333333;letter-spacing:0.13px;d=
+isplay:inline-block;font-weight:600;line-height:32px;margin:0;font-size:32p=
+x;color:#333333;letter-spacing:0.13px;}.custom-6ffxnu{margin-bottom:25px;ma=
+rgin-top:25px;width:100%;}.custom-18w16cf{font-size:14px;color:#333333;marg=
+in:0;display:inline-block;margin-bottom:10px;}.rtl .custom-18w16cf{margin-r=
+ight:0;margin-left:5px;}.ltr .custom-18w16cf{margin-right:5px;margin-left:0=
+;}.custom-f41j3e{font-size:14px;color:#333333;margin:0;display:inline-block=
+;font-weight:600;margin-right:5px;}.rtl .custom-f41j3e{margin-right:0;margi=
+n-left:5px;}.ltr .custom-f41j3e{margin-right:5px;margin-left:0;}.custom-zre=
+sjj{font-weight:300;font-size:17px;line-height:23px;font-size:14px;color:#3=
+33333;margin:0;display:inline-block;}.rtl .custom-zresjj{margin-right:0;mar=
+gin-left:5px;}.ltr .custom-zresjj{margin-right:5px;margin-left:0;}.custom-r=
+gm23z{margin-top:40px;width:100%;}.custom-rgm23z+.custom-rgm23z{margin-top:=
+25px;}.custom-omvd4k{width:60px;padding-inline:0 20px;}.custom-1skwja4{bord=
+er-radius:14px;border:1px solid rgba(128,128,128,0.2);}@media(max-width: 48=
+0px){.custom-vc9uxc{display:block;}}.custom-gzadzy{font-size:17px;color:#33=
+3333;font-weight:600;margin:0;}.custom-wogfc8{font-weight:300;font-size:17p=
+x;line-height:23px;font-size:14px;color:#666666;line-height:1.6;margin:0;}.=
+rtl .custom-wogfc8{margin-right:5px;margin-left:0;}.ltr .custom-wogfc8{marg=
+in-right:0;margin-left:5px;}.rtl .custom-wogfc8{margin-right:0;margin-left:=
+0;}.ltr .custom-wogfc8{margin-right:0;margin-left:0;}.custom-i8xbl3{padding=
+-inline-start:32px;}.rtl .custom-i8xbl3{text-align:left;}.ltr .custom-i8xbl=
+3{text-align:right;}@media(max-width: 480px){.custom-i8xbl3{display:block;m=
+argin-top:10px;padding-inline-start:0;width:100%;}.ltr .custom-i8xbl3{text-=
+align:left;}.rtl .custom-i8xbl3{text-align:right;}}.custom-137u684{font-wei=
+ght:300;font-size:17px;line-height:23px;font-size:17px;color:#333333;font-w=
+eight:600;margin:0;}.custom-1y6quhx{margin-top:50px;width:100%;font-size:17=
+px;}.custom-1y6quhx+*{border-top:1px solid #ddd;padding-top:15px;}.payment-=
+information+.custom-1y6quhx{margin-top:25px;}@media(max-width: 480px){.cust=
+om-1y6quhx .payment-information__left{padding-bottom:25px;}.custom-1y6quhx =
+.payment-information__col{width:100%!important;}}.custom-178jbzr{font-size:=
+21px;color:#333333;font-weight:600;margin:0;line-height:29px;letter-spacing=
+:0.23px;padding-bottom:8px;font-size:21px;color:#333333;font-weight:600;mar=
+gin:0;line-height:29px;letter-spacing:0.23px;padding-bottom:8px;}.custom-9u=
+rhlu{display:inline-block;width:50%;vertical-align:top;}.custom-1d5xd7o{fon=
+t-weight:300;color:#333333;letter-spacing:-0.37px;line-height:25px;vertical=
+-align:top;margin:0;}.payment-information__subtotal-group+.custom-1deqyu{ma=
+rgin-top:14px;}.custom-4tra68{font-weight:300;color:#333333;letter-spacing:=
+-0.37px;line-height:25px;vertical-align:top;margin:0;font-size:17px;display=
+:inline-block;width:66%;text-align:start;}.custom-68yyeh{font-weight:300;co=
+lor:#333333;letter-spacing:-0.37px;line-height:25px;vertical-align:top;marg=
+in:0;display:inline-block;width:34%;text-align:end;}.custom-1s7arqf{margin:=
+0;line-height:25px;}.custom-pko50u{margin-top:12.5px;margin-bottom:12.5px;b=
+order-top:1px solid #cccccc;}.custom-15zbox7{font-weight:300;font-size:17px=
+;line-height:23px;font-weight:600;color:#333333;letter-spacing:-0.37px;line=
+-height:25px;vertical-align:top;margin:0;font-size:17px;display:inline-bloc=
+k;width:66%;text-align:start;}.custom-jhluqm{font-weight:300;font-size:17px=
+;line-height:23px;margin:0;line-height:25px;}.custom-1cfbe7l{font-weight:30=
+0;font-size:17px;line-height:23px;}.custom-ytumd6{text-decoration:none;}.cu=
+stom-161t2u8{border-top:1px #ddd solid;padding-top:15px;width:100%;}.custom=
+-1sstyyn{margin:40px 0px;}.custom-1q234kp{font-size:17px;font-weight:550;pa=
+dding-bottom:8px;color:#333333;margin:0;}.custom-4cxybv{padding-bottom:8px;=
+}.custom-1d15tds{font-size:17px;font-weight:300;color:#0070C9;text-decorati=
+on:none;}.custom-1q2yoq2{margin-top:30px;margin-bottom:30px;}.custom-9smyh7=
+{font-weight:300;font-size:17px;line-height:23px;font-size:13px;color:#8888=
+88;margin-top:0;margin-bottom:0;line-height:1.5;}.custom-9ro87k a:link{colo=
+r:#666;}.footer-copy+.custom-9ro87k{margin-top:-20px;}.custom-1p74tef{color=
+:#666;text-decoration:none;font-size:13px;}.custom-bc7j6f{color:#666;margin=
+:0px 10px;text-align:center;font-size:13px;}.custom-1eduvzf{font-size:14px;=
+color:#666666;line-height:1.6;margin:0;}.rtl .custom-1eduvzf{margin-right:5=
+px;margin-left:0;}.ltr .custom-1eduvzf{margin-right:0;margin-left:5px;}.rtl=
+ .custom-vr1cqx{margin-right:10px;margin-left:0;}.ltr .custom-vr1cqx{margin=
+-right:0;margin-left:10px;}.custom-1nn7g7i{width:100%;}@media(max-width: 48=
+0px){.custom-1nn7g7i{text-align:center;}}.custom-4anrg1{font-size:14px;line=
+-height:1.47059;font-weight:200;letter-spacing:-0.022em;border-color:transp=
+arent;border-width:0px;border-radius:8px;cursor:pointer;display:inline-bloc=
+k;min-width:260px;max-width:340px;padding:8px 15px;margin:5px 0;text-align:=
+center;white-space:nowrap;}@media(max-width: 480px){.custom-4anrg1{min-widt=
+h:100%;}}.custom-s25aja{text-align:center;color:rgb(102,102,102);}.custom-d=
+54uh7{font-weight:300;font-size:17px;line-height:23px;margin-block-end:0px;=
+}.custom-xi606m{text-align:center;}</style></head><body class=3D"custom-hzv=
+07h"><div lang=3D"en-gb" dir=3D"ltr" class=3D"ltr custom-qrj5ky" id=3D"emai=
+l_container"><div id=3D"header_section" class=3D"custom-1ago99h"><div class=
+=3D"header custom-1p2cbqg"><div class=3D"header__container custom-m31y3a"><=
+img height=3D"24" src=3D"https://s.mzstatic.com/email/modern/logo/apple-134=
+-70x84.png" alt=3D"Apple"></div><div class=3D"header__container"><h1 class=
+=3D"custom-gqemx3">Tax Invoice</h1></div></div></div><div id=3D"body_sectio=
+n" class=3D"custom-6ffxnu"><div><p class=3D"custom-18w16cf">5 February 2026=
+</p><div><p class=3D"custom-f41j3e">Sequence:</p><p class=3D"custom-zresjj"=
+>3-606463374<br></p></div><div><p class=3D"custom-f41j3e">Order ID:</p><p c=
+lass=3D"custom-zresjj">MNMSSVG0L7<br></p></div><div><p class=3D"custom-f41j=
+3e">Document:</p><p class=3D"custom-zresjj">664087463100<br></p></div><div>=
+<p class=3D"custom-f41j3e">Apple Account:</p><p class=3D"custom-zresjj">syl=
+vester.daniel@gmail.com<br></p></div></div><table width=3D"100%" class=3D"s=
+ubscription-lockup__container custom-rgm23z"><tr class=3D"subscription-lock=
+up"><td valign=3D"top" class=3D"custom-omvd4k"><img height=3D"60" alt=3D"Ti=
+ckTick:To-Do List, Calendar" src=3D"https://is1-ssl.mzstatic.com/image/thum=
+b/Purple221/v4/06/ad/78/06ad78d5-3907-1d39-6257-048e9a2099bf/AppIcon-0-0-85=
+-220-0-0-6-0-2x.png/120x0w.jpg" class=3D"custom-1skwja4"></td><td valign=3D=
+"top" class=3D"subscription-lockup__content custom-vc9uxc"><p class=3D"cust=
+om-gzadzy">TickTick:To-Do List, Calendar</p><p class=3D"custom-wogfc8">Mont=
+hly TickTick Premium (Monthly)<br></p><p class=3D"custom-wogfc8">SAC: 99843=
+4<br></p><p class=3D"custom-wogfc8">Renews 6 March 2026<br></p><p class=3D"=
+custom-wogfc8">MacBook Pro<br></p></td><td valign=3D"top" class=3D"subscrip=
+tion-lockup__bottom-text__col custom-i8xbl3"><p class=3D"custom-137u684">=
+=E2=82=B9&nbsp;269.00<br></p><p class=3D"custom-1eduvzf"><span>Inclusive of=
+ IGST at 18%</span><span class=3D"custom-vr1cqx">=E2=82=B9&nbsp;41.03</span=
+></p></td></tr></table><div class=3D"payment-information custom-1y6quhx"><h=
+2 class=3D"custom-178jbzr">Billing and Payment</h2><div><div class=3D"payme=
+nt-information__col payment-information__left custom-9urhlu"><p class=3D"cu=
+stom-1d5xd7o">Sylvester Daniel</p><p class=3D"custom-1d5xd7o">9 Ramesh Mahe=
+sh Apt</p><p class=3D"custom-1d5xd7o">169 R.K. Mutt road, Mandaveli</p><p c=
+lass=3D"custom-1d5xd7o">Chennai 600028</p><p class=3D"custom-1d5xd7o">TN</p=
+><p class=3D"custom-1d5xd7o">India</p></div><div class=3D"payment-informati=
+on__col custom-9urhlu"><div class=3D"payment-information__subtotal-group cu=
+stom-1deqyu"><p class=3D"custom-4tra68">Subtotal<!-- --> </p><div class=3D"=
+custom-68yyeh"><p class=3D"custom-1s7arqf">=E2=82=B9&nbsp;227.97<!-- --> </=
+p></div><p class=3D"custom-4tra68">IGST charged at 18%<!-- --> </p><div cla=
+ss=3D"custom-68yyeh"><p class=3D"custom-1s7arqf">=E2=82=B9&nbsp;41.03<!-- -=
+-> </p></div></div><hr class=3D"custom-pko50u"><p class=3D"custom-15zbox7">=
+Store Credit<br></p><div class=3D"custom-68yyeh"><p class=3D"custom-jhluqm"=
+>=E2=82=B9&nbsp;269.00<br></p></div></div></div></div></div><div id=3D"foot=
+er_section" class=3D"custom-161t2u8"><p class=3D"custom-1cfbe7l">You can tu=
+rn off renewal receipts to stop getting emails each time your subscriptions=
+ renew. You can always view your receipts from App&nbsp;Store settings&nbsp=
+;=E2=80=BA Purchase&nbsp;History.<br></p><div class=3D"action-button-cell c=
+ustom-1nn7g7i"><a href=3D"https://link.apple.com/account/toggle-renewal-rec=
+eipts/ddcf383b-7e95-4e7d-8869-606c16d09168?storefront=3DIND&amp;locale=3Den=
+-gb" target=3D"_=3Dblank" rel=3D"nofollow"><button class=3D"action custom-4=
+anrg1">Turn Off Renewal Receipt Emails</button></a></div><div class=3D"cust=
+om-1sstyyn"><h3 class=3D"custom-1q234kp">Get Help with Subscriptions and Pu=
+rchases</h3><div class=3D"custom-4cxybv"><a href=3D"https://apps.apple.com/=
+account/subscriptions" target=3D"_=3Dblank" rel=3D"nofollow" class=3D"body-=
+link custom-1d15tds">Manage Subscriptions<!-- --> <!-- -->=E2=80=BA</a></di=
+v><div class=3D"custom-4cxybv"><a href=3D"https://apps.apple.com/account/pu=
+rchases" target=3D"_=3Dblank" rel=3D"nofollow" class=3D"body-link custom-1d=
+15tds">Purchase History<!-- --> <!-- -->=E2=80=BA</a></div><div class=3D"cu=
+stom-4cxybv"><a href=3D"https://reportaproblem.apple.com" target=3D"_=3Dbla=
+nk" rel=3D"nofollow" class=3D"body-link custom-1d15tds">Report a Problem<!-=
+- --> <!-- -->=E2=80=BA</a></div><div class=3D"custom-4cxybv"><a href=3D"ht=
+tps://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/accountSummary?mt=3D=
+8" target=3D"_=3Dblank" rel=3D"nofollow" class=3D"body-link custom-1d15tds"=
+>View Your Account Information<!-- --> <!-- -->=E2=80=BA</a></div><div clas=
+s=3D"custom-4cxybv"><a href=3D"https://support.apple.com/en-gb/billing" tar=
+get=3D"_=3Dblank" rel=3D"nofollow" class=3D"body-link custom-1d15tds">Visit=
+ Apple Support<!-- --> <!-- -->=E2=80=BA</a></div></div><div class=3D"foote=
+r-copy custom-1q2yoq2"><p class=3D"body custom-9smyh7">Place of supply: TN<=
+br></p></div><div class=3D"footer-copy custom-1q2yoq2"><p class=3D"body cus=
+tom-9smyh7">Privacy: We use a <a class=3D"body-link custom-ytumd6" target=
+=3D"_blank" rel=3D"noopener nofollow" href=3D"https://support.apple.com/kb/=
+HT207233">Subscriber ID</a> to provide reports to developers.<br></p></div>=
+<div class=3D"footer-copy custom-1q2yoq2"><p class=3D"body custom-9smyh7">T=
+M and =C2=A9 2026 Apple Distribution International Ltd., Hollyhill Industri=
+al Estate, Hollyhill, Cork, Ireland<br></p><p class=3D"body custom-9smyh7">=
+GSTIN Registration Number - 9917IRL29001OSK.<br></p></div><div class=3D"inl=
+ine-link-group custom-9ro87k"><span><a href=3D"https://www.apple.com/uk/leg=
+al/" class=3D"custom-1p74tef">All Rights Reserved</a><span class=3D"custom-=
+bc7j6f"> | </span></span><span><a href=3D"https://www.apple.com/legal/priva=
+cy/" class=3D"custom-1p74tef">Privacy Policy</a><span class=3D"custom-bc7j6=
+f"> | </span></span><span><a href=3D"https://www.apple.com/legal/internet-s=
+ervices/itunes/uk/terms.html" class=3D"custom-1p74tef">Terms of Sale</a></s=
+pan></div><div class=3D"image"><div class=3D"custom-s25aja"><p class=3D"cus=
+tom-d54uh7">Authorised Signatory:<br></p></div><div class=3D"custom-xi606m"=
+><img src=3D"https://s.mzstatic.com/email/images_shared/signatory_v2.png" a=
+lt=3D"Tony Bruen" width=3D"170" height=3D"80"></div></div></div></div></bod=
+y></html>=
+
+------=_Part_115858854_1056855919.1770369899187--

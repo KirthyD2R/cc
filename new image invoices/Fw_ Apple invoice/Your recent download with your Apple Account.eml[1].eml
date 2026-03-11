@@ -1,0 +1,250 @@
+Delivered-To: sylvester.daniel@gmail.com
+Received: by 2002:a17:907:a60a:b0:b49:9095:ab15 with SMTP id vt10csp1255780ejc;
+        Sat, 4 Oct 2025 02:40:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFGJVLY8L2Fn1dzbA/Y0OOo7KkQKLrtUGYstZXzKVtFUIiiGLIxD2v727zrts1kMd/s2uBG
+X-Received: by 2002:ad4:5ccc:0:b0:78c:f62c:8eb1 with SMTP id 6a1803df08f44-878bbf0f5e8mr125718946d6.26.1759570820780;
+        Sat, 04 Oct 2025 02:40:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1759570820; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UbzaRjf+/Sd+emqDOyBWNGBZBpOe8PvXK1lOKtcMIbMMIV8kiImWZyw0zp2o638nlZ
+         OBbB1ItII0sJDOcDC+4MzGUAyy9rFGvMtywdiVaXbSohwaHntoMl4R7VD9LVy/NK7ArS
+         T07HfRN+bxIzcBVNcDaJCBVYhzYDB7G5kxPfs0fMD2f21zCZGszVanCPDJQshsbGdRi2
+         Ew60qP9AkyIVBjAFwG1NoiBMrP5oXsFTBDPwqp2nSfq1BoPZB01sm2k+Hep15n1nUS9z
+         0vPC5V4gKhwRUpJjTpa2RdqsRhUq1n9RNtTdMf0lTDBrxnlsE7TUXzg5nylN6umVpwjF
+         rj5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:subject:message-id:to:from:date:dkim-signature;
+        bh=MEUijdkeMr6hr0nOVUrlRt6enTyR5Ovnfy3/PEkFg2U=;
+        fh=Olb1JnE4dBZiUwVvfwTqQlx8F6wOx5U1TXWp5mvfxUU=;
+        b=gAzRfXINo0QH3v4zIjz5UnFivWEESXOZpDBwMdR+qrbsY+UNkMVzyZqVrwy8eiFfBA
+         uHrMpo6uIZ1cV1V8sgsUSlvAkmyii1xcFd3YZ40bwcKkbwmrd6Fl/xb7BHHhvGmoEuui
+         WBNV/vvd1jb1xodkDgQ9Id39hUFHj1CggeBt7woXklpg7XNIcsC9eCWkMMz6SxUf8fic
+         yzEyntJ01fhL1LbpEWgf2Qn9z641iiQoKqJi9Tp1h5cqgL+YYVURbPEDA67b0KKH4upH
+         lhP525CKel0N4gcHGI2zYL1JD2enxhUErXRTapLSq26mVdKAc1IMt8zP7HGI/RKofwkH
+         xviw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@email.apple.com header.s=email0517 header.b=bJFCe1jn;
+       spf=pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.124 as permitted sender) smtp.mailfrom=no_reply@email.apple.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=email.apple.com
+Return-Path: <no_reply@email.apple.com>
+Received: from rn2-txn-msbadger08107.apple.com (rn2-txn-msbadger08107.apple.com. [17.111.110.124])
+        by mx.google.com with ESMTPS id 6a1803df08f44-878bea0d0c6si32266416d6.833.2025.10.04.02.40.20
+        for <sylvester.daniel@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 04 Oct 2025 02:40:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.124 as permitted sender) client-ip=17.111.110.124;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@email.apple.com header.s=email0517 header.b=bJFCe1jn;
+       spf=pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.124 as permitted sender) smtp.mailfrom=no_reply@email.apple.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=email.apple.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.apple.com;
+	s=email0517; t=1759570820;
+	bh=MEUijdkeMr6hr0nOVUrlRt6enTyR5Ovnfy3/PEkFg2U=;
+	h=Date:From:To:Message-ID:Subject:Content-Type;
+	b=bJFCe1jnKsxq7szCul/AN3/MJweRzhcLcYawbsu2htrqoVEoVugdlQgzuqHEqh7mE
+	 UhIqdf8sewMynEzlBWv+4rC3W2JOxMw7to8/lqjYyEscTMdnYnflPq50AbfWlvQ/u/
+	 WWTMTLLxyndM/LKGl8QGg8MQl00HhAceeok6ZlN5NgXvuBz+aWD41YdudaJiZ2pA8v
+	 lY1GFRGtYecEBTV9TfC7+iVHrKGOySoBIoXt3r5REVIjvkb1od+odgdmAI29exAASf
+	 LpDRKfBDw2g4ZOQmRR4TCAHQx49q0PoIB47ddCoY4FjpM/E9nbyJ8L1J4x9N9Nv+S7
+	 rnur1zxts9MUQ==
+Date: Sat, 4 Oct 2025 09:40:20 +0000 (GMT)
+From: Apple <no_reply@email.apple.com>
+To: sylvester.daniel@gmail.com
+Message-ID: <1887789117.46787158.1759570820399@email.apple.com>
+Subject: =?ISO-8859-1?Q?Your_recent_download_with_your_Apple=A0Account?=
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_46787156_1122416418.1759570820399"
+X-Broadcast-Id: 10631
+X-Attach-Flag: N
+X-COMMS-C: false
+X-Sent-To: sylvester.daniel@gmail.com,2,V5L7XqScC5nRJWfaqJQSczRxJZTkCJHM1OBDWiBBGYlkyXJUnAIbeIpFUZKopOOYnLpsWUqbQ4%2BK9IixjwUR8k%2FqG0ZDP67wHguZo2c9XUYi8Cyvj0KeYkRRV4qYnwq59LVgkq22CFU5bvqH20R4X6ea%2B64mXIwYN%2FxsI8xyfN4HgLjUYGzGnNnOFesF6TyYKYTB2P61R2m77QUzTp60jCQ%2Banfu4GYLBXw0di4sUpFGntlU1UPMpuhEIY3e%2FJ8BXZHmncIwFXs8TSVXLbIbpuU4rconKaVHohWfPYIzI2553hcdptp1aRJ41AAOJXnwwmM7v%2FPM16WcrmTe%2BmOos12Q6YBnQgQmmZYgiPQAdPKZ3xrTaNKU9vSB1cB%2BOpuKp9%2FGchNy3RuqVWEYytsIbgr%2BttIoWhMWFFnC2IWkk6XxcOsn19bXB1Bn8daCnGEdYm0Ma9vpvdAabpVQ4NASrA%3D%3D
+X-TXN_ID: 14db1442-759a-4ca0-af70-bca584b3ec2e
+X-DKIM_SIGN_REQUIRED: YES
+X-EmailType-Id: 10631
+X-Business-Group: iTunes
+X-Country: US
+MIME-Version: 1.0
+
+------=_Part_46787156_1122416418.1759570820399
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Disposition: inline
+
+Apple Recent Download
+-----------------------------------------------------------
+
+Your Apple=A0Account, sylvester.daniel@gmail.com, was just used to download=
+ @@itemName@@ on a computer or device that has not previously been used. Yo=
+u may also be receiving this email if you reset your password since your la=
+st purchase.
+
+If you initiated this download, you can disregard this email. It was only s=
+ent to alert you in case you had not initiated this download yourself.
+
+If you did not initiate this download, we recommend that you go to iforgot.=
+apple.com to change your password, then see Apple=A0Account: Security and y=
+our Apple=A0Account for further assistance.
+
+Sincerely,
+Apple
+
+
+
+
+Apple respects your privacy
+Information regarding your personal information can be viewed at https://ww=
+w.apple.com/legal/privacy/.
+
+
+Terms of Sale: https://www.apple.com/legal/internet-services/itunes/uk/term=
+s.html
+
+Apple=A0Account: https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/a=
+ccountSummary?mt=3D8
+------=_Part_46787156_1122416418.1759570820399
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Disposition: inline
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
+w3.org/TR/html4/loose.dtd"><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+    <title></title>
+    <style type=3D"text/css" id=3D"contentStyles">
+        .left-gutter { width: 20px !important; }
+        .right-gutter { width: 20px !important; }
+        a[href] { text-decoration: none !important; }
+        a[href]:hover, a[href]:hover { text-decoration: underline !importan=
+t; }
+        .footer-spacer { height: 40px !important; }
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi=
+) {}
+        @media (max-width: 768px) {
+          .aapl-desktop-tbl, #content-tbl { width: 742px !important; }
+          #content-cell { padding-top: 30px !important; padding-bottom: 40p=
+x !important;}
+        }
+        @media (max-width: 736px) {
+          .small-artwork { display: inline !important; }
+          .large-artwork { display: none !important; }
+          .large-header-logo { display: none !important; }
+          .small-header-logo { display: inline !important; }
+          .large-footer-logo { display: none !important; }
+          .small-footer-logo { display: inline !important; }
+          .paragraph-spacer { height: 15px !important; }
+          .aapl-desktop-tbl, #content-tbl { width: 480px !important; }
+          .left-gutter, .right-gutter { width: 16px !important; }
+          .wrd-break { display: block !important; }
+          .footer-spacer { height: 15px !important; }
+          #content-cell { padding-top: 30px !important; padding-bottom: 40p=
+x !important;}
+        }
+    </style>
+</head>
+<body bgcolor=3D"#FFFFFF" link=3D"#0073ff" vlink=3D"#1187FF" alink=3D"#0073=
+ff" leftmargin=3D"0" marginheight=3D"0" marginwidth=3D"0" topmargin=3D"0">
+    <br><br>
+<div class=3D"aapl-desktop-div" style=3D"display:block;padding:0;margin:0;h=
+eight:100%;max-height:none;min-height:none;line-height:normal;overflow:visi=
+ble;">
+<table class=3D"aapl-desktop-tbl" border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" align=3D"center" style=3D"border-collapse:collapse;border-spacing:0=
+;width:742px;">
+  <tr>
+    <td class=3D"left-gutter" style=3D"width:50px;"></td>
+    <td>
+<img width=3D"42" height=3D"42" alt=3D"Apple" src=3D"https://s.mzstatic.com=
+/email/images_shared/logo_apple_d-2x.png" border=3D"0" style=3D"border:none=
+;padding:0;margin:0;-ms-interpolation-mode:bicubic;">
+    </td>
+    <td en-GB=3D"" false=3D"" align=3D"right" style=3D"font-size:32px; font=
+-weight:300; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; c=
+olor: rgb(136,136,136)">Recent Download</td>
+    <td class=3D"right-gutter" style=3D"width:50px;"></td>
+  </tr>
+  <tr height=3D"20"><td colspan=3D"4">&nbsp;</td><tr>
+  <tr>
+    <td colspan=3D"4" align=3D"center">
+    <table id=3D"content-tbl" border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" style=3D"font-family:'-apple-system', 'Helvetica Neue', Helvetica, Aria=
+l, sans-serif;font-size:16px;border-collapse:collapse;border-spacing:0;">
+        <tr>
+            <td class=3D"left-gutter" style=3D"width:20px;"></td>
+            <td align=3D" left" id=3D"content-cell" style=3D"border-top:1px=
+ solid #f2f2f2;border-bottom: 1px solid #f2f2f2;padding-top:40px;padding-bo=
+ttom:60px;">
+Dear Sylvester,                <p>Your Apple&nbsp;Account, <a href=3D"mailt=
+o:sylvester.daniel@gmail.com" target=3D"_blank" rel=3D"noopener nofollow" s=
+tyle=3D"color:black;text-decoration:none;font-weight:600;">sylvester.daniel=
+@gmail.com</a>, was just used to download @@itemName@@ on a computer or dev=
+ice that has not previously been used. You may also be receiving this email=
+ if you reset your password since your last purchase.</p>
+                <p>If you initiated this download, you can disregard this e=
+mail. It was only sent to alert you in case you had not initiated this down=
+load yourself.</p>
+                <p>If you did not initiate this download, we recommend that=
+ you go to <a href=3D"http://iforgot.apple.com" target=3D"_blank" rel=3D"no=
+opener nofollow">iforgot.apple.com</a> to change your password, then see <a=
+ href=3D"http://support.apple.com/kb/HT4232" target=3D"_blank" rel=3D"noope=
+ner nofollow">Apple&nbsp;Account: Security and your Apple&nbsp;Account</a> =
+for further assistance.</p>
+                <p>Sincerely,<br>Apple</p>
+            </td>
+            <td class=3D"right-gutter" style=3D"width:20px;"></td>
+        </tr>
+    </table>
+  </td>
+</tr>
+<tr class=3D"footer-spacer" style=3D"height:50px"><td colspan=3D"4">&nbsp;<=
+/td></tr>
+<tr>
+  <td></td>
+  <td class=3D"" colspan=3D"2" align=3D"center" style=3D"font-size:12px; fo=
+nt-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: rgb(102,102,=
+102)">
+    <img class=3D"large-footer-logo" width=3D"26" height=3D"26" border=3D"0=
+" alt=3D"Apple" src=3D"https://s.mzstatic.com/email/images_shared/logo_appl=
+e_small_d-2x.png" style=3D"border:none;padding:0;margin:0;-ms-interpolation=
+-mode: bicubic;">
+    <img class=3D"small-footer-logo" width=3D"14" height=3D"14" border=3D"0=
+" alt=3D"Apple" src=3D"https://s.mzstatic.com/email/images_shared/logo_appl=
+e_small_m-3x.png" style=3D"display:none;border:none;padding:0;margin:0;-ms-=
+interpolation-mode: bicubic;">
+  </td>
+  <td></td>
+</tr>
+<tr height=3D"8"><td colspan=3D"4">&nbsp;</td></tr>
+<tr>
+  <td></td>
+  <td colspan=3D"2" align=3D"center" style=3D"font-size:12px; font-family: =
+'Helvetica Neue',Helvetica,Arial,sans-serif; color: rgb(102,102,102)">
+<a href=3D"https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/account=
+Summary?mt=3D8" style=3D"color:#0073ff;">Apple&nbsp;Account</a>&nbsp;=E2=80=
+=A2&nbsp;<a href=3D"https://www.apple.com/legal/internet-services/itunes/uk=
+/terms.html" style=3D"color:#0073ff;">Terms of Sale</a>&nbsp;=E2=80=A2&nbsp=
+;<a href=3D"https://www.apple.com/legal/privacy/" style=3D"color:#0073ff;">=
+Privacy Policy</a>
+  </td>
+  <td></td>
+</tr>
+<tr height=3D"25"><td colspan=3D"4">&nbsp;</td></tr>
+<tr>
+  <td></td>
+  <td colspan=3D"2" align=3D"center" dir=3D"auto" style=3D"font-size:12px;f=
+ont-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:rgb(102,102,10=
+2)">
+      Copyright =C2=A9 2025 Apple Distribution International Ltd. <br>
+      <a href=3D"https://www.apple.com/uk/legal/" style=3D"color:#1187FF">A=
+ll rights reserved</a>
+  </td>
+  <td></td>
+</tr>
+<tr height=3D"25"><td colspan=3D"4" height=3D"30">&nbsp;</td></tr>
+</table>
+</div>
+    <br><br>
+</body>
+</html>=
+
+------=_Part_46787156_1122416418.1759570820399--

@@ -1,0 +1,711 @@
+Delivered-To: sylvester.daniel@gmail.com
+Received: by 2002:a17:906:2dd0:b0:a8a:8be1:22e with SMTP id h16csp301751eji;
+        Fri, 11 Oct 2024 04:43:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGc9tsqA860/grnFPZuc8byXwTVNM/Fzv/VZdpFkMOpi95vukE2fmV/E0zgiidQPsdUI1IE
+X-Received: by 2002:a05:622a:c1:b0:45d:6daa:8aaf with SMTP id d75a77b69052e-4604bbcf63emr28775211cf.29.1728647009973;
+        Fri, 11 Oct 2024 04:43:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1728647009; cv=none;
+        d=google.com; s=arc-20240605;
+        b=R8d1OFu2eD3Jx52IVR8mPC45H23LVs/dHV/z2Uww81gDnFowOcIgfUtNWTI5KHsWka
+         E4vcpBi8d4pDpyQsTIpvIvy6FPKSucdhzQeFqTylN30qBud1lhR+g6PqSk/UiBAQvA9A
+         nh5khH5UQ1UAW6pn7mqL4BwjX31For3LW5tulTxkt9Vfc4w3Rprwc06mcnNx6EqRvKcm
+         BAOCY/0H3Sc5g0WuKuDbx34lt4SNZLXQ81icOAe5/n2L90o2vvIFiegrpx1cNlEXw46q
+         dvgx7agmsCw9LSUdYTGXyD66H/KDzNpVZCvUNMD+akBfwdoC25NvqVecy80FR/B1Pipg
+         Mjow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:subject:message-id:to:from:date:dkim-signature;
+        bh=/CixlWqEx4C0lN8khttFuln9iFC7W0v6iQUJeqo2KMA=;
+        fh=Olb1JnE4dBZiUwVvfwTqQlx8F6wOx5U1TXWp5mvfxUU=;
+        b=DOmtGcJzAhN9xuPfLBWTM3TLeOydx9JzRnbU3C+xrJ0ob6sugDzXeG/CW9fLjsnbsg
+         kOypN7S1w+9mZ+8T6nxMeZTIuMVd65Z7KOwUkOypZ0gn60dLBWdpPiHAOePmwX44lQQD
+         filvb2bTiHszSjrGyz3x1KatcoYTMUMSwZs93chxsal2UDNpgbDIKGyRhnX3UeYo3+7Y
+         D9Om2BXPL0b0TF+J1do6Uapj038nM3aZVBKSiOxwKMbeHDV9o4cNzAZ89s48L6AwKiTN
+         CoRtXQXGVniv6iPY4rO36175Mt4Rv5AkqCb9uqaoQp0+2EI95flQ6CX55aIYT5BPkSl6
+         fmIw==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@email.apple.com header.s=email0517 header.b="QCcevu/i";
+       spf=pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.91 as permitted sender) smtp.mailfrom=no_reply@email.apple.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=email.apple.com
+Return-Path: <no_reply@email.apple.com>
+Received: from rn2-txn-msbadger05107.apple.com (rn2-txn-msbadger05107.apple.com. [17.111.110.91])
+        by mx.google.com with ESMTPS id d75a77b69052e-460428e5f6dsi34915491cf.798.2024.10.11.04.43.29
+        for <sylvester.daniel@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 11 Oct 2024 04:43:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.91 as permitted sender) client-ip=17.111.110.91;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@email.apple.com header.s=email0517 header.b="QCcevu/i";
+       spf=pass (google.com: domain of no_reply@email.apple.com designates 17.111.110.91 as permitted sender) smtp.mailfrom=no_reply@email.apple.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=email.apple.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.apple.com;
+	s=email0517; t=1728647007;
+	bh=/CixlWqEx4C0lN8khttFuln9iFC7W0v6iQUJeqo2KMA=;
+	h=Date:From:To:Message-ID:Subject:Content-Type;
+	b=QCcevu/iogt2yUuncRV8chZ1uLQAAUywivf96houiDKeRBI2cQGRpXTXO6aRQciIW
+	 2dLdCeDa37lC34pu2tioI1DRD82McmFmtRbZ3IvMlowcw0MTTnVMwS1CqPTb5Vrmuq
+	 c8i6xFb9FKn4N3zNEoX+MetW7Rb/OWnUhdAeOEDSCoP/3B7EwOaS2v7wuM9YL7e/96
+	 ZQKw1uPY+wERSQwGTepggcn1fyMhF3Qli69jGN4ZzxhMOxU8FR06jeIhxcyydx2v30
+	 zX1aB1BjNyeXG5nPh9wmRTX3XeKqgACj2K6FHgPfurHgaZXSFVG25v3fLkMv497hHd
+	 WoyYq+lweM8eQ==
+Date: Fri, 11 Oct 2024 11:43:27 +0000 (GMT)
+From: Apple <no_reply@email.apple.com>
+To: sylvester.daniel@gmail.com
+Message-ID: <615557451.105858689.1728647007623@email.apple.com>
+Subject: Your invoice from Apple.
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_105858687_871829908.1728647007623"
+X-Broadcast-Id: 10631
+X-Attach-Flag: N
+X-COMMS-C: false
+X-Sent-To: sylvester.daniel@gmail.com,2,HG1vHUqChvs9JldbBQX%2FWV7NCobbw0PymWydas%2FWkfVkyXJUnAIbeIpFUZKopOOYnLpsWUqbQ4%2BK9IixjwUR8kkjUMdfN6qMZXjv9y2ZJc26UYJjte0zK1UEP2S9pL5s77Hh%2Fz1ZKc6jtXJD6XzZKmyzihZFBhC%2FPuhQj6queqYzvkSNXPYW%2FyTrID9BLF9sOZYKNgdH%2B%2Br38L8iYTu9RSQ%2Banfu4GYLBXw0di4sUpFGntlU1UPMpuhEIY3e%2FJ8BXZHmncIwFXs8TSVXLbIbpuU4rconKaVHohWfPYIzI2553hcdptp1aRJ41AAOJXnwwmM7v%2FPM16WcrmTe%2BmOos12Q6YBnQgQmmZYgiPQAdPKZ3xrTaNKU9vSB1cB%2BOpuKp9%2FGchNy3RuqVWEYytsIbgr%2BttIoWhMWFFnC2IWkk6XxcOsn19bXB1Bn8daCnGEdYm0Ma9vpvdAabpVQ4NASrA%3D%3D
+X-TXN_ID: 41f808cb-b024-4968-a457-c1db6fcf4040
+X-DKIM_SIGN_REQUIRED: YES
+X-EmailType-Id: 10631
+X-Business-Group: iTunes
+X-Country: US
+MIME-Version: 1.0
+
+------=_Part_105858687_871829908.1728647007623
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Disposition: inline
+
+<html lang=3D"en-GB"><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"><t=
+itle></title>
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width">
+  <meta name=3D"format-detection" content=3D"telephone=3Dno">
+  </head>
+<body media-query-fix=3D"fix" bgcolor=3D"#ffffff" link=3D"#3366cc" vlink=3D=
+"#3366cc" alink=3D"#3366cc" leftmargin=3D"0" marginheight=3D"0" marginwidth=
+=3D"0" topmargin=3D"0" style=3D"margin:0;padding:0;">
+    <style type=3D"text/css">
+   =20
+    a, a:link, a:visited, a:active {color:#007eff;text-decoration:none;}
+    a:hover {text-decoration:underline}
+    * {text-rendering:optimizelegibility;-webkit-font-smoothing:antialiased=
+;}
+    img {-ms-interpolation-mode: bicubic;}
+    table {border-collapse: collapse; border-spacing: 0;}
+    sup {font-weight: 300;}
+    @media (max-width: 480px) {
+      div[class=3Daapl-mobile-div] {display: block !important;-webkit-text-=
+size-adjust:none;height:100% !important;important;overflow:visible !importa=
+nt;max-height:none !important;min-height:none !important;line-height:normal=
+ !important;}
+      div[class=3Daapl-desktop-div] {display: none !important;height:0;over=
+flow:hidden !important;max-height:0;min-height:0;line-height:0}
+    }
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+      a {color:inherit}
+    }
+        </style>
+  <br><br>
+  <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" =
+style=3D"border-collapse:collapse;border-spacing:0;">
+    <tr>
+      <td valign=3D"top">
+              <div class=3D"aapl-desktop-div" style=3D"display:block;paddin=
+g:0;margin:0;height:100%;max-height:none;min-height:none;line-height:normal=
+;overflow:visible;">
+<table class=3D"aapl-desktop-tbl" border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" align=3D"center" style=3D"border-collapse:collapse;border-spacing:0=
+;width:742px;">
+  <tr>
+    <td class=3D"left-gutter" style=3D"width:50px;"></td>
+    <td>
+      <img width=3D"42" height=3D"42" alt=3D"Apple" src=3D"https://s.mzstat=
+ic.com/email/images_shared/logo_apple_d-2x.png" border=3D"0" style=3D"borde=
+r:none;padding:0;margin:0;-ms-interpolation-mode:bicubic;">    </td>
+    <td en-GB=3D"" false=3D"" align=3D"right" style=3D"font-size:32px; font=
+-weight:300; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; c=
+olor: rgb(136,136,136)">Tax Invoice</td>
+    <td class=3D"right-gutter" style=3D"width:50px;"></td>
+  </tr>
+  <tr height=3D"20"><td colspan=3D"4">&nbsp;</td><tr>
+  <tr>
+    <td colspan=3D"4" align=3D"center">
+<table class=3D"aapl-desktop-tbl" border=3D"0" cellspacing=3D"0" cellpaddin=
+g=3D"0" width=3D"660" style=3D"border-collapse:collapse;border-spacing:0;">
+    <tr>
+    <td>
+      <table class=3D"aapl-desktop-tbl" border=3D"0" bordercolor=3D"#ffffff=
+" cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collapse;bor=
+der-spacing:0;color:rgb(51,51,51);background-color: rgb(250,250,250);border=
+-radius:3px;font-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,san=
+s-serif;">
+        <tr height=3D"46">
+          <td width=3D"320" colspan=3D"2" style=3D"padding-left:20px;border=
+-style: solid;border-color: white;border-left-width:0;border-right-width:1p=
+x;border-bottom-width: 1px;border-top-width: 0px;"><span style=3D"color:rgb=
+(102,102,102);font-size:10px;">
+            APPLE&nbsp;ACCOUNT</span><br>sylvester.daniel@gmail.com
+                      </td>
+                    <td width=3D"340" rowspan=3D"3" style=3D"padding-left:2=
+0px;border-style:solid;border-color:white;border-left-width:0px;border-righ=
+t-width:0px;border-top-width:0px; border-bottom-width:0px;">
+                      <span style=3D"color:rgb(102,102,102);font-size:10px;=
+">BILLED TO</span><br>
+            Store Credit<br>            Sylvester  Daniel<br>
+            9 Ramesh Mahesh Apt<br>169 R.K. Mutt road, Mandaveli<br>Chennai=
+,  TN  600028<br>IND                                                       =
+ </td>
+        </tr>
+                <tr height=3D"46">
+          <td style=3D"padding-left:20px;border-style:solid; border-color:w=
+hite;border-left-width:0;border-right-width:1px;border-bottom-width:1px;bor=
+der-top-width:0px;"><span style=3D"color:rgb(102,102,102);font-size:10px;">=
+INVOICE DATE</span><br><span dir=3D"auto">11 Oct 2024</span></td>
+          <td style=3D"padding-left:20px;border-style:solid;border-color:wh=
+ite;border-left-width:0;border-right-width:1px;border-bottom-width:1px;bord=
+er-top-width:0px;"><span style=3D"color:rgb(102,102,102);font-size:10px;">S=
+EQUENCE NO.</span><br>3-402036164</td>        </tr>
+        <tr height=3D"46">
+          <td style=3D"padding-left:20px;border-style:solid;border-color:wh=
+ite;border-left-width:0;border-right-width:1px;border-bottom-width:0px;bord=
+er-top-width:0px;"><span style=3D"color:rgb(102,102,102);font-size:10px;">O=
+RDER ID</span><br><span style=3D"color:#0070c9;"><a href=3D"https://support=
+.apple.com/kb/HT204088?cid=3Demail_receipt_itunes_article_HT204088" target=
+=3D"_blank" rel=3D"nofollow noopener">MNMNVV4L89</a></span></td>
+                    <td style=3D"padding-left:20px;border-style:solid;borde=
+r-color:white;border-left-width:0;border-right-width:1px;border-bottom-widt=
+h:0px;border-top-width:0px;"><span style=3D"color:rgb(102,102,102);font-siz=
+e:10px;">DOCUMENT NO.</span><br>188861408642</td>
+                            </tr>
+                      </table>
+    </td>
+  </tr>
+
+  <tr height=3D"30"><td></td></tr>
+  <tr>
+    <td>
+            <table class=3D"aapl-desktop-tbl" width=3D"660" border=3D"0" ce=
+llpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collapse;border-=
+spacing:0;width:660px;color:rgb(51,51,51);font-size:12px;font-family:'Helve=
+tica Neue',Helvetica,Arial,sans-serif;">
+        <tr height=3D"24" style=3D"background-color: rgb(250,250,250);" cla=
+ss=3D"section-header">
+          <td colspan=3D"3" width=3D"350" style=3D"width:350px;padding-left=
+:10px;border-top-left-radius:3px;border-bottom-left-radius:3px;"><span styl=
+e=3D"font-size:14px;font-weight:500;">App Store</span></td>
+        </tr>
+                <tr height=3D"15"><td colspan=3D"3"></td></tr>
+  <tr style=3D"max-height:114px;">
+                                                <td width=3D"64" class=3D"a=
+rtwork-cell" align=3D"center" valign=3D"top" style=3D"padding: 0 0 0 20px;m=
+argin:0;width:64px;">
+      <img src=3D"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/77/=
+0e/41/770e416e-f36f-3a30-527a-0883166d0b3a/AppIcon-0-1x_U007epad-0-0-0-0-0-=
+0-sRGB-85-220-0.png/128x128bb.jpg" width=3D"64" height=3D"64" border=3D"0" =
+alt=3D"" style=3D"padding:0;margin:0;-ms-interpolation-mode: bicubic;border=
+-radius:14px;border:1px solid rgba(128,128,128,0.2);">
+    </td>
+        <td style=3D"padding: 0 0 0 20px;line-height:15px;" class=3D"item-c=
+ell">
+      <span class=3D"title" dir=3D"auto" style=3D"font-weight:600;">
+                  JioCinema- Bigg Boss &amp; Cricket
+                        </span><br>
+                    <span class=3D"duration" style=3D"color:rgb(102,102,102=
+);">Premium+Ad-Free+1 Device (Monthly)</span><br>
+                                                      <span class=3D"renewa=
+l" style=3D"color:rgb(102,102,102);">Renews 11 Nov 2024</span><br>
+                                                                           =
+                 <span class=3D"taxRefId" style=3D"color:rgb(102,102,102);"=
+>SAC:998434</span><br>                        <a class=3D"item-links" style=
+=3D"font-size:10px;">
+            <a href=3D"https://buy.itunes.apple.com/WebObjects/MZFinance.wo=
+a/wa/reportAProblem?a=3D6499128354&amp;cc=3Din&amp;d=3D1382974123&amp;o=3Di=
+&amp;p=3D68065196382349&amp;pli=3D68083240312455&amp;s=3D1" style=3D"color:=
+#0070c9;">Report a Problem</a>              </span>
+    </td>
+    <td width=3D"100" class=3D"price-cell" align=3D"right" valign=3D"top" s=
+tyle=3D"padding:0 20px 0 0;width:100px;">
+      <table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"bord=
+er-collapse:collapse;border-spacing:0;font-size:12px;font-family:inherit;">
+              <tr><td align=3D"right" colspan=3D"3"><span style=3D"font-wei=
+ght:600;white-space:nowrap;">=E2=82=B9&nbsp;29</span></td></tr>
+                              <tr>
+                      <td align=3D"right"><span style=3D"white-space:nowrap=
+;color:rgb(102,102,102);">Inclusive of IGST at <b>18%</b></span></td>
+            <td width=3D"10">&nbsp;</td>
+            <td align=3D"right" style=3D"min-width:45px;"><span style=3D"wh=
+ite-space:nowrap;color:rgb(102,102,102);font-weight:600;">=E2=82=B9&nbsp;4<=
+/span></td>
+                    </tr>
+                    </table>
+    </td>
+  </tr>
+            </table>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <table class=3D"aapl-desktop-tbl" width=3D"660" border=3D"0" cellpadd=
+ing=3D"0" cellspacing=3D"0" style=3D"border-collapse:collapse;border-spacin=
+g:0;width:660px;color:rgb(51,51,51);font-family:'Helvetica Neue',Helvetica,=
+Arial,sans-serif;">
+              <tr height=3D"15"><td colspan=3D"3"></td></tr>
+        <tr>
+          <td colspan=3D"3" align=3D"right" style=3D"padding:0 20px 0 0;whi=
+te-space:nowrap;">
+            <table align=3D"right" border=3D"0" cellpadding=3D"0" cellspaci=
+ng=3D"0" style=3D"border-collapse:collapse;border-spacing:0;color:rgb(51,51=
+,51);font-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif=
+;">
+                          <tr>
+                <td align=3D"right"><span style=3D"color:rgb(102,102,102);w=
+hite-space:nowrap">Subtotal</span></td>
+                <td width=3D"10">&nbsp;</td>
+                <td align=3D"right">
+                                      <span style=3D"font-weight:600;white-=
+space:nowrap;">=E2=82=B9&nbsp;25</span>
+                                  </td>
+              </tr>
+              <tr><td colspan=3D"3" height=3D"4">&nbsp;</td></tr>
+                                                      <tr>
+                  <td align=3D"right"><span style=3D"color:rgb(102,102,102)=
+;white-space:nowrap;">IGST charged at 18%</span></td>
+                  <td width=3D"10">&nbsp;</td>
+                  <td align=3D"right" style=3D"min-width:45px;"><span style=
+=3D"white-space:nowrap;font-weight:600;">=E2=82=B9&nbsp;4</span></td>
+                </tr>
+                                                                          <=
+/table>
+          </td>
+        </tr>
+        <tr height=3D"15"><td colspan=3D"3"></td></tr>
+              <tr height=3D"1"><td height=3D"1" colspan=3D"3" style=3D"padd=
+ing:0 10px 0 10px;"><div style=3D"line-height:1px;height:1px;background-col=
+or:rgb(238,238,238);"></div></td></tr>
+        <tr height=3D"48">
+          <td align=3D"right" style=3D"color:rgb(102,102,102);font-size:10p=
+x;font-weight:600;padding: 0 30px 0 0;border-width:1px;border-color:rgb(238=
+,238,238);">TOTAL</td>
+          <td width=3D"1" style=3D"background-color:rgb(238,238,238);width:=
+1px;"></td>
+          <td width=3D"90" align=3D"right" style=3D"width:120px;padding:0 2=
+0px 0 0;font-size:16px;font-weight:600;white-space:nowrap;">
+                          =E2=82=B9&nbsp;29
+                      </td>
+        </tr>
+        <tr height=3D"1"><td height=3D"1" colspan=3D"3" style=3D"padding:0 =
+10px 0 10px;"><div style=3D"line-height:1px;height:1px;background-color:rgb=
+(238,238,238);"></div></td></tr>
+      </table>
+    </td>
+  </tr>
+    </table>
+  </td>
+</tr>
+<tr class=3D"footer-notice-spacer" style=3D"height:20px"><td colspan=3D"4">=
+&nbsp;</td></tr>
+<tr>
+  <td></td>
+  <td colspan=3D"2" align=3D"center" style=3D"font-size:12px; font-family: =
+'Helvetica Neue',Helvetica,Arial,sans-serif; color: rgb(102,102,102)">
+    Privacy: We use a <span style=3D"color:0073ff;"><a href=3D"http://suppo=
+rt.apple.com/kb/HT207233" target=3D"_blank" rel=3D"noopener nofollow" style=
+=3D"color:#0073ff;">Subscriber ID</a></span> to provide reports to develope=
+rs.
+  </td>
+  <td></td>
+</tr>
+<tr class=3D"footer-notice-spacer" style=3D"height:20px"><td colspan=3D"4">=
+&nbsp;</td></tr>
+<tr>
+  <td></td>
+  <td colspan=3D"2" align=3D"center" class=3D"footer-notices" style=3D"font=
+-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:rg=
+b(102,102,102)">
+                      Get help with subscriptions and purchases. <a href=3D=
+"https://support.apple.com/en-gb/billing?cid=3Demail_receipt">Visit Apple S=
+upport</a>.
+          <br><br>                Learn how to <a href=3D"https://support.a=
+pple.com/kb/HT204030?cid=3Demail_receipt_itunes_article_HT204030">manage yo=
+ur password preferences</a> for iTunes, Apple&nbsp;Books and App&nbsp;Store=
+ purchases.<br><br>            Place of supply: TN<br><br>Apple&nbsp;ID is =
+now Apple&nbsp;Account. You can still sign in with the same email address o=
+r phone number and password.<br><br>  </td>
+  <td></td>
+</tr>
+<tr class=3D"footer-spacer" style=3D"height:40px"><td colspan=3D"4">&nbsp;<=
+/td></tr><tr>
+  <td></td>
+  <td class=3D"" colspan=3D"2" align=3D"center" style=3D"font-size:12px; fo=
+nt-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: rgb(102,102,=
+102)">
+    <img class=3D"large-footer-logo" width=3D"26" height=3D"26" border=3D"0=
+" alt=3D"Apple" src=3D"https://s.mzstatic.com/email/images_shared/logo_appl=
+e_small_d-2x.png" style=3D"border:none;padding:0;margin:0;-ms-interpolation=
+-mode: bicubic;">
+    <img class=3D"small-footer-logo" width=3D"14" height=3D"14" border=3D"0=
+" alt=3D"Apple" src=3D"https://s.mzstatic.com/email/images_shared/logo_appl=
+e_small_m-3x.png" style=3D"display:none;border:none;padding:0;margin:0;-ms-=
+interpolation-mode: bicubic;">
+  </td>
+  <td></td>
+</tr>
+<tr height=3D"8"><td colspan=3D"4">&nbsp;</td></tr>
+<tr>
+  <td></td>
+  <td colspan=3D"2" align=3D"center" style=3D"font-size:12px; font-family: =
+'Helvetica Neue',Helvetica,Arial,sans-serif; color: rgb(102,102,102)">
+    <a href=3D"https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/acc=
+ountSummary?mt=3D8" style=3D"color:#0073ff;">Apple&nbsp;Account</a>&nbsp;=
+=E2=80=A2&nbsp;<a href=3D"https://www.apple.com/legal/internet-services/itu=
+nes/uk/terms.html" style=3D"color:#0073ff;">Terms of Sale</a>&nbsp;=E2=80=
+=A2&nbsp;<a href=3D"https://www.apple.com/legal/privacy/" style=3D"color:#0=
+073ff;">Privacy Policy</a>
+  </td>
+  <td></td>
+</tr>
+<tr height=3D"25"><td colspan=3D"4">&nbsp;</td></tr>
+<tr>
+  <td></td>
+  <td colspan=3D"2" align=3D"center" dir=3D"auto" style=3D"font-size:12px;f=
+ont-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:rgb(102,102,10=
+2)">
+                        Copyright =C2=A9 2024 Apple Distribution Internatio=
+nal Ltd.<br>
+      <a href=3D"https://www.apple.com/uk/legal/" style=3D"color:#1187FF">A=
+ll rights reserved</a>
+      <br><span class=3D"legal-entity">Hollyhill Industrial Estate, Hollyhi=
+ll, Cork, Ireland. GSTIN Registration Number - 9917IRL29001OSK.</span>     =
+ </td>
+  <td></td>
+</tr>
+<tr height=3D"25"><td colspan=3D"4" height=3D"30">&nbsp;</td></tr>
+<tr>
+  <td></td>
+  <td colspan=3D"2" align=3D"center" style=3D"font-size:12px;font-family:'H=
+elvetica Neue',Helvetica,Arial,sans-serif;color:rgb(102,102,102);">
+    Authorised Signatory:<br><img border=3D"0" alt=3D"Pauline Crinion" src=
+=3D"https://s.mzstatic.com/en_in/email/images_shared/signatory.png" height=
+=3D"25">
+  </td>
+  <td></td>
+</tr>
+<tr height=3D"25"><td colspan=3D"4" height=3D"30">&nbsp;</td></tr>
+</table>
+</div>
+
+             =20
+       =20
+              <div class=3D"aapl-mobile-div" style=3D"display:none;padding:=
+0;margin:0;height:0;max-height:0;min-height:none;line-height:0;overflow:hid=
+den;">
+<table class=3D"aapl-mobile-tbl" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" width=3D"480" align=3D"center" style=3D"border-collapse:collapse;bor=
+der-spacing:0;">
+  <tr>
+    <td class=3D"aapl-mobile-cell" width=3D"15" style=3D""></td>
+    <td class=3D"aapl-mobile-cell"><img width=3D"22" height=3D"22" alt=3D"A=
+pple" src=3D"https://s.mzstatic.com/email/images_shared/logo_apple_m-3x.png=
+" border=3D"0" style=3D"border:none;padding:0;margin:0;"></td>
+    <td class=3D"aapl-mobile-cell" en-GB=3D"" false=3D"" align=3D"right" st=
+yle=3D"font-size:32px; font-family: 'Helvetica Neue', Helvetica, Arial, san=
+s-serif; color: rgb(136,136,136);">Tax Invoice</td>
+    <td class=3D"aapl-mobile-cell" width=3D"15" style=3D""></td>
+  </tr>
+  <tr height=3D"15"><td class=3D"aapl-mobile-cell" colspan=3D"4" style=3D""=
+>&nbsp;</td><tr>
+  <tr>
+    <td class=3D"aapl-mobile-cell" colspan=3D"4" align=3D"center" style=3D"=
+">
+<table class=3D"aapl-mobile-tbl" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"450" style=3D"border-collapse:collapse;border-spacing:0;">
+    <tr>
+    <td class=3D"aapl-mobile-cell" style=3D"">
+      <table class=3D"aapl-mobile-tbl" border=3D"0" bordercolor=3D"#ffffff"=
+ cellpadding=3D"0" cellspacing=3D"0" style=3D"border-collapse:collapse;bord=
+er-spacing:0;color:rgb(51,51,51);background-color: rgb(250,250,250);border-=
+radius:3px;font-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans=
+-serif;border-color:#ffffff;border-style:solid;border-top-color:#ffffff;bor=
+der-bottom-color:#ffffff;">
+        <tr height=3D"44">
+          <td class=3D"aapl-mobile-cell" style=3D"padding-left:15px;border-=
+style:solid;border-color:#ffffff;border-top-width:0px; border-left-width:0;=
+border-right-width:1px; border-bottom-width:1px;">
+            <span style=3D"color:rgb(102,102,102);font-size:10px;font-weigh=
+t:600;">
+              APPLE&nbsp;ACCOUNT</span><br><span style=3D"color:#0073ff;">s=
+ylvester.daniel@gmail.com
+                          </span>
+          </td>
+          <td class=3D"aapl-mobile-cell" style=3D"padding-left:15px;padding=
+-right:15px;border-style:solid;border-color:#ffffff;border-top-width:0px;bo=
+rder-left-width:0;border-right-width:0;border-bottom-width:1px;">
+          <span style=3D"color:rgb(102,102,102);font-size:10px;font-weight:=
+600;">ORDER ID</span><br><span style=3D"color:#0070c9;">MNMNVV4L89</span>
+          </td>        </tr>
+        <tr height=3D"44">
+                  <td class=3D"aapl-mobile-cell" width=3D"225" style=3D"pad=
+ding-left:15px;border-style:solid;border-color:#ffffff;border-top-width:0px=
+;border-left-width:0;border-right-width:1px;border-bottom-width:1px;">
+            <span style=3D"color:rgb(102,102,102);font-size:10px;font-weigh=
+t:600;">DOCUMENT NO.</span><br>188861408642          </td>
+          <td class=3D"aapl-mobile-cell" width=3D"225" style=3D"padding-lef=
+t:15px;border-style:solid;border-color:#ffffff;border-top-width:0px;border-=
+left-width:0;border-right-width:0;border-bottom-width:1px;">
+            <span style=3D"color:rgb(102,102,102);font-size:10px;font-weigh=
+t:600;">
+              INVOICE DATE</span><br>
+                11 Oct 2024
+                        </td>
+                </tr>
+                      <tr height=3D"44">
+          <td colspan=3D"2" class=3D"aapl-mobile-cell" style=3D"padding-lef=
+t:15px;border-style:solid;border-color:#ffffff;border-top-width:0px;border-=
+left-width:0;border-right-width:1px;border-bottom-width:1px;">
+            <span style=3D"color:rgb(102,102,102);font-size:10px;font-weigh=
+t:600;">
+              SEQUENCE NO.</span><br>3-402036164
+                        </td>
+                 </tr>
+
+                <tr height=3D"90">
+          <td class=3D"aapl-mobile-cell" colspan=3D"2" style=3D"padding-lef=
+t:15px;padding-right:15px;border-style:solid;border-color:#ffffff;border-to=
+p-width:0px;border-left-width:0;border-right-width:0;border-bottom-width:0p=
+x;padding-top:8px;padding-bottom:8px;">
+            <span style=3D"color:rgb(102,102,102);font-size:10px;font-weigh=
+t:600;">BILLED TO</span><br>
+            Store Credit<br>            Sylvester  Daniel<br>
+            9 Ramesh Mahesh Apt<br>169 R.K. Mutt road, Mandaveli<br>Chennai=
+,  TN  600028<br>IND                                              </td>
+        </tr>
+            </table>
+    </td>
+  </tr>
+
+    <tr height=3D"20"><td class=3D"aapl-mobile-cell" style=3D""></td></tr>
+  <tr>
+    <td width=3D"450" class=3D"aapl-mobile-cell" style=3D"">
+            <table class=3D"aapl-mobile-tbl" border=3D"0" cellpadding=3D"0"=
+ cellspacing=3D"0" style=3D"border-collapse:collapse;border-spacing:0;width=
+:100%;color:rgb(51,51,51);font-size:12px;font-family:'Helvetica Neue',Helve=
+tica,Arial,sans-serif;">
+        <tr height=3D"24" style=3D"background-color:rgb(250,250,250);" clas=
+s=3D"section-header">
+          <td class=3D"aapl-mobile-cell" colspan=3D"2" style=3D"padding-lef=
+t:15px;"><span style=3D"font-size:11px;font-weight:600;">App Store</span></=
+td>
+        </tr>
+                <tr height=3D"15"><td colspan=3D"2"></td></tr>
+  <tr style=3D"max-height:114px;">
+                                                <td width=3D"75" class=3D"a=
+rtwork-cell aapl-mobile-cell" align=3D"center" valign=3D"top" style=3D"padd=
+ing: 0 0 0 15px;margin:0;width:64px;">
+      <img src=3D"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/77/=
+0e/41/770e416e-f36f-3a30-527a-0883166d0b3a/AppIcon-0-1x_U007epad-0-0-0-0-0-=
+0-sRGB-85-220-0.png/128x128bb.jpg" width=3D"64" height=3D"64" border=3D"0" =
+alt=3D"" style=3D"padding:0;margin:0;-ms-interpolation-mode: bicubic;border=
+-radius:14px;border:1px solid rgba(128,128,128,0.2);">
+    </td>
+        <td style=3D"padding: 0 0 0 15px;line-height:15px;" class=3D"item-c=
+ell aapl-mobile-cell">
+      <span class=3D"title" dir=3D"auto" style=3D"font-weight:600;">
+                  JioCinema- Bigg Boss &amp; Cricket
+                        </span><br>
+                    <span class=3D"duration" style=3D"color:rgb(102,102,102=
+); font-size:10px;">Premium+Ad-Free+1 Device (Monthly)</span><br>
+                                                      <span class=3D"renewa=
+l" style=3D"color:rgb(102,102,102); font-size:10px;">Renews 11 Nov 2024</sp=
+an><br>
+                                                                           =
+                 <span class=3D"taxRefId" style=3D"color:rgb(102,102,102); =
+font-size:10px;">SAC:998434</span><br>                        <a class=3D"i=
+tem-links" style=3D"font-size:10px;">
+            <a href=3D"https://buy.itunes.apple.com/WebObjects/MZFinance.wo=
+a/wa/reportAProblem?a=3D6499128354&amp;cc=3Din&amp;d=3D1382974123&amp;o=3Di=
+&amp;p=3D68065196382349&amp;pli=3D68083240312455&amp;s=3D1" style=3D"color:=
+#0070c9;">Report a Problem</a>              </span>
+    </td>
+  </tr>
+  <tr>
+    <td width=3D"100" class=3D"price-cell aapl-mobile-cell" align=3D"right"=
+ valign=3D"top" style=3D"padding-right:15px;width:100px;" colspan=3D"2">
+      <table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" style=3D"bord=
+er-collapse:collapse;border-spacing:0;font-size:12px;font-family:inherit;">
+              <tr><td align=3D"right" colspan=3D"3"><span style=3D"font-wei=
+ght:600;white-space:nowrap;">=E2=82=B9&nbsp;29</span></td></tr>
+                              <tr>
+                      <td align=3D"right"><span style=3D"white-space:nowrap=
+;color:rgb(102,102,102);">Inclusive of IGST at <b>18%</b></span></td>
+            <td width=3D"10">&nbsp;</td>
+            <td align=3D"right" style=3D"min-width:45px;"><span style=3D"wh=
+ite-space:nowrap;color:rgb(102,102,102);font-weight:600;">=E2=82=B9&nbsp;4<=
+/span></td>
+                    </tr>
+                    </table>
+    </td>
+  </tr>
+            </table>
+    </td>
+  </tr>
+  <tr>
+    <td class=3D"aapl-mobile-cell" style=3D"">
+      <table class=3D"aapl-mobile-tbl" width=3D"450" border=3D"0" cellpaddi=
+ng=3D"0" cellspacing=3D"0" style=3D"width:450px;color:rgb(51,51,51);font-fa=
+mily:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+          <tr height=3D"15"><td class=3D"aapl-mobile-cell" colspan=3D"2" st=
+yle=3D""></td></tr>
+        <tr>
+          <td class=3D"aapl-mobile-cell" colspan=3D"2" align=3D"right" styl=
+e=3D"padding-right:15px;white-space:nowrap;">
+            <table align=3D"right" border=3D"0" cellpadding=3D"0" cellspaci=
+ng=3D"0" style=3D"border-collapse:collapse;border-spacing:0;color:rgb(51,51=
+,51);font-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif=
+;">
+                          <tr>
+                <td align=3D"right"><span style=3D"color:rgb(102,102,102);w=
+hite-space:nowrap">Subtotal</span></td>
+                <td width=3D"10">&nbsp;</td>
+                <td align=3D"right">
+                                      <span style=3D"font-weight:600;white-=
+space:no-wrap;">=E2=82=B9&nbsp;25</span>
+                                  </td>
+              </tr>
+              <tr><td colspan=3D"3" height=3D"4"></td></tr>
+                                                      <tr>
+                  <td align=3D"right"><span style=3D"color:rgb(102,102,102)=
+;white-space:nowrap;">IGST charged at 18%</span></td>
+                  <td width=3D"10">&nbsp;</td>
+                  <td align=3D"right" style=3D"min-width:45px;"><span style=
+=3D"white-space:nowrap;font-weight:600;">=E2=82=B9&nbsp;4</span></td>
+                </tr>
+                                                                          <=
+/table>
+          </td>
+        </tr>
+                <tr height=3D"15"><td class=3D"aapl-mobile-cell" colspan=3D=
+"2" style=3D""></td></tr>
+          <tr height=3D"1"><td class=3D"aapl-mobile-cell" height=3D"1" cols=
+pan=3D"2" style=3D"padding:0 10px 0 10px;"><div style=3D"line-height:1px;he=
+ight:1px;background-color:rgb(238,238,238);"></div></td></tr>
+        <tr height=3D"48">
+          <td class=3D"aapl-mobile-cell" style=3D"padding-left:15px;color:r=
+gb(102,102,102);font-size:10px;font-weight:600;">TOTAL</td>
+          <td class=3D"aapl-mobile-cell" width=3D"120" align=3D"right" styl=
+e=3D"width:120px;padding-right:15px;font-size:16px;font-weight:600;white-sp=
+ace:nowrap;">
+                          =E2=82=B9&nbsp;29
+                      </td>
+        </tr>
+        <tr height=3D"1"><td class=3D"aapl-mobile-cell" height=3D"1" colspa=
+n=3D"2" style=3D"padding:0 10px 0 10px;"><div style=3D"line-height:1px;heig=
+ht:1px;background-color:rgb(238,238,238);"></div></td></tr>
+      </table>
+    </td>
+  </tr>
+    </table>
+  </td>
+</tr>
+<tr height=3D"15"><td colspan=3D"4" class=3D"aapl-mobile-cell" style=3D"">&=
+nbsp;</td></tr>
+<tr>
+  <td class=3D"aapl-mobile-cell" style=3D""></td>
+  <td class=3D"aapl-mobile-cell" colspan=3D"2" align=3D"center" style=3D"fo=
+nt-size:12px; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; col=
+or: rgb(102,102,102);">
+    Privacy: We use a <span style=3D"color:0073ff;"><a href=3D"http://suppo=
+rt.apple.com/kb/HT207233" target=3D"_blank" rel=3D"noopener nofollow" style=
+=3D"color:#0073ff;">Subscriber ID</a></span> to provide reports to develope=
+rs.
+  </td>
+  <td class=3D"aapl-mobile-cell" style=3D""></td>
+</tr>
+<tr height=3D"15"><td colspan=3D"4" class=3D"aapl-mobile-cell" style=3D"">&=
+nbsp;</td></tr>
+<tr>
+  <td class=3D"aapl-mobile-cell" style=3D""></td>
+  <td class=3D"aapl-mobile-cell" colspan=3D"2" align=3D"center" style=3D"fo=
+nt-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:=
+rgb(102,102,102);">
+                      Get help with subscriptions and purchases. <a href=3D=
+"https://support.apple.com/en-gb/billing?cid=3Demail_receipt">Visit Apple S=
+upport</a>.
+          <br><br>                Learn how to <a href=3D"https://support.a=
+pple.com/kb/HT204030?cid=3Demail_receipt_itunes_article_HT204030">manage yo=
+ur password preferences</a> for iTunes, Apple&nbsp;Books and App&nbsp;Store=
+ purchases.<br><br>            Place of supply: TN<br><br>Apple&nbsp;ID is =
+now Apple&nbsp;Account. You can still sign in with the same email address o=
+r phone number and password.<br><br>  </td>
+  <td class=3D"aapl-mobile-cell" style=3D"display:none;max-height:0;line-he=
+ight:0;mso-hide:all;"></td>
+</tr>
+<tr height=3D"25"><td colspan=3D"4" class=3D"aapl-mobile-cell" style=3D"">&=
+nbsp;</td></tr>
+<tr>
+  <td class=3D"aapl-mobile-cell" style=3D""></td>
+  <td class=3D"aapl-mobile-cell" colspan=3D"2" align=3D"center" style=3D"fo=
+nt-size:12px; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; col=
+or: rgb(102,102,102);">
+    <img width=3D"14" height=3D"14" border=3D"0" alt=3D"" src=3D"https://s.=
+mzstatic.com/email/images_shared/logo_apple_small_m-3x.png" style=3D"border=
+:none;padding:0;margin:0;-ms-interpolation-mode: bicubic;">
+  </td>
+  <td class=3D"aapl-mobile-cell" style=3D""></td>
+</tr>
+<tr height=3D"8"><td class=3D"aapl-mobile-cell" colspan=3D"4" style=3D"">&n=
+bsp;</td></tr>
+<tr>
+  <td class=3D"aapl-mobile-cell" style=3D""></td>
+  <td class=3D"aapl-mobile-cell" colspan=3D"2" align=3D"center" style=3D"fo=
+nt-size:12px; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; col=
+or: rgb(102,102,102);">
+    <a href=3D"https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/acc=
+ountSummary?mt=3D8" style=3D"color:#0073ff;">Apple&nbsp;Account</a>&nbsp;=
+=E2=80=A2&nbsp;<a href=3D"https://www.apple.com/legal/internet-services/itu=
+nes/uk/terms.html" style=3D"color:#0073ff;">Terms of Sale</a>&nbsp;=E2=80=
+=A2&nbsp;<a href=3D"https://www.apple.com/legal/privacy/" style=3D"color:#0=
+073ff;">Privacy Policy</a>
+  </td>
+  <td class=3D"aapl-mobile-cell" style=3D""></td>
+</tr>
+<tr height=3D"25"><td colspan=3D"4" class=3D"aapl-mobile-cell" style=3D"">&=
+nbsp;</td></tr>
+<tr>
+  <td class=3D"aapl-mobile-cell" style=3D""></td>
+  <td class=3D"aapl-mobile-cell" colspan=3D"2" align=3D"center" dir=3D"auto=
+" style=3D"font-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans=
+-serif;color:rgb(102,102,102);">
+                Copyright =C2=A9 2024 Apple Distribution International Ltd.=
+<br><a href=3D"https://www.apple.com/uk/legal/" style=3D"color:#0073ff">All=
+ rights reserved</a>
+          <br><span class=3D"legal-entity">
+      Hollyhill Industrial Estate, Hollyhill, Cork, Ireland. GSTIN Registra=
+tion Number - 9917IRL29001OSK.
+      </span>
+          </td>
+  <td class=3D"aapl-mobile-cell" style=3D""></td>
+</tr>
+<tr height=3D"25"><td colspan=3D"4" height=3D"30" class=3D"aapl-mobile-cell=
+" style=3D"">&nbsp;</td></tr>
+<tr>
+  <td class=3D"aapl-mobile-cell"></td>
+  <td class=3D"aapl-mobile-cell" colspan=3D"2" align=3D"center" style=3D"fo=
+nt-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:=
+rgb(102,102,102);">
+    Authorised Signatory:<br><img border=3D"0" alt=3D"Pauline Crinion" src=
+=3D"https://s.mzstatic.com/en_in/email/images_shared/signatory.png" height=
+=3D"25">
+   </td>
+  <td class=3D"aapl-mobile-cell"></td>
+</tr>
+<tr height=3D"25"><td colspan=3D"4" height=3D"30" class=3D"aapl-mobile-cell=
+" style=3D"">&nbsp;</td></tr>
+</table>
+</div>
+
+
+             =20
+      </td>
+    </tr>
+  </table>
+    <br><br>
+</body>
+</html>=
+
+------=_Part_105858687_871829908.1728647007623--

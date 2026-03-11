@@ -1,0 +1,619 @@
+Delivered-To: sylvester.daniel@gmail.com
+Received: by 2002:a17:907:c1b:b0:ac5:a521:e70f with SMTP id ga27csp1156707ejc;
+        Mon, 24 Mar 2025 09:33:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFTcLUpoabKJ4zFYbGLfCwJb49XzW/KCzvMh2pn9zCriW9/tEnM1QUHPz+LJVunQ9voJaMZ
+X-Received: by 2002:a0c:e746:0:b0:6e8:f1c4:f9e8 with SMTP id 6a1803df08f44-6eb3f279db3mr160776956d6.3.1742834038452;
+        Mon, 24 Mar 2025 09:33:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1742834038; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kRG14vxzdgQKwtas1o6OcbE3nTLoLTH1KIxhqrtIt7XZiJpBOh2btuLrACCDoRew9M
+         Dq389K0X5fx5m40Nr0+DqacmJpf+yT2wR+/u5eq/9R4Zxk4RcRHS+kdU6S4c5KwQf2VW
+         ni3CHrE6zcfUL0qimmSgRTf8a//VWZnKvxMWWmts71if2V9YlgkUujb31ouxWNUKkl9K
+         XNZkfs5uZBi9x+bk4nKprLtfb3QYpTjw4AU4+kkHQQZVE1UJV67qEwz7WQJbsyY61Zu1
+         ywlGS5ziAJo3Edh6Gx/OLAJtnaxZ0jJOr8rSs2KcjHuzoZ9EgztHDY8WSMPq7+evP8bC
+         AWJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=mime-version:subject:message-id:to:from:date:dkim-signature;
+        bh=+ip++MszxWdw+l1QVuSbOcQngfvaa/kzf/xKrv/1Xog=;
+        fh=VdGV0P0A3sAPz4n/iJmKe5qoBOKqC7X5/cJ4zALFvuY=;
+        b=ZpJ7xrQZFd90nX3QyBRY3W97MhWuUrnms9BjL+fWOBN4fqNX6MCSPMO0Q4OX1xuwtO
+         itSPg0q29JYCOg2rh/2X4eW/VMBTq59Ur9InuVnXsHBdnTH84xpIFyWMOBG3D5Gh4QcM
+         uSxrXlj2CPKKrb3PRFPQITf+lo7XtDfkwMAN9thx3odBfcIeA9bU1zn6tIhbP8ajJZKE
+         5OmPwHBvqD7xyE9Va3Jjj/Mlt1sS+J/XzGf6iv0M1P/lwYyMxT9ubQec/66efktXsQ9l
+         FZSh/82tlGLztzlRImQ+EAGeQh/9Finyc8sVkBuO2oOh/0PxHntK3rfdWYSYKxnq5O4B
+         hwMQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@email.apple.com header.s=email0517 header.b=COm37qAz;
+       spf=pass (google.com: domain of no_reply@email.apple.com designates 17.23.6.74 as permitted sender) smtp.mailfrom=no_reply@email.apple.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=email.apple.com
+Return-Path: <no_reply@email.apple.com>
+Received: from st56p01nt-txnmsbadger001104.apple.com (st56p01nt-txnmsbadger001104.apple.com. [17.23.6.74])
+        by mx.google.com with ESMTPS id 6a1803df08f44-6eb3f01aa02si79123636d6.340.2025.03.24.09.33.58
+        for <sylvester.daniel@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 24 Mar 2025 09:33:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of no_reply@email.apple.com designates 17.23.6.74 as permitted sender) client-ip=17.23.6.74;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@email.apple.com header.s=email0517 header.b=COm37qAz;
+       spf=pass (google.com: domain of no_reply@email.apple.com designates 17.23.6.74 as permitted sender) smtp.mailfrom=no_reply@email.apple.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=email.apple.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.apple.com;
+	s=email0517; t=1742834038;
+	bh=+ip++MszxWdw+l1QVuSbOcQngfvaa/kzf/xKrv/1Xog=;
+	h=Date:From:To:Message-ID:Subject:Content-Type;
+	b=COm37qAzdEY/8U/bKFBK0kPGRZkmIKFrgNCia+RskEW9xtzFtJLrNYgvB6folgpkB
+	 Rf+S3GzihM+9pOsgbh6CTkz/krtB96zWSaEsYGekMnQX8RfUaAPACIGbuMlGiaEQlO
+	 81yLmtt5isFBIJUj45dfxtJdQFkM8CsZADb+2TFjfd7GlG8G1FrQdSxbxRL0OaJLLI
+	 W5u2JSEFu81a3hREH/ncoFu9SjOmL1AgWQVBtzluNU+jW9UV1XOp69zkY510l0pSCo
+	 EiG8ask3NA1WK2gv6gmwbAz9tZ4oVHUSomb0OtVnh/pIPzexVn0JiU7K6LSlw0aq2i
+	 jabrJs76rcVhA==
+Date: Mon, 24 Mar 2025 16:33:58 +0000 (GMT)
+From: Apple <no_reply@email.apple.com>
+To: sylvester.daniel@gmail.com, kevinkaden08@gmail.com
+Message-ID: <282045533.94358110.1742834038222@email.apple.com>
+Subject: Welcome to Apple Music
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_94358108_786229467.1742834038222"
+X-Broadcast-Id: 10631
+X-Attach-Flag: N
+X-COMMS-C: false
+X-Sent-To: sylvester.daniel@gmail.com,2,72LPUERQNvHPxWFxK3CAJkVf%2BASpOa8u3H8MGzQ%2FN15kyXJUnAIbeIpFUZKopOOYnLpsWUqbQ4%2BK9IixjwUR8nhcPyXNjbbPGhKL5oOCmNCmc1mO20VN%2BPsQ21wDbs6hcI%2FYpH%2BPb3jsLn%2F%2Bx1YZ8hi1fV0tyKmbLvbKUR7u1uBXnsglCTRAbeNAF3v387lhPxtikJYeDnNOfhMIbmhOmCQ%2Banfu4GYLBXw0di4sUpFGntlU1UPMpuhEIY3e%2FJ8BXZHmncIwFXs8TSVXLbIbpuU4rconKaVHohWfPYIzI2553hcdptp1aRJ41AAOJXnwwmM7v%2FPM16WcrmTe%2BmOos12Q6YBnQgQmmZYgiPQAdPKZ3xrTaNKU9vSB1cB%2BOpuKp9%2FGchNy3RuqVWEYytsIbgr%2BttIoWhMWFFnC2IWkk6XxcOsn19bXB1Bn8daCnGEdYm0Ma9vpvdAabpVQ4NASrA%3D%3D
+X-TXN_ID: 0f081086-79a6-4168-8b29-035a7e57089b
+X-DKIM_SIGN_REQUIRED: YES
+X-EmailType-Id: 10631
+X-Business-Group: iTunes
+X-Country: US
+MIME-Version: 1.0
+
+------=_Part_94358108_786229467.1742834038222
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Disposition: inline
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
+w3.org/TR/html4/loose.dtd"><html lang=3D"en-GB"><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1"><title></title>
+    <style type=3D"text/css" id=3D"contentStyles">
+      * {
+        -webkit-font-smoothing:antialiased
+      }
+      #content {
+        min-width: 100%;
+        margin: 0;
+        padding: 0;
+        bgcolor: #f2f2f2;
+      }
+      a, a.link, a.link:link {
+        text-decoration: none;
+      }
+      a.link {
+        font-size: 14px;
+      }
+      a.footer-link:hover, a.link:hover {
+        text-decoration:underline!important;
+      }
+      @media only screen and (max-width: 480px) {
+        body{
+          min-width: 100%;
+          margin: 0!important;
+          padding: 0!important;
+        }
+
+        .nonmobile {
+          display: none!important;
+          width: 0!important;
+          height: 0!important;
+        }
+        .mobile {
+          display: block!important;
+          width: unset!important;
+          height: unset!important;
+        }
+        .logo {
+          width: 60px!important;
+        }
+        .topic-icon {
+          height: 100px!important;
+        }
+        .header-image-container, .header-image-mobile {
+          display: block!important;
+          width: 480px!important;
+          height: 258px!important;
+        }
+        .header-overlay-text {
+          width: 480px!important;
+          height: 50px!important;
+          font-size: 35px!important;
+          margin-top: 200px!important;
+        }
+        #content.el .header-overlay-text, #content.ca .header-overlay-text,=
+ #content.vi .header-overlay-text, #content.es .header-overlay-text, #conte=
+nt.uk .header-overlay-text {
+          margin-top: 185px!important;
+          font-size: 31px!important;
+        }
+        .first-title {
+          font-size: 35px!important;
+          line-height: 35px!important;
+        }
+        .second-title {
+          font-size: 20px!important;
+          line-height: 26px!important;
+        }
+        .content-text {
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+        .content-text.big {
+          font-size: 14!important;
+          line-height: 20px!important;
+        }
+        .content-text.normal {
+          font-size: 12!important;
+          line-height: 14px!important;
+        }
+        .content-text.action {
+          font-size: 17px!important;
+          line-height: 26px!important;
+        }
+        .fill {
+          margin: 0 auto!important;
+          width: 100%!important;
+          max-width: 100%!important;
+        }
+      }
+    </style>
+  </head>
+  <body bgcolor=3D"#f2f2f2" link=3D"#737373" vlink=3D"#737373" alink=3D"#73=
+7373" topmargin=3D"0" leftmargin=3D"0" rightmargin=3D"0" marginheight=3D"0"=
+ marginwidth=3D"0">
+    <div style=3D"display:none;font-size:1px;color:#f2f2f2;line-height:1px;=
+max-height:0px;max-width:0px;opacity:0;overflow:hidden;">A family member ha=
+s set you up with your own Apple Music plan. As you start to explore Apple =
+Music, keep everything organised and easy to find by adding songs, albums o=
+r playlists to your library. To listen anywhere without using data, quickly=
+ download the ones you love.</div>
+    <div class=3D"IN en" id=3D"content" style=3D"background-color: #f2f2f2;=
+min-width: 100%;margin: 0;padding: 0;font-family: system-ui, -apple-system,=
+ BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-s=
+erif; -webkit-text-size-adjust: none; -webkit-font-smoothing: antialiased; =
+-moz-osx-font-smoothing: grayscale;">
+      <table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0=
+" align=3D"center">
+        <tr>
+          <td bgcolor=3D"#f2f2f2">
+            <table class=3D"fill" width=3D"740" cellspacing=3D"0" cellpaddi=
+ng=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff; =
+margin: 20px auto 0 auto; overflow: hidden; border-radius: 7px 7px 0 0; -we=
+bkit-border-radius: 7px 7px 0 0; -moz-border-radius: 7px 7px 0 0;">
+              <tbody>
+                <tr>
+                  <td>
+                    <div class=3D"header-image-container" style=3D"width:74=
+0px;height:400px;">
+                      <div style=3D"max-height:0;max-width:0;overflow:visib=
+le;">
+                        <div class=3D"header-image" style=3D"margin-left:0;=
+margin-top:0;text-align:center;display:inline-block;">
+                          <a href=3D"https://itunes.apple.com/foryou?enlh=
+=3D1.500100.500099.500098.1.&amp;ls=3D1&amp;app=3Dmusic" style=3D"text-deco=
+ration: none;">
+                            <img class=3D"fill nonmobile" width=3D"740" sty=
+le=3D"display: block; margin: 0 auto; border: 0;border-radius: 7px 7px 0 0;=
+ -webkit-border-radius: 7px 7px 0 0; -moz-border-radius: 7px 7px 0 0;" alt=
+=3D"Apple Music" src=3D"https://s.mzstatic.com/email/images_shared/msw-head=
+er-v5_2x.jpg">
+                            <img class=3D"header-image-mobile" style=3D"dis=
+play: none; margin: 0 auto; border: 0; width: 0; height: 0;border-radius: 7=
+px 7px 0 0; -webkit-border-radius: 7px 7px 0 0; -moz-border-radius: 7px 7px=
+ 0 0;" alt=3D"Apple Music" src=3D"https://s.mzstatic.com/email/images_share=
+d/msw-header-v5-m_2x.jpg">
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor=3D"#f2f2f2">
+            <table class=3D"fill" width=3D"740" cellspacing=3D"0" cellpaddi=
+ng=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff; =
+margin: 0 auto; overflow: hidden;">
+              <tr>
+                <td bgcolor=3D"#ffffff">
+                  <table class=3D"fill" width=3D"680" cellspacing=3D"0" cel=
+lpadding=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ff=
+ffff; margin: 0 auto; overflow: hidden;">
+                    <tbody>
+                      <tr>
+                        <td align=3D"center">
+                          <h1 class=3D"first-title" style=3D"color: #111111=
+; font-size: 40px; font-weight: 600; margin: 0; padding-top: 34px; padding-=
+bottom: 20px;font-family:system-ui, -apple-system, BlinkMacSystemFont, Sego=
+e UI, Helvetica Neue, Helvetica, Arial, sans-serif;line-height: 44px!;">You=
+ just got Apple Music.</h1>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor=3D"#f2f2f2">
+            <table class=3D"fill" width=3D"740" cellspacing=3D"0" cellpaddi=
+ng=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff; =
+margin:0 auto; overflow: hidden;">
+              <tr>
+                <td bgcolor=3D"#ffffff">
+                  <table class=3D"fill" width=3D"680" cellspacing=3D"0" cel=
+lpadding=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ff=
+ffff; margin:0 auto; overflow: hidden;">
+                    <tbody>
+                      <tr>
+                        <td align=3D"center">
+                          <p class=3D"content-text big" style=3D"padding-to=
+p: 0; padding-bottom: 40px; font-family: system-ui, -apple-system, BlinkMac=
+SystemFont, Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif; color: =
+#333333; font-size: 19px; line-height: 30px; font-weight: 400; letter-spaci=
+ng:0.012em">A family member has set you up with your own Apple Music plan. =
+As you start to explore Apple Music, keep everything organised and easy to =
+find by adding songs, albums or playlists to your library. To listen anywhe=
+re without using data, quickly download the ones you love.</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor=3D"#f2f2f2">
+            <table class=3D"fill" width=3D"740" cellspacing=3D"0" cellpaddi=
+ng=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff; =
+margin: 0 auto; overflow: hidden; padding-bottom: 28px;">
+              <tr valign=3D"top">
+                <td align=3D"center">
+                  <table class=3D"" width=3D"205" cellspacing=3D"0" cellpad=
+ding=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff=
+; margin: 0 auto; overflow: hidden;">
+                    <tr>
+                      <td align=3D"center">
+                        <img class=3D"topic-icon" height=3D"120" style=3D"d=
+isplay: block; margin: 0 auto; border: 0" src=3D"https://s.mzstatic.com/ema=
+il/images_shared/msw-library-v2_2x.png">
+                        <p class=3D"content-text second-title" style=3D"col=
+or: #333333; font-size: 20px; line-height: 26px; font-weight: 600; margin: =
+0; letter-spacing:-0.022em; font-family: system-ui, -apple-system, BlinkMac=
+SystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;">Li=
+brary</p>
+                        <p class=3D"content-text normal" style=3D"color: #6=
+66666; font-size: 14px; line-height: 18px; letter-spacing:-0.016em; font-we=
+ight: 400; margin: 0; padding-top: 8px; padding-bottom: 10px;font-family: s=
+ystem-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', =
+Helvetica, Arial, sans-serif;">See all your music, including everything you=
+'ve added and download to take your music offline.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor=3D"#f2f2f2">
+            <table class=3D"fill" width=3D"740" cellspacing=3D"0" cellpaddi=
+ng=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff; =
+margin: 0 auto; overflow: hidden; padding-bottom: 28px;">
+              <tr valign=3D"top">
+                <td bgcolor=3D"#ffffff">
+                  <table class=3D"" width=3D"205" cellspacing=3D"0" cellpad=
+ding=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff=
+; margin: 0 auto; overflow: hidden;">
+                    <tr>
+                      <td align=3D"center">
+                        <img class=3D"topic-icon" height=3D"120" style=3D"d=
+isplay: block; margin: 0 auto; border: 0" src=3D"https://s.mzstatic.com/ema=
+il/images_shared/msw-home-v3_2x.png">
+                        <p class=3D"content-text second-title" style=3D"col=
+or: #333333; font-size: 20px; line-height: 26px; font-weight: 600; margin: =
+0; letter-spacing:-0.022em; font-family: system-ui, -apple-system, BlinkMac=
+SystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;">Ho=
+me</p>
+                        <p class=3D"content-text normal" style=3D"color: #6=
+66666; font-size: 14px; line-height: 18px; letter-spacing:-0.016em; font-we=
+ight: 400; margin: 0; padding-top: 8px; padding-bottom: 10px;font-family: s=
+ystem-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', =
+Helvetica, Arial, sans-serif;">See recommendations based on what you alread=
+y love and follow friends to find out what they're into.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td bgcolor=3D"#ffffff">
+                  <table class=3D"" width=3D"205" cellspacing=3D"0" cellpad=
+ding=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff=
+; margin: 0 auto; overflow: hidden;">
+                    <tr>
+                      <td align=3D"center">
+                        <img class=3D"topic-icon" height=3D"120" style=3D"d=
+isplay: block; margin: 0 auto; border: 0" src=3D"https://s.mzstatic.com/ema=
+il/images_shared/msw-browse-v2_2x.png">
+                        <p class=3D"content-text second-title" style=3D"col=
+or: #333333; font-size: 20px; line-height: 26px; font-weight: 600; margin: =
+0; letter-spacing:-0.022em; font-family: system-ui, -apple-system, BlinkMac=
+SystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;">Br=
+owse</p>
+                        <p class=3D"content-text normal" style=3D"color: #6=
+66666; font-size: 14px; line-height: 18px; letter-spacing:-0.016em; font-we=
+ight: 400; margin: 0; padding-top: 8px; padding-bottom: 10px;font-family: s=
+ystem-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', =
+Helvetica, Arial, sans-serif;">Explore the entire Apple Music catalogue. Mi=
+llions of songs, thousands of playlists and even exclusive content.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor=3D"#f2f2f2">
+            <table class=3D"fill" width=3D"740" cellspacing=3D"0" cellpaddi=
+ng=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff; =
+margin: 0 auto; overflow: hidden;">
+              <tr valign=3D"top">
+                <td bgcolor=3D"#ffffff">
+                  <table class=3D"" width=3D"205" cellspacing=3D"0" cellpad=
+ding=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff=
+; margin: 0 auto; overflow: hidden;">
+                    <tr>
+                      <td align=3D"center">
+                        <img class=3D"topic-icon" height=3D"120" style=3D"d=
+isplay: block; margin: 0 auto; border: 0" src=3D"https://s.mzstatic.com/ema=
+il/images_shared/msw-radio-v2_2x.png">
+                        <p class=3D"content-text second-title" style=3D"col=
+or: #333333; font-size: 20px; line-height: 26px; font-weight: 600; margin: =
+0; letter-spacing:-0.022em; font-family: system-ui, -apple-system, BlinkMac=
+SystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;">Ra=
+dio</p>
+                        <p class=3D"content-text normal" style=3D"color: #6=
+66666; font-size: 14px; line-height: 18px; letter-spacing:-0.016em; font-we=
+ight: 400; margin: 0; padding-top: 8px; padding-bottom: 10px;font-family: s=
+ystem-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', =
+Helvetica, Arial, sans-serif;">Listen to stations in all your favourite gen=
+res or make your own from any artist, song or album.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td bgcolor=3D"#ffffff">
+                  <table class=3D"" width=3D"205" cellspacing=3D"0" cellpad=
+ding=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff=
+; margin: 0 auto; overflow: hidden;">
+                    <tr>
+                      <td align=3D"center">
+                        <img class=3D"topic-icon" height=3D"120" style=3D"d=
+isplay: block; margin: 0 auto; border: 0" src=3D"https://s.mzstatic.com/ema=
+il/images_shared/msw-search-v2_2x.png">
+                        <p class=3D"content-text second-title" style=3D"col=
+or: #333333; font-size: 20px; line-height: 26px; font-weight: 600; margin: =
+0; letter-spacing:-0.022em; font-family: system-ui, -apple-system, BlinkMac=
+SystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;">Se=
+arch</p>
+                        <p class=3D"content-text normal" style=3D"color: #6=
+66666; font-size: 14px; line-height: 18px; letter-spacing:-0.016em; font-we=
+ight: 400; margin: 0; padding-top: 8px; padding-bottom: 10px;font-family: s=
+ystem-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', =
+Helvetica, Arial, sans-serif;">Find what you're looking for quickly. Just e=
+nter a song, album or artist name.</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor=3D"#f2f2f2">
+            <table class=3D"fill" width=3D"740" cellspacing=3D"0" cellpaddi=
+ng=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff; =
+margin: 0 auto; overflow: hidden;">
+              <tbody>
+                <tr>
+                  <td align=3D"center" style=3D"padding-top:35px;">
+                    <a href=3D"https://itunes.apple.com/foryou?enlh=3D1.500=
+104.500103.500098.1.&amp;ls=3D1&amp;app=3Dmusic" style=3D"text-decoration: =
+none;">
+                      <img class=3D"logo nonmobile" width=3D"110" style=3D"=
+display: block; margin: 0 auto; border: 0" alt=3D"Apple Music" src=3D"https=
+://s.mzstatic.com/email/images_shared/dItemArtMusic400.png">
+                      <img class=3D"logo mobile" width=3D"60" style=3D"disp=
+lay: none; margin: 0 auto; border: 0" alt=3D"Apple Music" src=3D"https://s.=
+mzstatic.com/email/images_shared/dItemArtMusic2x.png">
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor=3D"#f2f2f2">
+            <table class=3D"fill" width=3D"740" cellspacing=3D"0" cellpaddi=
+ng=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ffffff; =
+margin:0 auto; padding: 13px 0 35px 0; overflow: hidden; border-radius: 0 0=
+ 7px 7px; -webkit-border-radius: 0 0 7px 7px; -moz-border-radius: 0 0 7px 7=
+px;">
+              <tr>
+                <td bgcolor=3D"#ffffff">
+                  <table class=3D"fill" width=3D"680" cellspacing=3D"0" cel=
+lpadding=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #ff=
+ffff; margin:0 auto; overflow: hidden;">
+                    <tbody>
+                      <tr>
+                        <td align=3D"center">
+                          <a class=3D"link content-text action" href=3D"htt=
+ps://itunes.apple.com/foryou?enlh=3D1.500104.500103.500098.1.&amp;ls=3D1&am=
+p;app=3Dmusic" style=3D"font-family: system-ui, -apple-system, BlinkMacSyst=
+emFont, Segoe UI, Helvetica Neue, Helvetica, Arial, sans-serif; font-size:1=
+7px; line-height:26px; letter-spacing:-0.021em; font-weight:400; color: #fa=
+233b; text-decoration: none;">Start listening <img width=3D"11" alt=3D"" bo=
+rder=3D"0" class=3D"more" style=3D"margin: 0 auto; border: 0" src=3D"https:=
+//s.mzstatic.com/email/images_shared/arrow_ms.png"></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+  <td bgcolor=3D"#f2f2f2">
+    <table class=3D"fill" width=3D"740" cellspacing=3D"0" cellpadding=3D"0"=
+ border=3D"0" align=3D"center" style=3D"background-color: #f2f2f2; margin: =
+0 auto; padding: 0 0 21px 0; overflow: hidden;">
+      <tr>
+        <td bgcolor=3D"#f2f2f2" align=3D"center" style=3D"padding-top: 25px=
+;">
+          <table class=3D"" cellspacing=3D"0" cellpadding=3D"0" border=3D"0=
+" align=3D"center" style=3D"background-color: #f2f2f2; margin:0 auto; overf=
+low: hidden;">
+            <tbody>
+              <tr>
+                <td><a href=3D"https://www.facebook.com/applemusic"><img wi=
+dth=3D"22" height=3D"22" border=3D"0" alt=3D"Facebook" src=3D"https://s.mzs=
+tatic.com/email/images_shared/logo-ms-facebook_2x.png" style=3D"border: non=
+e;padding: 0;margin: 0;-ms-interpolation-mode: bicubic;"></a></td>
+                <td width=3D"12"></td>
+                <td><a href=3D"https://twitter.com/AppleMusic"><img width=
+=3D"22" height=3D"22" border=3D"0" alt=3D"Twitter" src=3D"https://s.mzstati=
+c.com/email/images_shared/logo-ms-twitter_2x.png" style=3D"border: none;pad=
+ding: 0;margin: 0;-ms-interpolation-mode: bicubic;"></a></td>
+                <td width=3D"12"></td>
+                <td><a href=3D"https://instagram.com/applemusic/"><img widt=
+h=3D"22" height=3D"22" border=3D"0" alt=3D"Instagram" src=3D"https://s.mzst=
+atic.com/email/images_shared/logo-ms-instagram_2x.png" style=3D"border: non=
+e;padding: 0;margin: 0;-ms-interpolation-mode: bicubic;"></a></td>
+                <td width=3D"12"></td>
+                <td><a href=3D"http://applemusic.tumblr.com"><img width=3D"=
+14" height=3D"22" border=3D"0" alt=3D"Tumblr" src=3D"https://s.mzstatic.com=
+/email/images_shared/logo-ms-tumblr_2x.png" style=3D"border: none;padding: =
+0;margin: 0;-ms-interpolation-mode: bicubic;"></a></td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td bgcolor=3D"#f2f2f2">
+    <table class=3D"fill" width=3D"740" cellspacing=3D"0" cellpadding=3D"0"=
+ border=3D"0" align=3D"center" style=3D"background-color: #f2f2f2; margin: =
+0 auto; padding: 0 0 15px 0; overflow: hidden;">
+      <tr>
+        <td bgcolor=3D"#f2f2f2">
+          <table class=3D"fill" width=3D"700" cellspacing=3D"0" cellpadding=
+=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #f2f2f2; ma=
+rgin:0 auto; overflow: hidden;">
+            <tbody>
+              <tr>
+                <td align=3D"center">
+                  <p style=3D"font-family: system-ui, -apple-system, BlinkM=
+acSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; c=
+olor: #888888; font-size:11px; line-height:15px; max-width:680px;">Some con=
+tent requires specific hardware or software. Internet access required; data=
+ fees may apply. Content prices and availability are subject to change. For=
+ more information, see www.apple.com/uk/itunes. Apple&nbsp;Music requires a=
+ subscription, see www.apple.com/uk/music/ for more information.</p>
+                  <p style=3D"font-family: system-ui, -apple-system, BlinkM=
+acSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; c=
+olor: #888888; font-size:11px; line-height:15px; max-width:680px;"><a href=
+=3D"https://www.apple.com/uk/legal/" style=3D"color:#1187FF" class=3D"foote=
+r-link">All rights reserved</a> Copyright =A9 2025 Apple Distribution Inter=
+national Ltd.  Hollyhill Industrial Estate, Hollyhill, Cork, Ireland</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td bgcolor=3D"#f2f2f2">
+    <table class=3D"fill" width=3D"740" cellspacing=3D"0" cellpadding=3D"0"=
+ border=3D"0" align=3D"center" style=3D"background-color: #f2f2f2; margin: =
+0 auto; padding: 0 0 25px 0; overflow: hidden;">
+      <tr>
+        <td bgcolor=3D"#f2f2f2">
+          <table class=3D"fill" width=3D"700" cellspacing=3D"0" cellpadding=
+=3D"0" border=3D"0" align=3D"center" style=3D"background-color: #f2f2f2; ma=
+rgin:0 auto; overflow: hidden;">
+            <tbody>
+              <tr>
+                <td align=3D"center" style=3D"font-family:Helvetica Neue,He=
+lvetica,Lucida Grande,Arial,sans-serif;color:#999999;font-size:9px; line-he=
+ight:1.32em;padding:0;white-space: nowrap;">
+                  <a href=3D"https://www.apple.com/uk/privacy/" class=3D"fo=
+oter-link left top" style=3D"color:#555555;font-family: system-ui, -apple-s=
+ystem, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, =
+sans-serif; font-size:11px;line-height:14px;white-space:nowrap">Privacy Pol=
+icy</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href=3D"http://www.apple.com/legal/itune=
+s/uk/terms.html" class=3D"footer-link right top" style=3D"color:#555555;fon=
+t-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvet=
+ica Neue', Helvetica, Arial, sans-serif; font-size:11px;line-height:14px;wh=
+ite-space:nowrap">Terms and Conditions</a><br class=3D"wrd-break" style=3D"=
+display:none;">&nbsp;&nbsp;|&nbsp;&nbsp;<a href=3D"http://www.apple.com/uk/=
+support/music/" class=3D"footer-link" style=3D"color:#555555;font-family: s=
+ystem-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', =
+Helvetica, Arial, sans-serif; font-size:11px;line-height:14px;white-space:n=
+owrap">Support</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href=3D"https://buy.itunes.ap=
+ple.com/WebObjects/MZFinance.woa/wa/accountSummary?mt=3D8" class=3D"footer-=
+link" style=3D"color:#555555;font-family: system-ui, -apple-system, BlinkMa=
+cSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; fo=
+nt-size:11px;line-height:14px;white-space:nowrap">Account</a>&nbsp;&nbsp;|&=
+nbsp;&nbsp;<a href=3D"https://account.apple.com/#!&amp;page=3Dsignin" class=
+=3D"appl-link" style=3D"color:#555555;font-family: system-ui, -apple-system=
+, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-=
+serif; font-size:11px;line-height:14px;white-space:nowrap">Subscribe</a>&nb=
+sp;&nbsp;|&nbsp;&nbsp;<a href=3D"https://mynews.apple.com/subscriptions" cl=
+ass=3D"appl-link" style=3D"color:#555555;font-family: system-ui, -apple-sys=
+tem, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sa=
+ns-serif; font-size:11px;line-height:14px;white-space:nowrap">Unsubscribe</=
+a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+      </table>
+    </div>
+    <br>
+    <br>
+      </body>
+</html>=
+
+------=_Part_94358108_786229467.1742834038222--
