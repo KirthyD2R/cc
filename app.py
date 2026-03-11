@@ -1207,6 +1207,229 @@ def api_extract_zips():
     return jsonify({"ok": True, "step": "extract-zips"})
 
 
+@app.route("/api/extract-mail-invoices", methods=["POST"])
+def api_extract_mail_invoices():
+    """Extract invoices from 'input_pdfs/mail invoices' folder only, save to separate mail_extracted_invoices.json."""
+    with _state_lock:
+        if _state["running"]:
+            return jsonify({"error": "A step is already running", "current": _state["current_step"]}), 409
+        _state["running"] = True
+
+    def _extract_mail_thread():
+        try:
+            with _state_lock:
+                _state["current_step"] = "extract-mail"
+                _state["step_results"]["extract-mail"] = {
+                    "status": "running",
+                    "message": "Extracting mail invoices...",
+                    "timestamp": datetime.now().isoformat(),
+                }
+
+            log_action("=== Extract Mail Invoices ===")
+            mail_dir = os.path.join(PROJECT_ROOT, "input_pdfs", "mail invoices")
+            if not os.path.isdir(mail_dir):
+                raise FileNotFoundError(f"Folder not found: {mail_dir}")
+
+            # Find all extractable files
+            exts = (".pdf", ".jpg", ".jpeg", ".png", ".eml")
+            files = [(f, os.path.join(mail_dir, f)) for f in os.listdir(mail_dir)
+                     if f.lower().endswith(exts)]
+            log_action(f"Found {len(files)} files in input_pdfs/mail invoices/")
+
+            # Output: separate JSON file for mail-extracted invoices
+            out_path = os.path.join(PROJECT_ROOT, "output", "mail_extracted_invoices.json")
+
+            # Load existing mail extractions to skip already-done
+            existing = []
+            if os.path.exists(out_path):
+                with open(out_path, "r", encoding="utf-8") as f:
+                    existing = json.load(f)
+            already_done = {inv["file"] for inv in existing}
+
+            # Import extract function from Step 2
+            mod = _import_script("02_extract_invoices.py")
+
+            new_extracted = []
+            skipped = 0
+            failed = 0
+            for fname, fpath in sorted(files):
+                if fname in already_done:
+                    log_action(f"  Skipping (already extracted): {fname}")
+                    skipped += 1
+                    continue
+                log_action(f"  Extracting: {fname}")
+                try:
+                    invoice = mod.extract_invoice(fpath, fname)
+                    if invoice:
+                        if isinstance(invoice, list):
+                            new_extracted.extend(invoice)
+                            for inv in invoice:
+                                log_action(f"    [{inv.get('invoice_number', '?')}] {inv['vendor_name']}: {inv['amount']} {inv['currency']}")
+                        else:
+                            new_extracted.append(invoice)
+                            log_action(f"    {invoice['vendor_name']}: {invoice['amount']} {invoice['currency']}, Date: {invoice['date']}")
+                    else:
+                        log_action(f"    No data extracted from {fname}", "WARNING")
+                        failed += 1
+                except Exception as ex:
+                    log_action(f"    FAILED: {fname}: {ex}", "ERROR")
+                    failed += 1
+
+            # Save to mail_extracted_invoices.json (append to existing)
+            if new_extracted:
+                existing.extend(new_extracted)
+            with open(out_path, "w", encoding="utf-8") as f:
+                json.dump(existing, f, indent=2, ensure_ascii=False)
+
+            total = len(existing)
+            msg = f"Extracted {len(new_extracted)} new, skipped {skipped}, failed {failed} | Total: {total} in mail_extracted_invoices.json"
+            with _state_lock:
+                _state["step_results"]["extract-mail"] = {
+                    "status": "success",
+                    "message": msg,
+                    "timestamp": datetime.now().isoformat(),
+                }
+            log_action(f"=== Mail Extract DONE: {msg} ===")
+        except Exception as e:
+            tb = traceback.format_exc()
+            log_action(f"Mail Extract FAILED: {e}", "ERROR")
+            log_action(tb, "ERROR")
+            with _state_lock:
+                _state["step_results"]["extract-mail"] = {
+                    "status": "error",
+                    "message": str(e)[:200],
+                    "timestamp": datetime.now().isoformat(),
+                }
+        finally:
+            with _state_lock:
+                _state["running"] = False
+                _state["current_step"] = None
+
+    t = threading.Thread(target=_extract_mail_thread, daemon=True)
+    t.start()
+    return jsonify({"ok": True, "step": "extract-mail"})
+
+
+@app.route("/api/compare-mail-invoices", methods=["POST"])
+def api_compare_mail_invoices():
+    """Compare mail_extracted_invoices.json against extracted_invoices.json.
+    For each mail invoice, check if it exists in the main extracted file.
+    Save results to output/mail_vs_extracted_compare.json.
+    """
+    try:
+        mail_path = os.path.join(PROJECT_ROOT, "output", "mail_extracted_invoices.json")
+        ext_path = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
+        out_path = os.path.join(PROJECT_ROOT, "output", "mail_vs_extracted_compare.json")
+
+        if not os.path.exists(mail_path):
+            return jsonify({"error": "mail_extracted_invoices.json not found. Run Mail Extract first."}), 404
+        if not os.path.exists(ext_path):
+            return jsonify({"error": "extracted_invoices.json not found. Run Extract Data first."}), 404
+
+        with open(mail_path, "r", encoding="utf-8") as f:
+            mail_invoices = json.load(f)
+        with open(ext_path, "r", encoding="utf-8") as f:
+            ext_invoices = json.load(f)
+
+        # Build lookup indices from extracted_invoices
+        ext_by_file = {}
+        ext_by_invnum = {}
+        ext_by_vendor_amt_date = {}
+        ext_by_vendor_amt = {}
+        for inv in ext_invoices:
+            fn = inv.get("file", "")
+            if fn:
+                ext_by_file[fn.lower()] = inv
+            inv_num = (inv.get("invoice_number") or "").strip()
+            if inv_num and inv_num.lower() not in ("unknown", "n/a", "none", ""):
+                ext_by_invnum[inv_num.lower()] = inv
+            # vendor + amount + date key
+            vn = (inv.get("vendor_name") or "").strip().lower()
+            amt = round(float(inv.get("amount") or 0), 2)
+            dt = (inv.get("date") or "").strip()
+            if vn and amt:
+                ext_by_vendor_amt_date[(vn, amt, dt)] = inv
+                key_va = (vn, amt)
+                if key_va not in ext_by_vendor_amt:
+                    ext_by_vendor_amt[key_va] = []
+                ext_by_vendor_amt[key_va].append(inv)
+
+        results = []
+        found_count = 0
+        missing_count = 0
+
+        for mi in mail_invoices:
+            mi_file = (mi.get("file") or "").lower()
+            mi_invnum = (mi.get("invoice_number") or "").strip().lower()
+            mi_vendor = (mi.get("vendor_name") or "").strip().lower()
+            mi_amt = round(float(mi.get("amount") or 0), 2)
+            mi_date = (mi.get("date") or "").strip()
+
+            match = None
+            match_type = None
+
+            # 1. Exact filename match
+            if mi_file and mi_file in ext_by_file:
+                match = ext_by_file[mi_file]
+                match_type = "exact_file"
+            # 2. Invoice number match
+            elif mi_invnum and mi_invnum not in ("unknown", "n/a", "none", "") and mi_invnum in ext_by_invnum:
+                match = ext_by_invnum[mi_invnum]
+                match_type = "invoice_number"
+            # 3. Vendor + amount + date match
+            elif (mi_vendor, mi_amt, mi_date) in ext_by_vendor_amt_date:
+                match = ext_by_vendor_amt_date[(mi_vendor, mi_amt, mi_date)]
+                match_type = "vendor_amount_date"
+            # 4. Vendor + amount match (any date)
+            elif (mi_vendor, mi_amt) in ext_by_vendor_amt:
+                match = ext_by_vendor_amt[(mi_vendor, mi_amt)][0]
+                match_type = "vendor_amount"
+
+            status = "found" if match else "missing"
+            if match:
+                found_count += 1
+            else:
+                missing_count += 1
+
+            row = {
+                "mail_file": mi.get("file"),
+                "mail_vendor": mi.get("vendor_name"),
+                "mail_invoice_number": mi.get("invoice_number"),
+                "mail_date": mi.get("date"),
+                "mail_amount": mi.get("amount"),
+                "mail_currency": mi.get("currency"),
+                "status": status,
+                "match_type": match_type,
+            }
+            if match:
+                row["matched_file"] = match.get("file")
+                row["matched_vendor"] = match.get("vendor_name")
+                row["matched_invoice_number"] = match.get("invoice_number")
+                row["matched_date"] = match.get("date")
+                row["matched_amount"] = match.get("amount")
+                row["matched_path"] = match.get("organized_path") or match.get("path")
+            results.append(row)
+
+        summary = {
+            "total_mail": len(mail_invoices),
+            "total_extracted": len(ext_invoices),
+            "found": found_count,
+            "missing": missing_count,
+            "compared_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        }
+
+        output = {"summary": summary, "results": results}
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(output, f, indent=2, ensure_ascii=False)
+
+        log_action(f"Mail vs Extracted compare: {found_count} found, {missing_count} missing out of {len(mail_invoices)} mail invoices")
+        return jsonify({"status": "ok", **summary, "path": out_path})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/api/run/<step>", methods=["POST"])
 def api_run(step):
     with _state_lock:
@@ -3702,106 +3925,139 @@ def api_banking_delete_transactions():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
+_BANKING_SUMMARY_CACHE = os.path.join(PROJECT_ROOT, "output", "banking_summary_cache.json")
+
+
+def _banking_summary_from_api():
+    """Fetch all banking transactions per status from Zoho, cache and return."""
+    from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids, log_action
+    config = load_config()
+    api = ZohoBooksAPI(config)
+    cards = config.get("credit_cards", [])
+    resolve_account_ids(api, cards)
+
+    STATUSES = ["uncategorized", "matched", "manually_added", "categorized"]
+
+    def _fetch_all(account_id, status):
+        txns = []
+        page = 1
+        while True:
+            result = api._request("GET", "banktransactions", params={
+                "account_id": account_id, "status": status, "page": page,
+            })
+            batch = result.get("banktransactions", [])
+            txns.extend(batch)
+            if not result.get("page_context", {}).get("has_more_page", False):
+                break
+            page += 1
+        return txns
+
+    # Fetch per card, per status — store raw txns for cache
+    all_raw = []  # list of {card, status, txn_id, date, amount, description}
+    for card in cards:
+        account_id = card.get("zoho_account_id")
+        card_name = card.get("name", "")
+        if not account_id:
+            continue
+        for status in STATUSES:
+            txns = _fetch_all(account_id, status)
+            for t in txns:
+                all_raw.append({
+                    "card": card_name,
+                    "status": status,
+                    "transaction_id": t.get("transaction_id", ""),
+                    "date": t.get("date", ""),
+                    "amount": abs(float(t.get("amount", 0))),
+                    "description": t.get("description", ""),
+                })
+
+    # Save cache
+    cache_data = {
+        "fetched_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "transactions": all_raw,
+    }
+    os.makedirs(os.path.dirname(_BANKING_SUMMARY_CACHE), exist_ok=True)
+    with open(_BANKING_SUMMARY_CACHE, "w", encoding="utf-8") as f:
+        json.dump(cache_data, f, indent=2, ensure_ascii=False)
+
+    log_action(f"Banking summary: fetched {len(all_raw)} txns from Zoho, cached")
+    return all_raw
+
+
+def _banking_summary_build(all_raw):
+    """Build month-wise summary from raw transaction list."""
+    from collections import defaultdict
+
+    STATUSES = ["matched", "manually_added", "categorized", "uncategorized"]
+    amt_keys = [s + "_amount" for s in STATUSES]
+    agg_keys = STATUSES + ["total"] + amt_keys + ["total_amount"]
+
+    months = defaultdict(lambda: defaultdict(lambda: {k: 0 for k in agg_keys}))
+
+    for t in all_raw:
+        date_str = t.get("date", "")
+        month_key = date_str[:7] if len(date_str) >= 7 else "Unknown"
+        card_name = t.get("card", "Unknown")
+        status = t.get("status", "uncategorized")
+        amount = float(t.get("amount", 0))
+
+        bucket = months[month_key][card_name]
+        bucket["total"] += 1
+        bucket["total_amount"] += amount
+        bucket[status] += 1
+        bucket[status + "_amount"] += amount
+
+    result_months = []
+    for month_key in sorted(months.keys(), reverse=True):
+        card_data = months[month_key]
+        month_total = {k: 0 for k in agg_keys}
+        card_list = []
+        for cname in sorted(card_data.keys()):
+            cd = card_data[cname]
+            card_list.append({"card": cname, **cd})
+            for k in agg_keys:
+                month_total[k] += cd.get(k, 0)
+        result_months.append({"month": month_key, "totals": month_total, "cards": card_list})
+
+    grand_total = {k: 0 for k in agg_keys}
+    for m in result_months:
+        for k in agg_keys:
+            grand_total[k] += m["totals"].get(k, 0)
+
+    card_names = sorted(set(t.get("card", "") for t in all_raw))
+    return grand_total, result_months, card_names
+
+
 @app.route("/api/banking/summary")
 def api_banking_summary():
-    """Month-wise summary of all banking transactions across all CC cards.
-    Fetches each Zoho status separately: uncategorized, matched, manually_added, categorized.
-    """
+    """Month-wise summary with cache. Use ?refresh=1 to force Zoho fetch."""
     try:
-        from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids, log_action
-        from collections import defaultdict
-        config = load_config()
-        api = ZohoBooksAPI(config)
-        cards = config.get("credit_cards", [])
-        resolve_account_ids(api, cards)
+        from scripts.utils import log_action
+        force = request.args.get("refresh", "0") == "1"
 
-        # Zoho banking statuses (matching Zoho UI dropdown)
-        STATUSES = ["uncategorized", "matched", "manually_added", "categorized"]
+        all_raw = None
+        # Try cache first
+        if not force and os.path.exists(_BANKING_SUMMARY_CACHE):
+            with open(_BANKING_SUMMARY_CACHE, "r", encoding="utf-8") as f:
+                cache_data = json.load(f)
+            all_raw = cache_data.get("transactions", [])
+            fetched_at = cache_data.get("fetched_at", "")
+            log_action(f"Banking summary: loaded {len(all_raw)} txns from cache ({fetched_at})")
 
-        def _fetch_all(account_id, status):
-            """Paginated fetch of banking transactions for a given status."""
-            txns = []
-            page = 1
-            while True:
-                result = api._request("GET", "banktransactions", params={
-                    "account_id": account_id, "status": status, "page": page,
-                })
-                batch = result.get("banktransactions", [])
-                txns.extend(batch)
-                if not result.get("page_context", {}).get("has_more_page", False):
-                    break
-                page += 1
-            return txns
+        # No cache or forced refresh
+        if all_raw is None:
+            all_raw = _banking_summary_from_api()
+            fetched_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Fetch per card, per status
-        all_txns = []  # list of (txn_dict, card_name, status)
-        for card in cards:
-            account_id = card.get("zoho_account_id")
-            card_name = card.get("name", "")
-            if not account_id:
-                continue
-            for status in STATUSES:
-                txns = _fetch_all(account_id, status)
-                for t in txns:
-                    all_txns.append((t, card_name, status))
+        grand_total, result_months, card_names = _banking_summary_build(all_raw)
 
-        # Group by month + card
-        months = defaultdict(lambda: defaultdict(lambda: {
-            "matched": 0, "manually_added": 0, "categorized": 0,
-            "uncategorized": 0, "total": 0,
-            "matched_amount": 0.0, "manually_added_amount": 0.0,
-            "categorized_amount": 0.0, "uncat_amount": 0.0, "total_amount": 0.0
-        }))
-
-        for t, card_name, status in all_txns:
-            date_str = t.get("date", "")
-            month_key = date_str[:7] if len(date_str) >= 7 else "Unknown"
-            amount = abs(float(t.get("amount", 0)))
-
-            bucket = months[month_key][card_name]
-            bucket["total"] += 1
-            bucket["total_amount"] += amount
-            bucket[status] += 1
-            bucket[f"{status}_amount"] = bucket.get(f"{status}_amount", 0.0) + amount
-
-        # Build response sorted by month desc
-        result_months = []
-        agg_keys = ["matched", "manually_added", "categorized", "uncategorized", "total",
-                     "matched_amount", "manually_added_amount", "categorized_amount",
-                     "uncat_amount", "total_amount"]
-        for month_key in sorted(months.keys(), reverse=True):
-            card_data = months[month_key]
-            month_total = {k: 0 for k in agg_keys}
-            card_list = []
-            for cname in sorted(card_data.keys()):
-                cd = card_data[cname]
-                card_list.append({"card": cname, **cd})
-                for k in agg_keys:
-                    month_total[k] += cd.get(k, 0)
-            result_months.append({
-                "month": month_key,
-                "totals": month_total,
-                "cards": card_list
-            })
-
-        grand_total = {k: 0 for k in agg_keys}
-        for m in result_months:
-            for k in agg_keys:
-                grand_total[k] += m["totals"].get(k, 0)
-
-        card_names = sorted(set(cn for _, cn, _ in all_txns))
-
-        log_action(f"Banking summary: {grand_total['total']} total, "
-                   f"{grand_total['uncategorized']} uncategorized, "
-                   f"{grand_total['matched']} matched, "
-                   f"{grand_total['manually_added']} manually_added, "
-                   f"{grand_total['categorized']} categorized, "
-                   f"{len(result_months)} months")
         return jsonify({
             "grand_total": grand_total,
             "months": result_months,
             "card_names": card_names,
-            "total_transactions": grand_total["total"]
+            "total_transactions": grand_total["total"],
+            "cached": not force,
+            "fetched_at": fetched_at if 'fetched_at' in dir() else "",
         })
     except Exception as e:
         import traceback
@@ -6468,6 +6724,21 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <span class="step-indicator ind-idle" id="ind-extract-zips"></span>
             <span class="step-msg" id="msg-extract-zips"></span>
           </button>
+          <button class="step-btn" onclick="runExtractMail()" id="btn-extract-mail" style="border:1.5px dashed var(--orange);background:rgba(251,146,60,0.05)">
+            <span class="step-num" style="background:var(--orange);color:#000;font-size:10px">M</span> Mail Extract
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Extract invoices from 'input_pdfs/mail invoices' folder only. Saves to its own output/mail_extracted_invoices.json (separate from Step 2).</span>
+            </span>
+            <span class="step-indicator ind-idle" id="ind-extract-mail"></span>
+            <span class="step-msg" id="msg-extract-mail"></span>
+          </button>
+          <button class="step-btn" onclick="runCompareMail()" id="btn-compare-mail" style="border:1.5px dashed var(--yellow);background:rgba(250,204,21,0.05)">
+            <span class="step-num" style="background:var(--yellow);color:#000;font-size:10px">C</span> Mail Compare
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Compare mail_extracted_invoices.json vs extracted_invoices.json. Shows which mail invoices are found/missing in the main extracted data. Saves to output/mail_vs_extracted_compare.json.</span>
+            </span>
+            <span id="mailCompareResult" style="font-size:10px;color:var(--text-dim);display:block;margin-top:2px"></span>
+          </button>
           <button class="step-btn" data-step="2" onclick="runStep('2')">
             <span class="step-num">2</span> Extract Data
             <span class="info-btn" onclick="event.stopPropagation()">i
@@ -6762,7 +7033,8 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
           <select id="bsCardFilter" onchange="filterBankingSummary()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px">
             <option value="">All Cards</option>
           </select>
-          <button onclick="openBankingSummary()" style="background:var(--accent);color:#fff;border:none;border-radius:4px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600;margin-left:auto">Refresh</button>
+          <span id="bsCacheInfo" style="font-size:10px;color:var(--text-dim);margin-left:auto"></span>
+          <button onclick="openBankingSummary(true)" style="background:var(--accent);color:#fff;border:none;border-radius:4px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600">Refresh from Zoho</button>
         </div>
         <div id="bankingSummaryBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto;padding:12px">
           <div class="review-loading" id="bsLoading">Fetching banking data...</div>
@@ -7065,6 +7337,45 @@ function runExtractZips() {
     .catch(err => addLogLine('[UI] Request failed: ' + err));
 }
 
+function runExtractMail() {
+  fetch('/api/extract-mail-invoices', {method: 'POST'})
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        addLogLine('[UI] ' + data.error);
+      }
+      pollStatus();
+    })
+    .catch(err => addLogLine('[UI] Request failed: ' + err));
+}
+
+function runCompareMail() {
+  var resultEl = document.getElementById('mailCompareResult');
+  resultEl.textContent = 'Comparing...';
+  resultEl.style.color = 'var(--accent)';
+  fetch('/api/compare-mail-invoices', {method: 'POST'})
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) {
+        resultEl.textContent = data.error;
+        resultEl.style.color = 'var(--red)';
+        addLogLine('[UI] Compare failed: ' + data.error);
+        return;
+      }
+      var found = data.found || 0;
+      var missing = data.missing || 0;
+      var total = data.total_mail || 0;
+      var pct = total > 0 ? Math.round(found / total * 100) : 0;
+      resultEl.innerHTML = '<span style="color:var(--green)">' + found + ' found</span> &middot; <span style="color:var(--red)">' + missing + ' missing</span> &middot; ' + pct + '%';
+      addLogLine('[INFO] Mail Compare: ' + found + ' found, ' + missing + ' missing out of ' + total + ' mail invoices. Saved to output/mail_vs_extracted_compare.json');
+    })
+    .catch(function(err) {
+      resultEl.textContent = 'Failed';
+      resultEl.style.color = 'var(--red)';
+      addLogLine('[UI] Compare request failed: ' + err);
+    });
+}
+
 // --- Confirmation modals ---
 function showModal(title, msg, onConfirm, isDanger, confirmText) {
   document.getElementById('modalTitle').textContent = title;
@@ -7152,6 +7463,18 @@ function updateUI(data) {
   } else if (data.current_step === 'extract-zips' && data.running) {
     zipInd.className = 'step-indicator ind-running';
     zipMsgEl.textContent = 'Extracting...';
+  }
+
+  // Mail Extract indicator
+  const mailInd = document.getElementById('ind-extract-mail');
+  const mailMsgEl = document.getElementById('msg-extract-mail');
+  const mailRes = data.step_results['extract-mail'];
+  if (mailRes) {
+    mailInd.className = 'step-indicator ind-' + mailRes.status;
+    mailMsgEl.textContent = mailRes.message || '';
+  } else if (data.current_step === 'extract-mail' && data.running) {
+    mailInd.className = 'step-indicator ind-running';
+    mailMsgEl.textContent = 'Extracting...';
   }
 
   // Sync Zoho indicator
@@ -7904,16 +8227,18 @@ function closeAutoMatchPanel() {
 /* ── Banking Summary panel ── */
 var _bsData = null;
 
-function openBankingSummary() {
+function openBankingSummary(forceRefresh) {
   ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','autoMatchPanel'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
   document.getElementById('bankingSummaryPanel').style.display = 'flex';
   document.getElementById('bsLoading').style.display = 'block';
+  document.getElementById('bsLoading').textContent = forceRefresh ? 'Fetching from Zoho...' : 'Loading...';
   document.getElementById('bsContent').style.display = 'none';
 
-  fetch('/api/banking/summary')
+  var url = '/api/banking/summary' + (forceRefresh ? '?refresh=1' : '');
+  fetch(url)
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data.error) {
@@ -7921,7 +8246,6 @@ function openBankingSummary() {
         return;
       }
       _bsData = data;
-      // Populate card filter
       var sel = document.getElementById('bsCardFilter');
       sel.innerHTML = '<option value="">All Cards</option>';
       (data.card_names || []).forEach(function(name) {
@@ -7956,7 +8280,7 @@ function renderBankingSummary(data) {
 
   // Aggregate filtered grand totals
   var G = {matched:0, manually_added:0, categorized:0, uncategorized:0, total:0,
-           matched_amount:0, manually_added_amount:0, categorized_amount:0, uncat_amount:0, total_amount:0};
+           matched_amount:0, manually_added_amount:0, categorized_amount:0, uncategorized_amount:0, total_amount:0};
   months.forEach(function(m) {
     var src = cardFilter ? null : m.totals;
     if (cardFilter) {
@@ -7969,9 +8293,12 @@ function renderBankingSummary(data) {
   });
 
   var doneCount = G.matched + G.manually_added + G.categorized;
-  var doneAmt = G.matched_amount + G.manually_added_amount + G.categorized_amount;
   var donePct = G.total > 0 ? Math.round(doneCount / G.total * 100) : 0;
   document.getElementById('bsSummaryText').textContent = G.total + ' txns | ' + donePct + '% done';
+
+  // Show cache info
+  var cacheEl = document.getElementById('bsCacheInfo');
+  if (data.fetched_at) cacheEl.textContent = (data.cached ? 'Cached: ' : 'Fetched: ') + data.fetched_at;
 
   var html = '';
 
@@ -7981,7 +8308,7 @@ function renderBankingSummary(data) {
   html += _bsStatCard('Matched', G.matched, fmt(G.matched_amount), '#60a5fa');
   html += _bsStatCard('Manually Added', G.manually_added, fmt(G.manually_added_amount), '#a78bfa');
   html += _bsStatCard('Categorized', G.categorized, fmt(G.categorized_amount), 'var(--green)');
-  html += _bsStatCard('Uncategorized', G.uncategorized, fmt(G.uncat_amount), 'var(--red)');
+  html += _bsStatCard('Uncategorized', G.uncategorized, fmt(G.uncategorized_amount), 'var(--red)');
   html += '</div>';
 
   // Stacked progress bar
@@ -8052,7 +8379,7 @@ function renderBankingSummary(data) {
       html += '<td style="padding:6px;text-align:right;color:var(--green)">' + (d.categorized || 0) + '</td>';
       html += '<td style="padding:6px;text-align:right;color:' + ((d.uncategorized || 0) > 0 ? 'var(--red)' : 'var(--text-dim)') + ';font-weight:' + ((d.uncategorized || 0) > 0 ? '700' : 'normal') + '">' + (d.uncategorized || 0) + '</td>';
       html += '<td style="padding:6px;text-align:right">' + fmt(d.total_amount) + '</td>';
-      html += '<td style="padding:6px;text-align:right;color:' + ((d.uncat_amount || 0) > 0 ? 'var(--red)' : 'var(--text-dim)') + '">' + fmt(d.uncat_amount || 0) + '</td>';
+      html += '<td style="padding:6px;text-align:right;color:' + ((d.uncategorized_amount || 0) > 0 ? 'var(--red)' : 'var(--text-dim)') + '">' + fmt(d.uncategorized_amount || 0) + '</td>';
       html += '<td style="padding:6px;text-align:center">';
       html += '<div style="display:flex;align-items:center;gap:6px;justify-content:center">';
       html += '<div style="width:60px;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="width:' + pct + '%;height:100%;background:' + pctColor + ';border-radius:3px"></div></div>';
