@@ -1,0 +1,4778 @@
+{
+  "matches": [
+    {
+      "bill_id": "2050328000002984300",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 200.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-11-28",
+      "bill_number": "PZLFLIEU-0007",
+      "status": "matched",
+      "match_score": 82,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 50,
+        "overall": 82
+      },
+      "cc_transaction_id": "2050328000002324077",
+      "cc_description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
+      "cc_inr_amount": 18004.2,
+      "cc_date": "2025-12-05",
+      "cc_card": "Mayura Credit Card",
+      "match_type": "USD rate:90.02 actual:89.94"
+    },
+    {
+      "bill_id": "2050328000002986355",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 564.17,
+      "bill_currency": "INR",
+      "bill_date": "2025-07-03",
+      "bill_number": "5315977163",
+      "status": "matched",
+      "match_score": 65,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 0,
+        "overall": 65
+      },
+      "cc_transaction_id": "2050328000000939565",
+      "cc_description": "GOOGLEWORKSP, MUMBAI",
+      "cc_inr_amount": 564.17,
+      "cc_date": "2025-08-08",
+      "cc_card": "Mayura Credit Card",
+      "match_type": "INR direct"
+    },
+    {
+      "bill_id": "2050328000003047003",
+      "vendor_id": "2050328000003040001",
+      "vendor_name": "Applebee's",
+      "bill_amount": 36.22,
+      "bill_currency": "USD",
+      "bill_date": "2025-10-15",
+      "bill_number": "7675-859329",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002324071",
+          "cc_description": "GOOGLEWORKSP, MUMBAI",
+          "cc_inr_amount": 3078.76,
+          "cc_date": "2025-12-03",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 24
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003034003",
+      "vendor_id": "2050328000000356512",
+      "vendor_name": "Hathway Broadband Internet",
+      "bill_amount": 11151.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-03-10",
+      "bill_number": "I0133P2503155832",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003028003",
+      "vendor_id": "2050328000002996113",
+      "vendor_name": "Vercel",
+      "bill_amount": 73.35,
+      "bill_currency": "USD",
+      "bill_date": "2026-03-01",
+      "bill_number": "97E328AA-0007",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003005871",
+      "vendor_id": "2050328000002993896",
+      "vendor_name": "SPIGEN INDIA PRIVATE LIMITED",
+      "bill_amount": 1623.55,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-07",
+      "bill_number": "MAA4-61528",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003008577",
+      "vendor_id": "2050328000000356826",
+      "vendor_name": "RETAILEZ PRIVATE LIMITED",
+      "bill_amount": 659.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-14",
+      "bill_number": "MAA4-1730312",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002998657",
+      "vendor_id": "2050328000002991545",
+      "vendor_name": "Surajmal Tea Private Limited",
+      "bill_amount": 1282.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-06",
+      "bill_number": "SIDA-1153",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002988454",
+      "vendor_id": "2050328000000359077",
+      "vendor_name": "LinkedIn Singapore Pte Ltd",
+      "bill_amount": 1694.07,
+      "bill_currency": "INR",
+      "bill_date": "2025-03-28",
+      "bill_number": "51186091157",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002990623",
+      "vendor_id": "2050328000002997683",
+      "vendor_name": "GLOBAL BRANDS",
+      "bill_amount": 749.24,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-18",
+      "bill_number": "MAA4-22967",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939657",
+          "cc_description": "AMAZON PAY INDIA PRIVA, Bangalore",
+          "cc_inr_amount": 728.16,
+          "cc_date": "2025-09-10",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 55,
+            "date": 60,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 44
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002993956",
+      "vendor_id": "2050328000002997683",
+      "vendor_name": "GLOBAL BRANDS",
+      "bill_amount": 375.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-10",
+      "bill_number": "FMAB-1775",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001812209",
+          "cc_description": "LA QUINTA MOTOR INNS, DURHAM",
+          "cc_inr_amount": 382.07,
+          "cc_date": "2025-10-11",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 37
+        },
+        {
+          "cc_transaction_id": "2050328000001777075",
+          "cc_description": "AMAZON PAY INDIA PRIVA Bangalore     IN",
+          "cc_inr_amount": 382.85,
+          "cc_date": "2025-10-16",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 55,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 30
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003008485",
+      "vendor_id": "2050328000002998529",
+      "vendor_name": "TIGER PUG COMMERCE PRIVATE LIMITED",
+      "bill_amount": 1971.25,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-05",
+      "bill_number": "MAA4-50643",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939563",
+          "cc_description": "GEARS, CHENNAI",
+          "cc_inr_amount": 2059.0,
+          "cc_date": "2025-08-08",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 24
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003011378",
+      "vendor_id": "2050328000003000660",
+      "vendor_name": "Info Edge (Naukri)",
+      "bill_amount": 10513.8,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-28",
+      "bill_number": "NK09I1126020619",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003013441",
+      "vendor_id": "2050328000003005654",
+      "vendor_name": "Medium",
+      "bill_amount": 5.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-01-01",
+      "bill_number": "71424c4eac52",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002984575",
+      "vendor_id": "2050328000002995566",
+      "vendor_name": "Flipkart",
+      "bill_amount": 1.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-02-25",
+      "bill_number": "FAAAK26015141885",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003010540",
+      "vendor_id": "2050328000003005654",
+      "vendor_name": "Medium",
+      "bill_amount": 5.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-02-02",
+      "bill_number": "0d88541dc582",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002995605",
+      "vendor_id": "2050328000003005654",
+      "vendor_name": "Medium",
+      "bill_amount": 5.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-03-02",
+      "bill_number": "ab54d0ccf102",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003003426",
+      "vendor_id": "2050328000002995566",
+      "vendor_name": "Flipkart",
+      "bill_amount": 156.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-02-23",
+      "bill_number": "ber",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003001426",
+      "vendor_id": "2050328000003003408",
+      "vendor_name": "SANDEEP AGARWAL",
+      "bill_amount": 539.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-02-13",
+      "bill_number": "IN-94869",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003000678",
+      "vendor_id": "2050328000003009547",
+      "vendor_name": "vachanamrut marketing",
+      "bill_amount": 650.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-02",
+      "bill_number": "TJFF-4575",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002998547",
+      "vendor_id": "2050328000003015176",
+      "vendor_name": "RAM LAL RAM CHANDRA (INDIA) LIMITED",
+      "bill_amount": 1487.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-02",
+      "bill_number": "RNPU-47304",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002986478",
+      "vendor_id": "2050328000002998529",
+      "vendor_name": "TIGER PUG COMMERCE PRIVATE LIMITED",
+      "bill_amount": 2020.65,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-05",
+      "bill_number": "MAA4-50642",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939563",
+          "cc_description": "GEARS, CHENNAI",
+          "cc_inr_amount": 2059.0,
+          "cc_date": "2025-08-08",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 39
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002999625",
+      "vendor_id": "2050328000003005684",
+      "vendor_name": "NAYANABEN RAJESHBHAI KACHA",
+      "bill_amount": 499.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-14",
+      "bill_number": "BLR7-68",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002993874",
+      "vendor_id": "2050328000002993856",
+      "vendor_name": "SUBRAMANIYAN",
+      "bill_amount": 245.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-06",
+      "bill_number": "IN-755",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002993836",
+      "vendor_id": "2050328000003000660",
+      "vendor_name": "Info Edge (Naukri)",
+      "bill_amount": 8761.5,
+      "bill_currency": "INR",
+      "bill_date": "2026-03-03",
+      "bill_number": "NK09I0326001326",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002993814",
+      "vendor_id": "2050328000003005668",
+      "vendor_name": "Shivam Enterprises",
+      "bill_amount": 149.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-26",
+      "bill_number": "IN-4132",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002990534",
+      "vendor_id": "2050328000002994596",
+      "vendor_name": "New Relic",
+      "bill_amount": 10.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-31",
+      "bill_number": "INV01443315",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002162092",
+          "cc_description": "MICROSOFT INDIA CYBS S MUMBAI IN",
+          "cc_inr_amount": 908.6,
+          "cc_date": "2025-12-15",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 85,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 46
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003013398",
+      "vendor_id": "2050328000002999586",
+      "vendor_name": "JIN OFFICE SOLUTIONS",
+      "bill_amount": 7490.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-02-17",
+      "bill_number": "BOM5-9656",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003012595",
+      "vendor_id": "2050328000003005654",
+      "vendor_name": "Medium",
+      "bill_amount": 5.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-04-02",
+      "bill_number": "45c13e148167",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003004561",
+      "vendor_id": "2050328000002995529",
+      "vendor_name": "Dhruti Enterprises",
+      "bill_amount": 245.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-18",
+      "bill_number": "IN-2825",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003006580",
+      "vendor_id": "2050328000003012577",
+      "vendor_name": "AKASH RAJESHBHAI NAKRANI",
+      "bill_amount": 1199.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-02",
+      "bill_number": "PBVN-14918",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002994041",
+          "cc_description": "WENDYS #5799ORLANDO USD 13.73 [USD 13.73]",
+          "cc_inr_amount": 1207.97,
+          "cc_date": "2025-10-17",
+          "cc_card": "HDFC - 7196",
+          "cc_forex_amount": 13.73,
+          "cc_forex_currency": "USD",
+          "breakdown": {
+            "amount": 85,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 51
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003001404",
+      "vendor_id": "2050328000002998471",
+      "vendor_name": "E zone Shop",
+      "bill_amount": 734.02,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-05",
+      "bill_number": "IN-3563",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939657",
+          "cc_description": "AMAZON PAY INDIA PRIVA, Bangalore",
+          "cc_inr_amount": 728.16,
+          "cc_date": "2025-09-10",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 85,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 51
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003007361",
+      "vendor_id": "2050328000002998455",
+      "vendor_name": "CPU TECH",
+      "bill_amount": 1209.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-08",
+      "bill_number": "AMD2-1482",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002994041",
+          "cc_description": "WENDYS #5799ORLANDO USD 13.73 [USD 13.73]",
+          "cc_inr_amount": 1207.97,
+          "cc_date": "2025-10-17",
+          "cc_card": "HDFC - 7196",
+          "cc_forex_amount": 13.73,
+          "cc_forex_currency": "USD",
+          "breakdown": {
+            "amount": 95,
+            "date": 60,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 64
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003013353",
+      "vendor_id": "2050328000003011360",
+      "vendor_name": "CRALOFT LLP",
+      "bill_amount": 279.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-23",
+      "bill_number": "MAA4-3241",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003004537",
+      "vendor_id": "2050328000002993796",
+      "vendor_name": "AROCKYA SANTHAI",
+      "bill_amount": 915.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-06",
+      "bill_number": "IN-3035",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000929203",
+          "cc_description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
+          "cc_inr_amount": 908.6,
+          "cc_date": "2025-05-15",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 85,
+            "date": 60,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 57
+        },
+        {
+          "cc_transaction_id": "2050328000000929243",
+          "cc_description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
+          "cc_inr_amount": 908.6,
+          "cc_date": "2025-06-15",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 85,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 45
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003006514",
+      "vendor_id": "2050328000003003350",
+      "vendor_name": "APOLLO PHARMACIES LIMITED",
+      "bill_amount": 450.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-26",
+      "bill_number": "EZX9-37865",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003008398",
+      "vendor_id": "2050328000002997683",
+      "vendor_name": "GLOBAL BRANDS",
+      "bill_amount": 327.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-26",
+      "bill_number": "MAA4-12223",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003013331",
+      "vendor_id": "2050328000003010470",
+      "vendor_name": "Aggarwal Enterprises",
+      "bill_amount": 319.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-26",
+      "bill_number": "IN-1362",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003005634",
+      "vendor_id": "2050328000002995492",
+      "vendor_name": "DEAL N DONE",
+      "bill_amount": 899.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-16",
+      "bill_number": "VWQP-2485",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002162092",
+          "cc_description": "MICROSOFT INDIA CYBS S MUMBAI IN",
+          "cc_inr_amount": 908.6,
+          "cc_date": "2025-12-15",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 100,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 59
+        },
+        {
+          "cc_transaction_id": "2050328000002324069",
+          "cc_description": "NRI*NEW RELIC, SAN FRANCISCO",
+          "cc_inr_amount": 897.39,
+          "cc_date": "2025-12-01",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 54
+        },
+        {
+          "cc_transaction_id": "2050328000001777099",
+          "cc_description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
+          "cc_inr_amount": 908.6,
+          "cc_date": "2025-11-18",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 41
+        },
+        {
+          "cc_transaction_id": "2050328000002994053",
+          "cc_description": "TST* PANDA EXPRESS - IHA HOUSTON USD 10.61 [USD 10.61]",
+          "cc_inr_amount": 933.77,
+          "cc_date": "2025-10-23",
+          "cc_card": "HDFC - 7196",
+          "cc_forex_amount": 10.61,
+          "cc_forex_currency": "USD",
+          "breakdown": {
+            "amount": 40,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 21
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002991467",
+      "vendor_id": "2050328000003001093",
+      "vendor_name": "WIDEVIEW SOLUTIONS",
+      "bill_amount": 2590.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-05",
+      "bill_number": "VSDX-1323",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001812203",
+          "cc_description": "RELIANCEJIO, MUMBAI",
+          "cc_inr_amount": 2555.0,
+          "cc_date": "2025-10-10",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 80,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 55
+        },
+        {
+          "cc_transaction_id": "2050328000001812243",
+          "cc_description": "APPLEBEES 7675 - POS, ORLANDO",
+          "cc_inr_amount": 2673.35,
+          "cc_date": "2025-10-19",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 27
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003012529",
+      "vendor_id": "2050328000000343473",
+      "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+      "bill_amount": 8820.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-18",
+      "bill_number": "1025260426735",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003004479",
+      "vendor_id": "2050328000003012043",
+      "vendor_name": "R K WorldInfocom Pvt Ltd",
+      "bill_amount": 299.25,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-17",
+      "bill_number": "HYD8-5540544",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001777059",
+          "cc_description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
+          "cc_inr_amount": 299.0,
+          "cc_date": "2025-09-25",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 60,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 61
+        },
+        {
+          "cc_transaction_id": "2050328000000929323",
+          "cc_description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
+          "cc_inr_amount": 299.0,
+          "cc_date": "2025-08-25",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 54
+        },
+        {
+          "cc_transaction_id": "2050328000001777087",
+          "cc_description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
+          "cc_inr_amount": 299.0,
+          "cc_date": "2025-10-25",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 49
+        },
+        {
+          "cc_transaction_id": "2050328000000929299",
+          "cc_description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
+          "cc_inr_amount": 299.0,
+          "cc_date": "2025-07-25",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 49
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002995430",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 5653.17,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-12",
+      "bill_number": "E0100XG6GL_Invoice",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001812207",
+          "cc_description": "TST*LA BUENA VIDA DURH, Durham",
+          "cc_inr_amount": 5634.19,
+          "cc_date": "2025-10-11",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 56
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002999504",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 35119.63,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-12",
+      "bill_number": "E0100XG6GK_Invoice",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001812233",
+          "cc_description": "MICROSOFTBUS, MUMBAI",
+          "cc_inr_amount": 34726.04,
+          "cc_date": "2025-10-16",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 80,
+            "uniqueness": 15
+          },
+          "candidate_score": 51
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002993754",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 8487.57,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-12",
+      "bill_number": "E0100XG1YM_Invoice",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002988279",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 677.95,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-14",
+      "bill_number": "MAA4-5043360",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003012484",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 232.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-14",
+      "bill_number": "MAA4-5043359",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002982387",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 356.25,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-14",
+      "bill_number": "MAA4-5043276",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001812241",
+          "cc_description": "LYFT *1 RIDE 10-18, SAN FRANCISCO",
+          "cc_inr_amount": 349.92,
+          "cc_date": "2025-10-19",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 80,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 55
+        },
+        {
+          "cc_transaction_id": "2050328000000939641",
+          "cc_description": "GOOGLEPLAY, MUMBAI",
+          "cc_inr_amount": 349.0,
+          "cc_date": "2025-09-03",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 55,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 30
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003009506",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 8371.13,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-12",
+      "bill_number": "E0100XPKMI_Invoice",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002984511",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 19580.64,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-12",
+      "bill_number": "E0100XPIM2_Invoice",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002998414",
+      "vendor_id": "2050328000003012043",
+      "vendor_name": "R K WorldInfocom Pvt Ltd",
+      "bill_amount": 329.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-23",
+      "bill_number": "HYD3-3357396",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002988255",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 420.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-23",
+      "bill_number": "FMAB-556098",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002988233",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 7363.27,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-12",
+      "bill_number": "E0100XYTJR_Invoice",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003009484",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 14375.64,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-12",
+      "bill_number": "E0100XYTJQ_Invoice",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003021139",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 12447.28,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-12",
+      "bill_number": "E0100XYSYG_Invoice",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002324059",
+          "cc_description": "GOOGLEWORKSP, MUMBAI",
+          "cc_inr_amount": 12223.85,
+          "cc_date": "2025-11-21",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 60,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 51
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002990447",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 673.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-06",
+      "bill_number": "MAA4-907489",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939479",
+          "cc_description": "QDF F AND B, Doha",
+          "cc_inr_amount": 690.09,
+          "cc_date": "2025-06-23",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 55,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 31
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003007316",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 228.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-06",
+      "bill_number": "FMAB-74681",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003004434",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 258.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-26",
+      "bill_number": "MAA4-2216157",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002996227",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 452.2,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-26",
+      "bill_number": "MAA4-2213948",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003009439",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 336.3,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-26",
+      "bill_number": "FMAB-182420",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003004412",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 11528.3,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-12",
+      "bill_number": "E0100WJNKS_Invoice",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939549",
+          "cc_description": "ZOHO CORPORATION PR, TIRUNELVELI",
+          "cc_inr_amount": 11328.0,
+          "cc_date": "2025-07-30",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 80,
+            "uniqueness": 0
+          },
+          "candidate_score": 49
+        },
+        {
+          "cc_transaction_id": "2050328000000939561",
+          "cc_description": "GOOGLEWORKSP, MUMBAI",
+          "cc_inr_amount": 11659.34,
+          "cc_date": "2025-08-06",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 37
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002993666",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 5288.36,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-12",
+      "bill_number": "E0100WJJ6H_Invoice",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939455",
+          "cc_description": "SHOE DEPT 0378, BEAUMONT",
+          "cc_inr_amount": 5318.23,
+          "cc_date": "2025-06-15",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 85,
+            "date": 80,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 62
+        },
+        {
+          "cc_transaction_id": "2050328000000939411",
+          "cc_description": "OPENAI *CHATGPT SUBSCR, SAN FRANCISCO",
+          "cc_inr_amount": 5139.68,
+          "cc_date": "2025-06-01",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 55,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 35
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002998392",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 9111.3,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-12",
+      "bill_number": "E0100WJEDJ_Invoice",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002995406",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 541.5,
+      "bill_currency": "INR",
+      "bill_date": "2025-07-01",
+      "bill_number": "MAA4-2323214",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000929267",
+          "cc_description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+          "cc_inr_amount": 541.5,
+          "cc_date": "2025-06-27",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 100,
+            "date": 80,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 71
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003003265",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 134.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-01-20",
+      "bill_number": "UMA7-620985",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002982321",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 399.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-16",
+      "bill_number": "MAA4-6415046",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002997607",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 403.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-07",
+      "bill_number": "MAA4-6184576",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001777075",
+          "cc_description": "AMAZON PAY INDIA PRIVA Bangalore     IN",
+          "cc_inr_amount": 382.85,
+          "cc_date": "2025-10-16",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 24
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003004367",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 780.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-07",
+      "bill_number": "MAA4-6184441",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002994043",
+          "cc_description": "CTLP*SPINOUT GUEST LAUORLANDO USD 9.00 [USD 9.00]",
+          "cc_inr_amount": 791.82,
+          "cc_date": "2025-10-18",
+          "cc_card": "HDFC - 7196",
+          "cc_forex_amount": 9.0,
+          "cc_forex_currency": "USD",
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 37
+        },
+        {
+          "cc_transaction_id": "2050328000001812199",
+          "cc_description": "IND*NORTON, https://in.no",
+          "cc_inr_amount": 799.0,
+          "cc_date": "2025-10-10",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 55,
+            "date": 10,
+            "vendor": 50,
+            "uniqueness": 0
+          },
+          "candidate_score": 37
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002984425",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 16981.63,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-12",
+      "bill_number": "E0100Y80LQ_Invoice",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002999440",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 6390.73,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-12",
+      "bill_number": "E0100Y7ZVQ_Invoice",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002993644",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 7486.76,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-12",
+      "bill_number": "E0100Y7X8Z_Invoice",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003009375",
+      "vendor_id": "2050328000003012043",
+      "vendor_name": "R K WorldInfocom Pvt Ltd",
+      "bill_amount": 638.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-16",
+      "bill_number": "BLR7-6537963",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003009353",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 5829.67,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-31",
+      "bill_number": "5269404716",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003000583",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 4526.95,
+      "bill_currency": "INR",
+      "bill_date": "2025-03-31",
+      "bill_number": "5210601828",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002991360",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 5829.67,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-30",
+      "bill_number": "5293533925",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003005501",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 2500.38,
+      "bill_currency": "INR",
+      "bill_date": "2025-01-31",
+      "bill_number": "5169583989",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002997585",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 4050.09,
+      "bill_currency": "INR",
+      "bill_date": "2025-02-28",
+      "bill_number": "5189048167",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003005479",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 1068.91,
+      "bill_currency": "INR",
+      "bill_date": "2024-12-31",
+      "bill_number": "5142807509",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003001316",
+      "vendor_id": "2050328000003019815",
+      "vendor_name": "Amazon Retail India Private Limited",
+      "bill_amount": 229.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-10",
+      "bill_number": "UMA7-330621",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002988168",
+      "vendor_id": "2050328000000352327",
+      "vendor_name": "ETRADE MARKETING PVT LTD",
+      "bill_amount": 2999.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-02",
+      "bill_number": "BLR8-2573720",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003015136",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 1950.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-03-16",
+      "bill_number": "SOP.3305-3916-7418-85612..2",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939371",
+          "cc_description": "IND*LINKEDIN (PGSI), www.linkedin.",
+          "cc_inr_amount": 1980.01,
+          "cc_date": "2025-04-24",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 39
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003009331",
+      "vendor_id": "2050328000000352327",
+      "vendor_name": "ETRADE MARKETING PVT LTD",
+      "bill_amount": 198.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-26",
+      "bill_number": "BLR7-1062095",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000929277",
+          "cc_description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+          "cc_inr_amount": 199.0,
+          "cc_date": "2025-07-07",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 85,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 49
+        },
+        {
+          "cc_transaction_id": "2050328000000929239",
+          "cc_description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+          "cc_inr_amount": 199.0,
+          "cc_date": "2025-06-07",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 85,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 49
+        },
+        {
+          "cc_transaction_id": "2050328000000929309",
+          "cc_description": "AMAZON PRIME           MUMBAI        IN",
+          "cc_inr_amount": 199.0,
+          "cc_date": "2025-08-06",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 85,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 44
+        },
+        {
+          "cc_transaction_id": "2050328000000929197",
+          "cc_description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+          "cc_inr_amount": 199.0,
+          "cc_date": "2025-05-08",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 85,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 44
+        },
+        {
+          "cc_transaction_id": "2050328000000939599",
+          "cc_description": "RELIANCEJIO, MUMBAI",
+          "cc_inr_amount": 195.0,
+          "cc_date": "2025-08-19",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 36
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002993599",
+      "vendor_id": "2050328000002888195",
+      "vendor_name": "COCOBLU RETAIL LIMITED",
+      "bill_amount": 449.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-07-08",
+      "bill_number": "FMAB-104573",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002991340",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 1950.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-01-17",
+      "bill_number": "SOP.3305-3916-7418-85612..0",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002995364",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 1950.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-02-16",
+      "bill_number": "SOP.3305-3916-7418-85612..1",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002986331",
+      "vendor_id": "2050328000002888195",
+      "vendor_name": "COCOBLU RETAIL LIMITED",
+      "bill_amount": 200.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-16",
+      "bill_number": "FMAB-291923",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001777091",
+          "cc_description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+          "cc_inr_amount": 199.0,
+          "cc_date": "2025-11-06",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 51
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003021053",
+      "vendor_id": "2050328000002888195",
+      "vendor_name": "COCOBLU RETAIL LIMITED",
+      "bill_amount": 125.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-16",
+      "bill_number": "DEL4-4002106",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002999393",
+      "vendor_id": "2050328000001809186",
+      "vendor_name": "Atlassian Pty Ltd",
+      "bill_amount": 117.47,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-11",
+      "bill_number": "IN-005-041-698",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002996203",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 176.58,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-10",
+      "bill_number": "FMAB-224830",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002990314",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 176.58,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-10",
+      "bill_number": "FMAB-224829",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003006432",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 18999.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-08",
+      "bill_number": "SMAB-62796",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001812195",
+          "cc_description": "AMAZON PAY INDIA PRIVA, Bangalore",
+          "cc_inr_amount": 19272.0,
+          "cc_date": "2025-08-10",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 37
+        },
+        {
+          "cc_transaction_id": "2050328000002994055",
+          "cc_description": "WM SUPERCENTER #2517SANTA ANA USD 209.17 [USD 209.17]",
+          "cc_inr_amount": 18400.22,
+          "cc_date": "2025-10-23",
+          "cc_card": "HDFC - 7196",
+          "cc_forex_amount": 209.17,
+          "cc_forex_currency": "USD",
+          "breakdown": {
+            "amount": 40,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 27
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003003178",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 6475.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-06",
+      "bill_number": "MAA4-2496953",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001777065",
+          "cc_description": "IND*MICROSOFT����������HTTPS://WWW.M�IN�(*Convert�to�EMI)",
+          "cc_inr_amount": 6199.0,
+          "cc_date": "2025-10-10",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 80,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 41
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003011294",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 94.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-01",
+      "bill_number": "MAA4-2433044",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003021008",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 958.4,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-23",
+      "bill_number": "FMAB-348994",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002994053",
+          "cc_description": "TST* PANDA EXPRESS - IHA HOUSTON USD 10.61 [USD 10.61]",
+          "cc_inr_amount": 933.77,
+          "cc_date": "2025-10-23",
+          "cc_card": "HDFC - 7196",
+          "cc_forex_amount": 10.61,
+          "cc_forex_currency": "USD",
+          "breakdown": {
+            "amount": 55,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 31
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003001229",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 225.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-26",
+      "bill_number": "MAA4-1088537",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003019984",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 294.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-26",
+      "bill_number": "MAA4-1088415",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000929265",
+          "cc_description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
+          "cc_inr_amount": 299.0,
+          "cc_date": "2025-06-25",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 100,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 59
+        },
+        {
+          "cc_transaction_id": "2050328000000929299",
+          "cc_description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
+          "cc_inr_amount": 299.0,
+          "cc_date": "2025-07-25",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 41
+        },
+        {
+          "cc_transaction_id": "2050328000000929323",
+          "cc_description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
+          "cc_inr_amount": 299.0,
+          "cc_date": "2025-08-25",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 36
+        },
+        {
+          "cc_transaction_id": "2050328000000929225",
+          "cc_description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
+          "cc_inr_amount": 299.0,
+          "cc_date": "2025-05-25",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 36
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003008311",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 1998.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-07-08",
+      "bill_number": "FMAB-130122",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939447",
+          "cc_description": "RSP*TATA AIG GENERAL I, MUMBAI",
+          "cc_inr_amount": 1996.0,
+          "cc_date": "2025-06-13",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 55
+        },
+        {
+          "cc_transaction_id": "2050328000000939563",
+          "cc_description": "GEARS, CHENNAI",
+          "cc_inr_amount": 2059.0,
+          "cc_date": "2025-08-08",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 22
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003009288",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 170.52,
+      "bill_currency": "INR",
+      "bill_date": "2025-07-09",
+      "bill_number": "BLR8-1594523",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003008289",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 1379.04,
+      "bill_currency": "INR",
+      "bill_date": "2025-07-08",
+      "bill_number": "BLR7-1536989",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002990290",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 522.44,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-16",
+      "bill_number": "FMAB-379327",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002994401",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 161.88,
+      "bill_currency": "USD",
+      "bill_date": "2026-03-02",
+      "bill_number": "INV123227848",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002999367",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 3.86,
+      "bill_currency": "USD",
+      "bill_date": "2025-06-03",
+      "bill_number": "INV86710352",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003007248",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 23.2,
+      "bill_currency": "USD",
+      "bill_date": "2025-06-03",
+      "bill_number": "INV86710303",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939447",
+          "cc_description": "RSP*TATA AIG GENERAL I, MUMBAI",
+          "cc_inr_amount": 1996.0,
+          "cc_date": "2025-06-13",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 60,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 62
+        },
+        {
+          "cc_transaction_id": "2050328000000939371",
+          "cc_description": "IND*LINKEDIN (PGSI), www.linkedin.",
+          "cc_inr_amount": 1980.01,
+          "cc_date": "2025-04-24",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 50
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002994375",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 4.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-06-02",
+      "bill_number": "INV86595678",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003006374",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 8.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-06-02",
+      "bill_number": "INV86578999",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939479",
+          "cc_description": "QDF F AND B, Doha",
+          "cc_inr_amount": 690.09,
+          "cc_date": "2025-06-23",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 85,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 50
+        },
+        {
+          "cc_transaction_id": "2050328000000939473",
+          "cc_description": "CHARLEYS PHILLY STEAKS, HOUSTON",
+          "cc_inr_amount": 712.73,
+          "cc_date": "2025-06-21",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 27
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002996177",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 3.43,
+      "bill_currency": "USD",
+      "bill_date": "2026-02-22",
+      "bill_number": "INV121408495",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002982274",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 2.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-02-16",
+      "bill_number": "INV120386739",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003010300",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 200.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-08",
+      "bill_number": "IVSLM7IE-0003",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002991251",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 200.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-12",
+      "bill_number": "7CC5E2D2-0003",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002986243",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 200.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-02-27",
+      "bill_number": "GWDVKZKR-0002",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002998261",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 200.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-02-27",
+      "bill_number": "BHEBGWUC-0002",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003012421",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 236.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-02-13",
+      "bill_number": "1C11B54F-0009",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002995233",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 200.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-28",
+      "bill_number": "PZLFLIEU-0008",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003012395",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 98.71,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-08",
+      "bill_number": "IVSLM7IE-0002",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002991225",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 126.5,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-11",
+      "bill_number": "7CC5E2D2-0002",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003009241",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 134.06,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-13",
+      "bill_number": "1C11B54F-0007",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002324059",
+          "cc_description": "GOOGLEWORKSP, MUMBAI",
+          "cc_inr_amount": 12223.85,
+          "cc_date": "2025-11-21",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 56
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002995209",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 226.1,
+      "bill_currency": "INR",
+      "bill_date": "2025-08-28",
+      "bill_number": "FMAB-324269",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002982208",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 226.1,
+      "bill_currency": "INR",
+      "bill_date": "2025-08-25",
+      "bill_number": "FMAB-317253",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002986223",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 1950.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-04-16",
+      "bill_number": "SOP.3305-3916-7418-85612..3",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939371",
+          "cc_description": "IND*LINKEDIN (PGSI), www.linkedin.",
+          "cc_inr_amount": 1980.01,
+          "cc_date": "2025-04-24",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 60,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 50
+        },
+        {
+          "cc_transaction_id": "2050328000000939447",
+          "cc_description": "RSP*TATA AIG GENERAL I, MUMBAI",
+          "cc_inr_amount": 1996.0,
+          "cc_date": "2025-06-13",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 55,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 30
+        },
+        {
+          "cc_transaction_id": "2050328000000939451",
+          "cc_description": "BEST BUY      00002386, BEAUMONT",
+          "cc_inr_amount": 1865.87,
+          "cc_date": "2025-06-15",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 22
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002993447",
+      "vendor_id": "2050328000003001165",
+      "vendor_name": "Accuprints",
+      "bill_amount": 197.01,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-26",
+      "bill_number": "VLMN-7560",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000929277",
+          "cc_description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+          "cc_inr_amount": 199.0,
+          "cc_date": "2025-07-07",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 41
+        },
+        {
+          "cc_transaction_id": "2050328000000929239",
+          "cc_description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+          "cc_inr_amount": 199.0,
+          "cc_date": "2025-06-07",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 41
+        },
+        {
+          "cc_transaction_id": "2050328000000929309",
+          "cc_description": "AMAZON PRIME           MUMBAI        IN",
+          "cc_inr_amount": 199.0,
+          "cc_date": "2025-08-06",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 36
+        },
+        {
+          "cc_transaction_id": "2050328000000929197",
+          "cc_description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+          "cc_inr_amount": 199.0,
+          "cc_date": "2025-05-08",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 36
+        },
+        {
+          "cc_transaction_id": "2050328000000939599",
+          "cc_description": "RELIANCEJIO, MUMBAI",
+          "cc_inr_amount": 195.0,
+          "cc_date": "2025-08-19",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 36
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003019841",
+      "vendor_id": "2050328000003012377",
+      "vendor_name": "A2Z SALES",
+      "bill_amount": 836.36,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-05",
+      "bill_number": "IN-478",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001812199",
+          "cc_description": "IND*NORTON, https://in.no",
+          "cc_inr_amount": 799.0,
+          "cc_date": "2025-10-10",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 80,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 41
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002986199",
+      "vendor_id": "2050328000003019815",
+      "vendor_name": "Amazon Retail India Private Limited",
+      "bill_amount": 229.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-18",
+      "bill_number": "UMA7-343905",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002982184",
+      "vendor_id": "2050328000003019815",
+      "vendor_name": "Amazon Retail India Private Limited",
+      "bill_amount": 273.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-14",
+      "bill_number": "MAA4-551983",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003004220",
+      "vendor_id": "2050328000003019815",
+      "vendor_name": "Amazon Retail India Private Limited",
+      "bill_amount": 444.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-23",
+      "bill_number": "HYD8-1815245",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003012355",
+      "vendor_id": "2050328000003019815",
+      "vendor_name": "Amazon Retail India Private Limited",
+      "bill_amount": 1548.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-01-20",
+      "bill_number": "UMA7-548986",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002990204",
+      "vendor_id": "2050328000003019815",
+      "vendor_name": "Amazon Retail India Private Limited",
+      "bill_amount": 1344.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-02-16",
+      "bill_number": "UMA7-595458",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002984227",
+      "vendor_id": "2050328000003019801",
+      "vendor_name": "Fly.io",
+      "bill_amount": 12.67,
+      "bill_currency": "USD",
+      "bill_date": "2025-04-01",
+      "bill_number": "02148314-0004",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003009173",
+      "vendor_id": "2050328000002965001",
+      "vendor_name": "S2 Labs Inc.",
+      "bill_amount": 10.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-02-22",
+      "bill_number": "B8ERAOBF-0013",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003008174",
+      "vendor_id": "2050328000002211179",
+      "vendor_name": "AWS",
+      "bill_amount": 245438.75,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-01",
+      "bill_number": "AWS-2403565789",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003017826",
+      "vendor_id": "2050328000002996113",
+      "vendor_name": "Vercel",
+      "bill_amount": 20.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-11-30",
+      "bill_number": "97E328AA-0002",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002994045",
+          "cc_description": "WENDYS #5799ORLANDO USD 19.46 [USD 19.46]",
+          "cc_inr_amount": 1712.09,
+          "cc_date": "2025-10-19",
+          "cc_card": "HDFC - 7196",
+          "cc_forex_amount": 19.46,
+          "cc_forex_currency": "USD",
+          "breakdown": {
+            "amount": 55,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 31
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003015027",
+      "vendor_id": "2050328000002996113",
+      "vendor_name": "Vercel",
+      "bill_amount": 20.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-01",
+      "bill_number": "97E328AA-0004",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002994045",
+          "cc_description": "WENDYS #5799ORLANDO USD 19.46 [USD 19.46]",
+          "cc_inr_amount": 1712.09,
+          "cc_date": "2025-10-19",
+          "cc_card": "HDFC - 7196",
+          "cc_forex_amount": 19.46,
+          "cc_forex_currency": "USD",
+          "breakdown": {
+            "amount": 55,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 31
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003013003",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 0.64,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-28",
+      "bill_number": "INV117822242",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003010068",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 3.35,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-07",
+      "bill_number": "INV115000183",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002162088",
+          "cc_description": "GOOGLE PLAY CONTENT PU MUMBAI IN",
+          "cc_inr_amount": 299.0,
+          "cc_date": "2025-11-25",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 39
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003005114",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 103.12,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-02",
+      "bill_number": "INV114237710",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002996054",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 86.6,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-02",
+      "bill_number": "INV110087524",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003011024",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 5.68,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-11",
+      "bill_number": "INV111271149",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003006005",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 541.5,
+      "bill_currency": "INR",
+      "bill_date": "2025-04-11",
+      "bill_number": "MAA4-280872",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002895289",
+      "vendor_id": "2050328000000357128",
+      "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+      "bill_amount": 189.05,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-14",
+      "bill_number": "INV-FMAB-451439",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001777077",
+          "cc_description": "AMAZON PAY INDIA PRIVA Bangalore     IN",
+          "cc_inr_amount": 186.14,
+          "cc_date": "2025-10-16",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 100,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 60
+        },
+        {
+          "cc_transaction_id": "2050328000000939599",
+          "cc_description": "RELIANCEJIO, MUMBAI",
+          "cc_inr_amount": 195.0,
+          "cc_date": "2025-08-19",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 10,
+            "vendor": 50,
+            "uniqueness": 0
+          },
+          "candidate_score": 30
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002893179",
+      "vendor_id": "2050328000002888195",
+      "vendor_name": "COCOBLU RETAIL LIMITED",
+      "bill_amount": 273.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-08",
+      "bill_number": "INV-FMAB-213926",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002893157",
+      "vendor_id": "2050328000000368555",
+      "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+      "bill_amount": 6475.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-18",
+      "bill_number": "INV-HYD8-3820556",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000001777065",
+          "cc_description": "IND*MICROSOFT����������HTTPS://WWW.M�IN�(*Convert�to�EMI)",
+          "cc_inr_amount": 6199.0,
+          "cc_date": "2025-10-10",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 60,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 36
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002920797",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 31185.5,
+      "bill_currency": "INR",
+      "bill_date": "2025-08-12",
+      "bill_number": "E0100X5B1N",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939467",
+          "cc_description": "AMAZON MARK* NO15L6PA2, SEATTLE",
+          "cc_inr_amount": 31302.4,
+          "cc_date": "2025-06-17",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 51
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002920775",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 30892.4,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-12",
+      "bill_number": "E0100XPIP5",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002920731",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 30892.4,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-12",
+      "bill_number": "E0100XFZFO",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002920643",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 29075.2,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-12",
+      "bill_number": "E0100W8BO6",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002920621",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 29983.8,
+      "bill_currency": "INR",
+      "bill_date": "2025-07-12",
+      "bill_number": "E0100WTWFZ",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939589",
+          "cc_description": "MICROSOFTBUS, MUMBAI",
+          "cc_inr_amount": 29141.05,
+          "cc_date": "2025-08-15",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 55,
+            "date": 10,
+            "vendor": 80,
+            "uniqueness": 0
+          },
+          "candidate_score": 42
+        },
+        {
+          "cc_transaction_id": "2050328000000939467",
+          "cc_description": "AMAZON MARK* NO15L6PA2, SEATTLE",
+          "cc_inr_amount": 31302.4,
+          "cc_date": "2025-06-17",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 0
+          },
+          "candidate_score": 27
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002920577",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 29075.2,
+      "bill_currency": "INR",
+      "bill_date": "2025-04-12",
+      "bill_number": "E0100VXPSR",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002920489",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 3079.8,
+      "bill_currency": "INR",
+      "bill_date": "2025-04-12",
+      "bill_number": "E0100VXPSQ",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002917854",
+      "vendor_id": "2050328000002917774",
+      "vendor_name": "GROQ",
+      "bill_amount": 0.38,
+      "bill_currency": "USD",
+      "bill_date": "2025-09-06",
+      "bill_number": "GROQTAAS202509131986",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002917110",
+      "vendor_id": "2050328000000343473",
+      "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+      "bill_amount": 2058.18,
+      "bill_currency": "INR",
+      "bill_date": "2025-08-22",
+      "bill_number": "1025260222143",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939563",
+          "cc_description": "GEARS, CHENNAI",
+          "cc_inr_amount": 2059.0,
+          "cc_date": "2025-08-08",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 56
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000002521138",
+      "vendor_id": "2050328000001986003",
+      "vendor_name": "L&L CONSULTANTS",
+      "bill_amount": 1496468.44,
+      "bill_currency": "INR",
+      "bill_date": "2026-02-09",
+      "bill_number": "PI02",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002044012",
+      "vendor_id": "2050328000001986003",
+      "vendor_name": "L&L CONSULTANTS",
+      "bill_amount": 1496468.44,
+      "bill_currency": "INR",
+      "bill_date": "2026-01-08",
+      "bill_number": "PI01",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000001807090",
+      "vendor_id": "2050328000001691483",
+      "vendor_name": "KUN AUTO PVT LTD COMPANY",
+      "bill_amount": 2198068.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-08-14",
+      "bill_number": "GST/HTN/62056",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003023089",
+      "vendor_id": "2050328000003023073",
+      "vendor_name": "Aptronix",
+      "bill_amount": 261614.26,
+      "bill_currency": "INR",
+      "bill_date": "2025-07-27",
+      "bill_number": "ECRTI/2526/540",
+      "status": "unmatched",
+      "candidates": []
+    }
+  ],
+  "unmatched_cc": [
+    {
+      "transaction_id": "2050328000002995003",
+      "description": "BPPY CC PAYMENT DP015331081048LMFf3",
+      "amount": 34426.0,
+      "date": "2025-11-27",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "resolved_vendor": "HDFC Bank - CC Payment",
+      "unmatched_reason": "No HDFC Bank - CC Payment bills"
+    },
+    {
+      "transaction_id": "2050328000002994039",
+      "description": "BPPY CC PAYMENT DP0153041246336saAx",
+      "amount": 32793.0,
+      "date": "2025-10-31",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "resolved_vendor": "HDFC Bank - CC Payment",
+      "unmatched_reason": "No HDFC Bank - CC Payment bills"
+    },
+    {
+      "transaction_id": "2050328000002994057",
+      "description": "WM SUPERCENTER #2517SANTA ANA USD 6.53 [USD 6.53]",
+      "amount": 574.43,
+      "date": "2025-10-23",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "forex_amount": 6.53,
+      "forex_currency": "USD",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000002994055",
+      "description": "WM SUPERCENTER #2517SANTA ANA USD 209.17 [USD 209.17]",
+      "amount": 18400.22,
+      "date": "2025-10-23",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "forex_amount": 209.17,
+      "forex_currency": "USD",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000002994053",
+      "description": "TST* PANDA EXPRESS - IHA HOUSTON USD 10.61 [USD 10.61]",
+      "amount": 933.77,
+      "date": "2025-10-23",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "forex_amount": 10.61,
+      "forex_currency": "USD",
+      "resolved_vendor": "Panda Express",
+      "unmatched_reason": "No Panda Express bills"
+    },
+    {
+      "transaction_id": "2050328000002994051",
+      "description": "AMERICAN 0010277737919919PHOENIX USD 40.00 [USD 40.00]",
+      "amount": 3520.32,
+      "date": "2025-10-23",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "forex_amount": 40.0,
+      "forex_currency": "USD",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000002994049",
+      "description": "APPLEBEES 7675 - POSORLANDO USD 31.60 [USD 31.60]",
+      "amount": 2780.17,
+      "date": "2025-10-21",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "forex_amount": 31.6,
+      "forex_currency": "USD",
+      "resolved_vendor": "Applebee's",
+      "unmatched_reason": "Greedy: used by better match"
+    },
+    {
+      "transaction_id": "2050328000002994047",
+      "description": "AMERICAN 0010277660937937PHOENIX USD 40.00 [USD 40.00]",
+      "amount": 3519.21,
+      "date": "2025-10-20",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "forex_amount": 40.0,
+      "forex_currency": "USD",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000002994045",
+      "description": "WENDYS #5799ORLANDO USD 19.46 [USD 19.46]",
+      "amount": 1712.09,
+      "date": "2025-10-19",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "forex_amount": 19.46,
+      "forex_currency": "USD",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000002994043",
+      "description": "CTLP*SPINOUT GUEST LAUORLANDO USD 9.00 [USD 9.00]",
+      "amount": 791.82,
+      "date": "2025-10-18",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "forex_amount": 9.0,
+      "forex_currency": "USD",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000002994041",
+      "description": "WENDYS #5799ORLANDO USD 13.73 [USD 13.73]",
+      "amount": 1207.97,
+      "date": "2025-10-17",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "forex_amount": 13.73,
+      "forex_currency": "USD",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000002993003",
+      "description": "KUN HYUNDAICHENNAI",
+      "amount": 32793.0,
+      "date": "2025-10-09",
+      "card_name": "HDFC - 7196",
+      "zoho_account_id": "2050328000002898667",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000002162092",
+      "description": "MICROSOFT INDIA CYBS S MUMBAI IN",
+      "amount": 908.6,
+      "date": "2025-12-15",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 909 vs Bill 7,487"
+    },
+    {
+      "transaction_id": "2050328000002162088",
+      "description": "GOOGLE PLAY CONTENT PU MUMBAI IN",
+      "amount": 299.0,
+      "date": "2025-11-25",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 178d apart"
+    },
+    {
+      "transaction_id": "2050328000001777099",
+      "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
+      "amount": 908.6,
+      "date": "2025-11-18",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 909 vs Bill 30,892"
+    },
+    {
+      "transaction_id": "2050328000001777093",
+      "description": "CLAUDE.AI�SUBSCRIPTION�ANTHROPIC.COM�CA�(*Convert�to�EMI) (45.91 USD)",
+      "amount": 4216.45,
+      "date": "2025-11-09",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000001777091",
+      "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+      "amount": 199.0,
+      "date": "2025-11-06",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000001777087",
+      "description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
+      "amount": 299.0,
+      "date": "2025-10-25",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 147d apart"
+    },
+    {
+      "transaction_id": "2050328000001777077",
+      "description": "AMAZON PAY INDIA PRIVA Bangalore     IN",
+      "amount": 186.14,
+      "date": "2025-10-16",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000001777075",
+      "description": "AMAZON PAY INDIA PRIVA Bangalore     IN",
+      "amount": 382.85,
+      "date": "2025-10-16",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000001777069",
+      "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
+      "amount": 908.6,
+      "date": "2025-10-15",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 909 vs Bill 30,892"
+    },
+    {
+      "transaction_id": "2050328000001777067",
+      "description": "AMAZON�PAY�INDIA�PRIVA�Bangalore�����IN�(*Convert�to�EMI)",
+      "amount": 9744.1,
+      "date": "2025-10-14",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000001777065",
+      "description": "IND*MICROSOFT����������HTTPS://WWW.M�IN�(*Convert�to�EMI)",
+      "amount": 6199.0,
+      "date": "2025-10-10",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 6,199 vs Bill 30,892"
+    },
+    {
+      "transaction_id": "2050328000001777063",
+      "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+      "amount": 199.0,
+      "date": "2025-10-06",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000001777059",
+      "description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
+      "amount": 299.0,
+      "date": "2025-09-25",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 117d apart"
+    },
+    {
+      "transaction_id": "2050328000000929341",
+      "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+      "amount": 199.0,
+      "date": "2025-09-19",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000929333",
+      "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
+      "amount": 908.6,
+      "date": "2025-09-15",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 909 vs Bill 30,892"
+    },
+    {
+      "transaction_id": "2050328000000929323",
+      "description": "GOOGLE PLAY CONTENT PU MUMBAI        IN",
+      "amount": 299.0,
+      "date": "2025-08-25",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Amt: CC 299 vs Bill 5,830"
+    },
+    {
+      "transaction_id": "2050328000000929309",
+      "description": "AMAZON PRIME           MUMBAI        IN",
+      "amount": 199.0,
+      "date": "2025-08-06",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000929301",
+      "description": "APTRONIX��������������CHENNAI�������IN�(*Convert�to�EMI)",
+      "amount": 216707.0,
+      "date": "2025-07-27",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000929299",
+      "description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
+      "amount": 299.0,
+      "date": "2025-07-25",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000929291",
+      "description": "WWW.PACKTPUB.COM�������MUMBAI��������IN�(*Convert�to�EMI)",
+      "amount": 5000.0,
+      "date": "2025-07-24",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000929281",
+      "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
+      "amount": 908.6,
+      "date": "2025-07-15",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 909 vs Bill 29,984"
+    },
+    {
+      "transaction_id": "2050328000000929279",
+      "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+      "amount": 399.0,
+      "date": "2025-07-10",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000929277",
+      "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+      "amount": 199.0,
+      "date": "2025-07-07",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000929267",
+      "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+      "amount": 541.5,
+      "date": "2025-06-27",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000929265",
+      "description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
+      "amount": 299.0,
+      "date": "2025-06-25",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000929247",
+      "description": "CLAUDE.AI�SUBSCRIPTION�ANTHROPIC.COM�CA�(*Convert�to�EMI) (236.00 USD)",
+      "amount": 21077.25,
+      "date": "2025-06-18",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000929243",
+      "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
+      "amount": 908.6,
+      "date": "2025-06-15",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 909 vs Bill 29,984"
+    },
+    {
+      "transaction_id": "2050328000000929239",
+      "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+      "amount": 199.0,
+      "date": "2025-06-07",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000929225",
+      "description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
+      "amount": 299.0,
+      "date": "2025-05-25",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000929203",
+      "description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
+      "amount": 908.6,
+      "date": "2025-05-15",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 909 vs Bill 3,080"
+    },
+    {
+      "transaction_id": "2050328000000929201",
+      "description": "RESUMEBUILDER.COM      800-442-4189  PR (23.95 USD)",
+      "amount": 2131.26,
+      "date": "2025-05-12",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "ResumeBuilder",
+      "unmatched_reason": "No ResumeBuilder bills"
+    },
+    {
+      "transaction_id": "2050328000000929197",
+      "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
+      "amount": 199.0,
+      "date": "2025-05-08",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000929181",
+      "description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
+      "amount": 299.0,
+      "date": "2025-04-25",
+      "card_name": "Kotak bank credit card",
+      "zoho_account_id": "2050328000000232005",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000002960019",
+      "description": "GOOGLEPLAY, MUMBAI",
+      "amount": 1950.0,
+      "date": "2026-02-14",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 259d apart"
+    },
+    {
+      "transaction_id": "2050328000002960009",
+      "description": "GOOGLECLOUD, MUMBAI",
+      "amount": 12.01,
+      "date": "2026-02-03",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 248d apart"
+    },
+    {
+      "transaction_id": "2050328000002960007",
+      "description": "GOOGLECLOUD, MUMBAI",
+      "amount": 1084.7,
+      "date": "2026-02-03",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 248d apart"
+    },
+    {
+      "transaction_id": "2050328000002999027",
+      "description": "GOOGLEPLAY, MUMBAI",
+      "amount": 1950.0,
+      "date": "2026-01-14",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 228d apart"
+    },
+    {
+      "transaction_id": "2050328000002999019",
+      "description": "GOOGLECLOUD, MUMBAI",
+      "amount": 14.6,
+      "date": "2026-01-03",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 217d apart"
+    },
+    {
+      "transaction_id": "2050328000002999017",
+      "description": "GOOGLECLOUD, MUMBAI",
+      "amount": 1054.33,
+      "date": "2026-01-03",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 217d apart"
+    },
+    {
+      "transaction_id": "2050328000002324097",
+      "description": "GOOGLEPLAY, MUMBAI",
+      "amount": 251.47,
+      "date": "2025-12-16",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 199d apart"
+    },
+    {
+      "transaction_id": "2050328000002324091",
+      "description": "KITES, CHEENAI",
+      "amount": 1675.0,
+      "date": "2025-12-10",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Kites",
+      "unmatched_reason": "No Kites bills"
+    },
+    {
+      "transaction_id": "2050328000002324089",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 43.47,
+      "date": "2025-12-10",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000002324075",
+      "description": "GOOGLECLOUD, MUMBAI",
+      "amount": 27.22,
+      "date": "2025-12-04",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 187d apart"
+    },
+    {
+      "transaction_id": "2050328000002324071",
+      "description": "GOOGLEWORKSP, MUMBAI",
+      "amount": 3078.76,
+      "date": "2025-12-03",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 186d apart"
+    },
+    {
+      "transaction_id": "2050328000002324069",
+      "description": "NRI*NEW RELIC, SAN FRANCISCO",
+      "amount": 897.39,
+      "date": "2025-12-01",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "New Relic",
+      "unmatched_reason": "Date: 61d apart"
+    },
+    {
+      "transaction_id": "2050328000002324065",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 47.03,
+      "date": "2025-12-01",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000002324059",
+      "description": "GOOGLEWORKSP, MUMBAI",
+      "amount": 12223.85,
+      "date": "2025-11-21",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 174d apart"
+    },
+    {
+      "transaction_id": "2050328000001812279",
+      "description": "GOOGLECLOUD, MUMBAI",
+      "amount": 1041.37,
+      "date": "2025-11-04",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 157d apart"
+    },
+    {
+      "transaction_id": "2050328000001812261",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 38.23,
+      "date": "2025-10-29",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000001812255",
+      "description": "ATLASSIAN, AMSTERDAM",
+      "amount": 6049.98,
+      "date": "2025-10-24",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Atlassian",
+      "unmatched_reason": "Amt: CC 6,050 vs $117.47 (rate 52)"
+    },
+    {
+      "transaction_id": "2050328000001812253",
+      "description": "CUSTCAP SOLUTIONS PRIV, MUMBAI",
+      "amount": 79161.0,
+      "date": "2025-10-23",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000001812243",
+      "description": "APPLEBEES 7675 - POS, ORLANDO",
+      "amount": 2673.35,
+      "date": "2025-10-19",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Applebee's",
+      "unmatched_reason": "Greedy: used by better match"
+    },
+    {
+      "transaction_id": "2050328000001812241",
+      "description": "LYFT *1 RIDE 10-18, SAN FRANCISCO",
+      "amount": 349.92,
+      "date": "2025-10-19",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Lyft",
+      "unmatched_reason": "No Lyft bills"
+    },
+    {
+      "transaction_id": "2050328000001812237",
+      "description": "APPLEBEES 7675 - POS, ORLANDO",
+      "amount": 3523.36,
+      "date": "2025-10-16",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Applebee's",
+      "unmatched_reason": "Greedy: used by better match"
+    },
+    {
+      "transaction_id": "2050328000001812235",
+      "description": "MICROSOFTBUS, MUMBAI",
+      "amount": 61784.8,
+      "date": "2025-10-16",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 61,785 vs Bill 30,892"
+    },
+    {
+      "transaction_id": "2050328000001812233",
+      "description": "MICROSOFTBUS, MUMBAI",
+      "amount": 34726.04,
+      "date": "2025-10-16",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 34,726 vs Bill 30,892"
+    },
+    {
+      "transaction_id": "2050328000001812209",
+      "description": "LA QUINTA MOTOR INNS, DURHAM",
+      "amount": 382.07,
+      "date": "2025-10-11",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000001812207",
+      "description": "TST*LA BUENA VIDA DURH, Durham",
+      "amount": 5634.19,
+      "date": "2025-10-11",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "La Buena Vida Durham",
+      "unmatched_reason": "No La Buena Vida Durham bills"
+    },
+    {
+      "transaction_id": "2050328000001812205",
+      "description": "RSP*TATA AIG GENERAL, MUMBAI",
+      "amount": 4402.4,
+      "date": "2025-10-10",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Tata AIG",
+      "unmatched_reason": "No Tata AIG bills"
+    },
+    {
+      "transaction_id": "2050328000001812203",
+      "description": "RELIANCEJIO, MUMBAI",
+      "amount": 2555.0,
+      "date": "2025-10-10",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Reliance Jio",
+      "unmatched_reason": "No Reliance Jio bills"
+    },
+    {
+      "transaction_id": "2050328000001812199",
+      "description": "IND*NORTON, https://in.no",
+      "amount": 799.0,
+      "date": "2025-10-10",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Norton",
+      "unmatched_reason": "No Norton bills"
+    },
+    {
+      "transaction_id": "2050328000001812187",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 6.0,
+      "date": "2025-10-05",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000001812183",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 46.7,
+      "date": "2025-10-04",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000000939657",
+      "description": "AMAZON PAY INDIA PRIVA, Bangalore",
+      "amount": 728.16,
+      "date": "2025-09-10",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000939653",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 5.0,
+      "date": "2025-09-10",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000000939647",
+      "description": "GODADDY INDIA DOMAIN, MUMBAI",
+      "amount": 3439.7,
+      "date": "2025-09-04",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "GoDaddy",
+      "unmatched_reason": "No GoDaddy bills"
+    },
+    {
+      "transaction_id": "2050328000000939643",
+      "description": "GOOGLEWORKSP, MUMBAI",
+      "amount": 4889.41,
+      "date": "2025-09-03",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 95d apart"
+    },
+    {
+      "transaction_id": "2050328000000939641",
+      "description": "GOOGLEPLAY, MUMBAI",
+      "amount": 349.0,
+      "date": "2025-09-03",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 95d apart"
+    },
+    {
+      "transaction_id": "2050328000000939639",
+      "description": "GOOGLECLOUD, MUMBAI",
+      "amount": 1084.7,
+      "date": "2025-09-03",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Date: 95d apart"
+    },
+    {
+      "transaction_id": "2050328000000939623",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 40.0,
+      "date": "2025-08-25",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000000939607",
+      "description": "AIONION MARKETING, DUBAI",
+      "amount": 66645.27,
+      "date": "2025-08-21",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000939603",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 6.0,
+      "date": "2025-08-20",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000000939601",
+      "description": "GOOGLECLOUD, MUMBAI",
+      "amount": 2.0,
+      "date": "2025-08-20",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Amt: CC 2 vs Bill 5,830"
+    },
+    {
+      "transaction_id": "2050328000000939599",
+      "description": "RELIANCEJIO, MUMBAI",
+      "amount": 195.0,
+      "date": "2025-08-19",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Reliance Jio",
+      "unmatched_reason": "No Reliance Jio bills"
+    },
+    {
+      "transaction_id": "2050328000000939591",
+      "description": "CUSTCAP SOLUTIONS PRIV, MUMBAI",
+      "amount": 22855.0,
+      "date": "2025-08-16",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000939589",
+      "description": "MICROSOFTBUS, MUMBAI",
+      "amount": 29141.05,
+      "date": "2025-08-15",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 29,141 vs Bill 29,984"
+    },
+    {
+      "transaction_id": "2050328000000939575",
+      "description": "MICROSOFTBUS, MUMBAI",
+      "amount": 61169.3,
+      "date": "2025-08-11",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 61,169 vs Bill 29,984"
+    },
+    {
+      "transaction_id": "2050328000001812195",
+      "description": "AMAZON PAY INDIA PRIVA, Bangalore",
+      "amount": 19272.0,
+      "date": "2025-08-10",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000939567",
+      "description": "RAZ*TATA AIG GENERAL I, Mumbai",
+      "amount": 10433.0,
+      "date": "2025-08-08",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Tata AIG",
+      "unmatched_reason": "No Tata AIG bills"
+    },
+    {
+      "transaction_id": "2050328000000939563",
+      "description": "GEARS, CHENNAI",
+      "amount": 2059.0,
+      "date": "2025-08-08",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000939561",
+      "description": "GOOGLEWORKSP, MUMBAI",
+      "amount": 11659.34,
+      "date": "2025-08-06",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Amt: CC 11,659 vs Bill 5,830"
+    },
+    {
+      "transaction_id": "2050328000000939559",
+      "description": "GOOGLEWORKSP, MUMBAI",
+      "amount": 2.0,
+      "date": "2025-08-06",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Amt: CC 2 vs Bill 5,830"
+    },
+    {
+      "transaction_id": "2050328000000939555",
+      "description": "GOOGLECLOUD, MUMBAI",
+      "amount": 947.35,
+      "date": "2025-08-03",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Amt: CC 947 vs Bill 5,830"
+    },
+    {
+      "transaction_id": "2050328000000939549",
+      "description": "ZOHO CORPORATION PR, TIRUNELVELI",
+      "amount": 11328.0,
+      "date": "2025-07-30",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Zoho",
+      "unmatched_reason": "Amt: CC 11,328 vs Bill 2,058"
+    },
+    {
+      "transaction_id": "2050328000000939547",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 6.0,
+      "date": "2025-07-30",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000000939535",
+      "description": "APPLE INDIA PRIVATE LI, MUMBAI",
+      "amount": 10900.0,
+      "date": "2025-07-26",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Apple",
+      "unmatched_reason": "Date: 81d apart"
+    },
+    {
+      "transaction_id": "2050328000000939507",
+      "description": "AMAZON PAY INDIA PRIVA, www.amazon.in",
+      "amount": 3996.56,
+      "date": "2025-07-08",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000939505",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 5.0,
+      "date": "2025-07-08",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000000939487",
+      "description": "AMAZON PAY INDIA PRIVA, Bangalore",
+      "amount": 2755.51,
+      "date": "2025-06-26",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000939485",
+      "description": "AMAZON MKTPLACE PMTS, Amzn.com/bill",
+      "amount": 3679.72,
+      "date": "2025-06-26",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000939481",
+      "description": "LYFT   *1 RIDE 06-22, SAN FRANCISCO",
+      "amount": 2253.51,
+      "date": "2025-06-23",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Lyft",
+      "unmatched_reason": "No Lyft bills"
+    },
+    {
+      "transaction_id": "2050328000000939479",
+      "description": "QDF F AND B, Doha",
+      "amount": 690.09,
+      "date": "2025-06-23",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000939475",
+      "description": "RESIDENCE INN BEAUMONT, BEAUMONT",
+      "amount": 76748.82,
+      "date": "2025-06-21",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000939473",
+      "description": "CHARLEYS PHILLY STEAKS, HOUSTON",
+      "amount": 712.73,
+      "date": "2025-06-21",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000939471",
+      "description": "WAL-MART #5959, HOUSTON",
+      "amount": 15002.91,
+      "date": "2025-06-21",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000939469",
+      "description": "AMAZON MARK* NO9TV13F1, SEATTLE",
+      "amount": 6978.06,
+      "date": "2025-06-19",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000939467",
+      "description": "AMAZON MARK* NO15L6PA2, SEATTLE",
+      "amount": 31302.4,
+      "date": "2025-06-17",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000939463",
+      "description": "AMAZON MKTPL*NA0ZG4MI0, Amzn.com/bill",
+      "amount": 3688.62,
+      "date": "2025-06-16",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000939455",
+      "description": "SHOE DEPT 0378, BEAUMONT",
+      "amount": 5318.23,
+      "date": "2025-06-15",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000939451",
+      "description": "BEST BUY      00002386, BEAUMONT",
+      "amount": 1865.87,
+      "date": "2025-06-15",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000939447",
+      "description": "RSP*TATA AIG GENERAL I, MUMBAI",
+      "amount": 1996.0,
+      "date": "2025-06-13",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Tata AIG",
+      "unmatched_reason": "No Tata AIG bills"
+    },
+    {
+      "transaction_id": "2050328000000939443",
+      "description": "RELIANCEJIO, MUMBAI",
+      "amount": 1555.0,
+      "date": "2025-06-13",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Reliance Jio",
+      "unmatched_reason": "No Reliance Jio bills"
+    },
+    {
+      "transaction_id": "2050328000000939427",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 5.0,
+      "date": "2025-06-07",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000000939421",
+      "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
+      "amount": 1714.72,
+      "date": "2025-06-04",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Anthropic USD",
+      "unmatched_reason": "Date: 218d apart"
+    },
+    {
+      "transaction_id": "2050328000000939419",
+      "description": "GOOGLECLOUD, MUMBAI",
+      "amount": 22.22,
+      "date": "2025-06-03",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Amt: CC 22 vs Bill 1,950"
+    },
+    {
+      "transaction_id": "2050328000000939411",
+      "description": "OPENAI *CHATGPT SUBSCR, SAN FRANCISCO",
+      "amount": 5139.68,
+      "date": "2025-06-01",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "OpenAI",
+      "unmatched_reason": "No OpenAI bills"
+    },
+    {
+      "transaction_id": "2050328000000939401",
+      "description": "THE VIRIDIAN PLATE, CHENNAI",
+      "amount": 2150.0,
+      "date": "2025-05-17",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "unmatched_reason": "No vendor signal"
+    },
+    {
+      "transaction_id": "2050328000000939395",
+      "description": "MICROSOFTBUS, MUMBAI",
+      "amount": 58150.4,
+      "date": "2025-05-11",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Microsoft",
+      "unmatched_reason": "Amt: CC 58,150 vs Bill 3,080"
+    },
+    {
+      "transaction_id": "2050328000000939393",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 5.0,
+      "date": "2025-05-09",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000000939391",
+      "description": "IND*LINKEDIN, http://www.li",
+      "amount": 7270.62,
+      "date": "2025-05-08",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "LinkedIn",
+      "unmatched_reason": "Amt: CC 7,271 vs Bill 1,694"
+    },
+    {
+      "transaction_id": "2050328000000939383",
+      "description": "AMAZON PAY INDIA PRIVA, Bangalore",
+      "amount": 3343.0,
+      "date": "2025-05-06",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Amazon India",
+      "unmatched_reason": "No Amazon India bills"
+    },
+    {
+      "transaction_id": "2050328000000939379",
+      "description": "GOOGLECLOUD, MUMBAI",
+      "amount": 8.83,
+      "date": "2025-05-03",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Google",
+      "unmatched_reason": "Amt: CC 9 vs Bill 1,950"
+    },
+    {
+      "transaction_id": "2050328000000939371",
+      "description": "IND*LINKEDIN (PGSI), www.linkedin.",
+      "amount": 1980.01,
+      "date": "2025-04-24",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "LinkedIn",
+      "unmatched_reason": "Amt: CC 1,980 vs Bill 1,694"
+    },
+    {
+      "transaction_id": "2050328000000939359",
+      "description": "Surcharge waiver for fuel txn",
+      "amount": 5.0,
+      "date": "2025-04-14",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "Fuel Surcharge Waiver",
+      "unmatched_reason": "No Fuel Surcharge Waiver bills"
+    },
+    {
+      "transaction_id": "2050328000000939353",
+      "description": "OPENAI, SAN FRANCISCO",
+      "amount": 854.59,
+      "date": "2025-04-04",
+      "card_name": "Mayura Credit Card",
+      "zoho_account_id": "2050328000000552784",
+      "resolved_vendor": "OpenAI",
+      "unmatched_reason": "No OpenAI bills"
+    }
+  ],
+  "card_names": [
+    "HDFC-8948",
+    "HDFC - 7196",
+    "Kotak bank credit card",
+    "Mayura Credit Card"
+  ],
+  "card_cc_total": {
+    "HDFC - 7196": 12,
+    "Kotak bank credit card": 33,
+    "Mayura Credit Card": 85
+  },
+  "card_cc_unmatched": {
+    "HDFC - 7196": 12,
+    "Kotak bank credit card": 33,
+    "Mayura Credit Card": 82
+  },
+  "amex_matches": [
+    {
+      "bill_id": "2050328000003011378",
+      "vendor_id": "2050328000003000660",
+      "vendor_name": "Info Edge (Naukri)",
+      "bill_amount": 10513.8,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-28",
+      "bill_number": "NK09I1126020619",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "",
+      "cc_description": "cca*INFO EDGE INDIA LTD Noida",
+      "cc_inr_amount": 10513.8,
+      "cc_date": "2025-11-28",
+      "cc_card": "Amex - 31005",
+      "match_type": "INR direct"
+    },
+    {
+      "bill_id": "2050328000003010300",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 200.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-08",
+      "bill_number": "IVSLM7IE-0003",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "",
+      "cc_description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+      "cc_inr_amount": 18772.8,
+      "cc_date": "2026-01-08",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 200.0,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000002991251",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 200.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-12",
+      "bill_number": "7CC5E2D2-0003",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "",
+      "cc_description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+      "cc_inr_amount": 18791.04,
+      "cc_date": "2026-01-12",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 200.0,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000003012395",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 98.71,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-08",
+      "bill_number": "IVSLM7IE-0002",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "",
+      "cc_description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+      "cc_inr_amount": 9258.31,
+      "cc_date": "2025-12-08",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 98.71,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000002991225",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 126.5,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-11",
+      "bill_number": "7CC5E2D2-0002",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "",
+      "cc_description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+      "cc_inr_amount": 11920.4,
+      "cc_date": "2025-12-11",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 126.5,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000003009241",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 134.06,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-13",
+      "bill_number": "1C11B54F-0007",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "",
+      "cc_description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+      "cc_inr_amount": 12655.69,
+      "cc_date": "2025-12-13",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 134.06,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000003017826",
+      "vendor_id": "2050328000002996113",
+      "vendor_name": "Vercel",
+      "bill_amount": 20.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-11-30",
+      "bill_number": "97E328AA-0002",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "",
+      "cc_description": "VERCEL INC. COVINA",
+      "cc_inr_amount": 1864.4,
+      "cc_date": "2025-11-30",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 20.0,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000003013003",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 0.64,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-28",
+      "bill_number": "INV117822242",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "",
+      "cc_description": "GITHUB, INC. SAN FRANCISCO",
+      "cc_inr_amount": 61.14,
+      "cc_date": "2026-01-28",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 0.64,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000002996054",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 86.6,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-02",
+      "bill_number": "INV110087524",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "",
+      "cc_description": "GITHUB, INC. SAN FRANCISCO",
+      "cc_inr_amount": 8089.55,
+      "cc_date": "2025-12-02",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 86.6,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000003011024",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 5.68,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-11",
+      "bill_number": "INV111271149",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "",
+      "cc_description": "GITHUB, INC. SAN FRANCISCO",
+      "cc_inr_amount": 532.42,
+      "cc_date": "2025-12-11",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 5.68,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000002995233",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 200.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-28",
+      "bill_number": "PZLFLIEU-0008",
+      "status": "matched",
+      "match_score": 96,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 90,
+        "overall": 96
+      },
+      "cc_transaction_id": "",
+      "cc_description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+      "cc_inr_amount": 18742.87,
+      "cc_date": "2025-12-30",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 200.0,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000002990534",
+      "vendor_id": "2050328000002994596",
+      "vendor_name": "New Relic",
+      "bill_amount": 10.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-31",
+      "bill_number": "INV01443315",
+      "status": "matched",
+      "match_score": 91,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 75,
+        "overall": 91
+      },
+      "cc_transaction_id": "",
+      "cc_description": "NEW RELIC 888-643-8776",
+      "cc_inr_amount": 953.98,
+      "cc_date": "2026-02-03",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 10.0,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000003005114",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 103.12,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-02",
+      "bill_number": "INV114237710",
+      "status": "matched",
+      "match_score": 91,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 75,
+        "overall": 91
+      },
+      "cc_transaction_id": "",
+      "cc_description": "GITHUB, INC. SAN FRANCISCO",
+      "cc_inr_amount": 9662.07,
+      "cc_date": "2026-01-07",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 103.12,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000003010068",
+      "vendor_id": "2050328000002195001",
+      "vendor_name": "GitHub, Inc.",
+      "bill_amount": 3.35,
+      "bill_currency": "USD",
+      "bill_date": "2026-01-07",
+      "bill_number": "INV115000183",
+      "status": "matched",
+      "match_score": 82,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 50,
+        "overall": 82
+      },
+      "cc_transaction_id": "",
+      "cc_description": "GITHUB, INC. SAN FRANCISCO",
+      "cc_inr_amount": 315.5,
+      "cc_date": "2026-01-15",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 3.35,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000003015027",
+      "vendor_id": "2050328000002996113",
+      "vendor_name": "Vercel",
+      "bill_amount": 20.0,
+      "bill_currency": "USD",
+      "bill_date": "2025-12-01",
+      "bill_number": "97E328AA-0004",
+      "status": "matched",
+      "match_score": 73,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 25,
+        "overall": 73
+      },
+      "cc_transaction_id": "",
+      "cc_description": "VERCEL INC. COVINA",
+      "cc_inr_amount": 1884.64,
+      "cc_date": "2025-12-12",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 20.0,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000002986243",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 200.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-02-27",
+      "bill_number": "GWDVKZKR-0002",
+      "status": "matched",
+      "match_score": 73,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 25,
+        "overall": 73
+      },
+      "cc_transaction_id": "",
+      "cc_description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+      "cc_inr_amount": 18881.26,
+      "cc_date": "2026-02-13",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 200.0,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000002998261",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 200.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-02-27",
+      "bill_number": "BHEBGWUC-0002",
+      "status": "matched",
+      "match_score": 65,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 0,
+        "overall": 65
+      },
+      "cc_transaction_id": "",
+      "cc_description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+      "cc_inr_amount": 19117.64,
+      "cc_date": "2026-01-27",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 200.0,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    },
+    {
+      "bill_id": "2050328000003012421",
+      "vendor_id": "2050328000002997181",
+      "vendor_name": "Anthropic USD",
+      "bill_amount": 236.0,
+      "bill_currency": "USD",
+      "bill_date": "2026-02-13",
+      "bill_number": "1C11B54F-0009",
+      "status": "matched",
+      "match_score": 65,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 0,
+        "overall": 65
+      },
+      "cc_transaction_id": "",
+      "cc_description": "CLAUDE.AI SUBSCRIPTION SAN FRANCISCO",
+      "cc_inr_amount": 22202.97,
+      "cc_date": "2026-01-13",
+      "cc_card": "Amex - 31005",
+      "cc_forex_amount": 236.0,
+      "cc_forex_currency": "USD",
+      "match_type": "USD exact"
+    }
+  ],
+  "amex_excluded": [
+    "2050328000002990534",
+    "2050328000002991225",
+    "2050328000002991251",
+    "2050328000002996054",
+    "2050328000003005114",
+    "2050328000003009241",
+    "2050328000003010068",
+    "2050328000003010300",
+    "2050328000003011024",
+    "2050328000003011378",
+    "2050328000003012395",
+    "2050328000003013003",
+    "2050328000003017826"
+  ],
+  "group_matches": [
+    {
+      "status": "group_matched",
+      "match_score": 82,
+      "confidence": {
+        "vendor": 80,
+        "amount": 100,
+        "date": 75,
+        "overall": 82
+      },
+      "cc_transaction_id": "2050328000000939399",
+      "cc_description": "MICROSOFTBUS, MUMBAI",
+      "cc_inr_amount": 24066.03,
+      "cc_date": "2025-05-16",
+      "cc_card": "Mayura Credit Card",
+      "grouped_bills": [
+        {
+          "bill_id": "2050328000003021117",
+          "vendor_id": "2050328000000342219",
+          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+          "amount": 11758.38,
+          "currency": "INR",
+          "date": "2025-05-12",
+          "file": "E0100W8BMR_Invoice"
+        },
+        {
+          "bill_id": "2050328000002984468",
+          "vendor_id": "2050328000000342219",
+          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+          "amount": 12286.66,
+          "currency": "INR",
+          "date": "2025-05-12",
+          "file": "E0100W84MG_Invoice"
+        }
+      ],
+      "group_sum": 24045.04,
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "vendor_id": "2050328000000342219"
+    }
+  ],
+  "summary": {
+    "total_bills": 153,
+    "matched": 2,
+    "unmatched": 151,
+    "already_paid": 0,
+    "unmatched_cc_count": 127,
+    "amex_matched": 18,
+    "group_matched": 1
+  }
+}

@@ -319,8 +319,8 @@ def _build_vendor_gated_matches(bills, cc_list, manual_vendor_map, learned_vendo
             if dd > 60:
                 continue
 
-            # Score: vendor*0.5 + amount*0.4 + date*0.1
-            overall = int(vc * 0.5 + ac * 0.4 + dc * 0.1)
+            # Score: amount*0.45 + date*0.35 + vendor*0.2 (amount+date are primary)
+            overall = int(ac * 0.45 + dc * 0.35 + vc * 0.2)
             candidates.append((overall, dd, bi, ci, vc, ac, dc))
 
     # Sort: highest score first, then closest date
@@ -547,12 +547,15 @@ def _find_candidates_for_unmatched(unmatched_bills, cc_only_list, forex_rates=No
 def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
                          multi_bill_vendors, forex_rates=None,
                          used_bill_ids=None, used_cc_ids=None):
-    """Second-pass: group multiple bills to one CC transaction for eligible vendors."""
+    """Second-pass: group multiple bills to one CC transaction.
+
+    Two modes:
+    1. Vendor-gated: CC resolves to a known multi_bill_vendor -> find same-vendor bills that sum to CC amount
+    2. Auto-detect: For ANY CC txn, find 2+ bills from SAME vendor within date window that sum to CC amount
+       (covers vendors not in multi_bill_vendors list, e.g. new vendors, Google, Microsoft variants)
+    """
     from datetime import datetime as _dt
     from scripts.utils import strip_vendor_stop_words
-
-    if not multi_bill_vendors:
-        return []
 
     def _norm(s):
         return "".join(c for c in s.lower() if c.isalnum())
@@ -590,7 +593,7 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
         if rv_f and len(rv_f) >= 4 and rv_f in bv: return 60
         return 0
 
-    multi_norm = set(_norm(v) for v in multi_bill_vendors)
+    multi_norm = set(_norm(v) for v in (multi_bill_vendors or []))
     used_bill_ids = used_bill_ids or set()
     used_cc_ids = used_cc_ids or set()
 
@@ -601,82 +604,90 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
     claimed_bills = set()
     claimed_cc = set()
 
-    for cc in avail_cc:
+    # --- Build per-vendor bill index for fast lookup ---
+    from collections import defaultdict
+    vendor_bills = defaultdict(list)  # normalized_vendor -> list of (bill, parsed_date)
+    for b in avail_bills:
+        vn = b.get("vendor_name", "")
+        if not vn:
+            continue
+        try:
+            bd = _dt.strptime(b.get("date", ""), "%Y-%m-%d")
+        except Exception:
+            continue
+        vn_norm = _norm(strip_vendor_stop_words(vn))
+        vendor_bills[vn_norm].append((b, bd))
+
+    # --- Also build a set of vendors with 2+ unmatched bills (auto-detect candidates) ---
+    auto_group_vendors = set()
+    for vn_norm, bill_list in vendor_bills.items():
+        if len(bill_list) >= 2:
+            auto_group_vendors.add(vn_norm)
+
+    def _try_group(cc, resolved, date_window=15):
+        """Try to find a group of same-vendor bills summing to CC amount."""
         cc_tid = cc.get("transaction_id", "")
-        if cc_tid in claimed_cc:
-            continue
-        resolved = _resolve_quick(cc.get("description", ""))
-        if not resolved:
-            continue
-
-        # Check eligibility: resolved vendor must match a multi_bill_vendor
-        eligible = _norm(resolved) in multi_norm
-        if not eligible:
-            for mv in multi_bill_vendors:
-                if _vendor_match(resolved, mv) >= 60:
-                    eligible = True
-                    break
-        if not eligible:
-            continue
-
         cc_inr = float(cc.get("amount", 0))
         if cc_inr <= 0:
-            continue
+            return None
         try:
             cc_date = _dt.strptime(cc.get("date", ""), "%Y-%m-%d")
         except Exception:
-            continue
+            return None
 
-        # Find candidate INR bills: same vendor, within +/-5 days
+        # Find all same-vendor bills within date window
+        resolved_norm = _norm(strip_vendor_stop_words(resolved))
         cands = []
-        for b in avail_bills:
-            if b["bill_id"] in claimed_bills:
+
+        for vn_norm, bill_list in vendor_bills.items():
+            # Check if this vendor matches the resolved vendor
+            if not (vn_norm == resolved_norm
+                    or (len(resolved_norm) >= 4 and (resolved_norm in vn_norm or vn_norm in resolved_norm))):
                 continue
-            if b.get("currency", "INR") != "INR":
-                continue
-            vc = _vendor_match(resolved, b.get("vendor_name", ""))
-            if vc < 60:
-                continue
-            try:
-                bd = _dt.strptime(b.get("date", ""), "%Y-%m-%d")
+            for b, bd in bill_list:
+                if b["bill_id"] in claimed_bills:
+                    continue
+                if b.get("currency", "INR") != "INR":
+                    continue
                 dd = abs((bd - cc_date).days)
-            except Exception:
-                continue
-            if dd > 5:
-                continue
-            cands.append((b, dd, vc))
+                if dd > date_window:
+                    continue
+                vc = _vendor_match(resolved, b.get("vendor_name", ""))
+                if vc < 60:
+                    continue
+                cands.append((b, dd, vc))
 
         if len(cands) < 2:
-            continue
+            return None
 
-        # Subset-sum: try all combinations of 2..5 bills within tolerance
+        # Subset-sum: try all combinations of 2..6 bills within tolerance
         from itertools import combinations
         tol = max(1.0, cc_inr * 0.01)
         best_group = None
-        for size in range(2, min(6, len(cands) + 1)):
+        best_diff = float('inf')
+        for size in range(2, min(7, len(cands) + 1)):
             for combo in combinations(cands, size):
                 total = sum(b["amount"] for b, _, _ in combo)
-                if abs(total - cc_inr) <= tol:
-                    if best_group is None or len(combo) < len(best_group):
-                        best_group = list(combo)
-                    break  # Found a match at this size, prefer smaller groups
+                diff = abs(total - cc_inr)
+                if diff <= tol and diff < best_diff:
+                    best_diff = diff
+                    best_group = list(combo)
             if best_group:
-                break
-        group = best_group
+                break  # Prefer smaller groups
 
-        if not group:
-            continue
+        if not best_group:
+            return None
 
-        running = sum(b["amount"] for b, _, _ in group)
-        max_dd = max(dd for _, dd, _ in group)
-        avg_vc = sum(vc for _, _, vc in group) // len(group)
+        running = sum(b["amount"] for b, _, _ in best_group)
+        max_dd = max(dd for _, dd, _ in best_group)
+        avg_vc = sum(vc for _, _, vc in best_group) // len(best_group)
         sum_diff = abs(running - cc_inr)
         sum_pct = sum_diff / cc_inr if cc_inr else 0
         ac = 100 if sum_pct < 0.001 else 95 if sum_pct < 0.005 else 90 if sum_pct < 0.01 else 75
-        dc = 100 if max_dd == 0 else 90 if max_dd <= 2 else 75 if max_dd <= 5 else 50
-        overall = max(0, int(avg_vc * 0.5 + ac * 0.4 + dc * 0.1) - 5)
+        dc = 100 if max_dd == 0 else 90 if max_dd <= 2 else 75 if max_dd <= 5 else 50 if max_dd <= 10 else 25
+        overall = max(0, int(avg_vc * 0.2 + ac * 0.45 + dc * 0.35) - 5)
 
-        entry = {
+        return {
             "status": "group_matched",
             "match_score": overall,
             "confidence": {"vendor": avg_vc, "amount": ac, "date": dc, "overall": overall},
@@ -690,16 +701,70 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
                  "vendor_name": b.get("vendor_name", ""), "amount": b["amount"],
                  "currency": b.get("currency", "INR"), "date": b.get("date", ""),
                  "file": b.get("file", "")}
-                for b, _, _ in group
+                for b, _, _ in best_group
             ],
             "group_sum": running,
-            "vendor_name": group[0][0].get("vendor_name", ""),
-            "vendor_id": group[0][0].get("vendor_id", ""),
+            "vendor_name": best_group[0][0].get("vendor_name", ""),
+            "vendor_id": best_group[0][0].get("vendor_id", ""),
+            "bills": best_group,  # temp, for claiming
         }
-        results.append(entry)
-        claimed_cc.add(cc_tid)
-        for b, _, _ in group:
+
+    # --- Pass 1: Vendor-gated group matching (known multi_bill_vendors) ---
+    for cc in avail_cc:
+        cc_tid = cc.get("transaction_id", "")
+        if cc_tid in claimed_cc:
+            continue
+        resolved = _resolve_quick(cc.get("description", ""))
+        if not resolved:
+            continue
+
+        # Check eligibility against multi_bill_vendors list
+        eligible = _norm(resolved) in multi_norm
+        if not eligible:
+            for mv in (multi_bill_vendors or []):
+                if _vendor_match(resolved, mv) >= 60:
+                    eligible = True
+                    break
+        if not eligible:
+            continue
+
+        result = _try_group(cc, resolved, date_window=10)
+        if not result:
+            continue
+
+        for b, _, _ in result.pop("bills"):
             claimed_bills.add(b["bill_id"])
+        claimed_cc.add(cc_tid)
+        results.append(result)
+
+    # --- Pass 2: Auto-detect groups for ANY vendor with 2+ unmatched bills ---
+    for cc in avail_cc:
+        cc_tid = cc.get("transaction_id", "")
+        if cc_tid in claimed_cc:
+            continue
+        resolved = _resolve_quick(cc.get("description", ""))
+        if not resolved:
+            continue
+
+        # Check if any auto-group vendor matches
+        resolved_norm = _norm(strip_vendor_stop_words(resolved))
+        has_multi = False
+        for vn_norm in auto_group_vendors:
+            if (vn_norm == resolved_norm
+                    or (len(resolved_norm) >= 4 and (resolved_norm in vn_norm or vn_norm in resolved_norm))):
+                has_multi = True
+                break
+        if not has_multi:
+            continue
+
+        result = _try_group(cc, resolved, date_window=15)
+        if not result:
+            continue
+
+        for b, _, _ in result.pop("bills"):
+            claimed_bills.add(b["bill_id"])
+        claimed_cc.add(cc_tid)
+        results.append(result)
 
     return results
 
@@ -1604,22 +1669,148 @@ def api_available_csvs():
     return jsonify({"cards": available})
 
 
+_PAYMENT_CACHE_PATH = os.path.join(PROJECT_ROOT, "output", "payment_preview_cache.json")
+
+
+def _load_payment_cache():
+    """Load cached payment preview data if available."""
+    if os.path.exists(_PAYMENT_CACHE_PATH):
+        try:
+            with open(_PAYMENT_CACHE_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return None
+
+
+def _save_payment_cache(data):
+    """Save payment preview data to cache."""
+    try:
+        os.makedirs(os.path.dirname(_PAYMENT_CACHE_PATH), exist_ok=True)
+        with open(_PAYMENT_CACHE_PATH, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        from scripts.utils import log_action
+        log_action(f"Failed to save payment cache: {e}", "WARNING")
+
+
+_PAID_BILLS_CACHE_PATH = os.path.join(PROJECT_ROOT, "output", "paid_bills_cache.json")
+
+
+def _load_paid_bills_cache():
+    """Load cached paid bills {bill_id: {vendor_name, amount, currency, date}}."""
+    if os.path.exists(_PAID_BILLS_CACHE_PATH):
+        try:
+            with open(_PAID_BILLS_CACHE_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+
+def _save_paid_bills_cache(data):
+    try:
+        os.makedirs(os.path.dirname(_PAID_BILLS_CACHE_PATH), exist_ok=True)
+        with open(_PAID_BILLS_CACHE_PATH, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+    except Exception:
+        pass
+
+
+def _add_to_paid_bills_cache(bill_id, vendor_name="", amount=0, currency="INR", date="", bill_number=""):
+    """Add a single bill to paid bills cache (called after recording payment)."""
+    cache = _load_paid_bills_cache()
+    cache[bill_id] = {
+        "vendor_name": vendor_name,
+        "amount": amount,
+        "currency": currency,
+        "date": date,
+        "bill_number": bill_number,
+    }
+    _save_paid_bills_cache(cache)
+
+
+def _update_payment_cache_after_record(bill_ids, cc_transaction_id=None):
+    """Update cache in-place after recording a payment (mark bills paid, remove used CC)."""
+    cache = _load_payment_cache()
+    if not cache:
+        return
+    if isinstance(bill_ids, str):
+        bill_ids = [bill_ids]
+    bill_set = set(bill_ids)
+
+    # Mark matched bills as already_paid + add to paid bills cache
+    for m in cache.get("matches", []):
+        if m.get("bill_id") in bill_set:
+            m["status"] = "already_paid"
+            _add_to_paid_bills_cache(
+                m["bill_id"],
+                vendor_name=m.get("vendor_name", ""),
+                amount=m.get("bill_amount", 0),
+                currency=m.get("bill_currency", "INR"),
+                date=m.get("bill_date", ""),
+                bill_number=m.get("bill_number", ""),
+            )
+
+    # Also mark group matches as paid
+    for gm in cache.get("group_matches", []):
+        gm_bill_ids = set(b.get("bill_id", "") for b in gm.get("grouped_bills", []))
+        if gm_bill_ids & bill_set:
+            gm["status"] = "already_paid"
+
+    # Remove used CC transaction from unmatched_cc
+    if cc_transaction_id:
+        cache["unmatched_cc"] = [
+            cc for cc in cache.get("unmatched_cc", [])
+            if cc.get("transaction_id") != cc_transaction_id
+        ]
+
+    # Update summary counts
+    matches = cache.get("matches", [])
+    matched_count = sum(1 for m in matches if m["status"] == "matched")
+    unmatched_count = sum(1 for m in matches if m["status"] == "unmatched")
+    already_paid_count = sum(1 for m in matches if m["status"] == "already_paid")
+    cache["summary"] = {
+        **cache.get("summary", {}),
+        "matched": matched_count,
+        "unmatched": unmatched_count,
+        "unmatched_cc_count": len(cache.get("unmatched_cc", [])),
+    }
+
+    _save_payment_cache(cache)
+
+
 @app.route("/api/payments/preview")
 def api_payments_preview():
     """Preview bill-to-CC-transaction matches.
 
     Fetches live from Zoho: unpaid bills + CC transactions from 4 configured cards.
     Matching priority: amount (INR or USD→INR) > forex > closest date > fuzzy vendor.
+    Uses cache unless ?refresh=1 is passed.
     """
     try:
+        from scripts.utils import log_action
+
+        # Check cache first (unless refresh requested)
+        force_refresh = request.args.get("refresh") == "1"
+        if not force_refresh:
+            cached = _load_payment_cache()
+            if cached:
+                log_action("payments/preview: serving from cache")
+                # Re-apply latest amex exclusions
+                cached["amex_excluded"] = sorted(_load_amex_excluded())
+                return jsonify(cached)
+
         mod_05 = _import_script("05_record_payments.py")
-        from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids, log_action
+        from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids
         from datetime import datetime as _dt
 
         config = load_config()
         api = ZohoBooksAPI(config)
         cards = config.get("credit_cards", [])
         resolve_account_ids(api, cards)
+
+        log_action("payments/preview: fetching fresh from Zoho APIs...")
 
         # 1. Fetch unpaid bills from Zoho (live)
         zoho_bills = mod_05.fetch_unpaid_bills_from_zoho(api)
@@ -1635,6 +1826,7 @@ def api_payments_preview():
             }
             for b in zoho_bills if b.get("bill_id")
         ]
+
 
         # 2. Fetch CC transactions from Zoho Banking (live, all 4 cards)
         cc_transactions = mod_05.fetch_cc_transactions_from_zoho(api, cards)
@@ -1678,10 +1870,9 @@ def api_payments_preview():
         cc_dates = list(set(cc.get("date", "") for cc in cc_list if cc.get("date")))
         forex_cache = prefetch_forex_rates(cc_dates)
 
-        # --- Vendor-gated matching ---
+        # --- Vendor-gated matching (1:1 bill-to-CC) ---
         matches = _build_vendor_gated_matches(bills, cc_list, vendor_map, learned_map, forex_rates=forex_cache)
         matched_count = sum(1 for m in matches if m["status"] == "matched")
-        unmatched_count = sum(1 for m in matches if m["status"] == "unmatched")
         used_cc = set()
         for m in matches:
             if m["status"] == "matched":
@@ -1689,12 +1880,56 @@ def api_payments_preview():
                     if cc.get("transaction_id") == m.get("cc_transaction_id") and cc.get("date") == m.get("cc_date"):
                         used_cc.add(ci)
                         break
+        matched_bill_ids = {m["bill_id"] for m in matches if m["status"] == "matched"}
+
+        # --- Group matching (1 CC = N bills) — run EARLY so groups are found before diagnostics ---
+        multi_vendors = []
+        try:
+            with open(vm_path, "r", encoding="utf-8") as f:
+                vm_full = json.load(f)
+            multi_vendors = vm_full.get("multi_bill_vendors", [])
+        except Exception:
+            pass
+
+        group_matches = _build_group_matches(
+            bills, cc_list, vendor_map, learned_map, multi_vendors,
+            forex_rates=forex_cache,
+            used_bill_ids=matched_bill_ids,
+            used_cc_ids={m.get("cc_transaction_id") for m in matches if m["status"] == "matched"},
+        )
+
+        # Track group-claimed bills and CCs
+        group_bill_ids = set()
+        group_cc_ids = set()
+        for gm in group_matches:
+            for gb in gm.get("grouped_bills", []):
+                group_bill_ids.add(gb["bill_id"])
+            group_cc_ids.add(gm.get("cc_transaction_id", ""))
+
+        # Update matched sets to include groups
+        matched_bill_ids |= group_bill_ids
+        for ci, cc in enumerate(cc_list):
+            if cc.get("transaction_id", "") in group_cc_ids:
+                used_cc.add(ci)
 
         # Collect unmatched CC transactions
         unmatched_cc = [cc_list[i] for i in range(len(cc_list)) if i not in used_cc]
 
-        # Track which bills were matched
-        matched_bill_ids = {m["bill_id"] for m in matches if m["status"] == "matched"}
+        # Remove group-matched bills from the 1:1 matches list (they're in group_matches now)
+        if group_bill_ids:
+            matches = [m for m in matches if m["bill_id"] not in group_bill_ids]
+
+        # --- Candidate matching for unmatched bills ---
+        unmatched_bill_objs = [m for m in matches if m["status"] == "unmatched" and m["bill_id"] not in group_bill_ids]
+        if unmatched_bill_objs and unmatched_cc:
+            candidate_results = _find_candidates_for_unmatched(
+                unmatched_bill_objs, unmatched_cc, forex_rates=forex_cache
+            )
+            # Replace unmatched entries with candidate-enriched versions
+            candidate_by_bill = {r["bill_id"]: r for r in candidate_results}
+            for i, m in enumerate(matches):
+                if m["status"] == "unmatched" and m["bill_id"] in candidate_by_bill:
+                    matches[i] = candidate_by_bill[m["bill_id"]]
 
         # --- Diagnostic: explain why unmatched CC txns didn't match ---
         from datetime import datetime as _dt_diag
@@ -1766,18 +2001,6 @@ def api_payments_preview():
                         break
             cc_item["unmatched_reason"] = best or f"No {resolved} bills"
 
-        # --- Candidate matching for unmatched bills ---
-        unmatched_bill_objs = [m for m in matches if m["status"] == "unmatched"]
-        if unmatched_bill_objs and unmatched_cc:
-            candidate_results = _find_candidates_for_unmatched(
-                unmatched_bill_objs, unmatched_cc, forex_rates=forex_cache
-            )
-            # Replace unmatched entries with candidate-enriched versions
-            candidate_by_bill = {r["bill_id"]: r for r in candidate_results}
-            for i, m in enumerate(matches):
-                if m["status"] == "unmatched" and m["bill_id"] in candidate_by_bill:
-                    matches[i] = candidate_by_bill[m["bill_id"]]
-
         # Track which bills were matched for Amex pass
         bill_matched_flags = [False] * len(bills)
         for bi, bill in enumerate(bills):
@@ -1814,25 +2037,7 @@ def api_payments_preview():
             except Exception as e:
                 log_action(f"Amex matching error: {e}", "WARNING")
 
-        # Multi-bill group matching (second pass)
-        multi_vendors = []
-        try:
-            with open(vm_path, "r", encoding="utf-8") as f:
-                vm_full = json.load(f)
-            multi_vendors = vm_full.get("multi_bill_vendors", [])
-        except Exception:
-            pass
-
-        group_matches = []
-        if multi_vendors:
-            group_matches = _build_group_matches(
-                bills, cc_list, vendor_map, learned_map, multi_vendors,
-                forex_rates=forex_cache,
-                used_bill_ids=matched_bill_ids,
-                used_cc_ids={m.get("cc_transaction_id") for m in matches if m["status"] == "matched"},
-            )
-
-        return jsonify({
+        response_data = {
             "matches": matches,
             "unmatched_cc": unmatched_cc,
             "card_names": card_names,
@@ -1843,13 +2048,21 @@ def api_payments_preview():
             "group_matches": group_matches,
             "summary": {
                 "total_bills": len(matches),
-                "matched": matched_count,
-                "unmatched": unmatched_count,
+                "matched": sum(1 for m in matches if m["status"] == "matched"),
+                "unmatched": sum(1 for m in matches if m["status"] == "unmatched"),
+                "already_paid": sum(1 for m in matches if m["status"] == "already_paid"),
                 "unmatched_cc_count": len(unmatched_cc),
                 "amex_matched": len(amex_matches),
                 "group_matched": len(group_matches),
             },
-        })
+        }
+
+        # Cache the result for future calls
+        _save_payment_cache(response_data)
+        _s = response_data["summary"]
+        log_action(f"payments/preview: {_s['matched']} matched, {_s['group_matched']} grouped, {_s['unmatched']} no CC, {_s['amex_matched']} amex, {len(unmatched_cc)} unmatched CC")
+
+        return jsonify(response_data)
     except Exception as e:
         from scripts.utils import log_action
         log_action(f"payments/preview error: {e}", "ERROR")
@@ -2074,6 +2287,9 @@ def api_payments_record_one():
                 from scripts.utils import save_learned_vendor_mapping
                 save_learned_vendor_mapping(cc_desc, bill["vendor_name"])
 
+            # Update cache: mark bill paid, remove used CC
+            _update_payment_cache_after_record(bill_id, data.get("cc_transaction_id"))
+
             return jsonify({"status": "paid", "payment_id": payment_id, "bill_id": bill_id})
         else:
             return jsonify({"status": "failed", "bill_id": bill_id, "message": "No payment_id returned"})
@@ -2082,6 +2298,7 @@ def api_payments_record_one():
         error_msg = str(e).lower()
         if "already been paid" in error_msg or "already paid" in error_msg:
             log_action(f"  Bill {bill_id} already paid")
+            _update_payment_cache_after_record(bill_id)
             return jsonify({"status": "already_paid", "bill_id": bill_id})
         from scripts.utils import log_action
         log_action(f"record-one error for {bill_id}: {e}", "ERROR")
@@ -2161,6 +2378,8 @@ def api_payments_record_group():
                 if vname:
                     from scripts.utils import save_learned_vendor_mapping
                     save_learned_vendor_mapping(cc_desc, vname)
+            # Update cache: mark all group bills paid, remove used CC
+            _update_payment_cache_after_record(bill_ids, data.get("cc_transaction_id"))
             return jsonify({"status": "paid", "payment_id": payment_id, "bill_ids": bill_ids})
         else:
             return jsonify({"status": "failed", "message": "No payment_id returned"})
@@ -2267,6 +2486,27 @@ def api_payments_record_selected():
                     results.append({"bill_id": bill_id, "status": "error", "message": str(e)})
 
             time.sleep(0.3)
+
+        # Bulk update cache for all paid/already_paid bills
+        paid_bill_ids = set(r["bill_id"] for r in results if r["status"] in ("paid", "already_paid"))
+        if paid_bill_ids:
+            # Collect used CC transaction IDs from items
+            cc_txn_ids = set()
+            for item in items:
+                if item.get("bill_id") in paid_bill_ids and item.get("cc_transaction_id"):
+                    cc_txn_ids.add(item["cc_transaction_id"])
+            # Update cache: mark all paid bills, remove used CCs
+            cache = _load_payment_cache()
+            if cache:
+                for m in cache.get("matches", []):
+                    if m.get("bill_id") in paid_bill_ids:
+                        m["status"] = "already_paid"
+                if cc_txn_ids:
+                    cache["unmatched_cc"] = [
+                        cc for cc in cache.get("unmatched_cc", [])
+                        if cc.get("transaction_id") not in cc_txn_ids
+                    ]
+                _save_payment_cache(cache)
 
         paid = sum(1 for r in results if r["status"] == "paid")
         return jsonify({"results": results, "paid_count": paid, "total": len(results)})
@@ -3123,10 +3363,14 @@ def api_bills_record_only():
         if not all_payment_ids:
             return jsonify({"error": "All payments failed"}), 500
 
+        # Update cache: mark bills paid, remove used CC
+        paid_bids = [b["bill_id"] for bp in vendor_groups.values() for b in bp["bills"]]
+        _update_payment_cache_after_record(paid_bids, cc_txn_id)
+
         return jsonify({
             "status": "paid",
             "bill_id": all_bill_ids[0],
-            "bill_ids": [b["bill_id"] for bp in vendor_groups.values() for b in bp["bills"]],
+            "bill_ids": paid_bids,
             "skipped": skipped,
             "payment_id": all_payment_ids[0] if all_payment_ids else "",
             "payment_ids": all_payment_ids,
@@ -3135,6 +3379,7 @@ def api_bills_record_only():
     except Exception as e:
         error_msg = str(e).lower()
         if "already been paid" in error_msg or "already paid" in error_msg:
+            _update_payment_cache_after_record(all_bill_ids)
             return jsonify({"status": "already_paid", "bill_id": all_bill_ids[0]})
         from scripts.utils import log_action
         log_action(f"record-only error: {e}", "ERROR")
@@ -3149,6 +3394,57 @@ def api_payments_clear_cache():
         os.remove(payments_file)
         return jsonify({"status": "ok", "message": "Payments cache cleared — Step 6 will retry all bills"})
     return jsonify({"status": "ok", "message": "No payments cache to clear"})
+
+
+@app.route("/api/payments/clear-preview-cache", methods=["POST"])
+def api_payments_clear_preview_cache():
+    """Clear payment preview cache to force fresh Zoho API fetch."""
+    if os.path.exists(_PAYMENT_CACHE_PATH):
+        os.remove(_PAYMENT_CACHE_PATH)
+        return jsonify({"status": "ok", "message": "Preview cache cleared"})
+    return jsonify({"status": "ok", "message": "No preview cache to clear"})
+
+
+@app.route("/api/payments/sync-paid-bills", methods=["POST"])
+def api_payments_sync_paid_bills():
+    """Fetch all paid bills from Zoho and cache them. Run once, then reuse."""
+    try:
+        from scripts.utils import load_config, ZohoBooksAPI, log_action
+        config = load_config()
+        api = ZohoBooksAPI(config)
+
+        paid_zoho = []
+        page = 1
+        while True:
+            result = api.list_bills(status="paid", page=page)
+            paid_zoho.extend(result.get("bills", []))
+            if not result.get("page_context", {}).get("has_more_page", False):
+                break
+            page += 1
+
+        cache = {}
+        for b in paid_zoho:
+            bid = b.get("bill_id")
+            if bid:
+                cache[bid] = {
+                    "vendor_name": b.get("vendor_name", ""),
+                    "amount": float(b.get("total", 0)),
+                    "currency": b.get("currency_code", "INR"),
+                    "date": b.get("date", ""),
+                    "bill_number": b.get("bill_number", ""),
+                }
+        _save_paid_bills_cache(cache)
+        log_action(f"Synced {len(cache)} paid bills to cache")
+        return jsonify({"status": "ok", "count": len(cache)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/payments/paid-bills-cache")
+def api_payments_paid_bills_cache():
+    """Return the paid bills cache for frontend cross-reference."""
+    cache = _load_paid_bills_cache()
+    return jsonify({"paid_bills": cache, "count": len(cache)})
 
 
 @app.route("/api/cc/clear-parsed", methods=["POST"])
@@ -6228,6 +6524,9 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
         <div class="review-header">
           <span>Record Payments &mdash; CC &harr; Bill Match</span>
           <div style="display:flex;gap:12px;align-items:center">
+            <span id="paymentCacheIndicator" style="font-size:10px;color:var(--text-dim);padding:2px 8px;border-radius:4px;background:rgba(255,255,255,0.05)"></span>
+            <button id="paymentRefreshBtn" onclick="refreshPaymentPreview()" style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--text-dim);padding:4px 10px;font-size:11px;cursor:pointer" title="Fetch fresh data from Zoho APIs">&#8635; Refresh</button>
+            <button id="syncPaidBtn" onclick="syncPaidBills()" style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--text-dim);padding:4px 10px;font-size:11px;cursor:pointer" title="Sync paid bills from Zoho to identify already-paid bills">&#9745; Sync Paid</button>
             <select id="paymentCardFilter" onchange="filterPayments()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px;display:none">
               <option value="">All Cards</option>
             </select>
@@ -8609,8 +8908,10 @@ function closeCheckPanel() {
 
 // --- Payment Preview Panel ---
 var _paymentPreviewData = null;
+var _paymentFromCache = false;
+var _paidBillsCache = {};
 
-function openPaymentPreview() {
+function openPaymentPreview(forceRefresh) {
   document.getElementById('logPanel').style.display = 'none';
   document.getElementById('reviewPanel').style.display = 'none';
   document.getElementById('matchPanel').style.display = 'none';
@@ -8619,24 +8920,100 @@ function openPaymentPreview() {
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'flex';
   document.getElementById('paymentLoading').style.display = 'block';
+  document.getElementById('paymentLoading').textContent = forceRefresh ? 'Refreshing from Zoho...' : 'Loading...';
   document.getElementById('paymentContent').style.display = 'none';
   document.getElementById('recordSelectedBtn').style.display = 'none';
 
-  fetch('/api/payments/preview')
+  var previewUrl = '/api/payments/preview' + (forceRefresh ? '?refresh=1' : '');
+  Promise.all([
+    fetch(previewUrl).then(function(r) { return r.json(); }),
+    fetch('/api/payments/paid-bills-cache').then(function(r) { return r.json(); }).catch(function() { return {paid_bills: {}}; })
+  ])
+  .then(function(results) {
+    var data = results[0];
+    var paidData = results[1];
+    if (data.error) {
+      document.getElementById('paymentLoading').textContent = data.error;
+      return;
+    }
+    _paidBillsCache = paidData.paid_bills || {};
+
+    // Cross-reference: mark unmatched bills as already_paid if in paid cache
+    var paidCount = 0;
+    (data.matches || []).forEach(function(m) {
+      if (m.status === 'unmatched' && _paidBillsCache[m.bill_id]) {
+        m.status = 'already_paid';
+        paidCount++;
+      }
+    });
+    // Also check group matches
+    (data.group_matches || []).forEach(function(gm) {
+      var allPaid = (gm.grouped_bills || []).every(function(gb) { return _paidBillsCache[gb.bill_id]; });
+      if (allPaid && gm.status !== 'already_paid') {
+        gm.status = 'already_paid';
+      }
+    });
+
+    // Inject paid bills from paid cache as already_paid entries
+    // (these are bills already paid in Zoho, not in preview since preview only fetches unpaid)
+    var existingBillIds = new Set();
+    (data.matches || []).forEach(function(m) { if (m.bill_id) existingBillIds.add(m.bill_id); });
+    (data.group_matches || []).forEach(function(gm) {
+      (gm.grouped_bills || []).forEach(function(gb) { if (gb.bill_id) existingBillIds.add(gb.bill_id); });
+    });
+    var injectedCount = 0;
+    Object.keys(_paidBillsCache).forEach(function(billId) {
+      if (existingBillIds.has(billId)) return;
+      var pb = _paidBillsCache[billId];
+      data.matches.push({
+        bill_id: billId,
+        vendor_name: pb.vendor_name || '',
+        bill_amount: pb.amount || 0,
+        bill_currency: pb.currency || 'INR',
+        bill_date: pb.date || '',
+        bill_number: pb.bill_number || '',
+        status: 'already_paid'
+      });
+      injectedCount++;
+    });
+    paidCount += injectedCount;
+
+    if (paidCount > 0) {
+      // Update summary
+      data.summary = data.summary || {};
+      data.summary.unmatched = (data.summary.unmatched || 0);
+      data.summary.already_paid = (data.summary.already_paid || 0) + injectedCount;
+      data.summary.total_bills = (data.summary.total_bills || 0) + injectedCount;
+    }
+
+    _paymentPreviewData = data;
+    _paymentFromCache = !forceRefresh;
+    _amexExcludedBills = new Set(data.amex_excluded || []);
+    renderPaymentPreview(data);
+    populateMonthFilter();
+    filterPayments();
+  })
+  .catch(function(err) {
+    document.getElementById('paymentLoading').textContent = 'Failed: ' + err;
+  });
+}
+
+function refreshPaymentPreview() {
+  openPaymentPreview(true);
+}
+
+function syncPaidBills() {
+  var btn = document.getElementById('syncPaidBtn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Syncing...'; }
+  fetch('/api/payments/sync-paid-bills', {method: 'POST'})
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      if (data.error) {
-        document.getElementById('paymentLoading').textContent = data.error;
-        return;
-      }
-      _paymentPreviewData = data;
-      _amexExcludedBills = new Set(data.amex_excluded || []);
-      renderPaymentPreview(data);
-      populateMonthFilter();
-      filterPayments();
+      if (btn) { btn.disabled = false; btn.textContent = '\u2713 Synced (' + (data.count || 0) + ')'; }
+      // Reload with new paid data
+      openPaymentPreview(false);
     })
     .catch(function(err) {
-      document.getElementById('paymentLoading').textContent = 'Failed: ' + err;
+      if (btn) { btn.disabled = false; btn.textContent = 'Sync Failed'; }
     });
 }
 
@@ -8686,15 +9063,23 @@ function filterPayments() {
       else { show = rowVendor.indexOf(vendorFilter) >= 0 || vendorFilter.indexOf(rowVendor) >= 0; }
     }
 
-    // Date range filter (uses bill_date for bills, cc_date for cc_only)
-    if (show && dateFrom && rowDate) {
-      if (rowDate < dateFrom) show = false;
+    // Date range filter — both bill date AND cc date must be in range (if present)
+    var rowCcDate = row.getAttribute('data-ccdate') || '';
+    if (show && (dateFrom || dateTo)) {
+      // Check bill date
+      if (rowDate) {
+        if (dateFrom && rowDate < dateFrom) show = false;
+        if (dateTo && rowDate > dateTo) show = false;
+      } else if (!rowCcDate) {
+        // No date at all — hide
+        show = false;
+      }
+      // Check cc date (if present and row still visible)
+      if (show && rowCcDate) {
+        if (dateFrom && rowCcDate < dateFrom) show = false;
+        if (dateTo && rowCcDate > dateTo) show = false;
+      }
     }
-    if (show && dateTo && rowDate) {
-      if (rowDate > dateTo) show = false;
-    }
-    // If date filter is set but row has no date, hide it
-    if (show && (dateFrom || dateTo) && !rowDate) show = false;
 
     // Status filter
     if (show && statusFilter) {
@@ -8838,6 +9223,18 @@ function renderPaymentPreview(data) {
 
   document.getElementById('paymentSummaryText').textContent =
     s.total_bills + ' bills \u00B7 ' + s.matched + ' matched \u00B7 ' + (s.group_matched || 0) + ' grouped \u00B7 ' + s.unmatched + ' no CC \u00B7 ' + (s.already_paid || 0) + ' already paid \u00B7 ' + totalUncatCount + ' no invoice';
+
+  // Show cache indicator
+  var cacheInd = document.getElementById('paymentCacheIndicator');
+  if (_paymentFromCache) {
+    cacheInd.textContent = '\u26A1 Cached';
+    cacheInd.style.color = 'var(--yellow)';
+    cacheInd.title = 'Loaded from cache. Click Refresh to fetch fresh from Zoho.';
+  } else {
+    cacheInd.textContent = '\u2713 Live';
+    cacheInd.style.color = 'var(--green)';
+    cacheInd.title = 'Freshly fetched from Zoho APIs.';
+  }
 
   // Populate vendor filter dropdown
   var vendorSet = {};
@@ -9000,6 +9397,7 @@ function renderPaymentPreview(data) {
     tr.setAttribute('data-date', m.bill_date || m.cc_date || '');
     tr.setAttribute('data-billamount', m.bill_amount || 0);
     tr.setAttribute('data-ccamount', m.cc_inr_amount || 0);
+    tr.setAttribute('data-ccdate', m.cc_date || (m.candidates && m.candidates.length > 0 ? m.candidates[0].cc_date : '') || '');
 
     var bgColor = 'transparent';
     if (m.status === 'matched') bgColor = 'rgba(80,200,120,0.04)';
@@ -9151,7 +9549,7 @@ function renderPaymentPreview(data) {
   // Wrap main table in a scrollable container (60vh max)
   var mainWrap = document.createElement('div');
   mainWrap.id = 'paymentMainWrap';
-  mainWrap.style.cssText = 'max-height:50vh;overflow-y:auto;flex-shrink:0';
+  mainWrap.style.cssText = 'flex:1;overflow-y:auto;min-height:0';
   mainWrap.appendChild(tbl);
   content.appendChild(mainWrap);
 
@@ -9159,27 +9557,40 @@ function renderPaymentPreview(data) {
   var amexMatches = data.amex_matches || [];
   if (amexMatches.length > 0) {
     var amexHeader = document.createElement('div');
-    amexHeader.style.cssText = 'padding:10px 12px;font-size:12px;font-weight:700;color:var(--yellow);display:flex;align-items:center;gap:8px;position:sticky;top:0;background:var(--bg);z-index:1';
+    amexHeader.style.cssText = 'padding:6px 12px;font-size:11px;font-weight:700;color:var(--yellow);display:flex;align-items:center;gap:8px;position:sticky;top:0;background:var(--bg);z-index:1;cursor:pointer;user-select:none';
     var _amexNotExcluded = amexMatches.filter(function(am) { return !_amexExcludedBills.has(am.bill_id); }).length;
-    amexHeader.innerHTML = '\u26A0 Amex CC Matches (' + amexMatches.length + ') &mdash; <span style="font-weight:400;color:var(--text-dim)">Bills matched to Amex.</span>'
+    amexHeader.innerHTML = '<span id="amexCollapseArrow" style="display:inline-block;transition:transform 0.2s;transform:rotate(0deg);font-size:10px">\u25B6</span> '
+      + '\u26A0 Amex CC Matches (' + amexMatches.length + ') &mdash; <span style="font-weight:400;color:var(--text-dim)">Bills matched to Amex. Click to expand.</span>'
       + ' <span style="margin-left:auto;display:flex;gap:8px">'
-      + '<button id="amexBulkExcludeBtn" onclick="bulkAmexExclude()" style="background:var(--yellow);color:#000;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600">Exclude All (' + _amexNotExcluded + ')</button>'
+      + '<button id="amexBulkExcludeBtn" onclick="event.stopPropagation();bulkAmexExclude()" style="background:var(--yellow);color:#000;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600">Exclude All (' + _amexNotExcluded + ')</button>'
       + '</span>';
+    amexHeader.onclick = function(e) {
+      if (e.target.tagName === 'BUTTON') return;
+      var tblEl = document.getElementById('amexCollapsibleBody');
+      var arrow = document.getElementById('amexCollapseArrow');
+      if (tblEl.style.display === 'none') {
+        tblEl.style.display = '';
+        arrow.style.transform = 'rotate(90deg)';
+      } else {
+        tblEl.style.display = 'none';
+        arrow.style.transform = 'rotate(0deg)';
+      }
+    };
 
     var atbl = document.createElement('table');
     atbl.className = 'match-table';
-    atbl.style.cssText = 'width:100%;font-size:11px';
+    atbl.style.cssText = 'width:100%;font-size:10px';
     atbl.innerHTML = '<thead><tr>'
-      + '<th style="padding:6px 4px;text-align:center;width:28px"><input type="checkbox" id="amexSelectAll" onchange="toggleAmexSelectAll(this)"></th>'
-      + '<th style="text-align:left;padding:6px 8px">Amex CC Description</th>'
-      + '<th style="text-align:right;padding:6px 8px">CC INR</th>'
-      + '<th style="padding:6px 8px">CC Date</th>'
-      + '<th style="text-align:left;padding:6px 8px;border-left:2px solid var(--border)">Vendor / Bill</th>'
-      + '<th style="text-align:right;padding:6px 8px">Bill Amt</th>'
-      + '<th style="padding:6px 4px">Cur</th>'
-      + '<th style="padding:6px 8px">Bill Date</th>'
-      + '<th style="padding:6px 8px;text-align:center">Confidence</th>'
-      + '<th style="padding:6px 8px">Action</th>'
+      + '<th style="padding:3px 4px;text-align:center;width:24px"><input type="checkbox" id="amexSelectAll" onchange="toggleAmexSelectAll(this)"></th>'
+      + '<th style="text-align:left;padding:3px 6px">Amex CC Description</th>'
+      + '<th style="text-align:right;padding:3px 6px">CC INR</th>'
+      + '<th style="padding:3px 6px">CC Date</th>'
+      + '<th style="text-align:left;padding:3px 6px;border-left:2px solid var(--border)">Vendor / Bill</th>'
+      + '<th style="text-align:right;padding:3px 6px">Bill Amt</th>'
+      + '<th style="padding:3px 4px">Cur</th>'
+      + '<th style="padding:3px 6px">Bill Date</th>'
+      + '<th style="padding:3px 6px;text-align:center">Confidence</th>'
+      + '<th style="padding:3px 6px">Action</th>'
       + '</tr></thead>';
 
     var atbody = document.createElement('tbody');
@@ -9194,29 +9605,33 @@ function renderPaymentPreview(data) {
       var c = am.confidence || {};
       var ov = c.overall || 0;
       var ovColor = ov >= 85 ? 'var(--green)' : ov >= 60 ? 'var(--yellow)' : 'var(--red,#ef4444)';
-      var confCell = '<div style="text-align:center;line-height:1.4">'
-        + '<div style="font-size:13px;font-weight:700;color:' + ovColor + '">' + ov + '%</div>'
-        + '<div style="font-size:9px;color:var(--text-dim)">V:' + _confDot(c.vendor||0) + ' A:' + _confDot(c.amount||0) + ' D:' + _confDot(c.date||0) + '</div>'
+      var confCell = '<div style="text-align:center;line-height:1.2">'
+        + '<div style="font-size:11px;font-weight:700;color:' + ovColor + '">' + ov + '%</div>'
+        + '<div style="font-size:8px;color:var(--text-dim)">V:' + _confDot(c.vendor||0) + ' A:' + _confDot(c.amount||0) + ' D:' + _confDot(c.date||0) + '</div>'
         + '</div>';
       atr.innerHTML = ''
-        + '<td style="text-align:center;padding:5px 4px"><input type="checkbox" class="amex-cb" data-billid="' + am.bill_id + '" onchange="updateAmexSelectedBtn()"></td>'
-        + '<td style="text-align:left;padding:5px 8px;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + ccDescFull.replace(/"/g,'&quot;') + '">' + ccDesc + forexNote + '</td>'
-        + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(am.cc_inr_amount) + '</td>'
-        + '<td style="padding:5px 8px">' + fmtDate(am.cc_date) + '</td>'
-        + '<td style="text-align:left;padding:5px 8px;border-left:2px solid var(--border);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (am.vendor_name||'').replace(/"/g,'&quot;') + '">' + (am.vendor_name||'-') + '</td>'
-        + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(am.bill_amount) + '</td>'
-        + '<td style="padding:5px 4px;text-align:center">' + (am.bill_currency||'INR') + '</td>'
-        + '<td style="padding:5px 8px">' + fmtDate(am.bill_date) + '</td>'
-        + '<td style="padding:5px 8px">' + confCell + '</td>'
-        + '<td style="padding:5px 8px"><button class="bill-create-btn" id="amex-btn-' + am.bill_id + '" onclick="toggleAmexExclude(\'' + am.bill_id + '\')" style="background:var(--yellow);color:#000;font-weight:600">Exclude</button></td>';
+        + '<td style="text-align:center;padding:2px 4px"><input type="checkbox" class="amex-cb" data-billid="' + am.bill_id + '" onchange="updateAmexSelectedBtn()"></td>'
+        + '<td style="text-align:left;padding:2px 6px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + ccDescFull.replace(/"/g,'&quot;') + '">' + ccDesc + forexNote + '</td>'
+        + '<td style="text-align:right;padding:2px 6px;font-family:monospace">' + fmt(am.cc_inr_amount) + '</td>'
+        + '<td style="padding:2px 6px">' + fmtDate(am.cc_date) + '</td>'
+        + '<td style="text-align:left;padding:2px 6px;border-left:2px solid var(--border);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (am.vendor_name||'').replace(/"/g,'&quot;') + '">' + (am.vendor_name||'-') + '</td>'
+        + '<td style="text-align:right;padding:2px 6px;font-family:monospace">' + fmt(am.bill_amount) + '</td>'
+        + '<td style="padding:2px 4px;text-align:center">' + (am.bill_currency||'INR') + '</td>'
+        + '<td style="padding:2px 6px">' + fmtDate(am.bill_date) + '</td>'
+        + '<td style="padding:2px 6px">' + confCell + '</td>'
+        + '<td style="padding:2px 6px"><button class="bill-create-btn" id="amex-btn-' + am.bill_id + '" onclick="toggleAmexExclude(\'' + am.bill_id + '\')" style="background:var(--yellow);color:#000;font-weight:600;padding:2px 8px;font-size:10px">Exclude</button></td>';
       atbody.appendChild(atr);
     });
     atbl.appendChild(atbody);
+    var amexCollapsible = document.createElement('div');
+    amexCollapsible.id = 'amexCollapsibleBody';
+    amexCollapsible.style.cssText = 'display:none;max-height:130px;overflow-y:auto';
+    amexCollapsible.appendChild(atbl);
     var amexWrap = document.createElement('div');
     amexWrap.id = 'paymentAmexWrap';
-    amexWrap.style.cssText = 'flex-shrink:0;border-top:2px solid var(--border)';
+    amexWrap.style.cssText = 'flex-shrink:0;border-top:2px solid var(--border);max-height:180px;overflow-y:auto';
     amexWrap.appendChild(amexHeader);
-    amexWrap.appendChild(atbl);
+    amexWrap.appendChild(amexCollapsible);
     content.appendChild(amexWrap);
     amexMatches.forEach(function(am) {
       if (_amexExcludedBills.has(am.bill_id)) _applyAmexExcludeUI(am.bill_id);

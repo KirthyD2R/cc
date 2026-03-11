@@ -1,0 +1,2928 @@
+{
+  "2050328000003043078": {
+    "vendor_name": "GoDaddy",
+    "amount": 3439.7,
+    "currency": "INR",
+    "date": "2025-09-04",
+    "bill_number": "3878401822"
+  },
+  "2050328000003049003": {
+    "vendor_name": "KUN AUTO PVT LTD COMPANY",
+    "amount": 32793.0,
+    "currency": "INR",
+    "date": "2025-10-09",
+    "bill_number": "B202507533"
+  },
+  "2050328000003043052": {
+    "vendor_name": "La Buena Vida Durham",
+    "amount": 63.41,
+    "currency": "USD",
+    "date": "2025-10-11",
+    "bill_number": "117"
+  },
+  "2050328000003037050": {
+    "vendor_name": "Panda Express",
+    "amount": 10.61,
+    "currency": "USD",
+    "date": "2025-10-22",
+    "bill_number": "397"
+  },
+  "2050328000003037024": {
+    "vendor_name": "Applebee's",
+    "amount": 30.33,
+    "currency": "USD",
+    "date": "2025-10-19",
+    "bill_number": "7675-1859894"
+  },
+  "2050328000003046003": {
+    "vendor_name": "Applebee's",
+    "amount": 31.6,
+    "currency": "USD",
+    "date": "2025-10-22",
+    "bill_number": "7675-1860343"
+  },
+  "2050328000003030024": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 68.82,
+    "currency": "USD",
+    "date": "2025-10-23",
+    "bill_number": "IN-004-654-585"
+  },
+  "2050328000003031003": {
+    "vendor_name": "Google",
+    "amount": 9169.47,
+    "currency": "INR",
+    "date": "2025-12-31",
+    "bill_number": "4721-0013-5543"
+  },
+  "2050328000002984673": {
+    "vendor_name": "MACFOS LIMITED",
+    "amount": 29999.0,
+    "currency": "INR",
+    "date": "2025-08-10",
+    "bill_number": "INV2526/167912"
+  },
+  "2050328000003005845": {
+    "vendor_name": "OpenAI-USD",
+    "amount": 23.6,
+    "currency": "USD",
+    "date": "2025-05-22",
+    "bill_number": "B6466F68-0010"
+  },
+  "2050328000003005819": {
+    "vendor_name": "OpenAI-USD",
+    "amount": 23.6,
+    "currency": "USD",
+    "date": "2025-06-22",
+    "bill_number": "B6466F68-0011"
+  },
+  "2050328000003005793": {
+    "vendor_name": "OpenAI-USD",
+    "amount": 23.6,
+    "currency": "USD",
+    "date": "2025-07-22",
+    "bill_number": "B6466F68-0012"
+  },
+  "2050328000003007507": {
+    "vendor_name": "OpenAI-USD",
+    "amount": 23.6,
+    "currency": "USD",
+    "date": "2025-04-22",
+    "bill_number": "B6466F68-0009"
+  },
+  "2050328000002991618": {
+    "vendor_name": "Adobe",
+    "amount": 9600.0,
+    "currency": "INR",
+    "date": "2025-05-28",
+    "bill_number": "3114048162"
+  },
+  "2050328000002997727": {
+    "vendor_name": "New Relic",
+    "amount": 0.97,
+    "currency": "USD",
+    "date": "2025-10-31",
+    "bill_number": "INV01386703"
+  },
+  "2050328000002995652": {
+    "vendor_name": "Info Edge (Naukri)",
+    "amount": 1947.0,
+    "currency": "INR",
+    "date": "2025-11-11",
+    "bill_number": "NK09I1126006982"
+  },
+  "2050328000003010514": {
+    "vendor_name": "Medium",
+    "amount": 5.0,
+    "currency": "USD",
+    "date": "2025-05-02",
+    "bill_number": "c9ab37139c9b"
+  },
+  "2050328000003012647": {
+    "vendor_name": "Medium",
+    "amount": 5.0,
+    "currency": "USD",
+    "date": "2025-06-02",
+    "bill_number": "427fc9d05ef0"
+  },
+  "2050328000003010488": {
+    "vendor_name": "Medium",
+    "amount": 5.0,
+    "currency": "USD",
+    "date": "2025-07-02",
+    "bill_number": "24026c5dde06"
+  },
+  "2050328000003012621": {
+    "vendor_name": "Medium",
+    "amount": 5.0,
+    "currency": "USD",
+    "date": "2025-09-02",
+    "bill_number": "0b0c7ba61191"
+  },
+  "2050328000002997701": {
+    "vendor_name": "Medium",
+    "amount": 5.0,
+    "currency": "USD",
+    "date": "2025-10-02",
+    "bill_number": "6ae87c8ce29c"
+  },
+  "2050328000002999647": {
+    "vendor_name": "Medium",
+    "amount": 5.0,
+    "currency": "USD",
+    "date": "2025-11-02",
+    "bill_number": "06c96847c0f5"
+  },
+  "2050328000003009586": {
+    "vendor_name": "Medium",
+    "amount": 5.0,
+    "currency": "USD",
+    "date": "2025-08-02",
+    "bill_number": "794b46f3d59e"
+  },
+  "2050328000002998509": {
+    "vendor_name": "SAJANI FASHION",
+    "amount": 296.01,
+    "currency": "INR",
+    "date": "2026-01-19",
+    "bill_number": "IN-27876"
+  },
+  "2050328000002998489": {
+    "vendor_name": "Wispr Flow",
+    "amount": 3840.0,
+    "currency": "INR",
+    "date": "2026-02-02",
+    "bill_number": "2KMAHYKG-0001"
+  },
+  "2050328000003015156": {
+    "vendor_name": "SANTOSH DEVI BHANSALI",
+    "amount": 12598.0,
+    "currency": "INR",
+    "date": "2026-01-19",
+    "bill_number": "IN-7698"
+  },
+  "2050328000002993776": {
+    "vendor_name": "RETAILEZ PRIVATE LIMITED",
+    "amount": 1792.0,
+    "currency": "INR",
+    "date": "2026-01-19",
+    "bill_number": "BLR8-3508287"
+  },
+  "2050328000003011340": {
+    "vendor_name": "MS ENTERPRISES",
+    "amount": 2808.0,
+    "currency": "INR",
+    "date": "2026-01-19",
+    "bill_number": "DEX3-832"
+  },
+  "2050328000003005612": {
+    "vendor_name": "MAGMA CARE PVT LTD",
+    "amount": 299.0,
+    "currency": "INR",
+    "date": "2026-01-19",
+    "bill_number": "QEA1-10628"
+  },
+  "2050328000003012553": {
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 30.0,
+    "currency": "USD",
+    "date": "2025-09-29",
+    "bill_number": "B8ERAOBF-0004"
+  },
+  "2050328000003013269": {
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 30.0,
+    "currency": "USD",
+    "date": "2025-10-30",
+    "bill_number": "B8ERAOBF-0005"
+  },
+  "2050328000002999526": {
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 30.0,
+    "currency": "USD",
+    "date": "2025-11-29",
+    "bill_number": "B8ERAOBF-0006"
+  },
+  "2050328000002993709": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 276.25,
+    "currency": "INR",
+    "date": "2025-05-29",
+    "bill_number": "MAA4-1449907"
+  },
+  "2050328000002990402": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 267.75,
+    "currency": "INR",
+    "date": "2025-07-01",
+    "bill_number": "MAA4-2323237"
+  },
+  "2050328000002986398": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 12215.38,
+    "currency": "INR",
+    "date": "2025-07-12",
+    "bill_number": "E0100WU2LR_Invoice"
+  },
+  "2050328000002991403": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 42116.85,
+    "currency": "INR",
+    "date": "2025-07-12",
+    "bill_number": "E0100WTXDJ_Invoice"
+  },
+  "2050328000002990359": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 5398.91,
+    "currency": "INR",
+    "date": "2025-07-12",
+    "bill_number": "E0100WTVPL_Invoice"
+  },
+  "2050328000002997653": {
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "amount": 279.65,
+    "currency": "INR",
+    "date": "2025-07-31",
+    "bill_number": "DED4-2596022"
+  },
+  "2050328000003005544": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 294.0,
+    "currency": "INR",
+    "date": "2026-01-19",
+    "bill_number": "FMAB-712215"
+  },
+  "2050328000002997631": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 19609.23,
+    "currency": "INR",
+    "date": "2026-02-12",
+    "bill_number": "E0100YQBIN_Invoice"
+  },
+  "2050328000002988211": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 7193.64,
+    "currency": "INR",
+    "date": "2026-02-12",
+    "bill_number": "E0100YQAMI_Invoice"
+  },
+  "2050328000003011318": {
+    "vendor_name": "Google",
+    "amount": 4748.63,
+    "currency": "INR",
+    "date": "2026-01-31",
+    "bill_number": "5472759398"
+  },
+  "2050328000002995384": {
+    "vendor_name": "Google",
+    "amount": 4889.41,
+    "currency": "INR",
+    "date": "2025-08-31",
+    "bill_number": "5347652740"
+  },
+  "2050328000003001361": {
+    "vendor_name": "Google",
+    "amount": 4874.34,
+    "currency": "INR",
+    "date": "2025-04-30",
+    "bill_number": "5237284366"
+  },
+  "2050328000002997561": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 999.0,
+    "currency": "INR",
+    "date": "2026-01-21",
+    "bill_number": "SMAB-89886"
+  },
+  "2050328000003000519": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 5.43,
+    "currency": "USD",
+    "date": "2026-02-11",
+    "bill_number": "INV119811653"
+  },
+  "2050328000002988142": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 3.57,
+    "currency": "USD",
+    "date": "2026-02-05",
+    "bill_number": "INV118823992"
+  },
+  "2050328000002995280": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 3.86,
+    "currency": "USD",
+    "date": "2026-02-03",
+    "bill_number": "INV118672157"
+  },
+  "2050328000002993573": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 104.0,
+    "currency": "USD",
+    "date": "2026-02-02",
+    "bill_number": "INV118474160"
+  },
+  "2050328000002986269": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 0.13,
+    "currency": "USD",
+    "date": "2026-02-01",
+    "bill_number": "INV118377403"
+  },
+  "2050328000003019923": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-09-09",
+    "bill_number": "511140168715"
+  },
+  "2050328000002990270": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 436.0,
+    "currency": "INR",
+    "date": "2025-10-15",
+    "bill_number": "511152667797"
+  },
+  "2050328000003000499": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-10-09",
+    "bill_number": "511150750291"
+  },
+  "2050328000003010326": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-11-09",
+    "bill_number": "511159612412"
+  },
+  "2050328000002993532": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 3654.0,
+    "currency": "INR",
+    "date": "2025-09-16",
+    "bill_number": "511142624687"
+  },
+  "2050328000003011258": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 7106.0,
+    "currency": "INR",
+    "date": "2025-06-27",
+    "bill_number": "511115460511"
+  },
+  "2050328000002999347": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-06-09",
+    "bill_number": "511109459487"
+  },
+  "2050328000002984347": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-07-09",
+    "bill_number": "511119256762"
+  },
+  "2050328000003000479": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 928.0,
+    "currency": "INR",
+    "date": "2025-07-04",
+    "bill_number": "511117756315"
+  },
+  "2050328000003007228": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 7058.0,
+    "currency": "INR",
+    "date": "2025-08-18",
+    "bill_number": "511132686884"
+  },
+  "2050328000003001209": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2025-08-09",
+    "bill_number": "511129930927"
+  },
+  "2050328000003003137": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 1694.07,
+    "currency": "INR",
+    "date": "2025-04-30",
+    "bill_number": "51195567355"
+  },
+  "2050328000002998287": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2025-10-28",
+    "bill_number": "PZLFLIEU-0006"
+  },
+  "2050328000002996151": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2025-11-15",
+    "bill_number": "ZEUU3HS6-0003"
+  },
+  "2050328000003001183": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2025-07-13",
+    "bill_number": "PZLFLIEU-0002"
+  },
+  "2050328000002984274": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2026-02-08",
+    "bill_number": "VRUCOSGS-0002"
+  },
+  "2050328000003006327": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2026-02-12",
+    "bill_number": "OIGZ1BOY-0002"
+  },
+  "2050328000003010274": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2026-02-12",
+    "bill_number": "7CC5E2D2-0004"
+  },
+  "2050328000002991203": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 908.6,
+    "currency": "INR",
+    "date": "2025-08-12",
+    "bill_number": "92832245029"
+  },
+  "2050328000002998214": {
+    "vendor_name": "Fly.io",
+    "amount": 12.22,
+    "currency": "USD",
+    "date": "2025-05-01",
+    "bill_number": "02148314-0005"
+  },
+  "2050328000003011211": {
+    "vendor_name": "Fly.io",
+    "amount": 12.56,
+    "currency": "USD",
+    "date": "2025-06-01",
+    "bill_number": "02148314-0006"
+  },
+  "2050328000002997493": {
+    "vendor_name": "Fly.io",
+    "amount": 12.27,
+    "currency": "USD",
+    "date": "2025-07-01",
+    "bill_number": "02148314-0007"
+  },
+  "2050328000002993400": {
+    "vendor_name": "Fly.io",
+    "amount": 9.89,
+    "currency": "USD",
+    "date": "2025-08-26",
+    "bill_number": "02148314-0009"
+  },
+  "2050328000002997446": {
+    "vendor_name": "Fly.io",
+    "amount": 12.74,
+    "currency": "USD",
+    "date": "2025-08-01",
+    "bill_number": "02148314-0008"
+  },
+  "2050328000003019725": {
+    "vendor_name": "Hathway Broadband Internet",
+    "amount": 11151.0,
+    "currency": "INR",
+    "date": "2026-02-08",
+    "bill_number": "I0133P2602046883"
+  },
+  "2050328000002993378": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 19793.27,
+    "currency": "INR",
+    "date": "2026-01-12",
+    "bill_number": "E0100YH8OO_Invoice"
+  },
+  "2050328000003019675": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 6625.13,
+    "currency": "INR",
+    "date": "2026-01-12",
+    "bill_number": "E0100YH2Y6_Invoice"
+  },
+  "2050328000002984205": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1713.32,
+    "currency": "INR",
+    "date": "2026-01-12",
+    "bill_number": "E0100YH2Y5_Invoice"
+  },
+  "2050328000002984185": {
+    "vendor_name": "AWS",
+    "amount": 7282.99,
+    "currency": "INR",
+    "date": "2025-07-01",
+    "bill_number": "AWS-2219628753"
+  },
+  "2050328000002993335": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 15669.88,
+    "currency": "INR",
+    "date": "2025-08-12",
+    "bill_number": "E0100X5F2C_Invoice"
+  },
+  "2050328000002995187": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 5279.01,
+    "currency": "INR",
+    "date": "2025-08-12",
+    "bill_number": "E0100X5B1G_Invoice"
+  },
+  "2050328000003006305": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 8192.16,
+    "currency": "INR",
+    "date": "2025-08-12",
+    "bill_number": "E0100X581J_Invoice"
+  },
+  "2050328000003006279": {
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 30.0,
+    "currency": "USD",
+    "date": "2025-07-30",
+    "bill_number": "B8ERAOBF-0002"
+  },
+  "2050328000003000248": {
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 30.0,
+    "currency": "USD",
+    "date": "2025-12-30",
+    "bill_number": "B8ERAOBF-0010"
+  },
+  "2050328000002991073": {
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 10.0,
+    "currency": "USD",
+    "date": "2025-12-26",
+    "bill_number": "B8ERAOBF-0009"
+  },
+  "2050328000003012308": {
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 10.0,
+    "currency": "USD",
+    "date": "2025-12-21",
+    "bill_number": "B8ERAOBF-0008"
+  },
+  "2050328000003009147": {
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 10.0,
+    "currency": "USD",
+    "date": "2025-12-03",
+    "bill_number": "B8ERAOBF-0007"
+  },
+  "2050328000003006253": {
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 30.0,
+    "currency": "USD",
+    "date": "2025-08-30",
+    "bill_number": "B8ERAOBF-0003"
+  },
+  "2050328000003006231": {
+    "vendor_name": "ECONETING E-COMMERCE PRIVATE LIMITED",
+    "amount": 2999.0,
+    "currency": "INR",
+    "date": "2025-08-23",
+    "bill_number": "PNQ2-6335"
+  },
+  "2050328000002993284": {
+    "vendor_name": "ETRADE MARKETING PVT LTD",
+    "amount": 279.3,
+    "currency": "INR",
+    "date": "2025-08-23",
+    "bill_number": "MAA4-1175721"
+  },
+  "2050328000002997364": {
+    "vendor_name": "BigIntent Global India Pvt Ltd",
+    "amount": 2474.01,
+    "currency": "INR",
+    "date": "2025-08-23",
+    "bill_number": "LKO1-857"
+  },
+  "2050328000003012286": {
+    "vendor_name": "ARPIT AGRAWAL",
+    "amount": 437.71,
+    "currency": "INR",
+    "date": "2025-08-23",
+    "bill_number": "IN-6584"
+  },
+  "2050328000002982114": {
+    "vendor_name": "ETRADE MARKETING PVT LTD",
+    "amount": 331.55,
+    "currency": "INR",
+    "date": "2025-08-23",
+    "bill_number": "BLR8-2104995"
+  },
+  "2050328000003013087": {
+    "vendor_name": "WIDEVIEW SOLUTIONS",
+    "amount": 25749.0,
+    "currency": "INR",
+    "date": "2025-08-23",
+    "bill_number": "BLR7-717"
+  },
+  "2050328000002994218": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 25927.96,
+    "currency": "INR",
+    "date": "2025-06-12",
+    "bill_number": "E0100WJEDJ_Invoice + E0100WJJ6H_Invoice + E0100WJN"
+  },
+  "2050328000003019208": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 54.21,
+    "currency": "USD",
+    "date": "2025-11-28",
+    "bill_number": "2"
+  },
+  "2050328000003007110": {
+    "vendor_name": "AWS",
+    "amount": 284933.67,
+    "currency": "INR",
+    "date": "2026-01-01",
+    "bill_number": "AWS-2443583665"
+  },
+  "2050328000002984165": {
+    "vendor_name": "AWS",
+    "amount": 293044.46,
+    "currency": "INR",
+    "date": "2026-02-01",
+    "bill_number": "AWS-2483942397"
+  },
+  "2050328000002991026": {
+    "vendor_name": "Vercel",
+    "amount": 20.0,
+    "currency": "USD",
+    "date": "2026-02-01",
+    "bill_number": "97E328AA-0006"
+  },
+  "2050328000003001073": {
+    "vendor_name": "Anthropic USD",
+    "amount": 68.61,
+    "currency": "USD",
+    "date": "2025-10-15",
+    "bill_number": "ZEUU3HS6-0002"
+  },
+  "2050328000003005230": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2025-09-28",
+    "bill_number": "PZLFLIEU-0005"
+  },
+  "2050328000002993149": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2025-08-28",
+    "bill_number": "PZLFLIEU-0004"
+  },
+  "2050328000003005210": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2025-06-13",
+    "bill_number": "PZLFLIEU-0001"
+  },
+  "2050328000003006156": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2025-06-12",
+    "bill_number": "ZEUU3HS6-0001"
+  },
+  "2050328000002982058": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2025-06-10",
+    "bill_number": "IVSLM7IE-0001"
+  },
+  "2050328000002991006": {
+    "vendor_name": "Anthropic USD",
+    "amount": 200.0,
+    "currency": "USD",
+    "date": "2025-04-25",
+    "bill_number": "7CC5E2D2-0001"
+  },
+  "2050328000003007050": {
+    "vendor_name": "Anthropic USD",
+    "amount": 23.6,
+    "currency": "USD",
+    "date": "2025-04-22",
+    "bill_number": "E0BCC1DE-0005"
+  },
+  "2050328000003017318": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 223.07,
+    "currency": "USD",
+    "date": "2025-10-11",
+    "bill_number": "IN-004-560-126"
+  },
+  "2050328000003011050": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 79.06,
+    "currency": "USD",
+    "date": "2025-12-19",
+    "bill_number": "IN-005-113-294"
+  },
+  "2050328000003005184": {
+    "vendor_name": "Blue Dart Express Ltd",
+    "amount": 3280.4,
+    "currency": "INR",
+    "date": "2026-02-26",
+    "bill_number": "260233RT25613"
+  },
+  "2050328000003008059": {
+    "vendor_name": "Google",
+    "amount": 1950.0,
+    "currency": "INR",
+    "date": "2025-12-16",
+    "bill_number": "SOP.3305-3916-7418-85612..11"
+  },
+  "2050328000002998090": {
+    "vendor_name": "Google",
+    "amount": 1950.0,
+    "currency": "INR",
+    "date": "2025-11-16",
+    "bill_number": "SOP.3305-3916-7418-85612..10"
+  },
+  "2050328000003010096": {
+    "vendor_name": "Google",
+    "amount": 1950.0,
+    "currency": "INR",
+    "date": "2025-10-16",
+    "bill_number": "SOP.3305-3916-7418-85612..9"
+  },
+  "2050328000002998068": {
+    "vendor_name": "Google",
+    "amount": 1950.0,
+    "currency": "INR",
+    "date": "2025-09-16",
+    "bill_number": "SOP.3305-3916-7418-85612..8"
+  },
+  "2050328000003000112": {
+    "vendor_name": "Google",
+    "amount": 1950.0,
+    "currency": "INR",
+    "date": "2025-07-16",
+    "bill_number": "SOP.3305-3916-7418-85612..6"
+  },
+  "2050328000003004041": {
+    "vendor_name": "Google",
+    "amount": 1950.0,
+    "currency": "INR",
+    "date": "2025-08-16",
+    "bill_number": "SOP.3305-3916-7418-85612..7"
+  },
+  "2050328000002986078": {
+    "vendor_name": "Google",
+    "amount": 1950.0,
+    "currency": "INR",
+    "date": "2025-06-16",
+    "bill_number": "SOP.3305-3916-7418-85612..5"
+  },
+  "2050328000003006113": {
+    "vendor_name": "Google",
+    "amount": 1950.0,
+    "currency": "INR",
+    "date": "2025-05-16",
+    "bill_number": "SOP.3305-3916-7418-85612..4"
+  },
+  "2050328000003015003": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 331.5,
+    "currency": "INR",
+    "date": "2025-04-29",
+    "bill_number": "MAA4-687526"
+  },
+  "2050328000002995087": {
+    "vendor_name": "Gamma",
+    "amount": 8704.0,
+    "currency": "INR",
+    "date": "2026-02-04",
+    "bill_number": "8MEU2MRF-0005"
+  },
+  "2050328000003006066": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 83.51,
+    "currency": "USD",
+    "date": "2026-02-11",
+    "bill_number": "IN-005-589-685"
+  },
+  "2050328000002997137": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 64.07,
+    "currency": "USD",
+    "date": "2026-01-11",
+    "bill_number": "IN-005-309-664"
+  },
+  "2050328000002988046": {
+    "vendor_name": "R K WorldInfocom Pvt Ltd",
+    "amount": 236.0,
+    "currency": "INR",
+    "date": "2026-01-19",
+    "bill_number": "DEL5-10059983"
+  },
+  "2050328000002970003": {
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 30.0,
+    "currency": "USD",
+    "date": "2026-01-30",
+    "bill_number": "B8ERAOBF-0011"
+  },
+  "2050328000002966003": {
+    "vendor_name": "S2 Labs Inc.",
+    "amount": 10.0,
+    "currency": "USD",
+    "date": "2026-02-18",
+    "bill_number": "B8ERAOBF-0012"
+  },
+  "2050328000002963003": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 16056.28,
+    "currency": "INR",
+    "date": "2025-04-12",
+    "bill_number": "E0100VXR9Z_Invoice"
+  },
+  "2050328000002918862": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 35915.28,
+    "currency": "INR",
+    "date": "2025-04-12",
+    "bill_number": "INV-E0100VXPSK_Invoice"
+  },
+  "2050328000002897167": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 382.85,
+    "currency": "INR",
+    "date": "2025-10-14",
+    "bill_number": "INV-FMAB-451441"
+  },
+  "2050328000002886262": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 6774.27,
+    "currency": "INR",
+    "date": "2025-10-12",
+    "bill_number": "INV-E0100XPIP1_Invoice"
+  },
+  "2050328000002920951": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 30892.4,
+    "currency": "INR",
+    "date": "2025-12-12",
+    "bill_number": "E0100Y80IG"
+  },
+  "2050328000002920929": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 2395.4,
+    "currency": "INR",
+    "date": "2026-02-12",
+    "bill_number": "E0100YQAML"
+  },
+  "2050328000002920907": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 30892.4,
+    "currency": "INR",
+    "date": "2026-01-12",
+    "bill_number": "E0100YH8QM"
+  },
+  "2050328000002920885": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 30892.4,
+    "currency": "INR",
+    "date": "2026-02-12",
+    "bill_number": "E0100YQAMM"
+  },
+  "2050328000002920863": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 2395.4,
+    "currency": "INR",
+    "date": "2026-01-12",
+    "bill_number": "E0100YH2YB"
+  },
+  "2050328000002920841": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 2395.4,
+    "currency": "INR",
+    "date": "2025-12-12",
+    "bill_number": "E0100Y80IF"
+  },
+  "2050328000002920819": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 2566.5,
+    "currency": "INR",
+    "date": "2025-10-12",
+    "bill_number": "E0100XPIP4"
+  },
+  "2050328000002920753": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 30892.4,
+    "currency": "INR",
+    "date": "2025-11-12",
+    "bill_number": "E0100XYTHP"
+  },
+  "2050328000002920709": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 2566.5,
+    "currency": "INR",
+    "date": "2025-09-12",
+    "bill_number": "E0100XG6GR"
+  },
+  "2050328000002920687": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 2384.37,
+    "currency": "INR",
+    "date": "2025-11-12",
+    "bill_number": "E0100XYTJW"
+  },
+  "2050328000002920665": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 2345.72,
+    "currency": "INR",
+    "date": "2025-08-12",
+    "bill_number": "E0100X5B1M"
+  },
+  "2050328000002920599": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 30247.59,
+    "currency": "INR",
+    "date": "2025-06-12",
+    "bill_number": "E0100WJF6R"
+  },
+  "2050328000002920555": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 3295.06,
+    "currency": "INR",
+    "date": "2025-06-12",
+    "bill_number": "E0100WJF6Q"
+  },
+  "2050328000002920533": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 3079.8,
+    "currency": "INR",
+    "date": "2025-05-12",
+    "bill_number": "E0100W84MJ"
+  },
+  "2050328000002920511": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 3250.9,
+    "currency": "INR",
+    "date": "2025-07-12",
+    "bill_number": "E0100WTWFY"
+  },
+  "2050328000002918014": {
+    "vendor_name": "GROQ",
+    "amount": 1.59,
+    "currency": "USD",
+    "date": "2025-11-07",
+    "bill_number": "GROQ-TAAS-202511-165203"
+  },
+  "2050328000002917982": {
+    "vendor_name": "GROQ",
+    "amount": 1.74,
+    "currency": "USD",
+    "date": "2026-02-06",
+    "bill_number": "GROQ-TAAS-202602-214357"
+  },
+  "2050328000002917950": {
+    "vendor_name": "GROQ",
+    "amount": 6.43,
+    "currency": "USD",
+    "date": "2026-01-06",
+    "bill_number": "GROQ-TAAS-202601-199788"
+  },
+  "2050328000002917918": {
+    "vendor_name": "GROQ",
+    "amount": 1.29,
+    "currency": "USD",
+    "date": "2025-12-06",
+    "bill_number": "GROQ-TAAS-202512-174643"
+  },
+  "2050328000002917886": {
+    "vendor_name": "GROQ",
+    "amount": 2.43,
+    "currency": "USD",
+    "date": "2025-10-06",
+    "bill_number": "GROQ-TAAS-202510-143678"
+  },
+  "2050328000002917822": {
+    "vendor_name": "GROQ",
+    "amount": 9.0,
+    "currency": "USD",
+    "date": "2025-08-25",
+    "bill_number": "GROQTAAS202508118887"
+  },
+  "2050328000002917790": {
+    "vendor_name": "GROQ",
+    "amount": 1.02,
+    "currency": "USD",
+    "date": "2025-08-13",
+    "bill_number": "GROQTAAS202508116839"
+  },
+  "2050328000002917504": {
+    "vendor_name": "SUPABASE",
+    "amount": 25.0,
+    "currency": "USD",
+    "date": "2025-11-02",
+    "bill_number": "AEEHRQ-00006"
+  },
+  "2050328000002917472": {
+    "vendor_name": "SUPABASE",
+    "amount": 25.0,
+    "currency": "USD",
+    "date": "2025-10-02",
+    "bill_number": "AEEHRQ-00005"
+  },
+  "2050328000002917440": {
+    "vendor_name": "SUPABASE",
+    "amount": 25.01,
+    "currency": "USD",
+    "date": "2025-09-02",
+    "bill_number": "AEEHRQ-00004"
+  },
+  "2050328000002917408": {
+    "vendor_name": "SUPABASE",
+    "amount": 25.0,
+    "currency": "USD",
+    "date": "2025-08-02",
+    "bill_number": "AEEHRQ-00003"
+  },
+  "2050328000002917376": {
+    "vendor_name": "SUPABASE",
+    "amount": 26.93,
+    "currency": "USD",
+    "date": "2025-07-01",
+    "bill_number": "AEEHRQ-00002"
+  },
+  "2050328000002917328": {
+    "vendor_name": "SUPABASE",
+    "amount": 25.0,
+    "currency": "USD",
+    "date": "2025-06-02",
+    "bill_number": "AEEHRQ-00001"
+  },
+  "2050328000002917074": {
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "amount": 23349.84,
+    "currency": "INR",
+    "date": "2025-10-29",
+    "bill_number": "1025260334826"
+  },
+  "2050328000002917038": {
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "amount": 268.47,
+    "currency": "INR",
+    "date": "2026-01-29",
+    "bill_number": "1025260502871"
+  },
+  "2050328000002917002": {
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "amount": 42480.0,
+    "currency": "INR",
+    "date": "2025-09-29",
+    "bill_number": "1025260282844"
+  },
+  "2050328000002916962": {
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "amount": 2170.03,
+    "currency": "INR",
+    "date": "2025-08-12",
+    "bill_number": "1025260205383"
+  },
+  "2050328000002916926": {
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "amount": 6375.89,
+    "currency": "INR",
+    "date": "2025-07-09",
+    "bill_number": "1025260152757"
+  },
+  "2050328000002894641": {
+    "vendor_name": "SOFTWARE TECHNOLOGY PARKS OF INDIA",
+    "amount": 126420.0,
+    "currency": "INR",
+    "date": "2026-01-05",
+    "bill_number": "152624275997726"
+  },
+  "2050328000002894371": {
+    "vendor_name": "UBER9 BUSINESS PROCESS SERVICES PRIVATE LIMITED",
+    "amount": 4130.0,
+    "currency": "INR",
+    "date": "2025-12-17",
+    "bill_number": "VS/25-26/894139"
+  },
+  "2050328000002894283": {
+    "vendor_name": "UBER9 BUSINESS PROCESS SERVICES PRIVATE LIMITED",
+    "amount": 130743.0,
+    "currency": "INR",
+    "date": "2025-11-05",
+    "bill_number": "VS/25-26/879625"
+  },
+  "2050328000002772235": {
+    "vendor_name": "L&L CONSULTANTS",
+    "amount": 430818.1,
+    "currency": "INR",
+    "date": "2026-02-16",
+    "bill_number": "PI03"
+  },
+  "2050328000002521238": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 119.44,
+    "currency": "USD",
+    "date": "2025-12-12",
+    "bill_number": "1"
+  },
+  "2050328000002358031": {
+    "vendor_name": "The Detailing Mafia",
+    "amount": 106200.0,
+    "currency": "INR",
+    "date": "2025-08-29",
+    "bill_number": "ECRS/0011/25- 26"
+  },
+  "2050328000002328003": {
+    "vendor_name": "Power House",
+    "amount": 23000.0,
+    "currency": "INR",
+    "date": "2025-10-04",
+    "bill_number": "10932"
+  },
+  "2050328000002211929": {
+    "vendor_name": "AWS",
+    "amount": 7782.18,
+    "currency": "INR",
+    "date": "2025-06-01",
+    "bill_number": "2176831657"
+  },
+  "2050328000002211861": {
+    "vendor_name": "AWS",
+    "amount": 1824.36,
+    "currency": "INR",
+    "date": "2025-05-01",
+    "bill_number": "2140007957"
+  },
+  "2050328000002211793": {
+    "vendor_name": "AWS",
+    "amount": 40513.05,
+    "currency": "INR",
+    "date": "2025-04-02",
+    "bill_number": "2107934141"
+  },
+  "2050328000002211725": {
+    "vendor_name": "AWS",
+    "amount": 79963.46,
+    "currency": "INR",
+    "date": "2025-08-01",
+    "bill_number": "2257225097"
+  },
+  "2050328000002211657": {
+    "vendor_name": "AWS",
+    "amount": 213669.28,
+    "currency": "INR",
+    "date": "2025-09-01",
+    "bill_number": "2295334101"
+  },
+  "2050328000002211263": {
+    "vendor_name": "AWS",
+    "amount": 300039.59,
+    "currency": "INR",
+    "date": "2025-10-01",
+    "bill_number": "2327322985"
+  },
+  "2050328000002211195": {
+    "vendor_name": "AWS",
+    "amount": 380319.73,
+    "currency": "INR",
+    "date": "2025-11-01",
+    "bill_number": "2366505997"
+  },
+  "2050328000002211109": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 0.64,
+    "currency": "USD",
+    "date": "2025-07-28",
+    "bill_number": "INV94136438"
+  },
+  "2050328000002211015": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 12.0,
+    "currency": "USD",
+    "date": "2025-06-02",
+    "bill_number": "INV86578999, INV86595678"
+  },
+  "2050328000002195933": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 27.06,
+    "currency": "USD",
+    "date": "2025-06-03",
+    "bill_number": "INV86710303, INV86710352"
+  },
+  "2050328000002195861": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 3.2,
+    "currency": "USD",
+    "date": "2025-06-08",
+    "bill_number": "INV87220423"
+  },
+  "2050328000002195789": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 8.0,
+    "currency": "USD",
+    "date": "2025-06-12",
+    "bill_number": "INV87612320"
+  },
+  "2050328000002195717": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 1.33,
+    "currency": "USD",
+    "date": "2025-06-27",
+    "bill_number": "INV89156862"
+  },
+  "2050328000002195568": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 223.37,
+    "currency": "USD",
+    "date": "2025-07-02",
+    "bill_number": "INV89628732"
+  },
+  "2050328000002195490": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 161.54,
+    "currency": "USD",
+    "date": "2025-08-02",
+    "bill_number": "INV95005231"
+  },
+  "2050328000002195414": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 95.32,
+    "currency": "USD",
+    "date": "2025-09-02",
+    "bill_number": "INV98806878"
+  },
+  "2050328000002195338": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 136.37,
+    "currency": "USD",
+    "date": "2025-10-02",
+    "bill_number": "INV102416114"
+  },
+  "2050328000002195252": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 76.0,
+    "currency": "USD",
+    "date": "2025-11-02",
+    "bill_number": "INV106152420"
+  },
+  "2050328000002195162": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 1.73,
+    "currency": "USD",
+    "date": "2025-11-19",
+    "bill_number": "INV108376917"
+  },
+  "2050328000002195031": {
+    "vendor_name": "GitHub, Inc.",
+    "amount": 1.73,
+    "currency": "USD",
+    "date": "2025-11-19",
+    "bill_number": "INV108377000"
+  },
+  "2050328000001827156": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 88.5,
+    "currency": "USD",
+    "date": "2025-11-11",
+    "bill_number": "IN-004-796-545"
+  },
+  "2050328000001827066": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 151.75,
+    "currency": "USD",
+    "date": "2025-09-11",
+    "bill_number": "IN-004-324-189"
+  },
+  "2050328000001809832": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 359.9,
+    "currency": "USD",
+    "date": "2025-07-11",
+    "bill_number": "IN-003-856-325"
+  },
+  "2050328000001809568": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 342.2,
+    "currency": "USD",
+    "date": "2025-06-11",
+    "bill_number": "IN-003-623-208"
+  },
+  "2050328000001809444": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 349.52,
+    "currency": "USD",
+    "date": "2025-05-11",
+    "bill_number": "IN-003-418-066"
+  },
+  "2050328000001809354": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 331.82,
+    "currency": "USD",
+    "date": "2025-04-11",
+    "bill_number": "IN-003-223-854"
+  },
+  "2050328000001809202": {
+    "vendor_name": "Atlassian Pty Ltd",
+    "amount": 391.04,
+    "currency": "USD",
+    "date": "2025-08-11",
+    "bill_number": "IN-004-088-291"
+  },
+  "2050328000001015237": {
+    "vendor_name": "WISSEND INTELSPOT PRIVATE LIMITED",
+    "amount": 64628.6,
+    "currency": "INR",
+    "date": "2025-10-07",
+    "bill_number": "#ISINV000027"
+  },
+  "2050328000000552641": {
+    "vendor_name": "Logical Miners Private Limited",
+    "amount": 119340.0,
+    "currency": "INR",
+    "date": "2025-05-01",
+    "bill_number": "#21"
+  },
+  "2050328000000552235": {
+    "vendor_name": "Srinivasan Ganesan",
+    "amount": 2975.0,
+    "currency": "INR",
+    "date": "2025-04-30",
+    "bill_number": "00001"
+  },
+  "2050328000000552093": {
+    "vendor_name": "TURF TOWN",
+    "amount": 3060.0,
+    "currency": "INR",
+    "date": "2025-04-07",
+    "bill_number": "C7R5WAM6T7K6"
+  },
+  "2050328000000552003": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 376.2,
+    "currency": "INR",
+    "date": "2025-03-28",
+    "bill_number": "MAA4-11691"
+  },
+  "2050328000000368729": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 2199.0,
+    "currency": "INR",
+    "date": "2025-02-26",
+    "bill_number": "FMAB-225658"
+  },
+  "2050328000000368695": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 11995.0,
+    "currency": "INR",
+    "date": "2025-02-26",
+    "bill_number": "BLR8-4313439"
+  },
+  "2050328000000368657": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 9495.0,
+    "currency": "INR",
+    "date": "2025-02-26",
+    "bill_number": "FMAB-225603"
+  },
+  "2050328000000368575": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 16999.0,
+    "currency": "INR",
+    "date": "2025-02-10",
+    "bill_number": "HYD3-1805275"
+  },
+  "2050328000000366769": {
+    "vendor_name": "BORA MOBILITY LLP",
+    "amount": 94999.0,
+    "currency": "INR",
+    "date": "2025-01-31",
+    "bill_number": "BLR8-279"
+  },
+  "2050328000000366231": {
+    "vendor_name": "ERGOOFIS",
+    "amount": 110400.0,
+    "currency": "INR",
+    "date": "2024-04-20",
+    "bill_number": "431"
+  },
+  "2050328000000366149": {
+    "vendor_name": "OpenAI, LLC",
+    "amount": 865.74,
+    "currency": "INR",
+    "date": "2024-06-13",
+    "bill_number": "6B404BC80003"
+  },
+  "2050328000000366083": {
+    "vendor_name": "OpenAI, LLC",
+    "amount": 864.7,
+    "currency": "INR",
+    "date": "2024-05-02",
+    "bill_number": "6B404BC80002"
+  },
+  "2050328000000366017": {
+    "vendor_name": "OpenAI, LLC",
+    "amount": 863.98,
+    "currency": "INR",
+    "date": "2024-04-08",
+    "bill_number": "6B404BC80001"
+  },
+  "2050328000000365082": {
+    "vendor_name": "DSIJ PVT. LTD",
+    "amount": 1999.0,
+    "currency": "INR",
+    "date": "2025-03-03",
+    "bill_number": "202501323993"
+  },
+  "2050328000000364904": {
+    "vendor_name": "ROSHAN",
+    "amount": 120495.0,
+    "currency": "INR",
+    "date": "2024-06-13",
+    "bill_number": "ADI/000041"
+  },
+  "2050328000000364822": {
+    "vendor_name": "Anthropic",
+    "amount": 1764.22,
+    "currency": "INR",
+    "date": "2024-12-24",
+    "bill_number": "1C11B54F0001"
+  },
+  "2050328000000364712": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 269.1,
+    "currency": "INR",
+    "date": "2024-12-01",
+    "bill_number": "BLR7-6894706"
+  },
+  "2050328000000364616": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 269.1,
+    "currency": "INR",
+    "date": "2024-12-01",
+    "bill_number": "BLR7-6894699"
+  },
+  "2050328000000364532": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 364.5,
+    "currency": "INR",
+    "date": "2024-12-01",
+    "bill_number": "BLR7-6894701"
+  },
+  "2050328000000364436": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 223.2,
+    "currency": "INR",
+    "date": "2024-12-01",
+    "bill_number": "BLR7-6894695"
+  },
+  "2050328000000364315": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 294.95,
+    "currency": "INR",
+    "date": "2024-12-01",
+    "bill_number": "BLR7-6894682"
+  },
+  "2050328000000364231": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 203.4,
+    "currency": "INR",
+    "date": "2024-12-01",
+    "bill_number": "BLR7-6894700"
+  },
+  "2050328000000364111": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 516.6,
+    "currency": "INR",
+    "date": "2024-12-01",
+    "bill_number": "BLR7-6894653"
+  },
+  "2050328000000364015": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 237.6,
+    "currency": "INR",
+    "date": "2025-04-01",
+    "bill_number": "MAA4-11651"
+  },
+  "2050328000000363931": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 376.2,
+    "currency": "INR",
+    "date": "2025-04-01",
+    "bill_number": "MAA4-11691"
+  },
+  "2050328000000363835": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 237.6,
+    "currency": "INR",
+    "date": "2025-04-01",
+    "bill_number": "MAA4-11488"
+  },
+  "2050328000000363739": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 252.0,
+    "currency": "INR",
+    "date": "2025-04-01",
+    "bill_number": "MAA4-11713"
+  },
+  "2050328000000363629": {
+    "vendor_name": "MORE RETAIL PRIVATE LIMITED",
+    "amount": 284.0,
+    "currency": "INR",
+    "date": "2025-03-10",
+    "bill_number": "IN-21004"
+  },
+  "2050328000000363517": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 331.5,
+    "currency": "INR",
+    "date": "2025-04-01",
+    "bill_number": "MAA4-11724"
+  },
+  "2050328000000363433": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 246.6,
+    "currency": "INR",
+    "date": "2025-02-02",
+    "bill_number": "MAA4-7876950"
+  },
+  "2050328000000363349": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 245.7,
+    "currency": "INR",
+    "date": "2025-02-02",
+    "bill_number": "MAA4-7876958"
+  },
+  "2050328000000363265": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 246.6,
+    "currency": "INR",
+    "date": "2025-02-02",
+    "bill_number": "MAA4-7876931"
+  },
+  "2050328000000363181": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 418.0,
+    "currency": "INR",
+    "date": "2025-03-02",
+    "bill_number": "MAA4-8535008"
+  },
+  "2050328000000363085": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 326.4,
+    "currency": "INR",
+    "date": "2025-03-02",
+    "bill_number": "MAA4-8535142"
+  },
+  "2050328000000363001": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 364.5,
+    "currency": "INR",
+    "date": "2025-01-01",
+    "bill_number": "MAA4-7078078"
+  },
+  "2050328000000362905": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 256.5,
+    "currency": "INR",
+    "date": "2025-01-01",
+    "bill_number": "MAA4-7078076"
+  },
+  "2050328000000362821": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 261.0,
+    "currency": "INR",
+    "date": "2025-01-01",
+    "bill_number": "MAA4-7078073"
+  },
+  "2050328000000362737": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 335.75,
+    "currency": "INR",
+    "date": "2025-01-01",
+    "bill_number": "MAA4-7078086"
+  },
+  "2050328000000362653": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 261.0,
+    "currency": "INR",
+    "date": "2025-01-01",
+    "bill_number": "MAA4-7078035"
+  },
+  "2050328000000362557": {
+    "vendor_name": "Amazon Seller Services Private Limited",
+    "amount": 299.0,
+    "currency": "INR",
+    "date": "2024-09-19",
+    "bill_number": "UMA7-312463"
+  },
+  "2050328000000362461": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 356.4,
+    "currency": "INR",
+    "date": "2024-10-01",
+    "bill_number": "BLR8-5245857"
+  },
+  "2050328000000362377": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 256.5,
+    "currency": "INR",
+    "date": "2024-10-01",
+    "bill_number": "BLR8-5245840"
+  },
+  "2050328000000362293": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 256.5,
+    "currency": "INR",
+    "date": "2024-10-01",
+    "bill_number": "BLR8-5245876"
+  },
+  "2050328000000362197": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 269.1,
+    "currency": "INR",
+    "date": "2024-10-01",
+    "bill_number": "BLR8-5245871"
+  },
+  "2050328000000362101": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 300.05,
+    "currency": "INR",
+    "date": "2024-10-01",
+    "bill_number": "BLR8-5245867"
+  },
+  "2050328000000362005": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 209.95,
+    "currency": "INR",
+    "date": "2024-11-01",
+    "bill_number": "MAA4-5678195"
+  },
+  "2050328000000361078": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 220.5,
+    "currency": "INR",
+    "date": "2024-11-01",
+    "bill_number": "MAA4-5678201"
+  },
+  "2050328000000360982": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 194.4,
+    "currency": "INR",
+    "date": "2024-11-01",
+    "bill_number": "MAA4-5678184"
+  },
+  "2050328000000360898": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 364.5,
+    "currency": "INR",
+    "date": "2024-11-01",
+    "bill_number": "MAA4-5678204"
+  },
+  "2050328000000360800": {
+    "vendor_name": "Amazon Seller Services Private Limited",
+    "amount": 440.0,
+    "currency": "INR",
+    "date": "2024-10-21",
+    "bill_number": "UMA7-378012"
+  },
+  "2050328000000360714": {
+    "vendor_name": "Aarav Enterprises",
+    "amount": 499.0,
+    "currency": "INR",
+    "date": "2024-04-14",
+    "bill_number": "IN-121"
+  },
+  "2050328000000360620": {
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "amount": 23349.84,
+    "currency": "INR",
+    "date": "2024-10-28",
+    "bill_number": "1024250255106"
+  },
+  "2050328000000360003": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2024-05-08",
+    "bill_number": "51998567905"
+  },
+  "2050328000000359093": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 8400.0,
+    "currency": "INR",
+    "date": "2024-10-05",
+    "bill_number": "5119495124"
+  },
+  "2050328000000359005": {
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "amount": 4213.09,
+    "currency": "INR",
+    "date": "2024-04-18",
+    "bill_number": "1024250022609"
+  },
+  "2050328000000358534": {
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "amount": 10474.51,
+    "currency": "INR",
+    "date": "2024-04-20",
+    "bill_number": "1024250024240"
+  },
+  "2050328000000358454": {
+    "vendor_name": "Infinti retail",
+    "amount": 3599.0,
+    "currency": "INR",
+    "date": "2024-07-10",
+    "bill_number": "SLEC9965952"
+  },
+  "2050328000000358354": {
+    "vendor_name": "VALUECART PRIVATE LIMITED",
+    "amount": 2999.0,
+    "currency": "INR",
+    "date": "2024-05-31",
+    "bill_number": "MAA4-9983"
+  },
+  "2050328000000358254": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 273.55,
+    "currency": "INR",
+    "date": "2024-06-02",
+    "bill_number": "MAA4-1378716"
+  },
+  "2050328000000358170": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 273.55,
+    "currency": "INR",
+    "date": "2024-06-02",
+    "bill_number": "MAA4-1378701"
+  },
+  "2050328000000358056": {
+    "vendor_name": "Appario Retail Private Ltd",
+    "amount": 6265.0,
+    "currency": "INR",
+    "date": "2024-05-30",
+    "bill_number": "MAA4-614085"
+  },
+  "2050328000000357966": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 364.5,
+    "currency": "INR",
+    "date": "2024-05-02",
+    "bill_number": "MAA4-1378717"
+  },
+  "2050328000000357882": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 273.55,
+    "currency": "INR",
+    "date": "2024-06-02",
+    "bill_number": "MAA4-1378713"
+  },
+  "2050328000000357798": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 273.55,
+    "currency": "INR",
+    "date": "2024-06-02",
+    "bill_number": "MAA4-1378705"
+  },
+  "2050328000000357712": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 307.61,
+    "currency": "INR",
+    "date": "2024-06-20",
+    "bill_number": "MAA4-1378708"
+  },
+  "2050328000000357634": {
+    "vendor_name": "Amazon Asia-Pacific Holdings Private Limited",
+    "amount": 169.0,
+    "currency": "INR",
+    "date": "2024-05-16",
+    "bill_number": "IN-506459"
+  },
+  "2050328000000357538": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 548.1,
+    "currency": "INR",
+    "date": "2024-06-02",
+    "bill_number": "MAA4-1378709"
+  },
+  "2050328000000357440": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 288.75,
+    "currency": "INR",
+    "date": "2024-06-30",
+    "bill_number": "BLR8-2346990"
+  },
+  "2050328000000357358": {
+    "vendor_name": "Amazon Seller Services Private Limited",
+    "amount": 399.0,
+    "currency": "INR",
+    "date": "2024-07-10",
+    "bill_number": "IN-10206003"
+  },
+  "2050328000000357246": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 376.2,
+    "currency": "INR",
+    "date": "2024-06-30",
+    "bill_number": "BLR8-2346989"
+  },
+  "2050328000000357148": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 265.05,
+    "currency": "INR",
+    "date": "2024-05-01",
+    "bill_number": "MAA4-659101"
+  },
+  "2050328000000357000": {
+    "vendor_name": "Mitrin Enterprise",
+    "amount": 1849.0,
+    "currency": "INR",
+    "date": "2024-04-20",
+    "bill_number": "IN-667"
+  },
+  "2050328000000356948": {
+    "vendor_name": "SalesMaza International",
+    "amount": 295.0,
+    "currency": "INR",
+    "date": "2024-04-20",
+    "bill_number": "MAA4-1583"
+  },
+  "2050328000000356846": {
+    "vendor_name": "RETAILEZ PRIVATE LIMITED",
+    "amount": 599.0,
+    "currency": "INR",
+    "date": "2024-04-14",
+    "bill_number": "MAA4-116525"
+  },
+  "2050328000000356742": {
+    "vendor_name": "INFINITI RETAIL LIMITED (trading as Croma)",
+    "amount": 98770.2,
+    "currency": "INR",
+    "date": "2024-12-29",
+    "bill_number": "SLA340367004316"
+  },
+  "2050328000000356636": {
+    "vendor_name": "acko",
+    "amount": 8126.0,
+    "currency": "INR",
+    "date": "2024-06-23",
+    "bill_number": "DBCR10208926546/00"
+  },
+  "2050328000000356532": {
+    "vendor_name": "Hathway Broadband Internet",
+    "amount": 11001.0,
+    "currency": "INR",
+    "date": "2024-04-01",
+    "bill_number": "I0133P2504004818"
+  },
+  "2050328000000356436": {
+    "vendor_name": "Amazon Asia-Pacific Holdings Private Limited",
+    "amount": 169.0,
+    "currency": "INR",
+    "date": "2024-04-16",
+    "bill_number": "IN-170506"
+  },
+  "2050328000000356239": {
+    "vendor_name": "AMICIKART ONLINE SERVICES PRIVATE  LIMITED",
+    "amount": 1398.0,
+    "currency": "INR",
+    "date": "2024-04-01",
+    "bill_number": "MAA4-29"
+  },
+  "2050328000000356205": {
+    "vendor_name": "AquaNature",
+    "amount": 3730.0,
+    "currency": "INR",
+    "date": "2024-04-01",
+    "bill_number": "QWEC-165"
+  },
+  "2050328000000356163": {
+    "vendor_name": "Integrated Hydroponics India Private Limited",
+    "amount": 728.0,
+    "currency": "INR",
+    "date": "2024-04-01",
+    "bill_number": "IN-9"
+  },
+  "2050328000000354994": {
+    "vendor_name": "Home Secure PestoBird Services Pvt. Ltd",
+    "amount": 593.01,
+    "currency": "INR",
+    "date": "2024-04-04",
+    "bill_number": "BLR8-125"
+  },
+  "2050328000000354036": {
+    "vendor_name": "Codeium",
+    "amount": 888.27,
+    "currency": "INR",
+    "date": "2025-01-02",
+    "bill_number": "17007BD50002"
+  },
+  "2050328000000353970": {
+    "vendor_name": "Codeium",
+    "amount": 879.32,
+    "currency": "INR",
+    "date": "2024-12-17",
+    "bill_number": "17007BD50001"
+  },
+  "2050328000000353904": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 1347.5,
+    "currency": "INR",
+    "date": "2025-03-18",
+    "bill_number": "30E803970004"
+  },
+  "2050328000000353838": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 1350.56,
+    "currency": "INR",
+    "date": "2025-02-18",
+    "bill_number": "30E803970003"
+  },
+  "2050328000000353772": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 1345.99,
+    "currency": "INR",
+    "date": "2025-01-18",
+    "bill_number": "30E803970002"
+  },
+  "2050328000000353706": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 1347.5,
+    "currency": "INR",
+    "date": "2025-03-18",
+    "bill_number": "7F5E7E210006"
+  },
+  "2050328000000353640": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 1350.56,
+    "currency": "INR",
+    "date": "2025-02-18",
+    "bill_number": "7F5E7E210005"
+  },
+  "2050328000000353574": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 1345.99,
+    "currency": "INR",
+    "date": "2025-01-18",
+    "bill_number": "7F5E7E210004"
+  },
+  "2050328000000353508": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 897.32,
+    "currency": "INR",
+    "date": "2025-01-17",
+    "bill_number": "17007BD50003"
+  },
+  "2050328000000353442": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 899.77,
+    "currency": "INR",
+    "date": "2025-02-17",
+    "bill_number": "144743ED0005"
+  },
+  "2050328000000353376": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 897.32,
+    "currency": "INR",
+    "date": "2025-01-17",
+    "bill_number": "144743ED0004"
+  },
+  "2050328000000353292": {
+    "vendor_name": "Codeium",
+    "amount": 888.09,
+    "currency": "INR",
+    "date": "2025-01-01",
+    "bill_number": "144743ED0003"
+  },
+  "2050328000000353226": {
+    "vendor_name": "Codeium",
+    "amount": 880.97,
+    "currency": "INR",
+    "date": "2024-12-21",
+    "bill_number": "144743ED0002"
+  },
+  "2050328000000353160": {
+    "vendor_name": "Codeium",
+    "amount": 879.32,
+    "currency": "INR",
+    "date": "2024-12-17",
+    "bill_number": "144743ED0001"
+  },
+  "2050328000000353094": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 900.22,
+    "currency": "INR",
+    "date": "2025-03-17",
+    "bill_number": "144743ED0006"
+  },
+  "2050328000000353028": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 900.22,
+    "currency": "INR",
+    "date": "2025-03-17",
+    "bill_number": "026710580004"
+  },
+  "2050328000000349962": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 899.77,
+    "currency": "INR",
+    "date": "2025-02-17",
+    "bill_number": "026710580003"
+  },
+  "2050328000000349896": {
+    "vendor_name": "Exafunction, Inc.",
+    "amount": 897.32,
+    "currency": "INR",
+    "date": "2025-01-17",
+    "bill_number": "026710580002"
+  },
+  "2050328000000349816": {
+    "vendor_name": "Codeium",
+    "amount": 900.22,
+    "currency": "INR",
+    "date": "2025-03-17",
+    "bill_number": "026710580004"
+  },
+  "2050328000000349750": {
+    "vendor_name": "Windsurf",
+    "amount": 889.32,
+    "currency": "INR",
+    "date": "2025-03-27",
+    "bill_number": "D5B890B10006"
+  },
+  "2050328000000349674": {
+    "vendor_name": "Windsurf",
+    "amount": 1350.56,
+    "currency": "INR",
+    "date": "2025-02-26",
+    "bill_number": "D5B890B10005"
+  },
+  "2050328000000349608": {
+    "vendor_name": "Windsurf",
+    "amount": 893.93,
+    "currency": "INR",
+    "date": "2025-01-26",
+    "bill_number": "D5B890B10004"
+  },
+  "2050328000000349542": {
+    "vendor_name": "Windsurf",
+    "amount": 888.09,
+    "currency": "INR",
+    "date": "2025-01-02",
+    "bill_number": "D5B890B10002"
+  },
+  "2050328000000349445": {
+    "vendor_name": "Windsurf",
+    "amount": 879.32,
+    "currency": "INR",
+    "date": "2024-12-17",
+    "bill_number": "D5B890B10001"
+  },
+  "2050328000000349365": {
+    "vendor_name": "Fly.io, Inc",
+    "amount": 1027.08,
+    "currency": "INR",
+    "date": "2025-03-01",
+    "bill_number": "021483140003"
+  },
+  "2050328000000349299": {
+    "vendor_name": "Fly.io, Inc",
+    "amount": 1126.99,
+    "currency": "INR",
+    "date": "2025-02-01",
+    "bill_number": "021483140002"
+  },
+  "2050328000000349213": {
+    "vendor_name": "Codeium",
+    "amount": 900.22,
+    "currency": "INR",
+    "date": "2025-03-17",
+    "bill_number": "03E829480004"
+  },
+  "2050328000000349141": {
+    "vendor_name": "Codeium",
+    "amount": 897.32,
+    "currency": "INR",
+    "date": "2025-01-17",
+    "bill_number": "03E829480002"
+  },
+  "2050328000000349069": {
+    "vendor_name": "Codeium",
+    "amount": 899.77,
+    "currency": "INR",
+    "date": "2025-02-17",
+    "bill_number": "03E829480003"
+  },
+  "2050328000000349003": {
+    "vendor_name": "Codeium",
+    "amount": 879.32,
+    "currency": "INR",
+    "date": "2024-12-17",
+    "bill_number": "03E829480001"
+  },
+  "2050328000000346569": {
+    "vendor_name": "Codeium",
+    "amount": 898.33,
+    "currency": "INR",
+    "date": "2025-03-18",
+    "bill_number": "196268CB0004"
+  },
+  "2050328000000346543": {
+    "vendor_name": "Codeium",
+    "amount": 899.77,
+    "currency": "INR",
+    "date": "2025-02-18",
+    "bill_number": "196268CB0003"
+  },
+  "2050328000000346517": {
+    "vendor_name": "Codeium",
+    "amount": 897.32,
+    "currency": "INR",
+    "date": "2025-01-18",
+    "bill_number": "196268CB0002"
+  },
+  "2050328000000346491": {
+    "vendor_name": "Codeium",
+    "amount": 899.77,
+    "currency": "INR",
+    "date": "2025-02-17",
+    "bill_number": "88500CEF0003"
+  },
+  "2050328000000346465": {
+    "vendor_name": "Codeium",
+    "amount": 897.32,
+    "currency": "INR",
+    "date": "2025-01-17",
+    "bill_number": "88500CEF0002"
+  },
+  "2050328000000346439": {
+    "vendor_name": "Codeium",
+    "amount": 879.32,
+    "currency": "INR",
+    "date": "2024-12-01",
+    "bill_number": "88500CEF0001"
+  },
+  "2050328000000346413": {
+    "vendor_name": "Codeium",
+    "amount": 900.22,
+    "currency": "INR",
+    "date": "2025-03-17",
+    "bill_number": "88500CEF0004"
+  },
+  "2050328000000346387": {
+    "vendor_name": "Codeium",
+    "amount": 898.33,
+    "currency": "INR",
+    "date": "2025-03-18",
+    "bill_number": "9BB0D3820005"
+  },
+  "2050328000000346361": {
+    "vendor_name": "Codeium",
+    "amount": 899.77,
+    "currency": "INR",
+    "date": "2025-02-18",
+    "bill_number": "9BB0D3820004"
+  },
+  "2050328000000346335": {
+    "vendor_name": "Codeium",
+    "amount": 897.32,
+    "currency": "INR",
+    "date": "2025-01-18",
+    "bill_number": "9BB0D3820003"
+  },
+  "2050328000000346309": {
+    "vendor_name": "Codeium",
+    "amount": 885.24,
+    "currency": "INR",
+    "date": "2025-04-17",
+    "bill_number": "5BF661000005"
+  },
+  "2050328000000346283": {
+    "vendor_name": "Codeium",
+    "amount": 900.22,
+    "currency": "INR",
+    "date": "2025-03-17",
+    "bill_number": "4FCCFE7A0006"
+  },
+  "2050328000000346257": {
+    "vendor_name": "Codeium",
+    "amount": 899.77,
+    "currency": "INR",
+    "date": "2025-02-17",
+    "bill_number": "4FCCFE7A0005"
+  },
+  "2050328000000346231": {
+    "vendor_name": "Codeium",
+    "amount": 897.32,
+    "currency": "INR",
+    "date": "2025-01-17",
+    "bill_number": "4FCCFE7A0004"
+  },
+  "2050328000000346205": {
+    "vendor_name": "Codeium",
+    "amount": 887.14,
+    "currency": "INR",
+    "date": "2025-01-07",
+    "bill_number": "4FCCFE7A0003"
+  },
+  "2050328000000346179": {
+    "vendor_name": "Codeium",
+    "amount": 888.09,
+    "currency": "INR",
+    "date": "2025-01-07",
+    "bill_number": "4FCCFE7A002"
+  },
+  "2050328000000346153": {
+    "vendor_name": "Codeium",
+    "amount": 886.33,
+    "currency": "INR",
+    "date": "2025-04-17",
+    "bill_number": "4FCCFE7A0007"
+  },
+  "2050328000000346127": {
+    "vendor_name": "Codeium",
+    "amount": 879.32,
+    "currency": "INR",
+    "date": "2024-12-17",
+    "bill_number": "4FCCFE7A0001"
+  },
+  "2050328000000346101": {
+    "vendor_name": "Codeium",
+    "amount": 898.15,
+    "currency": "INR",
+    "date": "2025-02-23",
+    "bill_number": "1D8093DC0004"
+  },
+  "2050328000000346071": {
+    "vendor_name": "Codeium",
+    "amount": 898.33,
+    "currency": "INR",
+    "date": "2025-03-23",
+    "bill_number": "1D8093DC0005"
+  },
+  "2050328000000346045": {
+    "vendor_name": "Codeium",
+    "amount": 1343.6,
+    "currency": "INR",
+    "date": "2025-01-23",
+    "bill_number": "1D8093DC0003"
+  },
+  "2050328000000346019": {
+    "vendor_name": "Codeium",
+    "amount": 879.32,
+    "currency": "INR",
+    "date": "2024-12-16",
+    "bill_number": "4FCCFE7A0002"
+  },
+  "2050328000000343533": {
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "amount": 81656.0,
+    "currency": "INR",
+    "date": "2025-03-03",
+    "bill_number": "1024250419098"
+  },
+  "2050328000000343511": {
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "amount": 20682.13,
+    "currency": "INR",
+    "date": "2025-01-30",
+    "bill_number": "1024250374165"
+  },
+  "2050328000000343489": {
+    "vendor_name": "ZOHO CORPORATION PRIVATE LIMITED",
+    "amount": 22117.45,
+    "currency": "INR",
+    "date": "2024-09-25",
+    "bill_number": "1024250215064"
+  },
+  "2050328000000343455": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1817.2,
+    "currency": "INR",
+    "date": "2025-03-19",
+    "bill_number": "TIO25HR101694060"
+  },
+  "2050328000000343435": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 29075.2,
+    "currency": "INR",
+    "date": "2025-03-12",
+    "bill_number": "TIO25HR101659624"
+  },
+  "2050328000000343415": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 21579.23,
+    "currency": "INR",
+    "date": "2025-03-12",
+    "bill_number": "TIO25HR101659677"
+  },
+  "2050328000000343395": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 3079.8,
+    "currency": "INR",
+    "date": "2025-03-12",
+    "bill_number": "TIO25HR101659713"
+  },
+  "2050328000000343375": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 20515.15,
+    "currency": "INR",
+    "date": "2025-03-12",
+    "bill_number": "TIO25HR101659530"
+  },
+  "2050328000000343355": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 908.6,
+    "currency": "INR",
+    "date": "2025-03-12",
+    "bill_number": "TIO25HR101658334"
+  },
+  "2050328000000343335": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1817.2,
+    "currency": "INR",
+    "date": "2025-02-19",
+    "bill_number": "TIO25HR101544272"
+  },
+  "2050328000000343315": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 7503.28,
+    "currency": "INR",
+    "date": "2025-02-12",
+    "bill_number": "TIO25HR101513514"
+  },
+  "2050328000000343295": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 280944.02,
+    "currency": "INR",
+    "date": "2025-02-12",
+    "bill_number": "TIO25HR101513526"
+  },
+  "2050328000000343275": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 908.6,
+    "currency": "INR",
+    "date": "2025-02-12",
+    "bill_number": "TIO25HR101510166"
+  },
+  "2050328000000343255": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 58710.4,
+    "currency": "INR",
+    "date": "2025-02-12",
+    "bill_number": "TIO25HR101513169"
+  },
+  "2050328000000343235": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 3427.51,
+    "currency": "INR",
+    "date": "2025-02-12",
+    "bill_number": "TIO25HR101513672"
+  },
+  "2050328000000343215": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1817.2,
+    "currency": "INR",
+    "date": "2025-01-19",
+    "bill_number": "TIO25HR101396503"
+  },
+  "2050328000000343195": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 34189.1,
+    "currency": "INR",
+    "date": "2025-01-12",
+    "bill_number": "TIO25HR101361630"
+  },
+  "2050328000000343175": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 2908.7,
+    "currency": "INR",
+    "date": "2025-01-12",
+    "bill_number": "TIO25HR101361351"
+  },
+  "2050328000000343155": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 908.6,
+    "currency": "INR",
+    "date": "2025-01-12",
+    "bill_number": "TIO25HR101362048"
+  },
+  "2050328000000343135": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 28166.6,
+    "currency": "INR",
+    "date": "2025-01-12",
+    "bill_number": "TIO25HR101361587"
+  },
+  "2050328000000343115": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 72867.48,
+    "currency": "INR",
+    "date": "2025-01-12",
+    "bill_number": "TIO25HR101361600"
+  },
+  "2050328000000343095": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1817.2,
+    "currency": "INR",
+    "date": "2024-12-19",
+    "bill_number": "TIO25HR101250477"
+  },
+  "2050328000000343075": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 43085.03,
+    "currency": "INR",
+    "date": "2024-12-12",
+    "bill_number": "TIO25HR101214413"
+  },
+  "2050328000000343055": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 545.31,
+    "currency": "INR",
+    "date": "2024-12-12",
+    "bill_number": "TIO25HR101214294"
+  },
+  "2050328000000343035": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 908.6,
+    "currency": "INR",
+    "date": "2024-12-12",
+    "bill_number": "TIO25HR101216940"
+  },
+  "2050328000000343015": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 41003.96,
+    "currency": "INR",
+    "date": "2024-12-12",
+    "bill_number": "TIO25HR101214412"
+  },
+  "2050328000000342995": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1817.2,
+    "currency": "INR",
+    "date": "2024-11-19",
+    "bill_number": "TIO25HR101108452"
+  },
+  "2050328000000342975": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 6047.21,
+    "currency": "INR",
+    "date": "2024-11-12",
+    "bill_number": "TIO25HR101075004"
+  },
+  "2050328000000342955": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 11501.11,
+    "currency": "INR",
+    "date": "2024-11-12",
+    "bill_number": "TIO25HR101075196"
+  },
+  "2050328000000342935": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 848.89,
+    "currency": "INR",
+    "date": "2024-11-12",
+    "bill_number": "TIO25HR101074128"
+  },
+  "2050328000000342915": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 18981.08,
+    "currency": "INR",
+    "date": "2024-11-12",
+    "bill_number": "TIO25HR101074918"
+  },
+  "2050328000000342895": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1817.2,
+    "currency": "INR",
+    "date": "2024-10-19",
+    "bill_number": "TIO25HR100969949"
+  },
+  "2050328000000342875": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 6734.54,
+    "currency": "INR",
+    "date": "2024-10-12",
+    "bill_number": "TIO25HR100935480"
+  },
+  "2050328000000342855": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 848.89,
+    "currency": "INR",
+    "date": "2024-10-12",
+    "bill_number": "TIO25HR100936593"
+  },
+  "2050328000000342835": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 34636.36,
+    "currency": "INR",
+    "date": "2024-10-12",
+    "bill_number": "TIO25HR100935231"
+  },
+  "2050328000000342815": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 6366.69,
+    "currency": "INR",
+    "date": "2024-10-12",
+    "bill_number": "TIO25HR100935260"
+  },
+  "2050328000000342795": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1697.78,
+    "currency": "INR",
+    "date": "2024-09-19",
+    "bill_number": "TIO25HR100830130"
+  },
+  "2050328000000342775": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 848.89,
+    "currency": "INR",
+    "date": "2024-09-12",
+    "bill_number": "TIO25HR100795590"
+  },
+  "2050328000000342755": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 4874.29,
+    "currency": "INR",
+    "date": "2024-09-12",
+    "bill_number": "TIO25HR100799597"
+  },
+  "2050328000000342735": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 6835.53,
+    "currency": "INR",
+    "date": "2024-09-12",
+    "bill_number": "TIO25HR100799555"
+  },
+  "2050328000000342715": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 17200.81,
+    "currency": "INR",
+    "date": "2024-09-12",
+    "bill_number": "TIO25HR100798725"
+  },
+  "2050328000000342695": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1697.78,
+    "currency": "INR",
+    "date": "2024-08-19",
+    "bill_number": "TIO25HR100680541"
+  },
+  "2050328000000342675": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 10937.05,
+    "currency": "INR",
+    "date": "2024-08-12",
+    "bill_number": "TIO25HR100645073"
+  },
+  "2050328000000342655": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 7395.65,
+    "currency": "INR",
+    "date": "2024-08-12",
+    "bill_number": "TIO25HR100644755"
+  },
+  "2050328000000342635": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 3395.57,
+    "currency": "INR",
+    "date": "2024-08-12",
+    "bill_number": "TIO25HR100645116"
+  },
+  "2050328000000342615": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 848.89,
+    "currency": "INR",
+    "date": "2024-08-12",
+    "bill_number": "TIO25HR100645540"
+  },
+  "2050328000000342595": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1697.78,
+    "currency": "INR",
+    "date": "2024-07-19",
+    "bill_number": "TIO25HR100531368"
+  },
+  "2050328000000342575": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 848.89,
+    "currency": "INR",
+    "date": "2024-07-12",
+    "bill_number": "TIO25HR100496126"
+  },
+  "2050328000000342555": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 8759.79,
+    "currency": "INR",
+    "date": "2024-07-12",
+    "bill_number": "TIO25HR100499880"
+  },
+  "2050328000000342535": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 7395.65,
+    "currency": "INR",
+    "date": "2024-07-12",
+    "bill_number": "TIO25HR100499890"
+  },
+  "2050328000000342515": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 3395.57,
+    "currency": "INR",
+    "date": "2024-07-12",
+    "bill_number": "TIO25HR100500111"
+  },
+  "2050328000000342495": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1697.78,
+    "currency": "INR",
+    "date": "2024-06-19",
+    "bill_number": "TIO25HR100383864"
+  },
+  "2050328000000342475": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 7520.12,
+    "currency": "INR",
+    "date": "2024-06-12",
+    "bill_number": "TIO25HR100351702"
+  },
+  "2050328000000342455": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 3395.57,
+    "currency": "INR",
+    "date": "2024-06-12",
+    "bill_number": "TIO25HR100351757"
+  },
+  "2050328000000342435": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 9074.55,
+    "currency": "INR",
+    "date": "2024-06-12",
+    "bill_number": "TIO25HR100351603"
+  },
+  "2050328000000342415": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 848.89,
+    "currency": "INR",
+    "date": "2024-06-12",
+    "bill_number": "TIO25HR100349809"
+  },
+  "2050328000000342395": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1697.78,
+    "currency": "INR",
+    "date": "2024-05-19",
+    "bill_number": "TIO25HR100237353"
+  },
+  "2050328000000342375": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 7130.69,
+    "currency": "INR",
+    "date": "2024-05-12",
+    "bill_number": "TIO25HR100207910"
+  },
+  "2050328000000342355": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 848.89,
+    "currency": "INR",
+    "date": "2024-05-12",
+    "bill_number": "TIO25HR100205765"
+  },
+  "2050328000000342335": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 8853.33,
+    "currency": "INR",
+    "date": "2024-05-12",
+    "bill_number": "TIO25HR100207618"
+  },
+  "2050328000000342315": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 9169.54,
+    "currency": "INR",
+    "date": "2024-05-12",
+    "bill_number": "TIO25HR100207535"
+  },
+  "2050328000000342295": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 1697.78,
+    "currency": "INR",
+    "date": "2024-04-19",
+    "bill_number": "TIO25HR100094332"
+  },
+  "2050328000000342275": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 3768.45,
+    "currency": "INR",
+    "date": "2024-04-12",
+    "bill_number": "TIO25HR100062359"
+  },
+  "2050328000000342255": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 5098.13,
+    "currency": "INR",
+    "date": "2024-04-12",
+    "bill_number": "TIO25HR100062011"
+  },
+  "2050328000000342235": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 848.89,
+    "currency": "INR",
+    "date": "2024-04-12",
+    "bill_number": "TIO25HR100061715"
+  },
+  "2050328000000333299": {
+    "vendor_name": "RAM INFOTECH LAPTOP SERVICE CHENNAI PRIVATE LIMITED",
+    "amount": 4500.04,
+    "currency": "INR",
+    "date": "2025-03-30",
+    "bill_number": "A-24-25-1057"
+  },
+  "2050328000000333191": {
+    "vendor_name": "Geddit Convenience Private Limited",
+    "amount": 308.79,
+    "currency": "INR",
+    "date": "2024-12-31",
+    "bill_number": "G331124-2480560"
+  },
+  "2050328000000313437": {
+    "vendor_name": "John Savarimuthu",
+    "amount": 1764000.0,
+    "currency": "INR",
+    "date": "2025-03-12",
+    "bill_number": "001"
+  },
+  "2050328000000312821": {
+    "vendor_name": "Accountzontrack",
+    "amount": 21240.0,
+    "currency": "INR",
+    "date": "2025-02-03",
+    "bill_number": "AZT-2425-0825"
+  },
+  "2050328000000312359": {
+    "vendor_name": "Techdew UX Design and Consulting Private Limited",
+    "amount": 119033.03,
+    "currency": "INR",
+    "date": "2024-10-15",
+    "bill_number": "TD15102024-062"
+  },
+  "2050328000000311191": {
+    "vendor_name": "Techdew UX Design and Consulting Private Limited",
+    "amount": 120588.59,
+    "currency": "INR",
+    "date": "2024-06-29",
+    "bill_number": "TD29062024-032"
+  },
+  "2050328000000311041": {
+    "vendor_name": "Techdew UX Design and Consulting Private Limited",
+    "amount": 47751.89,
+    "currency": "INR",
+    "date": "2024-07-31",
+    "bill_number": "TD31072024-040"
+  },
+  "2050328000000310513": {
+    "vendor_name": "Techdew UX Design and Consulting Private Limited",
+    "amount": 115680.19,
+    "currency": "INR",
+    "date": "2024-05-31",
+    "bill_number": "TD31052024-023"
+  },
+  "2050328000000309603": {
+    "vendor_name": "Techdew UX Design and Consulting Private Limited",
+    "amount": 113329.84,
+    "currency": "INR",
+    "date": "2024-04-01",
+    "bill_number": "TD30042024-009"
+  },
+  "2050328000000141559": {
+    "vendor_name": "Sky Badmiton Acadamy",
+    "amount": 22400.0,
+    "currency": "INR",
+    "date": "2024-07-31",
+    "bill_number": "0012"
+  },
+  "2050328000000141533": {
+    "vendor_name": "Accountzontrack",
+    "amount": 2000.0,
+    "currency": "INR",
+    "date": "2024-07-31",
+    "bill_number": "AZT-2425-0566"
+  },
+  "2050328000000141457": {
+    "vendor_name": "UBER9 BUSINESS PROCESS SERVICES PRIVATE LIMITED",
+    "amount": 306.0,
+    "currency": "INR",
+    "date": "2024-06-30",
+    "bill_number": "VS/24-25/691670"
+  },
+  "2050328000000141121": {
+    "vendor_name": "Shopomall",
+    "amount": 17091.0,
+    "currency": "INR",
+    "date": "2024-06-28",
+    "bill_number": "MAA4-290"
+  },
+  "2050328000000141053": {
+    "vendor_name": "Sky Badmiton Acadamy",
+    "amount": 22400.0,
+    "currency": "INR",
+    "date": "2024-06-28",
+    "bill_number": "019"
+  },
+  "2050328000000140793": {
+    "vendor_name": "Sky Badmiton Acadamy",
+    "amount": 22400.0,
+    "currency": "INR",
+    "date": "2024-06-13",
+    "bill_number": "0011"
+  },
+  "2050328000000140323": {
+    "vendor_name": "ICICI Lombard",
+    "amount": 271365.78,
+    "currency": "INR",
+    "date": "2024-04-30",
+    "bill_number": "100524421832"
+  },
+  "2050328000000140251": {
+    "vendor_name": "SHL",
+    "amount": 64900.0,
+    "currency": "INR",
+    "date": "2024-04-30",
+    "bill_number": "SI06231284"
+  },
+  "2050328000000140137": {
+    "vendor_name": "Sky Badmiton Acadamy",
+    "amount": 22400.0,
+    "currency": "INR",
+    "date": "2024-05-03",
+    "bill_number": "0010"
+  },
+  "2050328000000140081": {
+    "vendor_name": "Make My trip",
+    "amount": 9913.0,
+    "currency": "INR",
+    "date": "2024-05-29",
+    "bill_number": "M06AI24I17917425"
+  },
+  "2050328000000140015": {
+    "vendor_name": "Amazon",
+    "amount": 16000.0,
+    "currency": "INR",
+    "date": "2024-04-09",
+    "bill_number": "405-7517468-7381117"
+  },
+  "2050328000000137168": {
+    "vendor_name": "UBER9 BUSINESS PROCESS SERVICES PRIVATE LIMITED",
+    "amount": 283200.0,
+    "currency": "INR",
+    "date": "2024-04-30",
+    "bill_number": "VS/24-25/666095"
+  },
+  "2050328000000136944": {
+    "vendor_name": "Sky Badmiton Acadamy",
+    "amount": 22400.0,
+    "currency": "INR",
+    "date": "2024-04-12",
+    "bill_number": "009"
+  }
+}
