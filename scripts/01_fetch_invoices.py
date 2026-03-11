@@ -3,7 +3,7 @@ Step 1: Fetch Invoice PDFs from Outlook Inbox
 
 Uses Microsoft Graph API (MSAL delegated auth) to download PDF
 attachments from the invoice email inbox and store them locally
-in input_pdfs/invoices/.
+in input_pdfs/mail invoices/.
 """
 
 import os
@@ -353,7 +353,7 @@ def run(since_timestamp=None, known_email_ids=None, headless=False):
     check_timestamp = datetime.now().isoformat()
     config = load_outlook_config()
 
-    output_dir = os.path.join(PROJECT_ROOT, "input_pdfs", "invoices")
+    output_dir = os.path.join(PROJECT_ROOT, "input_pdfs", "mail invoices")
     os.makedirs(output_dir, exist_ok=True)
 
     token = get_access_token(config, headless=headless)

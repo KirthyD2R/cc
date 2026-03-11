@@ -1,6 +1,9 @@
 {
     "_comment": "Map CC statement merchant names to clean Zoho vendor names",
     "mappings": {
+        "WM SUPERCENTER": "Walmart",
+        "WAL-MART": "Walmart",
+        "WALMART": "Walmart",
         "ATLASSIAN AMSTERDAM": "Atlassian",
         "ATLASSIANAMSTERDAM": "Atlassian",
         "CONSOLIDATED FCY MARKUP FEE": "HDFC Bank - FCY Charges",
@@ -767,6 +770,15 @@
         "GoDaddy": {
             "account_name": "Software Subscription",
             "account_id": "2050328000002195023"
+        },
+        "Walmart": {
+            "account_name": "Meals and Entertainment",
+            "account_id": "2050328000000000546"
+        },
+        "Wendy's": {
+            "account_name": "Income Tax",
+            "account_id": "2050328000000027411",
+            "category": "invoice_coa_match"
         }
     }
 }

@@ -8797,5 +8797,203 @@
     ],
     "organized_path": null,
     "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "Media (6).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (6).jpg",
+    "vendor_name": "Wendy's",
+    "invoice_number": "AUTH-059725",
+    "date": "2025-10-07",
+    "amount": 13.73,
+    "currency": "USD",
+    "raw_text_preview": "***FREE OFFER ON BACK***\nWendy's Restaurant #1\n13490 State Road\n407-827-7030\nHost: Edward\nOrder Type: DINE IN\nLARGE COMBO 12.89\nSpicy stuffClub\nLarge Fries\nLg Drink\nTotal Items 3  12.89\nTax 0.84\nDINE IN Total 13.73\nVisa XXXXXXXXXXXX7196 $13.73\nAuth:059725\nSite #: 5799",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Large Combo - Spicy Stuff Club, Large Fries, Lg Drink",
+        "quantity": 1,
+        "unit_price": 12.89,
+        "amount": 12.89
+      },
+      {
+        "description": "Tax",
+        "quantity": 1,
+        "unit_price": 0.84,
+        "amount": 0.84
+      }
+    ],
+    "organized_path": null,
+    "note": "US restaurant receipt - Dine In, paid via Visa ••7196"
+  },
+  {
+    "file": "Media (7).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (7).jpg",
+    "vendor_name": "Walmart",
+    "invoice_number": "TC-459743077086941724",
+    "date": "2025-10-23",
+    "amount": 209.17,
+    "currency": "USD",
+    "raw_text_preview": "Walmart\nToddler Toy 0560\nSmartCupp 303P\nRC Drone 1062\nDinorama Ind 7.84\nHover Nano 20.97 X\nHover Nano 20.97 X\n90ct Mini 14.74 N\nHVS Min 14.84 N\nChoc 14.84 N\nAlmd Joy 7.98 N\nReeses 5.97 N\nMerchandise 5.48 N\nLicorice 3.97 D\nCaramel 110z 3.38 N\nConf 1.97 N\nTW Crml FS 3.97 D\nSUBTOTAL 197.99\nTAX 9.250% 11.18\nTOTAL 209.17\nVISA TEND 209.17\nVisa Credit **** **** **** 7196",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Toddler Toy",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": null
+      },
+      {
+        "description": "SmartCupp",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": null
+      },
+      {
+        "description": "RC Drone",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 20.22
+      },
+      {
+        "description": "Dinorama Ind",
+        "quantity": 1,
+        "unit_price": 7.84,
+        "amount": 7.84
+      },
+      {
+        "description": "Hover Nano x2",
+        "quantity": 2,
+        "unit_price": 20.97,
+        "amount": 41.94
+      },
+      {
+        "description": "90ct Mini",
+        "quantity": 1,
+        "unit_price": 14.74,
+        "amount": 14.74
+      },
+      {
+        "description": "HVS Min",
+        "quantity": 1,
+        "unit_price": 14.84,
+        "amount": 14.84
+      },
+      {
+        "description": "Choc",
+        "quantity": 1,
+        "unit_price": 14.84,
+        "amount": 14.84
+      },
+      {
+        "description": "Almd Joy",
+        "quantity": 1,
+        "unit_price": 7.98,
+        "amount": 7.98
+      },
+      {
+        "description": "Reeses",
+        "quantity": 1,
+        "unit_price": 5.97,
+        "amount": 5.97
+      },
+      {
+        "description": "Merchandise",
+        "quantity": 1,
+        "unit_price": 5.48,
+        "amount": 5.48
+      },
+      {
+        "description": "Licorice",
+        "quantity": 1,
+        "unit_price": 3.97,
+        "amount": 3.97
+      },
+      {
+        "description": "Caramel 11oz",
+        "quantity": 1,
+        "unit_price": 3.38,
+        "amount": 3.38
+      },
+      {
+        "description": "Conf",
+        "quantity": 1,
+        "unit_price": 1.97,
+        "amount": 1.97
+      },
+      {
+        "description": "TW Crml FS",
+        "quantity": 1,
+        "unit_price": 3.97,
+        "amount": 3.97
+      },
+      {
+        "description": "Tax (9.250%)",
+        "quantity": 1,
+        "unit_price": 11.18,
+        "amount": 11.18
+      }
+    ],
+    "organized_path": null,
+    "note": "US Walmart receipt, paid via Visa ••7196, 10/23/25 18:22"
+  },
+  {
+    "file": "Media (8).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (8).jpg",
+    "vendor_name": "Walmart",
+    "invoice_number": "TC-459743077086941724-2",
+    "date": "2025-10-23",
+    "amount": 6.51,
+    "currency": "USD",
+    "raw_text_preview": "Walmart\nWal Supercenter\n1180 Hwy FLORIDA\n4600 W ADDR NE\nSanta Ana CA 9XXX\nST# 0625 OP# 006063 TE# 28 TR# 1220\n1 ITEMS SOLD 1\nTC 4597430770869 41724\n06/9145\nSUBTOTAL 5.97\nTAX 9 0.54\nTOTAL 6.51\nVISA TEND 6.51\nVisa Credit\nAPPROVAL # 0793\nREF # DEGAS538\nTRANS ID 395297064586337\nVALIDATION KMC2\nPAYMENT SERVICE E\nAID A0000000031010\nPin Verified\n10/23/25 18:42:43",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "1 Item",
+        "quantity": 1,
+        "unit_price": 5.97,
+        "amount": 5.97
+      },
+      {
+        "description": "Tax",
+        "quantity": 1,
+        "unit_price": 0.54,
+        "amount": 0.54
+      }
+    ],
+    "organized_path": null,
+    "note": "US Walmart receipt, paid via Visa, 10/23/25 18:42"
+  },
+  {
+    "file": "Media (9).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (9).jpg",
+    "vendor_name": "Chick-fil-A",
+    "invoice_number": "1589167",
+    "date": "2025-10-10",
+    "amount": 11.34,
+    "currency": "USD",
+    "raw_text_preview": "Welcome to Chick-fil-A\nLake Buena Vista FL\nOrlando, FL\nGuest of: Rohanda\nCUSTOMER COPY\n10/10/2025 10:00 AM\nDINE IN\nOrder # 15891\n1 Meal-Ckn\nCkn Bowl\nHsh Brn\nVan IceCoff SM 1.90\nSub. Total: $10.65\nTax: $0.69\nTotal: $11.34\nChange $3.66\nCash $15.00\nRegister:4 Tran Seq No: 1589167\nCashier:Sandra",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "1 Meal - Ckn Bowl, Hsh Brn",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 8.75
+      },
+      {
+        "description": "Van IceCoff SM",
+        "quantity": 1,
+        "unit_price": 1.90,
+        "amount": 1.90
+      },
+      {
+        "description": "Tax",
+        "quantity": 1,
+        "unit_price": 0.69,
+        "amount": 0.69
+      }
+    ],
+    "organized_path": null,
+    "note": "US Chick-fil-A receipt - Dine In, paid with Cash $15.00"
   }
 ]

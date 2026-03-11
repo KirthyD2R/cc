@@ -904,12 +904,28 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000003071041",
+    "contact_name": "Walmart",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
     "contact_id": "2050328000000352275",
     "contact_name": "WE Hydroponics",
     "company_name": "WE Hydroponics",
     "gst_no": "23AURPB7696J1Z1",
     "gst_treatment": "business_gst",
     "currency_code": "INR"
+  },
+  {
+    "contact_id": "2050328000003078001",
+    "contact_name": "Wendy's",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
   },
   {
     "contact_id": "2050328000003001093",

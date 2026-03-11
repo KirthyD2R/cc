@@ -11477,5 +11477,85 @@
       }
     ],
     "note": "Google Cloud monthly statement (not a bill/invoice)"
+  },
+  {
+    "file": "Media (6).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (6).jpg",
+    "vendor_name": "Wendy's",
+    "invoice_number": "AUTH-059725",
+    "date": "2025-10-07",
+    "amount": 13.73,
+    "currency": "USD",
+    "raw_text_preview": "Wendy's Restaurant #1, 13490 State Road, 407-827-7030. DINE IN. Large Combo - Spicy Stuff Club, Large Fries, Lg Drink. Subtotal 12.89, Tax 0.84, Total $13.73. Visa ••7196.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Large Combo - Spicy Stuff Club, Large Fries, Lg Drink",
+        "quantity": 1,
+        "unit_price": 12.89,
+        "amount": 12.89
+      }
+    ],
+    "note": "US restaurant receipt - Dine In, paid via Visa ••7196"
+  },
+  {
+    "file": "Media (7).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (7).jpg",
+    "vendor_name": "Walmart",
+    "invoice_number": "TC-459743077086941724",
+    "date": "2025-10-23",
+    "amount": 209.17,
+    "currency": "USD",
+    "raw_text_preview": "Walmart. Multiple items: Toddler Toy, SmartCupp, RC Drone, Dinorama, Hover Nano x2, candy/snacks. Subtotal 197.99, Tax 9.25% = 11.18, Total $209.17. Visa ••7196.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Toys, candy, merchandise (15+ items)",
+        "quantity": 1,
+        "unit_price": 197.99,
+        "amount": 197.99
+      }
+    ],
+    "note": "US Walmart receipt, paid via Visa ••7196, 10/23/25"
+  },
+  {
+    "file": "Media (8).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (8).jpg",
+    "vendor_name": "Walmart",
+    "invoice_number": "TC-459743077086941724-2",
+    "date": "2025-10-23",
+    "amount": 6.51,
+    "currency": "USD",
+    "raw_text_preview": "Walmart Supercenter. 1 item sold. Subtotal 5.97, Tax 0.54, Total $6.51. Visa Credit. 10/23/25 18:42.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "1 Item",
+        "quantity": 1,
+        "unit_price": 5.97,
+        "amount": 5.97
+      }
+    ],
+    "note": "US Walmart receipt, paid via Visa, 10/23/25"
+  },
+  {
+    "file": "Media (9).jpg",
+    "path": "D:\\cc new\\cc\\new image invoices\\Media (9).jpg",
+    "vendor_name": "Chick-fil-A",
+    "invoice_number": "1589167",
+    "date": "2025-10-10",
+    "amount": 11.34,
+    "currency": "USD",
+    "raw_text_preview": "Chick-fil-A, Lake Buena Vista FL, Orlando. DINE IN. 1 Meal - Ckn Bowl, Hsh Brn, Van IceCoff SM. Sub Total $10.65, Tax $0.69, Total $11.34. Cash $15.00, Change $3.66.",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "1 Meal - Ckn Bowl, Hsh Brn + Van IceCoff SM",
+        "quantity": 1,
+        "unit_price": 10.65,
+        "amount": 10.65
+      }
+    ],
+    "note": "US Chick-fil-A receipt - Dine In, paid with Cash $15.00"
   }
 ]

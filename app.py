@@ -3702,6 +3702,113 @@ def api_banking_delete_transactions():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 
+@app.route("/api/banking/summary")
+def api_banking_summary():
+    """Month-wise summary of all banking transactions across all CC cards.
+    Fetches each Zoho status separately: uncategorized, matched, manually_added, categorized.
+    """
+    try:
+        from scripts.utils import load_config, ZohoBooksAPI, resolve_account_ids, log_action
+        from collections import defaultdict
+        config = load_config()
+        api = ZohoBooksAPI(config)
+        cards = config.get("credit_cards", [])
+        resolve_account_ids(api, cards)
+
+        # Zoho banking statuses (matching Zoho UI dropdown)
+        STATUSES = ["uncategorized", "matched", "manually_added", "categorized"]
+
+        def _fetch_all(account_id, status):
+            """Paginated fetch of banking transactions for a given status."""
+            txns = []
+            page = 1
+            while True:
+                result = api._request("GET", "banktransactions", params={
+                    "account_id": account_id, "status": status, "page": page,
+                })
+                batch = result.get("banktransactions", [])
+                txns.extend(batch)
+                if not result.get("page_context", {}).get("has_more_page", False):
+                    break
+                page += 1
+            return txns
+
+        # Fetch per card, per status
+        all_txns = []  # list of (txn_dict, card_name, status)
+        for card in cards:
+            account_id = card.get("zoho_account_id")
+            card_name = card.get("name", "")
+            if not account_id:
+                continue
+            for status in STATUSES:
+                txns = _fetch_all(account_id, status)
+                for t in txns:
+                    all_txns.append((t, card_name, status))
+
+        # Group by month + card
+        months = defaultdict(lambda: defaultdict(lambda: {
+            "matched": 0, "manually_added": 0, "categorized": 0,
+            "uncategorized": 0, "total": 0,
+            "matched_amount": 0.0, "manually_added_amount": 0.0,
+            "categorized_amount": 0.0, "uncat_amount": 0.0, "total_amount": 0.0
+        }))
+
+        for t, card_name, status in all_txns:
+            date_str = t.get("date", "")
+            month_key = date_str[:7] if len(date_str) >= 7 else "Unknown"
+            amount = abs(float(t.get("amount", 0)))
+
+            bucket = months[month_key][card_name]
+            bucket["total"] += 1
+            bucket["total_amount"] += amount
+            bucket[status] += 1
+            bucket[f"{status}_amount"] = bucket.get(f"{status}_amount", 0.0) + amount
+
+        # Build response sorted by month desc
+        result_months = []
+        agg_keys = ["matched", "manually_added", "categorized", "uncategorized", "total",
+                     "matched_amount", "manually_added_amount", "categorized_amount",
+                     "uncat_amount", "total_amount"]
+        for month_key in sorted(months.keys(), reverse=True):
+            card_data = months[month_key]
+            month_total = {k: 0 for k in agg_keys}
+            card_list = []
+            for cname in sorted(card_data.keys()):
+                cd = card_data[cname]
+                card_list.append({"card": cname, **cd})
+                for k in agg_keys:
+                    month_total[k] += cd.get(k, 0)
+            result_months.append({
+                "month": month_key,
+                "totals": month_total,
+                "cards": card_list
+            })
+
+        grand_total = {k: 0 for k in agg_keys}
+        for m in result_months:
+            for k in agg_keys:
+                grand_total[k] += m["totals"].get(k, 0)
+
+        card_names = sorted(set(cn for _, cn, _ in all_txns))
+
+        log_action(f"Banking summary: {grand_total['total']} total, "
+                   f"{grand_total['uncategorized']} uncategorized, "
+                   f"{grand_total['matched']} matched, "
+                   f"{grand_total['manually_added']} manually_added, "
+                   f"{grand_total['categorized']} categorized, "
+                   f"{len(result_months)} months")
+        return jsonify({
+            "grand_total": grand_total,
+            "months": result_months,
+            "card_names": card_names,
+            "total_transactions": grand_total["total"]
+        })
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/api/banking/auto-match-preview")
 def api_banking_auto_match_preview():
     """Fetch uncategorized CC transactions and their best matching suggestions."""
@@ -6348,7 +6455,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
           <button class="step-btn" data-step="1" onclick="runStep('1')">
             <span class="step-num">1</span> Fetch Invoices
             <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Connects to Outlook via Microsoft Graph API, searches inbox for invoice/receipt emails, and downloads PDF attachments to input_pdfs/invoices/</span>
+              <span class="info-tooltip">Connects to Outlook via Microsoft Graph API, searches inbox for invoice/receipt emails, and downloads PDF attachments to input_pdfs/mail invoices/</span>
             </span>
             <span class="step-indicator ind-idle" id="ind-1"></span>
             <span class="step-msg" id="msg-1"></span>
@@ -6491,6 +6598,12 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             </span>
             <span class="step-indicator ind-idle" id="ind-automatch"></span>
           </button>
+          <button class="step-btn" onclick="openBankingSummary()" style="width:100%;border:1.5px solid var(--green);background:rgba(74,222,128,0.06)">
+            <span class="step-num" style="background:var(--green);color:#000">S</span> Banking Summary
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Month-wise overview of all banking transactions: categorized, uncategorized, matched counts and amounts per card.</span>
+            </span>
+          </button>
         </div>
       </div>
 
@@ -6632,6 +6745,28 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
         <div id="autoMatchBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto">
           <div class="review-loading" id="autoMatchLoading">Fetching uncategorized transactions...</div>
           <div id="autoMatchContent" style="display:none;flex-direction:column"></div>
+        </div>
+      </div>
+
+      <!-- Banking Summary panel -->
+      <div class="review-panel" id="bankingSummaryPanel" style="display:none;position:fixed;top:0;right:0;bottom:0;left:calc(14% + 16px);z-index:1000;border-radius:0;border:none">
+        <div class="review-header">
+          <span>Banking Summary &mdash; Month-wise Overview</span>
+          <div style="display:flex;gap:12px;align-items:center">
+            <span id="bsSummaryText" style="font-size:12px;color:var(--text-dim)"></span>
+            <button class="review-close-btn" onclick="closeBankingSummary()">&#10005; Close</button>
+          </div>
+        </div>
+        <div style="padding:6px 12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);display:flex;gap:12px;align-items:center;flex-shrink:0;font-size:12px">
+          <label style="color:var(--text-dim)">Card:</label>
+          <select id="bsCardFilter" onchange="filterBankingSummary()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px">
+            <option value="">All Cards</option>
+          </select>
+          <button onclick="openBankingSummary()" style="background:var(--accent);color:#fff;border:none;border-radius:4px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600;margin-left:auto">Refresh</button>
+        </div>
+        <div id="bankingSummaryBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto;padding:12px">
+          <div class="review-loading" id="bsLoading">Fetching banking data...</div>
+          <div id="bsContent" style="display:none"></div>
         </div>
       </div>
 
@@ -7092,6 +7227,8 @@ function openReviewPanel() {
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
+  document.getElementById('bankingSummaryPanel').style.display = 'none';
+  document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('reviewPanel').style.display = 'flex';
   document.getElementById('reviewLoading').style.display = 'block';
   document.getElementById('reviewTable').style.display = 'none';
@@ -7123,6 +7260,8 @@ var _deleteSelectedIds = new Set();
 
 function openDeleteBillsPanel() {
   document.getElementById('logPanel').style.display = 'none';
+  document.getElementById('bankingSummaryPanel').style.display = 'none';
+  document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('deleteBillsPanel').style.display = 'flex';
   document.getElementById('deleteBillsLoading').style.display = 'block';
   document.getElementById('deleteBillsTable').style.display = 'none';
@@ -7732,7 +7871,7 @@ var _amSelectedMatches = new Set();
 
 function openAutoMatchPanel() {
   // Hide other panels
-  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel'].forEach(function(id) {
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','bankingSummaryPanel'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -7760,6 +7899,186 @@ function openAutoMatchPanel() {
 
 function closeAutoMatchPanel() {
   document.getElementById('autoMatchPanel').style.display = 'none';
+}
+
+/* ── Banking Summary panel ── */
+var _bsData = null;
+
+function openBankingSummary() {
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','autoMatchPanel'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('bankingSummaryPanel').style.display = 'flex';
+  document.getElementById('bsLoading').style.display = 'block';
+  document.getElementById('bsContent').style.display = 'none';
+
+  fetch('/api/banking/summary')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) {
+        document.getElementById('bsLoading').textContent = data.error;
+        return;
+      }
+      _bsData = data;
+      // Populate card filter
+      var sel = document.getElementById('bsCardFilter');
+      sel.innerHTML = '<option value="">All Cards</option>';
+      (data.card_names || []).forEach(function(name) {
+        var opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        sel.appendChild(opt);
+      });
+      renderBankingSummary(data);
+    })
+    .catch(function(err) {
+      document.getElementById('bsLoading').textContent = 'Failed: ' + err;
+    });
+}
+
+function closeBankingSummary() {
+  document.getElementById('bankingSummaryPanel').style.display = 'none';
+}
+
+function filterBankingSummary() {
+  if (!_bsData) return;
+  renderBankingSummary(_bsData);
+}
+
+function renderBankingSummary(data) {
+  var fmt = function(n) { return n != null ? Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) : '0.00'; };
+  var cardFilter = document.getElementById('bsCardFilter').value;
+  var months = data.months || [];
+
+  document.getElementById('bsLoading').style.display = 'none';
+  document.getElementById('bsContent').style.display = 'block';
+
+  // Aggregate filtered grand totals
+  var G = {matched:0, manually_added:0, categorized:0, uncategorized:0, total:0,
+           matched_amount:0, manually_added_amount:0, categorized_amount:0, uncat_amount:0, total_amount:0};
+  months.forEach(function(m) {
+    var src = cardFilter ? null : m.totals;
+    if (cardFilter) {
+      (m.cards || []).forEach(function(c) {
+        if (c.card === cardFilter) src = c;
+      });
+    }
+    if (!src) return;
+    for (var k in G) G[k] += (src[k] || 0);
+  });
+
+  var doneCount = G.matched + G.manually_added + G.categorized;
+  var doneAmt = G.matched_amount + G.manually_added_amount + G.categorized_amount;
+  var donePct = G.total > 0 ? Math.round(doneCount / G.total * 100) : 0;
+  document.getElementById('bsSummaryText').textContent = G.total + ' txns | ' + donePct + '% done';
+
+  var html = '';
+
+  // Stat cards row
+  html += '<div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">';
+  html += _bsStatCard('Total', G.total, fmt(G.total_amount), 'var(--accent)');
+  html += _bsStatCard('Matched', G.matched, fmt(G.matched_amount), '#60a5fa');
+  html += _bsStatCard('Manually Added', G.manually_added, fmt(G.manually_added_amount), '#a78bfa');
+  html += _bsStatCard('Categorized', G.categorized, fmt(G.categorized_amount), 'var(--green)');
+  html += _bsStatCard('Uncategorized', G.uncategorized, fmt(G.uncat_amount), 'var(--red)');
+  html += '</div>';
+
+  // Stacked progress bar
+  html += '<div style="background:var(--surface2);border-radius:6px;height:24px;margin-bottom:18px;overflow:hidden;display:flex">';
+  if (G.total > 0) {
+    var segs = [
+      {n: G.matched, color: '#60a5fa', label: 'Matched'},
+      {n: G.manually_added, color: '#a78bfa', label: 'Manual'},
+      {n: G.categorized, color: 'var(--green)', label: 'Categorized'},
+      {n: G.uncategorized, color: 'var(--red)', label: 'Uncat'}
+    ];
+    segs.forEach(function(s) {
+      var w = (s.n / G.total * 100).toFixed(1);
+      if (s.n > 0) {
+        var fc = s.color === 'var(--red)' ? '#fff' : '#000';
+        html += '<div title="' + s.label + ': ' + s.n + '" style="width:' + w + '%;background:' + s.color + ';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:' + fc + '">' + (w > 5 ? s.n : '') + '</div>';
+      }
+    });
+  }
+  html += '</div>';
+
+  // Month-wise table
+  var th = 'padding:8px 6px;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-dim);';
+  html += '<table style="width:100%;border-collapse:collapse;font-size:12px">';
+  html += '<thead><tr style="border-bottom:2px solid var(--border);text-align:left">';
+  html += '<th style="' + th + '">Month</th>';
+  if (!cardFilter) html += '<th style="' + th + '">Card</th>';
+  html += '<th style="' + th + 'text-align:right">Total</th>';
+  html += '<th style="' + th + 'text-align:right;color:#60a5fa">Matched</th>';
+  html += '<th style="' + th + 'text-align:right;color:#a78bfa">Manual</th>';
+  html += '<th style="' + th + 'text-align:right;color:var(--green)">Categorized</th>';
+  html += '<th style="' + th + 'text-align:right;color:var(--red)">Uncategorized</th>';
+  html += '<th style="' + th + 'text-align:right">Total Amt</th>';
+  html += '<th style="' + th + 'text-align:right">Uncat Amt</th>';
+  html += '<th style="' + th + 'text-align:center">Progress</th>';
+  html += '</tr></thead><tbody>';
+
+  months.forEach(function(m) {
+    var rows = [];
+    if (cardFilter) {
+      (m.cards || []).forEach(function(c) {
+        if (c.card === cardFilter) rows.push({card: c.card, d: c});
+      });
+    } else {
+      if ((m.cards || []).length > 1) {
+        (m.cards || []).forEach(function(c) {
+          rows.push({card: c.card, d: c});
+        });
+      }
+      rows.push({card: null, d: m.totals, isTotal: true});
+    }
+
+    rows.forEach(function(row, idx) {
+      var d = row.d;
+      var done = (d.matched || 0) + (d.manually_added || 0) + (d.categorized || 0);
+      var pct = d.total > 0 ? Math.round(done / d.total * 100) : 0;
+      var pctColor = pct === 100 ? 'var(--green)' : pct >= 70 ? 'var(--yellow)' : pct >= 40 ? 'var(--orange)' : 'var(--red)';
+      var bold = row.isTotal ? 'font-weight:600;' : '';
+      var bg = row.isTotal && (m.cards || []).length > 1 ? 'background:rgba(255,255,255,0.03);' : '';
+      var bdr = (idx === rows.length - 1) ? 'border-bottom:1px solid var(--border);' : '';
+
+      html += '<tr style="' + bold + bg + bdr + '">';
+      html += '<td style="padding:6px">' + (idx === 0 ? _bsFormatMonth(m.month) : '') + '</td>';
+      if (!cardFilter) html += '<td style="padding:6px;color:' + (row.isTotal ? 'var(--text)' : 'var(--text-dim)') + '">' + (row.card || 'All Cards') + '</td>';
+      html += '<td style="padding:6px;text-align:right">' + d.total + '</td>';
+      html += '<td style="padding:6px;text-align:right;color:#60a5fa">' + (d.matched || 0) + '</td>';
+      html += '<td style="padding:6px;text-align:right;color:#a78bfa">' + (d.manually_added || 0) + '</td>';
+      html += '<td style="padding:6px;text-align:right;color:var(--green)">' + (d.categorized || 0) + '</td>';
+      html += '<td style="padding:6px;text-align:right;color:' + ((d.uncategorized || 0) > 0 ? 'var(--red)' : 'var(--text-dim)') + ';font-weight:' + ((d.uncategorized || 0) > 0 ? '700' : 'normal') + '">' + (d.uncategorized || 0) + '</td>';
+      html += '<td style="padding:6px;text-align:right">' + fmt(d.total_amount) + '</td>';
+      html += '<td style="padding:6px;text-align:right;color:' + ((d.uncat_amount || 0) > 0 ? 'var(--red)' : 'var(--text-dim)') + '">' + fmt(d.uncat_amount || 0) + '</td>';
+      html += '<td style="padding:6px;text-align:center">';
+      html += '<div style="display:flex;align-items:center;gap:6px;justify-content:center">';
+      html += '<div style="width:60px;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden"><div style="width:' + pct + '%;height:100%;background:' + pctColor + ';border-radius:3px"></div></div>';
+      html += '<span style="font-size:10px;color:' + pctColor + '">' + pct + '%</span>';
+      html += '</div></td>';
+      html += '</tr>';
+    });
+  });
+
+  html += '</tbody></table>';
+  document.getElementById('bsContent').innerHTML = html;
+}
+
+function _bsStatCard(label, count, amount, color) {
+  return '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 18px;min-width:140px;flex:1">'
+    + '<div style="font-size:24px;font-weight:700;color:' + color + '">' + count + '</div>'
+    + '<div style="font-size:11px;color:var(--text-dim);margin-top:2px">' + label + '</div>'
+    + '<div style="font-size:12px;color:var(--text);margin-top:4px">&#8377; ' + amount + '</div>'
+    + '</div>';
+}
+
+function _bsFormatMonth(ym) {
+  if (!ym || ym === 'Unknown') return ym;
+  var parts = ym.split('-');
+  var names = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return (names[parseInt(parts[1])] || parts[1]) + ' ' + parts[0];
 }
 
 function renderAutoMatch(data) {
@@ -8948,6 +9267,8 @@ function openMatchPanel() {
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
+  document.getElementById('bankingSummaryPanel').style.display = 'none';
+  document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('matchPanel').style.display = 'flex';
   document.getElementById('matchLoading').style.display = 'block';
   document.getElementById('matchContent').style.display = 'none';
@@ -9051,6 +9372,8 @@ function openCheckPanel() {
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
+  document.getElementById('bankingSummaryPanel').style.display = 'none';
+  document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('checkPanel').style.display = 'flex';
   document.getElementById('checkLoading').style.display = 'block';
   document.getElementById('checkContent').style.display = 'none';
@@ -9086,6 +9409,8 @@ function openPaymentPreview(forceRefresh) {
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('checkPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
+  document.getElementById('bankingSummaryPanel').style.display = 'none';
+  document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'flex';
   document.getElementById('paymentLoading').style.display = 'block';
   document.getElementById('paymentLoading').textContent = forceRefresh ? 'Refreshing from Zoho...' : 'Loading...';
@@ -10727,6 +11052,8 @@ function openComparePanel() {
   document.getElementById('checkPanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
+  document.getElementById('bankingSummaryPanel').style.display = 'none';
+  document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('comparePanel').style.display = 'flex';
   document.getElementById('compareLoading').style.display = 'block';
   document.getElementById('compareContent').style.display = 'none';
@@ -10762,6 +11089,8 @@ function openInvoiceBrowse() {
   document.getElementById('checkPanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('comparePanel').style.display = 'none';
+  document.getElementById('bankingSummaryPanel').style.display = 'none';
+  document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'flex';
   document.getElementById('invBrowseLoading').style.display = 'block';
   document.getElementById('invBrowseContent').style.display = 'none';

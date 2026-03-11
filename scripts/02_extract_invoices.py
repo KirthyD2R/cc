@@ -17,7 +17,10 @@ from email.parser import BytesParser
 from datetime import datetime
 from utils import PROJECT_ROOT, log_action, parse_date
 
-INPUT_DIR = os.path.join(PROJECT_ROOT, "input_pdfs", "invoices")
+INPUT_DIRS = [
+    os.path.join(PROJECT_ROOT, "input_pdfs", "invoices"),
+    os.path.join(PROJECT_ROOT, "input_pdfs", "mail invoices"),
+]
 OUTPUT_FILE = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
 
 # Passwords to try for encrypted PDFs
@@ -1479,26 +1482,29 @@ def run(already_processed=None, force_all=False):
     log_action("Step 2: Extract Invoice Details from PDFs")
     log_action("=" * 50)
 
-    if not os.path.isdir(INPUT_DIR):
-        log_action(f"No input directory: {INPUT_DIR}", "ERROR")
-        return {"newly_processed": [], "new_count": 0, "total_count": 0}
-
-    all_files = [f for f in os.listdir(INPUT_DIR) if f.lower().endswith((".pdf", ".eml"))]
+    # Scan all input directories for invoice files
+    all_files = []  # list of (filename, full_path)
+    for input_dir in INPUT_DIRS:
+        if not os.path.isdir(input_dir):
+            continue
+        for f in os.listdir(input_dir):
+            if f.lower().endswith((".pdf", ".eml", ".jpg", ".jpeg", ".png")):
+                all_files.append((f, os.path.join(input_dir, f)))
     if not all_files:
-        log_action("No invoice files found in input_pdfs/invoices/", "WARNING")
+        log_action("No invoice files found in any input directory", "WARNING")
         return {"newly_processed": [], "new_count": 0, "total_count": 0}
 
     # Dedup: skip Receipt PDFs
-    invoice_files = []
+    invoice_files = []  # list of (filename, full_path)
     skipped_receipts = 0
-    for f in sorted(all_files):
+    for f, fpath in sorted(all_files, key=lambda x: x[0]):
         if is_receipt_file(f):
             skipped_receipts += 1
             log_action(f"  Skipping receipt: {f}")
         else:
-            invoice_files.append(f)
+            invoice_files.append((f, fpath))
 
-    log_action(f"Found {len(all_files)} files (PDF+EML), skipped {skipped_receipts} receipts, processing {len(invoice_files)} invoices")
+    log_action(f"Found {len(all_files)} files, skipped {skipped_receipts} receipts, processing {len(invoice_files)} invoices")
 
     # Incremental mode: load existing extractions and skip already-processed files
     existing_results = []
@@ -1513,12 +1519,11 @@ def run(already_processed=None, force_all=False):
 
     results = []
     newly_processed = []
-    for pdf_file in invoice_files:
+    for pdf_file, pdf_path in invoice_files:
         if not force_all and pdf_file in existing_files:
             log_action(f"  Skipping (already extracted): {pdf_file}")
             continue
 
-        pdf_path = os.path.join(INPUT_DIR, pdf_file)
         log_action(f"  Extracting: {pdf_file}")
 
         invoice = extract_invoice(pdf_path, pdf_file)

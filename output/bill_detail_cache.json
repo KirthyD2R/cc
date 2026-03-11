@@ -1002,5 +1002,49 @@
   "2050328000003046003": {
     "account_name": "Meals and Entertainment",
     "account_id": "2050328000000000546"
+  },
+  "2050328000003074024": {
+    "account_name": "Meals and Entertainment",
+    "account_id": "2050328000000000546"
+  },
+  "2050328000003076003": {
+    "account_name": "Software License",
+    "account_id": "2050328000000027421"
+  },
+  "2050328000003075003": {
+    "account_name": "Software License",
+    "account_id": "2050328000000027421"
+  },
+  "2050328000003043078": {
+    "account_name": "Software Subscription",
+    "account_id": "2050328000002195023"
+  },
+  "2050328000003058004": {
+    "account_name": "Software License",
+    "account_id": "2050328000000027421"
+  },
+  "2050328000003071003": {
+    "account_name": "Software License",
+    "account_id": "2050328000000027421"
+  },
+  "2050328000003069003": {
+    "account_name": "Software License",
+    "account_id": "2050328000000027421"
+  },
+  "2050328000003071023": {
+    "account_name": "Software License",
+    "account_id": "2050328000000027421"
+  },
+  "2050328000003067003": {
+    "account_name": "Software License",
+    "account_id": "2050328000000027421"
+  },
+  "2050328000003059743": {
+    "account_name": "Meals and Entertainment",
+    "account_id": "2050328000000000546"
+  },
+  "2050328000003079003": {
+    "account_name": "Income Tax",
+    "account_id": "2050328000000027411"
   }
 }

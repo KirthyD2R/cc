@@ -6380,10 +6380,12 @@
     "currency": "INR",
     "date": "2025-05-31",
     "organized_month": "",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
+    "action": "skip",
+    "matched_bill_id": "2050328000003067003",
     "matched_vendor_name": "Google",
-    "vendor_match_method": "fuzzy"
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "3722951293174426_20250630.pdf",
@@ -6406,10 +6408,12 @@
     "currency": "INR",
     "date": "2025-07-31",
     "organized_month": "",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
+    "action": "skip",
+    "matched_bill_id": "2050328000003069003",
     "matched_vendor_name": "Google",
-    "vendor_match_method": "fuzzy"
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "3722951293174426_20250831.pdf",
@@ -6419,10 +6423,12 @@
     "currency": "INR",
     "date": "2025-08-31",
     "organized_month": "",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
+    "action": "skip",
+    "matched_bill_id": "2050328000003071003",
     "matched_vendor_name": "Google",
-    "vendor_match_method": "fuzzy"
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "3722951293174426_20250930.pdf",
@@ -6445,10 +6451,12 @@
     "currency": "INR",
     "date": "2025-10-31",
     "organized_month": "",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
+    "action": "skip",
+    "matched_bill_id": "2050328000003071023",
     "matched_vendor_name": "Google",
-    "vendor_match_method": "fuzzy"
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "3722951293174426_20251130.pdf",
@@ -6471,10 +6479,12 @@
     "currency": "INR",
     "date": "2025-12-31",
     "organized_month": "",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
+    "action": "skip",
+    "matched_bill_id": "2050328000003058004",
     "matched_vendor_name": "Google",
-    "vendor_match_method": "fuzzy"
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "3722951293174426_20260131.pdf",
@@ -6484,10 +6494,12 @@
     "currency": "INR",
     "date": "2026-01-31",
     "organized_month": "",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
+    "action": "skip",
+    "matched_bill_id": "2050328000003075003",
     "matched_vendor_name": "Google",
-    "vendor_match_method": "fuzzy"
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   },
   {
     "file": "3722951293174426_20260228.pdf",
@@ -6497,9 +6509,61 @@
     "currency": "INR",
     "date": "2026-02-28",
     "organized_month": "",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000002993047",
+    "action": "skip",
+    "matched_bill_id": "2050328000003076003",
     "matched_vendor_name": "Google",
-    "vendor_match_method": "fuzzy"
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
+  },
+  {
+    "file": "Media (6).jpg",
+    "invoice_number": "AUTH-059725",
+    "vendor_name": "Wendy's",
+    "amount": 13.73,
+    "currency": "USD",
+    "date": "2025-10-07",
+    "organized_month": "",
+    "action": "new_vendor_bill"
+  },
+  {
+    "file": "Media (7).jpg",
+    "invoice_number": "TC-459743077086941724",
+    "vendor_name": "Walmart",
+    "amount": 209.17,
+    "currency": "USD",
+    "date": "2025-10-23",
+    "organized_month": "",
+    "action": "skip",
+    "matched_bill_id": "2050328000003074024",
+    "matched_vendor_name": "Walmart",
+    "matched_vendor_id": "2050328000003071041",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Walmart"
+  },
+  {
+    "file": "Media (8).jpg",
+    "invoice_number": "TC-459743077086941724-2",
+    "vendor_name": "Walmart",
+    "amount": 6.51,
+    "currency": "USD",
+    "date": "2025-10-23",
+    "organized_month": "",
+    "action": "skip",
+    "matched_bill_id": "2050328000003059743",
+    "matched_vendor_name": "Walmart",
+    "matched_vendor_id": "2050328000003071041",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Walmart"
+  },
+  {
+    "file": "Media (9).jpg",
+    "invoice_number": "1589167",
+    "vendor_name": "Chick-fil-A",
+    "amount": 11.34,
+    "currency": "USD",
+    "date": "2025-10-10",
+    "organized_month": "",
+    "action": "new_vendor_bill"
   }
 ]

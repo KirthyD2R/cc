@@ -2606,7 +2606,8 @@
       "zoho_account_id": "2050328000002898667",
       "forex_amount": 6.53,
       "forex_currency": "USD",
-      "unmatched_reason": "No vendor signal"
+      "resolved_vendor": "Walmart",
+      "unmatched_reason": "No Walmart bills"
     },
     {
       "transaction_id": "2050328000002994055",
@@ -2617,7 +2618,8 @@
       "zoho_account_id": "2050328000002898667",
       "forex_amount": 209.17,
       "forex_currency": "USD",
-      "unmatched_reason": "No vendor signal"
+      "resolved_vendor": "Walmart",
+      "unmatched_reason": "No Walmart bills"
     },
     {
       "transaction_id": "2050328000002994051",
@@ -2672,7 +2674,8 @@
       "zoho_account_id": "2050328000002898667",
       "forex_amount": 13.73,
       "forex_currency": "USD",
-      "unmatched_reason": "No vendor signal"
+      "resolved_vendor": "Wendy's",
+      "unmatched_reason": "No Wendy's bills"
     },
     {
       "transaction_id": "2050328000002162092",
@@ -3443,7 +3446,8 @@
       "date": "2025-06-21",
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
-      "unmatched_reason": "No vendor signal"
+      "resolved_vendor": "Walmart",
+      "unmatched_reason": "No Walmart bills"
     },
     {
       "transaction_id": "2050328000000939469",

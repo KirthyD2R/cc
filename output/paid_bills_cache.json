@@ -1,4 +1,60 @@
 {
+  "2050328000003079003": {
+    "vendor_name": "Wendy's",
+    "amount": 13.73,
+    "currency": "USD",
+    "date": "2025-10-07",
+    "bill_number": "AUTH-059725"
+  },
+  "2050328000003059743": {
+    "vendor_name": "Walmart",
+    "amount": 6.51,
+    "currency": "USD",
+    "date": "2025-10-23",
+    "bill_number": "TC-459743077086941724-2"
+  },
+  "2050328000003074024": {
+    "vendor_name": "Walmart",
+    "amount": 209.17,
+    "currency": "USD",
+    "date": "2025-10-23",
+    "bill_number": "TC-459743077086941724"
+  },
+  "2050328000003075003": {
+    "vendor_name": "Google",
+    "amount": 1084.7,
+    "currency": "INR",
+    "date": "2026-01-31",
+    "bill_number": "GC-STMT-2026-01"
+  },
+  "2050328000003058004": {
+    "vendor_name": "Google",
+    "amount": 1054.33,
+    "currency": "INR",
+    "date": "2025-12-31",
+    "bill_number": "GC-STMT-2025-12"
+  },
+  "2050328000003071023": {
+    "vendor_name": "Google",
+    "amount": 1041.37,
+    "currency": "INR",
+    "date": "2025-10-31",
+    "bill_number": "GC-STMT-2025-10"
+  },
+  "2050328000003071003": {
+    "vendor_name": "Google",
+    "amount": 1084.7,
+    "currency": "INR",
+    "date": "2025-08-31",
+    "bill_number": "GC-STMT-2025-08"
+  },
+  "2050328000003069003": {
+    "vendor_name": "Google",
+    "amount": 947.35,
+    "currency": "INR",
+    "date": "2025-07-31",
+    "bill_number": "GC-STMT-2025-07"
+  },
   "2050328000003043078": {
     "vendor_name": "GoDaddy",
     "amount": 3439.7,
@@ -327,6 +383,13 @@
     "currency": "INR",
     "date": "2026-02-12",
     "bill_number": "E0100YQAMI_Invoice"
+  },
+  "2050328000002986355": {
+    "vendor_name": "Google",
+    "amount": 564.17,
+    "currency": "INR",
+    "date": "2025-07-03",
+    "bill_number": "5315977163"
   },
   "2050328000003011318": {
     "vendor_name": "Google",

@@ -2598,5 +2598,35 @@
     "amount": 3755.05,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "Media (7).jpg",
+    "status": "created",
+    "vendor_name": "Walmart",
+    "vendor_id": "2050328000003071041",
+    "bill_id": "2050328000003074024",
+    "amount": 209.17,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Media (8).jpg",
+    "status": "created",
+    "vendor_name": "Walmart",
+    "vendor_id": "2050328000003071041",
+    "bill_id": "2050328000003059743",
+    "amount": 6.51,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "Media (6).jpg",
+    "status": "created",
+    "vendor_name": "Wendy's",
+    "vendor_id": "2050328000003078001",
+    "bill_id": "2050328000003079003",
+    "amount": 13.73,
+    "currency": "USD",
+    "attached": true
   }
 ]
