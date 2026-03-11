@@ -5,7 +5,7 @@ config/outlook_config.json
 config/outlook_token.json
 
 # Input/Output data
-
+.playwright-mcp
 
 *.log
 
