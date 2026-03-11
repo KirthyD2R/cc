@@ -124,18 +124,40 @@ class ZohoAuth:
         if self.access_token and self.token_expiry and datetime.now() < self.token_expiry:
             return self.access_token
 
-        resp = requests.post(self.token_url, data={
-            "refresh_token": self.config["refresh_token"],
-            "client_id": self.config["client_id"],
-            "client_secret": self.config["client_secret"],
-            "grant_type": "refresh_token",
-        })
+        # Retry token refresh with backoff for transient errors (503, SSL, connection)
+        last_exc = None
+        for attempt in range(3):
+            try:
+                resp = requests.post(self.token_url, data={
+                    "refresh_token": self.config["refresh_token"],
+                    "client_id": self.config["client_id"],
+                    "client_secret": self.config["client_secret"],
+                    "grant_type": "refresh_token",
+                }, timeout=15)
 
-        if resp.status_code == 400:
-            # Refresh token expired — try auto-renewal
-            return self._auto_renew_refresh_token()
+                if resp.status_code == 400:
+                    # Refresh token expired — try auto-renewal
+                    return self._auto_renew_refresh_token()
 
-        resp.raise_for_status()
+                if resp.status_code in (502, 503, 504):
+                    wait = 3 * (attempt + 1)
+                    log_action(f"  Token refresh got {resp.status_code}, retrying in {wait}s ({attempt+1}/3)")
+                    time.sleep(wait)
+                    continue
+
+                resp.raise_for_status()
+                break
+            except (requests.exceptions.ConnectionError, requests.exceptions.SSLError,
+                    requests.exceptions.Timeout) as e:
+                last_exc = e
+                wait = 3 * (attempt + 1)
+                log_action(f"  Token refresh connection error, retrying in {wait}s ({attempt+1}/3): {e}")
+                time.sleep(wait)
+                continue
+        else:
+            if last_exc:
+                raise last_exc
+            resp.raise_for_status()
         data = resp.json()
 
         self.access_token = data["access_token"]
@@ -262,7 +284,7 @@ class ZohoAuth:
 # --- Zoho Books API ---
 
 class ZohoBooksAPI:
-    _RETRY_MAX = 2  # Max retries for 429 rate limit errors
+    _RETRY_MAX = 3  # Max retries for 429/503/transient errors
     _MIN_INTERVAL = 1.0  # 1 second between API calls to avoid rate limits
 
     def __init__(self, config):
@@ -286,10 +308,20 @@ class ZohoBooksAPI:
 
         self._throttle()
 
+        last_exc = None
         for attempt in range(self._RETRY_MAX):
-            resp = requests.request(
-                method, url, headers=self.auth.get_headers(), params=params, **kwargs
-            )
+            try:
+                resp = requests.request(
+                    method, url, headers=self.auth.get_headers(), params=params,
+                    timeout=30, **kwargs
+                )
+            except (requests.exceptions.ConnectionError, requests.exceptions.SSLError,
+                    requests.exceptions.Timeout) as e:
+                last_exc = e
+                wait = 3 * (attempt + 1)
+                log_action(f"  Connection error on {method} {endpoint}, retrying in {wait}s ({attempt+1}/{self._RETRY_MAX}): {type(e).__name__}")
+                time.sleep(wait)
+                continue
             self._last_request_time = time.time()
 
             if resp.status_code == 429:
@@ -301,7 +333,17 @@ class ZohoBooksAPI:
                 log_action(f"  Rate limited (429), retrying in {wait}s ({attempt+1}/{self._RETRY_MAX})")
                 time.sleep(wait)
                 continue
+
+            if resp.status_code in (502, 503, 504):
+                wait = 3 * (attempt + 1)
+                log_action(f"  Server error ({resp.status_code}) on {method} {endpoint}, retrying in {wait}s ({attempt+1}/{self._RETRY_MAX})")
+                time.sleep(wait)
+                continue
+
             break
+        else:
+            if last_exc:
+                raise last_exc
 
         if not resp.ok:
             try:
@@ -322,15 +364,25 @@ class ZohoBooksAPI:
 
         self._throttle()
 
+        last_exc = None
         for attempt in range(self._RETRY_MAX):
-            with open(file_path, "rb") as f:
-                import mimetypes
-                mime_type = mimetypes.guess_type(file_path)[0] or "application/octet-stream"
-                files = {file_field: (os.path.basename(file_path), f, mime_type)}
-                resp = requests.post(
-                    url, headers=headers, params=params,
-                    files=files, data=extra_data or {},
-                )
+            try:
+                with open(file_path, "rb") as f:
+                    import mimetypes
+                    mime_type = mimetypes.guess_type(file_path)[0] or "application/octet-stream"
+                    files = {file_field: (os.path.basename(file_path), f, mime_type)}
+                    resp = requests.post(
+                        url, headers=headers, params=params,
+                        files=files, data=extra_data or {},
+                        timeout=60,
+                    )
+            except (requests.exceptions.ConnectionError, requests.exceptions.SSLError,
+                    requests.exceptions.Timeout) as e:
+                last_exc = e
+                wait = 3 * (attempt + 1)
+                log_action(f"  Upload connection error, retrying in {wait}s ({attempt+1}/{self._RETRY_MAX}): {type(e).__name__}")
+                time.sleep(wait)
+                continue
             self._last_request_time = time.time()
 
             if resp.status_code == 429:
@@ -342,7 +394,17 @@ class ZohoBooksAPI:
                 log_action(f"  Rate limited (429), retrying in {wait}s ({attempt+1}/{self._RETRY_MAX})")
                 time.sleep(wait)
                 continue
+
+            if resp.status_code in (502, 503, 504):
+                wait = 3 * (attempt + 1)
+                log_action(f"  Server error ({resp.status_code}) on upload, retrying in {wait}s ({attempt+1}/{self._RETRY_MAX})")
+                time.sleep(wait)
+                continue
+
             break
+        else:
+            if last_exc:
+                raise last_exc
 
         if not resp.ok:
             try:
@@ -500,13 +562,23 @@ class ZohoBooksAPI:
 
         self._throttle()
 
+        last_exc = None
         for attempt in range(self._RETRY_MAX):
-            with open(file_path, "rb") as f:
-                files = {"statement": (os.path.basename(file_path), f, "text/csv")}
-                resp = requests.post(
-                    url, headers=headers, params=params,
-                    files=files, data={"JSONString": json_string},
-                )
+            try:
+                with open(file_path, "rb") as f:
+                    files = {"statement": (os.path.basename(file_path), f, "text/csv")}
+                    resp = requests.post(
+                        url, headers=headers, params=params,
+                        files=files, data={"JSONString": json_string},
+                        timeout=60,
+                    )
+            except (requests.exceptions.ConnectionError, requests.exceptions.SSLError,
+                    requests.exceptions.Timeout) as e:
+                last_exc = e
+                wait = 3 * (attempt + 1)
+                log_action(f"  Statement upload connection error, retrying in {wait}s ({attempt+1}/{self._RETRY_MAX}): {type(e).__name__}")
+                time.sleep(wait)
+                continue
             self._last_request_time = time.time()
 
             if resp.status_code == 429:
@@ -518,7 +590,17 @@ class ZohoBooksAPI:
                 log_action(f"  Rate limited (429), retrying in {wait}s ({attempt+1}/{self._RETRY_MAX})")
                 time.sleep(wait)
                 continue
+
+            if resp.status_code in (502, 503, 504):
+                wait = 3 * (attempt + 1)
+                log_action(f"  Server error ({resp.status_code}) on statement upload, retrying in {wait}s ({attempt+1}/{self._RETRY_MAX})")
+                time.sleep(wait)
+                continue
+
             break
+        else:
+            if last_exc:
+                raise last_exc
 
         if not resp.ok:
             try:

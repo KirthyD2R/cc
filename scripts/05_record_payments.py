@@ -131,11 +131,19 @@ def fetch_unpaid_bills_from_zoho(api):
     # Deduplicate by bill_id
     seen = set()
     unique = []
+    zero_balance_count = 0
     for b in all_bills:
         bid = b.get("bill_id")
         if bid and bid not in seen:
             seen.add(bid)
+            # Skip bills with zero balance (already paid via banking match)
+            balance = float(b.get("balance", b.get("total", 1)))
+            if balance <= 0:
+                zero_balance_count += 1
+                continue
             unique.append(b)
+    if zero_balance_count:
+        log_action(f"Excluded {zero_balance_count} zero-balance bills (banking-matched)")
     log_action(f"Fetched {len(unique)} unpaid/overdue bills from Zoho")
     return unique
 

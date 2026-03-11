@@ -766,6 +766,131 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
         claimed_cc.add(cc_tid)
         results.append(result)
 
+    # --- Pass 3: Amazon marketplace cross-vendor group matching ---
+    # Amazon CC transactions bundle bills from multiple marketplace sellers.
+    # Only match bills from known amazon_marketplace_vendors within ±1 day.
+    # Also: Microsoft CC uses wider ±5 day window for same-vendor groups.
+
+    # Load amazon marketplace vendors list
+    _amz_vendors_raw = []
+    try:
+        _vm_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config", "vendor_mappings.json")
+        with open(_vm_path, "r") as _f:
+            _amz_vendors_raw = json.load(_f).get("amazon_marketplace_vendors", [])
+    except Exception:
+        pass
+    amz_vendor_norms = set(_norm(strip_vendor_stop_words(v)) for v in _amz_vendors_raw)
+
+    def _is_amazon_cc(desc):
+        """Check if CC description is an Amazon transaction."""
+        dl = (desc or "").upper()
+        return any(k in dl for k in [
+            "AMAZON PAY", "AMAZON INDIA", "AMAZON MARK", "AMAZON MKTPL",
+            "AMAZON MKTPLACE", "AMAZON PRIME", "AMAZONIN",
+        ])
+
+    def _is_microsoft_cc(desc):
+        """Check if CC description is a Microsoft transaction."""
+        dl = (desc or "").upper()
+        return any(k in dl for k in ["MICROSOFTBUS", "MICROSOFT INDIA", "IND*MICROSOFT"])
+
+    def _try_amazon_group(cc, date_window=1):
+        """Match Amazon CC to combination of marketplace vendor bills."""
+        cc_tid = cc.get("transaction_id", "")
+        cc_inr = float(cc.get("amount", 0))
+        if cc_inr <= 0:
+            return None
+        try:
+            cc_date = _dt.strptime(cc.get("date", ""), "%Y-%m-%d")
+        except Exception:
+            return None
+
+        # Only consider bills from known Amazon marketplace vendors
+        cands = []
+        for vn_norm, bill_list in vendor_bills.items():
+            if vn_norm not in amz_vendor_norms:
+                continue
+            for b, bd in bill_list:
+                if b["bill_id"] in claimed_bills:
+                    continue
+                if b.get("currency", "INR") != "INR":
+                    continue
+                dd = abs((bd - cc_date).days)
+                if dd > date_window:
+                    continue
+                cands.append((b, dd))
+
+        if len(cands) < 2:
+            return None
+
+        from itertools import combinations
+        tol = max(1.0, cc_inr * 0.005)  # 0.5% tolerance for Amazon
+        best_group = None
+        best_diff = float('inf')
+        cands.sort(key=lambda x: x[0]["amount"], reverse=True)
+        for size in range(2, min(9, len(cands) + 1)):  # up to 8 bills
+            for combo in combinations(cands, size):
+                total = sum(b["amount"] for b, _ in combo)
+                diff = abs(total - cc_inr)
+                if diff <= tol and diff < best_diff:
+                    best_diff = diff
+                    best_group = list(combo)
+            if best_group:
+                break
+
+        if not best_group:
+            return None
+
+        running = sum(b["amount"] for b, _ in best_group)
+        max_dd = max(dd for _, dd in best_group)
+        sum_diff = abs(running - cc_inr)
+        sum_pct = sum_diff / cc_inr if cc_inr else 0
+        ac = 100 if sum_pct < 0.001 else 95 if sum_pct < 0.005 else 90
+        dc = 100 if max_dd == 0 else 90 if max_dd <= 1 else 75
+        overall = max(0, int(ac * 0.50 + dc * 0.50))
+
+        vendors_in_group = list(set(b.get("vendor_name", "") for b, _ in best_group))
+
+        return {
+            "status": "group_matched",
+            "match_score": overall,
+            "confidence": {"vendor": 0, "amount": ac, "date": dc, "overall": overall},
+            "cc_transaction_id": cc_tid,
+            "cc_description": cc.get("description", ""),
+            "cc_inr_amount": cc_inr,
+            "cc_date": cc.get("date", ""),
+            "cc_card": cc.get("card_name", ""),
+            "grouped_bills": [
+                {"bill_id": b["bill_id"], "vendor_id": b.get("vendor_id", ""),
+                 "vendor_name": b.get("vendor_name", ""), "amount": b["amount"],
+                 "currency": b.get("currency", "INR"), "date": b.get("date", ""),
+                 "file": b.get("file", "")}
+                for b, _ in best_group
+            ],
+            "group_sum": running,
+            "vendor_name": "Amazon → " + ", ".join(vendors_in_group[:3]) + ("..." if len(vendors_in_group) > 3 else ""),
+            "vendor_id": best_group[0][0].get("vendor_id", ""),
+            "match_type": "amazon_marketplace",
+            "bills": best_group,
+        }
+
+    # Pass 3a: Amazon marketplace group matching
+    for cc in avail_cc:
+        cc_tid = cc.get("transaction_id", "")
+        if cc_tid in claimed_cc:
+            continue
+        if not _is_amazon_cc(cc.get("description", "")):
+            continue
+
+        result = _try_amazon_group(cc, date_window=1)
+        if not result:
+            continue
+
+        for b, _ in result.pop("bills"):
+            claimed_bills.add(b["bill_id"])
+        claimed_cc.add(cc_tid)
+        results.append(result)
+
     return results
 
 
@@ -1812,20 +1937,34 @@ def api_payments_preview():
 
         log_action("payments/preview: fetching fresh from Zoho APIs...")
 
+        # 0. Load paid bills cache to exclude already-paid bills
+        paid_cache = _load_paid_bills_cache()
+        paid_bill_ids = set(paid_cache.keys())
+        log_action(f"payments/preview: {len(paid_bill_ids)} bills in paid cache (will exclude)")
+
         # 1. Fetch unpaid bills from Zoho (live)
         zoho_bills = mod_05.fetch_unpaid_bills_from_zoho(api)
-        bills = [
-            {
-                "bill_id": b.get("bill_id", ""),
+        bills = []
+        skipped_paid = 0
+        for b in zoho_bills:
+            bid = b.get("bill_id", "")
+            if not bid:
+                continue
+            # Skip bills already in paid cache (banking-matched or previously paid)
+            if bid in paid_bill_ids:
+                skipped_paid += 1
+                continue
+            bills.append({
+                "bill_id": bid,
                 "vendor_id": b.get("vendor_id", ""),
                 "vendor_name": b.get("vendor_name", ""),
                 "amount": float(b.get("total", 0)),
                 "currency": b.get("currency_code", "INR"),
                 "file": b.get("bill_number", b.get("bill_id", "")),
                 "date": b.get("date", ""),
-            }
-            for b in zoho_bills if b.get("bill_id")
-        ]
+            })
+        if skipped_paid:
+            log_action(f"payments/preview: skipped {skipped_paid} bills (already in paid cache)")
 
 
         # 2. Fetch CC transactions from Zoho Banking (live, all 4 cards)
@@ -3407,12 +3546,13 @@ def api_payments_clear_preview_cache():
 
 @app.route("/api/payments/sync-paid-bills", methods=["POST"])
 def api_payments_sync_paid_bills():
-    """Fetch all paid bills from Zoho and cache them. Run once, then reuse."""
+    """Fetch all paid bills from Zoho and cache them, including banking-matched bills."""
     try:
         from scripts.utils import load_config, ZohoBooksAPI, log_action
         config = load_config()
         api = ZohoBooksAPI(config)
 
+        # 1. Fetch explicitly paid bills
         paid_zoho = []
         page = 1
         while True:
@@ -3433,9 +3573,35 @@ def api_payments_sync_paid_bills():
                     "date": b.get("date", ""),
                     "bill_number": b.get("bill_number", ""),
                 }
+
+        # 2. Also detect banking-matched bills (open/overdue with balance=0)
+        banking_matched = 0
+        for status in ("open", "overdue", "unpaid"):
+            page = 1
+            while True:
+                result = api.list_bills(status=status, page=page)
+                for b in result.get("bills", []):
+                    bid = b.get("bill_id")
+                    if not bid or bid in cache:
+                        continue
+                    balance = float(b.get("balance", b.get("total", 1)))
+                    if balance <= 0:
+                        cache[bid] = {
+                            "vendor_name": b.get("vendor_name", ""),
+                            "amount": float(b.get("total", 0)),
+                            "currency": b.get("currency_code", "INR"),
+                            "date": b.get("date", ""),
+                            "bill_number": b.get("bill_number", ""),
+                            "banking_matched": True,
+                        }
+                        banking_matched += 1
+                if not result.get("page_context", {}).get("has_more_page", False):
+                    break
+                page += 1
+
         _save_paid_bills_cache(cache)
-        log_action(f"Synced {len(cache)} paid bills to cache")
-        return jsonify({"status": "ok", "count": len(cache)})
+        log_action(f"Synced {len(cache)} paid bills to cache ({banking_matched} banking-matched)")
+        return jsonify({"status": "ok", "count": len(cache), "banking_matched": banking_matched})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -6536,6 +6702,8 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
           </div>
         </div>
         <div id="paymentFilterBar" style="display:none;padding:6px 12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);gap:12px;align-items:center;flex-shrink:0;flex-wrap:wrap;font-size:12px">
+          <label style="color:var(--text-dim)">&#128269;</label>
+          <input type="text" id="paymentSearchBar" oninput="filterPayments()" placeholder="Search vendor / CC desc..." style="background:var(--bg);border:1px solid var(--accent);border-radius:6px;color:var(--text);padding:4px 10px;font-size:12px;min-width:200px;color-scheme:dark">
           <label style="color:var(--text-dim)">Month:</label>
           <select id="paymentMonthFilter" onchange="applyMonthFilter()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:3px 8px;font-size:11px;min-width:220px;color-scheme:dark"><option value="">All Months</option></select>
           <label style="color:var(--text-dim);margin-left:8px">Vendor:</label>
@@ -8998,7 +9166,19 @@ function openPaymentPreview(forceRefresh) {
   });
 }
 
+var _lastRefreshTime = 0;
+var _REFRESH_COOLDOWN = 30; // seconds between refreshes
 function refreshPaymentPreview() {
+  var now = Date.now() / 1000;
+  var elapsed = now - _lastRefreshTime;
+  if (elapsed < _REFRESH_COOLDOWN) {
+    var remaining = Math.ceil(_REFRESH_COOLDOWN - elapsed);
+    var btn = document.getElementById('paymentRefreshBtn');
+    if (btn) btn.textContent = 'Wait ' + remaining + 's';
+    setTimeout(function() { if (btn) btn.textContent = '\u21BB Refresh'; }, remaining * 1000);
+    return;
+  }
+  _lastRefreshTime = now;
   openPaymentPreview(true);
 }
 
@@ -9008,7 +9188,8 @@ function syncPaidBills() {
   fetch('/api/payments/sync-paid-bills', {method: 'POST'})
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      if (btn) { btn.disabled = false; btn.textContent = '\u2713 Synced (' + (data.count || 0) + ')'; }
+      var label = '\u2713 Synced (' + (data.count || 0) + (data.banking_matched ? ', ' + data.banking_matched + ' banking' : '') + ')';
+      if (btn) { btn.disabled = false; btn.textContent = label; }
       // Reload with new paid data
       openPaymentPreview(false);
     })
@@ -9030,6 +9211,7 @@ function filterPayments() {
 
   var cardName = document.getElementById('paymentCardFilter').value;
   var vendorFilter = (document.getElementById('paymentVendorFilter').value || '').toLowerCase();
+  var searchQuery = (document.getElementById('paymentSearchBar').value || '').toLowerCase().trim();
   var dateFrom = document.getElementById('paymentDateFrom').value || '';
   var dateTo = document.getElementById('paymentDateTo').value || '';
   var statusFilter = document.getElementById('paymentStatusFilter').value || '';
@@ -9055,6 +9237,19 @@ function filterPayments() {
     // Card filter
     if (cardName) {
       if (!rowCard || rowCard !== cardName) show = false;
+    }
+
+    // Search bar — matches across vendor name, CC description, resolved vendor, bill number
+    if (show && searchQuery) {
+      var ccDesc = row.getAttribute('data-ccdesc') || '';
+      var resolvedV = row.getAttribute('data-resolvedvendor') || '';
+      var billNum = (m.bill_number || m.file || '').toLowerCase();
+      var groupedVendors = '';
+      if (m.grouped_bills) {
+        groupedVendors = m.grouped_bills.map(function(b) { return (b.vendor_name || '').toLowerCase(); }).join(' ');
+      }
+      var searchHaystack = rowVendor + ' ' + ccDesc + ' ' + resolvedV + ' ' + billNum + ' ' + groupedVendors;
+      show = searchHaystack.indexOf(searchQuery) >= 0;
     }
 
     // Vendor filter (bidirectional substring)
@@ -9185,6 +9380,7 @@ function populateMonthFilter() {
 }
 
 function clearPaymentFilters() {
+  document.getElementById('paymentSearchBar').value = '';
   document.getElementById('paymentCardFilter').value = '';
   document.getElementById('paymentMonthFilter').value = '';
   document.getElementById('paymentVendorFilter').value = '';
@@ -9398,6 +9594,12 @@ function renderPaymentPreview(data) {
     tr.setAttribute('data-billamount', m.bill_amount || 0);
     tr.setAttribute('data-ccamount', m.cc_inr_amount || 0);
     tr.setAttribute('data-ccdate', m.cc_date || (m.candidates && m.candidates.length > 0 ? m.candidates[0].cc_date : '') || '');
+    var _ccDescForSearch = (m.cc_description || '');
+    if (!_ccDescForSearch && m.candidates && m.candidates.length > 0) {
+      _ccDescForSearch = m.candidates.map(function(c) { return c.cc_description || ''; }).join(' ');
+    }
+    tr.setAttribute('data-ccdesc', _ccDescForSearch.toLowerCase());
+    tr.setAttribute('data-resolvedvendor', (m.resolved_vendor || '').toLowerCase());
 
     var bgColor = 'transparent';
     if (m.status === 'matched') bgColor = 'rgba(80,200,120,0.04)';

@@ -6,7 +6,7 @@
     "vendor_id": "2050328000003054001",
     "date": "2025-09-04",
     "total": 3439.7,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003049003",
@@ -78,7 +78,7 @@
     "vendor_id": "2050328000000356512",
     "date": "2026-03-10",
     "total": 11151.0,
-    "status": "open"
+    "status": "overdue"
   },
   {
     "bill_id": "2050328000003031003",

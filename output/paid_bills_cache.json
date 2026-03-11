@@ -62,6 +62,13 @@
     "date": "2025-08-10",
     "bill_number": "INV2526/167912"
   },
+  "2050328000002998657": {
+    "vendor_name": "Surajmal Tea Private Limited",
+    "amount": 1282.0,
+    "currency": "INR",
+    "date": "2025-05-06",
+    "bill_number": "SIDA-1153"
+  },
   "2050328000003005845": {
     "vendor_name": "OpenAI-USD",
     "amount": 23.6,
@@ -96,6 +103,13 @@
     "currency": "INR",
     "date": "2025-05-28",
     "bill_number": "3114048162"
+  },
+  "2050328000002993956": {
+    "vendor_name": "GLOBAL BRANDS",
+    "amount": 375.0,
+    "currency": "INR",
+    "date": "2025-09-10",
+    "bill_number": "FMAB-1775"
   },
   "2050328000002997727": {
     "vendor_name": "New Relic",
@@ -160,6 +174,13 @@
     "date": "2025-08-02",
     "bill_number": "794b46f3d59e"
   },
+  "2050328000002993874": {
+    "vendor_name": "SUBRAMANIYAN",
+    "amount": 245.0,
+    "currency": "INR",
+    "date": "2025-05-06",
+    "bill_number": "IN-755"
+  },
   "2050328000002998509": {
     "vendor_name": "SAJANI FASHION",
     "amount": 296.01,
@@ -173,6 +194,13 @@
     "currency": "INR",
     "date": "2026-02-02",
     "bill_number": "2KMAHYKG-0001"
+  },
+  "2050328000003004537": {
+    "vendor_name": "AROCKYA SANTHAI",
+    "amount": 915.0,
+    "currency": "INR",
+    "date": "2025-05-06",
+    "bill_number": "IN-3035"
   },
   "2050328000003015156": {
     "vendor_name": "SANTOSH DEVI BHANSALI",
@@ -223,12 +251,26 @@
     "date": "2025-11-29",
     "bill_number": "B8ERAOBF-0006"
   },
+  "2050328000002990447": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 673.0,
+    "currency": "INR",
+    "date": "2025-05-06",
+    "bill_number": "MAA4-907489"
+  },
   "2050328000002993709": {
     "vendor_name": "R K WorldInfocom Pvt. Ltd.",
     "amount": 276.25,
     "currency": "INR",
     "date": "2025-05-29",
     "bill_number": "MAA4-1449907"
+  },
+  "2050328000003007316": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 228.0,
+    "currency": "INR",
+    "date": "2025-05-06",
+    "bill_number": "FMAB-74681"
   },
   "2050328000002990402": {
     "vendor_name": "R K WorldInfocom Pvt. Ltd.",
@@ -306,6 +348,48 @@
     "currency": "INR",
     "date": "2025-04-30",
     "bill_number": "5237284366"
+  },
+  "2050328000002993599": {
+    "vendor_name": "COCOBLU RETAIL LIMITED",
+    "amount": 449.0,
+    "currency": "INR",
+    "date": "2025-07-08",
+    "bill_number": "FMAB-104573"
+  },
+  "2050328000002996203": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 176.58,
+    "currency": "INR",
+    "date": "2025-09-10",
+    "bill_number": "FMAB-224830"
+  },
+  "2050328000002990314": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 176.58,
+    "currency": "INR",
+    "date": "2025-09-10",
+    "bill_number": "FMAB-224829"
+  },
+  "2050328000003008311": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 1998.0,
+    "currency": "INR",
+    "date": "2025-07-08",
+    "bill_number": "FMAB-130122"
+  },
+  "2050328000003009288": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 170.52,
+    "currency": "INR",
+    "date": "2025-07-09",
+    "bill_number": "BLR8-1594523"
+  },
+  "2050328000003008289": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 1379.04,
+    "currency": "INR",
+    "date": "2025-07-08",
+    "bill_number": "BLR7-1536989"
   },
   "2050328000002997561": {
     "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
@@ -1746,7 +1830,7 @@
     "vendor_name": "LinkedIn Singapore Pte Ltd",
     "amount": 8400.0,
     "currency": "INR",
-    "date": "2024-05-08",
+    "date": "2025-05-08",
     "bill_number": "51998567905"
   },
   "2050328000000359093": {
