@@ -914,6 +914,7 @@ def parse_date(date_str, formats=None):
             "%b %d, %Y", "%B %d, %Y", "%b %d %Y", "%B %d %Y",
             "%d-%b-%Y", "%d-%B-%Y",
             "%m/%d/%Y", "%Y-%m-%d", "%d/%m/%y", "%d-%m-%y", "%d.%m.%y",
+            "%m/%d/%y",
         ]
     # Normalize extra whitespace (e.g., "May 1 , 2025" → "May 1, 2025")
     import re as _re

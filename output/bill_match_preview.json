@@ -8116,5 +8116,15 @@
     "matched_vendor_id": "2050328000003103049",
     "match_type": "created_bills",
     "matched_bill": "Created: Tripstacc"
+  },
+  {
+    "file": "image (7).png",
+    "invoice_number": null,
+    "vendor_name": "Hotel esthell",
+    "amount": 22855.0,
+    "currency": "INR",
+    "date": "2025-08-17",
+    "organized_month": "Uploaded",
+    "action": "new_vendor_bill"
   }
 ]

@@ -24,6 +24,34 @@
       "match_type": "USD rate:90.02 actual:89.94"
     },
     {
+      "bill_id": "2050328000003120024",
+      "vendor_id": "2050328000003089049",
+      "vendor_name": "Hotel esthell",
+      "bill_amount": 22855.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-08-17",
+      "bill_number": "image (7).png",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939591",
+          "cc_description": "CUSTCAP SOLUTIONS PRIV, MUMBAI",
+          "cc_inr_amount": 22855.0,
+          "cc_date": "2025-08-16",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 100,
+            "date": 100,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 76
+        }
+      ]
+    },
+    {
       "bill_id": "2050328000003115023",
       "vendor_id": "2050328000003096023",
       "vendor_name": "Apple",
@@ -2788,15 +2816,6 @@
       "unmatched_reason": "No Fuel Surcharge Waiver bills"
     },
     {
-      "transaction_id": "2050328000001812253",
-      "description": "CUSTCAP SOLUTIONS PRIV, MUMBAI",
-      "amount": 79161.0,
-      "date": "2025-10-23",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "unmatched_reason": "No vendor signal"
-    },
-    {
       "transaction_id": "2050328000001812241",
       "description": "LYFT *1 RIDE 10-18, SAN FRANCISCO",
       "amount": 349.92,
@@ -3183,12 +3202,12 @@
   "card_cc_total": {
     "HDFC - 7196": 2,
     "Kotak bank credit card": 29,
-    "Mayura Credit Card": 50
+    "Mayura Credit Card": 49
   },
   "card_cc_unmatched": {
     "HDFC - 7196": 2,
     "Kotak bank credit card": 29,
-    "Mayura Credit Card": 49
+    "Mayura Credit Card": 48
   },
   "amex_matches": [
     {
@@ -3657,11 +3676,11 @@
   ],
   "group_matches": [],
   "summary": {
-    "total_bills": 161,
+    "total_bills": 162,
     "matched": 1,
-    "unmatched": 160,
+    "unmatched": 161,
     "already_paid": 0,
-    "unmatched_cc_count": 80,
+    "unmatched_cc_count": 79,
     "amex_matched": 18,
     "group_matched": 0
   }

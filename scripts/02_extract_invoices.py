@@ -648,7 +648,9 @@ def detect_vendor(text):
         ("UBER B.V", "Uber"),
         ("TATA AIG", "TATA AIG"),
         ("TRIPSTACC", "Tripstacc"),
-        ("APPLE", "Apple"),
+        ("APPLE INC", "Apple"),
+        ("APPLE DISTRIBUTION", "Apple"),
+        ("ITUNES", "Apple"),
         ("FLY.IO", "Fly.io, Inc"),
         ("OPENAI", "OpenAI, LLC"),
         ("UNLEASH BADMINTON", "Unleash Badminton Academy"),
@@ -1253,11 +1255,12 @@ def extract_sixt(text):
 
 
 def extract_generic(text):
-    """Fallback: try common patterns."""
+    """Fallback: try common patterns for invoices, receipts, and OCR'd images."""
     inv_number = None
     for pat in [
         r"(?:Invoice|Inv|Bill)\s*(?:#|No|Number|Num)[\s.:]*([A-Za-z0-9\-/]+)",
         r"(?:Invoice|Inv)[\s:\-]+([A-Za-z0-9\-/]+)",
+        r"Check\s*#\s*[:/]?\s*(\d+)",  # Receipt check numbers
     ]:
         m = re.search(pat, text, re.IGNORECASE)
         if m:
@@ -1270,11 +1273,25 @@ def extract_generic(text):
         r"(?:Invoice\s*date|Date\s+of\s+issue|Date)\s*[:\-]?\s*(\d{1,2}\s+\w{3,9}\s+\d{4})",
         r"(?:Invoice\s*date|Date\s+of\s+issue|Date)\s*[:\-]?\s*(\w+\s+\d{1,2},?\s+\d{4})",
         r"(?:Issue\s+Date)\s*[:\-]?\s*(\w+\s+\d{1,2},?\s+\d{4})",
+        # Receipt-style: "Ordered: 10/22/25 7:12 PM" or "DATE: 10-15"
+        r"(?:Ordered|Dated?)\s*[:\-]?\s*(\d{1,2}[/\.\-]\d{1,2}[/\.\-]\d{2,4})",
+        # Check-In/Check-Out: "Sun, 17 Aug 2025" or "17 Aug 2025"
+        r"Check-?[Ii]n\s*[:\-]?\s*(?:\w{3},?\s+)?(\d{1,2}\s+\w{3,9}\s+\d{4})",
+        # Standalone dates: "17 Aug 2025", "Aug 17, 2025"
+        r"(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{4})",
+        r"((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\w*\s+\d{1,2},?\s+\d{4})",
         r"(\d{4}-\d{2}-\d{2})",
+        # US receipt: M/D/YY with 2-digit year
+        r"(\d{1,2}/\d{1,2}/\d{2})\s",
     ]:
         m = re.search(pat, text, re.IGNORECASE)
         if m:
-            date = parse_date(m.group(1))
+            raw = m.group(1).strip()
+            # Handle 2-digit year US dates like "10/22/25"
+            if re.match(r'^\d{1,2}/\d{1,2}/\d{2}$', raw):
+                date = parse_date(raw, formats=["%m/%d/%y"])
+            else:
+                date = parse_date(raw)
             if date:
                 break
 
@@ -1286,7 +1303,10 @@ def extract_generic(text):
         r"Amount\s*Due\s*[:\-]?\s*[\$₹]?\s*([\d,]+\.?\d*)",
         r"Total\s*Due\s*[:\-]?\s*[\$₹]?\s*([\d,]+\.?\d*)",
         r"Grand\s*Total\s*[:\-]?\s*[\$₹]?\s*([\d,]+\.?\d*)",
-        r"Total\s*(?:Amount|Payable)?\s*[:\-]?\s*[\$₹]?\s*([\d,]+\.?\d*)",
+        # Receipt: "Total Amount:\n₹ 22,855" (may be across lines from OCR)
+        r"Total\s*Amount\s*[:\-]?\s*[\$₹]?\s*([\d,]+\.?\d*)",
+        r"Total\s*[:\-]?\s*[\$₹]\s*([\d,]+\.?\d*)",
+        r"Total\s*(?:Payable)?\s*[:\-]?\s*[\$₹]?\s*([\d,]+\.?\d*)",
         r"[\$]([\d,]+\.?\d*)",
         r"₹\s*([\d,]+\.?\d*)",
     ]:
@@ -1300,7 +1320,78 @@ def extract_generic(text):
             except ValueError:
                 continue
 
+    # Multiline OCR fallback: "Total\nAmount: ₹22,855" or "Total Amount\n₹ 22,855"
+    if not amount:
+        for fallback_pat in [
+            # Standard multiline: Total Amount ... number
+            r"Total[\s\n]*Amount[\s\n]*[:\-]?\s*[\$₹]?\s*([\d,]+\.?\d*)",
+            # OCR garbled rupee: "= 22,855" or "~ 22,855" on its own line (₹ misread)
+            r"^[=~₹]\s*([\d,]+\.?\d*)\s*$",
+            # Rupee symbol anywhere in text
+            r"₹\s*([\d,]+\.?\d{0,2})",
+        ]:
+            m = re.search(fallback_pat, text, re.IGNORECASE | re.MULTILINE)
+            if m:
+                try:
+                    val = float(m.group(1).replace(",", ""))
+                    if val > 0:
+                        amount = val
+                        break
+                except ValueError:
+                    continue
+
     return inv_number, date, amount, currency
+
+
+def _detect_vendor_from_first_line(text):
+    """Try to detect vendor from the first meaningful line of OCR text.
+
+    Useful for image receipts/bills where the business name is typically
+    the first prominent text (e.g., "Hotel esthell", "Panda Express").
+    Only returns a name if the first line looks like a business name.
+    """
+    lines = [l.strip() for l in text.split("\n") if l.strip()]
+
+    # Skip header noise: very short lines, dates, numbers-only
+    skip_re = re.compile(
+        r"^(?:tax\s*invoice|invoice|receipt|bill|order|page|date|ref|"
+        r"original|duplicate|copy|irn|gstin|gst|pan|card\s*number|"
+        r"server|cashier|register|terminal|store|table|guest)\b",
+        re.IGNORECASE,
+    )
+    for line in lines[:5]:
+        # Skip if too short, too long, all digits, or a common header word
+        if len(line) < 3 or len(line) > 50:
+            continue
+        if re.match(r'^[\d\s\-/:.]+$', line):
+            continue
+        if skip_re.match(line):
+            continue
+        # Skip lines that look like addresses (numbers + street)
+        if re.match(r'^\d+[\s,]', line) and re.search(r'\b(?:road|street|st|floor|plot|no)\b', line, re.IGNORECASE):
+            continue
+        # This looks like a business/hotel name — clean and return it
+        # Remove trailing punctuation and garbled OCR characters
+        name = re.sub(r'[*#%&@!|_\[\]=]+', '', line).strip().rstrip(".,;:-")
+        if len(name) < 3:
+            continue
+        # Reject if too much OCR noise (>30% non-alphanumeric chars)
+        alnum_count = sum(1 for c in name if c.isalnum() or c.isspace())
+        if alnum_count / len(name) < 0.7:
+            continue
+        # Reject very short garbled words (< 3 alpha chars total)
+        alpha_count = sum(1 for c in name if c.isalpha())
+        if alpha_count < 3:
+            continue
+        # Must have at least one word with 4+ letters (real word, not OCR noise)
+        words = name.split()
+        if not any(len(w) >= 4 and w.isalpha() for w in words):
+            continue
+        # Strip trailing single-char OCR noise words
+        while words and len(words[-1]) <= 1:
+            words.pop()
+        return " ".join(words) if words else None
+    return None
 
 
 def _detect_vendor_from_filename(filename):
@@ -1313,7 +1404,8 @@ def _detect_vendor_from_filename(filename):
         ("TATA", "TATA AIG"),
         ("TRIP_FBT", "Tripstacc"),
         ("TRIPSTACC", "Tripstacc"),
-        ("APPLE", "Apple"),
+        ("APPLE_", "Apple"),
+        ("APPLE-", "Apple"),
         ("GOOGLE", "Google"),
         ("MICROSOFT", "Microsoft"),
         ("LINKEDIN", "LinkedIn"),
@@ -1396,6 +1488,10 @@ def extract_invoice(pdf_path, filename):
     # Do NOT guess from random PDF lines — wrong vendors cause bad bills in Zoho
     if not vendor:
         vendor = _detect_vendor_fallback(text)
+
+    # For image receipts: try first-line detection as last resort before giving up
+    if not vendor and filename.lower().endswith(('.jpg', '.jpeg', '.png')):
+        vendor = _detect_vendor_from_first_line(text)
 
     vendor_gstin = _extract_vendor_gstin(text)
 

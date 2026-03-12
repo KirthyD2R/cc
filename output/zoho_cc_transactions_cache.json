@@ -342,14 +342,6 @@
     "transaction_id": "2050328000001812261"
   },
   {
-    "date": "2025-10-23",
-    "description": "CUSTCAP SOLUTIONS PRIV, MUMBAI",
-    "amount": 79161.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812253"
-  },
-  {
     "date": "2025-10-19",
     "description": "LYFT *1 RIDE 10-18, SAN FRANCISCO",
     "amount": 349.92,

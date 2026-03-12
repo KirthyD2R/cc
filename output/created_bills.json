@@ -3108,5 +3108,15 @@
     "amount": 79161.0,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "image (7).png",
+    "status": "created",
+    "vendor_name": "Hotel esthell",
+    "vendor_id": "2050328000003089049",
+    "bill_id": "2050328000003120024",
+    "amount": 22855.0,
+    "currency": "INR",
+    "attached": true
   }
 ]
