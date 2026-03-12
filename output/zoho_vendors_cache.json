@@ -200,6 +200,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000003073110",
+    "contact_name": "Atlassian",
+    "company_name": "Atlassian Pty Ltd",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
     "contact_id": "2050328000001809186",
     "contact_name": "Atlassian Pty Ltd",
     "company_name": "Atlassian Pty Ltd",
@@ -701,14 +709,6 @@
     "company_name": "Power House",
     "gst_no": "33ACPPJ8218A2ZT",
     "gst_treatment": "business_gst",
-    "currency_code": "INR"
-  },
-  {
-    "contact_id": "2050328000003071094",
-    "contact_name": "QDF F and B (HIA Airport)",
-    "company_name": "",
-    "gst_no": "",
-    "gst_treatment": "overseas",
     "currency_code": "INR"
   },
   {

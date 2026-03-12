@@ -83,6 +83,13 @@
     "date": "2025-07-31",
     "bill_number": "GC-STMT-2025-07"
   },
+  "2050328000003067003": {
+    "vendor_name": "Google",
+    "amount": 22.22,
+    "currency": "INR",
+    "date": "2025-05-31",
+    "bill_number": "GC-STMT-2025-05"
+  },
   "2050328000003043078": {
     "vendor_name": "GoDaddy",
     "amount": 3439.7,

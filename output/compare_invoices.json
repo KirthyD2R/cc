@@ -11989,5 +11989,1804 @@
     ],
     "organized_path": null,
     "note": "Paid via GPay"
+  },
+  {
+    "file": "Atlassian_Invoice_IN-005-904-770.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\Atlassian_Invoice_IN-005-904-770.pdf",
+    "vendor_name": "Atlassian",
+    "invoice_number": "IN-005-904-770",
+    "date": "2026-03-10",
+    "amount": 104.49,
+    "currency": "USD",
+    "raw_text_preview": "Atlassian Invoice IN-005-904-770",
+    "vendor_gstin": null,
+    "line_items": [],
+    "organized_month": "Mar 2026",
+    "organized_path": null
+  },
+  {
+    "file": "Fw_ US Equity subscription.eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ US Equity subscription.eml",
+    "vendor_name": "Aionion Marketing Services",
+    "invoice_number": null,
+    "date": "2025-08-19",
+    "amount": 765.0,
+    "currency": "USD",
+    "raw_text_preview": "US Equity subscription payment via Ngenius payments",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "US Equity subscription",
+        "quantity": 1,
+        "unit_price": 765.0,
+        "amount": 765.0
+      }
+    ],
+    "organized_month": "Aug 2025",
+    "organized_path": null
+  },
+  {
+    "file": "Fw_ Your Google Play Order Receipt from Feb 14, 2026.eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Your Google Play Order Receipt from Feb 14, 2026.eml",
+    "vendor_name": "Google Play",
+    "invoice_number": "SOP.3340-7522-1622-16460..1",
+    "date": "2026-02-14",
+    "amount": 1950.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Play Order Receipt - Google One subscription renewal Feb 14, 2026",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google One (Monthly)",
+        "quantity": 1,
+        "unit_price": 1950.0,
+        "amount": 1950.0
+      }
+    ],
+    "organized_month": "Feb 2026",
+    "organized_path": null
+  },
+  {
+    "file": "Fw_ Your invoice from Apple..eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Your invoice from Apple..eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-501587728",
+    "date": "2025-06-24",
+    "amount": 365.0,
+    "currency": "INR",
+    "raw_text_preview": "Apple Tax Invoice - Truecaller Premium Monthly, Sequence 3-501587728",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Truecaller: Caller ID & Block - Premium Monthly",
+        "quantity": 1,
+        "unit_price": 365.0,
+        "amount": 365.0
+      }
+    ],
+    "organized_month": "Jun 2025",
+    "organized_path": null
+  },
+  {
+    "file": "Fw_ Your LinkedIn Order 10306022306.eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Your LinkedIn Order 10306022306.eml",
+    "vendor_name": "LinkedIn",
+    "invoice_number": "10306022306",
+    "date": "2025-04-24",
+    "amount": 1980.01,
+    "currency": "INR",
+    "raw_text_preview": "LinkedIn Order 10306022306 - LinkedIn Premium, Tax Invoice 9917SGP29002OSR",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "LinkedIn Premium subscription",
+        "quantity": 1,
+        "unit_price": 1980.01,
+        "amount": 1980.01
+      }
+    ],
+    "organized_month": "Apr 2025",
+    "organized_path": null
+  },
+  {
+    "file": "Your Google Play Order Receipt from Dec 14, 2025.eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Your Google Play Order Receipt from Dec 14, 2025.eml",
+    "vendor_name": "Google Play",
+    "invoice_number": "SOP.3340-7522-1622-16460",
+    "date": "2025-12-14",
+    "amount": 0.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Play Order Receipt - Google One trial subscription started Dec 14, 2025",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google One (Monthly) - Trial",
+        "quantity": 1,
+        "unit_price": 0.0,
+        "amount": 0.0
+      }
+    ],
+    "organized_month": "Dec 2025",
+    "organized_path": null
+  },
+  {
+    "file": "Your Google Play Order Receipt from Jan 14, 2026.eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Your Google Play Order Receipt from Jan 14, 2026.eml",
+    "vendor_name": "Google Play",
+    "invoice_number": "SOP.3340-7522-1622-16460..0",
+    "date": "2026-01-14",
+    "amount": 1950.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Play Order Receipt - Google One subscription renewal Jan 14, 2026",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Google One (Monthly)",
+        "quantity": 1,
+        "unit_price": 1950.0,
+        "amount": 1950.0
+      }
+    ],
+    "organized_month": "Jan 2026",
+    "organized_path": null
+  },
+  {
+    "file": "Your invoice from Apple. (1).eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Your invoice from Apple. (1).eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-615518480",
+    "date": "2026-02-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Apple Tax Invoice - Truecaller Premium Monthly, Sequence 3-615518480",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Truecaller: Caller ID & Block - Premium Monthly",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_month": "Feb 2026",
+    "organized_path": null
+  },
+  {
+    "file": "Your invoice from Apple. (2).eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Your invoice from Apple. (2).eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-621694190",
+    "date": "2026-03-05",
+    "amount": 269.0,
+    "currency": "INR",
+    "raw_text_preview": "Apple Tax Invoice - TickTick Premium Monthly, Sequence 3-621694190",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "TickTick:To-Do List, Calendar - Premium Monthly",
+        "quantity": 1,
+        "unit_price": 269.0,
+        "amount": 269.0
+      }
+    ],
+    "organized_month": "Mar 2026",
+    "organized_path": null
+  },
+  {
+    "file": "Your Subscription Renewal.eml[12][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[12][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2025-04-16",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal Apple TV+ Apple TV+ (1 month) ₹ 99.00/month Dear Kevin, We hope you are enjoying your subscription, which will renew soon. Starting from 16 April 2025, your subscription automatic",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple TV+ Apple TV+",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Apr 2025"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[16][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[16][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2024-11-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal Apple Music Individual (1 month) ₹ 99.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Starting from 23 November 2024, your subscription",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Music Individual",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Nov 2024"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[18][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[18][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2024-10-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal Apple Music Individual (1 month) ₹ 99.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Starting from 23 October 2024, your subscription ",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Music Individual",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Oct 2024"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[20][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[20][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2024-09-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal Apple Music Individual (1 month) ₹ 99.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Starting from 23 September 2024, your subscriptio",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Music Individual",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Sep 2024"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[21][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[21][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2024-09-11",
+    "amount": 29.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal JioCinema: Shows, TV & Sports JioCinema: Shows, TV & Sports Premium+Ad-Free+1 Device (1 month) ₹ 29.00/month Dear Sylvester, We hope you are enjoying your subscription, which will",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "JioCinema: Shows, TV & Sports JioCinema: Shows, TV & Sports Premium+Ad-Free+1 Device",
+        "quantity": 1,
+        "unit_price": 29.0,
+        "amount": 29.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Sep 2024"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[22][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[22][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2024-08-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal Apple Music Individual (1 month) ₹ 99.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Starting from 23 August 2024, your subscription a",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Music Individual",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Aug 2024"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[24][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[24][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2024-07-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal Apple Music Individual (1 month) ₹ 99.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Starting from 23 July 2024, your subscription aut",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Music Individual",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jul 2024"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[26][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[26][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2024-06-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal Apple Music Individual (1 month) ₹ 99.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Starting from 23 June 2024, your subscription aut",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Music Individual",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jun 2024"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[28][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[28][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2024-05-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal Apple Music Individual (1 month) ₹ 99.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Starting from 23 May 2024, your subscription auto",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Music Individual",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "May 2024"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[29][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[29][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2024-04-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal Apple Music Individual (1 month) ₹ 99.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Starting from 23 April 2024, your subscription au",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Music Individual",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Apr 2024"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[2][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[2][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2026-02-06",
+    "amount": 269.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal TickTick:To-Do List, Calendar TickTick Monthly TickTick Premium (1 month) ₹ 269.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Startin",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "TickTick:To-Do List, Calendar TickTick Monthly TickTick Premium",
+        "quantity": 1,
+        "unit_price": 269.0,
+        "amount": 269.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Feb 2026"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[30].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[30].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2026-03-06",
+    "amount": 269.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal TickTick:To-Do List, Calendar TickTick Monthly TickTick Premium (1 month) ₹ 269.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Startin",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "TickTick:To-Do List, Calendar TickTick Monthly TickTick Premium",
+        "quantity": 1,
+        "unit_price": 269.0,
+        "amount": 269.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Mar 2026"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[4][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[4][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2026-01-06",
+    "amount": 269.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal TickTick:To-Do List, Calendar TickTick Monthly TickTick Premium (1 month) ₹ 269.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Startin",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "TickTick:To-Do List, Calendar TickTick Monthly TickTick Premium",
+        "quantity": 1,
+        "unit_price": 269.0,
+        "amount": 269.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jan 2026"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[7][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[7][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2025-12-06",
+    "amount": 269.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal TickTick:To-Do List, Calendar TickTick Monthly TickTick Premium (1 month) ₹ 269.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Startin",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "TickTick:To-Do List, Calendar TickTick Monthly TickTick Premium",
+        "quantity": 1,
+        "unit_price": 269.0,
+        "amount": 269.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Dec 2025"
+  },
+  {
+    "file": "Your Subscription Renewal.eml[9][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your Subscription Renewal.eml[9][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2025-11-06",
+    "amount": 269.0,
+    "currency": "INR",
+    "raw_text_preview": "Subscription Renewal TickTick:To-Do List, Calendar TickTick Monthly TickTick Premium (1 month) ₹ 269.00/month Dear Sylvester, We hope you are enjoying your subscription, which will renew soon. Startin",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "TickTick:To-Do List, Calendar TickTick Monthly TickTick Premium",
+        "quantity": 1,
+        "unit_price": 269.0,
+        "amount": 269.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Nov 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[10][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[10][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-570265093",
+    "date": "2025-11-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 23 November 2025 Sequence: 3-570265093 Order ID: MNMSFXLMJM Document: 728053449508 Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (Month",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Nov 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[11][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[11][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-561981772",
+    "date": "2025-11-05",
+    "amount": 269.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 5 November 2025 Sequence: 3-561981772 Order ID: MNMSBXVZFY Document: 804045526587 Apple Account: sylvester.daniel@gmail.com TickTick:To-Do List, Calendar Monthly TickTick Premium (Monthly)",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: sylvester.daniel@gmail.com TickTick:To-Do List, Calendar Monthly TickTick Premium (Mo",
+        "quantity": 1,
+        "unit_price": 269.0,
+        "amount": 269.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Nov 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[12][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[12][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-555766408",
+    "date": "2025-10-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 23 October 2025 Sequence: 3-555766408 Order ID: MNMS9DLQMY Document: 834039394931 Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (Monthl",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Oct 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[13][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[13][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-541419947",
+    "date": "2025-09-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 23 September 2025 Sequence: 3-541419947 Order ID: MNMS60GQHG Document: 814025808067 Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (Mont",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Sep 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[14][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[14][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-527628679",
+    "date": "2025-08-23",
+    "amount": 75.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 23 August 2025 Sequence: 3-527628679 Order ID: MNMS2JZZH7 Document: 828012448101 Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (Monthly",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (",
+        "quantity": 1,
+        "unit_price": 75.0,
+        "amount": 75.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Aug 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[15][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[15][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-514460782",
+    "date": "2025-07-24",
+    "amount": 365.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 24 July 2025 Sequence: 3-514460782 Order ID: MT568ZV0L0 Document: 187984498231 Apple Account: 919790130244 Apple One Family (Monthly) SAC: 998439 Renews 25 August 2025 ₹ 365.00 Inclusive o",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: 919790130244 Apple One Family (Monthly)",
+        "quantity": 1,
+        "unit_price": 365.0,
+        "amount": 365.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jul 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[16][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[16][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-489101006",
+    "date": "2025-05-25",
+    "amount": 365.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND INVOICE DATE 25 May 2025 SEQUENCE NO. 3-4891010",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Family (Automatic Renewal) Family (Automatic Renewal) (Monthly) Renews 25 Jun 2025",
+        "quantity": 1,
+        "unit_price": 365.0,
+        "amount": 365.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "May 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[17][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[17][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-487813470",
+    "date": "2025-05-22",
+    "amount": -15.0,
+    "currency": "INR",
+    "raw_text_preview": "Credit Note APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND INVOICE DATE 22 May 2025 SEQUENCE NO. 3-4878134",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iCloud+ iCloud+ with 50 GB of storage Monthly",
+        "quantity": 1,
+        "unit_price": -15.0,
+        "amount": -15.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "May 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[18][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[18][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-485041705",
+    "date": "2025-05-17",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND INVOICE DATE 17 May 2025 SEQUENCE NO. 3-4850417",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store Pocket FM: Audio Series Buy coins worth $0.99 In-App Purchase Gayatri’s iPhone",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "May 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[19][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[19][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-478519339",
+    "date": "2025-04-28",
+    "amount": 75.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND INVOICE DATE 28 Apr 2025 SEQUENCE NO. 3-4785193",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iCloud+ iCloud+ with 50 GB of storage Monthly Renews 28 May 2025",
+        "quantity": 1,
+        "unit_price": 75.0,
+        "amount": 75.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Apr 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[20][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[20][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-477157671",
+    "date": "2025-04-24",
+    "amount": 179.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND INVOICE DATE 24 Apr 2025 SEQUENCE NO. 3-4771576",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Family Subscription Apple Music Family Subscription (Monthly) Renews 24 M",
+        "quantity": 1,
+        "unit_price": 179.0,
+        "amount": 179.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Apr 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[21][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[21][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-466672277",
+    "date": "2025-03-28",
+    "amount": 75.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND INVOICE DATE 28 Mar 2025 SEQUENCE NO. 3-4666722",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iCloud+ iCloud+ with 50 GB of storage Monthly Renews 28 Apr 2025",
+        "quantity": 1,
+        "unit_price": 75.0,
+        "amount": 75.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Mar 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[22][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[22][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-465466487",
+    "date": "2025-03-24",
+    "amount": 179.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND INVOICE DATE 24 Mar 2025 SEQUENCE NO. 3-4654664",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Family Subscription Apple Music Family Subscription (Monthly) Renews 24 A",
+        "quantity": 1,
+        "unit_price": 179.0,
+        "amount": 179.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Mar 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[23][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[23][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-455318511",
+    "date": "2025-02-28",
+    "amount": 75.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND INVOICE DATE 28 Feb 2025 SEQUENCE NO. 3-4553185",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iCloud+ iCloud+ with 50 GB of storage Monthly Renews 28 Mar 2025",
+        "quantity": 1,
+        "unit_price": 75.0,
+        "amount": 75.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Feb 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[24][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[24][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-448755107",
+    "date": "2025-02-14",
+    "amount": 179.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND INVOICE DATE 14 Feb 2025 SEQUENCE NO. 3-4487551",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Family Subscription Apple Music Family Subscription (Monthly) Renews 14 M",
+        "quantity": 1,
+        "unit_price": 179.0,
+        "amount": 179.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Feb 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[25][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[25][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-448456310",
+    "date": "2025-02-11",
+    "amount": 29.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND INVOICE DATE 11 Feb 2025 SEQUENCE",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store JioCinema-Shows, Movies & More Premium+Ad-Free+1 Device (Monthly) Renews 11 Mar 2025",
+        "quantity": 1,
+        "unit_price": 29.0,
+        "amount": 29.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Feb 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[26][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[26][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-442943435",
+    "date": "2025-01-28",
+    "amount": 75.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 28 Jan 2025 SEQUENCE NO. 3-44294",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iCloud+ iCloud+ with 50 GB of storage Monthly Renews 28 Feb 2025",
+        "quantity": 1,
+        "unit_price": 75.0,
+        "amount": 75.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jan 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[27][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[27][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-441067024",
+    "date": "2025-01-25",
+    "amount": 18.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT kevinkaden08@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 25 Jan 2025 SEQUENCE N",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iTunes Store Paradoxes Miyu Tomita Song Kevin’s iPhone 11 pro max",
+        "quantity": 1,
+        "unit_price": 18.0,
+        "amount": 18.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jan 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[28][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[28][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-439644659",
+    "date": "2025-01-20",
+    "amount": 999.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 20 Jan 2025 SEQUENCE NO. 3-43964",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store HugMe - Physical/Mental Health Premium (7 Day) Renews 27 Jan 2025",
+        "quantity": 1,
+        "unit_price": 999.0,
+        "amount": 999.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jan 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[29][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[29][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-437462636",
+    "date": "2025-01-14",
+    "amount": 179.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 14 Jan 2025 SEQUENCE NO. 3-43746",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Family Subscription Apple Music Family Subscription (Monthly) Renews 14 F",
+        "quantity": 1,
+        "unit_price": 179.0,
+        "amount": 179.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jan 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[30][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[30][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-437355949",
+    "date": "2025-01-13",
+    "amount": 999.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 13 Jan 2025 SEQUENCE NO. 3-43735",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store HugMe - Physical/Mental Health Premium (7 Day) Renews 20 Jan 2025",
+        "quantity": 1,
+        "unit_price": 999.0,
+        "amount": 999.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jan 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[31][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[31][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-436280238",
+    "date": "2025-01-11",
+    "amount": 29.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 11 Jan 2025 SEQUEN",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store JioCinema- Bigg Boss & Cricket Premium+Ad-Free+1 Device (Monthly) Renews 11 Feb 2025",
+        "quantity": 1,
+        "unit_price": 29.0,
+        "amount": 29.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jan 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[32][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[32][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-434523443",
+    "date": "2025-01-06",
+    "amount": 999.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 06 Jan 2025 SEQUENCE NO. 3-43452",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store HugMe - Physical/Mental Health Premium (7 Day) Renews 13 Jan 2025",
+        "quantity": 1,
+        "unit_price": 999.0,
+        "amount": 999.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jan 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[33][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[33][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-431788435",
+    "date": "2024-12-30",
+    "amount": 999.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 30 Dec 2024 SEQUENCE NO. 3-43178",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store HugMe - Physical/Mental Health Premium (7 Day) Renews 06 Jan 2025",
+        "quantity": 1,
+        "unit_price": 999.0,
+        "amount": 999.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Dec 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[34][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[34][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-430413458",
+    "date": "2024-12-28",
+    "amount": 75.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 28 Dec 2024 SEQUENCE NO. 3-43041",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iCloud+ iCloud+ with 50 GB of storage Monthly Renews 28 Jan 2025",
+        "quantity": 1,
+        "unit_price": 75.0,
+        "amount": 75.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Dec 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[35][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[35][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-428859209",
+    "date": "2024-12-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 23 Dec 2024 SEQUENCE NO. 3-42885",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store HugMe - Physical/Mental Health Premium (7 Day) Renews 30 Dec 2024 Gayatri’s iPhone",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Dec 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[36][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[36][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-425650921",
+    "date": "2024-12-14",
+    "amount": 179.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 14 Dec 2024 SEQUENCE NO. 3-42565",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Family Subscription Apple Music Family Subscription (Monthly) Renews 14 J",
+        "quantity": 1,
+        "unit_price": 179.0,
+        "amount": 179.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Dec 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[37][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[37][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-423843236",
+    "date": "2024-12-11",
+    "amount": 29.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 11 Dec 2024 SEQUEN",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store JioCinema- Bigg Boss & Cricket Premium+Ad-Free+1 Device (Monthly) Renews 11 Jan 2025",
+        "quantity": 1,
+        "unit_price": 29.0,
+        "amount": 29.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Dec 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[38][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[38][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-423243769",
+    "date": "2024-12-08",
+    "amount": 899.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 08 Dec 2024 SEQUEN",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store aha - 100% Local Entertainment aha GOLD (Yearly) Renews 08 Dec 2025",
+        "quantity": 1,
+        "unit_price": 899.0,
+        "amount": 899.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Dec 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[39][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[39][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-417710958",
+    "date": "2024-11-24",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 24 Nov 2024 SEQUEN",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Subscription Apple Music Subscription (Monthly) Renews 24 Dec 2024",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Nov 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[3][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[3][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-606463374",
+    "date": "2026-02-05",
+    "amount": 269.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 5 February 2026 Sequence: 3-606463374 Order ID: MNMSSVG0L7 Document: 664087463100 Apple Account: sylvester.daniel@gmail.com TickTick:To-Do List, Calendar Monthly TickTick Premium (Monthly)",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: sylvester.daniel@gmail.com TickTick:To-Do List, Calendar Monthly TickTick Premium (Mo",
+        "quantity": 1,
+        "unit_price": 269.0,
+        "amount": 269.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Feb 2026"
+  },
+  {
+    "file": "Your invoice from Apple..eml[40][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[40][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-415619895",
+    "date": "2024-11-19",
+    "amount": 899.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 19 Nov 2024 SEQUENCE NO. 3-41561",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store Sun NXT - Live TV & Movies Premium Annual subscription (Yearly) Renews 19 Nov 2025",
+        "quantity": 1,
+        "unit_price": 899.0,
+        "amount": 899.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Nov 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[41][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[41][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-412777775",
+    "date": "2024-11-11",
+    "amount": 29.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 11 Nov 2024 SEQUEN",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store JioCinema- Bigg Boss & Cricket Premium+Ad-Free+1 Device (Monthly) Renews 11 Dec 2024",
+        "quantity": 1,
+        "unit_price": 29.0,
+        "amount": 29.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Nov 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[42][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[42][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-408368032",
+    "date": "2024-10-30",
+    "amount": -499.0,
+    "currency": "INR",
+    "raw_text_preview": "Credit Note APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 30 Oct 2024 SEQUENCE NO. 3-40836",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store Hotstar- Movies & Live Cricket Mobile Annual Plan (Yearly)",
+        "quantity": 1,
+        "unit_price": -499.0,
+        "amount": -499.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Oct 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[43][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[43][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-407402372",
+    "date": "2024-10-28",
+    "amount": 75.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 28 Oct 2024 SEQUENCE NO. 3-40740",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iCloud+ iCloud+ with 50 GB of storage Monthly Renews 28 Nov 2024",
+        "quantity": 1,
+        "unit_price": 75.0,
+        "amount": 75.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Oct 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[44][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[44][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-405859078",
+    "date": "2024-10-24",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 24 Oct 2024 SEQUEN",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Subscription Apple Music Subscription (Monthly) Renews 24 Nov 2024",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Oct 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[45][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[45][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-402036164",
+    "date": "2024-10-11",
+    "amount": 29.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 11 Oct 2024 SEQUEN",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store JioCinema- Bigg Boss & Cricket Premium+Ad-Free+1 Device (Monthly) Renews 11 Nov 2024",
+        "quantity": 1,
+        "unit_price": 29.0,
+        "amount": 29.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Oct 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[46][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[46][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-396830053",
+    "date": "2024-09-28",
+    "amount": 75.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 28 Sept 2024 SEQUENCE NO. 3-3968",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iCloud+ iCloud+ with 50 GB of storage Monthly Renews 28 Oct 2024",
+        "quantity": 1,
+        "unit_price": 75.0,
+        "amount": 75.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Sep 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[47][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[47][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-395711604",
+    "date": "2024-09-24",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 24 Sept 2024 SEQUE",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Subscription Apple Music Subscription (Monthly) Renews 24 Oct 2024",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Sep 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[48][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[48][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-390787754",
+    "date": "2024-09-11",
+    "amount": 29.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 11 Sept 2024 SEQUE",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store JioCinema: Shows, TV & Sports Premium+Ad-Free+1 Device (Monthly) Renews 11 Oct 2024",
+        "quantity": 1,
+        "unit_price": 29.0,
+        "amount": 29.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Sep 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[49][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[49][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-386036855",
+    "date": "2024-08-28",
+    "amount": 75.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 28 Aug 2024 SEQUENCE NO. 3-38603",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iCloud+ iCloud+ with 50 GB of storage Monthly Renews 28 Sept 2024",
+        "quantity": 1,
+        "unit_price": 75.0,
+        "amount": 75.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Aug 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[4][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[4][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-600110085",
+    "date": "2026-01-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 23 January 2026 Sequence: 3-600110085 Order ID: MNMSQ6J4QW Document: 688081479106 Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (Monthl",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jan 2026"
+  },
+  {
+    "file": "Your invoice from Apple..eml[50][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[50][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-385016683",
+    "date": "2024-08-24",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ACCOUNT sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 24 Aug 2024 SEQUEN",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Subscription Apple Music Subscription (Monthly) Renews 24 Sept 2024",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Aug 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[51][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[51][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-381333403",
+    "date": "2024-08-11",
+    "amount": 29.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ID sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 11 Aug 2024 SEQUENCE NO",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store JioCinema – Olympics & More Premium+Ad-Free+1 Device (Monthly) Renews 11 Sep 2024",
+        "quantity": 1,
+        "unit_price": 29.0,
+        "amount": 29.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Aug 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[52][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[52][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-376519396",
+    "date": "2024-07-28",
+    "amount": 75.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ID 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 28 Jul 2024 SEQUENCE NO. 3-376519396 ",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iCloud+ iCloud+ with 50 GB of storage Monthly Renews 28 Aug 2024",
+        "quantity": 1,
+        "unit_price": 75.0,
+        "amount": 75.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jul 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[53][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[53][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-375455239",
+    "date": "2024-07-24",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ID sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 24 Jul 2024 SEQUENCE NO",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Subscription Apple Music Subscription (Monthly) Renews 24 Aug 2024",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jul 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[54][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[54][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-370945516",
+    "date": "2024-07-11",
+    "amount": 29.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ID sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 11 Jul 2024 SEQUENCE NO",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store JioCinema - Bigg Boss and more Premium+Ad-Free+1 Device (Monthly) Renews 11 Aug 2024",
+        "quantity": 1,
+        "unit_price": 29.0,
+        "amount": 29.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jul 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[55][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[55][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-366713468",
+    "date": "2024-06-28",
+    "amount": 75.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ID 919790130244 BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 28 Jun 2024 SEQUENCE NO. 3-366713468 ",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "iCloud+ iCloud+ with 50 GB of storage Monthly Renews 28 Jul 2024 Gayatri’s iPhone",
+        "quantity": 1,
+        "unit_price": 75.0,
+        "amount": 75.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jun 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[56][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[56][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-365243520",
+    "date": "2024-06-24",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ID sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 24 Jun 2024 SEQUENCE NO",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Subscription Apple Music Subscription (Monthly) Renews 24 Jul 2024",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jun 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[57][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[57][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-360370155",
+    "date": "2024-06-11",
+    "amount": 29.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ID sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 11 Jun 2024 SEQUENCE NO",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store JioCinema-Shows, Movies & More Premium+Ad-Free+1 Device (Monthly) Renews 11 Jul 2024",
+        "quantity": 1,
+        "unit_price": 29.0,
+        "amount": 29.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jun 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[58][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[58][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-355241770",
+    "date": "2024-05-24",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ID sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 24 May 2024 SEQUENCE NO",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Subscription Apple Music Subscription (Monthly) Renews 24 Jun 2024",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "May 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[59][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[59][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-349697643",
+    "date": "2024-05-11",
+    "amount": 29.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ID sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 11 May 2024 SEQUENCE NO",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "App Store JioCinema: TATA IPL & more Premium+Ad-Free+1 Device (Monthly) Renews 11 Jun 2024 Sylvester",
+        "quantity": 1,
+        "unit_price": 29.0,
+        "amount": 29.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "May 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[5][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[5][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-591136268",
+    "date": "2026-01-05",
+    "amount": 269.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 5 January 2026 Sequence: 3-591136268 Order ID: MNMSM21T7L Document: 852073090568 Apple Account: sylvester.daniel@gmail.com TickTick:To-Do List, Calendar Monthly TickTick Premium (Monthly) ",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: sylvester.daniel@gmail.com TickTick:To-Do List, Calendar Monthly TickTick Premium (Mo",
+        "quantity": 1,
+        "unit_price": 269.0,
+        "amount": 269.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Jan 2026"
+  },
+  {
+    "file": "Your invoice from Apple..eml[60][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[60][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-343489782",
+    "date": "2024-04-24",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice APPLE ID sylvester.daniel@gmail.com BILLED TO Store Credit Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND INVOICE DATE 24 Apr 2024 SEQUENCE NO",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Services Apple Music Subscription Apple Music Subscription (Monthly) Renews 24 May 2024",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Apr 2024"
+  },
+  {
+    "file": "Your invoice from Apple..eml[6][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[6][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-587714362",
+    "date": "2025-12-29",
+    "amount": 365.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 29 December 2025 Sequence: 3-587714362 Order ID: MT56WXYJ5Q Document: 840069610763 Apple Account: 919790130244 Apple One Family (Monthly) SAC: 998439 Renews 29 January 2026 Gayatri’s MacBo",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: 919790130244 Apple One Family (Monthly)",
+        "quantity": 1,
+        "unit_price": 365.0,
+        "amount": 365.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Dec 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[7][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[7][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-584818157",
+    "date": "2025-12-23",
+    "amount": 99.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 23 December 2025 Sequence: 3-584818157 Order ID: MNMSKDX51L Document: 656066608931 Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (Month",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: sylvester.daniel@gmail.com Truecaller: Caller ID & Block Truecaller Premium Monthly (",
+        "quantity": 1,
+        "unit_price": 99.0,
+        "amount": 99.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Dec 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[8][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[8][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-577609481",
+    "date": "2025-12-08",
+    "amount": 899.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 8 December 2025 Sequence: 3-577609481 Order ID: MNMSHLLYJ7 Document: 824059996980 Apple Account: sylvester.daniel@gmail.com aha - 100% Local Entertainment aha GOLD (Annual) SAC: 998433 Ren",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: sylvester.daniel@gmail.com aha - 100% Local Entertainment aha GOLD (Annual)",
+        "quantity": 1,
+        "unit_price": 899.0,
+        "amount": 899.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Dec 2025"
+  },
+  {
+    "file": "Your invoice from Apple..eml[9][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[9][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": "3-576646632",
+    "date": "2025-12-05",
+    "amount": 269.0,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice 5 December 2025 Sequence: 3-576646632 Order ID: MNMSHD8VF3 Document: 712058977243 Apple Account: sylvester.daniel@gmail.com TickTick:To-Do List, Calendar Monthly TickTick Premium (Monthly)",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "Apple Account: sylvester.daniel@gmail.com TickTick:To-Do List, Calendar Monthly TickTick Premium (Mo",
+        "quantity": 1,
+        "unit_price": 269.0,
+        "amount": 269.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Dec 2025"
+  },
+  {
+    "file": "Your receipt from Apple..eml[1][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your receipt from Apple..eml[1][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2025-03-24",
+    "amount": 1000.0,
+    "currency": "INR",
+    "raw_text_preview": "Receipt APPLE ACCOUNT 919790130244 BILLED TO UPI Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND DATE Mar 24, 2025 ORDER ID MT55WGJ2YL DOCUMENT NO. 199931617",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "₹ 1,000 Add Funds to Apple Account Gayatri’s iPhone ₹ 1,000",
+        "quantity": 1,
+        "unit_price": 1000.0,
+        "amount": 1000.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Mar 2025"
+  },
+  {
+    "file": "Your receipt from Apple..eml[2][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your receipt from Apple..eml[2][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2024-03-29",
+    "amount": 2000.0,
+    "currency": "INR",
+    "raw_text_preview": "Receipt APPLE ID 919790130244 BILLED TO UPI Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND DATE Mar 29, 2024 ORDER ID MT54KD3Y9B DOCUMENT NO. 172782078094",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "₹ 2,000 Add Funds to Apple ID Gayatri’s iPhone ₹ 2,000",
+        "quantity": 1,
+        "unit_price": 2000.0,
+        "amount": 2000.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Mar 2024"
+  },
+  {
+    "file": "Your receipt from Apple..eml[3][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your receipt from Apple..eml[3][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2024-03-23",
+    "amount": 5000.0,
+    "currency": "INR",
+    "raw_text_preview": "Receipt APPLE ID sylvester.daniel@gmail.com BILLED TO UPI Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai,  TN  600028 IND DATE Mar 23, 2024 ORDER ID MNMN38HDS1 DOCUMENT NO",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "₹ 5,000 Add Funds to Apple ID (+₹ 500 bonus) Sylvester’s iPhone ₹ 5,000",
+        "quantity": 1,
+        "unit_price": 5000.0,
+        "amount": 5000.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "Mar 2024"
+  },
+  {
+    "file": "Your receipt from Apple..eml[4].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your receipt from Apple..eml[4].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2025-05-22",
+    "amount": 2000.0,
+    "currency": "INR",
+    "raw_text_preview": "Receipt APPLE ACCOUNT 919790130244 BILLED TO UPI Sylvester  Daniel 9 Ramesh Mahesh Apt 169 R.K. Mutt road, Mandaveli Chennai, TN 600028 IND DATE May 22, 2025 ORDER ID MT562G89T7 DOCUMENT NO. 163957337",
+    "vendor_gstin": "9917IRL29001OSK",
+    "line_items": [
+      {
+        "description": "₹ 2,000 Add Funds to Apple Account Gayatri’s iPhone ₹ 2,000",
+        "quantity": 1,
+        "unit_price": 2000.0,
+        "amount": 2000.0
+      }
+    ],
+    "organized_path": null,
+    "organized_month": "May 2025"
   }
 ]

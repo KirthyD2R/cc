@@ -1,29 +1,6 @@
 {
   "matches": [
     {
-      "bill_id": "2050328000003067003",
-      "vendor_id": "2050328000002993047",
-      "vendor_name": "Google",
-      "bill_amount": 22.22,
-      "bill_currency": "INR",
-      "bill_date": "2025-05-31",
-      "bill_number": "GC-STMT-2025-05",
-      "status": "matched",
-      "match_score": 91,
-      "confidence": {
-        "vendor": 100,
-        "amount": 100,
-        "date": 75,
-        "overall": 91
-      },
-      "cc_transaction_id": "2050328000000939419",
-      "cc_description": "GOOGLECLOUD, MUMBAI",
-      "cc_inr_amount": 22.22,
-      "cc_date": "2025-06-03",
-      "cc_card": "Mayura Credit Card",
-      "match_type": "INR direct"
-    },
-    {
       "bill_id": "2050328000002984300",
       "vendor_id": "2050328000002997181",
       "vendor_name": "Anthropic USD",
@@ -47,13 +24,13 @@
       "match_type": "USD rate:90.02 actual:89.94"
     },
     {
-      "bill_id": "2050328000003080025",
-      "vendor_id": "2050328000003071094",
-      "vendor_name": "QDF F and B (HIA Airport)",
-      "bill_amount": 29.0,
-      "bill_currency": "INR",
-      "bill_date": "2025-06-23",
-      "bill_number": "014387",
+      "bill_id": "2050328000003078038",
+      "vendor_id": "2050328000001809186",
+      "vendor_name": "Atlassian Pty Ltd",
+      "bill_amount": 104.49,
+      "bill_currency": "USD",
+      "bill_date": "2026-03-10",
+      "bill_number": "IN-005-904-770",
       "status": "unmatched",
       "candidates": []
     },
@@ -116,24 +93,7 @@
       "bill_date": "2025-06-22",
       "bill_number": "POP-828",
       "status": "unmatched",
-      "candidates": [
-        {
-          "cc_transaction_id": "2050328000000939473",
-          "cc_description": "CHARLEYS PHILLY STEAKS, HOUSTON",
-          "cc_inr_amount": 712.73,
-          "cc_date": "2025-06-21",
-          "cc_card": "Mayura Credit Card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 40,
-            "date": 100,
-            "vendor": 0,
-            "uniqueness": 15
-          },
-          "candidate_score": 46
-        }
-      ]
+      "candidates": []
     },
     {
       "bill_id": "2050328000003067046",
@@ -1768,40 +1728,7 @@
       "bill_date": "2025-06-02",
       "bill_number": "INV86578999",
       "status": "unmatched",
-      "candidates": [
-        {
-          "cc_transaction_id": "2050328000000939479",
-          "cc_description": "QDF F AND B, Doha",
-          "cc_inr_amount": 690.09,
-          "cc_date": "2025-06-23",
-          "cc_card": "Mayura Credit Card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 85,
-            "date": 30,
-            "vendor": 0,
-            "uniqueness": 0
-          },
-          "candidate_score": 50
-        },
-        {
-          "cc_transaction_id": "2050328000000939473",
-          "cc_description": "CHARLEYS PHILLY STEAKS, HOUSTON",
-          "cc_inr_amount": 712.73,
-          "cc_date": "2025-06-21",
-          "cc_card": "Mayura Credit Card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 40,
-            "date": 30,
-            "vendor": 0,
-            "uniqueness": 0
-          },
-          "candidate_score": 27
-        }
-      ]
+      "candidates": []
     },
     {
       "bill_id": "2050328000002996177",
@@ -2004,22 +1931,6 @@
             "uniqueness": 0
           },
           "candidate_score": 30
-        },
-        {
-          "cc_transaction_id": "2050328000000939451",
-          "cc_description": "BEST BUY      00002386, BEAUMONT",
-          "cc_inr_amount": 1865.87,
-          "cc_date": "2025-06-15",
-          "cc_card": "Mayura Credit Card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 40,
-            "date": 10,
-            "vendor": 0,
-            "uniqueness": 0
-          },
-          "candidate_score": 22
         }
       ]
     },
@@ -3461,45 +3372,6 @@
       "unmatched_reason": "No Lyft bills"
     },
     {
-      "transaction_id": "2050328000000939479",
-      "description": "QDF F AND B, Doha",
-      "amount": 690.09,
-      "date": "2025-06-23",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "unmatched_reason": "No vendor signal"
-    },
-    {
-      "transaction_id": "2050328000000939475",
-      "description": "RESIDENCE INN BEAUMONT, BEAUMONT",
-      "amount": 76748.82,
-      "date": "2025-06-21",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Residence Inn by Marriott",
-      "unmatched_reason": "No Residence Inn by Marriott bills"
-    },
-    {
-      "transaction_id": "2050328000000939473",
-      "description": "CHARLEYS PHILLY STEAKS, HOUSTON",
-      "amount": 712.73,
-      "date": "2025-06-21",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Charley's Philly Steaks",
-      "unmatched_reason": "No Charley's Philly Steaks bills"
-    },
-    {
-      "transaction_id": "2050328000000939471",
-      "description": "WAL-MART #5959, HOUSTON",
-      "amount": 15002.91,
-      "date": "2025-06-21",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Walmart",
-      "unmatched_reason": "No Walmart bills"
-    },
-    {
       "transaction_id": "2050328000000939469",
       "description": "AMAZON MARK* NO9TV13F1, SEATTLE",
       "amount": 6978.06,
@@ -3537,16 +3409,6 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "unmatched_reason": "No vendor signal"
-    },
-    {
-      "transaction_id": "2050328000000939451",
-      "description": "BEST BUY      00002386, BEAUMONT",
-      "amount": 1865.87,
-      "date": "2025-06-15",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Best Buy",
-      "unmatched_reason": "No Best Buy bills"
     },
     {
       "transaction_id": "2050328000000939447",
@@ -3687,12 +3549,12 @@
   "card_cc_total": {
     "HDFC - 7196": 7,
     "Kotak bank credit card": 31,
-    "Mayura Credit Card": 70
+    "Mayura Credit Card": 64
   },
   "card_cc_unmatched": {
     "HDFC - 7196": 7,
     "Kotak bank credit card": 30,
-    "Mayura Credit Card": 67
+    "Mayura Credit Card": 62
   },
   "amex_matches": [
     {
@@ -4233,17 +4095,17 @@
         }
       ],
       "group_sum": 544.0,
-      "vendor_name": "Amazon → Aggarwal Enterprises, CLICKTECH RETAIL PRIVATE LIMITED",
+      "vendor_name": "Amazon → CLICKTECH RETAIL PRIVATE LIMITED, Aggarwal Enterprises",
       "vendor_id": "2050328000003010470",
       "match_type": "amazon_marketplace"
     }
   ],
   "summary": {
-    "total_bills": 148,
-    "matched": 2,
+    "total_bills": 147,
+    "matched": 1,
     "unmatched": 146,
     "already_paid": 0,
-    "unmatched_cc_count": 104,
+    "unmatched_cc_count": 99,
     "amex_matched": 18,
     "group_matched": 2
   }

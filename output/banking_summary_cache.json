@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-03-11 17:06:28",
+  "fetched_at": "2026-03-11 18:08:27",
   "transactions": [
     {
       "card": "HDFC-8948",
@@ -5292,38 +5292,6 @@
     {
       "card": "Mayura Credit Card",
       "status": "uncategorized",
-      "transaction_id": "2050328000000939479",
-      "date": "2025-06-23",
-      "amount": 690.09,
-      "description": "QDF F AND B, Doha"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
-      "transaction_id": "2050328000000939475",
-      "date": "2025-06-21",
-      "amount": 76748.82,
-      "description": "RESIDENCE INN BEAUMONT, BEAUMONT"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
-      "transaction_id": "2050328000000939473",
-      "date": "2025-06-21",
-      "amount": 712.73,
-      "description": "CHARLEYS PHILLY STEAKS, HOUSTON"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
-      "transaction_id": "2050328000000939471",
-      "date": "2025-06-21",
-      "amount": 15002.91,
-      "description": "WAL-MART #5959, HOUSTON"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
       "transaction_id": "2050328000000939469",
       "date": "2025-06-19",
       "amount": 6978.06,
@@ -5356,14 +5324,6 @@
     {
       "card": "Mayura Credit Card",
       "status": "uncategorized",
-      "transaction_id": "2050328000000939451",
-      "date": "2025-06-15",
-      "amount": 1865.87,
-      "description": "BEST BUY      00002386, BEAUMONT"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
       "transaction_id": "2050328000000939447",
       "date": "2025-06-13",
       "amount": 1996.0,
@@ -5392,14 +5352,6 @@
       "date": "2025-06-04",
       "amount": 1714.72,
       "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
-      "transaction_id": "2050328000000939419",
-      "date": "2025-06-03",
-      "amount": 22.22,
-      "description": "GOOGLECLOUD, MUMBAI"
     },
     {
       "card": "Mayura Credit Card",
@@ -6212,6 +6164,38 @@
     {
       "card": "Mayura Credit Card",
       "status": "matched",
+      "transaction_id": "2050328000003086027",
+      "date": "2025-06-21",
+      "amount": 712.73,
+      "description": "CHARLEYS PHILLY STEAKS, HOUSTON"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003082047",
+      "date": "2025-06-21",
+      "amount": 76748.82,
+      "description": "RESIDENCE INN BEAUMONT, BEAUMONT"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003066019",
+      "date": "2025-06-21",
+      "amount": 15002.91,
+      "description": "WAL-MART #5959, HOUSTON"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003068078",
+      "date": "2025-06-15",
+      "amount": 1865.87,
+      "description": "BEST BUY      00002386, BEAUMONT"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
       "transaction_id": "2050328000002990123",
       "date": "2025-06-13",
       "amount": 25927.96,
@@ -6272,6 +6256,14 @@
       "date": "2025-06-08",
       "amount": 274.87,
       "description": "GITHUB, INC., SAN FRANCISCO"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003059840",
+      "date": "2025-06-03",
+      "amount": 22.22,
+      "description": "GOOGLECLOUD, MUMBAI"
     },
     {
       "card": "Mayura Credit Card",
@@ -6471,38 +6463,6 @@
       "transaction_id": "2050328000003000329",
       "date": "2025-08-15",
       "amount": 15669.88,
-      "description": ""
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "manually_added",
-      "transaction_id": "2050328000003086027",
-      "date": "2025-06-21",
-      "amount": 712.73,
-      "description": ""
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "manually_added",
-      "transaction_id": "2050328000003082047",
-      "date": "2025-06-21",
-      "amount": 76748.82,
-      "description": ""
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "manually_added",
-      "transaction_id": "2050328000003066019",
-      "date": "2025-06-21",
-      "amount": 15002.91,
-      "description": ""
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "manually_added",
-      "transaction_id": "2050328000003068078",
-      "date": "2025-06-15",
-      "amount": 1865.87,
       "description": ""
     },
     {
@@ -7144,6 +7104,14 @@
       "date": "2025-06-24",
       "amount": 523.52,
       "description": "JOE & THE JUICE HIA, DOHA"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "categorized",
+      "transaction_id": "2050328000003059899",
+      "date": "2025-06-23",
+      "amount": 690.09,
+      "description": "QDF F AND B, Doha"
     },
     {
       "card": "Mayura Credit Card",

@@ -2748,5 +2748,15 @@
     "amount": 29.0,
     "currency": "QAR",
     "attached": true
+  },
+  {
+    "file": "Atlassian_Invoice_IN-005-904-770.pdf",
+    "status": "created",
+    "vendor_name": "Atlassian Pty Ltd",
+    "vendor_id": "2050328000001809186",
+    "bill_id": "2050328000003078038",
+    "amount": 104.49,
+    "currency": "USD",
+    "attached": true
   }
 ]

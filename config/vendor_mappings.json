@@ -824,6 +824,11 @@
         "Chick-fil-A": {
             "account_name": "Meals and Entertainment",
             "account_id": "2050328000000000546"
+        },
+        "Atlassian": {
+            "account_name": "Software Subscriptions - Dev Tools",
+            "account_id": "2050328000002867018",
+            "category": "saas_devtools"
         }
     }
 }

@@ -688,38 +688,6 @@
     "transaction_id": "2050328000000939481"
   },
   {
-    "date": "2025-06-23",
-    "description": "QDF F AND B, Doha",
-    "amount": 690.09,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939479"
-  },
-  {
-    "date": "2025-06-21",
-    "description": "RESIDENCE INN BEAUMONT, BEAUMONT",
-    "amount": 76748.82,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939475"
-  },
-  {
-    "date": "2025-06-21",
-    "description": "CHARLEYS PHILLY STEAKS, HOUSTON",
-    "amount": 712.73,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939473"
-  },
-  {
-    "date": "2025-06-21",
-    "description": "WAL-MART #5959, HOUSTON",
-    "amount": 15002.91,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939471"
-  },
-  {
     "date": "2025-06-19",
     "description": "AMAZON MARK* NO9TV13F1, SEATTLE",
     "amount": 6978.06,
@@ -752,14 +720,6 @@
     "transaction_id": "2050328000000939455"
   },
   {
-    "date": "2025-06-15",
-    "description": "BEST BUY      00002386, BEAUMONT",
-    "amount": 1865.87,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939451"
-  },
-  {
     "date": "2025-06-13",
     "description": "RSP*TATA AIG GENERAL I, MUMBAI",
     "amount": 1996.0,
@@ -790,14 +750,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939421"
-  },
-  {
-    "date": "2025-06-03",
-    "description": "GOOGLECLOUD, MUMBAI",
-    "amount": 22.22,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939419"
   },
   {
     "date": "2025-06-01",

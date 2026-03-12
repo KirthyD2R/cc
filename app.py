@@ -8844,7 +8844,8 @@ function _buildCheckboxDropdown(id, label, options) {
     + '<input type="text" class="cb-dropdown-search" id="cbd_search_' + id + '" placeholder="Search..." oninput="_filterCbDropdown(\'' + id + '\')">'
     + '<div class="cb-dropdown-list">';
   options.forEach(function(o) {
-    html += '<label><input type="checkbox" checked value="' + o.value + '" onchange="_onCbChange(\'' + id + '\')">' + o.text + '</label>';
+    var chk = o.checked === false ? '' : ' checked';
+    html += '<label><input type="checkbox"' + chk + ' value="' + o.value + '" onchange="_onCbChange(\'' + id + '\')">' + o.text + '</label>';
   });
   html += '</div></div></div>';
   return html;
@@ -9147,6 +9148,26 @@ function _buildFilterBar(preview) {
   html += '<div class="bill-filter-group"><label>Status</label>' + _buildCheckboxDropdown('status', 'Status', statusOpts) + '</div>';
   var matchOpts = [{value:'gstin',text:'GSTIN'},{value:'name',text:'Name'},{value:'fuzzy',text:'Fuzzy'},{value:'manual',text:'Manual'}];
   html += '<div class="bill-filter-group"><label>Match Type</label>' + _buildCheckboxDropdown('matchtype', 'Match Type', matchOpts) + '</div>';
+  // Financial Year filter — FY runs Apr to Mar (e.g. FY 2025-26 = Apr 2025 – Mar 2026)
+  var fySet = {};
+  preview.forEach(function(p) {
+    if (p.date) {
+      var parts = p.date.split('-');
+      var y = parseInt(parts[0]), m = parseInt(parts[1]);
+      var fy = m >= 4 ? y : y - 1; // Apr-Dec = same year, Jan-Mar = previous year
+      fySet[fy] = 1;
+    }
+  });
+  var currentDate = new Date();
+  var currentFY = currentDate.getMonth() >= 3 ? currentDate.getFullYear() : currentDate.getFullYear() - 1;
+  var fyOpts = Object.keys(fySet).sort().map(function(fy) {
+    var fyNum = parseInt(fy);
+    var nextYr = (fyNum + 1).toString().substring(2);
+    return {value: fy, text: 'FY ' + fy + '-' + nextYr, checked: fyNum >= currentFY};
+  });
+  if (fyOpts.length > 1) {
+    html += '<div class="bill-filter-group"><label>FY</label>' + _buildCheckboxDropdown('year', 'FY', fyOpts) + '</div>';
+  }
   html += '<button class="bill-filter-clear" onclick="clearBillFilters()">Clear</button>';
   html += '</div>';
   return html;
@@ -9283,6 +9304,7 @@ function applyBillFilters() {
   var maxAmt = document.getElementById('bfMaxAmt') ? parseFloat(document.getElementById('bfMaxAmt').value) : NaN;
   var statuses = _getCbValues('status');
   var matchTypes = _getCbValues('matchtype');
+  var years = _getCbValues('year');
 
   // Build sorted month list for range filtering
   var allMonths = [];
@@ -9301,6 +9323,15 @@ function applyBillFilters() {
   for (var i = fromIdx; i <= toIdx; i++) validMonths[allMonths[i]] = 1;
 
   _billFilteredRows = preview.filter(function(inv) {
+    // Financial Year filter (Apr-Mar)
+    if (years.length) {
+      if (inv.date) {
+        var dp = inv.date.split('-');
+        var iy = parseInt(dp[0]), im = parseInt(dp[1]);
+        var invFY = (im >= 4 ? iy : iy - 1).toString();
+        if (years.indexOf(invFY) < 0) return false;
+      }
+    }
     var m = inv.organized_month || 'Unknown';
     if (fromVal || toVal) { if (!validMonths[m]) return false; }
     if (vendors.length && vendors.indexOf(inv.vendor_name || 'Unknown') < 0) return false;
@@ -9364,7 +9395,7 @@ function clearBillFilters() {
     var el = document.getElementById(id);
     if (el) el.value = '';
   });
-  ['vendor','status','matchtype'].forEach(function(id) { _cbSelectAll(id); });
+  ['vendor','status','matchtype','year'].forEach(function(id) { _cbSelectAll(id); });
   applyBillFilters();
 }
 
@@ -9520,10 +9551,12 @@ function openBillPicker() {
       if (el) el.addEventListener('change', applyBillFilters);
     });
 
-    _billFilteredRows = preview.slice();
-    _sortFilteredRows();
-    _renderTableRows();
-    _updateSelectionUI();
+    // Update badge for year filter (2024 unchecked by default) and apply filters
+    _updateCbBadge('year');
+    _updateCbBadge('status');
+    _updateCbBadge('vendor');
+    _updateCbBadge('matchtype');
+    applyBillFilters();
   }).catch(function(err) {
     addLogLine('[Bills] Match preview failed: ' + err + ' — falling back');
     _loadBasicBillPicker(body, summary);
