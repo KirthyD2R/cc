@@ -4154,6 +4154,131 @@ def api_banking_summary():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route("/api/banking/vendor-breakdown")
+def api_banking_vendor_breakdown():
+    """Fuzzy-match uncategorized CC transactions to vendors and return breakdown."""
+    try:
+        from scripts.utils import load_config, log_action
+
+        # Load banking summary cache (uncategorized txns)
+        if not os.path.exists(_BANKING_SUMMARY_CACHE):
+            return jsonify({"error": "No banking data cached. Open Banking Summary first."}), 400
+
+        with open(_BANKING_SUMMARY_CACHE, "r", encoding="utf-8") as f:
+            cache_data = json.load(f)
+        all_raw = cache_data.get("transactions", [])
+
+        uncat = [t for t in all_raw if t.get("status") == "uncategorized"]
+
+        # Load vendor mappings for resolution
+        config = load_config()
+        vm = config.get("vendor_mappings", {})
+        cc_map = vm.get("cc_description_to_vendor", {})
+        gstin_map = vm.get("gstin_to_vendor", {})
+
+        # Build lookup: lowered key -> vendor
+        vm_lower = {}
+        for k, v in cc_map.items():
+            vm_lower[k.lower()] = v
+
+        # Load learned mappings
+        learned_path = os.path.join(PROJECT_ROOT, "config", "learned_vendor_mappings.json")
+        learned = {}
+        if os.path.exists(learned_path):
+            with open(learned_path, "r", encoding="utf-8") as f:
+                learned = json.load(f)
+
+        # Load bills cache for vendor list
+        bills_cache = os.path.join(PROJECT_ROOT, "output", "zoho_bills_cache.json")
+        bill_vendors = {}
+        if os.path.exists(bills_cache):
+            with open(bills_cache, "r", encoding="utf-8") as f:
+                bills = json.load(f)
+            for b in bills:
+                vn = b.get("vendor_name", "")
+                if vn:
+                    bill_vendors[vn.lower()] = vn
+                    # First keyword
+                    words = vn.split()
+                    if words:
+                        fw = words[0].lower()
+                        if len(fw) >= 4:
+                            bill_vendors[fw] = vn
+
+        def _resolve(desc):
+            if not desc:
+                return "Unknown"
+            dl = desc.lower()
+            dn = "".join(c for c in dl if c.isalnum() or c == " ")
+
+            # CC mapping (exact + substring)
+            if dl in vm_lower:
+                return vm_lower[dl]
+            for key in sorted(vm_lower.keys(), key=len, reverse=True):
+                if key and len(key) >= 4 and key in dl:
+                    return vm_lower[key]
+
+            # Learned (uppercase)
+            du = desc.strip().upper()
+            if du in learned:
+                return learned[du]
+            for key in sorted(learned.keys(), key=len, reverse=True):
+                if key and len(key) >= 4 and key in du:
+                    return learned[key]
+
+            # Fuzzy: first keyword against bill vendors
+            _noise = {"si", "in", "mumbai", "bangalore", "chennai", "delhi",
+                      "india", "ca", "us", "www", "https", "com", "pte", "pvt", "ltd"}
+            tokens = [t.lower() for t in desc.replace(",", " ").replace("*", " ").split()
+                      if len(t) >= 3 and t.lower() not in _noise]
+            for tok in tokens[:3]:
+                if tok in bill_vendors:
+                    return bill_vendors[tok]
+
+            # Return first meaningful token as label
+            return tokens[0].title() if tokens else "Unknown"
+
+        # Build vendor breakdown
+        from collections import defaultdict
+        vendor_data = defaultdict(lambda: {"count": 0, "amount": 0, "cards": defaultdict(int), "txns": []})
+
+        for t in uncat:
+            vendor = _resolve(t.get("description", ""))
+            vd = vendor_data[vendor]
+            vd["count"] += 1
+            vd["amount"] += t.get("amount", 0)
+            vd["cards"][t.get("card", "")] += 1
+            if len(vd["txns"]) < 5:  # limit sample txns
+                vd["txns"].append({
+                    "date": t.get("date", ""),
+                    "amount": t.get("amount", 0),
+                    "description": t.get("description", "")[:80],
+                    "card": t.get("card", ""),
+                })
+
+        # Sort by count desc
+        result = []
+        for vendor, vd in sorted(vendor_data.items(), key=lambda x: -x[1]["count"]):
+            result.append({
+                "vendor": vendor,
+                "count": vd["count"],
+                "amount": round(vd["amount"], 2),
+                "cards": dict(vd["cards"]),
+                "txns": vd["txns"],
+            })
+
+        log_action(f"Vendor breakdown: {len(uncat)} uncategorized -> {len(result)} vendors")
+        return jsonify({
+            "total_uncategorized": len(uncat),
+            "vendors": result,
+            "fetched_at": cache_data.get("fetched_at", ""),
+        })
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/api/banking/auto-match-preview")
 def api_banking_auto_match_preview():
     """Fetch uncategorized CC transactions and their best matching suggestions."""
@@ -7168,11 +7293,13 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
           </select>
           <button onclick="document.getElementById('bsCardFilter').value='';filterBankingSummary()" style="background:transparent;color:var(--accent);border:1px dashed var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Clear</button>
           <span id="bsCacheInfo" style="font-size:10px;color:var(--text-dim);margin-left:auto"></span>
+          <button id="bsVendorBtn" onclick="toggleVendorBreakdown()" style="background:var(--orange);color:#000;border:none;border-radius:4px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600">Vendor Breakdown</button>
           <button onclick="openBankingSummary(true)" style="background:var(--accent);color:#fff;border:none;border-radius:4px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600">Refresh from Zoho</button>
         </div>
         <div id="bankingSummaryBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto;padding:12px">
           <div class="review-loading" id="bsLoading">Fetching banking data...</div>
           <div id="bsContent" style="display:none"></div>
+          <div id="bsVendorContent" style="display:none"></div>
         </div>
       </div>
 
@@ -8731,6 +8858,108 @@ function _bsFormatMonth(ym) {
   var parts = ym.split('-');
   var names = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return (names[parseInt(parts[1])] || parts[1]) + ' ' + parts[0];
+}
+
+// ========== Vendor Breakdown (inside Banking Summary) ==========
+var _bsVendorMode = false;
+
+function toggleVendorBreakdown() {
+  _bsVendorMode = !_bsVendorMode;
+  var btn = document.getElementById('bsVendorBtn');
+  if (_bsVendorMode) {
+    btn.textContent = 'Month View';
+    btn.style.background = 'var(--accent)';
+    btn.style.color = '#fff';
+    document.getElementById('bsContent').style.display = 'none';
+    document.getElementById('bsVendorContent').style.display = 'block';
+    loadVendorBreakdown();
+  } else {
+    btn.textContent = 'Vendor Breakdown';
+    btn.style.background = 'var(--orange)';
+    btn.style.color = '#000';
+    document.getElementById('bsContent').style.display = 'block';
+    document.getElementById('bsVendorContent').style.display = 'none';
+  }
+}
+
+function loadVendorBreakdown() {
+  var el = document.getElementById('bsVendorContent');
+  el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-dim)">Loading vendor breakdown...</div>';
+  fetch('/api/banking/vendor-breakdown')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) { el.innerHTML = '<div style="padding:20px;color:var(--red)">' + data.error + '</div>'; return; }
+      renderVendorBreakdown(data);
+    })
+    .catch(function(err) {
+      el.innerHTML = '<div style="padding:20px;color:var(--red)">Failed: ' + err + '</div>';
+    });
+}
+
+function renderVendorBreakdown(data) {
+  var fmt = function(n) { return n != null ? Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) : '0.00'; };
+  var el = document.getElementById('bsVendorContent');
+  var vendors = data.vendors || [];
+  var total = data.total_uncategorized || 0;
+
+  var html = '';
+  // Summary
+  html += '<div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap">';
+  html += _bsStatCard('Uncategorized', total, vendors.length + ' vendors', 'var(--red)');
+  // Top 3 vendors
+  vendors.slice(0, 3).forEach(function(v) {
+    html += _bsStatCard(v.vendor, v.count + ' txns', '&#8377; ' + fmt(v.amount), 'var(--orange)');
+  });
+  html += '</div>';
+
+  // Search bar
+  html += '<div style="margin-bottom:10px"><input type="text" id="bsVendorSearch" oninput="filterVendorBreakdown()" placeholder="Search vendor..." style="padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;min-width:300px;color-scheme:dark"></div>';
+
+  // Table
+  var th = 'padding:8px 6px;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-dim);cursor:pointer;user-select:none;';
+  html += '<table id="bsVendorTable" style="width:100%;border-collapse:collapse;font-size:12px">';
+  html += '<thead><tr style="border-bottom:2px solid var(--border);text-align:left">';
+  html += '<th style="' + th + '">Vendor</th>';
+  html += '<th style="' + th + 'text-align:right">Txns</th>';
+  html += '<th style="' + th + 'text-align:right">Amount</th>';
+  html += '<th style="' + th + '">Cards</th>';
+  html += '<th style="' + th + '">Sample Transactions</th>';
+  html += '</tr></thead><tbody>';
+
+  vendors.forEach(function(v) {
+    var cardTags = '';
+    for (var c in v.cards) {
+      var short = c.replace(/credit card/i, 'CC').replace(/bank /i, '');
+      cardTags += '<span style="display:inline-block;background:rgba(99,102,241,0.15);color:var(--accent);border-radius:3px;padding:1px 6px;font-size:10px;margin:1px 2px">' + short + ' (' + v.cards[c] + ')</span>';
+    }
+
+    var samples = '';
+    (v.txns || []).forEach(function(t) {
+      samples += '<div style="font-size:10px;color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:350px" title="' + (t.description || '').replace(/"/g, '&quot;') + '">' + t.date + ' | ' + fmt(t.amount) + ' | ' + (t.description || '').substring(0, 50) + '</div>';
+    });
+
+    var pct = total > 0 ? (v.count / total * 100).toFixed(1) : 0;
+
+    html += '<tr data-vendor="' + (v.vendor || '').toLowerCase() + '" style="border-bottom:1px solid var(--border)">';
+    html += '<td style="padding:8px 6px;font-weight:600">' + v.vendor + '<div style="font-size:10px;color:var(--text-dim);font-weight:normal">' + pct + '% of uncategorized</div></td>';
+    html += '<td style="padding:8px 6px;text-align:right;font-weight:700;color:var(--red)">' + v.count + '</td>';
+    html += '<td style="padding:8px 6px;text-align:right;font-weight:600">&#8377; ' + fmt(v.amount) + '</td>';
+    html += '<td style="padding:8px 6px">' + cardTags + '</td>';
+    html += '<td style="padding:8px 6px">' + samples + '</td>';
+    html += '</tr>';
+  });
+
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+function filterVendorBreakdown() {
+  var search = (document.getElementById('bsVendorSearch').value || '').toLowerCase();
+  var rows = document.querySelectorAll('#bsVendorTable tbody tr');
+  rows.forEach(function(r) {
+    var vendor = r.getAttribute('data-vendor') || '';
+    r.style.display = (!search || vendor.indexOf(search) >= 0) ? '' : 'none';
+  });
 }
 
 function renderAutoMatch(data) {
