@@ -1,8 +1,7 @@
 # Credentials - NEVER commit these
 
 .env*
-config/outlook_config.json
-config/outlook_token.json
+config/
 
 # Input/Output data
 .playwright-mcp
