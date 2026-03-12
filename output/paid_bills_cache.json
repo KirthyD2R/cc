@@ -1,10 +1,45 @@
 {
+  "2050328000003108064": {
+    "vendor_name": "Google",
+    "amount": 349.0,
+    "currency": "INR",
+    "date": "2025-09-03",
+    "bill_number": "SOP.3355-9292-3472-47496"
+  },
+  "2050328000003109017": {
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "amount": 1980.01,
+    "currency": "INR",
+    "date": "2025-04-24",
+    "bill_number": "10306022306"
+  },
+  "2050328000003100005": {
+    "vendor_name": "Google",
+    "amount": 8.83,
+    "currency": "INR",
+    "date": "2025-04-30",
+    "bill_number": "GC-STMT-2025-04"
+  },
   "2050328000003107003": {
     "vendor_name": "Aionion Marketing Services",
     "amount": 765.0,
     "currency": "USD",
     "date": "2025-08-19",
     "bill_number": "Fw_ US Equity subscription"
+  },
+  "2050328000003102004": {
+    "vendor_name": "Google",
+    "amount": 1950.0,
+    "currency": "INR",
+    "date": "2026-01-14",
+    "bill_number": "SOP.3340-7522-1622-16460..0"
+  },
+  "2050328000003105003": {
+    "vendor_name": "Google",
+    "amount": 1950.0,
+    "currency": "INR",
+    "date": "2026-02-14",
+    "bill_number": "SOP.3340-7522-1622-16460..1"
   },
   "2050328000003083027": {
     "vendor_name": "Charley's Philly Steaks",
@@ -279,6 +314,13 @@
     "date": "2025-05-06",
     "bill_number": "IN-755"
   },
+  "2050328000002993814": {
+    "vendor_name": "Shivam Enterprises",
+    "amount": 149.0,
+    "currency": "INR",
+    "date": "2025-06-26",
+    "bill_number": "IN-4132"
+  },
   "2050328000002998509": {
     "vendor_name": "SAJANI FASHION",
     "amount": 296.01,
@@ -299,6 +341,20 @@
     "currency": "INR",
     "date": "2025-05-06",
     "bill_number": "IN-3035"
+  },
+  "2050328000003008398": {
+    "vendor_name": "GLOBAL BRANDS",
+    "amount": 327.0,
+    "currency": "INR",
+    "date": "2025-06-26",
+    "bill_number": "MAA4-12223"
+  },
+  "2050328000003013331": {
+    "vendor_name": "Aggarwal Enterprises",
+    "amount": 319.0,
+    "currency": "INR",
+    "date": "2025-06-26",
+    "bill_number": "IN-1362"
   },
   "2050328000003015156": {
     "vendor_name": "SANTOSH DEVI BHANSALI",
@@ -370,12 +426,40 @@
     "date": "2025-05-06",
     "bill_number": "FMAB-74681"
   },
+  "2050328000003004434": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 258.0,
+    "currency": "INR",
+    "date": "2025-06-26",
+    "bill_number": "MAA4-2216157"
+  },
+  "2050328000002996227": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 452.2,
+    "currency": "INR",
+    "date": "2025-06-26",
+    "bill_number": "MAA4-2213948"
+  },
+  "2050328000003009439": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 336.3,
+    "currency": "INR",
+    "date": "2025-06-26",
+    "bill_number": "FMAB-182420"
+  },
   "2050328000002990402": {
     "vendor_name": "R K WorldInfocom Pvt. Ltd.",
     "amount": 267.75,
     "currency": "INR",
     "date": "2025-07-01",
     "bill_number": "MAA4-2323237"
+  },
+  "2050328000002995406": {
+    "vendor_name": "R K WorldInfocom Pvt. Ltd.",
+    "amount": 541.5,
+    "currency": "INR",
+    "date": "2025-07-01",
+    "bill_number": "MAA4-2323214"
   },
   "2050328000002986398": {
     "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
@@ -454,6 +538,13 @@
     "date": "2025-04-30",
     "bill_number": "5237284366"
   },
+  "2050328000003009331": {
+    "vendor_name": "ETRADE MARKETING PVT LTD",
+    "amount": 198.0,
+    "currency": "INR",
+    "date": "2025-06-26",
+    "bill_number": "BLR7-1062095"
+  },
   "2050328000002993599": {
     "vendor_name": "COCOBLU RETAIL LIMITED",
     "amount": 449.0,
@@ -474,6 +565,20 @@
     "currency": "INR",
     "date": "2025-09-10",
     "bill_number": "FMAB-224829"
+  },
+  "2050328000003001229": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 225.0,
+    "currency": "INR",
+    "date": "2025-06-26",
+    "bill_number": "MAA4-1088537"
+  },
+  "2050328000003019984": {
+    "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
+    "amount": 294.0,
+    "currency": "INR",
+    "date": "2025-06-26",
+    "bill_number": "MAA4-1088415"
   },
   "2050328000003008311": {
     "vendor_name": "CLICKTECH RETAIL PRIVATE LIMITED",
@@ -663,6 +768,13 @@
     "currency": "USD",
     "date": "2026-02-12",
     "bill_number": "7CC5E2D2-0004"
+  },
+  "2050328000002993447": {
+    "vendor_name": "Accuprints",
+    "amount": 197.01,
+    "currency": "INR",
+    "date": "2025-06-26",
+    "bill_number": "VLMN-7560"
   },
   "2050328000002991203": {
     "vendor_name": "Microsoft Corporation (India) Pvt Ltd",

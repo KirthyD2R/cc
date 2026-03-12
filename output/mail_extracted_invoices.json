@@ -6345,5 +6345,49 @@
     "currency": "INR",
     "raw_text_preview": "Tax Invoice AWB No. 58162357610\n*ORIGINAL FOR RECIPIENT / DUPLICATE\nBilling Address : Blue Dart Express Ltd. Invoice No. : 260233RT25613\n11, STATUS QUO, (OLD NO 38) STERLING ROAD Invoice Date : 26/02/2026\nNUNGABAKKAM CHENNAI Pin:600034\nDescription of : Courier Service\nService\nGST No : 33AAACB0446L1ZZ SAC : 996812\nCustomer Address : D2R AI LABS PVT LTD\nPlace of Supply : 33-TAMIL NADU\nKEERTHANA V\n2ND FLOOR, #105,FRIST MAIN RD GANDHI Taxable Amount : 2780\nNAGAR ADYAR Pin:600020\nCGST @ 9% : 250.2\nGS",
     "vendor_gstin": "33AAACB0446L1ZZ"
+  },
+  {
+    "file": "Return Receipt - Sixt Rental agreement_ 9512392176#.eml[1].eml",
+    "path": "D:\\cc new\\cc\\input_pdfs\\mail invoices\\Return Receipt - Sixt Rental agreement_ 9512392176#.eml[1].eml",
+    "vendor_name": "Sixt",
+    "invoice_number": "SIXT-9937322786",
+    "date": "2024-10-16",
+    "amount": null,
+    "currency": "USD",
+    "raw_text_preview": "Smarty FastShell RESERVATION NUMBER: 9937322786 RETURN RECEIPT - SIXT RENTAL AGREEMENT 9512392176 Hello Sylvester John THANK YOU FOR CHOOSING SIXT - YOUR RETURN RECEIPT Your vehicle return summary Chicago ORD Int Airport 10255 West Zemke Blvd, Chicago 60666-5053 Vehicle MAZDA 3 Oct 16 18:20 2024 | Wed PM Fuel 8/8 Mileage 14396 Questions? Email us A copy of your final invoice will be sent to the email address on file within 24 to 48 hours pending final inspection. If you have just completed a veh",
+    "vendor_gstin": null
+  },
+  {
+    "file": "Your Google Play Order Receipt from Dec 14, 2025.eml[1].eml",
+    "path": "D:\\cc new\\cc\\input_pdfs\\mail invoices\\Your Google Play Order Receipt from Dec 14, 2025.eml[1].eml",
+    "vendor_name": "Google Play",
+    "invoice_number": "SOP.3340-7522-1622-16460",
+    "date": "2025-12-14",
+    "amount": 0.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Play\r\n\r\n\r\nThank you\r\n\r\n\r\nYou have signed up for a trial subscription from Google Ireland Limited on  \r\nGoogle Play. Your trial will end on Jan 14, 2026. You will be automatically  \r\ncharged the subscription cost (currently ₹1,950.00/month) at the end of  \r\nyour trial unless canceled. You can cancel anytime. Manage your  \r\nsubscriptions\r\n\r\nTo help keep your subscription active, add a backup payment method.\r\n\r\n\r\nAdd backup\r\n\r\n\r\nOrder number: SOP.3340-7522-1622-16460\r\nOrder date: Dec 14, 202",
+    "vendor_gstin": null
+  },
+  {
+    "file": "Your Google Play Order Receipt from Jan 14, 2026.eml[1].eml",
+    "path": "D:\\cc new\\cc\\input_pdfs\\mail invoices\\Your Google Play Order Receipt from Jan 14, 2026.eml[1].eml",
+    "vendor_name": "Google Play",
+    "invoice_number": "SOP.3340-7522-1622-16460..0",
+    "date": "2026-01-14",
+    "amount": 1950.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Play\r\n\r\n\r\nThank you\r\n\r\n\r\nYour trial of Google One has ended. Your subscription continues at the  \r\nprice of ₹1,950.00/month. Manage your subscriptions\r\n\r\nTo help keep your subscription active, add a backup payment method.\r\n\r\n\r\nAdd backup\r\n\r\n\r\nOrder number: SOP.3340-7522-1622-16460..0\r\nOrder date: Jan 14, 2026 8:26:19 AM GMT+5:30\r\nYour account: sylvester.daniel@gmail.com\r\n\r\n\r\nItem Price\r\n\r\n\r\nGoogle AI Pro (2 TB) (Google One) (by Google LLC) ₹1,950.00/month\r\n\r\nAuto-renewing subscription\r\n\r\n",
+    "vendor_gstin": null
+  },
+  {
+    "file": "Your Google Play Order Receipt from Sep 3, 2025.eml[1].eml",
+    "path": "D:\\cc new\\cc\\input_pdfs\\mail invoices\\Your Google Play Order Receipt from Sep 3, 2025.eml[1].eml",
+    "vendor_name": "Google Play",
+    "invoice_number": "SOP.3355-9292-3472-47496",
+    "date": "2025-09-03",
+    "amount": 349.0,
+    "currency": "INR",
+    "raw_text_preview": "Google Play\r\n\r\n\r\nThank you\r\n\r\n\r\nYou've made a subscription purchase from Google Ireland Limited on Google  \r\nPlay. You will be automatically charged ₹349.00 for 1 year, then  \r\n₹589.00/year starting Sep 3, 2026, unless canceled. You can cancel anytime.  \r\nManage your subscriptions\r\n\r\nTo help keep your subscription active, add a backup payment method.\r\n\r\n\r\nAdd backup\r\n\r\n\r\nOrder number: SOP.3355-9292-3472-47496\r\nOrder date: Sep 3, 2025 10:17:02 AM GMT+5:30\r\nYour account: sylvester.daniel@gmail.com",
+    "vendor_gstin": null
   }
 ]

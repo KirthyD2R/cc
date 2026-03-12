@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-03-11 18:08:27",
+  "fetched_at": "2026-03-12 13:36:58",
   "transactions": [
     {
       "card": "HDFC-8948",
@@ -339,46 +339,6 @@
     },
     {
       "card": "HDFC - 7196",
-      "status": "uncategorized",
-      "transaction_id": "2050328000002994057",
-      "date": "2025-10-23",
-      "amount": 574.43,
-      "description": "WM SUPERCENTER #2517SANTA ANA USD 6.53 [USD 6.53]"
-    },
-    {
-      "card": "HDFC - 7196",
-      "status": "uncategorized",
-      "transaction_id": "2050328000002994051",
-      "date": "2025-10-23",
-      "amount": 3520.32,
-      "description": "AMERICAN 0010277737919919PHOENIX USD 40.00 [USD 40.00]"
-    },
-    {
-      "card": "HDFC - 7196",
-      "status": "uncategorized",
-      "transaction_id": "2050328000002994047",
-      "date": "2025-10-20",
-      "amount": 3519.21,
-      "description": "AMERICAN 0010277660937937PHOENIX USD 40.00 [USD 40.00]"
-    },
-    {
-      "card": "HDFC - 7196",
-      "status": "uncategorized",
-      "transaction_id": "2050328000002994045",
-      "date": "2025-10-19",
-      "amount": 1712.09,
-      "description": "WENDYS #5799ORLANDO USD 19.46 [USD 19.46]"
-    },
-    {
-      "card": "HDFC - 7196",
-      "status": "uncategorized",
-      "transaction_id": "2050328000002994043",
-      "date": "2025-10-18",
-      "amount": 791.82,
-      "description": "CTLP*SPINOUT GUEST LAUORLANDO USD 9.00 [USD 9.00]"
-    },
-    {
-      "card": "HDFC - 7196",
       "status": "matched",
       "transaction_id": "2050328000003015259",
       "date": "2026-02-12",
@@ -556,6 +516,14 @@
     {
       "card": "HDFC - 7196",
       "status": "matched",
+      "transaction_id": "2050328000003059769",
+      "date": "2025-10-23",
+      "amount": 574.43,
+      "description": "WM SUPERCENTER #2517SANTA ANA USD 6.53 [USD 6.53]"
+    },
+    {
+      "card": "HDFC - 7196",
+      "status": "matched",
       "transaction_id": "2050328000003051003",
       "date": "2025-10-23",
       "amount": 933.77,
@@ -607,14 +575,6 @@
       "transaction_id": "2050328000003010600",
       "date": "2026-02-09",
       "amount": 18171.91,
-      "description": ""
-    },
-    {
-      "card": "HDFC - 7196",
-      "status": "manually_added",
-      "transaction_id": "2050328000003059769",
-      "date": "2025-10-23",
-      "amount": 574.43,
       "description": ""
     },
     {
@@ -844,6 +804,14 @@
     {
       "card": "HDFC - 7196",
       "status": "categorized",
+      "transaction_id": "2050328000003122177",
+      "date": "2025-10-23",
+      "amount": 3520.32,
+      "description": "AMERICAN 0010277737919919PHOENIX USD 40.00 [USD 40.00]"
+    },
+    {
+      "card": "HDFC - 7196",
+      "status": "categorized",
       "transaction_id": "2050328000003002356",
       "date": "2025-10-22",
       "amount": 6.26,
@@ -892,6 +860,22 @@
     {
       "card": "HDFC - 7196",
       "status": "categorized",
+      "transaction_id": "2050328000003122199",
+      "date": "2025-10-20",
+      "amount": 3519.21,
+      "description": "AMERICAN 0010277660937937PHOENIX USD 40.00 [USD 40.00]"
+    },
+    {
+      "card": "HDFC - 7196",
+      "status": "categorized",
+      "transaction_id": "2050328000003122243",
+      "date": "2025-10-19",
+      "amount": 1712.09,
+      "description": "WENDYS #5799ORLANDO USD 19.46 [USD 19.46]"
+    },
+    {
+      "card": "HDFC - 7196",
+      "status": "categorized",
       "transaction_id": "2050328000002992282",
       "date": "2025-10-19",
       "amount": 2.72,
@@ -920,6 +904,14 @@
       "date": "2025-10-19",
       "amount": 1.78,
       "description": "CGST-VPS2629397855528-RATE 9.0 -33"
+    },
+    {
+      "card": "HDFC - 7196",
+      "status": "categorized",
+      "transaction_id": "2050328000003122221",
+      "date": "2025-10-18",
+      "amount": 791.82,
+      "description": "CTLP*SPINOUT GUEST LAUORLANDO USD 9.00 [USD 9.00]"
     },
     {
       "card": "Kotak bank credit card",
@@ -1087,14 +1079,6 @@
       "transaction_id": "2050328000000929277",
       "date": "2025-07-07",
       "amount": 199.0,
-      "description": "AMAZON INDIA CYBS SI   MUMBAI        IN"
-    },
-    {
-      "card": "Kotak bank credit card",
-      "status": "uncategorized",
-      "transaction_id": "2050328000000929267",
-      "date": "2025-06-27",
-      "amount": 541.5,
       "description": "AMAZON INDIA CYBS SI   MUMBAI        IN"
     },
     {
@@ -1424,6 +1408,14 @@
       "date": "2025-06-30",
       "amount": 45894.98,
       "description": "IF035181BAIAAAADPYC6"
+    },
+    {
+      "card": "Kotak bank credit card",
+      "status": "matched",
+      "transaction_id": "2050328000003122127",
+      "date": "2025-06-27",
+      "amount": 541.5,
+      "description": "AMAZON INDIA CYBS SI   MUMBAI        IN"
     },
     {
       "card": "Kotak bank credit card",
@@ -4924,26 +4916,10 @@
     {
       "card": "Mayura Credit Card",
       "status": "uncategorized",
-      "transaction_id": "2050328000002960019",
-      "date": "2026-02-14",
-      "amount": 1950.0,
-      "description": "GOOGLEPLAY, MUMBAI"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
       "transaction_id": "2050328000002960009",
       "date": "2026-02-03",
       "amount": 12.01,
       "description": "GOOGLECLOUD, MUMBAI"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
-      "transaction_id": "2050328000002999027",
-      "date": "2026-01-14",
-      "amount": 1950.0,
-      "description": "GOOGLEPLAY, MUMBAI"
     },
     {
       "card": "Mayura Credit Card",
@@ -4960,14 +4936,6 @@
       "date": "2025-12-16",
       "amount": 251.47,
       "description": "GOOGLEPLAY, MUMBAI"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
-      "transaction_id": "2050328000002324091",
-      "date": "2025-12-10",
-      "amount": 1675.0,
-      "description": "KITES, CHEENAI"
     },
     {
       "card": "Mayura Credit Card",
@@ -5124,26 +5092,10 @@
     {
       "card": "Mayura Credit Card",
       "status": "uncategorized",
-      "transaction_id": "2050328000000939641",
-      "date": "2025-09-03",
-      "amount": 349.0,
-      "description": "GOOGLEPLAY, MUMBAI"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
       "transaction_id": "2050328000000939623",
       "date": "2025-08-25",
       "amount": 40.0,
       "description": "Surcharge waiver for fuel txn"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
-      "transaction_id": "2050328000000939607",
-      "date": "2025-08-21",
-      "amount": 66645.27,
-      "description": "AIONION MARKETING, DUBAI"
     },
     {
       "card": "Mayura Credit Card",
@@ -5268,26 +5220,10 @@
     {
       "card": "Mayura Credit Card",
       "status": "uncategorized",
-      "transaction_id": "2050328000000939487",
-      "date": "2025-06-26",
-      "amount": 2755.51,
-      "description": "AMAZON PAY INDIA PRIVA, Bangalore"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
       "transaction_id": "2050328000000939485",
       "date": "2025-06-26",
       "amount": 3679.72,
       "description": "AMAZON MKTPLACE PMTS, Amzn.com/bill"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
-      "transaction_id": "2050328000000939481",
-      "date": "2025-06-23",
-      "amount": 2253.51,
-      "description": "LYFT   *1 RIDE 06-22, SAN FRANCISCO"
     },
     {
       "card": "Mayura Credit Card",
@@ -5404,22 +5340,6 @@
     {
       "card": "Mayura Credit Card",
       "status": "uncategorized",
-      "transaction_id": "2050328000000939379",
-      "date": "2025-05-03",
-      "amount": 8.83,
-      "description": "GOOGLECLOUD, MUMBAI"
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
-      "transaction_id": "2050328000000939371",
-      "date": "2025-04-24",
-      "amount": 1980.01,
-      "description": "IND*LINKEDIN (PGSI), www.linkedin."
-    },
-    {
-      "card": "Mayura Credit Card",
-      "status": "uncategorized",
       "transaction_id": "2050328000000939359",
       "date": "2025-04-14",
       "amount": 5.0,
@@ -5448,6 +5368,14 @@
       "date": "2026-02-16",
       "amount": 26802.87,
       "description": "MICROSOFTBUS, MUMBAI"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003102981",
+      "date": "2026-02-14",
+      "amount": 1950.0,
+      "description": "GOOGLEPLAY, MUMBAI"
     },
     {
       "card": "Mayura Credit Card",
@@ -5488,6 +5416,14 @@
       "date": "2026-01-30",
       "amount": 51119.87,
       "description": "BillDesk BBPS CC Payment/IF036030BAKAAAAES9QV"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003122017",
+      "date": "2026-01-14",
+      "amount": 1950.0,
+      "description": "GOOGLEPLAY, MUMBAI"
     },
     {
       "card": "Mayura Credit Card",
@@ -5860,6 +5796,14 @@
     {
       "card": "Mayura Credit Card",
       "status": "matched",
+      "transaction_id": "2050328000003122267",
+      "date": "2025-09-03",
+      "amount": 349.0,
+      "description": "GOOGLEPLAY, MUMBAI"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
       "transaction_id": "2050328000003059633",
       "date": "2025-09-03",
       "amount": 1084.7,
@@ -5952,6 +5896,14 @@
       "date": "2025-08-22",
       "amount": 2474.01,
       "description": "AMAZON PAY INDIA PRIVA, www.amazon.in"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003108003",
+      "date": "2025-08-21",
+      "amount": 66645.27,
+      "description": "AIONION MARKETING, DUBAI"
     },
     {
       "card": "Mayura Credit Card",
@@ -6164,6 +6116,62 @@
     {
       "card": "Mayura Credit Card",
       "status": "matched",
+      "transaction_id": "2050328000003122687",
+      "date": "2025-06-26",
+      "amount": 319.0,
+      "description": "AMAZON PAY INDIA PRIVA, Bangalore"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003122649",
+      "date": "2025-06-26",
+      "amount": 149.0,
+      "description": "AMAZON PAY INDIA PRIVA, Bangalore"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003122609",
+      "date": "2025-06-26",
+      "amount": 327.0,
+      "description": "AMAZON PAY INDIA PRIVA, Bangalore"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003122531",
+      "date": "2025-06-26",
+      "amount": 519.0,
+      "description": "AMAZON PAY INDIA PRIVA, Bangalore"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003122493",
+      "date": "2025-06-26",
+      "amount": 198.0,
+      "description": "AMAZON PAY INDIA PRIVA, Bangalore"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003122455",
+      "date": "2025-06-26",
+      "amount": 197.01,
+      "description": "AMAZON PAY INDIA PRIVA, Bangalore"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003122349",
+      "date": "2025-06-26",
+      "amount": 1046.5,
+      "description": "AMAZON PAY INDIA PRIVA, Bangalore"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
       "transaction_id": "2050328000003086027",
       "date": "2025-06-21",
       "amount": 712.73,
@@ -6340,6 +6348,14 @@
     {
       "card": "Mayura Credit Card",
       "status": "matched",
+      "transaction_id": "2050328000003122055",
+      "date": "2025-05-03",
+      "amount": 8.83,
+      "description": "GOOGLECLOUD, MUMBAI"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
       "transaction_id": "2050328000001442421",
       "date": "2025-04-30",
       "amount": 136789.98,
@@ -6352,6 +6368,14 @@
       "date": "2025-04-25",
       "amount": 17086.0,
       "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "matched",
+      "transaction_id": "2050328000003122091",
+      "date": "2025-04-24",
+      "amount": 1980.01,
+      "description": "IND*LINKEDIN (PGSI), www.linkedin."
     },
     {
       "card": "Mayura Credit Card",
@@ -6536,6 +6560,14 @@
       "date": "2025-12-12",
       "amount": 649.0,
       "description": "NETFLIX, MUMBAI"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "categorized",
+      "transaction_id": "2050328000003122303",
+      "date": "2025-12-10",
+      "amount": 1675.0,
+      "description": "KITES, CHEENAI"
     },
     {
       "card": "Mayura Credit Card",
@@ -7104,6 +7136,14 @@
       "date": "2025-06-24",
       "amount": 523.52,
       "description": "JOE & THE JUICE HIA, DOHA"
+    },
+    {
+      "card": "Mayura Credit Card",
+      "status": "categorized",
+      "transaction_id": "2050328000003122325",
+      "date": "2025-06-23",
+      "amount": 2253.51,
+      "description": "LYFT   *1 RIDE 06-22, SAN FRANCISCO"
     },
     {
       "card": "Mayura Credit Card",

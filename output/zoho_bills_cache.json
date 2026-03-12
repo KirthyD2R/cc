@@ -1,5 +1,14 @@
 [
   {
+    "bill_id": "2050328000003108064",
+    "bill_number": "SOP.3355-9292-3472-47496",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "date": "2025-09-03",
+    "total": 349.0,
+    "status": "paid"
+  },
+  {
     "bill_id": "2050328000003115023",
     "bill_number": "Your receipt from Apple..eml[4]",
     "vendor_name": "Apple",
@@ -240,7 +249,7 @@
     "vendor_id": "2050328000000359077",
     "date": "2025-04-24",
     "total": 1980.01,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003114017",
@@ -258,7 +267,7 @@
     "vendor_id": "2050328000002993047",
     "date": "2025-04-30",
     "total": 8.83,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003107003",
@@ -276,7 +285,7 @@
     "vendor_id": "2050328000002993047",
     "date": "2026-01-14",
     "total": 1950.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003105003",
@@ -285,7 +294,7 @@
     "vendor_id": "2050328000002993047",
     "date": "2026-02-14",
     "total": 1950.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003078038",
@@ -915,7 +924,7 @@
     "vendor_id": "2050328000003005668",
     "date": "2025-06-26",
     "total": 149.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002990534",
@@ -1032,7 +1041,7 @@
     "vendor_id": "2050328000002997683",
     "date": "2025-06-26",
     "total": 327.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003013331",
@@ -1041,7 +1050,7 @@
     "vendor_id": "2050328000003010470",
     "date": "2025-06-26",
     "total": 319.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003005634",
@@ -1311,7 +1320,7 @@
     "vendor_id": "2050328000000357128",
     "date": "2025-06-26",
     "total": 258.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002996227",
@@ -1320,7 +1329,7 @@
     "vendor_id": "2050328000000357128",
     "date": "2025-06-26",
     "total": 452.2,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003009439",
@@ -1329,7 +1338,7 @@
     "vendor_id": "2050328000000357128",
     "date": "2025-06-26",
     "total": 336.3,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003004412",
@@ -1374,7 +1383,7 @@
     "vendor_id": "2050328000000357128",
     "date": "2025-07-01",
     "total": 541.5,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002986398",
@@ -1635,7 +1644,7 @@
     "vendor_id": "2050328000000352327",
     "date": "2025-06-26",
     "total": 198.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002993599",
@@ -1752,7 +1761,7 @@
     "vendor_id": "2050328000000368555",
     "date": "2025-06-26",
     "total": 225.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003019984",
@@ -1761,7 +1770,7 @@
     "vendor_id": "2050328000000368555",
     "date": "2025-06-26",
     "total": 294.0,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003008311",
@@ -2202,7 +2211,7 @@
     "vendor_id": "2050328000003001165",
     "date": "2025-06-26",
     "total": 197.01,
-    "status": "overdue"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000003019841",

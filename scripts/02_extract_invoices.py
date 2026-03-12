@@ -614,6 +614,7 @@ def detect_vendor(text):
         ("BLUE DART", "Blue Dart Express Ltd"),
         ("MEDIUM CORPORATION", "Medium"),
         ("FLIPKART", "Flipkart"),
+        ("SIXT", "Sixt"),
 
     ]
 
@@ -1186,6 +1187,34 @@ def extract_medium(text):
  
     return inv_number, date, amount, "USD"
 
+def extract_sixt(text):
+    """Sixt car rental receipts.
+
+    Pattern:
+      SIXT RENTAL AGREEMENT 9512392176
+      Vehicle MAZDA 3
+      Oct 16 18:20 2024
+    """
+    inv_number = None
+    m = re.search(r"(?:RENTAL AGREEMENT|RESERVATION NUMBER)[:\s]*([\d]+)", text)
+    if m:
+        inv_number = f"SIXT-{m.group(1)}"
+
+    date = None
+    # "Oct 16 18:20 2024"
+    m = re.search(r"(\w{3}\s+\d{1,2})\s+\d{1,2}:\d{2}\s+(\d{4})", text)
+    if m:
+        date = parse_date(f"{m.group(1)} {m.group(2)}")
+
+    amount, currency = None, "USD"
+    # Try to find any amount
+    m = re.search(r"(?:Total|Amount|Charge)[:\s]*[\$€]?\s*([\d,]+\.?\d*)", text, re.IGNORECASE)
+    if m:
+        amount = float(m.group(1).replace(",", ""))
+
+    return inv_number, date, amount, currency
+
+
 def extract_generic(text):
     """Fallback: try common patterns."""
     inv_number = None
@@ -1287,6 +1316,8 @@ def extract_invoice(pdf_path, filename):
         inv_number, date, amount, currency = extract_linkedin(text)
     elif vendor == "Medium":
         inv_number, date, amount, currency = extract_medium(text)
+    elif vendor == "Sixt":
+        inv_number, date, amount, currency = extract_sixt(text)
     else:
         inv_number, date, amount, currency = extract_generic(text)
 

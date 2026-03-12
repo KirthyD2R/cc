@@ -16,56 +16,6 @@
     "transaction_id": "2050328000002994039"
   },
   {
-    "date": "2025-10-23",
-    "description": "WM SUPERCENTER #2517SANTA ANA USD 6.53 [USD 6.53]",
-    "amount": 574.43,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994057",
-    "forex_amount": 6.53,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-10-23",
-    "description": "AMERICAN 0010277737919919PHOENIX USD 40.00 [USD 40.00]",
-    "amount": 3520.32,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994051",
-    "forex_amount": 40.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-10-20",
-    "description": "AMERICAN 0010277660937937PHOENIX USD 40.00 [USD 40.00]",
-    "amount": 3519.21,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994047",
-    "forex_amount": 40.0,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-10-19",
-    "description": "WENDYS #5799ORLANDO USD 19.46 [USD 19.46]",
-    "amount": 1712.09,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994045",
-    "forex_amount": 19.46,
-    "forex_currency": "USD"
-  },
-  {
-    "date": "2025-10-18",
-    "description": "CTLP*SPINOUT GUEST LAUORLANDO USD 9.00 [USD 9.00]",
-    "amount": 791.82,
-    "card_name": "HDFC - 7196",
-    "zoho_account_id": "2050328000002898667",
-    "transaction_id": "2050328000002994043",
-    "forex_amount": 9.0,
-    "forex_currency": "USD"
-  },
-  {
     "date": "2025-12-15",
     "description": "MICROSOFT INDIA CYBS S MUMBAI IN",
     "amount": 908.6,
@@ -236,14 +186,6 @@
     "transaction_id": "2050328000000929277"
   },
   {
-    "date": "2025-06-27",
-    "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
-    "amount": 541.5,
-    "card_name": "Kotak bank credit card",
-    "zoho_account_id": "2050328000000232005",
-    "transaction_id": "2050328000000929267"
-  },
-  {
     "date": "2025-06-25",
     "description": "GOOGLE PLAY SER CYBS S MUMBAI        IN",
     "amount": 299.0,
@@ -320,28 +262,12 @@
     "transaction_id": "2050328000000929181"
   },
   {
-    "date": "2026-02-14",
-    "description": "GOOGLEPLAY, MUMBAI",
-    "amount": 1950.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002960019"
-  },
-  {
     "date": "2026-02-03",
     "description": "GOOGLECLOUD, MUMBAI",
     "amount": 12.01,
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000002960009"
-  },
-  {
-    "date": "2026-01-14",
-    "description": "GOOGLEPLAY, MUMBAI",
-    "amount": 1950.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002999027"
   },
   {
     "date": "2026-01-03",
@@ -358,14 +284,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000002324097"
-  },
-  {
-    "date": "2025-12-10",
-    "description": "KITES, CHEENAI",
-    "amount": 1675.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000002324091"
   },
   {
     "date": "2025-12-10",
@@ -520,28 +438,12 @@
     "transaction_id": "2050328000000939653"
   },
   {
-    "date": "2025-09-03",
-    "description": "GOOGLEPLAY, MUMBAI",
-    "amount": 349.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939641"
-  },
-  {
     "date": "2025-08-25",
     "description": "Surcharge waiver for fuel txn",
     "amount": 40.0,
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939623"
-  },
-  {
-    "date": "2025-08-21",
-    "description": "AIONION MARKETING, DUBAI",
-    "amount": 66645.27,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939607"
   },
   {
     "date": "2025-08-20",
@@ -665,27 +567,11 @@
   },
   {
     "date": "2025-06-26",
-    "description": "AMAZON PAY INDIA PRIVA, Bangalore",
-    "amount": 2755.51,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939487"
-  },
-  {
-    "date": "2025-06-26",
     "description": "AMAZON MKTPLACE PMTS, Amzn.com/bill",
     "amount": 3679.72,
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939485"
-  },
-  {
-    "date": "2025-06-23",
-    "description": "LYFT   *1 RIDE 06-22, SAN FRANCISCO",
-    "amount": 2253.51,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939481"
   },
   {
     "date": "2025-06-19",
@@ -798,22 +684,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939391"
-  },
-  {
-    "date": "2025-05-03",
-    "description": "GOOGLECLOUD, MUMBAI",
-    "amount": 8.83,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939379"
-  },
-  {
-    "date": "2025-04-24",
-    "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-    "amount": 1980.01,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939371"
   },
   {
     "date": "2025-04-14",

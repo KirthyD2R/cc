@@ -1226,5 +1226,9 @@
   "2050328000003103025": {
     "account_name": "Subscription",
     "account_id": "2050328000000137160"
+  },
+  "2050328000003108064": {
+    "account_name": "Software License",
+    "account_id": "2050328000000027421"
   }
 }

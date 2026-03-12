@@ -6854,11 +6854,12 @@
     "currency": "INR",
     "date": "2026-02-23",
     "organized_month": "Feb 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003102913",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple. (2).eml",
@@ -6868,11 +6869,12 @@
     "currency": "INR",
     "date": "2026-03-05",
     "organized_month": "Mar 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003116003",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your Subscription Renewal.eml[12][1].eml",
@@ -6882,11 +6884,12 @@
     "currency": "INR",
     "date": "2025-04-16",
     "organized_month": "Apr 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003117003",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your Subscription Renewal.eml[16][1].eml",
@@ -7022,11 +7025,12 @@
     "currency": "INR",
     "date": "2026-02-06",
     "organized_month": "Feb 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003111025",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your Subscription Renewal.eml[30].eml",
@@ -7036,11 +7040,12 @@
     "currency": "INR",
     "date": "2026-03-06",
     "organized_month": "Mar 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003118003",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your Subscription Renewal.eml[4][1].eml",
@@ -7050,11 +7055,12 @@
     "currency": "INR",
     "date": "2026-01-06",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003111051",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your Subscription Renewal.eml[7][1].eml",
@@ -7064,11 +7070,12 @@
     "currency": "INR",
     "date": "2025-12-06",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003112023",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your Subscription Renewal.eml[9][1].eml",
@@ -7078,11 +7085,12 @@
     "currency": "INR",
     "date": "2025-11-06",
     "organized_month": "Nov 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003105040",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[10][1].eml",
@@ -7092,11 +7100,12 @@
     "currency": "INR",
     "date": "2025-11-23",
     "organized_month": "Nov 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003091033",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[11][1].eml",
@@ -7106,11 +7115,12 @@
     "currency": "INR",
     "date": "2025-11-05",
     "organized_month": "Nov 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003096060",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[12][1].eml",
@@ -7120,11 +7130,12 @@
     "currency": "INR",
     "date": "2025-10-23",
     "organized_month": "Oct 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003114064",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[13][1].eml",
@@ -7134,11 +7145,12 @@
     "currency": "INR",
     "date": "2025-09-23",
     "organized_month": "Sep 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003117029",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[14][1].eml",
@@ -7148,11 +7160,12 @@
     "currency": "INR",
     "date": "2025-08-23",
     "organized_month": "Aug 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003113024",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[15][1].eml",
@@ -7162,11 +7175,12 @@
     "currency": "INR",
     "date": "2025-07-24",
     "organized_month": "Jul 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003093063",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[16][1].eml",
@@ -7176,11 +7190,12 @@
     "currency": "INR",
     "date": "2025-05-25",
     "organized_month": "May 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003113050",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[17][1].eml",
@@ -7204,11 +7219,12 @@
     "currency": "INR",
     "date": "2025-05-17",
     "organized_month": "May 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003116029",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[19][1].eml",
@@ -7218,11 +7234,12 @@
     "currency": "INR",
     "date": "2025-04-28",
     "organized_month": "Apr 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003089025",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[20][1].eml",
@@ -7232,11 +7249,12 @@
     "currency": "INR",
     "date": "2025-04-24",
     "organized_month": "Apr 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003117055",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[21][1].eml",
@@ -7512,11 +7530,12 @@
     "currency": "INR",
     "date": "2026-02-05",
     "organized_month": "Feb 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003106079",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[40][1].eml",
@@ -7666,11 +7685,12 @@
     "currency": "INR",
     "date": "2026-01-23",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003093089",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[50][1].eml",
@@ -7820,11 +7840,12 @@
     "currency": "INR",
     "date": "2026-01-05",
     "organized_month": "Jan 2026",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003101004",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[60][1].eml",
@@ -7848,11 +7869,12 @@
     "currency": "INR",
     "date": "2025-12-29",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003107050",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[7][1].eml",
@@ -7862,11 +7884,12 @@
     "currency": "INR",
     "date": "2025-12-23",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003096128",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[8][1].eml",
@@ -7876,11 +7899,12 @@
     "currency": "INR",
     "date": "2025-12-08",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003103025",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your invoice from Apple..eml[9][1].eml",
@@ -7890,11 +7914,12 @@
     "currency": "INR",
     "date": "2025-12-05",
     "organized_month": "Dec 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003113097",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
   },
   {
     "file": "Your receipt from Apple..eml[1][1].eml",
@@ -7946,10 +7971,64 @@
     "currency": "INR",
     "date": "2025-05-22",
     "organized_month": "May 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000003096023",
+    "action": "skip",
+    "matched_bill_id": "2050328000003115023",
     "matched_vendor_name": "Apple",
-    "vendor_match_method": "name",
-    "gstin_missing": true
+    "matched_vendor_id": "2050328000003096023",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Apple"
+  },
+  {
+    "file": "Return Receipt - Sixt Rental agreement_ 9512392176#.eml[1].eml",
+    "invoice_number": "SIXT-9937322786",
+    "vendor_name": "Sixt",
+    "amount": null,
+    "currency": "USD",
+    "date": "2024-10-16",
+    "organized_month": "",
+    "action": "new_vendor_bill"
+  },
+  {
+    "file": "Your Google Play Order Receipt from Dec 14, 2025.eml[1].eml",
+    "invoice_number": "SOP.3340-7522-1622-16460",
+    "vendor_name": "Google Play",
+    "amount": 0.0,
+    "currency": "INR",
+    "date": "2025-12-14",
+    "organized_month": "",
+    "action": "new_bill",
+    "matched_vendor_id": "2050328000002993047",
+    "matched_vendor_name": "Google",
+    "vendor_match_method": "fuzzy"
+  },
+  {
+    "file": "Your Google Play Order Receipt from Jan 14, 2026.eml[1].eml",
+    "invoice_number": "SOP.3340-7522-1622-16460..0",
+    "vendor_name": "Google Play",
+    "amount": 1950.0,
+    "currency": "INR",
+    "date": "2026-01-14",
+    "organized_month": "",
+    "action": "skip",
+    "matched_bill": "SOP.3340-7522-1622-16460..0",
+    "matched_bill_id": "2050328000003102004",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "exact"
+  },
+  {
+    "file": "Your Google Play Order Receipt from Sep 3, 2025.eml[1].eml",
+    "invoice_number": "SOP.3355-9292-3472-47496",
+    "vendor_name": "Google Play",
+    "amount": 349.0,
+    "currency": "INR",
+    "date": "2025-09-03",
+    "organized_month": "",
+    "action": "skip",
+    "matched_bill_id": "2050328000003108064",
+    "matched_vendor_name": "Google",
+    "matched_vendor_id": "2050328000002993047",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Google"
   }
 ]

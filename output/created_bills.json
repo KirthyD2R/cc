@@ -3078,5 +3078,15 @@
     "amount": 2000.0,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "Your Google Play Order Receipt from Sep 3, 2025.eml[1].eml",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003108064",
+    "amount": 349.0,
+    "currency": "INR",
+    "attached": true
   }
 ]
