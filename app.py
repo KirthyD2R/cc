@@ -1293,8 +1293,64 @@ def api_extract_mail_invoices():
             with open(out_path, "w", encoding="utf-8") as f:
                 json.dump(existing, f, indent=2, ensure_ascii=False)
 
+            # --- Also merge into extracted_invoices.json (like upload flow) ---
+            ext_path = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
+            existing_extracted = []
+            if os.path.exists(ext_path):
+                with open(ext_path, "r", encoding="utf-8") as f:
+                    existing_extracted = json.load(f)
+            already_done_ext = {inv.get("file") for inv in existing_extracted}
+
+            added_to_extracted = 0
+            for inv in new_extracted:
+                if inv.get("file") not in already_done_ext:
+                    existing_extracted.append(inv)
+                    already_done_ext.add(inv.get("file"))
+                    added_to_extracted += 1
+
+            if added_to_extracted:
+                with open(ext_path, "w", encoding="utf-8") as f:
+                    json.dump(existing_extracted, f, indent=2, ensure_ascii=False)
+                log_action(f"Updated extracted_invoices.json: +{added_to_extracted} (total {len(existing_extracted)})")
+
+            # --- Also merge into compare_invoices.json (like upload flow) ---
+            cmp_path = os.path.join(PROJECT_ROOT, "output", "compare_invoices.json")
+            existing_compare = []
+            if os.path.exists(cmp_path):
+                with open(cmp_path, "r", encoding="utf-8") as f:
+                    existing_compare = json.load(f)
+            already_done_cmp = {inv.get("file") for inv in existing_compare}
+
+            generic = {"payment", "original", "invoice", "receipt", "bill", "tax", "none", "n/a", ""}
+            seen_nums = set()
+            for inv in existing_compare:
+                num = inv.get("invoice_number", "")
+                if num and num.lower().strip() not in generic:
+                    seen_nums.add(num)
+
+            added_to_compare = 0
+            for inv in new_extracted:
+                if inv.get("file") in already_done_cmp:
+                    continue
+                cmp_item = dict(inv)
+                cmp_item["organized_month"] = "Mail"
+                cmp_item["organized_path"] = inv.get("path", "")
+                num = inv.get("invoice_number", "")
+                if num and num.lower().strip() not in generic and num in seen_nums:
+                    log_action(f"  Dedup: skipping {inv.get('file', '?')} (#{num} already in compare)")
+                    continue
+                if num and num.lower().strip() not in generic:
+                    seen_nums.add(num)
+                existing_compare.append(cmp_item)
+                added_to_compare += 1
+
+            if added_to_compare:
+                with open(cmp_path, "w", encoding="utf-8") as f:
+                    json.dump(existing_compare, f, indent=2, ensure_ascii=False)
+                log_action(f"Updated compare_invoices.json: +{added_to_compare} (total {len(existing_compare)})")
+
             total = len(existing)
-            msg = f"Extracted {len(new_extracted)} new, skipped {skipped}, failed {failed} | Total: {total} in mail_extracted_invoices.json"
+            msg = f"Extracted {len(new_extracted)} new, skipped {skipped}, failed {failed} | Total: {total} in mail_extracted_invoices.json | +{added_to_extracted} to extracted, +{added_to_compare} to compare"
             with _state_lock:
                 _state["step_results"]["extract-mail"] = {
                     "status": "success",
