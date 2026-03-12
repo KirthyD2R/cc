@@ -1989,6 +1989,83 @@ def api_bills_delete():
     return jsonify({"ok": True, "succeeded": succeeded, "failed": failed})
 
 
+@app.route("/api/vendors/list-all")
+def api_vendors_list_all():
+    """List all vendors from Zoho with bill counts."""
+    from utils import load_config, ZohoBooksAPI
+    config = load_config()
+    api = ZohoBooksAPI(config)
+    try:
+        all_vendors = []
+        page = 1
+        while True:
+            resp = api.list_all_vendors(page=page)
+            contacts = resp.get("contacts", [])
+            if not contacts:
+                break
+            for c in contacts:
+                all_vendors.append({
+                    "contact_id": c.get("contact_id"),
+                    "contact_name": c.get("contact_name", ""),
+                    "company_name": c.get("company_name", ""),
+                    "outstanding": c.get("outstanding_receivable_amount", 0) + c.get("outstanding_payable_amount", 0),
+                    "status": c.get("status", ""),
+                    "created_time": c.get("created_time", ""),
+                })
+            if not resp.get("page_context", {}).get("has_more_page"):
+                break
+            page += 1
+
+        # Get bill counts per vendor
+        bill_counts = {}
+        bp = 1
+        while True:
+            br = api.list_bills(page=bp)
+            bills = br.get("bills", [])
+            if not bills:
+                break
+            for b in bills:
+                vn = b.get("vendor_name", "")
+                bill_counts[vn] = bill_counts.get(vn, 0) + 1
+            if not br.get("page_context", {}).get("has_more_page"):
+                break
+            bp += 1
+
+        for v in all_vendors:
+            v["bill_count"] = bill_counts.get(v["contact_name"], 0)
+
+        log_action(f"[Vendors] Listed {len(all_vendors)} vendors from Zoho")
+        return jsonify({"vendors": all_vendors})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/vendors/delete", methods=["POST"])
+def api_vendors_delete():
+    """Delete one or more vendors from Zoho."""
+    data = request.json
+    contact_ids = data.get("contact_ids", [])
+    if not contact_ids:
+        return jsonify({"error": "No contact_ids provided"}), 400
+
+    from utils import load_config, ZohoBooksAPI
+    config = load_config()
+    api = ZohoBooksAPI(config)
+
+    succeeded = []
+    failed = []
+    for cid in contact_ids:
+        try:
+            api.delete_vendor(cid)
+            succeeded.append(cid)
+        except Exception as e:
+            failed.append({"contact_id": cid, "error": str(e)})
+            log_action(f"[Vendors] Failed to delete vendor {cid}: {e}", "ERROR")
+
+    log_action(f"[Vendors] Deleted {len(succeeded)}/{len(contact_ids)} vendors from Zoho")
+    return jsonify({"ok": True, "succeeded": succeeded, "failed": failed})
+
+
 @app.route("/api/review/available-csvs")
 def api_available_csvs():
     """List parsed CC transaction CSVs available for import."""
@@ -6720,22 +6797,6 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
       <div class="phase">
         <div class="phase-label">Invoices &rarr; Compare</div>
         <div class="step-grid">
-          <button class="step-btn" data-step="1" onclick="runStep('1')">
-            <span class="step-num">1</span> Fetch Invoices
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Connects to Outlook via Microsoft Graph API, searches inbox for invoice/receipt emails, and downloads PDF attachments to input_pdfs/mail invoices/</span>
-            </span>
-            <span class="step-indicator ind-idle" id="ind-1"></span>
-            <span class="step-msg" id="msg-1"></span>
-          </button>
-          <button class="step-btn" onclick="runExtractZips()" id="btn-extract-zips" style="border:1.5px dashed var(--accent);background:rgba(108,140,255,0.05)">
-            <span class="step-num" style="background:var(--accent);color:#fff;font-size:10px">Z</span> Extract ZIPs
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Extract PDFs from ZIP files (and loose PDFs) in 'all zips' folder, then parse and organize into month-wise folders.</span>
-            </span>
-            <span class="step-indicator ind-idle" id="ind-extract-zips"></span>
-            <span class="step-msg" id="msg-extract-zips"></span>
-          </button>
           <button class="step-btn" onclick="runExtractMail()" id="btn-extract-mail" style="border:1.5px dashed var(--orange);background:rgba(251,146,60,0.05)">
             <span class="step-num" style="background:var(--orange);color:#000;font-size:10px">M</span> Mail Extract
             <span class="info-btn" onclick="event.stopPropagation()">i
@@ -6744,13 +6805,6 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <span class="step-indicator ind-idle" id="ind-extract-mail"></span>
             <span class="step-msg" id="msg-extract-mail"></span>
           </button>
-          <button class="step-btn" onclick="runCompareMail()" id="btn-compare-mail" style="border:1.5px dashed var(--yellow);background:rgba(250,204,21,0.05)">
-            <span class="step-num" style="background:var(--yellow);color:#000;font-size:10px">C</span> Mail Compare
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Compare mail_extracted_invoices.json vs extracted_invoices.json. Shows which mail invoices are found/missing in the main extracted data. Saves to output/mail_vs_extracted_compare.json.</span>
-            </span>
-            <span id="mailCompareResult" style="font-size:10px;color:var(--text-dim);display:block;margin-top:2px"></span>
-          </button>
           <button class="step-btn" data-step="2" onclick="runStep('2')">
             <span class="step-num">2</span> Extract Data
             <span class="info-btn" onclick="event.stopPropagation()">i
@@ -6758,12 +6812,6 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             </span>
             <span class="step-indicator ind-idle" id="ind-2"></span>
             <span class="step-msg" id="msg-2"></span>
-          </button>
-          <button class="step-btn" onclick="openInvoiceBrowse()" style="border:1.5px dashed var(--orange);background:rgba(251,146,60,0.05)">
-            <span class="step-num" style="background:var(--orange);color:#000;font-size:10px">B</span> Browse Invoices
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Browse all extracted invoices with month-wise filtering. Shows date, vendor, invoice number, amount and line item descriptions.</span>
-            </span>
           </button>
           <button class="step-btn compare-btn" onclick="openComparePanel()">
             <span class="step-num" style="background:var(--green, #4ade80);color:#000;font-size:10px">$</span> Monthly Compare
@@ -6814,6 +6862,12 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
               <span class="info-tooltip">Delete bills from Zoho grouped by vendor. Removes from Zoho and local cache.</span>
             </span>
           </button>
+          <button class="step-btn" onclick="openDeleteVendorsPanel()" style="border:1.5px dashed #ef4444;background:rgba(239,68,68,0.05)">
+            <span class="step-num" style="background:#ef4444">V</span> Delete Vendors
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">List all vendors from Zoho with bill counts. Delete empty vendors (0 bills) or any selected vendors.</span>
+            </span>
+          </button>
         </div>
       </div>
 
@@ -6836,6 +6890,12 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
               <button class="upload-btn" onclick="clearPaymentsCache()" style="width:100%">Clear Cache</button>
             </div>
           </div>
+          <button class="step-btn" onclick="openBankingSummary()" style="width:100%;border:1.5px solid var(--green);background:rgba(74,222,128,0.06)">
+            <span class="step-num" style="background:var(--green);color:#000">S</span> Banking Summary
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Month-wise overview of all banking transactions: categorized, uncategorized, matched counts and amounts per card.</span>
+            </span>
+          </button>
         </div>
       </div>
 
@@ -6881,10 +6941,40 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             </span>
             <span class="step-indicator ind-idle" id="ind-automatch"></span>
           </button>
-          <button class="step-btn" onclick="openBankingSummary()" style="width:100%;border:1.5px solid var(--green);background:rgba(74,222,128,0.06)">
-            <span class="step-num" style="background:var(--green);color:#000">S</span> Banking Summary
+        </div>
+      </div>
+
+      <!-- Box 5: Others -->
+      <div class="phase">
+        <div class="phase-label">Others</div>
+        <div class="step-grid">
+          <button class="step-btn" data-step="1" onclick="runStep('1')">
+            <span class="step-num">1</span> Fetch Invoices
             <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Month-wise overview of all banking transactions: categorized, uncategorized, matched counts and amounts per card.</span>
+              <span class="info-tooltip">Connects to Outlook via Microsoft Graph API, searches inbox for invoice/receipt emails, and downloads PDF attachments to input_pdfs/mail invoices/</span>
+            </span>
+            <span class="step-indicator ind-idle" id="ind-1"></span>
+            <span class="step-msg" id="msg-1"></span>
+          </button>
+          <button class="step-btn" onclick="runExtractZips()" id="btn-extract-zips" style="border:1.5px dashed var(--accent);background:rgba(108,140,255,0.05)">
+            <span class="step-num" style="background:var(--accent);color:#fff;font-size:10px">Z</span> Extract ZIPs
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Extract PDFs from ZIP files (and loose PDFs) in 'all zips' folder, then parse and organize into month-wise folders.</span>
+            </span>
+            <span class="step-indicator ind-idle" id="ind-extract-zips"></span>
+            <span class="step-msg" id="msg-extract-zips"></span>
+          </button>
+          <button class="step-btn" onclick="runCompareMail()" id="btn-compare-mail" style="border:1.5px dashed var(--yellow);background:rgba(250,204,21,0.05)">
+            <span class="step-num" style="background:var(--yellow);color:#000;font-size:10px">C</span> Mail Compare
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Compare mail_extracted_invoices.json vs extracted_invoices.json. Shows which mail invoices are found/missing in the main extracted data. Saves to output/mail_vs_extracted_compare.json.</span>
+            </span>
+            <span id="mailCompareResult" style="font-size:10px;color:var(--text-dim);display:block;margin-top:2px"></span>
+          </button>
+          <button class="step-btn" onclick="openInvoiceBrowse()" style="border:1.5px dashed var(--orange);background:rgba(251,146,60,0.05)">
+            <span class="step-num" style="background:var(--orange);color:#000;font-size:10px">B</span> Browse Invoices
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Browse all extracted invoices with month-wise filtering. Shows date, vendor, invoice number, amount and line item descriptions.</span>
             </span>
           </button>
         </div>
@@ -6993,6 +7083,37 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
               </tr>
             </thead>
             <tbody id="deleteBillsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Delete Vendors panel -->
+      <div class="review-panel" id="deleteVendorsPanel" style="display:none">
+        <div class="review-header" style="border-bottom-color:#ef4444">
+          <span style="color:#ef4444">Delete Vendors from Zoho</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button id="deleteVendorsSelectedBtn" onclick="confirmDeleteVendorsSelected()" style="background:#ef4444;color:#fff;border:none;border-radius:6px;padding:5px 14px;font-size:11px;cursor:pointer;font-weight:600;display:none">Delete Selected (0)</button>
+            <button class="review-close-btn" onclick="closeDeleteVendorsPanel()">&#10005; Close</button>
+          </div>
+        </div>
+        <div style="padding:8px 16px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <input type="text" id="vendorSearchBar" oninput="filterDeleteVendors()" placeholder="Search vendor..." style="padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:13px;min-width:250px;color-scheme:dark">
+          <label style="font-size:12px;color:var(--text-dim);cursor:pointer"><input type="checkbox" id="vendorShowEmpty" onchange="filterDeleteVendors()" checked> Empty only (0 bills)</label>
+          <span id="vendorCountLabel" style="color:var(--text-dim);font-size:12px"></span>
+        </div>
+        <div class="review-body" id="deleteVendorsBody">
+          <div class="review-loading" id="deleteVendorsLoading">Loading vendors from Zoho...</div>
+          <table class="review-table" id="deleteVendorsTable" style="display:none">
+            <thead>
+              <tr>
+                <th style="width:30px"><input type="checkbox" id="vendorSelectAll" onchange="toggleVendorSelectAll(this)"></th>
+                <th>Vendor Name</th>
+                <th>Bills</th>
+                <th>Outstanding</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="deleteVendorsTableBody"></tbody>
           </table>
         </div>
       </div>
@@ -7805,6 +7926,182 @@ function confirmDeleteSelected() {
   });
 }
 
+// ========== Delete Vendors Panel ==========
+var _deleteVendorsData = [];
+var _deleteVendorSelectedIds = new Set();
+
+function openDeleteVendorsPanel() {
+  document.getElementById('logPanel').style.display = 'none';
+  document.getElementById('bankingSummaryPanel').style.display = 'none';
+  document.getElementById('deleteBillsPanel').style.display = 'none';
+  document.getElementById('deleteVendorsPanel').style.display = 'flex';
+  document.getElementById('deleteVendorsLoading').style.display = 'block';
+  document.getElementById('deleteVendorsTable').style.display = 'none';
+  _deleteVendorsData = [];
+  _deleteVendorSelectedIds.clear();
+  _updateDeleteVendorsBtn();
+
+  fetch('/api/vendors/list-all')
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        document.getElementById('deleteVendorsLoading').textContent = 'Error: ' + data.error;
+        return;
+      }
+      _deleteVendorsData = data.vendors || [];
+      renderDeleteVendorsTable(_deleteVendorsData);
+    })
+    .catch(err => {
+      document.getElementById('deleteVendorsLoading').textContent = 'Failed: ' + err;
+    });
+}
+
+function closeDeleteVendorsPanel() {
+  document.getElementById('deleteVendorsPanel').style.display = 'none';
+  document.getElementById('logPanel').style.display = 'flex';
+}
+
+function renderDeleteVendorsTable(vendors) {
+  var tbody = document.getElementById('deleteVendorsTableBody');
+  tbody.innerHTML = '';
+  if (!vendors.length) {
+    document.getElementById('deleteVendorsLoading').textContent = 'No vendors found in Zoho.';
+    document.getElementById('deleteVendorsLoading').style.display = 'block';
+    document.getElementById('deleteVendorsTable').style.display = 'none';
+    return;
+  }
+
+  var sorted = vendors.slice().sort(function(a, b) {
+    if (a.bill_count !== b.bill_count) return a.bill_count - b.bill_count;
+    return a.contact_name.localeCompare(b.contact_name);
+  });
+
+  var emptyCount = 0;
+  sorted.forEach(function(v) {
+    if (v.bill_count === 0) emptyCount++;
+    var tr = document.createElement('tr');
+    tr.setAttribute('data-vendorid', v.contact_id);
+    tr.setAttribute('data-bills', v.bill_count);
+    tr.setAttribute('data-name', (v.contact_name || '').toLowerCase());
+
+    var tdCb = document.createElement('td');
+    var cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.className = 'vendor-del-cb';
+    cb.value = v.contact_id;
+    cb.onchange = function() {
+      if (this.checked) _deleteVendorSelectedIds.add(v.contact_id);
+      else _deleteVendorSelectedIds.delete(v.contact_id);
+      _updateDeleteVendorsBtn();
+    };
+    tdCb.appendChild(cb);
+    tr.appendChild(tdCb);
+
+    var tdName = document.createElement('td');
+    tdName.textContent = v.contact_name;
+    tdName.style.fontWeight = '500';
+    tr.appendChild(tdName);
+
+    var tdBills = document.createElement('td');
+    tdBills.textContent = v.bill_count;
+    tdBills.style.cssText = v.bill_count === 0 ? 'color:#ef4444;font-weight:600' : 'color:var(--green);font-weight:600';
+    tr.appendChild(tdBills);
+
+    var tdOut = document.createElement('td');
+    tdOut.textContent = v.outstanding ? Number(v.outstanding).toLocaleString() : '0';
+    tr.appendChild(tdOut);
+
+    var tdStatus = document.createElement('td');
+    tdStatus.textContent = v.status || '-';
+    tdStatus.style.cssText = 'font-size:10px;text-transform:uppercase;color:var(--text-dim)';
+    tr.appendChild(tdStatus);
+
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('vendorCountLabel').textContent = vendors.length + ' vendors, ' + emptyCount + ' empty';
+  document.getElementById('deleteVendorsLoading').style.display = 'none';
+  document.getElementById('deleteVendorsTable').style.display = 'table';
+  filterDeleteVendors();
+}
+
+function filterDeleteVendors() {
+  var search = (document.getElementById('vendorSearchBar').value || '').toLowerCase();
+  var emptyOnly = document.getElementById('vendorShowEmpty').checked;
+  var rows = document.querySelectorAll('#deleteVendorsTableBody tr');
+  var shown = 0;
+  rows.forEach(function(r) {
+    var name = r.getAttribute('data-name') || '';
+    var bills = parseInt(r.getAttribute('data-bills') || '0');
+    var matchSearch = !search || name.indexOf(search) >= 0;
+    var matchEmpty = !emptyOnly || bills === 0;
+    if (matchSearch && matchEmpty) { r.style.display = ''; shown++; }
+    else { r.style.display = 'none'; }
+  });
+  document.getElementById('vendorCountLabel').textContent = shown + ' shown' + (emptyOnly ? ' (empty only)' : '');
+}
+
+function toggleVendorSelectAll(masterCb) {
+  var rows = document.querySelectorAll('#deleteVendorsTableBody tr:not([style*="display: none"])');
+  rows.forEach(function(r) {
+    var cb = r.querySelector('.vendor-del-cb');
+    if (cb) {
+      cb.checked = masterCb.checked;
+      if (masterCb.checked) _deleteVendorSelectedIds.add(cb.value);
+      else _deleteVendorSelectedIds.delete(cb.value);
+    }
+  });
+  _updateDeleteVendorsBtn();
+}
+
+function _updateDeleteVendorsBtn() {
+  var btn = document.getElementById('deleteVendorsSelectedBtn');
+  if (_deleteVendorSelectedIds.size > 0) {
+    btn.style.display = '';
+    btn.textContent = 'Delete Selected (' + _deleteVendorSelectedIds.size + ')';
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+function confirmDeleteVendorsSelected() {
+  var count = _deleteVendorSelectedIds.size;
+  if (!count) return;
+  if (!confirm('Are you sure you want to permanently delete ' + count + ' vendor(s) from Zoho? This cannot be undone.')) return;
+  var ids = Array.from(_deleteVendorSelectedIds);
+  var btn = document.getElementById('deleteVendorsSelectedBtn');
+  btn.textContent = 'Deleting...';
+  btn.disabled = true;
+
+  fetch('/api/vendors/delete', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({contact_ids: ids})
+  })
+  .then(r => r.json())
+  .then(data => {
+    btn.disabled = false;
+    if (data.error) { alert('Error: ' + data.error); _updateDeleteVendorsBtn(); return; }
+    var ok = (data.succeeded || []).length;
+    var fail = (data.failed || []).length;
+    alert('Deleted ' + ok + ' vendor(s)' + (fail ? ', ' + fail + ' failed' : ''));
+    (data.succeeded || []).forEach(function(cid) {
+      _deleteVendorSelectedIds.delete(cid);
+      var row = document.querySelector('#deleteVendorsTableBody tr[data-vendorid="' + cid + '"]');
+      if (row) row.remove();
+    });
+    _updateDeleteVendorsBtn();
+    _deleteVendorsData = _deleteVendorsData.filter(function(v) { return !(data.succeeded || []).includes(v.contact_id); });
+    var emptyCount = _deleteVendorsData.filter(function(v) { return v.bill_count === 0; }).length;
+    document.getElementById('vendorCountLabel').textContent = _deleteVendorsData.length + ' vendors, ' + emptyCount + ' empty';
+  })
+  .catch(function(err) {
+    btn.disabled = false;
+    alert('Failed: ' + err);
+    _updateDeleteVendorsBtn();
+  });
+}
+
 function filterReviewTable() {
   const vendor = document.getElementById('reviewVendorFilter').value;
   const rows = document.querySelectorAll('#reviewTableBody tr');
@@ -8207,7 +8504,7 @@ var _amSelectedMatches = new Set();
 
 function openAutoMatchPanel() {
   // Hide other panels
-  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','bankingSummaryPanel'].forEach(function(id) {
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','bankingSummaryPanel'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -8241,7 +8538,7 @@ function closeAutoMatchPanel() {
 var _bsData = null;
 
 function openBankingSummary(forceRefresh) {
-  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','autoMatchPanel'].forEach(function(id) {
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','autoMatchPanel'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });

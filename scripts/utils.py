@@ -111,6 +111,8 @@ class ZohoAuth:
         "jp": "accounts.zoho.jp",
     }
 
+    _TOKEN_CACHE_FILE = os.path.join(PROJECT_ROOT, "config", ".access_token_cache.json")
+
     def __init__(self, config):
         self.config = config["zoho_books"]
         self.access_token = None
@@ -119,6 +121,30 @@ class ZohoAuth:
         region = self.config.get("region", "in")
         domain = self.REGION_DOMAINS.get(region, "accounts.zoho.in")
         self.token_url = f"https://{domain}/oauth/v2/token"
+        # Load cached token from file (shared across instances)
+        self._load_token_cache()
+
+    def _load_token_cache(self):
+        try:
+            if os.path.exists(self._TOKEN_CACHE_FILE):
+                with open(self._TOKEN_CACHE_FILE, "r") as f:
+                    cache = json.load(f)
+                expiry = datetime.fromisoformat(cache["expiry"])
+                if datetime.now() < expiry:
+                    self.access_token = cache["access_token"]
+                    self.token_expiry = expiry
+        except Exception:
+            pass
+
+    def _save_token_cache(self):
+        try:
+            with open(self._TOKEN_CACHE_FILE, "w") as f:
+                json.dump({
+                    "access_token": self.access_token,
+                    "expiry": self.token_expiry.isoformat(),
+                }, f)
+        except Exception:
+            pass
 
     def get_access_token(self):
         if self.access_token and self.token_expiry and datetime.now() < self.token_expiry:
@@ -136,8 +162,31 @@ class ZohoAuth:
                 }, timeout=15)
 
                 if resp.status_code == 400:
-                    # Refresh token expired — try auto-renewal
-                    return self._auto_renew_refresh_token()
+                    err_data = {}
+                    try:
+                        err_data = resp.json()
+                    except Exception:
+                        pass
+                    err_code = err_data.get("error", "")
+                    err_desc = err_data.get("error_description", resp.text[:300])
+                    log_action(f"  Token refresh 400: {err_code} - {err_desc}")
+
+                    # Rate limit — wait longer and retry
+                    if "too many requests" in err_desc.lower() or "too many requests" in err_code.lower():
+                        wait = 30 * (attempt + 1)  # 30s, 60s, 90s
+                        log_action(f"  Rate limited, waiting {wait}s ({attempt+1}/3)")
+                        time.sleep(wait)
+                        continue
+
+                    # Only trigger self-client renewal for truly dead tokens
+                    if err_code in ("invalid_code", "invalid_client", "access_denied"):
+                        return self._auto_renew_refresh_token()
+
+                    # Other 400s — retry with moderate backoff
+                    wait = 10 * (attempt + 1)
+                    log_action(f"  Retrying token refresh in {wait}s ({attempt+1}/3)")
+                    time.sleep(wait)
+                    continue
 
                 if resp.status_code in (502, 503, 504):
                     wait = 3 * (attempt + 1)
@@ -164,6 +213,7 @@ class ZohoAuth:
         self.token_expiry = datetime.now() + timedelta(
             seconds=data.get("expires_in", 3600) - 300
         )
+        self._save_token_cache()
         return self.access_token
 
     def _auto_renew_refresh_token(self):

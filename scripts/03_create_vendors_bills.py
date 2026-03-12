@@ -321,11 +321,94 @@ def create_bill_for_invoice(api, invoice, vendor_id, expense_accounts, default_e
     return None, False
 
 
+def _eml_to_pdf(eml_path):
+    """Convert .eml HTML body to PDF using Chrome headless. Returns temp PDF path or None."""
+    import email
+    import subprocess
+    import tempfile
+
+    try:
+        with open(eml_path, "rb") as f:
+            msg = email.message_from_bytes(f.read())
+
+        # Extract HTML body
+        html_body = None
+        for part in msg.walk():
+            if part.get_content_type() == "text/html":
+                charset = part.get_content_charset() or "utf-8"
+                html_body = part.get_payload(decode=True).decode(charset, errors="replace")
+                break
+
+        if not html_body:
+            # Fallback to plain text
+            for part in msg.walk():
+                if part.get_content_type() == "text/plain":
+                    charset = part.get_content_charset() or "utf-8"
+                    text = part.get_payload(decode=True).decode(charset, errors="replace")
+                    html_body = f"<html><body><pre>{text}</pre></body></html>"
+                    break
+
+        if not html_body:
+            return None
+
+        # Write HTML to temp file
+        tmp_html = tempfile.NamedTemporaryFile(suffix=".html", delete=False, mode="w", encoding="utf-8")
+        tmp_html.write(html_body)
+        tmp_html.close()
+
+        # Output PDF path
+        tmp_pdf = tmp_html.name.replace(".html", ".pdf")
+
+        # Find Chrome
+        chrome = None
+        for p in [
+            r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+            r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        ]:
+            if os.path.exists(p):
+                chrome = p
+                break
+
+        if not chrome:
+            os.unlink(tmp_html.name)
+            return None
+
+        subprocess.run([
+            chrome, "--headless", "--disable-gpu", "--no-sandbox",
+            f"--print-to-pdf={tmp_pdf}", "--print-to-pdf-no-header",
+            tmp_html.name,
+        ], capture_output=True, timeout=30)
+
+        os.unlink(tmp_html.name)
+
+        if os.path.exists(tmp_pdf) and os.path.getsize(tmp_pdf) > 0:
+            return tmp_pdf
+
+        return None
+    except Exception as e:
+        log_action(f"  EML to PDF conversion failed: {e}", "WARNING")
+        return None
+
+
 def attach_pdf(api, bill_id, pdf_path):
-    """Attach the original invoice PDF to the bill."""
+    """Attach the original invoice PDF/image to the bill. Converts .eml to PDF first."""
     if not os.path.exists(pdf_path):
         log_action(f"  PDF not found for attachment: {pdf_path}", "WARNING")
         return False
+
+    ext = os.path.splitext(pdf_path)[1].lower()
+    tmp_pdf = None
+
+    if ext == ".eml":
+        tmp_pdf = _eml_to_pdf(pdf_path)
+        if not tmp_pdf:
+            log_action(f"  Could not convert .eml to PDF: {os.path.basename(pdf_path)}", "WARNING")
+            return False
+        pdf_path = tmp_pdf
+    elif ext not in (".pdf", ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"):
+        log_action(f"  Skipping attachment ({ext} not supported by Zoho): {os.path.basename(pdf_path)}")
+        return False
+
     try:
         api.attach_to_bill(bill_id, pdf_path)
         log_action(f"  Attached PDF to bill {bill_id}")
@@ -333,6 +416,9 @@ def attach_pdf(api, bill_id, pdf_path):
     except Exception as e:
         log_action(f"  Failed to attach PDF: {e}", "WARNING")
         return False
+    finally:
+        if tmp_pdf and os.path.exists(tmp_pdf):
+            os.unlink(tmp_pdf)
 
 
 # --- Run (importable by run_loop.py) ---

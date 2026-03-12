@@ -14,5 +14,9 @@
   "Atlassian": {
     "contact_id": "2050328000001809186",
     "contact_name": "Atlassian Pty Ltd"
+  },
+  "Google Cloud": {
+    "contact_id": "2050328000002993047",
+    "contact_name": "Google"
   }
 }

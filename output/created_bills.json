@@ -2758,5 +2758,65 @@
     "amount": 104.49,
     "currency": "USD",
     "attached": true
+  },
+  {
+    "file": "Fw_ Your Google Play Order Receipt from Feb 14, 2026.eml",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003105003",
+    "amount": 1950.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Your Google Play Order Receipt from Jan 14, 2026.eml",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003102004",
+    "amount": 1950.0,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Fw_ US Equity subscription.eml",
+    "status": "created",
+    "vendor_name": "Aionion Marketing Services",
+    "vendor_id": "2050328000003106001",
+    "bill_id": "2050328000003107003",
+    "amount": 765.0,
+    "currency": "USD",
+    "attached": true
+  },
+  {
+    "file": "3722951293174426_20250430.pdf",
+    "status": "created",
+    "vendor_name": "Google",
+    "vendor_id": "2050328000002993047",
+    "bill_id": "2050328000003100005",
+    "amount": 8.83,
+    "currency": "INR",
+    "attached": true
+  },
+  {
+    "file": "Fw_ Your invoice from Apple..eml",
+    "status": "created",
+    "vendor_name": "Apple",
+    "vendor_id": "2050328000003096023",
+    "bill_id": "2050328000003114017",
+    "amount": 365.0,
+    "currency": "INR",
+    "attached": false
+  },
+  {
+    "file": "Fw_ Your LinkedIn Order 10306022306.eml",
+    "status": "created",
+    "vendor_name": "LinkedIn Singapore Pte Ltd",
+    "vendor_id": "2050328000000359077",
+    "bill_id": "2050328000003109017",
+    "amount": 1980.01,
+    "currency": "INR",
+    "attached": true
   }
 ]

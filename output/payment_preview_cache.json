@@ -1,6 +1,98 @@
 {
   "matches": [
     {
+      "bill_id": "2050328000003109017",
+      "vendor_id": "2050328000000359077",
+      "vendor_name": "LinkedIn Singapore Pte Ltd",
+      "bill_amount": 1980.01,
+      "bill_currency": "INR",
+      "bill_date": "2025-04-24",
+      "bill_number": "10306022306",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "2050328000000939371",
+      "cc_description": "IND*LINKEDIN (PGSI), www.linkedin.",
+      "cc_inr_amount": 1980.01,
+      "cc_date": "2025-04-24",
+      "cc_card": "Mayura Credit Card",
+      "match_type": "INR direct"
+    },
+    {
+      "bill_id": "2050328000003102004",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 1950.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-01-14",
+      "bill_number": "SOP.3340-7522-1622-16460..0",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "2050328000002999027",
+      "cc_description": "GOOGLEPLAY, MUMBAI",
+      "cc_inr_amount": 1950.0,
+      "cc_date": "2026-01-14",
+      "cc_card": "Mayura Credit Card",
+      "match_type": "INR direct"
+    },
+    {
+      "bill_id": "2050328000003105003",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 1950.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-02-14",
+      "bill_number": "SOP.3340-7522-1622-16460..1",
+      "status": "matched",
+      "match_score": 100,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 100,
+        "overall": 100
+      },
+      "cc_transaction_id": "2050328000002960019",
+      "cc_description": "GOOGLEPLAY, MUMBAI",
+      "cc_inr_amount": 1950.0,
+      "cc_date": "2026-02-14",
+      "cc_card": "Mayura Credit Card",
+      "match_type": "INR direct"
+    },
+    {
+      "bill_id": "2050328000003100005",
+      "vendor_id": "2050328000002993047",
+      "vendor_name": "Google",
+      "bill_amount": 8.83,
+      "bill_currency": "INR",
+      "bill_date": "2025-04-30",
+      "bill_number": "GC-STMT-2025-04",
+      "status": "matched",
+      "match_score": 91,
+      "confidence": {
+        "vendor": 100,
+        "amount": 100,
+        "date": 75,
+        "overall": 91
+      },
+      "cc_transaction_id": "2050328000000939379",
+      "cc_description": "GOOGLECLOUD, MUMBAI",
+      "cc_inr_amount": 8.83,
+      "cc_date": "2025-05-03",
+      "cc_card": "Mayura Credit Card",
+      "match_type": "INR direct"
+    },
+    {
       "bill_id": "2050328000002984300",
       "vendor_id": "2050328000002997181",
       "vendor_name": "Anthropic USD",
@@ -22,6 +114,17 @@
       "cc_date": "2025-12-05",
       "cc_card": "Mayura Credit Card",
       "match_type": "USD rate:90.02 actual:89.94"
+    },
+    {
+      "bill_id": "2050328000003114017",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 365.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-06-24",
+      "bill_number": "3-501587728",
+      "status": "unmatched",
+      "candidates": []
     },
     {
       "bill_id": "2050328000003078038",
@@ -1294,24 +1397,7 @@
       "bill_date": "2025-03-16",
       "bill_number": "SOP.3305-3916-7418-85612..2",
       "status": "unmatched",
-      "candidates": [
-        {
-          "cc_transaction_id": "2050328000000939371",
-          "cc_description": "IND*LINKEDIN (PGSI), www.linkedin.",
-          "cc_inr_amount": 1980.01,
-          "cc_date": "2025-04-24",
-          "cc_card": "Mayura Credit Card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 70,
-            "date": 10,
-            "vendor": 0,
-            "uniqueness": 15
-          },
-          "candidate_score": 39
-        }
-      ]
+      "candidates": []
     },
     {
       "bill_id": "2050328000003009331",
@@ -1686,25 +1772,9 @@
             "amount": 95,
             "date": 60,
             "vendor": 0,
-            "uniqueness": 0
+            "uniqueness": 15
           },
-          "candidate_score": 62
-        },
-        {
-          "cc_transaction_id": "2050328000000939371",
-          "cc_description": "IND*LINKEDIN (PGSI), www.linkedin.",
-          "cc_inr_amount": 1980.01,
-          "cc_date": "2025-04-24",
-          "cc_card": "Mayura Credit Card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 95,
-            "date": 10,
-            "vendor": 0,
-            "uniqueness": 0
-          },
-          "candidate_score": 50
+          "candidate_score": 64
         }
       ]
     },
@@ -1901,22 +1971,6 @@
       "status": "unmatched",
       "candidates": [
         {
-          "cc_transaction_id": "2050328000000939371",
-          "cc_description": "IND*LINKEDIN (PGSI), www.linkedin.",
-          "cc_inr_amount": 1980.01,
-          "cc_date": "2025-04-24",
-          "cc_card": "Mayura Credit Card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 70,
-            "date": 60,
-            "vendor": 0,
-            "uniqueness": 0
-          },
-          "candidate_score": 50
-        },
-        {
           "cc_transaction_id": "2050328000000939447",
           "cc_description": "RSP*TATA AIG GENERAL I, MUMBAI",
           "cc_inr_amount": 1996.0,
@@ -1928,9 +1982,9 @@
             "amount": 55,
             "date": 10,
             "vendor": 0,
-            "uniqueness": 0
+            "uniqueness": 15
           },
-          "candidate_score": 30
+          "candidate_score": 31
         }
       ]
     },
@@ -2927,16 +2981,6 @@
       "unmatched_reason": "No vendor signal"
     },
     {
-      "transaction_id": "2050328000002960019",
-      "description": "GOOGLEPLAY, MUMBAI",
-      "amount": 1950.0,
-      "date": "2026-02-14",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Google",
-      "unmatched_reason": "Amt: CC 1,950 vs Bill 3,755"
-    },
-    {
       "transaction_id": "2050328000002960009",
       "description": "GOOGLECLOUD, MUMBAI",
       "amount": 12.01,
@@ -2945,16 +2989,6 @@
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Google",
       "unmatched_reason": "Amt: CC 12 vs Bill 3,755"
-    },
-    {
-      "transaction_id": "2050328000002999027",
-      "description": "GOOGLEPLAY, MUMBAI",
-      "amount": 1950.0,
-      "date": "2026-01-14",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Google",
-      "unmatched_reason": "Amt: CC 1,950 vs Bill 3,755"
     },
     {
       "transaction_id": "2050328000002999019",
@@ -3191,7 +3225,8 @@
       "date": "2025-08-21",
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
-      "unmatched_reason": "No vendor signal"
+      "resolved_vendor": "Aionion Marketing Services",
+      "unmatched_reason": "No Aionion Marketing Services bills"
     },
     {
       "transaction_id": "2050328000000939603",
@@ -3329,7 +3364,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Apple",
-      "unmatched_reason": "Date: 81d apart"
+      "unmatched_reason": "Amt: CC 10,900 vs Bill 365"
     },
     {
       "transaction_id": "2050328000000939505",
@@ -3496,28 +3531,8 @@
       "date": "2025-05-08",
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "LinkedIn",
+      "resolved_vendor": "LinkedIn Singapore Pte Ltd",
       "unmatched_reason": "Amt: CC 7,271 vs Bill 1,694"
-    },
-    {
-      "transaction_id": "2050328000000939379",
-      "description": "GOOGLECLOUD, MUMBAI",
-      "amount": 8.83,
-      "date": "2025-05-03",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Google",
-      "unmatched_reason": "Amt: CC 9 vs Bill 1,950"
-    },
-    {
-      "transaction_id": "2050328000000939371",
-      "description": "IND*LINKEDIN (PGSI), www.linkedin.",
-      "amount": 1980.01,
-      "date": "2025-04-24",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "LinkedIn",
-      "unmatched_reason": "Amt: CC 1,980 vs Bill 1,694"
     },
     {
       "transaction_id": "2050328000000939359",
@@ -3554,7 +3569,7 @@
   "card_cc_unmatched": {
     "HDFC - 7196": 7,
     "Kotak bank credit card": 30,
-    "Mayura Credit Card": 62
+    "Mayura Credit Card": 58
   },
   "amex_matches": [
     {
@@ -4095,17 +4110,17 @@
         }
       ],
       "group_sum": 544.0,
-      "vendor_name": "Amazon → CLICKTECH RETAIL PRIVATE LIMITED, Aggarwal Enterprises",
+      "vendor_name": "Amazon → Aggarwal Enterprises, CLICKTECH RETAIL PRIVATE LIMITED",
       "vendor_id": "2050328000003010470",
       "match_type": "amazon_marketplace"
     }
   ],
   "summary": {
-    "total_bills": 147,
-    "matched": 1,
-    "unmatched": 146,
+    "total_bills": 152,
+    "matched": 5,
+    "unmatched": 147,
     "already_paid": 0,
-    "unmatched_cc_count": 99,
+    "unmatched_cc_count": 95,
     "amex_matched": 18,
     "group_matched": 2
   }

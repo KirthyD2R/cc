@@ -56,6 +56,14 @@
     "currency_code": "INR"
   },
   {
+    "contact_id": "2050328000003106001",
+    "contact_name": "Aionion Marketing Services",
+    "company_name": "",
+    "gst_no": "",
+    "gst_treatment": "overseas",
+    "currency_code": "USD"
+  },
+  {
     "contact_id": "2050328000003012577",
     "contact_name": "AKASH RAJESHBHAI NAKRANI",
     "company_name": "",
@@ -152,11 +160,11 @@
     "currency_code": "INR"
   },
   {
-    "contact_id": "2050328000000360596",
-    "contact_name": "Apple Quaker Bridg",
-    "company_name": "Apple Quaker Bridg",
+    "contact_id": "2050328000003096023",
+    "contact_name": "Apple",
+    "company_name": "",
     "gst_no": "",
-    "gst_treatment": "overseas",
+    "gst_treatment": "business_none",
     "currency_code": "INR"
   },
   {
@@ -198,14 +206,6 @@
     "gst_no": "08DXLPA0204B2Z9",
     "gst_treatment": "business_gst",
     "currency_code": "INR"
-  },
-  {
-    "contact_id": "2050328000003073110",
-    "contact_name": "Atlassian",
-    "company_name": "Atlassian Pty Ltd",
-    "gst_no": "",
-    "gst_treatment": "overseas",
-    "currency_code": "USD"
   },
   {
     "contact_id": "2050328000001809186",
