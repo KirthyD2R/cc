@@ -8095,9 +8095,26 @@
     "currency": "INR",
     "date": "2025-07-10",
     "organized_month": "",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000357340",
+    "action": "skip",
+    "matched_bill_id": "2050328000003100054",
     "matched_vendor_name": "Amazon Seller Services Private Limited",
-    "vendor_match_method": "gstin"
+    "matched_vendor_id": "2050328000000357340",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Amazon Seller Services Private Limited"
+  },
+  {
+    "file": "TRIP_FBT23-124636-89917.pdf",
+    "invoice_number": null,
+    "vendor_name": "Tripstacc",
+    "amount": 79161.0,
+    "currency": "INR",
+    "date": "2025-10-23",
+    "organized_month": "Uploaded",
+    "action": "skip",
+    "matched_bill_id": "2050328000003104047",
+    "matched_vendor_name": "Tripstacc",
+    "matched_vendor_id": "2050328000003103049",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Tripstacc"
   }
 ]

@@ -368,26 +368,10 @@
   {
     "date": "2025-10-16",
     "description": "MICROSOFTBUS, MUMBAI",
-    "amount": 61784.8,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812235"
-  },
-  {
-    "date": "2025-10-16",
-    "description": "MICROSOFTBUS, MUMBAI",
     "amount": 34726.04,
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000001812233"
-  },
-  {
-    "date": "2025-10-11",
-    "description": "LA QUINTA MOTOR INNS, DURHAM",
-    "amount": 382.07,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000001812209"
   },
   {
     "date": "2025-10-10",
@@ -476,14 +460,6 @@
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939589"
-  },
-  {
-    "date": "2025-08-11",
-    "description": "MICROSOFTBUS, MUMBAI",
-    "amount": 61169.3,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939575"
   },
   {
     "date": "2025-08-10",
@@ -638,28 +614,12 @@
     "transaction_id": "2050328000000939411"
   },
   {
-    "date": "2025-05-17",
-    "description": "THE VIRIDIAN PLATE, CHENNAI",
-    "amount": 2150.0,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939401"
-  },
-  {
     "date": "2025-05-16",
     "description": "MICROSOFTBUS, MUMBAI",
     "amount": 24066.03,
     "card_name": "Mayura Credit Card",
     "zoho_account_id": "2050328000000552784",
     "transaction_id": "2050328000000939399"
-  },
-  {
-    "date": "2025-05-11",
-    "description": "MICROSOFTBUS, MUMBAI",
-    "amount": 58150.4,
-    "card_name": "Mayura Credit Card",
-    "zoho_account_id": "2050328000000552784",
-    "transaction_id": "2050328000000939395"
   },
   {
     "date": "2025-05-09",

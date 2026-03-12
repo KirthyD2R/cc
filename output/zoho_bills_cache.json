@@ -1,5 +1,14 @@
 [
   {
+    "bill_id": "2050328000003104047",
+    "bill_number": "TRIP_FBT23-124636-89917",
+    "vendor_name": "Tripstacc",
+    "vendor_id": "2050328000003103049",
+    "date": "2025-10-23",
+    "total": 79161.0,
+    "status": "overdue"
+  },
+  {
     "bill_id": "2050328000003100054",
     "bill_number": "IN-31372906",
     "vendor_name": "Amazon Seller Services Private Limited",
@@ -3021,7 +3030,7 @@
     "vendor_id": "2050328000000342219",
     "date": "2025-08-12",
     "total": 31185.5,
-    "status": "open"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002920775",
@@ -3030,7 +3039,7 @@
     "vendor_id": "2050328000000342219",
     "date": "2025-10-12",
     "total": 30892.4,
-    "status": "open"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002920753",
@@ -3048,7 +3057,7 @@
     "vendor_id": "2050328000000342219",
     "date": "2025-09-12",
     "total": 30892.4,
-    "status": "open"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002920709",
@@ -3084,7 +3093,7 @@
     "vendor_id": "2050328000000342219",
     "date": "2025-05-12",
     "total": 29075.2,
-    "status": "open"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002920621",
@@ -3093,7 +3102,7 @@
     "vendor_id": "2050328000000342219",
     "date": "2025-07-12",
     "total": 29983.8,
-    "status": "open"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002920599",
@@ -3111,7 +3120,7 @@
     "vendor_id": "2050328000000342219",
     "date": "2025-04-12",
     "total": 29075.2,
-    "status": "open"
+    "status": "paid"
   },
   {
     "bill_id": "2050328000002920555",

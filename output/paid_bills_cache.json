@@ -1259,12 +1259,33 @@
     "date": "2025-10-12",
     "bill_number": "E0100XPIP4"
   },
+  "2050328000002920797": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 31185.5,
+    "currency": "INR",
+    "date": "2025-08-12",
+    "bill_number": "E0100X5B1N"
+  },
+  "2050328000002920775": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 30892.4,
+    "currency": "INR",
+    "date": "2025-10-12",
+    "bill_number": "E0100XPIP5"
+  },
   "2050328000002920753": {
     "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
     "amount": 30892.4,
     "currency": "INR",
     "date": "2025-11-12",
     "bill_number": "E0100XYTHP"
+  },
+  "2050328000002920731": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 30892.4,
+    "currency": "INR",
+    "date": "2025-09-12",
+    "bill_number": "E0100XFZFO"
   },
   "2050328000002920709": {
     "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
@@ -1287,12 +1308,33 @@
     "date": "2025-08-12",
     "bill_number": "E0100X5B1M"
   },
+  "2050328000002920643": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 29075.2,
+    "currency": "INR",
+    "date": "2025-05-12",
+    "bill_number": "E0100W8BO6"
+  },
+  "2050328000002920621": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 29983.8,
+    "currency": "INR",
+    "date": "2025-07-12",
+    "bill_number": "E0100WTWFZ"
+  },
   "2050328000002920599": {
     "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
     "amount": 30247.59,
     "currency": "INR",
     "date": "2025-06-12",
     "bill_number": "E0100WJF6R"
+  },
+  "2050328000002920577": {
+    "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+    "amount": 29075.2,
+    "currency": "INR",
+    "date": "2025-04-12",
+    "bill_number": "E0100VXPSR"
   },
   "2050328000002920555": {
     "vendor_name": "Microsoft Corporation (India) Pvt Ltd",

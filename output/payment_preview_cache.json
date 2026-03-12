@@ -2827,15 +2827,6 @@
       "unmatched_reason": "Amt: CC 34,726 vs Bill 7,487"
     },
     {
-      "transaction_id": "2050328000001812209",
-      "description": "LA QUINTA MOTOR INNS, DURHAM",
-      "amount": 382.07,
-      "date": "2025-10-11",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "unmatched_reason": "No vendor signal"
-    },
-    {
       "transaction_id": "2050328000001812203",
       "description": "RELIANCEJIO, MUMBAI",
       "amount": 2555.0,
@@ -3133,15 +3124,6 @@
       "unmatched_reason": "No OpenAI bills"
     },
     {
-      "transaction_id": "2050328000000939401",
-      "description": "THE VIRIDIAN PLATE, CHENNAI",
-      "amount": 2150.0,
-      "date": "2025-05-17",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "unmatched_reason": "No vendor signal"
-    },
-    {
       "transaction_id": "2050328000000939399",
       "description": "MICROSOFTBUS, MUMBAI",
       "amount": 24066.03,
@@ -3201,12 +3183,12 @@
   "card_cc_total": {
     "HDFC - 7196": 2,
     "Kotak bank credit card": 29,
-    "Mayura Credit Card": 55
+    "Mayura Credit Card": 50
   },
   "card_cc_unmatched": {
     "HDFC - 7196": 2,
     "Kotak bank credit card": 29,
-    "Mayura Credit Card": 51
+    "Mayura Credit Card": 49
   },
   "amex_matches": [
     {
@@ -3673,129 +3655,14 @@
     "2050328000003013003",
     "2050328000003017826"
   ],
-  "group_matches": [
-    {
-      "status": "group_matched",
-      "match_score": 77,
-      "confidence": {
-        "vendor": 80,
-        "amount": 100,
-        "date": 60,
-        "overall": 77
-      },
-      "cc_transaction_id": "2050328000001812235",
-      "cc_description": "MICROSOFTBUS, MUMBAI",
-      "cc_inr_amount": 61784.8,
-      "cc_date": "2025-10-16",
-      "cc_card": "Mayura Credit Card",
-      "grouped_bills": [
-        {
-          "bill_id": "2050328000002920775",
-          "vendor_id": "2050328000000342219",
-          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-          "amount": 30892.4,
-          "currency": "INR",
-          "date": "2025-10-12",
-          "file": "E0100XPIP5"
-        },
-        {
-          "bill_id": "2050328000002920731",
-          "vendor_id": "2050328000000342219",
-          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-          "amount": 30892.4,
-          "currency": "INR",
-          "date": "2025-09-12",
-          "file": "E0100XFZFO"
-        }
-      ],
-      "group_sum": 61784.8,
-      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-      "vendor_id": "2050328000000342219"
-    },
-    {
-      "status": "group_matched",
-      "match_score": 82,
-      "confidence": {
-        "vendor": 80,
-        "amount": 100,
-        "date": 75,
-        "overall": 82
-      },
-      "cc_transaction_id": "2050328000000939575",
-      "cc_description": "MICROSOFTBUS, MUMBAI",
-      "cc_inr_amount": 61169.3,
-      "cc_date": "2025-08-11",
-      "cc_card": "Mayura Credit Card",
-      "grouped_bills": [
-        {
-          "bill_id": "2050328000002920797",
-          "vendor_id": "2050328000000342219",
-          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-          "amount": 31185.5,
-          "currency": "INR",
-          "date": "2025-08-12",
-          "file": "E0100X5B1N"
-        },
-        {
-          "bill_id": "2050328000002920621",
-          "vendor_id": "2050328000000342219",
-          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-          "amount": 29983.8,
-          "currency": "INR",
-          "date": "2025-07-12",
-          "file": "E0100WTWFZ"
-        }
-      ],
-      "group_sum": 61169.3,
-      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-      "vendor_id": "2050328000000342219"
-    },
-    {
-      "status": "group_matched",
-      "match_score": 82,
-      "confidence": {
-        "vendor": 80,
-        "amount": 100,
-        "date": 75,
-        "overall": 82
-      },
-      "cc_transaction_id": "2050328000000939395",
-      "cc_description": "MICROSOFTBUS, MUMBAI",
-      "cc_inr_amount": 58150.4,
-      "cc_date": "2025-05-11",
-      "cc_card": "Mayura Credit Card",
-      "grouped_bills": [
-        {
-          "bill_id": "2050328000002920643",
-          "vendor_id": "2050328000000342219",
-          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-          "amount": 29075.2,
-          "currency": "INR",
-          "date": "2025-05-12",
-          "file": "E0100W8BO6"
-        },
-        {
-          "bill_id": "2050328000002920577",
-          "vendor_id": "2050328000000342219",
-          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-          "amount": 29075.2,
-          "currency": "INR",
-          "date": "2025-04-12",
-          "file": "E0100VXPSR"
-        }
-      ],
-      "group_sum": 58150.4,
-      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-      "vendor_id": "2050328000000342219"
-    }
-  ],
+  "group_matches": [],
   "summary": {
     "total_bills": 161,
     "matched": 1,
     "unmatched": 160,
     "already_paid": 0,
-    "unmatched_cc_count": 82,
+    "unmatched_cc_count": 80,
     "amex_matched": 18,
-    "group_matched": 3
+    "group_matched": 0
   }
 }

@@ -637,7 +637,7 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
 
         # Find all same-vendor bills within date window
         resolved_norm = _norm(strip_vendor_stop_words(resolved))
-        is_microsoft = resolved_norm in ("microsoft", "microsoftcorporationindiapvtltd")
+        is_strict_vendor = resolved_norm in ("microsoft", "microsoftcorporationindiapvtltd", "apple")
         cands = []
 
         for vn_norm, bill_list in vendor_bills.items():
@@ -665,7 +665,7 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
         # Microsoft: exact tally (< Rs.1) — their invoices sum precisely to CC amount
         # Others: 1% tolerance for tax/rounding differences
         from itertools import combinations
-        tol = 1.0 if is_microsoft else max(1.0, cc_inr * 0.01)
+        tol = 1.0 if is_strict_vendor else max(1.0, cc_inr * 0.01)
         best_group = None
         best_diff = float('inf')
         for size in range(2, min(7, len(cands) + 1)):
@@ -689,7 +689,7 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
         ac = 100 if sum_pct < 0.001 else 95 if sum_pct < 0.005 else 90 if sum_pct < 0.01 else 75
         # Microsoft: wider date window is normal (invoices 12th, CC payment weeks later)
         # Score date relative to the allowed window, not absolute days
-        if is_microsoft:
+        if is_strict_vendor:
             dc = 100 if max_dd <= 5 else 90 if max_dd <= 15 else 75 if max_dd <= 30 else 60 if max_dd <= 40 else 25
         else:
             dc = 100 if max_dd == 0 else 90 if max_dd <= 2 else 75 if max_dd <= 5 else 50 if max_dd <= 10 else 25
@@ -736,8 +736,8 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
         if not eligible:
             continue
 
-        # Microsoft gets 40-day window (~1 month buffer); others get 10 days
-        _dw = 40 if _norm(resolved) in ("microsoft", "microsoftcorporationindiapvtltd") else 10
+        # Microsoft/Apple get 40-day window (~1 month buffer); others get 10 days
+        _dw = 40 if _norm(resolved) in ("microsoft", "microsoftcorporationindiapvtltd", "apple") else 10
         result = _try_group(cc, resolved, date_window=_dw)
         if not result:
             continue
@@ -767,8 +767,8 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
         if not has_multi:
             continue
 
-        # Microsoft gets 40-day window (~1 month buffer); others get 15 days
-        _dw2 = 40 if _norm(resolved) in ("microsoft", "microsoftcorporationindiapvtltd") else 15
+        # Microsoft/Apple get 40-day window (~1 month buffer); others get 15 days
+        _dw2 = 40 if _norm(resolved) in ("microsoft", "microsoftcorporationindiapvtltd", "apple") else 15
         result = _try_group(cc, resolved, date_window=_dw2)
         if not result:
             continue
@@ -6699,6 +6699,26 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   }
   .bill-create-btn:hover { background: var(--accent); color: #fff; }
 
+  /* Drag-and-drop manual match */
+  tr.pay-drag-source { cursor: grab; }
+  tr.pay-drag-source:active { cursor: grabbing; }
+  tr.pay-dragging { opacity: 0.4; }
+  tr.pay-drop-target.drag-over { outline: 2px dashed var(--accent); background: rgba(108,140,255,0.12) !important; }
+  .drag-hint { display: inline-block; font-size: 8px; color: var(--accent); margin-left: 6px; opacity: 0.7; }
+  .drop-preview-banner {
+    background: rgba(108,140,255,0.15); border: 1px solid var(--accent); border-radius: 6px;
+    padding: 8px 14px; margin: 0; font-size: 11px; line-height: 1.6;
+    animation: dropFlash 0.4s ease-out;
+  }
+  .drop-preview-banner .dp-label { font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .drop-preview-banner .dp-cc { color: var(--accent); }
+  .drop-preview-banner .dp-bill { color: var(--yellow); }
+  .drop-preview-banner .dp-diff { color: var(--green); font-weight: 600; }
+  @keyframes dropFlash {
+    0% { background: rgba(108,140,255,0.35); transform: scale(1.01); }
+    100% { background: rgba(108,140,255,0.15); transform: scale(1); }
+  }
+
   /* Bill Picker — Vertical Layout */
   .bill-picker-layout { display: flex; flex-direction: column; flex: 1; min-height: 0; }
   .bill-picker-left { display: flex; flex-direction: column; min-height: 0; flex: 1; }
@@ -7812,18 +7832,22 @@ function runCompareMail() {
 }
 
 // --- Confirmation modals ---
-function showModal(title, msg, onConfirm, isDanger, confirmText) {
+var _modalOnCancel = null;
+
+function showModal(title, msg, onConfirm, isDanger, confirmText, onCancel) {
   document.getElementById('modalTitle').textContent = title;
   document.getElementById('modalMsg').innerHTML = msg;
   const btn = document.getElementById('modalConfirmBtn');
   btn.className = 'modal-btn modal-btn-confirm' + (isDanger ? ' danger' : '');
   btn.textContent = confirmText || (isDanger ? 'Yes, Delete' : 'Yes, Proceed');
-  btn.onclick = function() { closeModal(); onConfirm(); };
+  btn.onclick = function() { _modalOnCancel = null; closeModal(); onConfirm(); };
+  _modalOnCancel = onCancel || null;
   document.getElementById('confirmModal').style.display = 'flex';
 }
 
 function closeModal() {
   document.getElementById('confirmModal').style.display = 'none';
+  if (_modalOnCancel) { var cb = _modalOnCancel; _modalOnCancel = null; cb(); }
 }
 
 function confirmRunAll() {
@@ -11056,6 +11080,44 @@ function renderPaymentPreview(data) {
     tr.setAttribute('data-ccdesc', _ccDescForSearch.toLowerCase());
     tr.setAttribute('data-resolvedvendor', (m.resolved_vendor || '').toLowerCase());
 
+    // --- Drag-and-drop: CC Only rows are draggable sources ---
+    if (m.status === 'cc_only') {
+      tr.classList.add('pay-drag-source');
+      tr.draggable = true;
+      tr.setAttribute('data-drag-idx', String(idx));
+      tr.addEventListener('dragstart', function(e) {
+        tr.classList.add('pay-dragging');
+        e.dataTransfer.effectAllowed = 'link';
+        e.dataTransfer.setData('text/plain', JSON.stringify({
+          idx: idx,
+          cc_transaction_id: m.cc_transaction_id || '',
+          cc_description: m.cc_description || '',
+          cc_inr_amount: m.cc_inr_amount || 0,
+          cc_date: m.cc_date || '',
+          cc_card: m.cc_card || '',
+          cc_forex_amount: m.cc_forex_amount || null,
+          cc_forex_currency: m.cc_forex_currency || null,
+          resolved_vendor: m.resolved_vendor || ''
+        }));
+      });
+      tr.addEventListener('dragend', function() { tr.classList.remove('pay-dragging'); });
+    }
+    // --- Drag-and-drop: Unmatched bill rows are drop targets ---
+    if (m.status === 'unmatched') {
+      tr.classList.add('pay-drop-target');
+      tr.setAttribute('data-drop-billid', m.bill_id);
+      tr.addEventListener('dragover', function(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'link'; tr.classList.add('drag-over'); });
+      tr.addEventListener('dragleave', function() { tr.classList.remove('drag-over'); });
+      tr.addEventListener('drop', function(e) {
+        e.preventDefault();
+        tr.classList.remove('drag-over');
+        try {
+          var ccData = JSON.parse(e.dataTransfer.getData('text/plain'));
+          previewManualDrop(tr, m, ccData);
+        } catch(err) { addLogLine('[Drag] Invalid drop data: ' + err); }
+      });
+    }
+
     var bgColor = 'transparent';
     if (m.status === 'matched') bgColor = 'rgba(80,200,120,0.04)';
     else if (m.status === 'group_matched') bgColor = 'rgba(100,100,255,0.04)';
@@ -11089,6 +11151,7 @@ function renderPaymentPreview(data) {
         + '<span style="color:var(--accent);font-size:10px">No Invoice</span>'
         + (rVendor ? '<div style="font-size:8px;color:var(--text-dim)" title="Resolved to: ' + rVendor + '">\u2192 ' + rVendor + '</div>' : '')
         + '<div style="font-size:8px;color:var(--yellow);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + reason + '">' + reason + '</div>'
+        + '<div class="drag-hint">\u2630 drag to bill</div>'
         + '</div>';
     } else if (m.status === 'unmatched') {
       var topCand = (m.candidates && m.candidates.length > 0) ? m.candidates[0] : null;
@@ -11099,9 +11162,10 @@ function renderPaymentPreview(data) {
           + '<div style="font-size:13px;font-weight:700;color:' + csColor + '">' + cs + '%</div>'
           + '<div style="font-size:9px;color:var(--text-dim)">Candidate</div>'
           + '<div style="font-size:8px;color:var(--text-dim)">Amt:' + _confDot(topCand.breakdown.amount) + ' Date:' + _confDot(topCand.breakdown.date) + ' Vnd:' + _confDot(topCand.breakdown.vendor) + '</div>'
+          + '<div class="drag-hint">\u2193 or drop CC</div>'
           + '</div>';
       } else {
-        confCell = '<span style="color:var(--yellow);font-size:10px">No CC</span>';
+        confCell = '<div style="text-align:center"><span style="color:var(--yellow);font-size:10px">No CC</span><div class="drag-hint">\u2193 drop CC here</div></div>';
       }
     } else if (m.status === 'group_matched') {
       var c = m.confidence || {};
@@ -11570,6 +11634,216 @@ function recordOnePayment(billId, previewData) {
   .catch(function(err) {
     if (btn) { btn.textContent = 'Error'; btn.disabled = false; }
     addLogLine('[Payment] Error: ' + err);
+  });
+}
+
+// --- Manual drag-and-drop match ---
+var _dropPreviewTimer = null;
+
+function previewManualDrop(billRow, billMatch, ccData) {
+  // Clear any previous preview
+  if (_dropPreviewTimer) { clearTimeout(_dropPreviewTimer); _dropPreviewTimer = null; }
+  _cancelActiveDropPreview();
+
+  var cells = billRow.querySelectorAll('td');
+  var origHtml = {};
+  // Save original cells: 0=checkbox, 1-4=CC cols, 9=diff, 10=confidence, 11=action
+  [0, 1, 2, 3, 4, 9, 10, 11].forEach(function(ci) {
+    if (cells[ci]) origHtml[ci] = cells[ci].innerHTML;
+  });
+
+  // Fill CC columns with dropped data (accent colored)
+  var ccDescShort = ccData.cc_description.length > 35 ? ccData.cc_description.substring(0, 35) + '\u2026' : ccData.cc_description;
+  var fxNote = ccData.cc_forex_amount ? ' (' + ccData.cc_forex_currency + ' ' + Number(ccData.cc_forex_amount).toLocaleString() + ')' : '';
+  if (cells[1]) cells[1].innerHTML = '<span style="color:var(--accent);font-weight:600" title="' + ccData.cc_description.replace(/"/g,'&quot;') + '">' + ccDescShort + fxNote + '</span>';
+  if (cells[2]) cells[2].innerHTML = '<span style="color:var(--accent);font-weight:600;font-family:monospace">' + Number(ccData.cc_inr_amount).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) + '</span>';
+  if (cells[3]) cells[3].innerHTML = '<span style="color:var(--accent)">' + (ccData.cc_date ? ccData.cc_date.split('-').reverse().join('-') : '-') + '</span>';
+  if (cells[4]) cells[4].innerHTML = '<span style="color:var(--accent);font-size:10px">' + (ccData.cc_card || '-') + '</span>';
+
+  // Compute diff
+  var diffText = '';
+  var billCur = billMatch.bill_currency || 'INR';
+  if (billCur === 'INR') {
+    var diff = Math.abs(ccData.cc_inr_amount - billMatch.bill_amount);
+    diffText = '\u20B9' + diff.toFixed(2);
+  } else if (ccData.cc_forex_currency && ccData.cc_forex_currency.toUpperCase() === billCur.toUpperCase()) {
+    var diff = Math.abs(ccData.cc_forex_amount - billMatch.bill_amount);
+    diffText = ccData.cc_forex_currency + ' ' + diff.toFixed(2);
+  } else {
+    diffText = billCur + ' vs INR';
+  }
+  if (cells[9]) cells[9].innerHTML = '<span style="color:var(--accent);font-size:11px;font-weight:600">' + diffText + '</span>';
+
+  // Show OK / No buttons inline in confidence + action cells
+  if (cells[10]) cells[10].innerHTML = '<button class="bill-create-btn" style="background:var(--green);color:#000;border-color:var(--green);font-size:11px;padding:4px 14px" id="drop-ok-' + billMatch.bill_id + '">OK</button>';
+  if (cells[11]) cells[11].innerHTML = '<button class="bill-create-btn" style="color:var(--red,#ef4444);border-color:var(--red,#ef4444);font-size:11px;padding:4px 14px" id="drop-no-' + billMatch.bill_id + '">No</button>';
+
+  // Flash row
+  billRow.style.transition = 'background 0.3s ease';
+  billRow.style.background = 'rgba(108,140,255,0.18)';
+  setTimeout(function() { billRow.style.background = 'rgba(108,140,255,0.08)'; }, 400);
+
+  // Dim source CC row
+  var ccRow = document.getElementById('pay-row-cc-' + ccData.idx);
+  if (ccRow) { ccRow.style.opacity = '0.3'; ccRow.style.transition = 'opacity 0.3s'; }
+
+  // Restore function
+  function restoreRow() {
+    Object.keys(origHtml).forEach(function(ci) {
+      if (cells[ci]) cells[ci].innerHTML = origHtml[ci];
+    });
+    billRow.style.background = 'rgba(255,200,50,0.04)';
+    if (ccRow) ccRow.style.opacity = '1';
+    _activeDropPreview = null;
+  }
+
+  // Store active preview for cleanup
+  _activeDropPreview = { restore: restoreRow };
+
+  // Wire OK button — show confirmation modal then Record
+  var okBtn = document.getElementById('drop-ok-' + billMatch.bill_id);
+  if (okBtn) okBtn.onclick = function() {
+    _activeDropPreview = null;
+
+    // Build diff info for modal
+    var diffInfo = '';
+    var _billCur = billMatch.bill_currency || 'INR';
+    if (_billCur === 'INR') {
+      var _d = Math.abs(ccData.cc_inr_amount - billMatch.bill_amount);
+      diffInfo = 'Difference: \u20B9' + _d.toFixed(2);
+    } else if (ccData.cc_forex_currency && ccData.cc_forex_currency.toUpperCase() === _billCur.toUpperCase()) {
+      var _d = Math.abs(ccData.cc_forex_amount - billMatch.bill_amount);
+      diffInfo = 'Difference: ' + ccData.cc_forex_currency + ' ' + _d.toFixed(2);
+    } else {
+      diffInfo = 'Note: Currency mismatch \u2014 manual review recommended';
+    }
+
+    var modalBody = '<div style="text-align:left;line-height:1.8">'
+        + '<div style="color:var(--accent);font-weight:600">CC Transaction:</div>'
+        + '<div style="margin-left:12px">' + ccData.cc_description + '</div>'
+        + '<div style="margin-left:12px">\u20B9' + Number(ccData.cc_inr_amount).toLocaleString('en-IN')
+          + (ccData.cc_forex_amount ? ' (' + ccData.cc_forex_currency + ' ' + Number(ccData.cc_forex_amount).toLocaleString() + ')' : '')
+          + ' | ' + ccData.cc_date + ' | ' + ccData.cc_card + '</div>'
+        + '<div style="margin-top:8px;color:var(--yellow);font-weight:600">Bill:</div>'
+        + '<div style="margin-left:12px">' + (billMatch.vendor_name || '') + ' | #' + (billMatch.bill_number || '') + '</div>'
+        + '<div style="margin-left:12px">' + (billMatch.bill_currency || 'INR') + ' ' + Number(billMatch.bill_amount).toLocaleString() + ' | ' + billMatch.bill_date + '</div>'
+        + '<div style="margin-top:8px;font-weight:600;color:var(--text-dim)">' + diffInfo + '</div>'
+      + '</div>';
+
+    // Step 1: Show modal with OK button
+    showModal(
+      'Manual Match \u2014 Confirm?',
+      modalBody,
+      function() {
+        // Step 2: OK clicked — show Record Payment button
+        showModal(
+          'Manual Match \u2014 Record Payment',
+          modalBody + '<div style="margin-top:10px;padding:8px 12px;background:rgba(80,200,120,0.1);border-radius:6px;border:1px solid var(--green);font-size:11px;color:var(--green)">\u2714 Match confirmed. Click Record Payment to save to Zoho.</div>',
+          function() { recordManualMatch(billMatch, ccData); },
+          false, 'Record Payment',
+          restoreRow
+        );
+      },
+      false, 'OK',
+      restoreRow
+    );
+  };
+
+  // Wire No button — restore original
+  var noBtn = document.getElementById('drop-no-' + billMatch.bill_id);
+  if (noBtn) noBtn.onclick = function() { restoreRow(); };
+}
+
+var _activeDropPreview = null;
+function _cancelActiveDropPreview() {
+  if (_activeDropPreview && _activeDropPreview.restore) _activeDropPreview.restore();
+  _activeDropPreview = null;
+}
+
+function recordManualMatch(billMatch, ccData) {
+  var billId = billMatch.bill_id;
+  var btn = document.getElementById('pay-btn-' + billId);
+
+  var payload = {
+    bill_id: billId,
+    cc_transaction_id: ccData.cc_transaction_id || '',
+    cc_description: ccData.cc_description,
+    cc_inr_amount: ccData.cc_inr_amount,
+    cc_date: ccData.cc_date,
+    cc_card: ccData.cc_card
+  };
+  if (ccData.cc_forex_amount) {
+    payload.cc_forex_amount = ccData.cc_forex_amount;
+    payload.cc_forex_currency = ccData.cc_forex_currency;
+  }
+
+  addLogLine('[Manual Match] Recording: ' + ccData.cc_description + ' \u2192 ' + (billMatch.vendor_name || '') + ' #' + (billMatch.bill_number || ''));
+
+  fetch('/api/payments/record-one', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var billRow = document.getElementById('pay-row-' + billId);
+    var ccRow = document.getElementById('pay-row-cc-' + ccData.idx);
+
+    if (data.status === 'paid' || data.status === 'already_paid') {
+      // Update bill row to paid
+      if (billRow) {
+        billRow.setAttribute('data-status', 'already_paid');
+        billRow.style.background = 'rgba(150,150,150,0.04)';
+        billRow.classList.remove('pay-drop-target');
+        var cbCell = billRow.querySelector('.pay-cb');
+        if (cbCell) { cbCell.parentElement.innerHTML = ''; _paySelectedBills.delete(billId); _updatePaySelectedBtn(); }
+        var cells = billRow.querySelectorAll('td');
+        // Update CC columns on the bill row to show what was matched
+        if (cells.length >= 5) {
+          var ccDescShort = ccData.cc_description.length > 40 ? ccData.cc_description.substring(0, 40) + '\u2026' : ccData.cc_description;
+          cells[1].innerHTML = '<span title="' + ccData.cc_description.replace(/"/g,'&quot;') + '">' + ccDescShort + '</span>';
+          cells[1].style.color = '';
+          cells[2].innerHTML = Number(ccData.cc_inr_amount).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2});
+          cells[3].textContent = ccData.cc_date ? ccData.cc_date.split('-').reverse().join('-') : '-';
+          cells[4].textContent = ccData.cc_card || '-';
+        }
+        if (cells.length >= 11) {
+          cells[10].innerHTML = '<span style="color:var(--text-dim);font-size:10px">\u2713 Paid (manual)</span>';
+        }
+        // Move to Already Paid section
+        var tbody = billRow.closest('tbody');
+        if (tbody) {
+          var apSep = tbody.querySelector('.pay-sep-other');
+          if (!apSep) {
+            apSep = document.createElement('tr');
+            apSep.className = 'pay-section-sep pay-sep-other';
+            apSep.innerHTML = '<td colspan="11" style="padding:7px 10px;font-size:11px;font-weight:700;color:var(--text-dim);border-top:2px solid var(--border);background:rgba(150,150,150,0.06)">\u2713 Already Paid</td>';
+            tbody.appendChild(apSep);
+          }
+          apSep.style.display = '';
+          var nextSib = apSep.nextSibling;
+          if (nextSib) tbody.insertBefore(billRow, nextSib);
+          else tbody.appendChild(billRow);
+        }
+      }
+      // Hide the CC row (it's now consumed)
+      if (ccRow) {
+        ccRow.style.display = 'none';
+        ccRow.setAttribute('data-status', 'used');
+      }
+      // Update underlying data
+      if (_paymentPreviewData && _paymentPreviewData.matches) {
+        var mi = _paymentPreviewData.matches.find(function(x) { return x.bill_id === billId; });
+        if (mi) mi.status = 'already_paid';
+      }
+      filterPayments();
+      addLogLine('[Manual Match] \u2713 Payment recorded: ' + (billMatch.vendor_name || '') + ' #' + (billMatch.bill_number || '') + (data.payment_id ? ' -> ' + data.payment_id : ''));
+    } else {
+      addLogLine('[Manual Match] Failed: ' + (data.message || 'Unknown error'));
+    }
+  })
+  .catch(function(err) {
+    addLogLine('[Manual Match] Error: ' + err);
   });
 }
 

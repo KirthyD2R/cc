@@ -446,32 +446,56 @@ GENERIC_NUMBERS = {"payment", "original", "invoice", "receipt", "bill", "tax", "
 # --- Text Extraction ---
 
 def extract_text(pdf_path):
-    """Extract text from all pages of a PDF."""
-    text = ""
-    try:
-        with _open_pdf(pdf_path) as pdf:
-            for page in pdf.pages:
-                page_text = page.extract_text() or ""
-                text += page_text + "\n"
-    except Exception as e:
-        log_action(f"pdfplumber failed for {pdf_path}: {e}", "WARNING")
+    """Extract text from a PDF or image file (JPG/PNG).
 
-    # OCR fallback if text is too short
-    if len(text.strip()) < 50:
+    For PDFs: uses pdfplumber, falls back to OCR if text is too short.
+    For images: uses pytesseract OCR directly.
+    """
+    is_image = pdf_path.lower().endswith(('.jpg', '.jpeg', '.png'))
+
+    text = ""
+
+    if is_image:
+        # Direct OCR for image files
         try:
             import pytesseract
-            from pdf2image import convert_from_path
-            log_action(f"Using OCR fallback for {pdf_path}")
-            images = convert_from_path(pdf_path)
-            text = "\n".join(pytesseract.image_to_string(img) for img in images)
+            from PIL import Image
+            log_action(f"Using OCR for image: {pdf_path}")
+            img = Image.open(pdf_path)
+            text = pytesseract.image_to_string(img)
         except ImportError:
             log_action(
-                "OCR fallback unavailable: install pytesseract and pdf2image "
-                "(pip install pytesseract pdf2image) for scanned PDF support",
+                "OCR unavailable: install pytesseract and Pillow "
+                "(pip install pytesseract Pillow) for image invoice support",
                 "WARNING",
             )
         except Exception as e:
-            log_action(f"OCR failed: {e}", "WARNING")
+            log_action(f"OCR failed for image {pdf_path}: {e}", "WARNING")
+    else:
+        try:
+            with _open_pdf(pdf_path) as pdf:
+                for page in pdf.pages:
+                    page_text = page.extract_text() or ""
+                    text += page_text + "\n"
+        except Exception as e:
+            log_action(f"pdfplumber failed for {pdf_path}: {e}", "WARNING")
+
+        # OCR fallback if text is too short
+        if len(text.strip()) < 50:
+            try:
+                import pytesseract
+                from pdf2image import convert_from_path
+                log_action(f"Using OCR fallback for {pdf_path}")
+                images = convert_from_path(pdf_path)
+                text = "\n".join(pytesseract.image_to_string(img) for img in images)
+            except ImportError:
+                log_action(
+                    "OCR fallback unavailable: install pytesseract and pdf2image "
+                    "(pip install pytesseract pdf2image) for scanned PDF support",
+                    "WARNING",
+                )
+            except Exception as e:
+                log_action(f"OCR failed: {e}", "WARNING")
 
     # Some PDFs encode dashes as null bytes — normalize them
     text = text.replace('\x00', '-')
@@ -615,7 +639,20 @@ def detect_vendor(text):
         ("MEDIUM CORPORATION", "Medium"),
         ("FLIPKART", "Flipkart"),
         ("SIXT", "Sixt"),
-
+        ("ADOBE SYSTEMS", "Adobe"),
+        ("ADOBE INC", "Adobe"),
+        ("GODADDY", "GoDaddy"),
+        ("UBER9 BUSINESS", "Uber"),
+        ("UBER EATS", "Uber Eats"),
+        ("TRIP WITH UBER", "Uber"),
+        ("UBER B.V", "Uber"),
+        ("TATA AIG", "TATA AIG"),
+        ("TRIPSTACC", "Tripstacc"),
+        ("APPLE", "Apple"),
+        ("FLY.IO", "Fly.io, Inc"),
+        ("OPENAI", "OpenAI, LLC"),
+        ("UNLEASH BADMINTON", "Unleash Badminton Academy"),
+        ("BIGINTENT", "BigIntent Global India Pvt Ltd"),
     ]
 
     for keyword, vendor in checks:
@@ -1266,6 +1303,36 @@ def extract_generic(text):
     return inv_number, date, amount, currency
 
 
+def _detect_vendor_from_filename(filename):
+    """Try to detect vendor from the filename as a last resort."""
+    name_upper = filename.upper()
+    filename_checks = [
+        ("ADOBE", "Adobe"),
+        ("GODADDY", "GoDaddy"),
+        ("UBER", "Uber"),
+        ("TATA", "TATA AIG"),
+        ("TRIP_FBT", "Tripstacc"),
+        ("TRIPSTACC", "Tripstacc"),
+        ("APPLE", "Apple"),
+        ("GOOGLE", "Google"),
+        ("MICROSOFT", "Microsoft"),
+        ("LINKEDIN", "LinkedIn"),
+        ("GITHUB", "GitHub"),
+        ("ATLASSIAN", "Atlassian"),
+        ("ZOHO", "Zoho"),
+        ("AWS", "Amazon Web Services"),
+        ("ANTHROPIC", "Anthropic"),
+        ("FLIPKART", "Flipkart"),
+        ("MEDIUM", "Medium"),
+        ("NETFLIX", "Netflix"),
+        ("OPENAI", "OpenAI, LLC"),
+    ]
+    for keyword, vendor in filename_checks:
+        if keyword in name_upper:
+            return vendor
+    return None
+
+
 # --- Main Extraction ---
 
 def extract_invoice(pdf_path, filename):
@@ -1321,6 +1388,10 @@ def extract_invoice(pdf_path, filename):
     else:
         inv_number, date, amount, currency = extract_generic(text)
 
+    # Fallback: try detecting vendor from filename (e.g. "Adobe_Transaction_...", "UBER - riding...")
+    if not vendor:
+        vendor = _detect_vendor_from_filename(filename)
+
     # Fallback vendor name — only if there's strong evidence (company suffix + address nearby)
     # Do NOT guess from random PDF lines — wrong vendors cause bad bills in Zoho
     if not vendor:
@@ -1359,9 +1430,14 @@ def extract_invoice(pdf_path, filename):
     if vendor_tax_id:
         result["vendor_tax_id"] = vendor_tax_id
 
-    # Extract line items
-    if not filename.lower().endswith('.eml'):
+    # Extract line items (skip for EML and image files — no tables to parse)
+    if not filename.lower().endswith(('.eml', '.jpg', '.jpeg', '.png')):
         line_items = extract_line_items(pdf_path, text)
+        if line_items:
+            result["line_items"] = line_items
+    elif filename.lower().endswith(('.jpg', '.jpeg', '.png')) and text.strip():
+        # For images, try regex-based line item extraction on OCR text
+        line_items = _extract_line_items_regex(text)
         if line_items:
             result["line_items"] = line_items
 

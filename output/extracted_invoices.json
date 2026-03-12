@@ -8132,7 +8132,7 @@
     "vendor_name": "Amazon Seller Services Private Limited",
     "invoice_number": "IN-31372906",
     "date": "2025-07-10",
-    "amount": 399.00,
+    "amount": 399.0,
     "currency": "INR",
     "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By:\nAmazon Seller Services Private Limited\n#26/1, Brigade Gateway, 8th Floor., Dr Rajkumar Road, Malleshwaram West\nBangalore, Karnataka – 560055\nPAN No: AAICA3918J\nGST Registration No: 29AAICA3918J1ZE\nOrder Number: D01-0699114-2136652\nOrder Date: 10 Jul 2025\nInvoice Number: IN-31372906\nInvoice Details: 1044-2526\nInvoice Date: 10 Jul 2025",
     "vendor_gstin": "29AAICA3918J1ZE",
@@ -8141,9 +8141,20 @@
         "description": "Amazon Prime Membership",
         "quantity": 1,
         "unit_price": 338.14,
-        "amount": 399.00
+        "amount": 399.0
       }
     ],
     "organized_path": null
+  },
+  {
+    "file": "TRIP_FBT23-124636-89917.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\TRIP_FBT23-124636-89917.pdf",
+    "vendor_name": "Tripstacc",
+    "invoice_number": null,
+    "date": "2025-10-23",
+    "amount": 79161.0,
+    "currency": "INR",
+    "raw_text_preview": "care@tripstacc.com\n+91 9152905290 (24x7)\nHello Mr. Sylvester Daniel John,\nYour booking is confirmed!\nYou will be earning 15832 Reward Points* with Mayura Credit Card\n*Bonus reward points mentioned above is calculated for the specific card variant only, subject to applicable terms and conditions. Any\nbonus points earned will be credited to the cardholder's account on the 5th day of the month following the completion of the travel.\nBooking Status: CONFIRMED Booking Date: 23 Oct 2025, 12:46 Hrs\nBoo",
+    "vendor_gstin": null
   }
 ]

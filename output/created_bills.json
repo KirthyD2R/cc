@@ -3098,5 +3098,15 @@
     "amount": 399.0,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "TRIP_FBT23-124636-89917.pdf",
+    "status": "created",
+    "vendor_name": "Tripstacc",
+    "vendor_id": "2050328000003103049",
+    "bill_id": "2050328000003104047",
+    "amount": 79161.0,
+    "currency": "INR",
+    "attached": true
   }
 ]
