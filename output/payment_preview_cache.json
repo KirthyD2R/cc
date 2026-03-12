@@ -444,24 +444,7 @@
       "bill_date": "2025-05-30",
       "bill_number": "41",
       "status": "unmatched",
-      "candidates": [
-        {
-          "cc_transaction_id": "2050328000000929279",
-          "cc_description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
-          "cc_inr_amount": 399.0,
-          "cc_date": "2025-07-10",
-          "cc_card": "Kotak bank credit card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 55,
-            "date": 10,
-            "vendor": 0,
-            "uniqueness": 15
-          },
-          "candidate_score": 31
-        }
-      ]
+      "candidates": []
     },
     {
       "bill_id": "2050328000003077061",
@@ -1273,6 +1256,28 @@
           "candidate_score": 51
         }
       ]
+    },
+    {
+      "bill_id": "2050328000003021117",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 11758.38,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-12",
+      "bill_number": "E0100W8BMR_Invoice",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000002984468",
+      "vendor_id": "2050328000000342219",
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "bill_amount": 12286.66,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-12",
+      "bill_number": "E0100W84MG_Invoice",
+      "status": "unmatched",
+      "candidates": []
     },
     {
       "bill_id": "2050328000003004412",
@@ -2287,122 +2292,6 @@
       ]
     },
     {
-      "bill_id": "2050328000002920797",
-      "vendor_id": "2050328000000342219",
-      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-      "bill_amount": 31185.5,
-      "bill_currency": "INR",
-      "bill_date": "2025-08-12",
-      "bill_number": "E0100X5B1N",
-      "status": "unmatched",
-      "candidates": [
-        {
-          "cc_transaction_id": "2050328000000939467",
-          "cc_description": "AMAZON MARK* NO15L6PA2, SEATTLE",
-          "cc_inr_amount": 31302.4,
-          "cc_date": "2025-06-17",
-          "cc_card": "Mayura Credit Card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 95,
-            "date": 10,
-            "vendor": 0,
-            "uniqueness": 15
-          },
-          "candidate_score": 51
-        }
-      ]
-    },
-    {
-      "bill_id": "2050328000002920775",
-      "vendor_id": "2050328000000342219",
-      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-      "bill_amount": 30892.4,
-      "bill_currency": "INR",
-      "bill_date": "2025-10-12",
-      "bill_number": "E0100XPIP5",
-      "status": "unmatched",
-      "candidates": []
-    },
-    {
-      "bill_id": "2050328000002920731",
-      "vendor_id": "2050328000000342219",
-      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-      "bill_amount": 30892.4,
-      "bill_currency": "INR",
-      "bill_date": "2025-09-12",
-      "bill_number": "E0100XFZFO",
-      "status": "unmatched",
-      "candidates": []
-    },
-    {
-      "bill_id": "2050328000002920643",
-      "vendor_id": "2050328000000342219",
-      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-      "bill_amount": 29075.2,
-      "bill_currency": "INR",
-      "bill_date": "2025-05-12",
-      "bill_number": "E0100W8BO6",
-      "status": "unmatched",
-      "candidates": []
-    },
-    {
-      "bill_id": "2050328000002920621",
-      "vendor_id": "2050328000000342219",
-      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-      "bill_amount": 29983.8,
-      "bill_currency": "INR",
-      "bill_date": "2025-07-12",
-      "bill_number": "E0100WTWFZ",
-      "status": "unmatched",
-      "candidates": [
-        {
-          "cc_transaction_id": "2050328000000939589",
-          "cc_description": "MICROSOFTBUS, MUMBAI",
-          "cc_inr_amount": 29141.05,
-          "cc_date": "2025-08-15",
-          "cc_card": "Mayura Credit Card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 55,
-            "date": 10,
-            "vendor": 80,
-            "uniqueness": 0
-          },
-          "candidate_score": 42
-        },
-        {
-          "cc_transaction_id": "2050328000000939467",
-          "cc_description": "AMAZON MARK* NO15L6PA2, SEATTLE",
-          "cc_inr_amount": 31302.4,
-          "cc_date": "2025-06-17",
-          "cc_card": "Mayura Credit Card",
-          "cc_forex_amount": null,
-          "cc_forex_currency": null,
-          "breakdown": {
-            "amount": 40,
-            "date": 30,
-            "vendor": 0,
-            "uniqueness": 0
-          },
-          "candidate_score": 27
-        }
-      ]
-    },
-    {
-      "bill_id": "2050328000002920577",
-      "vendor_id": "2050328000000342219",
-      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-      "bill_amount": 29075.2,
-      "bill_currency": "INR",
-      "bill_date": "2025-04-12",
-      "bill_number": "E0100VXPSR",
-      "status": "unmatched",
-      "candidates": []
-    },
-    {
       "bill_id": "2050328000002920489",
       "vendor_id": "2050328000000342219",
       "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
@@ -2546,7 +2435,7 @@
       "card_name": "Kotak bank credit card",
       "zoho_account_id": "2050328000000232005",
       "resolved_vendor": "Microsoft",
-      "unmatched_reason": "Amt: CC 909 vs Bill 30,892"
+      "unmatched_reason": "Amt: CC 909 vs Bill 7,487"
     },
     {
       "transaction_id": "2050328000001777093",
@@ -2585,7 +2474,7 @@
       "card_name": "Kotak bank credit card",
       "zoho_account_id": "2050328000000232005",
       "resolved_vendor": "Microsoft",
-      "unmatched_reason": "Amt: CC 909 vs Bill 30,892"
+      "unmatched_reason": "Amt: CC 909 vs Bill 7,487"
     },
     {
       "transaction_id": "2050328000001777067",
@@ -2604,7 +2493,7 @@
       "card_name": "Kotak bank credit card",
       "zoho_account_id": "2050328000000232005",
       "resolved_vendor": "Microsoft",
-      "unmatched_reason": "Amt: CC 6,199 vs Bill 30,892"
+      "unmatched_reason": "Amt: CC 6,199 vs Bill 12,447"
     },
     {
       "transaction_id": "2050328000001777063",
@@ -2644,7 +2533,7 @@
       "card_name": "Kotak bank credit card",
       "zoho_account_id": "2050328000000232005",
       "resolved_vendor": "Microsoft",
-      "unmatched_reason": "Amt: CC 909 vs Bill 30,892"
+      "unmatched_reason": "Amt: CC 909 vs Bill 12,447"
     },
     {
       "transaction_id": "2050328000000929323",
@@ -2700,17 +2589,7 @@
       "card_name": "Kotak bank credit card",
       "zoho_account_id": "2050328000000232005",
       "resolved_vendor": "Microsoft",
-      "unmatched_reason": "Amt: CC 909 vs Bill 29,984"
-    },
-    {
-      "transaction_id": "2050328000000929279",
-      "description": "AMAZON INDIA CYBS SI   MUMBAI        IN",
-      "amount": 399.0,
-      "date": "2025-07-10",
-      "card_name": "Kotak bank credit card",
-      "zoho_account_id": "2050328000000232005",
-      "resolved_vendor": "Amazon India",
-      "unmatched_reason": "No Amazon India bills"
+      "unmatched_reason": "Amt: CC 909 vs Bill 9,111"
     },
     {
       "transaction_id": "2050328000000929277",
@@ -2748,7 +2627,7 @@
       "card_name": "Kotak bank credit card",
       "zoho_account_id": "2050328000000232005",
       "resolved_vendor": "Microsoft",
-      "unmatched_reason": "Amt: CC 909 vs Bill 29,984"
+      "unmatched_reason": "Amt: CC 909 vs Bill 9,111"
     },
     {
       "transaction_id": "2050328000000929239",
@@ -2938,16 +2817,6 @@
       "unmatched_reason": "Greedy: used by better match"
     },
     {
-      "transaction_id": "2050328000001812235",
-      "description": "MICROSOFTBUS, MUMBAI",
-      "amount": 61784.8,
-      "date": "2025-10-16",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Microsoft",
-      "unmatched_reason": "Amt: CC 61,785 vs Bill 30,892"
-    },
-    {
       "transaction_id": "2050328000001812233",
       "description": "MICROSOFTBUS, MUMBAI",
       "amount": 34726.04,
@@ -2955,7 +2824,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Microsoft",
-      "unmatched_reason": "Amt: CC 34,726 vs Bill 30,892"
+      "unmatched_reason": "Amt: CC 34,726 vs Bill 7,487"
     },
     {
       "transaction_id": "2050328000001812209",
@@ -3073,17 +2942,7 @@
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Microsoft",
-      "unmatched_reason": "Amt: CC 29,141 vs Bill 29,984"
-    },
-    {
-      "transaction_id": "2050328000000939575",
-      "description": "MICROSOFTBUS, MUMBAI",
-      "amount": 61169.3,
-      "date": "2025-08-11",
-      "card_name": "Mayura Credit Card",
-      "zoho_account_id": "2050328000000552784",
-      "resolved_vendor": "Microsoft",
-      "unmatched_reason": "Amt: CC 61,169 vs Bill 29,984"
+      "unmatched_reason": "Amt: CC 29,141 vs Bill 19,581"
     },
     {
       "transaction_id": "2050328000001812195",
@@ -3283,14 +3142,14 @@
       "unmatched_reason": "No vendor signal"
     },
     {
-      "transaction_id": "2050328000000939395",
+      "transaction_id": "2050328000000939399",
       "description": "MICROSOFTBUS, MUMBAI",
-      "amount": 58150.4,
-      "date": "2025-05-11",
+      "amount": 24066.03,
+      "date": "2025-05-16",
       "card_name": "Mayura Credit Card",
       "zoho_account_id": "2050328000000552784",
       "resolved_vendor": "Microsoft",
-      "unmatched_reason": "Amt: CC 58,150 vs Bill 3,080"
+      "unmatched_reason": "Amt: CC 24,066 vs Bill 3,080"
     },
     {
       "transaction_id": "2050328000000939393",
@@ -3341,13 +3200,13 @@
   ],
   "card_cc_total": {
     "HDFC - 7196": 2,
-    "Kotak bank credit card": 30,
+    "Kotak bank credit card": 29,
     "Mayura Credit Card": 55
   },
   "card_cc_unmatched": {
     "HDFC - 7196": 2,
-    "Kotak bank credit card": 30,
-    "Mayura Credit Card": 53
+    "Kotak bank credit card": 29,
+    "Mayura Credit Card": 51
   },
   "amex_matches": [
     {
@@ -3817,6 +3676,44 @@
   "group_matches": [
     {
       "status": "group_matched",
+      "match_score": 77,
+      "confidence": {
+        "vendor": 80,
+        "amount": 100,
+        "date": 60,
+        "overall": 77
+      },
+      "cc_transaction_id": "2050328000001812235",
+      "cc_description": "MICROSOFTBUS, MUMBAI",
+      "cc_inr_amount": 61784.8,
+      "cc_date": "2025-10-16",
+      "cc_card": "Mayura Credit Card",
+      "grouped_bills": [
+        {
+          "bill_id": "2050328000002920775",
+          "vendor_id": "2050328000000342219",
+          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+          "amount": 30892.4,
+          "currency": "INR",
+          "date": "2025-10-12",
+          "file": "E0100XPIP5"
+        },
+        {
+          "bill_id": "2050328000002920731",
+          "vendor_id": "2050328000000342219",
+          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+          "amount": 30892.4,
+          "currency": "INR",
+          "date": "2025-09-12",
+          "file": "E0100XFZFO"
+        }
+      ],
+      "group_sum": 61784.8,
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "vendor_id": "2050328000000342219"
+    },
+    {
+      "status": "group_matched",
       "match_score": 82,
       "confidence": {
         "vendor": 80,
@@ -3824,43 +3721,81 @@
         "date": 75,
         "overall": 82
       },
-      "cc_transaction_id": "2050328000000939399",
+      "cc_transaction_id": "2050328000000939575",
       "cc_description": "MICROSOFTBUS, MUMBAI",
-      "cc_inr_amount": 24066.03,
-      "cc_date": "2025-05-16",
+      "cc_inr_amount": 61169.3,
+      "cc_date": "2025-08-11",
       "cc_card": "Mayura Credit Card",
       "grouped_bills": [
         {
-          "bill_id": "2050328000003021117",
+          "bill_id": "2050328000002920797",
           "vendor_id": "2050328000000342219",
           "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-          "amount": 11758.38,
+          "amount": 31185.5,
           "currency": "INR",
-          "date": "2025-05-12",
-          "file": "E0100W8BMR_Invoice"
+          "date": "2025-08-12",
+          "file": "E0100X5B1N"
         },
         {
-          "bill_id": "2050328000002984468",
+          "bill_id": "2050328000002920621",
           "vendor_id": "2050328000000342219",
           "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
-          "amount": 12286.66,
+          "amount": 29983.8,
           "currency": "INR",
-          "date": "2025-05-12",
-          "file": "E0100W84MG_Invoice"
+          "date": "2025-07-12",
+          "file": "E0100WTWFZ"
         }
       ],
-      "group_sum": 24045.04,
+      "group_sum": 61169.3,
+      "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+      "vendor_id": "2050328000000342219"
+    },
+    {
+      "status": "group_matched",
+      "match_score": 82,
+      "confidence": {
+        "vendor": 80,
+        "amount": 100,
+        "date": 75,
+        "overall": 82
+      },
+      "cc_transaction_id": "2050328000000939395",
+      "cc_description": "MICROSOFTBUS, MUMBAI",
+      "cc_inr_amount": 58150.4,
+      "cc_date": "2025-05-11",
+      "cc_card": "Mayura Credit Card",
+      "grouped_bills": [
+        {
+          "bill_id": "2050328000002920643",
+          "vendor_id": "2050328000000342219",
+          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+          "amount": 29075.2,
+          "currency": "INR",
+          "date": "2025-05-12",
+          "file": "E0100W8BO6"
+        },
+        {
+          "bill_id": "2050328000002920577",
+          "vendor_id": "2050328000000342219",
+          "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
+          "amount": 29075.2,
+          "currency": "INR",
+          "date": "2025-04-12",
+          "file": "E0100VXPSR"
+        }
+      ],
+      "group_sum": 58150.4,
       "vendor_name": "Microsoft Corporation (India) Pvt Ltd",
       "vendor_id": "2050328000000342219"
     }
   ],
   "summary": {
-    "total_bills": 165,
+    "total_bills": 161,
     "matched": 1,
-    "unmatched": 164,
+    "unmatched": 160,
     "already_paid": 0,
-    "unmatched_cc_count": 85,
+    "unmatched_cc_count": 82,
     "amex_matched": 18,
-    "group_matched": 1
+    "group_matched": 3
   }
 }

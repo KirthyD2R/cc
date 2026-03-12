@@ -13,6 +13,7 @@ import re
 import json
 import time
 from datetime import datetime, timedelta
+from itertools import combinations
 from utils import (
     PROJECT_ROOT, load_config, load_vendor_mappings,
     ZohoBooksAPI, log_action, resolve_account_ids,
@@ -408,6 +409,198 @@ def record_payment(api, bill_entry, config, cc_transactions, vendor_to_merchants
     return None, cc_match
 
 
+# --- Microsoft-specific: 1 CC = N bills matching ---
+
+_MICROSOFT_VENDORS = ("microsoft",)
+_MS_DATE_BUFFER_DAYS = 40  # ~1 month buffer for Microsoft invoice-to-CC date gap
+
+
+def _is_microsoft_vendor(vendor_name):
+    return (vendor_name or "").lower() in _MICROSOFT_VENDORS
+
+
+def _get_microsoft_cc_txns(cc_transactions, vendor_to_merchants, used_indices):
+    """Filter CC transactions that belong to Microsoft."""
+    ms_keywords = list(vendor_to_merchants.get("microsoft", []))
+    ms_keywords.extend(["microsoft", "microsoftbus"])
+    ms_txns = []
+    for idx, txn in enumerate(cc_transactions):
+        if idx in used_indices:
+            continue
+        if txn["amount"] <= 0:
+            continue
+        desc_lower = txn["description"].lower()
+        desc_norm = _normalize(txn["description"])
+        if _match_vendor_keywords(desc_lower, desc_norm, ms_keywords):
+            ms_txns.append((idx, txn))
+    return ms_txns
+
+
+def find_microsoft_cc_matches(ms_bills, cc_transactions, vendor_to_merchants, used_indices):
+    """Match Microsoft bills to CC transactions using 1CC=1bill or 1CC=Nbills logic.
+
+    Microsoft invoices are dated on the 12th but CC payments happen days/weeks later,
+    often bundling multiple invoices into a single CC charge.
+
+    Args:
+        ms_bills: list of Microsoft bill dicts (with bill_id, amount, date, etc.)
+        cc_transactions: all CC transactions
+        vendor_to_merchants: vendor keyword mapping
+        used_indices: set of already-used CC indices
+
+    Returns:
+        list of (cc_txn_idx, cc_txn, matched_bills) tuples
+    """
+    ms_cc_txns = _get_microsoft_cc_txns(cc_transactions, vendor_to_merchants, used_indices)
+    if not ms_cc_txns or not ms_bills:
+        return []
+
+    log_action(f"  [Microsoft] {len(ms_bills)} bills, {len(ms_cc_txns)} CC txns to match")
+
+    matches = []
+    used_bill_ids = set()
+    used_cc_idxs = set()
+
+    # Sort CC txns by amount descending (match largest first for better combo coverage)
+    ms_cc_sorted = sorted(ms_cc_txns, key=lambda x: x[1]["amount"], reverse=True)
+
+    for cc_idx, cc_txn in ms_cc_sorted:
+        if cc_idx in used_cc_idxs:
+            continue
+        cc_amt = cc_txn["amount"]
+        cc_date_str = cc_txn["date"]
+        try:
+            cc_date = datetime.strptime(cc_date_str, "%Y-%m-%d")
+        except (ValueError, TypeError):
+            continue
+
+        # Filter bills within date buffer and not yet used
+        eligible_bills = []
+        for b in ms_bills:
+            if b["bill_id"] in used_bill_ids:
+                continue
+            try:
+                b_date = datetime.strptime(b["date"], "%Y-%m-%d")
+            except (ValueError, TypeError):
+                continue
+            if abs((cc_date - b_date).days) <= _MS_DATE_BUFFER_DAYS:
+                eligible_bills.append(b)
+
+        if not eligible_bills:
+            continue
+
+        # Try 1:1 exact match first
+        for b in eligible_bills:
+            if abs(cc_amt - b["amount"]) < 1.0:
+                matches.append((cc_idx, cc_txn, [b]))
+                used_bill_ids.add(b["bill_id"])
+                used_cc_idxs.add(cc_idx)
+                log_action(f"  [Microsoft] 1:1 match: CC {cc_date_str} {cc_amt:,.2f} = bill {b['file']} ({b['amount']:,.2f})")
+                break
+        else:
+            # Try 1:N combinations (2 to 5 bills)
+            found = False
+            for r in range(2, min(len(eligible_bills) + 1, 6)):
+                for combo in combinations(eligible_bills, r):
+                    combo_total = sum(b["amount"] for b in combo)
+                    if abs(cc_amt - combo_total) < 1.0:
+                        matches.append((cc_idx, cc_txn, list(combo)))
+                        for b in combo:
+                            used_bill_ids.add(b["bill_id"])
+                        used_cc_idxs.add(cc_idx)
+                        bill_names = " + ".join(f"{b['file']}({b['amount']:,.2f})" for b in combo)
+                        log_action(f"  [Microsoft] 1:{len(combo)} match: CC {cc_date_str} {cc_amt:,.2f} = {bill_names}")
+                        found = True
+                        break
+                if found:
+                    break
+
+    log_action(f"  [Microsoft] Matched {len(matches)} CC txns covering "
+               f"{sum(len(m[2]) for m in matches)} bills")
+    return matches
+
+
+def record_microsoft_payments(api, ms_matches, used_indices, currency_map):
+    """Record payments for Microsoft multi-bill CC matches.
+
+    Each match = 1 CC transaction paying N bills in a single Zoho vendor payment.
+
+    Returns list of result dicts.
+    """
+    results = []
+    paid_bill_ids = []
+
+    for cc_idx, cc_txn, matched_bills in ms_matches:
+        used_indices.add(cc_idx)
+        account_id = cc_txn.get("zoho_account_id")
+        card_name = cc_txn.get("card_name")
+        payment_date = cc_txn["date"]
+        total_amount = sum(b["amount"] for b in matched_bills)
+
+        bill_items = [
+            {"bill_id": b["bill_id"], "amount_applied": b["amount"]}
+            for b in matched_bills
+        ]
+
+        # All Microsoft bills are INR, use first bill's vendor_id
+        vendor_id = matched_bills[0]["vendor_id"]
+
+        payment_data = {
+            "vendor_id": vendor_id,
+            "payment_mode": "Credit Card",
+            "date": payment_date,
+            "amount": total_amount,
+            "paid_through_account_id": account_id,
+            "bills": bill_items,
+        }
+
+        bill_names = ", ".join(b["file"] for b in matched_bills)
+        log_action(f"  [Microsoft] Recording payment: {len(matched_bills)} bills "
+                   f"({total_amount:,.2f}) via {card_name} on {payment_date}")
+
+        try:
+            result = api.record_vendor_payment(payment_data)
+            payment = result.get("vendorpayment", {})
+            payment_id = payment.get("payment_id")
+            if payment_id:
+                log_action(f"  [Microsoft] Payment {payment_id} recorded for: {bill_names}")
+                for b in matched_bills:
+                    results.append({
+                        "file": b["file"],
+                        "bill_id": b["bill_id"],
+                        "vendor_name": b.get("vendor_name"),
+                        "amount": b["amount"],
+                        "currency": b.get("currency", "INR"),
+                        "payment_id": payment_id,
+                        "status": "paid",
+                        "cc_inr_amount": cc_txn["amount"],
+                        "cc_card": card_name,
+                        "ms_multi_bill": True,
+                    })
+                    paid_bill_ids.append(b["bill_id"])
+        except Exception as e:
+            error_msg = str(e).lower()
+            if "already been paid" in error_msg or "already paid" in error_msg:
+                log_action(f"  [Microsoft] Bills already paid: {bill_names}")
+                for b in matched_bills:
+                    results.append({
+                        "file": b["file"],
+                        "bill_id": b["bill_id"],
+                        "vendor_name": b.get("vendor_name"),
+                        "amount": b["amount"],
+                        "currency": b.get("currency", "INR"),
+                        "payment_id": "already_paid",
+                        "status": "paid",
+                        "ms_multi_bill": True,
+                    })
+            else:
+                log_action(f"  [Microsoft] Payment failed: {e}", "ERROR")
+
+        time.sleep(0.3)
+
+    return results, paid_bill_ids
+
+
 # --- Run (importable by run_loop.py) ---
 
 def run():
@@ -486,7 +679,46 @@ def run():
     already_paid_count = 0
     used_indices = set()  # Track which CC transactions have been matched (prevents double-use)
 
-    for bill_entry in bills:
+    # --- Microsoft: handle separately with 1CC=Nbills logic + 1-month date buffer ---
+    ms_bills = [b for b in bills if _is_microsoft_vendor(b.get("vendor_name")) and b["bill_id"] not in paid]
+    non_ms_bills = [b for b in bills if not _is_microsoft_vendor(b.get("vendor_name"))]
+    ms_already_paid = [b for b in bills if _is_microsoft_vendor(b.get("vendor_name")) and b["bill_id"] in paid]
+
+    if ms_already_paid:
+        already_paid_count += len(ms_already_paid)
+        for b in ms_already_paid:
+            log_action(f"Skipping (already paid this session): {b['file']}")
+
+    if ms_bills:
+        log_action(f"--- Microsoft: {len(ms_bills)} unpaid bills (1CC=Nbills matching) ---")
+        ms_matches = find_microsoft_cc_matches(
+            ms_bills, cc_transactions, vendor_to_merchants, used_indices,
+        )
+        ms_results, ms_paid_ids = record_microsoft_payments(
+            api, ms_matches, used_indices, currency_map,
+        )
+        results.extend(ms_results)
+        matched_bill_ids.extend(ms_paid_ids)
+
+        # Track Microsoft bills that didn't match any CC transaction
+        ms_matched_bill_ids = set(ms_paid_ids)
+        for b in ms_bills:
+            if b["bill_id"] not in ms_matched_bill_ids:
+                still_unmatched_bill_ids.append(b["bill_id"])
+                results.append({
+                    "file": b["file"],
+                    "bill_id": b["bill_id"],
+                    "vendor_name": b.get("vendor_name"),
+                    "amount": b.get("amount"),
+                    "currency": b.get("currency"),
+                    "payment_id": None,
+                    "status": "unmatched",
+                })
+        log_action(f"--- Microsoft done: {len(ms_paid_ids)} paid, "
+                   f"{len(ms_bills) - len(ms_matched_bill_ids)} unmatched ---")
+
+    # --- All other vendors: standard 1CC=1bill matching ---
+    for bill_entry in non_ms_bills:
         bill_id = bill_entry["bill_id"]
         if bill_id in paid:
             log_action(f"Skipping (already paid this session): {bill_entry['file']}")

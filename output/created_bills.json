@@ -3088,5 +3088,15 @@
     "amount": 349.0,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "google prime.pdf",
+    "status": "created",
+    "vendor_name": "Amazon Seller Services Private Limited",
+    "vendor_id": "2050328000000357340",
+    "bill_id": "2050328000003100054",
+    "amount": 399.0,
+    "currency": "INR",
+    "attached": true
   }
 ]

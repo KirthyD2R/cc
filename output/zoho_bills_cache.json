@@ -1,5 +1,14 @@
 [
   {
+    "bill_id": "2050328000003100054",
+    "bill_number": "IN-31372906",
+    "vendor_name": "Amazon Seller Services Private Limited",
+    "vendor_id": "2050328000000357340",
+    "date": "2025-07-10",
+    "total": 399.0,
+    "status": "paid"
+  },
+  {
     "bill_id": "2050328000003108064",
     "bill_number": "SOP.3355-9292-3472-47496",
     "vendor_name": "Google",

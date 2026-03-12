@@ -637,6 +637,7 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
 
         # Find all same-vendor bills within date window
         resolved_norm = _norm(strip_vendor_stop_words(resolved))
+        is_microsoft = resolved_norm in ("microsoft", "microsoftcorporationindiapvtltd")
         cands = []
 
         for vn_norm, bill_list in vendor_bills.items():
@@ -661,8 +662,10 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
             return None
 
         # Subset-sum: try all combinations of 2..6 bills within tolerance
+        # Microsoft: exact tally (< Rs.1) — their invoices sum precisely to CC amount
+        # Others: 1% tolerance for tax/rounding differences
         from itertools import combinations
-        tol = max(1.0, cc_inr * 0.01)
+        tol = 1.0 if is_microsoft else max(1.0, cc_inr * 0.01)
         best_group = None
         best_diff = float('inf')
         for size in range(2, min(7, len(cands) + 1)):
@@ -684,7 +687,12 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
         sum_diff = abs(running - cc_inr)
         sum_pct = sum_diff / cc_inr if cc_inr else 0
         ac = 100 if sum_pct < 0.001 else 95 if sum_pct < 0.005 else 90 if sum_pct < 0.01 else 75
-        dc = 100 if max_dd == 0 else 90 if max_dd <= 2 else 75 if max_dd <= 5 else 50 if max_dd <= 10 else 25
+        # Microsoft: wider date window is normal (invoices 12th, CC payment weeks later)
+        # Score date relative to the allowed window, not absolute days
+        if is_microsoft:
+            dc = 100 if max_dd <= 5 else 90 if max_dd <= 15 else 75 if max_dd <= 30 else 60 if max_dd <= 40 else 25
+        else:
+            dc = 100 if max_dd == 0 else 90 if max_dd <= 2 else 75 if max_dd <= 5 else 50 if max_dd <= 10 else 25
         overall = max(0, int(avg_vc * 0.2 + ac * 0.45 + dc * 0.35) - 5)
 
         return {
@@ -728,7 +736,9 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
         if not eligible:
             continue
 
-        result = _try_group(cc, resolved, date_window=10)
+        # Microsoft gets 40-day window (~1 month buffer); others get 10 days
+        _dw = 40 if _norm(resolved) in ("microsoft", "microsoftcorporationindiapvtltd") else 10
+        result = _try_group(cc, resolved, date_window=_dw)
         if not result:
             continue
 
@@ -757,7 +767,9 @@ def _build_group_matches(bills, cc_list, manual_vendor_map, learned_vendor_map,
         if not has_multi:
             continue
 
-        result = _try_group(cc, resolved, date_window=15)
+        # Microsoft gets 40-day window (~1 month buffer); others get 15 days
+        _dw2 = 40 if _norm(resolved) in ("microsoft", "microsoftcorporationindiapvtltd") else 15
+        result = _try_group(cc, resolved, date_window=_dw2)
         if not result:
             continue
 
@@ -4619,6 +4631,167 @@ def api_upload_cc():
     return jsonify({"ok": True, "files": saved})
 
 
+@app.route("/api/upload/invoices", methods=["POST"])
+def api_upload_invoices():
+    """Receive multipart PDF/image/EML files, save to 'new image invoices',
+    then extract to extracted_invoices.json and compare_invoices.json."""
+    upload_dir = os.path.join(PROJECT_ROOT, "new image invoices")
+    os.makedirs(upload_dir, exist_ok=True)
+
+    files = request.files.getlist("files")
+    if not files:
+        return jsonify({"error": "No files uploaded"}), 400
+
+    allowed_exts = (".pdf", ".jpg", ".jpeg", ".png", ".eml")
+    saved = []
+    for f in files:
+        if not f.filename:
+            continue
+        ext = os.path.splitext(f.filename)[1].lower()
+        if ext not in allowed_exts:
+            continue
+        safe_name = os.path.basename(f.filename)
+        dest = os.path.join(upload_dir, safe_name)
+        f.save(dest)
+        saved.append(safe_name)
+        log_action(f"Uploaded invoice: {safe_name}")
+
+    if not saved:
+        return jsonify({"error": "No valid files in upload (PDF, JPG, PNG, EML)"}), 400
+
+    # Start background extraction thread
+    with _state_lock:
+        if _state["running"]:
+            return jsonify({"ok": True, "files": saved, "extract": "skipped", "reason": "A step is already running"}), 200
+        _state["running"] = True
+
+    def _upload_extract_thread():
+        try:
+            with _state_lock:
+                _state["current_step"] = "upload-extract"
+                _state["step_results"]["upload-extract"] = {
+                    "status": "running",
+                    "message": f"Extracting {len(saved)} uploaded file(s)...",
+                    "timestamp": datetime.now().isoformat(),
+                }
+
+            log_action("=" * 50)
+            log_action(f"Upload & Extract: Processing {len(saved)} file(s)")
+            log_action("=" * 50)
+
+            mod_02 = _import_script("02_extract_invoices.py")
+
+            # --- Load existing extracted_invoices.json ---
+            ext_path = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
+            existing_extracted = []
+            if os.path.exists(ext_path):
+                with open(ext_path, "r", encoding="utf-8") as f:
+                    existing_extracted = json.load(f)
+            already_done_ext = {inv.get("file") for inv in existing_extracted}
+
+            # --- Load existing compare_invoices.json ---
+            cmp_path = os.path.join(PROJECT_ROOT, "output", "compare_invoices.json")
+            existing_compare = []
+            if os.path.exists(cmp_path):
+                with open(cmp_path, "r", encoding="utf-8") as f:
+                    existing_compare = json.load(f)
+            already_done_cmp = {inv.get("file") for inv in existing_compare}
+
+            new_extracted = []
+            new_compare = []
+            failed = 0
+            skipped = 0
+
+            for fname in saved:
+                fpath = os.path.join(upload_dir, fname)
+                if fname in already_done_ext:
+                    log_action(f"  Skipping (already extracted): {fname}")
+                    skipped += 1
+                    continue
+
+                log_action(f"  Extracting: {fname}")
+                try:
+                    invoice = mod_02.extract_invoice(fpath, fname)
+                    if invoice:
+                        inv_list = invoice if isinstance(invoice, list) else [invoice]
+                        for item in inv_list:
+                            new_extracted.append(item)
+                            log_action(f"    [{item.get('invoice_number', '?')}] {item.get('vendor_name', '?')}: {item.get('amount', '?')} {item.get('currency', '?')}")
+
+                            # Also add to compare list with metadata
+                            cmp_item = dict(item)
+                            cmp_item["organized_month"] = "Uploaded"
+                            cmp_item["organized_path"] = fpath
+                            new_compare.append(cmp_item)
+                    else:
+                        log_action(f"    No data extracted from {fname}", "WARNING")
+                        failed += 1
+                except Exception as ex:
+                    log_action(f"    FAILED: {fname}: {ex}", "ERROR")
+                    failed += 1
+
+            # --- Append to extracted_invoices.json ---
+            if new_extracted:
+                existing_extracted.extend(new_extracted)
+                os.makedirs(os.path.dirname(ext_path), exist_ok=True)
+                with open(ext_path, "w", encoding="utf-8") as f:
+                    json.dump(existing_extracted, f, indent=2, ensure_ascii=False)
+                log_action(f"Updated extracted_invoices.json: +{len(new_extracted)} (total {len(existing_extracted)})")
+
+            # --- Append to compare_invoices.json (dedup by invoice_number) ---
+            if new_compare:
+                generic = {"payment", "original", "invoice", "receipt", "bill", "tax", "none", "n/a", ""}
+                seen_nums = set()
+                for inv in existing_compare:
+                    num = inv.get("invoice_number", "")
+                    if num and num.lower().strip() not in generic:
+                        seen_nums.add(num)
+
+                deduped_new = []
+                for inv in new_compare:
+                    num = inv.get("invoice_number", "")
+                    if num and num.lower().strip() not in generic and num in seen_nums:
+                        log_action(f"  Dedup: skipping {inv.get('file', '?')} (#{num} already in compare)")
+                        continue
+                    if num and num.lower().strip() not in generic:
+                        seen_nums.add(num)
+                    deduped_new.append(inv)
+
+                if deduped_new:
+                    existing_compare.extend(deduped_new)
+                    with open(cmp_path, "w", encoding="utf-8") as f:
+                        json.dump(existing_compare, f, indent=2, ensure_ascii=False)
+                    log_action(f"Updated compare_invoices.json: +{len(deduped_new)} (total {len(existing_compare)})")
+
+            msg = f"Extracted {len(new_extracted)} new, skipped {skipped}, failed {failed}"
+            with _state_lock:
+                _state["step_results"]["upload-extract"] = {
+                    "status": "success",
+                    "message": msg,
+                    "timestamp": datetime.now().isoformat(),
+                }
+            log_action(f"=== Upload & Extract DONE: {msg} ===")
+
+        except Exception as e:
+            tb = traceback.format_exc()
+            log_action(f"Upload & Extract FAILED: {e}", "ERROR")
+            log_action(tb, "ERROR")
+            with _state_lock:
+                _state["step_results"]["upload-extract"] = {
+                    "status": "error",
+                    "message": str(e)[:200],
+                    "timestamp": datetime.now().isoformat(),
+                }
+        finally:
+            with _state_lock:
+                _state["running"] = False
+                _state["current_step"] = None
+
+    t = threading.Thread(target=_upload_extract_thread, daemon=True)
+    t.start()
+    return jsonify({"ok": True, "files": saved})
+
+
 def _get_summary():
     """Build a summary from output JSON files if they exist."""
     summary = {}
@@ -6930,14 +7103,15 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <span class="step-indicator ind-idle" id="ind-extract-mail"></span>
             <span class="step-msg" id="msg-extract-mail"></span>
           </button>
-          <button class="step-btn" data-step="2" onclick="runStep('2')">
-            <span class="step-num">2</span> Extract Data
+          <input type="file" id="invoiceUploadInput" accept=".pdf,.jpg,.jpeg,.png,.eml" multiple style="display:none" onchange="handleInvoiceUpload(this)">
+          <label for="invoiceUploadInput" class="step-btn upload-step-btn">
+            <span class="step-num">2</span> Upload &amp; Extract
             <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Reads each invoice PDF using pdfplumber + OCR fallback. Extracts vendor name, amount, date, currency, and invoice number.</span>
+              <span class="info-tooltip">Upload invoice PDFs/images/EMLs. Saves to 'new image invoices' folder, extracts data, and updates both extracted_invoices.json and compare_invoices.json.</span>
             </span>
-            <span class="step-indicator ind-idle" id="ind-2"></span>
-            <span class="step-msg" id="msg-2"></span>
-          </button>
+            <span class="step-indicator ind-idle" id="ind-upload-extract"></span>
+            <span class="step-msg" id="msg-upload-extract"></span>
+          </label>
           <button class="step-btn compare-btn" onclick="openComparePanel()">
             <span class="step-num" style="background:var(--green, #4ade80);color:#000;font-size:10px">$</span> Monthly Compare
             <span class="info-btn" onclick="event.stopPropagation()">i
@@ -7703,6 +7877,7 @@ function updateUI(data) {
   for (let i = 1; i <= 7; i++) {
     const ind = document.getElementById('ind-' + i);
     const msg = document.getElementById('msg-' + i);
+    if (!ind || !msg) continue;  // skip removed steps (e.g. step 2 replaced by upload-extract)
     const res = data.step_results[String(i)];
     if (!res) {
       ind.className = 'step-indicator ind-idle';
@@ -7736,6 +7911,18 @@ function updateUI(data) {
   } else if (data.current_step === 'extract-mail' && data.running) {
     mailInd.className = 'step-indicator ind-running';
     mailMsgEl.textContent = 'Extracting...';
+  }
+
+  // Upload & Extract indicator
+  const ueInd = document.getElementById('ind-upload-extract');
+  const ueMsgEl = document.getElementById('msg-upload-extract');
+  const ueRes = data.step_results['upload-extract'];
+  if (ueRes) {
+    ueInd.className = 'step-indicator ind-' + ueRes.status;
+    ueMsgEl.textContent = ueRes.message || '';
+  } else if (data.current_step === 'upload-extract' && data.running) {
+    ueInd.className = 'step-indicator ind-running';
+    ueMsgEl.textContent = 'Extracting...';
   }
 
   // Sync Zoho indicator
@@ -8565,6 +8752,34 @@ function createNewAccount() {
     btn.textContent = 'Create';
     addLogLine('[Review] Request failed: ' + err);
   });
+}
+
+// --- Invoice Upload & Extract ---
+function handleInvoiceUpload(input) {
+  const files = input.files;
+  if (!files || !files.length) return;
+
+  const formData = new FormData();
+  for (let i = 0; i < files.length; i++) {
+    formData.append('files', files[i]);
+  }
+
+  addLogLine('[Upload] Uploading ' + files.length + ' invoice file(s)...');
+
+  fetch('/api/upload/invoices', {method: 'POST', body: formData})
+    .then(r => r.json())
+    .then(data => {
+      if (data.ok) {
+        addLogLine('[Upload] Saved: ' + data.files.join(', '));
+        addLogLine('[Upload] Extraction started in background...');
+        pollStatus();
+      } else {
+        addLogLine('[Upload] Error: ' + (data.error || 'Unknown'));
+      }
+    })
+    .catch(err => addLogLine('[Upload] Request failed: ' + err));
+
+  input.value = '';
 }
 
 // --- CC Upload ---
@@ -10769,6 +10984,7 @@ function renderPaymentPreview(data) {
     + '<th style="text-align:right;padding:6px 8px">Bill Amt</th>'
     + '<th style="padding:6px 4px">Cur</th>'
     + '<th style="padding:6px 8px">Bill Date</th>'
+    + '<th style="padding:6px 6px;text-align:center" title="Amount difference: CC - Bills">Diff</th>'
     + '<th style="padding:6px 8px;text-align:center">Confidence</th>'
     + '<th style="padding:6px 8px">Action</th>'
     + '</tr></thead>';
@@ -10908,6 +11124,9 @@ function renderPaymentPreview(data) {
       var gDesc = m.cc_description || '-';
       var gDescFull = gDesc;
       if (gDesc.length > 40) gDesc = gDesc.substring(0, 40) + '\u2026';
+      var grpDiff = Math.abs(m.cc_inr_amount - m.group_sum);
+      var grpDiffColor = grpDiff < 1 ? 'var(--green)' : grpDiff < 10 ? 'var(--yellow)' : 'var(--red,#ef4444)';
+      var grpDiffLabel = grpDiff < 0.01 ? '0' : grpDiff.toFixed(2);
       tr.innerHTML = '<td style="padding:5px 4px"></td>'
         + '<td style="text-align:left;padding:5px 8px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + gDescFull.replace(/"/g,'&quot;') + '">' + gDesc + '</td>'
         + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(m.cc_inr_amount) + '</td>'
@@ -10918,6 +11137,7 @@ function renderPaymentPreview(data) {
         + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + fmt(m.group_sum) + '</td>'
         + '<td style="padding:5px 4px;text-align:center">INR</td>'
         + '<td style="padding:5px 8px">' + (gBills.length > 0 ? fmtDate(gBills[0].date) : '-') + '</td>'
+        + '<td style="text-align:center;padding:5px 6px;font-family:monospace;font-size:11px;font-weight:700;color:' + grpDiffColor + '" title="Diff: CC - Bills">' + grpDiffLabel + '</td>'
         + '<td style="padding:5px 8px">' + confCell + '</td>'
         + '<td style="padding:5px 8px"><button class="bill-create-btn" id="pay-grp-btn-' + idx + '" style="white-space:nowrap">Record Group</button></td>';
       tbody.appendChild(tr);
@@ -10978,7 +11198,16 @@ function renderPaymentPreview(data) {
       + '<td style="text-align:left;padding:5px 8px;border-left:2px solid var(--border);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (m.vendor_name||'').replace(/"/g,'&quot;') + '">' + (hasBill ? (m.vendor_name||'-') : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="text-align:right;padding:5px 8px;font-family:monospace">' + (hasBill ? fmt(m.bill_amount) : '<span style="'+dimStyle+'">-</span>') + '</td>'
       + '<td style="padding:5px 4px;text-align:center">' + (hasBill ? (m.bill_currency||'INR') : '<span style="'+dimStyle+'">-</span>') + '</td>'
-      + '<td style="padding:5px 8px">' + (hasBill ? fmtDate(m.bill_date) : '<span style="'+dimStyle+'">-</span>') + '</td>'
+      + '<td style="padding:5px 8px">' + (hasBill ? fmtDate(m.bill_date) : '<span style="'+dimStyle+'">-</span>') + '</td>';
+    // Diff cell for normal rows — only for INR bills (CC INR vs Bill INR)
+    // For forex bills (USD etc.), CC is INR and bill is foreign currency — not comparable
+    var diffCell = '<td style="padding:5px 6px;text-align:center;color:var(--text-dim)">-</td>';
+    if (m.status === 'matched' && m.cc_inr_amount && m.bill_amount && (m.bill_currency||'INR') === 'INR') {
+      var rowDiff = Math.abs(m.cc_inr_amount - m.bill_amount);
+      var rdColor = rowDiff < 1 ? 'var(--green)' : rowDiff < 10 ? 'var(--yellow)' : 'var(--red,#ef4444)';
+      diffCell = '<td style="text-align:center;padding:5px 6px;font-family:monospace;font-size:11px;font-weight:700;color:' + rdColor + '" title="Diff: CC INR - Bill INR">' + (rowDiff < 0.01 ? '0' : rowDiff.toFixed(2)) + '</td>';
+    }
+    tr.innerHTML += diffCell
       + '<td style="padding:5px 8px">' + confCell + '</td>'
       + '<td style="padding:5px 8px">' + actionBtn + '</td>';
 

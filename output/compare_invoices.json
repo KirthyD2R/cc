@@ -13832,5 +13832,105 @@
     "currency": "INR",
     "raw_text_preview": "Google Play\r\n\r\n\r\nThank you\r\n\r\n\r\nYou've made a subscription purchase from Google Ireland Limited on Google  \r\nPlay. You will be automatically charged ₹349.00 for 1 year, then  \r\n₹589.00/year starting Sep 3, 2026, unless canceled. You can cancel anytime.  \r\nManage your subscriptions\r\n\r\nTo help keep your subscription active, add a backup payment method.\r\n\r\n\r\nAdd backup\r\n\r\n\r\nOrder number: SOP.3355-9292-3472-47496\r\nOrder date: Sep 3, 2025 10:17:02 AM GMT+5:30\r\nYour account: sylvester.daniel@gmail.com",
     "vendor_gstin": null
+  },
+  {
+    "file": "Your receipt from Apple..eml[2].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice 25\\Your receipt from Apple..eml[2].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2025-05-22",
+    "amount": 2000.0,
+    "currency": "INR",
+    "raw_text_preview": "a, a:link, a:visited, a:active {color:#007eff;text-decoration:none;} a:hover {text-decoration:underline} * {text-rendering:optimizelegibility;-webkit-font-smoothing:antialiased;} img {-ms-interpolation-mode: bicubic;} table {border-collapse: collapse; border-spacing: 0;} sup {font-weight: 300;} @med",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "App Store purchases",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 2000.0
+      }
+    ],
+    "organized_path": null
+  },
+  {
+    "file": "Your invoice from Apple..eml[1][1].eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Apple invoice\\Your invoice from Apple..eml[1][1].eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2025-06-25",
+    "amount": 309.32,
+    "currency": "INR",
+    "raw_text_preview": "---------- Forwarded message --------- From: Apple < no_reply@email.apple.com > Date: Wed, Jun 25, 2025 at 8:29 AM Subject: Your invoice from Apple. To: < sylvester.daniel@gmail.com > Tax Invoice 24 June 2025 Sequence: 3-501587728 Order ID: MT565VN9HQ Document: 116971115210 Apple Account: 9197901302",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Apple One Family (Monthly) SAC: 998439 Renews 25 July 2025 ₹ 365",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 309.32
+      }
+    ],
+    "organized_path": null
+  },
+  {
+    "file": "Fw_ Your invoice from Apple..eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Fw_ Your invoice from Apple..eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2026-03-11",
+    "amount": 309.32,
+    "currency": "INR",
+    "raw_text_preview": "P {margin-top:0;margin-bottom:0;} From: Sylvester Daniel <sylvester.daniel@gmail.com> Sent: Wednesday, March 11, 2026 3:50 PM To: Keerthana <keerthana.vadivelan@d2railabs.com> Subject: Fwd: Your invoice from Apple. ---------- Forwarded message --------- From: Apple < no_reply@email.apple.com > Date:",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Apple One Family (Monthly) SAC: 998439 Renews 25 July 2025 ₹ 365",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 309.32
+      }
+    ],
+    "organized_path": null
+  },
+  {
+    "file": "Your invoice from Apple. (3).eml",
+    "path": "D:\\cc new\\cc\\new image invoices\\Your invoice from Apple. (3).eml",
+    "vendor_name": "Apple",
+    "invoice_number": null,
+    "date": "2025-06-25",
+    "amount": 309.32,
+    "currency": "INR",
+    "raw_text_preview": "---------- Forwarded message --------- From: Apple < no_reply@email.apple.com > Date: Wed, Jun 25, 2025 at 8:29 AM Subject: Your invoice from Apple. To: < sylvester.daniel@gmail.com > Tax Invoice 24 June 2025 Sequence: 3-501587728 Order ID: MT565VN9HQ Document: 116971115210 Apple Account: 9197901302",
+    "vendor_gstin": null,
+    "line_items": [
+      {
+        "description": "Apple One Family (Monthly) SAC: 998439 Renews 25 July 2025 ₹ 365",
+        "quantity": 1,
+        "unit_price": null,
+        "amount": 309.32
+      }
+    ],
+    "organized_path": null
+  },
+  {
+    "file": "google prime.pdf",
+    "path": "D:\\cc new\\cc\\new image invoices\\google prime.pdf",
+    "vendor_name": "Amazon Seller Services Private Limited",
+    "invoice_number": "IN-31372906",
+    "date": "2025-07-10",
+    "amount": 399.00,
+    "currency": "INR",
+    "raw_text_preview": "Tax Invoice/Bill of Supply/Cash Memo\n(Original for Recipient)\nSold By:\nAmazon Seller Services Private Limited\n#26/1, Brigade Gateway, 8th Floor., Dr Rajkumar Road, Malleshwaram West\nBangalore, Karnataka – 560055\nPAN No: AAICA3918J\nGST Registration No: 29AAICA3918J1ZE\nOrder Number: D01-0699114-2136652\nOrder Date: 10 Jul 2025\nInvoice Number: IN-31372906\nInvoice Details: 1044-2526\nInvoice Date: 10 Jul 2025",
+    "vendor_gstin": "29AAICA3918J1ZE",
+    "line_items": [
+      {
+        "description": "Amazon Prime Membership",
+        "quantity": 1,
+        "unit_price": 338.14,
+        "amount": 399.00
+      }
+    ],
+    "organized_path": null
   }
 ]
