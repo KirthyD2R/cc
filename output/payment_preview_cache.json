@@ -116,6 +116,391 @@
       "match_type": "USD rate:90.02 actual:89.94"
     },
     {
+      "bill_id": "2050328000003115023",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 2000.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-22",
+      "bill_number": "Your receipt from Apple..eml[4]",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939447",
+          "cc_description": "RSP*TATA AIG GENERAL I, MUMBAI",
+          "cc_inr_amount": 1996.0,
+          "cc_date": "2025-06-13",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 56
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003113097",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 269.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-05",
+      "bill_number": "3-576646632",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003103025",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 899.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-08",
+      "bill_number": "3-577609481",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000002324069",
+          "cc_description": "NRI*NEW RELIC, SAN FRANCISCO",
+          "cc_inr_amount": 897.39,
+          "cc_date": "2025-12-01",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 95,
+            "date": 60,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 61
+        },
+        {
+          "cc_transaction_id": "2050328000002162092",
+          "cc_description": "MICROSOFT INDIA CYBS S MUMBAI IN",
+          "cc_inr_amount": 908.6,
+          "cc_date": "2025-12-15",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 60,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 49
+        },
+        {
+          "cc_transaction_id": "2050328000001777099",
+          "cc_description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
+          "cc_inr_amount": 908.6,
+          "cc_date": "2025-11-18",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 30,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 41
+        },
+        {
+          "cc_transaction_id": "2050328000001777069",
+          "cc_description": "MICROSOFT INDIA CYBS S MUMBAI        IN",
+          "cc_inr_amount": 908.6,
+          "cc_date": "2025-10-15",
+          "cc_card": "Kotak bank credit card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 70,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": -10
+          },
+          "candidate_score": 36
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003096128",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 99.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-23",
+      "bill_number": "3-584818157",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003107050",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 365.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-29",
+      "bill_number": "3-587714362",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003101004",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 269.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-01-05",
+      "bill_number": "3-591136268",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003093089",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 99.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-01-23",
+      "bill_number": "3-600110085",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003106079",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 269.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-02-05",
+      "bill_number": "3-606463374",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003117055",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 179.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-04-24",
+      "bill_number": "3-477157671",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003089025",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 75.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-04-28",
+      "bill_number": "3-478519339",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003116029",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 99.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-17",
+      "bill_number": "3-485041705",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003113050",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 365.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-05-25",
+      "bill_number": "3-489101006",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003093063",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 365.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-07-24",
+      "bill_number": "3-514460782",
+      "status": "unmatched",
+      "candidates": [
+        {
+          "cc_transaction_id": "2050328000000939641",
+          "cc_description": "GOOGLEPLAY, MUMBAI",
+          "cc_inr_amount": 349.0,
+          "cc_date": "2025-09-03",
+          "cc_card": "Mayura Credit Card",
+          "cc_forex_amount": null,
+          "cc_forex_currency": null,
+          "breakdown": {
+            "amount": 40,
+            "date": 10,
+            "vendor": 0,
+            "uniqueness": 15
+          },
+          "candidate_score": 24
+        }
+      ]
+    },
+    {
+      "bill_id": "2050328000003113024",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 75.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-08-23",
+      "bill_number": "3-527628679",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003117029",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 99.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-09-23",
+      "bill_number": "3-541419947",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003114064",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 99.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-10-23",
+      "bill_number": "3-555766408",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003096060",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 269.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-05",
+      "bill_number": "3-561981772",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003091033",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 99.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-23",
+      "bill_number": "3-570265093",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003105040",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 269.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-11-06",
+      "bill_number": "Your Subscription Renewal.eml[9][1]",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003112023",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 269.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-12-06",
+      "bill_number": "Your Subscription Renewal.eml[7][1]",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003111051",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 269.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-01-06",
+      "bill_number": "Your Subscription Renewal.eml[4][1]",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003118003",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 269.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-03-06",
+      "bill_number": "Your Subscription Renewal.eml[30]",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003111025",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 269.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-02-06",
+      "bill_number": "Your Subscription Renewal.eml[2][1]",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003117003",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 99.0,
+      "bill_currency": "INR",
+      "bill_date": "2025-04-16",
+      "bill_number": "Your Subscription Renewal.eml[12][1]",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003116003",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 269.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-03-05",
+      "bill_number": "3-621694190",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
+      "bill_id": "2050328000003102913",
+      "vendor_id": "2050328000003096023",
+      "vendor_name": "Apple",
+      "bill_amount": 99.0,
+      "bill_currency": "INR",
+      "bill_date": "2026-02-23",
+      "bill_number": "3-615518480",
+      "status": "unmatched",
+      "candidates": []
+    },
+    {
       "bill_id": "2050328000003114017",
       "vendor_id": "2050328000003096023",
       "vendor_name": "Apple",
@@ -4116,9 +4501,9 @@
     }
   ],
   "summary": {
-    "total_bills": 152,
+    "total_bills": 178,
     "matched": 5,
-    "unmatched": 147,
+    "unmatched": 173,
     "already_paid": 0,
     "unmatched_cc_count": 95,
     "amex_matched": 18,

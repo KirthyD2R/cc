@@ -6811,10 +6811,12 @@
     "currency": "INR",
     "date": "2025-04-24",
     "organized_month": "Apr 2025",
-    "action": "new_bill",
-    "matched_vendor_id": "2050328000000359077",
+    "action": "skip",
+    "matched_bill_id": "2050328000003109017",
     "matched_vendor_name": "LinkedIn Singapore Pte Ltd",
-    "vendor_match_method": "fuzzy"
+    "matched_vendor_id": "2050328000000359077",
+    "match_type": "created_bills",
+    "matched_bill": "Created: LinkedIn Singapore Pte Ltd"
   },
   {
     "file": "Your Google Play Order Receipt from Dec 14, 2025.eml",
