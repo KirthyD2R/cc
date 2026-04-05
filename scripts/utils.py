@@ -752,6 +752,8 @@ def resolve_account_ids(api, cards):
     for card in cards:
         last_four = card.get("last_four_digits", "")
         card_name = card.get("name", "")
+        if not card_name and not card.get("bank"):
+            continue
         matched = False
 
         # Collect all matching accounts, prefer active ones

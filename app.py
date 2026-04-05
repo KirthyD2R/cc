@@ -1296,7 +1296,7 @@ def api_extract_mail_invoices():
             # --- Also merge into extracted_invoices.json (like upload flow) ---
             ext_path = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
             existing_extracted = []
-            if os.path.exists(ext_path):
+            if os.path.exists(ext_path) and os.path.getsize(ext_path) > 0:
                 with open(ext_path, "r", encoding="utf-8") as f:
                     existing_extracted = json.load(f)
             already_done_ext = {inv.get("file") for inv in existing_extracted}
@@ -1316,7 +1316,7 @@ def api_extract_mail_invoices():
             # --- Also merge into compare_invoices.json (like upload flow) ---
             cmp_path = os.path.join(PROJECT_ROOT, "output", "compare_invoices.json")
             existing_compare = []
-            if os.path.exists(cmp_path):
+            if os.path.exists(cmp_path) and os.path.getsize(cmp_path) > 0:
                 with open(cmp_path, "r", encoding="utf-8") as f:
                     existing_compare = json.load(f)
             already_done_cmp = {inv.get("file") for inv in existing_compare}
@@ -4740,7 +4740,7 @@ def api_upload_invoices():
             # --- Load existing extracted_invoices.json ---
             ext_path = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
             existing_extracted = []
-            if os.path.exists(ext_path):
+            if os.path.exists(ext_path) and os.path.getsize(ext_path) > 0:
                 with open(ext_path, "r", encoding="utf-8") as f:
                     existing_extracted = json.load(f)
             already_done_ext = {inv.get("file") for inv in existing_extracted}
@@ -4748,7 +4748,7 @@ def api_upload_invoices():
             # --- Load existing compare_invoices.json ---
             cmp_path = os.path.join(PROJECT_ROOT, "output", "compare_invoices.json")
             existing_compare = []
-            if os.path.exists(cmp_path):
+            if os.path.exists(cmp_path) and os.path.getsize(cmp_path) > 0:
                 with open(cmp_path, "r", encoding="utf-8") as f:
                     existing_compare = json.load(f)
             already_done_cmp = {inv.get("file") for inv in existing_compare}

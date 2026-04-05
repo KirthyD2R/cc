@@ -604,6 +604,8 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
     for card in cards:
         name = card["name"]
         bank = card["bank"]
+        if not name and not bank:
+            continue
         pdf_file = card.get("pdf_file")
         account_id = card.get("zoho_account_id")
 
