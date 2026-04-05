@@ -8125,6 +8125,11 @@
     "currency": "INR",
     "date": "2025-08-17",
     "organized_month": "Uploaded",
-    "action": "new_vendor_bill"
+    "action": "skip",
+    "matched_bill_id": "2050328000003120024",
+    "matched_vendor_name": "Hotel esthell",
+    "matched_vendor_id": "2050328000003089049",
+    "match_type": "created_bills",
+    "matched_bill": "Created: Hotel esthell"
   }
 ]

@@ -3118,5 +3118,10 @@
     "amount": 22855.0,
     "currency": "INR",
     "attached": true
+  },
+  {
+    "file": "Your Subscription Renewal.eml[21][1].eml",
+    "status": "failed",
+    "reason": "bill creation failed"
   }
 ]
