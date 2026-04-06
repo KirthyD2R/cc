@@ -1237,7 +1237,17 @@ def api_extract_mail_invoices():
                     "timestamp": datetime.now().isoformat(),
                 }
 
-            log_action("=== Extract Mail Invoices ===")
+            log_action("=== Fetch & Extract Mail Invoices ===")
+
+            # Step 1: Fetch invoices from Outlook first
+            try:
+                fetch_mod = _import_script("01_fetch_invoices.py")
+                log_action("Fetching invoice PDFs from Outlook...")
+                fetch_mod.run(headless=False)
+            except Exception as fetch_ex:
+                log_action(f"Fetch from Outlook failed: {fetch_ex}", "WARNING")
+                log_action("Continuing with existing files in mail invoices folder...")
+
             mail_dir = os.path.join(PROJECT_ROOT, "input_pdfs", "mail invoices")
             if not os.path.isdir(mail_dir):
                 raise FileNotFoundError(f"Folder not found: {mail_dir}")

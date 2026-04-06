@@ -635,10 +635,13 @@ def detect_vendor(text):
         ("NETFLIX", "Netflix"),
         ("WINDSURF", "Windsurf"),
         ("CODEIUM", "Windsurf"),
+        ("BHARTI AIRTEL", "Airtel"),
+        ("AIRTEL BLACK", "Airtel"),
         ("BLUE DART", "Blue Dart Express Ltd"),
         ("MEDIUM CORPORATION", "Medium"),
         ("FLIPKART", "Flipkart"),
-        ("SIXT", "Sixt"),
+        ("SIXT RENT", "Sixt"),
+        ("SIXT GMBH", "Sixt"),
         ("ADOBE SYSTEMS", "Adobe"),
         ("ADOBE INC", "Adobe"),
         ("GODADDY", "GoDaddy"),
@@ -1254,6 +1257,71 @@ def extract_sixt(text):
     return inv_number, date, amount, currency
 
 
+def extract_airtel(text):
+    """Extract invoice data from Airtel Black / Bharti Airtel bills."""
+    inv_number = None
+    # Bill NO / Bill Number
+    m = re.search(r"Bill\s*(?:NO|Number)\s*(\S+)", text)
+    if m:
+        inv_number = m.group(1)
+
+    date = None
+    # "Statement Date 12 Mar 2026" or "Bill Date 12 Mar 2026"
+    m = re.search(r"(?:Statement|Bill)\s*Date\s*[:\-]?\s*(\d{1,2}\s+\w{3,9}\s+\d{4})", text)
+    if m:
+        date = parse_date(m.group(1))
+
+    amount, currency = None, "INR"
+    # "Total Amount Payable:\n₹1,105.66" or "Total Amount ₹ 724.52"
+    m = re.search(r"Total\s*Amount\s*Payable\s*[:\-]?\s*[₹`]\s*([\d,]+\.?\d*)", text)
+    if m:
+        try:
+            amount = float(m.group(1).replace(",", ""))
+        except ValueError:
+            pass
+    if not amount:
+        # Fallback: "TOTAL ₹1,105.66"
+        m = re.search(r"TOTAL\s*[₹`]\s*([\d,]+\.?\d*)", text)
+        if m:
+            try:
+                amount = float(m.group(1).replace(",", ""))
+            except ValueError:
+                pass
+
+    return inv_number, date, amount, currency
+
+
+def extract_adobe(text):
+    """Extract invoice data from Adobe invoices (DD-MMM-YYYY format, GRAND TOTAL)."""
+    inv_number = None
+    m = re.search(r"Invoice\s*Number\s*(\d+)", text)
+    if m:
+        inv_number = m.group(1)
+
+    date = None
+    m = re.search(r"Invoice\s*Date\s*(\d{1,2}[-\s]\w{3}[-\s]\d{4})", text)
+    if m:
+        date = parse_date(m.group(1).replace("-", " "))
+
+    amount, currency = None, "INR"
+    m = re.search(r"GRAND\s*TOTAL\s*\((\w+)\)\s*([\d,]+\.?\d*)", text)
+    if m:
+        currency = m.group(1)
+        try:
+            amount = float(m.group(2).replace(",", ""))
+        except ValueError:
+            pass
+    if not amount:
+        m = re.search(r"GRAND\s*TOTAL\s*[\$₹]?\s*([\d,]+\.?\d*)", text)
+        if m:
+            try:
+                amount = float(m.group(1).replace(",", ""))
+            except ValueError:
+                pass
+
+    return inv_number, date, amount, currency
+
+
 def extract_generic(text):
     """Fallback: try common patterns for invoices, receipts, and OCR'd images."""
     inv_number = None
@@ -1477,6 +1545,10 @@ def extract_invoice(pdf_path, filename):
         inv_number, date, amount, currency = extract_medium(text)
     elif vendor == "Sixt":
         inv_number, date, amount, currency = extract_sixt(text)
+    elif vendor == "Adobe":
+        inv_number, date, amount, currency = extract_adobe(text)
+    elif vendor == "Airtel":
+        inv_number, date, amount, currency = extract_airtel(text)
     else:
         inv_number, date, amount, currency = extract_generic(text)
 
