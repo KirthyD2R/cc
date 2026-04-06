@@ -25,16 +25,24 @@ PAYMENTS_FILE = os.path.join(PROJECT_ROOT, "output", "recorded_payments.json")
 
 
 def load_created_bills():
+    if not os.path.exists(BILLS_FILE) or os.path.getsize(BILLS_FILE) == 0:
+        return []
     with open(BILLS_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+        try:
+            return json.load(f)
+        except (json.JSONDecodeError, ValueError):
+            return []
 
 
 def load_cc_transactions():
-    if not os.path.exists(CC_TXNS_FILE):
-        log_action("CC transactions JSON not found. Run Step 4 first.", "WARNING")
+    if not os.path.exists(CC_TXNS_FILE) or os.path.getsize(CC_TXNS_FILE) == 0:
+        log_action("CC transactions JSON not found or empty. Run Step 4 first.", "WARNING")
         return []
     with open(CC_TXNS_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+        try:
+            return json.load(f)
+        except (json.JSONDecodeError, ValueError):
+            return []
 
 
 def build_vendor_to_merchants(vendor_mappings):
@@ -674,7 +682,7 @@ def run():
     # Load existing payments to skip re-processing within this session
     # (Zoho already filters out paid bills above, this guards against same-session duplicates)
     paid = {}
-    if os.path.exists(PAYMENTS_FILE):
+    if os.path.exists(PAYMENTS_FILE) and os.path.getsize(PAYMENTS_FILE) > 0:
         with open(PAYMENTS_FILE, "r", encoding="utf-8") as f:
             for entry in json.load(f):
                 if entry.get("bill_id") and entry.get("status") == "paid":

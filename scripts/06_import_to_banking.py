@@ -72,9 +72,12 @@ def run(selected_cards=None):
 
     # Issue #19: Track imported statements to prevent duplicates on re-run
     imported = {}
-    if os.path.exists(TRACKING_FILE):
-        with open(TRACKING_FILE, "r", encoding="utf-8") as f:
-            imported = json.load(f)
+    if os.path.exists(TRACKING_FILE) and os.path.getsize(TRACKING_FILE) > 0:
+        try:
+            with open(TRACKING_FILE, "r", encoding="utf-8") as f:
+                imported = json.load(f)
+        except (json.JSONDecodeError, ValueError):
+            imported = {}
 
     imported_count = 0
     skipped_count = 0

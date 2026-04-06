@@ -784,10 +784,13 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
     json_path = os.path.join(OUTPUT_DIR, "cc_transactions.json")
     os.makedirs(os.path.dirname(json_path), exist_ok=True)
 
-    if selected_files and os.path.exists(json_path):
+    if selected_files and os.path.exists(json_path) and os.path.getsize(json_path) > 0:
         # Merge mode: keep transactions from cards we didn't re-parse
-        with open(json_path, "r", encoding="utf-8") as f:
-            existing = json.load(f)
+        try:
+            with open(json_path, "r", encoding="utf-8") as f:
+                existing = json.load(f)
+        except (json.JSONDecodeError, ValueError):
+            existing = []
         # Remove old entries for cards we just re-parsed
         reparsed_cards = set(cards_parsed)
         kept = [t for t in existing if t.get("card_name") not in reparsed_cards]

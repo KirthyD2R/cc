@@ -1712,9 +1712,12 @@ def run(already_processed=None, force_all=False):
     # Incremental mode: load existing extractions and skip already-processed files
     existing_results = []
     existing_files = set()
-    if not force_all and os.path.exists(OUTPUT_FILE):
-        with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
-            existing_results = json.load(f)
+    if not force_all and os.path.exists(OUTPUT_FILE) and os.path.getsize(OUTPUT_FILE) > 0:
+        try:
+            with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+                existing_results = json.load(f)
+        except (json.JSONDecodeError, ValueError):
+            existing_results = []
         existing_files = {inv["file"] for inv in existing_results}
 
     if already_processed:

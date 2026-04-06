@@ -7206,12 +7206,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <span class="step-indicator ind-idle" id="ind-upload-extract"></span>
             <span class="step-msg" id="msg-upload-extract"></span>
           </label>
-          <button class="step-btn compare-btn" onclick="openComparePanel()">
-            <span class="step-num" style="background:var(--green, #4ade80);color:#000;font-size:10px">$</span> Monthly Compare
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Compare CC statement transactions vs organized invoices side-by-side, grouped by month. Shows vendor GSTIN and forex details.</span>
-            </span>
-          </button>
+
         </div>
       </div>
 
@@ -7247,18 +7242,6 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <span class="step-num review-badge">R</span> Review Accounts
             <span class="info-btn" onclick="event.stopPropagation()">i
               <span class="info-tooltip">Review and fix expense account assignments on bills created in Step 3. You can change accounts and create new ones. This is optional &mdash; skipped during Run All.</span>
-            </span>
-          </button>
-          <button class="step-btn" onclick="openDeleteBillsPanel()" style="border:1.5px dashed #ef4444;background:rgba(239,68,68,0.05)">
-            <span class="step-num" style="background:#ef4444">D</span> Delete Bills
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Delete bills from Zoho grouped by vendor. Removes from Zoho and local cache.</span>
-            </span>
-          </button>
-          <button class="step-btn" onclick="openDeleteVendorsPanel()" style="border:1.5px dashed #ef4444;background:rgba(239,68,68,0.05)">
-            <span class="step-num" style="background:#ef4444">V</span> Delete Vendors
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">List all vendors from Zoho with bill counts. Delete empty vendors (0 bills) or any selected vendors.</span>
             </span>
           </button>
         </div>
@@ -7300,7 +7283,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <div class="upload-row">
               <input type="file" id="ccUploadInput" accept=".pdf" multiple style="display:none" onchange="handleCCUpload(this)">
               <label for="ccUploadInput" class="step-btn upload-step-btn">
-                <span class="step-num">4</span> Upload &amp; Parse CC
+                <span class="step-num">4</span> Upload &amp; Extract CC
                 <span class="info-btn" onclick="event.stopPropagation()">i
                   <span class="info-tooltip">Upload CC statement PDFs (HDFC, Kotak, Mayura) to parse into transactions. Only uploaded files are parsed.</span>
                 </span>

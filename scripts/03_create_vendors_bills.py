@@ -56,8 +56,13 @@ def _normalize_bill_number(num):
 def load_invoices():
     # Prefer compare_invoices.json (matches what the UI bill picker uses)
     path = COMPARE_INVOICES_FILE if os.path.exists(COMPARE_INVOICES_FILE) else INVOICES_FILE
+    if not os.path.exists(path) or os.path.getsize(path) == 0:
+        return []
     with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+        try:
+            return json.load(f)
+        except (json.JSONDecodeError, ValueError):
+            return []
 
 
 def _sanitize_vendor_name(name):
@@ -290,6 +295,29 @@ def create_bill_for_invoice(api, invoice, vendor_id, expense_accounts, default_e
             return bill_id, True
     except Exception as e:
         err_lower = str(e).lower()
+        # If Zoho rejects GST fields (org without GST enabled), retry without them
+        has_gst_fields = "gst_treatment" in bill_data or "gst_no" in bill_data or "source_of_supply" in bill_data
+        if has_gst_fields and ("gst" in err_lower or "invalid" in err_lower):
+            log_action(f"  Zoho rejected GST fields on bill, retrying without them: {e}", "WARNING")
+            bill_data.pop("gst_treatment", None)
+            bill_data.pop("gst_no", None)
+            bill_data.pop("source_of_supply", None)
+            bill_data.pop("is_inclusive_tax", None)
+            # Remove tax fields from line items too
+            for li in bill_data.get("line_items", []):
+                li.pop("tax_id", None)
+                li.pop("tax_exemption_id", None)
+                li.pop("tax_exemption_code", None)
+            try:
+                result = api.create_bill(bill_data)
+                bill = result.get("bill", {})
+                bill_id = bill.get("bill_id")
+                if bill_id:
+                    log_action(f"  Created bill (without GST) {bill_number}: {bill_id} ({currency} {amount})")
+                    return bill_id, True
+            except Exception as e2:
+                log_action(f"  Failed to create bill (retry): {e2}", "ERROR")
+                return None, False
         if "already been used" in err_lower or "already been created" in err_lower:
             # Bill exists in Zoho — try to find its ID so we can still attach PDF
             log_action(f"  Bill {bill_number} already exists in Zoho", "WARNING")
@@ -547,7 +575,7 @@ def run(selected_files=None, vendor_overrides=None):
         # Load vendor cache
         cached_gstin_map = {}  # gstin -> (contact_id, contact_name)
         cached_vendor_currency = {}  # lowered name -> currency_code
-        if os.path.exists(VENDORS_CACHE):
+        if os.path.exists(VENDORS_CACHE) and os.path.getsize(VENDORS_CACHE) > 0:
             with open(VENDORS_CACHE, "r", encoding="utf-8") as f:
                 cached_vendors = json.load(f)
             for v in cached_vendors:
@@ -571,7 +599,7 @@ def run(selected_files=None, vendor_overrides=None):
 
     # Load local results — only trust "created" entries with a bill_id
     processed = {}
-    if os.path.exists(RESULTS_FILE):
+    if os.path.exists(RESULTS_FILE) and os.path.getsize(RESULTS_FILE) > 0:
         with open(RESULTS_FILE, "r", encoding="utf-8") as f:
             for entry in json.load(f):
                 status = entry.get("status", "")
