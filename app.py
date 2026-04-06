@@ -1255,7 +1255,9 @@ def api_extract_mail_invoices():
             existing = []
             if os.path.exists(out_path):
                 with open(out_path, "r", encoding="utf-8") as f:
-                    existing = json.load(f)
+                    content = f.read().strip()
+                    if content:
+                        existing = json.loads(content)
             already_done = {inv["file"] for inv in existing}
 
             # Import extract function from Step 2
