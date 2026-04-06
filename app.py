@@ -4501,11 +4501,14 @@ def api_invoices_browse():
     """Return all extracted invoices for browse view, grouped by month."""
     invoices_path = os.path.join(PROJECT_ROOT, "output", "extracted_invoices.json")
     if not os.path.exists(invoices_path):
-        return jsonify({"error": "No extracted_invoices.json found. Run Step 2 first."}), 404
+        return jsonify({"months": {}})
 
     try:
         with open(invoices_path, "r", encoding="utf-8") as f:
-            invoices = json.load(f)
+            content = f.read().strip()
+        if not content:
+            return jsonify({"months": {}})
+        invoices = json.loads(content)
     except Exception as e:
         return jsonify({"error": f"Failed to read invoices: {e}"}), 500
 
@@ -4553,11 +4556,14 @@ def api_invoices_list():
     bills_path = os.path.join(PROJECT_ROOT, "output", "created_bills.json")
 
     if not os.path.exists(invoices_path):
-        return jsonify({"error": "No extracted_invoices.json found. Run Step 2 first."}), 404
+        return jsonify({"months": [], "summary": {"total": 0, "created": 0, "pending": 0}})
 
     try:
         with open(invoices_path, "r", encoding="utf-8") as f:
-            invoices = json.load(f)
+            content = f.read().strip()
+        if not content:
+            return jsonify({"months": [], "summary": {"total": 0, "created": 0, "pending": 0}})
+        invoices = json.loads(content)
     except Exception as e:
         return jsonify({"error": f"Failed to read invoices: {e}"}), 500
 
@@ -4566,7 +4572,8 @@ def api_invoices_list():
     if os.path.exists(bills_path):
         try:
             with open(bills_path, "r", encoding="utf-8") as f:
-                local_bills = json.load(f)
+                bills_content = f.read().strip()
+            local_bills = json.loads(bills_content) if bills_content else []
 
             # Fetch actual bill IDs from Zoho to verify local tracking is accurate
             from scripts.utils import load_config, ZohoBooksAPI
@@ -5877,7 +5884,10 @@ def api_zoho_vendors():
     if not os.path.exists(cache_path):
         return jsonify([])
     with open(cache_path, "r", encoding="utf-8") as f:
-        vendors = json.load(f)
+        content = f.read().strip()
+    if not content:
+        return jsonify([])
+    vendors = json.loads(content)
     return jsonify([{"contact_id": v.get("contact_id", ""), "contact_name": v.get("contact_name", ""), "currency_code": v.get("currency_code", "INR")} for v in vendors])
 
 
@@ -5888,7 +5898,10 @@ def api_vendor_overrides_get():
     if not os.path.exists(path):
         return jsonify({})
     with open(path, "r", encoding="utf-8") as f:
-        return jsonify(json.load(f))
+        content = f.read().strip()
+    if not content:
+        return jsonify({})
+    return jsonify(json.loads(content))
 
 
 @app.route("/api/vendor-overrides", methods=["POST"])
@@ -5898,7 +5911,9 @@ def api_vendor_overrides_post():
     existing = {}
     if os.path.exists(path):
         with open(path, "r", encoding="utf-8") as f:
-            existing = json.load(f)
+            content = f.read().strip()
+        if content:
+            existing = json.loads(content)
     new_overrides = request.json.get("overrides", {})
     existing.update(new_overrides)
     with open(path, "w", encoding="utf-8") as f:
@@ -5919,7 +5934,10 @@ def api_bills_match_preview():
         return jsonify({"error": "No extracted invoices found. Run Extract Data first."}), 404
 
     with open(invoices_path, "r", encoding="utf-8") as f:
-        invoices = json.load(f)
+        content = f.read().strip()
+    if not content:
+        return jsonify({"error": "Invoice file is empty. Run Extract Data first."}), 404
+    invoices = json.loads(content)
 
     # Load Zoho caches
     bills_cache_path = os.path.join(PROJECT_ROOT, "output", "zoho_bills_cache.json")
