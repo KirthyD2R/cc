@@ -7206,6 +7206,14 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
       <div class="phase">
         <div class="phase-label">Invoices &rarr; Compare</div>
         <div class="step-grid">
+          <button class="step-btn" data-step="1" onclick="runStep('1')">
+            <span class="step-num">1</span> Fetch Invoices
+            <span class="info-btn" onclick="event.stopPropagation()">i
+              <span class="info-tooltip">Connects to Outlook via Microsoft Graph API, searches inbox for invoice/receipt emails, and downloads PDF attachments to input_pdfs/mail invoices/</span>
+            </span>
+            <span class="step-indicator ind-idle" id="ind-1"></span>
+            <span class="step-msg" id="msg-1"></span>
+          </button>
           <button class="step-btn" onclick="runExtractMail()" id="btn-extract-mail" style="border:1.5px dashed var(--orange);background:rgba(251,146,60,0.05)">
             <span class="step-num" style="background:var(--orange);color:#000;font-size:10px">M</span> Mail Extract
             <span class="info-btn" onclick="event.stopPropagation()">i
@@ -7341,14 +7349,6 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
       <div class="phase" style="display:none">
         <div class="phase-label">Others</div>
         <div class="step-grid">
-          <button class="step-btn" data-step="1" onclick="runStep('1')">
-            <span class="step-num">1</span> Fetch Invoices
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Connects to Outlook via Microsoft Graph API, searches inbox for invoice/receipt emails, and downloads PDF attachments to input_pdfs/mail invoices/</span>
-            </span>
-            <span class="step-indicator ind-idle" id="ind-1"></span>
-            <span class="step-msg" id="msg-1"></span>
-          </button>
           <button class="step-btn" onclick="runExtractZips()" id="btn-extract-zips" style="border:1.5px dashed var(--accent);background:rgba(108,140,255,0.05)">
             <span class="step-num" style="background:var(--accent);color:#fff;font-size:10px">Z</span> Extract ZIPs
             <span class="info-btn" onclick="event.stopPropagation()">i
@@ -8048,6 +8048,46 @@ function updateUI(data) {
 // Poll every 2 seconds
 setInterval(pollStatus, 2000);
 pollStatus();
+
+// Keep tab awake: defeat browser background throttling + request screen wake lock.
+// Silent WebAudio loop keeps Chrome from throttling timers when the tab is hidden,
+// so pollStatus/SSE/progress polls keep firing while the user watches logs elsewhere.
+(function keepTabAwake() {
+  try {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) {
+      var ctx = new AC();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      gain.gain.value = 0;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(0);
+      var resume = function() {
+        if (ctx.state === 'suspended') ctx.resume();
+      };
+      document.addEventListener('click', resume);
+      document.addEventListener('keydown', resume);
+      document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') resume();
+      });
+    }
+  } catch (e) {}
+
+  var wakeLock = null;
+  var requestWake = function() {
+    if ('wakeLock' in navigator) {
+      navigator.wakeLock.request('screen').then(function(lock) {
+        wakeLock = lock;
+        lock.addEventListener('release', function() { wakeLock = null; });
+      }).catch(function() {});
+    }
+  };
+  requestWake();
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible' && wakeLock === null) requestWake();
+  });
+})();
 
 // --- Review Panel ---
 let _reviewAccounts = []; // cached accounts list
