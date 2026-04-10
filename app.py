@@ -1640,12 +1640,14 @@ def _invalidate_bill_cache(bill_id, account_name=None, account_id=None):
 def api_review_bills():
     """Load created bills and fetch actual account assignments from Zoho."""
     bills_path = os.path.join(PROJECT_ROOT, "output", "created_bills.json")
-    if not os.path.exists(bills_path):
-        return jsonify({"error": "No created_bills.json found. Run Step 3 first."}), 404
+    if not os.path.exists(bills_path) or os.path.getsize(bills_path) == 0:
+        return jsonify({"error": "No new bills"}), 404
 
     try:
         with open(bills_path, "r", encoding="utf-8") as f:
             local_bills = json.load(f)
+    except json.JSONDecodeError:
+        return jsonify({"error": "created_bills.json is empty or corrupt. Run Step 3 first."}), 404
     except Exception as e:
         return jsonify({"error": f"Failed to read bills file: {e}"}), 500
 
@@ -4145,13 +4147,13 @@ def _banking_summary_build(all_raw):
     """Build month-wise summary from raw transaction list. Only current financial year (Apr-Mar)."""
     from collections import defaultdict
 
-    # Current Indian financial year: Apr YYYY to Mar YYYY+1
+    # Indian financial year: Apr YYYY to Mar YYYY+1. Include current and previous FY.
     today = datetime.now()
     if today.month >= 4:
-        fy_start = f"{today.year}-04"
+        fy_start = f"{today.year - 1}-04"
         fy_end = f"{today.year + 1}-03"
     else:
-        fy_start = f"{today.year - 1}-04"
+        fy_start = f"{today.year - 2}-04"
         fy_end = f"{today.year}-03"
 
     STATUSES = ["matched", "manually_added", "categorized", "uncategorized"]
@@ -4271,19 +4273,22 @@ def api_banking_vendor_breakdown():
         # Load bills cache for vendor list
         bills_cache = os.path.join(PROJECT_ROOT, "output", "zoho_bills_cache.json")
         bill_vendors = {}
-        if os.path.exists(bills_cache):
-            with open(bills_cache, "r", encoding="utf-8") as f:
-                bills = json.load(f)
-            for b in bills:
-                vn = b.get("vendor_name", "")
-                if vn:
-                    bill_vendors[vn.lower()] = vn
-                    # First keyword
-                    words = vn.split()
-                    if words:
-                        fw = words[0].lower()
-                        if len(fw) >= 4:
-                            bill_vendors[fw] = vn
+        bills = []
+        if os.path.exists(bills_cache) and os.path.getsize(bills_cache) > 0:
+            try:
+                with open(bills_cache, "r", encoding="utf-8") as f:
+                    bills = json.load(f)
+            except json.JSONDecodeError:
+                bills = []
+        for b in bills:
+            vn = b.get("vendor_name", "")
+            if vn:
+                bill_vendors[vn.lower()] = vn
+                words = vn.split()
+                if words:
+                    fw = words[0].lower()
+                    if len(fw) >= 4:
+                        bill_vendors[fw] = vn
 
         def _resolve(desc):
             if not desc:
@@ -7333,7 +7338,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
       </div>
 
       <!-- Box 5: Others -->
-      <div class="phase">
+      <div class="phase" style="display:none">
         <div class="phase-label">Others</div>
         <div class="step-grid">
           <button class="step-btn" data-step="1" onclick="runStep('1')">
@@ -7554,7 +7559,11 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
           <select id="bsCardFilter" onchange="filterBankingSummary()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px">
             <option value="">All Cards</option>
           </select>
-          <button onclick="document.getElementById('bsCardFilter').value='';filterBankingSummary()" style="background:transparent;color:var(--accent);border:1px dashed var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Clear</button>
+          <label style="color:var(--text-dim);margin-left:8px">FY:</label>
+          <select id="bsFyFilter" onchange="filterBankingSummary()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:12px">
+            <option value="">All</option>
+          </select>
+          <button onclick="document.getElementById('bsCardFilter').value='';document.getElementById('bsFyFilter').value='';filterBankingSummary()" style="background:transparent;color:var(--accent);border:1px dashed var(--accent);border-radius:4px;padding:2px 8px;font-size:10px;cursor:pointer">Clear</button>
           <span id="bsCacheInfo" style="font-size:10px;color:var(--text-dim);margin-left:auto"></span>
           <button id="bsVendorBtn" onclick="toggleVendorBreakdown()" style="background:var(--orange);color:#000;border:none;border-radius:4px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600">Vendor Breakdown</button>
           <button onclick="openBankingSummary(true)" style="background:var(--accent);color:#fff;border:none;border-radius:4px;padding:4px 12px;font-size:11px;cursor:pointer;font-weight:600">Refresh from Zoho</button>
@@ -9008,6 +9017,30 @@ function openBankingSummary(forceRefresh) {
         if (uc > 0) opt.style.color = '#f87171';
         sel.appendChild(opt);
       });
+      // Build FY dropdown from month keys present in data
+      var fySet = {};
+      (data.months || []).forEach(function(m) {
+        var fy = _bsFyKey(m.month);
+        if (fy != null) fySet[fy] = true;
+      });
+      var fyList = Object.keys(fySet).map(Number).sort(function(a, b) { return b - a; });
+      var fySel = document.getElementById('bsFyFilter');
+      var prevFy = fySel.value;
+      fySel.innerHTML = '<option value="">All</option>';
+      fyList.forEach(function(fy) {
+        var opt = document.createElement('option');
+        opt.value = String(fy);
+        opt.textContent = _bsFyLabel(fy);
+        fySel.appendChild(opt);
+      });
+      // Default to current FY if present
+      var today = new Date();
+      var curFy = today.getMonth() >= 3 ? today.getFullYear() : today.getFullYear() - 1;
+      if (prevFy && fySet[prevFy]) {
+        fySel.value = prevFy;
+      } else if (fySet[curFy]) {
+        fySel.value = String(curFy);
+      }
       renderBankingSummary(data);
     })
     .catch(function(err) {
@@ -9027,7 +9060,12 @@ function filterBankingSummary() {
 function renderBankingSummary(data) {
   var fmt = function(n) { return n != null ? Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}) : '0.00'; };
   var cardFilter = document.getElementById('bsCardFilter').value;
+  var fyFilter = document.getElementById('bsFyFilter').value;
   var months = data.months || [];
+  if (fyFilter !== '') {
+    var fyNum = parseInt(fyFilter);
+    months = months.filter(function(m) { return _bsFyKey(m.month) === fyNum; });
+  }
 
   document.getElementById('bsLoading').style.display = 'none';
   document.getElementById('bsContent').style.display = 'block';
@@ -9166,6 +9204,18 @@ function _bsFormatMonth(ym) {
   var parts = ym.split('-');
   var names = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return (names[parseInt(parts[1])] || parts[1]) + ' ' + parts[0];
+}
+
+function _bsFyKey(ym) {
+  if (!ym || ym === 'Unknown') return null;
+  var parts = ym.split('-');
+  var y = parseInt(parts[0]), m = parseInt(parts[1]);
+  if (isNaN(y) || isNaN(m)) return null;
+  return m >= 4 ? y : y - 1;
+}
+
+function _bsFyLabel(fyStart) {
+  return 'FY ' + fyStart + '-' + String((fyStart + 1) % 100).padStart(2, '0');
 }
 
 // ========== Vendor Breakdown (inside Banking Summary) ==========
