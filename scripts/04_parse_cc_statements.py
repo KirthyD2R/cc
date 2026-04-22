@@ -656,6 +656,26 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
             if os.path.exists(configured_path) and configured_path not in pattern_matches:
                 pattern_matches.append(configured_path)
 
+        # Disambiguate by last_four_digits when multiple cards share the same
+        # bank / pdf_patterns. Without this, one PDF matches every card of the
+        # same bank, so txns from one cardholder leak onto another card.
+        my_last_four = card.get("last_four_digits")
+        other_last_fours = {
+            c.get("last_four_digits") for c in cards
+            if c.get("last_four_digits") and c.get("last_four_digits") != my_last_four
+        }
+        if other_last_fours:
+            disambiguated = []
+            for p in pattern_matches:
+                bname = os.path.basename(p)
+                if my_last_four and my_last_four in bname:
+                    disambiguated.append(p)  # explicit match for this card
+                    continue
+                if any(lf in bname for lf in other_last_fours):
+                    continue  # filename belongs to a different card
+                disambiguated.append(p)  # ambiguous — keep (legacy fallback)
+            pattern_matches = disambiguated
+
         # Sort by filename for consistent ordering
         pdf_paths = sorted(set(pattern_matches))
 

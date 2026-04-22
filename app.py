@@ -12,6 +12,7 @@ Usage:
 
 import os
 import sys
+import csv
 import json
 import re
 import glob
@@ -2150,7 +2151,11 @@ def api_vendors_delete():
 
 @app.route("/api/review/available-csvs")
 def api_available_csvs():
-    """List parsed CC transaction CSVs available for import."""
+    """List parsed CC transaction CSVs available for import.
+
+    Pass ?include_txns=1 to include each card's parsed rows inline (used by the
+    Import Picker's expandable preview).
+    """
     output_dir = os.path.join(PROJECT_ROOT, "output")
     config_path = os.path.join(PROJECT_ROOT, "config", "zoho_config.json")
     try:
@@ -2159,20 +2164,46 @@ def api_available_csvs():
     except Exception:
         config = {}
 
+    include_txns = request.args.get("include_txns", "").lower() in ("1", "true", "yes")
     cards = config.get("credit_cards", [])
     available = []
     for card in cards:
         name = card["name"]
         safe_name = name.replace(" ", "_")
         csv_path = os.path.join(output_dir, f"{safe_name}_transactions.csv")
-        if os.path.exists(csv_path):
-            # Count rows
-            try:
-                with open(csv_path, "r", encoding="utf-8") as f:
-                    row_count = sum(1 for _ in f) - 1  # minus header
-            except Exception:
-                row_count = 0
-            available.append({"card_name": name, "csv_file": f"{safe_name}_transactions.csv", "rows": row_count})
+        if not os.path.exists(csv_path):
+            continue
+
+        row_count = 0
+        transactions = []
+        try:
+            with open(csv_path, "r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    row_count += 1
+                    if include_txns:
+                        try:
+                            amt = float(row.get("amount") or 0)
+                        except (TypeError, ValueError):
+                            amt = 0
+                        transactions.append({
+                            "date": row.get("date", ""),
+                            "description": row.get("description", ""),
+                            "amount": amt,
+                        })
+        except Exception:
+            pass
+
+        entry = {
+            "card_name": name,
+            "csv_file": f"{safe_name}_transactions.csv",
+            "rows": row_count,
+            "bank": card.get("bank", ""),
+            "last_four_digits": card.get("last_four_digits", ""),
+        }
+        if include_txns:
+            entry["transactions"] = transactions
+        available.append(entry)
     return jsonify({"cards": available})
 
 
@@ -6670,6 +6701,40 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   }
   .modal-btn-confirm.danger:hover { background: #ef4444; }
 
+  /* Import Picker — expandable card rows */
+  .ip-card { border-bottom: 1px solid var(--border); }
+  .ip-card-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 4px; cursor: pointer;
+    font-size: 13px;
+  }
+  .ip-card-header:hover { background: var(--surface2); }
+  .ip-caret {
+    display: inline-block; width: 12px; color: var(--text-dim);
+    transition: transform 0.15s;
+  }
+  .ip-card.open .ip-caret { transform: rotate(90deg); }
+  .ip-count {
+    color: var(--text-dim); margin-left: auto; font-size: 11px;
+  }
+  .ip-txns {
+    display: none;
+    padding: 4px 0 10px 28px;
+    font-size: 12px;
+    max-height: 260px; overflow-y: auto;
+  }
+  .ip-card.open .ip-txns { display: block; }
+  .ip-txn-row {
+    display: grid; grid-template-columns: 90px 1fr 100px;
+    gap: 8px; padding: 4px 0;
+    border-bottom: 1px dashed var(--border);
+    color: var(--text-dim);
+  }
+  .ip-txn-row:last-child { border-bottom: none; }
+  .ip-txn-amt { text-align: right; font-variant-numeric: tabular-nums; }
+  .ip-txn-amt.neg { color: #f87171; }
+  .ip-txn-amt.pos { color: #4ade80; }
+
   /* Bill Picker — Filter Bar */
   .bill-filter-bar {
     display: flex; flex-wrap: wrap; gap: 8px; padding: 8px 0 10px; align-items: flex-end;
@@ -7739,9 +7804,9 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
 
       <!-- Import Picker modal -->
       <div id="importPickerModal" class="modal-overlay" style="display:none">
-        <div class="modal-box">
+        <div class="modal-box" style="max-width:760px;width:92vw;max-height:85vh;display:flex;flex-direction:column">
           <div class="modal-title">Select Cards to Import</div>
-          <div id="importPickerBody" style="margin-bottom:16px">
+          <div id="importPickerBody" style="margin-bottom:16px;overflow-y:auto;flex:1;min-height:0">
             <div style="color:var(--text-dim);font-size:13px;padding:12px 0">Loading available CSVs...</div>
           </div>
           <div class="modal-actions">
@@ -8945,6 +9010,7 @@ function handleCCUpload(input) {
         _lastUploadedFiles = data.files;
         addLogLine('[Upload] Saved: ' + data.files.join(', '));
         runStepWithKwargs('4', {selected_files: data.files});
+        _waitForStep4AndOpenPreview();
       } else {
         addLogLine('[Upload] Error: ' + (data.error || 'Unknown'));
       }
@@ -8952,6 +9018,29 @@ function handleCCUpload(input) {
     .catch(err => addLogLine('[Upload] Request failed: ' + err));
 
   input.value = '';
+}
+
+// Poll status until step 4 finishes, then auto-open the Import Picker so the
+// user immediately sees what was extracted.
+function _waitForStep4AndOpenPreview() {
+  let elapsed = 0;
+  const maxMs = 5 * 60 * 1000;  // give up after 5 min
+  const intervalMs = 1500;
+  const t = setInterval(() => {
+    elapsed += intervalMs;
+    if (elapsed >= maxMs) { clearInterval(t); return; }
+    fetch('/api/status').then(r => r.json()).then(s => {
+      if (s.running) return;
+      const res = s.step_results && s.step_results['4'];
+      if (!res) return;
+      clearInterval(t);
+      if (res.status === 'success') {
+        openImportPicker();
+      } else {
+        addLogLine('[Upload] Step 4 did not complete cleanly — preview skipped.');
+      }
+    }).catch(() => {});
+  }, intervalMs);
 }
 
 // --- Import Picker ---
@@ -9670,7 +9759,7 @@ function openImportPicker() {
       ? statusData.step_results['4'].result.cards_parsed || []
       : [];
 
-    return fetch('/api/review/available-csvs').then(r => r.json()).then(data => {
+    return fetch('/api/review/available-csvs?include_txns=1').then(r => r.json()).then(data => {
       let cards = data.cards || [];
 
       // Only show cards parsed in last Step 4 run — never show all
@@ -9680,15 +9769,71 @@ function openImportPicker() {
         body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">No parsed CSVs found. Upload & Parse CC statements first (Step 4).</div>';
         return;
       }
-      let html = '';
+
+      body.innerHTML = '';
       cards.forEach((c, i) => {
-        html += '<label style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer">'
-          + '<input type="checkbox" class="import-card-cb" value="' + c.card_name.replace(/"/g,'&quot;') + '" checked>'
-          + '<span>' + c.card_name + '</span>'
-          + '<span style="color:var(--text-dim);margin-left:auto;font-size:11px">' + c.rows + ' txns</span>'
-          + '</label>';
+        const card = document.createElement('div');
+        card.className = 'ip-card';
+
+        const header = document.createElement('div');
+        header.className = 'ip-card-header';
+
+        const caret = document.createElement('span');
+        caret.className = 'ip-caret';
+        caret.textContent = '▶';
+
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.className = 'import-card-cb';
+        cb.value = c.card_name;
+        cb.checked = true;
+        cb.addEventListener('click', (e) => e.stopPropagation());
+
+        const label = document.createElement('span');
+        label.textContent = c.card_name;
+
+        const count = document.createElement('span');
+        count.className = 'ip-count';
+        count.textContent = c.rows + ' txns';
+
+        header.appendChild(caret);
+        header.appendChild(cb);
+        header.appendChild(label);
+        header.appendChild(count);
+        header.addEventListener('click', () => card.classList.toggle('open'));
+
+        const txns = document.createElement('div');
+        txns.className = 'ip-txns';
+        const list = c.transactions || [];
+        if (!list.length) {
+          txns.innerHTML = '<div style="color:var(--text-dim);padding:6px 0">No transactions in CSV.</div>';
+        } else {
+          list.forEach(t => {
+            const row = document.createElement('div');
+            row.className = 'ip-txn-row';
+            const dt = document.createElement('span');
+            dt.textContent = t.date || '';
+            const desc = document.createElement('span');
+            desc.textContent = t.description || '';
+            desc.style.overflow = 'hidden';
+            desc.style.textOverflow = 'ellipsis';
+            desc.style.whiteSpace = 'nowrap';
+            desc.title = t.description || '';
+            const amt = document.createElement('span');
+            const n = Number(t.amount) || 0;
+            amt.className = 'ip-txn-amt ' + (n < 0 ? 'neg' : 'pos');
+            amt.textContent = n.toFixed(2);
+            row.appendChild(dt);
+            row.appendChild(desc);
+            row.appendChild(amt);
+            txns.appendChild(row);
+          });
+        }
+
+        card.appendChild(header);
+        card.appendChild(txns);
+        body.appendChild(card);
       });
-      body.innerHTML = html;
     });
   }).catch(err => {
     body.innerHTML = '<div style="color:var(--red);font-size:13px;padding:12px 0">Error: ' + err + '</div>';
