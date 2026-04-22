@@ -2190,6 +2190,7 @@ def api_available_csvs():
                             "date": row.get("date", ""),
                             "description": row.get("description", ""),
                             "amount": amt,
+                            "forex_ref": row.get("forex_ref", ""),
                         })
         except Exception:
             pass
@@ -6731,9 +6732,8 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
     color: var(--text-dim);
   }
   .ip-txn-row:last-child { border-bottom: none; }
-  .ip-txn-amt { text-align: right; font-variant-numeric: tabular-nums; }
-  .ip-txn-amt.neg { color: #f87171; }
-  .ip-txn-amt.pos { color: #4ade80; }
+  .ip-txn-amt { text-align: right; font-variant-numeric: tabular-nums; color: var(--text); }
+  .ip-txn-forex { color: var(--text-dim); font-size: 11px; padding-left: 28px; }
 
   /* Bill Picker — Filter Bar */
   .bill-filter-bar {
@@ -9010,7 +9010,6 @@ function handleCCUpload(input) {
         _lastUploadedFiles = data.files;
         addLogLine('[Upload] Saved: ' + data.files.join(', '));
         runStepWithKwargs('4', {selected_files: data.files});
-        _waitForStep4AndOpenPreview();
       } else {
         addLogLine('[Upload] Error: ' + (data.error || 'Unknown'));
       }
@@ -9018,29 +9017,6 @@ function handleCCUpload(input) {
     .catch(err => addLogLine('[Upload] Request failed: ' + err));
 
   input.value = '';
-}
-
-// Poll status until step 4 finishes, then auto-open the Import Picker so the
-// user immediately sees what was extracted.
-function _waitForStep4AndOpenPreview() {
-  let elapsed = 0;
-  const maxMs = 5 * 60 * 1000;  // give up after 5 min
-  const intervalMs = 1500;
-  const t = setInterval(() => {
-    elapsed += intervalMs;
-    if (elapsed >= maxMs) { clearInterval(t); return; }
-    fetch('/api/status').then(r => r.json()).then(s => {
-      if (s.running) return;
-      const res = s.step_results && s.step_results['4'];
-      if (!res) return;
-      clearInterval(t);
-      if (res.status === 'success') {
-        openImportPicker();
-      } else {
-        addLogLine('[Upload] Step 4 did not complete cleanly — preview skipped.');
-      }
-    }).catch(() => {});
-  }, intervalMs);
 }
 
 // --- Import Picker ---
@@ -9821,8 +9797,9 @@ function openImportPicker() {
             desc.title = t.description || '';
             const amt = document.createElement('span');
             const n = Number(t.amount) || 0;
-            amt.className = 'ip-txn-amt ' + (n < 0 ? 'neg' : 'pos');
+            amt.className = 'ip-txn-amt';
             amt.textContent = n.toFixed(2);
+            if (t.forex_ref) amt.title = t.forex_ref;
             row.appendChild(dt);
             row.appendChild(desc);
             row.appendChild(amt);

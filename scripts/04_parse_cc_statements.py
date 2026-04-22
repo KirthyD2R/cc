@@ -520,10 +520,8 @@ def parse_tables(pdf_path, passwords=None):
 # === CSV Export ===
 
 def write_csv(transactions, output_path):
-    """Write transactions to CSV for Zoho import.
-
-    Amounts are negated so charges appear as negative (money out)
-    and credits/refunds appear as positive (money back).
+    """Write transactions to CSV. All amounts written as positive (absolute
+    value); forex lives in its own column, never duplicated in the description.
     """
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w", newline="", encoding="utf-8") as f:
@@ -533,13 +531,28 @@ def write_csv(transactions, output_path):
             forex_ref = ""
             if t.get("forex_amount"):
                 forex_ref = f'{t["forex_currency"]} {t["forex_amount"]:.2f}'
+
+            # Strip any "USD 200.00" / "(12.27 USD)" tail the parser left in the
+            # raw description — forex_ref column already carries that info.
             desc = t["description"]
             if forex_ref:
-                desc = f'{desc} [{forex_ref}]'
+                desc = re.sub(
+                    r'\s*\(?\s*' + _FOREX_CURRENCIES + r'\s+[\d,]+\.?\d*\s*\)?',
+                    '',
+                    desc,
+                    flags=re.IGNORECASE,
+                ).strip()
+                desc = re.sub(
+                    r'\s*\(?\s*[\d,]+\.?\d*\s+' + _FOREX_CURRENCIES + r'\s*\)?',
+                    '',
+                    desc,
+                    flags=re.IGNORECASE,
+                ).strip()
+
             writer.writerow({
                 "date": t["date"],
                 "description": desc,
-                "amount": -t["amount"],
+                "amount": abs(t["amount"]),
                 "forex_ref": forex_ref,
             })
     log_action(f"  Written {len(transactions)} transactions to {output_path}")
@@ -777,10 +790,10 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
         log_action(f"  Total: {len(unique)} unique transactions from {len(pdf_paths)} PDF(s)")
         cards_parsed.append(name)
 
-        # Add card info to each transaction for JSON (debits only, skip credits)
+        # Add card info to each transaction for JSON. Keep credits so the JSON
+        # is a faithful record of the statement; the payment matcher filters
+        # them out itself (see scripts/05_record_payments.py).
         for t in unique:
-            if t["amount"] <= 0:
-                continue  # Skip credits (refunds, payments, surcharge waivers)
             entry = {
                 "date": t["date"],
                 "description": t["description"],
