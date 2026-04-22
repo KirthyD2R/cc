@@ -1,0 +1,218 @@
+[
+  {
+    "date": "2025-11-27",
+    "description": "BPPY CC PAYMENT DP015331081048LMFf3",
+    "amount": 34426.0,
+    "card_name": "HDFC - 7196",
+    "zoho_account_id": "2050328000002898667",
+    "transaction_id": "2050328000002995003"
+  },
+  {
+    "date": "2025-10-31",
+    "description": "BPPY CC PAYMENT DP0153041246336saAx",
+    "amount": 32793.0,
+    "card_name": "HDFC - 7196",
+    "zoho_account_id": "2050328000002898667",
+    "transaction_id": "2050328000002994039"
+  },
+  {
+    "date": "2025-12-16",
+    "description": "GOOGLEPLAY, MUMBAI",
+    "amount": 251.47,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000002324097"
+  },
+  {
+    "date": "2025-12-05",
+    "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
+    "amount": 18004.2,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000002324077"
+  },
+  {
+    "date": "2025-12-04",
+    "description": "GOOGLECLOUD, MUMBAI",
+    "amount": 27.22,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000002324075"
+  },
+  {
+    "date": "2025-12-03",
+    "description": "GOOGLEWORKSP, MUMBAI",
+    "amount": 3078.76,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000002324071"
+  },
+  {
+    "date": "2025-10-19",
+    "description": "LYFT *1 RIDE 10-18, SAN FRANCISCO",
+    "amount": 349.92,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000001812241"
+  },
+  {
+    "date": "2025-10-16",
+    "description": "APPLEBEES 7675 - POS, ORLANDO",
+    "amount": 3523.36,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000001812237"
+  },
+  {
+    "date": "2025-10-16",
+    "description": "MICROSOFTBUS, MUMBAI",
+    "amount": 34726.04,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000001812233"
+  },
+  {
+    "date": "2025-10-10",
+    "description": "RELIANCEJIO, MUMBAI",
+    "amount": 2555.0,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000001812203"
+  },
+  {
+    "date": "2025-10-10",
+    "description": "IND*NORTON, https://in.no",
+    "amount": 799.0,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000001812199"
+  },
+  {
+    "date": "2025-08-19",
+    "description": "RELIANCEJIO, MUMBAI",
+    "amount": 195.0,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939599"
+  },
+  {
+    "date": "2025-08-10",
+    "description": "AMAZON PAY INDIA PRIVA, Bangalore",
+    "amount": 19272.0,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000001812195"
+  },
+  {
+    "date": "2025-08-08",
+    "description": "RAZ*TATA AIG GENERAL I, Mumbai",
+    "amount": 10433.0,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939567"
+  },
+  {
+    "date": "2025-08-06",
+    "description": "GOOGLEWORKSP, MUMBAI",
+    "amount": 11659.34,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939561"
+  },
+  {
+    "date": "2025-08-06",
+    "description": "GOOGLEWORKSP, MUMBAI",
+    "amount": 2.0,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939559"
+  },
+  {
+    "date": "2025-07-30",
+    "description": "ZOHO CORPORATION PR, TIRUNELVELI",
+    "amount": 11328.0,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939549"
+  },
+  {
+    "date": "2025-07-26",
+    "description": "APPLE INDIA PRIVATE LI, MUMBAI",
+    "amount": 10900.0,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939535"
+  },
+  {
+    "date": "2025-06-26",
+    "description": "AMAZON MKTPLACE PMTS, Amzn.com/bill",
+    "amount": 3679.72,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939485"
+  },
+  {
+    "date": "2025-06-19",
+    "description": "AMAZON MARK* NO9TV13F1, SEATTLE",
+    "amount": 6978.06,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939469"
+  },
+  {
+    "date": "2025-06-17",
+    "description": "AMAZON MARK* NO15L6PA2, SEATTLE",
+    "amount": 31302.4,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939467"
+  },
+  {
+    "date": "2025-06-16",
+    "description": "AMAZON MKTPL*NA0ZG4MI0, Amzn.com/bill",
+    "amount": 3688.62,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939463"
+  },
+  {
+    "date": "2025-06-15",
+    "description": "SHOE DEPT 0378, BEAUMONT",
+    "amount": 5318.23,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939455"
+  },
+  {
+    "date": "2025-06-13",
+    "description": "RSP*TATA AIG GENERAL I, MUMBAI",
+    "amount": 1996.0,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939447"
+  },
+  {
+    "date": "2025-06-04",
+    "description": "CLAUDE.AI SUBSCRIPTION, SAN FRANCISCO",
+    "amount": 1714.72,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939421"
+  },
+  {
+    "date": "2025-06-01",
+    "description": "OPENAI *CHATGPT SUBSCR, SAN FRANCISCO",
+    "amount": 5139.68,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939411"
+  },
+  {
+    "date": "2025-05-16",
+    "description": "MICROSOFTBUS, MUMBAI",
+    "amount": 24066.03,
+    "card_name": "Mayura Credit Card",
+    "zoho_account_id": "2050328000000552784",
+    "transaction_id": "2050328000000939399"
+  }
+]

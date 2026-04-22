@@ -230,7 +230,7 @@ def _make_bill(vendor, amount, currency="INR", date="2025-07-15", bill_id="B1"):
             "amount": amount, "currency": currency, "date": date, "file": "INV-001"}
 
 
-def _make_cc(desc, amount, date="2025-07-16", card="Daniel-Mayura-9677-CC",
+def _make_cc(desc, amount, date="2025-07-16", card="Mayura Credit Card",
              forex_amount=None, forex_currency=None):
     cc = {"description": desc, "amount": amount, "date": date,
           "card_name": card, "transaction_id": "T1"}

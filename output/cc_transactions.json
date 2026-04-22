@@ -1,0 +1,326 @@
+[
+  {
+    "date": "2026-02-12",
+    "description": "CGST-VPS2604480835945-RATE 9.0 -33",
+    "amount": 0.73,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-02-12",
+    "description": "SGST-VPS2604480835945-RATE 9.0 -33",
+    "amount": 0.73,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-02-12",
+    "description": "CGST-VPS2604480835949-RATE 9.0 -33",
+    "amount": 1.11,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-02-12",
+    "description": "SGST-VPS2604480835949-RATE 9.0 -33",
+    "amount": 1.11,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-02-14",
+    "description": "CGST-VPS2604684000048-RATE 9.0 -33",
+    "amount": 40.83,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-02-14",
+    "description": "SGST-VPS2604684000048-RATE 9.0 -33",
+    "amount": 40.83,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-02-14",
+    "description": "CGST-VPS2604684000052-RATE 9.0 -33",
+    "amount": 48.2,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-02-14",
+    "description": "SGST-VPS2604684000052-RATE 9.0 -33",
+    "amount": 48.2,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-02-28",
+    "description": "YOUTUBE DI SIMUMBAI",
+    "amount": 299.0,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "CGST-VPS2606331607892-RATE 9.0 -33",
+    "amount": 33.32,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "SGST-VPS2606331607892-RATE 9.0 -33",
+    "amount": 33.32,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "IND*LINKEDINHTTP://WWW",
+    "amount": 2.0,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "AMAZON WEB SERVICESMUMBAI",
+    "amount": 241942.86,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "WWW NAUKRI COMGURGAON",
+    "amount": 8761.5,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-03-04",
+    "description": "CGST-VPS2606432239465-RATE 9.0 -33",
+    "amount": 15.1,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-03-04",
+    "description": "SGST-VPS2606432239465-RATE 9.0 -33",
+    "amount": 15.1,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-03-06",
+    "description": "AMAZON GIFT CARDMUMBAI",
+    "amount": 5000.0,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-02-13",
+    "description": "CLAUDE.AI SUBSCRIPTIONANTHROPIC. USD 200.00",
+    "amount": 18147.34,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-02-14",
+    "description": "CLAUDE.AI SUBSCRIPTIONANTHROPIC. USD 236.00",
+    "amount": 21421.63,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003",
+    "forex_amount": 236.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "GITHUB, INC.GITHUB.COM USD 161.88",
+    "amount": 14809.53,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003",
+    "forex_amount": 161.88,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-03-04",
+    "description": "VERCEL INC.VERCEL.COM USD 73.35",
+    "amount": 6710.4,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003",
+    "forex_amount": 73.35,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-03-12",
+    "description": "CONSOLIDATED FCY MARKUP FEE",
+    "amount": 1527.22,
+    "card_name": "D2R-HDFC-8948-CC-Gayatri",
+    "zoho_account_id": "2050328000002161003"
+  },
+  {
+    "date": "2026-02-12",
+    "description": "CGST-VPS2604480835945-RATE 9.0 -33",
+    "amount": 0.73,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-02-12",
+    "description": "SGST-VPS2604480835945-RATE 9.0 -33",
+    "amount": 0.73,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-02-12",
+    "description": "CGST-VPS2604480835949-RATE 9.0 -33",
+    "amount": 1.11,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-02-12",
+    "description": "SGST-VPS2604480835949-RATE 9.0 -33",
+    "amount": 1.11,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-02-14",
+    "description": "CGST-VPS2604684000048-RATE 9.0 -33",
+    "amount": 40.83,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-02-14",
+    "description": "SGST-VPS2604684000048-RATE 9.0 -33",
+    "amount": 40.83,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-02-14",
+    "description": "CGST-VPS2604684000052-RATE 9.0 -33",
+    "amount": 48.2,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-02-14",
+    "description": "SGST-VPS2604684000052-RATE 9.0 -33",
+    "amount": 48.2,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-02-28",
+    "description": "YOUTUBE DI SIMUMBAI",
+    "amount": 299.0,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "CGST-VPS2606331607892-RATE 9.0 -33",
+    "amount": 33.32,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "SGST-VPS2606331607892-RATE 9.0 -33",
+    "amount": 33.32,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "IND*LINKEDINHTTP://WWW",
+    "amount": 2.0,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "AMAZON WEB SERVICESMUMBAI",
+    "amount": 241942.86,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "WWW NAUKRI COMGURGAON",
+    "amount": 8761.5,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-03-04",
+    "description": "CGST-VPS2606432239465-RATE 9.0 -33",
+    "amount": 15.1,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-03-04",
+    "description": "SGST-VPS2606432239465-RATE 9.0 -33",
+    "amount": 15.1,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-03-06",
+    "description": "AMAZON GIFT CARDMUMBAI",
+    "amount": 5000.0,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  },
+  {
+    "date": "2026-02-13",
+    "description": "CLAUDE.AI SUBSCRIPTIONANTHROPIC. USD 200.00",
+    "amount": 18147.34,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667",
+    "forex_amount": 200.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-02-14",
+    "description": "CLAUDE.AI SUBSCRIPTIONANTHROPIC. USD 236.00",
+    "amount": 21421.63,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667",
+    "forex_amount": 236.0,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-03-03",
+    "description": "GITHUB, INC.GITHUB.COM USD 161.88",
+    "amount": 14809.53,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667",
+    "forex_amount": 161.88,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-03-04",
+    "description": "VERCEL INC.VERCEL.COM USD 73.35",
+    "amount": 6710.4,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667",
+    "forex_amount": 73.35,
+    "forex_currency": "USD"
+  },
+  {
+    "date": "2026-03-12",
+    "description": "CONSOLIDATED FCY MARKUP FEE",
+    "amount": 1527.22,
+    "card_name": "D2R-HDFC-7196-CC-Daniel",
+    "zoho_account_id": "2050328000002898667"
+  }
+]
