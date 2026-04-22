@@ -2176,47 +2176,6 @@ def api_available_csvs():
     return jsonify({"cards": available})
 
 
-@app.route("/api/review/csv-transactions")
-def api_csv_transactions():
-    """Return parsed CC transactions per card for the import preview modal."""
-    import csv as _csv
-    output_dir = os.path.join(PROJECT_ROOT, "output")
-    config_path = os.path.join(PROJECT_ROOT, "config", "zoho_config.json")
-    try:
-        with open(config_path, "r", encoding="utf-8") as f:
-            config = json.load(f)
-    except Exception:
-        config = {}
-
-    cards = config.get("credit_cards", [])
-    result = []
-    for card in cards:
-        name = card["name"]
-        safe_name = name.replace(" ", "_")
-        csv_path = os.path.join(output_dir, f"{safe_name}_transactions.csv")
-        if not os.path.exists(csv_path):
-            continue
-        txns = []
-        try:
-            with open(csv_path, "r", encoding="utf-8") as f:
-                reader = _csv.DictReader(f)
-                for i, row in enumerate(reader):
-                    try:
-                        amt = float(row.get("amount") or 0)
-                    except (TypeError, ValueError):
-                        amt = 0.0
-                    txns.append({
-                        "idx": i,
-                        "date": row.get("date", ""),
-                        "description": row.get("description", ""),
-                        "amount": amt,
-                    })
-        except Exception as e:
-            return jsonify({"error": f"Failed to read {csv_path}: {e}"}), 500
-        result.append({"card_name": name, "transactions": txns})
-    return jsonify({"cards": result})
-
-
 _PAYMENT_CACHE_PATH = os.path.join(PROJECT_ROOT, "output", "payment_preview_cache.json")
 
 
@@ -7780,13 +7739,12 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
 
       <!-- Import Picker modal -->
       <div id="importPickerModal" class="modal-overlay" style="display:none">
-        <div class="modal-box" style="max-width:900px;width:92vw;max-height:85vh;display:flex;flex-direction:column">
-          <div class="modal-title">Select Transactions to Import</div>
-          <div id="importPickerBody" style="flex:1;overflow-y:auto;margin-bottom:16px;padding-right:4px">
-            <div style="color:var(--text-dim);font-size:13px;padding:12px 0">Loading transactions...</div>
+        <div class="modal-box">
+          <div class="modal-title">Select Cards to Import</div>
+          <div id="importPickerBody" style="margin-bottom:16px">
+            <div style="color:var(--text-dim);font-size:13px;padding:12px 0">Loading available CSVs...</div>
           </div>
-          <div class="modal-actions" style="align-items:center">
-            <span id="importPickerCount" style="margin-right:auto;color:var(--text-dim);font-size:12px"></span>
+          <div class="modal-actions">
             <button class="modal-btn modal-btn-cancel" onclick="closeImportPicker()">Cancel</button>
             <button class="modal-btn modal-btn-confirm" onclick="importSelectedCards()">Import Selected</button>
           </div>
@@ -9701,18 +9659,10 @@ function confirmMatchSelected() {
   });
 }
 
-function _escHtml(s) {
-  return String(s == null ? '' : s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
-
 function openImportPicker() {
   document.getElementById('importPickerModal').style.display = 'flex';
   const body = document.getElementById('importPickerBody');
-  const countLbl = document.getElementById('importPickerCount');
-  body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">Loading transactions...</div>';
-  if (countLbl) countLbl.textContent = '';
+  body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">Loading...</div>';
 
   // Get last parsed cards from step 4 result
   fetch('/api/status').then(r => r.json()).then(statusData => {
@@ -9720,92 +9670,29 @@ function openImportPicker() {
       ? statusData.step_results['4'].result.cards_parsed || []
       : [];
 
-    return fetch('/api/review/csv-transactions').then(r => r.json()).then(data => {
+    return fetch('/api/review/available-csvs').then(r => r.json()).then(data => {
       let cards = data.cards || [];
-      // Only show cards parsed in last Step 4 run
+
+      // Only show cards parsed in last Step 4 run — never show all
       cards = cards.filter(c => parsed.includes(c.card_name));
 
       if (!cards.length) {
         body.innerHTML = '<div style="color:var(--text-dim);font-size:13px;padding:12px 0">No parsed CSVs found. Upload & Parse CC statements first (Step 4).</div>';
         return;
       }
-
       let html = '';
-      cards.forEach((c, ci) => {
-        const cardKey = _escHtml(c.card_name);
-        const txns = c.transactions || [];
-        html += '<div class="import-card-group" data-card="' + cardKey + '" style="margin-bottom:14px;border:1px solid var(--border);border-radius:8px;overflow:hidden">'
-          + '<label style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);cursor:pointer;font-size:13px;font-weight:600">'
-          +   '<input type="checkbox" class="import-card-head-cb" data-card="' + cardKey + '" checked onchange="_importCardHeadToggle(this)">'
-          +   '<span>' + cardKey + '</span>'
-          +   '<span style="color:var(--text-dim);margin-left:auto;font-weight:500;font-size:11px">'
-          +     '<span class="import-card-selcount" data-card="' + cardKey + '">' + txns.length + '</span> / ' + txns.length + ' selected'
-          +   '</span>'
+      cards.forEach((c, i) => {
+        html += '<label style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer">'
+          + '<input type="checkbox" class="import-card-cb" value="' + c.card_name.replace(/"/g,'&quot;') + '" checked>'
+          + '<span>' + c.card_name + '</span>'
+          + '<span style="color:var(--text-dim);margin-left:auto;font-size:11px">' + c.rows + ' txns</span>'
           + '</label>';
-
-        if (!txns.length) {
-          html += '<div style="color:var(--text-dim);font-size:12px;padding:10px 12px">No transactions.</div>';
-        } else {
-          html += '<table class="match-table" style="width:100%;table-layout:fixed">'
-            + '<thead><tr>'
-            +   '<th style="width:34px"></th>'
-            +   '<th style="width:90px">Date</th>'
-            +   '<th>Description</th>'
-            +   '<th style="width:110px;text-align:right">Amount</th>'
-            + '</tr></thead><tbody>';
-          txns.forEach(t => {
-            const amtCls = t.amount < 0 ? 'var(--red)' : 'var(--green)';
-            html += '<tr>'
-              + '<td><input type="checkbox" class="import-txn-cb" data-card="' + cardKey + '" data-idx="' + t.idx + '" checked onchange="_importTxnToggle(this)"></td>'
-              + '<td style="font-size:12px">' + _escHtml(fmtDate(t.date)) + '</td>'
-              + '<td style="font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + _escHtml(t.description) + '">' + _escHtml(t.description) + '</td>'
-              + '<td style="font-size:12px;text-align:right;color:' + amtCls + '">' + fmt(t.amount) + '</td>'
-              + '</tr>';
-          });
-          html += '</tbody></table>';
-        }
-        html += '</div>';
       });
       body.innerHTML = html;
-      _updateImportPickerTotal();
     });
   }).catch(err => {
     body.innerHTML = '<div style="color:var(--red);font-size:13px;padding:12px 0">Error: ' + err + '</div>';
   });
-}
-
-function _importCardHeadToggle(cb) {
-  const card = cb.getAttribute('data-card');
-  const boxes = document.querySelectorAll('.import-txn-cb[data-card="' + CSS.escape(card) + '"]');
-  boxes.forEach(b => { b.checked = cb.checked; });
-  _refreshCardSelCount(card);
-  _updateImportPickerTotal();
-}
-
-function _importTxnToggle(cb) {
-  const card = cb.getAttribute('data-card');
-  _refreshCardSelCount(card);
-  // Sync header checkbox state (checked only if all rows checked)
-  const all = document.querySelectorAll('.import-txn-cb[data-card="' + CSS.escape(card) + '"]');
-  const sel = document.querySelectorAll('.import-txn-cb[data-card="' + CSS.escape(card) + '"]:checked');
-  const head = document.querySelector('.import-card-head-cb[data-card="' + CSS.escape(card) + '"]');
-  if (head) {
-    head.checked = sel.length === all.length && all.length > 0;
-    head.indeterminate = sel.length > 0 && sel.length < all.length;
-  }
-  _updateImportPickerTotal();
-}
-
-function _refreshCardSelCount(card) {
-  const sel = document.querySelectorAll('.import-txn-cb[data-card="' + CSS.escape(card) + '"]:checked').length;
-  const lbl = document.querySelector('.import-card-selcount[data-card="' + CSS.escape(card) + '"]');
-  if (lbl) lbl.textContent = sel;
-}
-
-function _updateImportPickerTotal() {
-  const total = document.querySelectorAll('.import-txn-cb:checked').length;
-  const lbl = document.getElementById('importPickerCount');
-  if (lbl) lbl.textContent = total + ' transaction' + (total === 1 ? '' : 's') + ' selected';
 }
 
 function closeImportPicker() {
@@ -9813,26 +9700,15 @@ function closeImportPicker() {
 }
 
 function importSelectedCards() {
-  const selectedTxns = {};
-  const selectedCards = [];
-  document.querySelectorAll('.import-card-group').forEach(group => {
-    const card = group.getAttribute('data-card');
-    const idxs = Array.from(group.querySelectorAll('.import-txn-cb:checked'))
-      .map(cb => parseInt(cb.getAttribute('data-idx'), 10))
-      .filter(n => !isNaN(n));
-    if (idxs.length) {
-      selectedTxns[card] = idxs;
-      selectedCards.push(card);
-    }
-  });
-  if (!selectedCards.length) {
-    addLogLine('[Import] No transactions selected');
+  const checkboxes = document.querySelectorAll('.import-card-cb:checked');
+  const selected = Array.from(checkboxes).map(cb => cb.value);
+  if (!selected.length) {
+    addLogLine('[Import] No cards selected');
     return;
   }
   closeImportPicker();
-  const total = Object.values(selectedTxns).reduce((a, b) => a + b.length, 0);
-  addLogLine('[Import] Importing ' + total + ' txns across ' + selectedCards.length + ' card(s): ' + selectedCards.join(', '));
-  runStepWithKwargs('5', {selected_cards: selectedCards, selected_transactions: selectedTxns});
+  addLogLine('[Import] Importing: ' + selected.join(', '));
+  runStepWithKwargs('5', {selected_cards: selected});
 }
 
 // --- Sync Zoho ---

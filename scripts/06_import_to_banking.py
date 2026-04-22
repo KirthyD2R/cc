@@ -25,24 +25,15 @@ def _file_md5(path):
     return h.hexdigest()
 
 
-def load_transactions_from_csv(csv_path, allowed_indices=None):
+def load_transactions_from_csv(csv_path):
     """Read CSV and convert to Zoho bankstatements transaction format.
 
     CSV sign convention: negative = charge (debit), positive = refund (credit).
-
-    Args:
-        csv_path: path to the parsed transactions CSV.
-        allowed_indices: optional iterable of zero-based row indices (matching
-            CSV row order, excluding the header). When provided, only those
-            rows are returned.
     """
-    allowed = None if allowed_indices is None else set(allowed_indices)
     transactions = []
     with open(csv_path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
-        for i, row in enumerate(reader):
-            if allowed is not None and i not in allowed:
-                continue
+        for row in reader:
             amount = float(row["amount"])
             transactions.append({
                 "date": row["date"],
@@ -53,17 +44,12 @@ def load_transactions_from_csv(csv_path, allowed_indices=None):
     return transactions
 
 
-def run(selected_cards=None, selected_transactions=None):
+def run(selected_cards=None):
     """Import CC transaction CSVs to Zoho Banking.
 
     Args:
         selected_cards: list of card names to import. When provided, only
             matching cards are imported. When None, all cards are imported.
-        selected_transactions: optional dict {card_name: [row_idx, ...]} to
-            restrict which rows within each card's CSV are imported. Row
-            indices are zero-based against the CSV (header excluded).
-            When set, the "CSV unchanged, skip" shortcut is bypassed for
-            those cards so user-chosen subsets always get imported.
 
     Returns:
         dict: {"imported_count": int, "skipped_count": int, "cards_imported": list[str]}
@@ -72,9 +58,6 @@ def run(selected_cards=None, selected_transactions=None):
     log_action("Step 6: Import CC Statements to Zoho Banking")
     if selected_cards:
         log_action(f"  Selected cards: {', '.join(selected_cards)}")
-    if selected_transactions:
-        counts = ", ".join(f"{k}={len(v)}" for k, v in selected_transactions.items())
-        log_action(f"  Transaction subset: {counts}")
     log_action("=" * 50)
 
     config = load_config()
@@ -113,29 +96,21 @@ def run(selected_cards=None, selected_transactions=None):
             log_action(f"No CSV found for {name}: {csv_path}", "WARNING")
             continue
 
-        subset_indices = None
-        if selected_transactions and name in selected_transactions:
-            subset_indices = list(selected_transactions[name])
-
-        # Check if already imported — compare CSV hash and account ID.
-        # Bypass the "CSV unchanged, skip" shortcut when the user explicitly
-        # chose a subset of rows, so their selection always gets imported.
+        # Check if already imported — compare CSV hash and account ID
         csv_hash = _file_md5(csv_path)
         prev = imported.get(safe_name)
         account_changed = prev and prev.get("account_id") and prev["account_id"] != account_id
-        if prev and prev.get("csv_hash") == csv_hash and not account_changed and subset_indices is None:
+        if prev and prev.get("csv_hash") == csv_hash and not account_changed:
             log_action(f"Already imported for {name} (CSV unchanged), skipping")
             skipped_count += 1
             continue
 
         if account_changed:
             log_action(f"Zoho account changed for {name} (old: {prev['account_id']} -> new: {account_id}), re-importing")
-        elif prev and subset_indices is not None:
-            log_action(f"Subset re-import for {name} ({len(subset_indices)} selected row(s))")
         elif prev:
             log_action(f"CSV changed for {name} (new statement data detected), re-importing")
 
-        transactions = load_transactions_from_csv(csv_path, allowed_indices=subset_indices)
+        transactions = load_transactions_from_csv(csv_path)
         if not transactions:
             log_action(f"CSV is empty for {name}, skipping", "WARNING")
             continue
