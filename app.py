@@ -1275,11 +1275,14 @@ def api_extract_mail_invoices():
             mod = _import_script("02_extract_invoices.py")
 
             new_extracted = []
+            failed_files = []
+            skipped_files = []
             skipped = 0
             failed = 0
             for fname, fpath in sorted(files):
                 if fname in already_done:
                     log_action(f"  Skipping (already extracted): {fname}")
+                    skipped_files.append({"file": fname, "reason": "Already extracted"})
                     skipped += 1
                     continue
                 log_action(f"  Extracting: {fname}")
@@ -1295,9 +1298,11 @@ def api_extract_mail_invoices():
                             log_action(f"    {invoice['vendor_name']}: {invoice['amount']} {invoice['currency']}, Date: {invoice['date']}")
                     else:
                         log_action(f"    No data extracted from {fname}", "WARNING")
+                        failed_files.append({"file": fname, "reason": "No data extracted"})
                         failed += 1
                 except Exception as ex:
                     log_action(f"    FAILED: {fname}: {ex}", "ERROR")
+                    failed_files.append({"file": fname, "reason": str(ex)[:200]})
                     failed += 1
 
             # Save to mail_extracted_invoices.json (append to existing)
@@ -1362,6 +1367,20 @@ def api_extract_mail_invoices():
                     json.dump(existing_compare, f, indent=2, ensure_ascii=False)
                 log_action(f"Updated compare_invoices.json: +{added_to_compare} (total {len(existing_compare)})")
 
+            # Write preview snapshot for UI
+            preview_path = os.path.join(PROJECT_ROOT, "output", "extract_preview.json")
+            try:
+                with open(preview_path, "w", encoding="utf-8") as f:
+                    json.dump({
+                        "source": "mail",
+                        "timestamp": datetime.now().isoformat(),
+                        "extracted": new_extracted,
+                        "failed": failed_files,
+                        "skipped": skipped_files,
+                    }, f, indent=2, ensure_ascii=False)
+            except Exception as pe:
+                log_action(f"  Failed to write extract_preview.json: {pe}", "WARNING")
+
             total = len(existing)
             msg = f"Extracted {len(new_extracted)} new, skipped {skipped}, failed {failed} | Total: {total} in mail_extracted_invoices.json | +{added_to_extracted} to extracted, +{added_to_compare} to compare"
             with _state_lock:
@@ -1369,6 +1388,7 @@ def api_extract_mail_invoices():
                     "status": "success",
                     "message": msg,
                     "timestamp": datetime.now().isoformat(),
+                    "result": {"extracted_count": len(new_extracted), "failed_count": failed, "skipped_count": skipped},
                 }
             log_action(f"=== Mail Extract DONE: {msg} ===")
         except Exception as e:
@@ -4598,6 +4618,35 @@ def api_invoices_browse():
     })
 
 
+@app.route("/api/extract/preview")
+def api_extract_preview():
+    """Return the last extract run's preview: extracted + failed + skipped files."""
+    preview_path = os.path.join(PROJECT_ROOT, "output", "extract_preview.json")
+    if not os.path.exists(preview_path):
+        return jsonify({
+            "source": None,
+            "timestamp": None,
+            "extracted": [],
+            "failed": [],
+            "skipped": [],
+            "empty": True,
+        })
+    try:
+        with open(preview_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception as e:
+        return jsonify({"error": f"Failed to read extract_preview.json: {e}"}), 500
+
+    return jsonify({
+        "source": data.get("source"),
+        "timestamp": data.get("timestamp"),
+        "extracted": data.get("extracted", []),
+        "failed": data.get("failed", []),
+        "skipped": data.get("skipped", []),
+        "empty": False,
+    })
+
+
 @app.route("/api/invoices/list")
 def api_invoices_list():
     """List extracted invoices grouped by month, with bill creation status."""
@@ -4811,6 +4860,8 @@ def api_upload_invoices():
 
             new_extracted = []
             new_compare = []
+            failed_files = []
+            skipped_files = []
             failed = 0
             skipped = 0
 
@@ -4818,6 +4869,7 @@ def api_upload_invoices():
                 fpath = os.path.join(upload_dir, fname)
                 if fname in already_done_ext:
                     log_action(f"  Skipping (already extracted): {fname}")
+                    skipped_files.append({"file": fname, "reason": "Already extracted"})
                     skipped += 1
                     continue
 
@@ -4837,9 +4889,11 @@ def api_upload_invoices():
                             new_compare.append(cmp_item)
                     else:
                         log_action(f"    No data extracted from {fname}", "WARNING")
+                        failed_files.append({"file": fname, "reason": "No data extracted"})
                         failed += 1
                 except Exception as ex:
                     log_action(f"    FAILED: {fname}: {ex}", "ERROR")
+                    failed_files.append({"file": fname, "reason": str(ex)[:200]})
                     failed += 1
 
             # --- Append to extracted_invoices.json ---
@@ -4875,12 +4929,27 @@ def api_upload_invoices():
                         json.dump(existing_compare, f, indent=2, ensure_ascii=False)
                     log_action(f"Updated compare_invoices.json: +{len(deduped_new)} (total {len(existing_compare)})")
 
+            # Write preview snapshot for UI
+            preview_path = os.path.join(PROJECT_ROOT, "output", "extract_preview.json")
+            try:
+                with open(preview_path, "w", encoding="utf-8") as f:
+                    json.dump({
+                        "source": "upload",
+                        "timestamp": datetime.now().isoformat(),
+                        "extracted": new_extracted,
+                        "failed": failed_files,
+                        "skipped": skipped_files,
+                    }, f, indent=2, ensure_ascii=False)
+            except Exception as pe:
+                log_action(f"  Failed to write extract_preview.json: {pe}", "WARNING")
+
             msg = f"Extracted {len(new_extracted)} new, skipped {skipped}, failed {failed}"
             with _state_lock:
                 _state["step_results"]["upload-extract"] = {
                     "status": "success",
                     "message": msg,
                     "timestamp": datetime.now().isoformat(),
+                    "result": {"extracted_count": len(new_extracted), "failed_count": failed, "skipped_count": skipped},
                 }
             log_action(f"=== Upload & Extract DONE: {msg} ===")
 
@@ -7287,15 +7356,22 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <span class="step-indicator ind-idle" id="ind-extract-mail"></span>
             <span class="step-msg" id="msg-extract-mail"></span>
           </button>
-          <input type="file" id="invoiceUploadInput" accept=".pdf,.jpg,.jpeg,.png,.eml" multiple style="display:none" onchange="handleInvoiceUpload(this)">
-          <label for="invoiceUploadInput" class="step-btn upload-step-btn">
-            <span class="step-num">2</span> Upload &amp; Extract
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Upload invoice PDFs/images/EMLs. Saves to 'new image invoices' folder, extracts data, and updates both extracted_invoices.json and compare_invoices.json.</span>
-            </span>
-            <span class="step-indicator ind-idle" id="ind-upload-extract"></span>
-            <span class="step-msg" id="msg-upload-extract"></span>
-          </label>
+          <div class="step-with-upload">
+            <div class="upload-row">
+              <input type="file" id="invoiceUploadInput" accept=".pdf,.jpg,.jpeg,.png,.eml" multiple style="display:none" onchange="handleInvoiceUpload(this)">
+              <label for="invoiceUploadInput" class="step-btn upload-step-btn" style="width:100%">
+                <span class="step-num">2</span> Upload &amp; Extract
+                <span class="info-btn" onclick="event.stopPropagation()">i
+                  <span class="info-tooltip">Upload invoice PDFs/images/EMLs. Saves to 'new image invoices' folder, extracts data, and updates both extracted_invoices.json and compare_invoices.json.</span>
+                </span>
+                <span class="step-indicator ind-idle" id="ind-upload-extract"></span>
+                <span class="step-msg" id="msg-upload-extract"></span>
+              </label>
+            </div>
+            <div style="margin-top:4px">
+              <button class="upload-btn" onclick="openExtractPreview()" style="width:100%">Preview</button>
+            </div>
+          </div>
 
         </div>
       </div>
@@ -7802,6 +7878,60 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
         </div>
       </div>
 
+      <!-- Extract Preview panel -->
+      <div class="review-panel" id="extractPreviewPanel" style="display:none">
+        <div class="review-header">
+          <span>Extract Preview <span id="extractPreviewSource" style="font-size:11px;font-weight:400;color:var(--text-dim);margin-left:8px"></span></span>
+          <div style="display:flex;gap:12px;align-items:center">
+            <span id="extractPreviewSummary" style="font-size:12px;font-weight:400;color:var(--text-dim)"></span>
+            <button class="review-close-btn" onclick="closeExtractPreview()">&#10005; Close</button>
+          </div>
+        </div>
+        <div id="extractPreviewTabs" style="display:flex;gap:4px;padding:8px 12px 0;border-bottom:1px solid var(--border);flex-shrink:0">
+          <button class="ep-tab ep-tab-active" data-tab="extracted" onclick="switchExtractPreviewTab('extracted')" style="background:transparent;border:none;color:var(--text);font-size:12px;padding:6px 14px;cursor:pointer;border-bottom:2px solid var(--green);font-weight:500">Extracted <span id="epExtractedCount" style="color:var(--green)">0</span></button>
+          <button class="ep-tab" data-tab="failed" onclick="switchExtractPreviewTab('failed')" style="background:transparent;border:none;color:var(--text-dim);font-size:12px;padding:6px 14px;cursor:pointer;border-bottom:2px solid transparent">Failed <span id="epFailedCount" style="color:var(--red)">0</span></button>
+          <button class="ep-tab" data-tab="skipped" onclick="switchExtractPreviewTab('skipped')" style="background:transparent;border:none;color:var(--text-dim);font-size:12px;padding:6px 14px;cursor:pointer;border-bottom:2px solid transparent">Skipped <span id="epSkippedCount" style="color:var(--text-dim)">0</span></button>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+          <div class="review-loading" id="extractPreviewLoading" style="align-self:center;width:100%;text-align:center">Loading preview...</div>
+          <div id="extractPreviewContent" style="display:none;flex:1;overflow-y:auto">
+            <!-- Extracted table -->
+            <table class="match-table" id="epExtractedTable">
+              <thead>
+                <tr>
+                  <th style="width:90px">Date</th>
+                  <th>Vendor</th>
+                  <th>Invoice #</th>
+                  <th style="text-align:right;width:110px">Amount</th>
+                  <th>File</th>
+                </tr>
+              </thead>
+              <tbody id="epExtractedBody"></tbody>
+            </table>
+            <!-- Failed table -->
+            <table class="match-table" id="epFailedTable" style="display:none">
+              <thead>
+                <tr>
+                  <th style="width:40%">File</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="epFailedBody"></tbody>
+            </table>
+            <!-- Skipped table -->
+            <table class="match-table" id="epSkippedTable" style="display:none">
+              <thead>
+                <tr>
+                  <th style="width:40%">File</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="epSkippedBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <!-- Import Picker modal -->
       <div id="importPickerModal" class="modal-overlay" style="display:none">
         <div class="modal-box" style="max-width:760px;width:92vw;max-height:85vh;display:flex;flex-direction:column">
@@ -8092,6 +8222,10 @@ function updateUI(data) {
     ueMsgEl.textContent = 'Extracting...';
   }
 
+  // Auto-open preview panel when extract transitions to success
+  _maybeAutoOpenExtractPreview('upload-extract', ueRes);
+  _maybeAutoOpenExtractPreview('extract-mail', data.step_results['extract-mail']);
+
   // Sync Zoho indicator
   const syncInd = document.getElementById('ind-sync');
   const syncMsg = document.getElementById('msg-sync');
@@ -8205,6 +8339,7 @@ function openReviewPanel() {
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
+  document.getElementById('extractPreviewPanel').style.display = 'none';
   document.getElementById('bankingSummaryPanel').style.display = 'none';
   document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('reviewPanel').style.display = 'flex';
@@ -8989,6 +9124,146 @@ function handleInvoiceUpload(input) {
   input.value = '';
 }
 
+// --- Extract Preview ---
+let _extractPreviewData = null;
+let _extractPreviewTab = 'extracted';
+let _extractPreviewSeen = {};  // step_id -> last timestamp we auto-opened for
+
+function _maybeAutoOpenExtractPreview(stepId, res) {
+  if (!res || res.status !== 'success') return;
+  var ts = res.timestamp || '';
+  if (_extractPreviewSeen[stepId] === ts) return;
+  // First observation since page load: don't auto-open stale historical runs
+  if (_extractPreviewSeen[stepId] === undefined) {
+    _extractPreviewSeen[stepId] = ts;
+    return;
+  }
+  _extractPreviewSeen[stepId] = ts;
+  // Only auto-open if the panel isn't already showing
+  if (document.getElementById('extractPreviewPanel').style.display !== 'flex') {
+    openExtractPreview();
+  } else {
+    // Panel is open — refresh contents
+    openExtractPreview();
+  }
+}
+
+function openExtractPreview() {
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','bankingSummaryPanel','autoMatchPanel','extractPreviewPanel'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('extractPreviewPanel').style.display = 'flex';
+  document.getElementById('extractPreviewLoading').style.display = 'block';
+  document.getElementById('extractPreviewLoading').textContent = 'Loading preview...';
+  document.getElementById('extractPreviewContent').style.display = 'none';
+
+  fetch('/api/extract/preview')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) {
+        document.getElementById('extractPreviewLoading').textContent = data.error;
+        return;
+      }
+      if (data.empty) {
+        document.getElementById('extractPreviewLoading').textContent = 'No extract run yet. Run Upload & Extract or Mail Extract to see a preview.';
+        return;
+      }
+      _extractPreviewData = data;
+      renderExtractPreview();
+    })
+    .catch(function(err) {
+      document.getElementById('extractPreviewLoading').textContent = 'Failed to load: ' + err;
+    });
+}
+
+function closeExtractPreview() {
+  document.getElementById('extractPreviewPanel').style.display = 'none';
+  document.getElementById('logPanel').style.display = 'flex';
+}
+
+function renderExtractPreview() {
+  if (!_extractPreviewData) return;
+  var d = _extractPreviewData;
+  var ext = d.extracted || [];
+  var fail = d.failed || [];
+  var skip = d.skipped || [];
+
+  // Header info
+  var srcLabels = {upload: 'Upload & Extract', mail: 'Mail Extract', step2: 'Step 2 Extract'};
+  var srcLabel = srcLabels[d.source] || d.source || '-';
+  var ts = d.timestamp ? new Date(d.timestamp).toLocaleString() : '';
+  document.getElementById('extractPreviewSource').textContent = '(' + srcLabel + (ts ? ' · ' + ts : '') + ')';
+  document.getElementById('extractPreviewSummary').textContent =
+    ext.length + ' extracted · ' + fail.length + ' failed · ' + skip.length + ' skipped';
+
+  document.getElementById('epExtractedCount').textContent = ext.length;
+  document.getElementById('epFailedCount').textContent = fail.length;
+  document.getElementById('epSkippedCount').textContent = skip.length;
+
+  // Extracted body
+  var eb = document.getElementById('epExtractedBody');
+  if (ext.length === 0) {
+    eb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:16px;color:var(--text-dim)">No invoices extracted in this run</td></tr>';
+  } else {
+    eb.innerHTML = ext.map(function(inv) {
+      var amt = inv.amount != null ? (inv.currency || '') + ' ' + fmt(inv.amount) : '-';
+      return '<tr>'
+        + '<td>' + escHtml(fmtDate(inv.date || '')) + '</td>'
+        + '<td>' + escHtml(inv.vendor_name || '-') + '</td>'
+        + '<td>' + escHtml(inv.invoice_number || '-') + '</td>'
+        + '<td style="text-align:right">' + amt + '</td>'
+        + '<td style="font-size:11px;color:var(--text-dim)">' + escHtml(inv.file || '-') + '</td>'
+        + '</tr>';
+    }).join('');
+  }
+
+  // Failed body
+  var fb = document.getElementById('epFailedBody');
+  if (fail.length === 0) {
+    fb.innerHTML = '<tr><td colspan="2" style="text-align:center;padding:16px;color:var(--text-dim)">No failures in this run</td></tr>';
+  } else {
+    fb.innerHTML = fail.map(function(f) {
+      return '<tr>'
+        + '<td>' + escHtml(f.file || '-') + '</td>'
+        + '<td style="color:var(--red)">' + escHtml(f.reason || 'Unknown') + '</td>'
+        + '</tr>';
+    }).join('');
+  }
+
+  // Skipped body
+  var sb = document.getElementById('epSkippedBody');
+  if (skip.length === 0) {
+    sb.innerHTML = '<tr><td colspan="2" style="text-align:center;padding:16px;color:var(--text-dim)">Nothing skipped in this run</td></tr>';
+  } else {
+    sb.innerHTML = skip.map(function(s) {
+      return '<tr>'
+        + '<td>' + escHtml(s.file || '-') + '</td>'
+        + '<td style="color:var(--text-dim)">' + escHtml(s.reason || '-') + '</td>'
+        + '</tr>';
+    }).join('');
+  }
+
+  document.getElementById('extractPreviewLoading').style.display = 'none';
+  document.getElementById('extractPreviewContent').style.display = 'block';
+  switchExtractPreviewTab(_extractPreviewTab);
+}
+
+function switchExtractPreviewTab(tab) {
+  _extractPreviewTab = tab;
+  var tabs = document.querySelectorAll('#extractPreviewTabs .ep-tab');
+  tabs.forEach(function(t) {
+    var active = t.getAttribute('data-tab') === tab;
+    t.style.color = active ? 'var(--text)' : 'var(--text-dim)';
+    t.style.fontWeight = active ? '500' : '400';
+    var color = tab === 'extracted' ? 'var(--green)' : (tab === 'failed' ? 'var(--red)' : 'var(--text-dim)');
+    t.style.borderBottom = active ? '2px solid ' + color : '2px solid transparent';
+  });
+  document.getElementById('epExtractedTable').style.display = tab === 'extracted' ? '' : 'none';
+  document.getElementById('epFailedTable').style.display = tab === 'failed' ? '' : 'none';
+  document.getElementById('epSkippedTable').style.display = tab === 'skipped' ? '' : 'none';
+}
+
 // --- CC Upload ---
 let _lastUploadedFiles = [];  // track uploaded files for import filtering
 
@@ -9053,7 +9328,7 @@ var _amSelectedMatches = new Set();
 
 function openAutoMatchPanel() {
   // Hide other panels
-  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','bankingSummaryPanel'].forEach(function(id) {
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','bankingSummaryPanel','extractPreviewPanel'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -9087,7 +9362,7 @@ function closeAutoMatchPanel() {
 var _bsData = null;
 
 function openBankingSummary(forceRefresh) {
-  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','autoMatchPanel'].forEach(function(id) {
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','autoMatchPanel','extractPreviewPanel'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -10701,6 +10976,7 @@ function openMatchPanel() {
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
+  document.getElementById('extractPreviewPanel').style.display = 'none';
   document.getElementById('bankingSummaryPanel').style.display = 'none';
   document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('matchPanel').style.display = 'flex';
@@ -10806,6 +11082,7 @@ function openCheckPanel() {
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
+  document.getElementById('extractPreviewPanel').style.display = 'none';
   document.getElementById('bankingSummaryPanel').style.display = 'none';
   document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('checkPanel').style.display = 'flex';
@@ -10843,6 +11120,7 @@ function openPaymentPreview(forceRefresh) {
   document.getElementById('comparePanel').style.display = 'none';
   document.getElementById('checkPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
+  document.getElementById('extractPreviewPanel').style.display = 'none';
   document.getElementById('bankingSummaryPanel').style.display = 'none';
   document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'flex';
@@ -12750,6 +13028,7 @@ function openComparePanel() {
   document.getElementById('checkPanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
+  document.getElementById('extractPreviewPanel').style.display = 'none';
   document.getElementById('bankingSummaryPanel').style.display = 'none';
   document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('comparePanel').style.display = 'flex';

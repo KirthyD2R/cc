@@ -1101,6 +1101,27 @@ def extract_amazon_india_multi(pdf_path, filename):
         log_action(f"pdfplumber failed for {pdf_path}: {e}", "WARNING")
         return []
 
+    # OCR fallback for image-only Amazon India PDFs (no text layer).
+    # detect_vendor already saw the OCR text via extract_text(); this block
+    # ensures the multi-page extractor can too, instead of bailing with [].
+    if not pages:
+        try:
+            import pytesseract
+            from pdf2image import convert_from_path
+            log_action(f"Using OCR fallback for Amazon India PDF: {pdf_path}")
+            images = convert_from_path(pdf_path)
+            for img in images:
+                ocr_text = pytesseract.image_to_string(img) or ""
+                if ocr_text.strip():
+                    pages.append(ocr_text)
+        except ImportError:
+            log_action(
+                "OCR fallback unavailable: install pytesseract and pdf2image",
+                "WARNING",
+            )
+        except Exception as e:
+            log_action(f"OCR fallback failed for {pdf_path}: {e}", "WARNING")
+
     if not pages:
         return []
 
@@ -1797,14 +1818,23 @@ def run(already_processed=None, force_all=False):
 
     results = []
     newly_processed = []
+    failed_files = []
+    skipped_files = []
     for pdf_file, pdf_path in invoice_files:
         if not force_all and pdf_file in existing_files:
             log_action(f"  Skipping (already extracted): {pdf_file}")
+            skipped_files.append({"file": pdf_file, "reason": "Already extracted"})
             continue
 
         log_action(f"  Extracting: {pdf_file}")
 
-        invoice = extract_invoice(pdf_path, pdf_file)
+        try:
+            invoice = extract_invoice(pdf_path, pdf_file)
+        except Exception as ex:
+            log_action(f"    FAILED: {pdf_file}: {ex}", "ERROR")
+            failed_files.append({"file": pdf_file, "reason": str(ex)[:200]})
+            continue
+
         if invoice:
             # Amazon India returns a list of invoices (one per page)
             if isinstance(invoice, list):
@@ -1819,6 +1849,7 @@ def run(already_processed=None, force_all=False):
                 log_action(f"    Vendor: {invoice['vendor_name']}, Amount: {invoice['amount']} {invoice['currency']}, Date: {invoice['date']}")
         else:
             log_action(f"    Could not extract data from {pdf_file}", "WARNING")
+            failed_files.append({"file": pdf_file, "reason": "No data extracted"})
 
     # Dedup by invoice_number: if same invoice number appears twice, keep first
     # Build seen_numbers from existing results first (for incremental dedup)
@@ -1836,6 +1867,7 @@ def run(already_processed=None, force_all=False):
             log_action(f"  Generic invoice number '{num}' for {inv['file']} — dedup bypassed", "WARNING")
         if num and num.lower().strip() not in GENERIC_NUMBERS and num in seen_numbers:
             log_action(f"  Dedup: skipping {inv['file']} (same invoice #{num} as {seen_numbers[num]})")
+            skipped_files.append({"file": inv["file"], "reason": f"Duplicate invoice #{num} (same as {seen_numbers[num]})"})
             continue
         if num and num.lower().strip() not in GENERIC_NUMBERS:
             seen_numbers[num] = inv["file"]
@@ -1862,10 +1894,28 @@ def run(already_processed=None, force_all=False):
         with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
             json.dump(combined, f, indent=2, ensure_ascii=False)
 
+    # Write preview snapshot for UI (extracted + failed + skipped from this run)
+    preview_path = os.path.join(PROJECT_ROOT, "output", "extract_preview.json")
+    preview = {
+        "source": "step2",
+        "timestamp": datetime.now().isoformat(),
+        "extracted": deduped_new,
+        "failed": failed_files,
+        "skipped": skipped_files,
+    }
+    try:
+        with open(preview_path, "w", encoding="utf-8") as f:
+            json.dump(preview, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        log_action(f"  Failed to write extract_preview.json: {e}", "WARNING")
+
     return {
         "newly_processed": newly_processed,
         "new_count": len(deduped_new),
         "total_count": len(combined),
+        "failed_count": len(failed_files),
+        "skipped_count": len(skipped_files),
+        "failed_files": failed_files,
     }
 
 
