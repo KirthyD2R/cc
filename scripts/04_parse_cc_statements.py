@@ -520,12 +520,17 @@ def parse_tables(pdf_path, passwords=None):
 # === CSV Export ===
 
 def write_csv(transactions, output_path):
-    """Write transactions to CSV. All amounts written as positive (absolute
-    value); forex lives in its own column, never duplicated in the description.
+    """Write transactions to CSV.
+
+    Parser convention: positive amount = debit (charge), negative = credit (refund).
+    We emit an explicit 'type' column so the distinction survives abs() and
+    doesn't collapse debit/credit pairs on the same day/merchant/amount into
+    visual duplicates. Amount is written as absolute value; 'type' carries
+    the direction.
     """
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=["date", "description", "amount", "forex_ref"])
+        writer = csv.DictWriter(f, fieldnames=["date", "description", "amount", "type", "forex_ref"])
         writer.writeheader()
         for t in transactions:
             forex_ref = ""
@@ -549,10 +554,12 @@ def write_csv(transactions, output_path):
                     flags=re.IGNORECASE,
                 ).strip()
 
+            amount = t["amount"]
             writer.writerow({
                 "date": t["date"],
                 "description": desc,
-                "amount": abs(t["amount"]),
+                "amount": abs(amount),
+                "type": "credit" if amount < 0 else "debit",
                 "forex_ref": forex_ref,
             })
     log_action(f"  Written {len(transactions)} transactions to {output_path}")
@@ -588,7 +595,7 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
         }
     """
     log_action("=" * 50)
-    log_action("Step 4: Parse CC Statement PDFs -> CSV + JSON")
+    log_action("Step 1: Parse CC Statement PDFs -> CSV + JSON")
     if selected_files:
         log_action(f"  Selected files mode: parsing only {len(selected_files)} file(s)")
         for sf in selected_files:
@@ -802,13 +809,17 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
 
         # Add card info to each transaction for JSON. Keep credits so the JSON
         # is a faithful record of the statement; the payment matcher filters
-        # them out itself (see scripts/05_record_payments.py).
+        # them out itself (see scripts/05_record_payments.py). The 'type' field
+        # ('debit'/'credit') is emitted alongside the signed amount so the UI
+        # and import step don't have to infer direction from the sign.
         card_entries = []
         for t in unique:
+            amt = t["amount"]
             entry = {
                 "date": t["date"],
                 "description": t["description"],
-                "amount": t["amount"],
+                "amount": amt,
+                "type": "credit" if amt < 0 else "debit",
                 "card_name": name,
                 "zoho_account_id": account_id,
             }

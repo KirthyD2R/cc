@@ -6448,15 +6448,18 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
 
   /* Header */
   .header {
-    position: relative;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
+    gap: 16px;
     margin-bottom: 16px;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
   }
+  .header-left { justify-self: start; }
+  .header-center { justify-self: center; display: flex; align-items: center; gap: 10px; }
+  .header-right { justify-self: end; display: flex; align-items: center; gap: 14px; }
   .header h1 {
     font-size: 22px;
     font-weight: 600;
@@ -6464,14 +6467,59 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   }
   .header h1 span { color: var(--accent); }
   .status-badge {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -60%);
     padding: 5px 14px;
     border-radius: 20px;
     font-size: 13px;
     font-weight: 500;
+  }
+  .header-sync-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: rgba(108,140,255,0.08);
+    border: 1.5px dashed var(--accent);
+    border-radius: 20px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .header-sync-btn:hover:not(:disabled) { background: rgba(108,140,255,0.18); }
+  .header-sync-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .header-sync-btn .hdr-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  .header-summary {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    padding: 5px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+  }
+  .header-summary-item {
+    font-size: 11px;
+    color: var(--text-dim);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  .header-summary-item strong {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
   }
   .status-idle { background: var(--surface2); color: var(--text-dim); }
   .status-running { background: rgba(108,140,255,0.15); color: var(--accent); animation: pulse 2s infinite; }
@@ -6488,10 +6536,10 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
     min-height: 0;
   }
 
-  /* Left panel — phases (20%) */
+  /* Left panel — phases */
   .left-panel {
-    width: 14%;
-    min-width: 180px;
+    width: 20%;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -6544,6 +6592,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
     align-items: center;
     gap: 8px;
     padding: 8px 10px;
+    min-height: 38px;
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -6552,6 +6601,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
     cursor: pointer;
     transition: all 0.15s;
     width: 100%;
+    box-sizing: border-box;
   }
   .step-btn:hover:not(:disabled) {
     border-color: var(--accent);
@@ -7363,121 +7413,35 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
 <div class="container">
   <!-- Header -->
   <div class="header">
-    <h1><span>CC</span> Statement Automation</h1>
-    <div id="globalStatus" class="status-badge status-idle">Idle</div>
+    <div class="header-left">
+      <h1><span>CC</span> Statement Automation</h1>
+    </div>
+    <div class="header-center">
+      <div id="globalStatus" class="status-badge status-idle">Idle</div>
+      <button class="header-sync-btn" onclick="syncZoho()" id="btn-sync-header">
+        <span class="hdr-num">S</span> Sync Zoho Books
+        <span class="info-btn" onclick="event.stopPropagation()">i
+          <span class="info-tooltip">Pull all zoho bank accounts, CC accounts, Bills, Vendors and Chart of Accounts.</span>
+        </span>
+        <span class="step-indicator ind-idle" id="ind-sync" style="margin-left:2px"></span>
+      </button>
+    </div>
+    <div class="header-right">
+      <div class="header-summary">
+        <span class="header-summary-item"><strong id="sumInvoices">-</strong> Invoices</span>
+        <span class="header-summary-item"><strong id="sumBills">-</strong> Bills</span>
+        <span class="header-summary-item"><strong id="sumCC">-</strong> CC Txns</span>
+      </div>
+    </div>
   </div>
+  <span id="msg-sync" style="display:none"></span>
 
   <!-- Two-column layout -->
   <div class="main-layout">
     <!-- Left panel: Phases -->
     <div class="left-panel">
     <div class="left-panel-scroll">
-      <!-- Box 1: Invoices → Compare -->
-      <div class="phase">
-        <div class="phase-label">Invoices &rarr; Compare</div>
-        <div class="step-grid">
-          <button class="step-btn" data-step="1" onclick="runStep('1')">
-            <span class="step-num">1</span> Fetch Invoices
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Connects to Outlook via Microsoft Graph API, searches inbox for invoice/receipt emails, and downloads PDF attachments to input_pdfs/mail invoices/</span>
-            </span>
-            <span class="step-indicator ind-idle" id="ind-1"></span>
-            <span class="step-msg" id="msg-1"></span>
-          </button>
-          <button class="step-btn" onclick="runExtractMail()" id="btn-extract-mail" style="border:1.5px dashed var(--orange);background:rgba(251,146,60,0.05)">
-            <span class="step-num" style="background:var(--orange);color:#000;font-size:10px">M</span> Mail Extract
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Extract invoices from 'input_pdfs/mail invoices' folder only. Saves to its own output/mail_extracted_invoices.json (separate from Step 2).</span>
-            </span>
-            <span class="step-indicator ind-idle" id="ind-extract-mail"></span>
-            <span class="step-msg" id="msg-extract-mail"></span>
-          </button>
-          <div class="step-with-upload">
-            <div class="upload-row">
-              <input type="file" id="invoiceUploadInput" accept=".pdf,.jpg,.jpeg,.png,.eml" multiple style="display:none" onchange="handleInvoiceUpload(this)">
-              <label for="invoiceUploadInput" class="step-btn upload-step-btn" style="width:100%">
-                <span class="step-num">2</span> Upload &amp; Extract
-                <span class="info-btn" onclick="event.stopPropagation()">i
-                  <span class="info-tooltip">Upload invoice PDFs/images/EMLs. Saves to 'new image invoices' folder, extracts data, and updates both extracted_invoices.json and compare_invoices.json.</span>
-                </span>
-                <span class="step-indicator ind-idle" id="ind-upload-extract"></span>
-                <span class="step-msg" id="msg-upload-extract"></span>
-              </label>
-            </div>
-            <div style="margin-top:4px">
-              <button class="upload-btn" onclick="openExtractPreview()" style="width:100%">Preview</button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Box 2: Bills -->
-      <div class="phase">
-        <div class="phase-label">Bills</div>
-        <div class="step-grid">
-          <button class="step-btn" onclick="syncZoho()" style="border:1.5px dashed var(--accent);background:rgba(108,140,255,0.05)">
-            <span class="step-num" style="background:var(--accent);color:#fff;font-size:10px">S</span> Sync Zoho
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Pull all existing bills, vendors &amp; CC bank accounts from Zoho Books into local cache. Run this before creating bills to enable smart dedup.</span>
-            </span>
-            <span class="step-indicator ind-idle" id="ind-sync"></span>
-            <span class="step-msg" id="msg-sync"></span>
-          </button>
-          <div class="step-with-upload">
-            <div class="upload-row">
-              <div class="step-btn" data-step="3" style="cursor:default">
-                <span class="step-num">3</span> Create Bills
-                <span class="info-btn" onclick="event.stopPropagation()">i
-                  <span class="info-tooltip">Use Upload 1 to pick invoices with match preview, or Upload All to create bills for all new invoices (skips existing).</span>
-                </span>
-                <span class="step-indicator ind-idle" id="ind-3"></span>
-                <span class="step-msg" id="msg-3"></span>
-              </div>
-            </div>
-            <div style="display:flex;gap:6px;margin-top:4px">
-              <button class="upload-btn" onclick="openBillPicker()" style="flex:1">Upload 1</button>
-              <button class="upload-btn" onclick="openBillPicker()" style="flex:1">Upload All</button>
-            </div>
-          </div>
-          <button class="step-btn review-btn" onclick="openReviewPanel()">
-            <span class="step-num review-badge">R</span> Review Accounts
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Review and fix expense account assignments on bills created in Step 3. You can change accounts and create new ones. This is optional &mdash; skipped during Run All.</span>
-            </span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Box 3: Payments -->
-      <div class="phase">
-        <div class="phase-label">Payments</div>
-        <div class="step-grid">
-          <div class="step-with-upload">
-            <div class="upload-row">
-              <button class="step-btn" data-step="6" onclick="openPaymentPreview()" style="width:100%">
-                <span class="step-num">6</span> RecordPayment
-                <span class="info-btn" onclick="event.stopPropagation()">i
-                  <span class="info-tooltip">Preview bill-to-CC matches, then record payments individually or in bulk. Automatically categorizes the CC banking transaction in Zoho after recording (no separate auto-match needed).</span>
-                </span>
-                <span class="step-indicator ind-idle" id="ind-6"></span>
-                <span class="step-msg" id="msg-6"></span>
-              </button>
-            </div>
-            <div style="margin-top:4px">
-              <button class="upload-btn" onclick="clearPaymentsCache()" style="width:100%">Clear Cache</button>
-            </div>
-          </div>
-          <button class="step-btn" onclick="openBankingSummary()" style="width:100%;border:1.5px solid var(--green);background:rgba(74,222,128,0.06)">
-            <span class="step-num" style="background:var(--green);color:#000">S</span> Banking Summary
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Month-wise overview of all banking transactions: categorized, uncategorized, matched counts and amounts per card.</span>
-            </span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Box 4: Banking -->
+      <!-- Box 1: Banking -->
       <div class="phase">
         <div class="phase-label">Banking</div>
         <div class="step-grid">
@@ -7485,9 +7449,9 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             <div class="upload-row">
               <input type="file" id="ccUploadInput" accept=".pdf" multiple style="display:none" onchange="handleCCUpload(this)">
               <label for="ccUploadInput" class="step-btn upload-step-btn" style="width:100%">
-                <span class="step-num">4</span> Upload &amp; Extract CC
+                <span class="step-num">1</span> Upload CC Statement
                 <span class="info-btn" onclick="event.stopPropagation()">i
-                  <span class="info-tooltip">Upload CC statement PDFs (HDFC, Kotak, Mayura) to parse into transactions. Only uploaded files are parsed.</span>
+                  <span class="info-tooltip">Upload CC statement PDFs.</span>
                 </span>
                 <span class="step-indicator ind-idle" id="ind-4"></span>
                 <span class="step-msg" id="msg-4"></span>
@@ -7495,15 +7459,15 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
             </div>
             <div style="display:flex;gap:6px;margin-top:4px">
               <button class="upload-btn" onclick="openCCPreview()" style="flex:1">Preview</button>
-              <button class="upload-btn" onclick="clearParsedCC()" style="flex:1">Clear</button>
+              <button class="upload-btn" onclick="clearParsedCC()" style="flex:1">Clear Cache</button>
             </div>
           </div>
           <div class="step-with-upload">
             <div class="upload-row">
               <button class="step-btn" data-step="5" onclick="openImportPicker()" style="width:100%">
-                <span class="step-num">5</span> Import Banking
+                <span class="step-num">2</span> Import CC in Zoho banking
                 <span class="info-btn" onclick="event.stopPropagation()">i
-                  <span class="info-tooltip">Choose which CC card's parsed transactions to import into Zoho Books Banking. Transactions appear as 'Uncategorized' in each CC account.</span>
+                  <span class="info-tooltip">Import CC transactions in Zoho Books Banking.</span>
                 </span>
                 <span class="step-indicator ind-idle" id="ind-5"></span>
                 <span class="step-msg" id="msg-5"></span>
@@ -7513,13 +7477,104 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
               <button class="upload-btn" onclick="clearImportCache()" style="width:100%">Clear Cache</button>
             </div>
           </div>
-          <button class="step-btn" onclick="openAutoMatchPanel()" style="width:100%;border:1.5px solid var(--accent);background:rgba(99,102,241,0.08)">
-            <span class="step-num" style="background:var(--accent)">A</span> Auto Match
-            <span class="info-btn" onclick="event.stopPropagation()">i
-              <span class="info-tooltip">Match uncategorized CC banking transactions to vendor payments in Zoho. Shows best match suggestions per card.</span>
-            </span>
-            <span class="step-indicator ind-idle" id="ind-automatch"></span>
-          </button>
+        </div>
+      </div>
+
+      <!-- Box 2: Invoices -->
+      <div class="phase">
+        <div class="phase-label">Invoices &rarr; Compare</div>
+        <div class="step-grid">
+          <div class="step-with-upload">
+            <div class="upload-row">
+              <button class="step-btn" data-step="1" onclick="runStep('1')" style="width:100%">
+                <span class="step-num">1</span> Download Invoices from Mailbox
+                <span class="info-btn" onclick="event.stopPropagation()">i
+                  <span class="info-tooltip">Connects to Outlook searches inbox for invoice/receipt emails, and downloads PDF attachments/</span>
+                </span>
+                <span class="step-indicator ind-idle" id="ind-1"></span>
+                <span class="step-msg" id="msg-1"></span>
+              </button>
+            </div>
+          </div>
+          <div class="step-with-upload">
+            <div class="upload-row">
+              <button class="step-btn" onclick="runExtractMail()" id="btn-extract-mail" style="width:100%;border:1.5px dashed var(--orange);background:rgba(251,146,60,0.05)">
+                <span class="step-num" style="background:var(--orange);color:#000;font-size:10px">M</span> Extract mail invoice details
+                <span class="info-btn" onclick="event.stopPropagation()">i
+                  <span class="info-tooltip">Extract invoice number and other details.</span>
+                </span>
+                <span class="step-indicator ind-idle" id="ind-extract-mail"></span>
+                <span class="step-msg" id="msg-extract-mail"></span>
+              </button>
+            </div>
+          </div>
+          <div class="step-with-upload">
+            <div class="upload-row">
+              <input type="file" id="invoiceUploadInput" accept=".pdf,.jpg,.jpeg,.png,.eml" multiple style="display:none" onchange="handleInvoiceUpload(this)">
+              <label for="invoiceUploadInput" class="step-btn upload-step-btn" style="width:100%">
+                <span class="step-num">2</span> Upload Invoices &amp; Extract details
+                <span class="info-btn" onclick="event.stopPropagation()">i
+                  <span class="info-tooltip">Upload invoices and extracts data.</span>
+                </span>
+                <span class="step-indicator ind-idle" id="ind-upload-extract"></span>
+                <span class="step-msg" id="msg-upload-extract"></span>
+              </label>
+            </div>
+            <div style="margin-top:4px">
+              <button class="upload-btn" onclick="openExtractPreview()" style="width:100%">Preview</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box 3: Bills -->
+      <div class="phase">
+        <div class="phase-label">Bills</div>
+        <div class="step-grid">
+          <div class="step-with-upload">
+            <div class="upload-row">
+              <button class="step-btn" data-step="3" onclick="openBillPicker()" style="width:100%">
+                <span class="step-num">1</span> Create Bills
+                <span class="info-btn" onclick="event.stopPropagation()">i
+                  <span class="info-tooltip">Create bills.</span>
+                </span>
+                <span class="step-indicator ind-idle" id="ind-3"></span>
+                <span class="step-msg" id="msg-3"></span>
+              </button>
+            </div>
+          </div>
+          <div class="step-with-upload">
+            <div class="upload-row">
+              <button class="step-btn review-btn" onclick="openReviewPanel()" style="width:100%">
+                <span class="step-num review-badge">R</span> Review Accounts
+                <span class="info-btn" onclick="event.stopPropagation()">i
+                  <span class="info-tooltip">Review and fix expense account assignments on bills.</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Box 4: Payments -->
+      <div class="phase">
+        <div class="phase-label">Payments</div>
+        <div class="step-grid">
+          <div class="step-with-upload">
+            <div class="upload-row">
+              <button class="step-btn" data-step="6" onclick="openPaymentPreview()" style="width:100%">
+                <span class="step-num">1</span> Record Payment
+                <span class="info-btn" onclick="event.stopPropagation()">i
+                  <span class="info-tooltip">Record the payment for the bills individually or in bulk.</span>
+                </span>
+                <span class="step-indicator ind-idle" id="ind-6"></span>
+                <span class="step-msg" id="msg-6"></span>
+              </button>
+            </div>
+            <div style="margin-top:4px">
+              <button class="upload-btn" onclick="clearPaymentsCache()" style="width:100%">Clear Cache</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -7569,12 +7624,6 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
         </div>
       </div>
 
-      <!-- Summary -->
-      <div class="summary-bar" id="summaryBar">
-        <div class="summary-item"><strong id="sumInvoices">-</strong> Invoices</div>
-        <div class="summary-item"><strong id="sumBills">-</strong> Bills</div>
-        <div class="summary-item"><strong id="sumCC">-</strong> CC Txns</div>
-      </div>
     </div><!-- end left-panel-scroll -->
     </div><!-- end left-panel -->
 
@@ -8249,7 +8298,7 @@ function updateUI(data) {
   }
 
   // Disable/enable buttons
-  const btns = document.querySelectorAll('.step-btn, .btn-primary, .btn-danger');
+  const btns = document.querySelectorAll('.step-btn, .btn-primary, .btn-danger, .header-sync-btn');
   btns.forEach(b => b.disabled = data.running);
 
   // Step indicators + tooltips
@@ -9412,21 +9461,31 @@ function renderCCPreview() {
     pc.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-dim)">No cards parsed in this run</div>';
   } else {
     pc.innerHTML = parsed.map(function(g, idx) {
+      var debitCount = 0, creditCount = 0;
       var rows = (g.transactions || []).map(function(t) {
         var amt = Number(t.amount) || 0;
-        var amtClass = amt < 0 ? 'style="text-align:right;color:var(--red)"' : 'style="text-align:right"';
+        // Prefer explicit type field; fall back to sign (parser convention: negative = credit)
+        var type = (t.type || '').toLowerCase();
+        if (type !== 'debit' && type !== 'credit') type = amt < 0 ? 'credit' : 'debit';
+        if (type === 'credit') creditCount++; else debitCount++;
+        var display = (type === 'credit' ? '+' : '') + fmt(Math.abs(amt));
+        var color = type === 'credit' ? 'var(--green)' : 'var(--text)';
+        var badge = type === 'credit'
+          ? '<span style="background:rgba(74,222,128,0.15);color:var(--green);font-size:10px;padding:1px 6px;border-radius:10px;margin-left:6px;font-weight:500">CR</span>'
+          : '<span style="background:rgba(108,140,255,0.12);color:var(--text-dim);font-size:10px;padding:1px 6px;border-radius:10px;margin-left:6px;font-weight:500">DR</span>';
         return '<tr>'
           + '<td style="width:90px">' + escHtml(fmtDate(t.date || '')) + '</td>'
           + '<td>' + escHtml(t.description || '') + '</td>'
-          + '<td ' + amtClass + '>' + fmt(t.amount) + '</td>'
+          + '<td style="text-align:right;color:' + color + ';font-weight:' + (type === 'credit' ? '500' : '400') + '">' + display + badge + '</td>'
           + '</tr>';
       }).join('');
+      var summaryCounts = debitCount + ' DR · ' + creditCount + ' CR';
       return '<details ' + (idx === 0 ? 'open' : '') + ' style="margin-bottom:8px;border:1px solid var(--border);border-radius:6px;overflow:hidden">'
         + '<summary style="padding:8px 12px;background:rgba(255,255,255,0.03);cursor:pointer;font-size:13px;font-weight:500;display:flex;justify-content:space-between;align-items:center">'
         + '<span>' + escHtml(g.card) + '</span>'
-        + '<span style="color:var(--text-dim);font-size:11px;font-weight:400">' + g.count + ' txns</span>'
+        + '<span style="color:var(--text-dim);font-size:11px;font-weight:400">' + g.count + ' txns · ' + summaryCounts + '</span>'
         + '</summary>'
-        + '<table class="match-table" style="margin:0"><thead><tr><th style="width:90px">Date</th><th>Description</th><th style="text-align:right;width:120px">Amount</th></tr></thead><tbody>'
+        + '<table class="match-table" style="margin:0"><thead><tr><th style="width:90px">Date</th><th>Description</th><th style="text-align:right;width:160px">Amount</th></tr></thead><tbody>'
         + rows
         + '</tbody></table>'
         + '</details>';

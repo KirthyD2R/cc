@@ -28,16 +28,23 @@ def _file_md5(path):
 def load_transactions_from_csv(csv_path):
     """Read CSV and convert to Zoho bankstatements transaction format.
 
-    CSV sign convention: negative = charge (debit), positive = refund (credit).
+    Prefers an explicit 'type' column ('debit' or 'credit'). For legacy CSVs
+    without that column, falls back to the sign of the amount (parser
+    convention: negative = credit/refund, positive = debit/charge).
     """
     transactions = []
     with open(csv_path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             amount = float(row["amount"])
+            type_col = (row.get("type") or "").strip().lower()
+            if type_col in ("debit", "credit"):
+                direction = type_col
+            else:
+                direction = "credit" if amount < 0 else "debit"
             transactions.append({
                 "date": row["date"],
-                "debit_or_credit": "debit" if amount < 0 else "credit",
+                "debit_or_credit": direction,
                 "amount": abs(amount),
                 "description": row["description"],
             })
