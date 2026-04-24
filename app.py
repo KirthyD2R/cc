@@ -4618,6 +4618,37 @@ def api_invoices_browse():
     })
 
 
+@app.route("/api/cc/preview")
+def api_cc_preview():
+    """Return the last CC parse run's preview: parsed (per card) + failed + skipped."""
+    preview_path = os.path.join(PROJECT_ROOT, "output", "cc_parse_preview.json")
+    if not os.path.exists(preview_path):
+        return jsonify({
+            "source": None,
+            "timestamp": None,
+            "parsed": [],
+            "failed": [],
+            "skipped": [],
+            "total_transactions": 0,
+            "empty": True,
+        })
+    try:
+        with open(preview_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception as e:
+        return jsonify({"error": f"Failed to read cc_parse_preview.json: {e}"}), 500
+
+    return jsonify({
+        "source": data.get("source"),
+        "timestamp": data.get("timestamp"),
+        "parsed": data.get("parsed", []),
+        "failed": data.get("failed", []),
+        "skipped": data.get("skipped", []),
+        "total_transactions": data.get("total_transactions", 0),
+        "empty": False,
+    })
+
+
 @app.route("/api/extract/preview")
 def api_extract_preview():
     """Return the last extract run's preview: extracted + failed + skipped files."""
@@ -6417,6 +6448,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
 
   /* Header */
   .header {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -6432,6 +6464,10 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
   }
   .header h1 span { color: var(--accent); }
   .status-badge {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -60%);
     padding: 5px 14px;
     border-radius: 20px;
     font-size: 13px;
@@ -7448,7 +7484,7 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
           <div class="step-with-upload">
             <div class="upload-row">
               <input type="file" id="ccUploadInput" accept=".pdf" multiple style="display:none" onchange="handleCCUpload(this)">
-              <label for="ccUploadInput" class="step-btn upload-step-btn">
+              <label for="ccUploadInput" class="step-btn upload-step-btn" style="width:100%">
                 <span class="step-num">4</span> Upload &amp; Extract CC
                 <span class="info-btn" onclick="event.stopPropagation()">i
                   <span class="info-tooltip">Upload CC statement PDFs (HDFC, Kotak, Mayura) to parse into transactions. Only uploaded files are parsed.</span>
@@ -7457,8 +7493,9 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
                 <span class="step-msg" id="msg-4"></span>
               </label>
             </div>
-            <div style="margin-top:4px">
-              <button class="upload-btn" onclick="clearParsedCC()" style="width:100%">Clear Parsed Data</button>
+            <div style="display:flex;gap:6px;margin-top:4px">
+              <button class="upload-btn" onclick="openCCPreview()" style="flex:1">Preview</button>
+              <button class="upload-btn" onclick="clearParsedCC()" style="flex:1">Clear</button>
             </div>
           </div>
           <div class="step-with-upload">
@@ -7932,6 +7969,51 @@ DASHBOARD_HTML = r"""<!DOCTYPE html>
         </div>
       </div>
 
+      <!-- CC Parse Preview panel -->
+      <div class="review-panel" id="ccPreviewPanel" style="display:none">
+        <div class="review-header">
+          <span>CC Parse Preview <span id="ccPreviewSource" style="font-size:11px;font-weight:400;color:var(--text-dim);margin-left:8px"></span></span>
+          <div style="display:flex;gap:12px;align-items:center">
+            <span id="ccPreviewSummary" style="font-size:12px;font-weight:400;color:var(--text-dim)"></span>
+            <button class="review-create-btn" onclick="openImportFromCCPreview()" style="background:var(--green);border-color:var(--green);color:#000">&rarr; Import to Banking</button>
+            <button class="review-close-btn" onclick="closeCCPreview()">&#10005; Close</button>
+          </div>
+        </div>
+        <div id="ccPreviewTabs" style="display:flex;gap:4px;padding:8px 12px 0;border-bottom:1px solid var(--border);flex-shrink:0">
+          <button class="cp-tab cp-tab-active" data-tab="parsed" onclick="switchCCPreviewTab('parsed')" style="background:transparent;border:none;color:var(--text);font-size:12px;padding:6px 14px;cursor:pointer;border-bottom:2px solid var(--green);font-weight:500">Parsed <span id="cpParsedCount" style="color:var(--green)">0</span></button>
+          <button class="cp-tab" data-tab="failed" onclick="switchCCPreviewTab('failed')" style="background:transparent;border:none;color:var(--text-dim);font-size:12px;padding:6px 14px;cursor:pointer;border-bottom:2px solid transparent">Failed <span id="cpFailedCount" style="color:var(--red)">0</span></button>
+          <button class="cp-tab" data-tab="skipped" onclick="switchCCPreviewTab('skipped')" style="background:transparent;border:none;color:var(--text-dim);font-size:12px;padding:6px 14px;cursor:pointer;border-bottom:2px solid transparent">Skipped <span id="cpSkippedCount" style="color:var(--text-dim)">0</span></button>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+          <div class="review-loading" id="ccPreviewLoading" style="align-self:center;width:100%;text-align:center">Loading preview...</div>
+          <div id="ccPreviewContent" style="display:none;flex:1;overflow-y:auto;padding:8px 12px">
+            <!-- Parsed content: groups per card, expandable -->
+            <div id="cpParsedContent"></div>
+            <!-- Failed table -->
+            <table class="match-table" id="cpFailedTable" style="display:none">
+              <thead>
+                <tr>
+                  <th style="width:35%">File</th>
+                  <th style="width:20%">Card</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="cpFailedBody"></tbody>
+            </table>
+            <!-- Skipped table -->
+            <table class="match-table" id="cpSkippedTable" style="display:none">
+              <thead>
+                <tr>
+                  <th style="width:35%">Card</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody id="cpSkippedBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <!-- Import Picker modal -->
       <div id="importPickerModal" class="modal-overlay" style="display:none">
         <div class="modal-box" style="max-width:760px;width:92vw;max-height:85vh;display:flex;flex-direction:column">
@@ -8226,6 +8308,9 @@ function updateUI(data) {
   _maybeAutoOpenExtractPreview('upload-extract', ueRes);
   _maybeAutoOpenExtractPreview('extract-mail', data.step_results['extract-mail']);
 
+  // Auto-open CC preview after step 4 (Upload & Extract CC) completes
+  _maybeAutoOpenCCPreview(data.step_results['4']);
+
   // Sync Zoho indicator
   const syncInd = document.getElementById('ind-sync');
   const syncMsg = document.getElementById('msg-sync');
@@ -8340,6 +8425,7 @@ function openReviewPanel() {
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
   document.getElementById('extractPreviewPanel').style.display = 'none';
+  document.getElementById('ccPreviewPanel').style.display = 'none';
   document.getElementById('bankingSummaryPanel').style.display = 'none';
   document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('reviewPanel').style.display = 'flex';
@@ -9149,7 +9235,7 @@ function _maybeAutoOpenExtractPreview(stepId, res) {
 }
 
 function openExtractPreview() {
-  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','bankingSummaryPanel','autoMatchPanel','extractPreviewPanel'].forEach(function(id) {
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','bankingSummaryPanel','autoMatchPanel','extractPreviewPanel','ccPreviewPanel'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -9264,6 +9350,154 @@ function switchExtractPreviewTab(tab) {
   document.getElementById('epSkippedTable').style.display = tab === 'skipped' ? '' : 'none';
 }
 
+// --- CC Parse Preview ---
+let _ccPreviewData = null;
+let _ccPreviewTab = 'parsed';
+let _ccPreviewSeenTs = undefined;
+
+function openCCPreview() {
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','bankingSummaryPanel','autoMatchPanel','extractPreviewPanel','ccPreviewPanel'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('ccPreviewPanel').style.display = 'flex';
+  document.getElementById('ccPreviewLoading').style.display = 'block';
+  document.getElementById('ccPreviewLoading').textContent = 'Loading preview...';
+  document.getElementById('ccPreviewContent').style.display = 'none';
+
+  fetch('/api/cc/preview')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) {
+        document.getElementById('ccPreviewLoading').textContent = data.error;
+        return;
+      }
+      if (data.empty) {
+        document.getElementById('ccPreviewLoading').textContent = 'No CC parse run yet. Upload & Extract CC statements to see a preview.';
+        return;
+      }
+      _ccPreviewData = data;
+      renderCCPreview();
+    })
+    .catch(function(err) {
+      document.getElementById('ccPreviewLoading').textContent = 'Failed to load: ' + err;
+    });
+}
+
+function closeCCPreview() {
+  document.getElementById('ccPreviewPanel').style.display = 'none';
+  document.getElementById('logPanel').style.display = 'flex';
+}
+
+function renderCCPreview() {
+  if (!_ccPreviewData) return;
+  var d = _ccPreviewData;
+  var parsed = d.parsed || [];
+  var failed = d.failed || [];
+  var skipped = d.skipped || [];
+
+  var ts = d.timestamp ? new Date(d.timestamp).toLocaleString() : '';
+  document.getElementById('ccPreviewSource').textContent = ts ? '(' + ts + ')' : '';
+  var totalTxns = d.total_transactions || 0;
+  document.getElementById('ccPreviewSummary').textContent =
+    parsed.length + ' cards · ' + totalTxns + ' txns · ' + failed.length + ' failed · ' + skipped.length + ' skipped';
+
+  document.getElementById('cpParsedCount').textContent = parsed.length;
+  document.getElementById('cpFailedCount').textContent = failed.length;
+  document.getElementById('cpSkippedCount').textContent = skipped.length;
+
+  // Parsed: collapsible per-card groups
+  var pc = document.getElementById('cpParsedContent');
+  if (parsed.length === 0) {
+    pc.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-dim)">No cards parsed in this run</div>';
+  } else {
+    pc.innerHTML = parsed.map(function(g, idx) {
+      var rows = (g.transactions || []).map(function(t) {
+        var amt = Number(t.amount) || 0;
+        var amtClass = amt < 0 ? 'style="text-align:right;color:var(--red)"' : 'style="text-align:right"';
+        return '<tr>'
+          + '<td style="width:90px">' + escHtml(fmtDate(t.date || '')) + '</td>'
+          + '<td>' + escHtml(t.description || '') + '</td>'
+          + '<td ' + amtClass + '>' + fmt(t.amount) + '</td>'
+          + '</tr>';
+      }).join('');
+      return '<details ' + (idx === 0 ? 'open' : '') + ' style="margin-bottom:8px;border:1px solid var(--border);border-radius:6px;overflow:hidden">'
+        + '<summary style="padding:8px 12px;background:rgba(255,255,255,0.03);cursor:pointer;font-size:13px;font-weight:500;display:flex;justify-content:space-between;align-items:center">'
+        + '<span>' + escHtml(g.card) + '</span>'
+        + '<span style="color:var(--text-dim);font-size:11px;font-weight:400">' + g.count + ' txns</span>'
+        + '</summary>'
+        + '<table class="match-table" style="margin:0"><thead><tr><th style="width:90px">Date</th><th>Description</th><th style="text-align:right;width:120px">Amount</th></tr></thead><tbody>'
+        + rows
+        + '</tbody></table>'
+        + '</details>';
+    }).join('');
+  }
+
+  // Failed
+  var fb = document.getElementById('cpFailedBody');
+  if (failed.length === 0) {
+    fb.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:16px;color:var(--text-dim)">No failures in this run</td></tr>';
+  } else {
+    fb.innerHTML = failed.map(function(f) {
+      return '<tr>'
+        + '<td>' + escHtml(f.file || '-') + '</td>'
+        + '<td>' + escHtml(f.card || '-') + '</td>'
+        + '<td style="color:var(--red)">' + escHtml(f.reason || 'Unknown') + '</td>'
+        + '</tr>';
+    }).join('');
+  }
+
+  // Skipped
+  var sb = document.getElementById('cpSkippedBody');
+  if (skipped.length === 0) {
+    sb.innerHTML = '<tr><td colspan="2" style="text-align:center;padding:16px;color:var(--text-dim)">Nothing skipped in this run</td></tr>';
+  } else {
+    sb.innerHTML = skipped.map(function(s) {
+      return '<tr>'
+        + '<td>' + escHtml(s.card || '-') + '</td>'
+        + '<td style="color:var(--text-dim)">' + escHtml(s.reason || '-') + '</td>'
+        + '</tr>';
+    }).join('');
+  }
+
+  document.getElementById('ccPreviewLoading').style.display = 'none';
+  document.getElementById('ccPreviewContent').style.display = 'block';
+  switchCCPreviewTab(_ccPreviewTab);
+}
+
+function switchCCPreviewTab(tab) {
+  _ccPreviewTab = tab;
+  var tabs = document.querySelectorAll('#ccPreviewTabs .cp-tab');
+  tabs.forEach(function(t) {
+    var active = t.getAttribute('data-tab') === tab;
+    t.style.color = active ? 'var(--text)' : 'var(--text-dim)';
+    t.style.fontWeight = active ? '500' : '400';
+    var color = tab === 'parsed' ? 'var(--green)' : (tab === 'failed' ? 'var(--red)' : 'var(--text-dim)');
+    t.style.borderBottom = active ? '2px solid ' + color : '2px solid transparent';
+  });
+  document.getElementById('cpParsedContent').style.display = tab === 'parsed' ? '' : 'none';
+  document.getElementById('cpFailedTable').style.display = tab === 'failed' ? '' : 'none';
+  document.getElementById('cpSkippedTable').style.display = tab === 'skipped' ? '' : 'none';
+}
+
+function openImportFromCCPreview() {
+  // Close the preview panel and open the existing import picker modal
+  closeCCPreview();
+  openImportPicker();
+}
+
+function _maybeAutoOpenCCPreview(res) {
+  if (!res || res.status !== 'success') return;
+  var ts = res.timestamp || '';
+  if (_ccPreviewSeenTs === ts) return;
+  if (_ccPreviewSeenTs === undefined) {
+    _ccPreviewSeenTs = ts;
+    return;
+  }
+  _ccPreviewSeenTs = ts;
+  openCCPreview();
+}
+
 // --- CC Upload ---
 let _lastUploadedFiles = [];  // track uploaded files for import filtering
 
@@ -9328,7 +9562,7 @@ var _amSelectedMatches = new Set();
 
 function openAutoMatchPanel() {
   // Hide other panels
-  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','bankingSummaryPanel','extractPreviewPanel'].forEach(function(id) {
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','bankingSummaryPanel','extractPreviewPanel','ccPreviewPanel'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -9362,7 +9596,7 @@ function closeAutoMatchPanel() {
 var _bsData = null;
 
 function openBankingSummary(forceRefresh) {
-  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','autoMatchPanel','extractPreviewPanel'].forEach(function(id) {
+  ['logPanel','reviewPanel','matchPanel','comparePanel','checkPanel','invoiceBrowsePanel','paymentPanel','deleteBillsPanel','deleteVendorsPanel','autoMatchPanel','extractPreviewPanel','ccPreviewPanel'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
@@ -10977,6 +11211,7 @@ function openMatchPanel() {
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
   document.getElementById('extractPreviewPanel').style.display = 'none';
+  document.getElementById('ccPreviewPanel').style.display = 'none';
   document.getElementById('bankingSummaryPanel').style.display = 'none';
   document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('matchPanel').style.display = 'flex';
@@ -11083,6 +11318,7 @@ function openCheckPanel() {
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
   document.getElementById('extractPreviewPanel').style.display = 'none';
+  document.getElementById('ccPreviewPanel').style.display = 'none';
   document.getElementById('bankingSummaryPanel').style.display = 'none';
   document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('checkPanel').style.display = 'flex';
@@ -11121,6 +11357,7 @@ function openPaymentPreview(forceRefresh) {
   document.getElementById('checkPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
   document.getElementById('extractPreviewPanel').style.display = 'none';
+  document.getElementById('ccPreviewPanel').style.display = 'none';
   document.getElementById('bankingSummaryPanel').style.display = 'none';
   document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('paymentPanel').style.display = 'flex';
@@ -13029,6 +13266,7 @@ function openComparePanel() {
   document.getElementById('paymentPanel').style.display = 'none';
   document.getElementById('invoiceBrowsePanel').style.display = 'none';
   document.getElementById('extractPreviewPanel').style.display = 'none';
+  document.getElementById('ccPreviewPanel').style.display = 'none';
   document.getElementById('bankingSummaryPanel').style.display = 'none';
   document.getElementById('autoMatchPanel').style.display = 'none';
   document.getElementById('comparePanel').style.display = 'flex';

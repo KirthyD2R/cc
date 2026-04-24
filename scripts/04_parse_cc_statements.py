@@ -613,6 +613,9 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
     cards_parsed = []
     has_new_data = False
     password_failed_files = []  # Track PDFs that failed due to password
+    failed_files = []   # [{file, card, reason}]
+    skipped_cards = []  # [{card, reason}]
+    parsed_per_card = {}  # card_name -> [txn, ...] for preview
 
     for card in cards:
         name = card["name"]
@@ -702,6 +705,7 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
 
         if not pdf_paths:
             log_action(f"No PDF files found for {name} (pattern: {pattern})", "WARNING")
+            skipped_cards.append({"card": name, "reason": f"No PDF files found (pattern: {pattern})"})
             continue
 
         log_action(f"Found {len(pdf_paths)} PDF(s) for {name}")
@@ -715,6 +719,7 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
 
         if known_hashes.get(name) == file_hash and selected_files is None:
             log_action(f"  Skipping {name} — all PDFs unchanged since last run")
+            skipped_cards.append({"card": name, "reason": "PDFs unchanged since last run"})
             continue
 
         has_new_data = True
@@ -743,10 +748,12 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
 
             transactions = []
             pw_fail = False
+            last_err = None
             if parser:
                 try:
                     transactions = parser(pdf_path, passwords=passwords)
                 except RuntimeError as e:
+                    last_err = str(e)
                     if "password-protected" in str(e):
                         pw_fail = True
                     log_action(f"    {e}", "ERROR")
@@ -759,16 +766,19 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
                 try:
                     transactions = parse_tables(pdf_path, passwords=passwords)
                 except RuntimeError as e:
+                    last_err = str(e)
                     if "password-protected" in str(e):
                         pw_fail = True
                     log_action(f"    {e}", "ERROR")
 
             if pw_fail:
                 password_failed_files.append(pdf_basename)
+                failed_files.append({"file": pdf_basename, "card": name, "reason": "Password-protected PDF"})
                 continue
 
             if not transactions:
                 log_action(f"    No transactions found in {pdf_basename}", "WARNING")
+                failed_files.append({"file": pdf_basename, "card": name, "reason": last_err or "No transactions found"})
                 continue
 
             log_action(f"    Found {len(transactions)} transactions")
@@ -793,6 +803,7 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
         # Add card info to each transaction for JSON. Keep credits so the JSON
         # is a faithful record of the statement; the payment matcher filters
         # them out itself (see scripts/05_record_payments.py).
+        card_entries = []
         for t in unique:
             entry = {
                 "date": t["date"],
@@ -805,6 +816,8 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
                 entry["forex_amount"] = t["forex_amount"]
                 entry["forex_currency"] = t["forex_currency"]
             all_transactions.append(entry)
+            card_entries.append(entry)
+        parsed_per_card[name] = card_entries
 
         # Export CSV
         safe_name = name.replace(" ", "_")
@@ -839,11 +852,32 @@ def run(known_hashes=None, selected_files=None, pdf_password=None):
 
     log_action("Done. CC statement CSVs + JSON ready.")
 
+    # Write preview snapshot for UI (parsed per card + failed + skipped)
+    preview_path = os.path.join(OUTPUT_DIR, "cc_parse_preview.json")
+    preview = {
+        "source": "cc_upload",
+        "timestamp": datetime.now().isoformat(),
+        "parsed": [
+            {"card": card_name, "count": len(txns), "transactions": txns}
+            for card_name, txns in parsed_per_card.items()
+        ],
+        "failed": failed_files,
+        "skipped": skipped_cards,
+        "total_transactions": len(all_transactions),
+    }
+    try:
+        with open(preview_path, "w", encoding="utf-8") as f:
+            json.dump(preview, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        log_action(f"  Failed to write cc_parse_preview.json: {e}", "WARNING")
+
     result = {
         "has_new_data": has_new_data,
         "new_hashes": new_hashes,
         "total_transactions": len(all_transactions),
         "cards_parsed": cards_parsed,
+        "failed_count": len(failed_files),
+        "skipped_count": len(skipped_cards),
     }
     if password_failed_files:
         result["password_failed"] = True
